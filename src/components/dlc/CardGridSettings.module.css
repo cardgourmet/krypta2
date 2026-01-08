@@ -1,0 +1,83 @@
+.settings {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 950px) {
+    .settings {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+.settings p {
+    margin: 0;
+    color: var(--cgm-text-color);
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+}
+
+.settings > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .6rem;
+}
+
+.iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+}
+
+.settingsModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #161a1d;
+    z-index: var(--modal-layer);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.settingsModal h1 {
+    margin: 0;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.settingsModalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: 4rem;
+    border-bottom: #2b3137 solid 2px;
+}
+
+.settingsModalContent {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.settingsModalContent > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.settingsModalFooter {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+
+    border-top: #2b3137 solid 2px;
+}

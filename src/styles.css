@@ -18,3 +18,65 @@
       monospace;
   }
 }
+
+@font-face {
+    font-family: 'Recia';
+    src: url('@/assets/fonts/Recia-Variable.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Recia';
+    src: url('@/assets/fonts/Recia-VariableItalic.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Supreme';
+    src: url('@/assets/fonts/Supreme-Variable.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Recia';
+    src: url('@/assets/fonts/Supreme-VariableItalic.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    --overlay-layer: 10;
+    --dropdown-layer: 20;
+    --sticky-layer: 21;
+    --nav-layer: 22;
+    --sidebar-layer: 30;
+    --modal-layer: 40;
+
+    --navbar-height: 3.5rem;
+    --sidebar-width: 3.5rem;
+
+    --cgm-sidebar-bg: #1d2125;
+    --cgm-sidebar-border: #333b43;
+    --cgm-sidebar-button-bg: #579dff;
+    --cgm-navbar-bg: #161a1d;
+    --cgm-navbar-border: #2d353c;
+    --cgm-text-color: #b6c2cf;
+    --cgm-button-bg: #1d2125;
+    --cgm-button-border: #24292e;
+    --cgm-button-highlight-bg: #0055cc;
+    --cgm-button-highlight-border: #388bff;
+    --cgm-icon-button-highlight-bg: #388bff;
+
+    --cgm-content-font-family: 'Onest', 'Onest Fallback';
+    --cgm-monospace-font-family: 'JetBrains Mono', 'JetBrains Mono Fallback';
+    --cgm-serif-font-family: 'Recia', serif;
+    --cgm-ui-font-family: 'Supreme', ui-sans-serif;
+    --cgm-title-font-family: 'Livvic', Arial, sans-serif;
+}

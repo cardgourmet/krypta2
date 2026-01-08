@@ -26,7 +26,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      }
     }
   },
   "html": {
@@ -37,7 +40,10 @@
   "javascript": {
     "formatter": {
       "operatorLinebreak": "before",
-      "quoteStyle": "single"
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all"
     }
   }
 }

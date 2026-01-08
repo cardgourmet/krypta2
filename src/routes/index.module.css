@@ -1,0 +1,68 @@
+.homepage {
+  position: absolute;
+  top: 3.5rem;
+  left: 3.5rem;
+  height: calc(100dvh - 3.5rem);
+  width: calc(100dvw - 3.5rem);
+
+  /* prevent overflow on x axis */
+  overflow-wrap: break-word;
+  word-break: break-all;
+
+  overflow-y: scroll;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+  }
+
+  p {
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+  }
+
+  .homePageGrid {
+    margin: 0 8vw 8vw 8vw;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.25rem;
+    grid-template-areas:
+      "box-1 box-1 box-3"
+      "box-2 box-2 box-3"
+      "box-4 box-4 box-4";
+  }
+
+  .homePageGridItem {
+    border: 0.15rem solid #2e5387;
+    border-radius: 5px;
+    margin: 0.6rem;
+    padding: 1rem;
+
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 720px) {
+  .homepage {
+    left: 0;
+    width: 100dvw;
+
+    .homePageGrid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-areas:
+        "box-1 box-1"
+        "box-2 box-2"
+        "box-3 box-3"
+        "box-4 box-4";
+    }
+  }
+}

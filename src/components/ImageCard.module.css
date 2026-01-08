@@ -1,0 +1,68 @@
+.card {
+    position: relative;
+    word-break: break-all;
+    overflow: hidden;
+
+    border-radius: 15px;
+    object-fit: contain;
+    aspect-ratio: 672/936;
+    max-width: 252px;
+    max-height: 351px;
+}
+
+.contentOverlay {
+    position: absolute;
+    z-index: var(--overlay-layer);
+
+    top: 20%;
+    right: 8%;
+}
+
+.contentOverlay button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0.25rem;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.7);
+    border: solid 1px #2b3137;
+    border-radius: 100%;
+}
+
+.contentOverlay button > svg {
+    color: inherit;
+}
+
+.contentOverlay button:hover {
+    color: rgba(0, 0, 0, 1);
+    background-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+}
+
+.flippableContent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.flippableContent[flipped="true"] {
+    transform: rotateY(180deg);
+}
+
+.flippableContent div {
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.card img {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+}
+
+.card img:hover {
+    filter: brightness(1.1);
+}

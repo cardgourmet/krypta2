@@ -1,0 +1,70 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+button {
+  border: 2px solid #282d33;
+  background-color: #1d2125;
+  border-radius: 8px;
+  color: var(--cgm-text-color);
+  font-size: 1rem;
+  padding: 0.5rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2b3137;
+}
+
+button.currentPage {
+  border: 2px solid #388bff;
+  background-color: #0055cc;
+}
+
+button:hover.currentPage {
+  background-color: #0949a3;
+}
+
+button:disabled {
+  background-color: #191d21;
+  border: 2px solid #1f2328;
+  color: #636b72;
+
+  cursor: default;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+}
+
+.pagination p {
+  color: var(--cgm-text-color);
+  margin: 0;
+  font-family: var(--cgm-ui-font-family), ui-sans-serif;
+}
+
+.arrowsLeft,
+.arrowsRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

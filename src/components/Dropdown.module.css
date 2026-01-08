@@ -1,0 +1,88 @@
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 2px solid #282d33;
+  background-color: #1d2125;
+  border-radius: 8px;
+  color: #f9f6ee;
+  padding: 0 0.5rem 0 0.5rem;
+  min-width: 8rem;
+
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dropdownButton div {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-right: auto;
+
+  p {
+    margin: 0.5rem 0 0.5rem 0;
+  }
+}
+
+.dropdownButton svg {
+  pointer-events: none;
+}
+
+.dropdownButton:hover {
+  background-color: #2b3137;
+}
+
+.dropdownButton[active="true"] {
+  background-color: #2b3137;
+}
+
+.dropdownContent {
+  z-index: var(--dropdown-layer);
+  display: none;
+  position: absolute;
+  min-width: 8rem;
+  margin-top: 0.5rem;
+
+  flex-direction: column;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid #3e4650;
+  background-color: #2b3137;
+}
+
+.dropdownContent[active="true"] {
+  display: flex;
+}
+
+.dropdownContent[right="true"] {
+  right: 0;
+}
+
+.dropdownContent div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0 0.5rem 0 0.5rem;
+  border-radius: 0.25rem;
+
+  p {
+    margin: 0.5rem 1rem 0.5rem 0;
+  }
+}
+
+.dropdownContent div:hover {
+  background-color: #3e4650;
+  cursor: pointer;
+}
