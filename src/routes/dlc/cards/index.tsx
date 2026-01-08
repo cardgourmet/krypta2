@@ -30,9 +30,8 @@ const authMiddleware: Middleware = {
 };
 client.use(authMiddleware);
 
-// TODO: change url, discord deleted it
 const backupImageUrl =
-  'https://media.discordapp.net/attachments/848284939223957566/1457456182062088354/G9xVyCvWQAEM_NF.png?ex=695cba18&is=695b6898&hm=22c5292eed5d4a4d2c10a6fe3e5eaaa6c0d217d4be93ff9eb6f650109939c696&=&format=webp&quality=lossless&width=571&height=799';
+  'https://media.discordapp.net/attachments/350014049750089732/1458761128866746381/NjNjY.png?ex=6960d0ab&is=695f7f2b&hm=13b11817308053850266de4cc15309e1a891fb85cf033277304736a8c218f285&=&format=webp&quality=lossless&width=577&height=799';
 
 export default function CardsOverview() {
   const filter = Route.useSearch();
@@ -104,18 +103,21 @@ export default function CardsOverview() {
               lastPage={lastPage}
               filter={filter}
               setFilter={(params) => {
-                // noinspection JSIgnoredPromiseFromCall
-                navigate({
-                  search: () => params,
-                });
-              }}
-              pageSwitched={() => {
-                setLoading(true);
+                if (params.page === currentPage) return;
 
+                setLoading(true);
                 window.scrollTo({
                   top: 0,
                   left: 0,
                   behavior: 'smooth',
+                });
+
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  search: (prev) => {
+                    return { ...prev, ...params };
+                  },
+                  replace: true,
                 });
               }}
             />
@@ -126,10 +128,12 @@ export default function CardsOverview() {
           filter={filter}
           setFilter={(params) => {
             // TODO: on change: update page to 1
+            console.log(JSON.stringify(params));
 
             // noinspection JSIgnoredPromiseFromCall
             navigate({
-              search: () => params,
+              search: (prev) => ({ ...prev, ...params }),
+              replace: true,
             });
 
             /*const changes = compareSearchParams(searchParams, params);

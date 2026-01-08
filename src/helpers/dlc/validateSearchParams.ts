@@ -15,27 +15,27 @@ import {
 } from './types.ts';
 
 export const validateSearchParams = (search: Record<string, unknown>): DlcCardOverviewParams => {
-  let requirePage = Number(search?.p ?? 1);
+  let requirePage = Number(search?.page ?? 1);
   if (requirePage <= 0) {
     requirePage = 1;
   }
 
-  let requireSortBy = search?.s as string | null;
+  let requireSortBy = search?.sortBy as string | null;
   if (requireSortBy && !isDlcCardSortBy(requireSortBy)) {
     requireSortBy = null;
   }
 
-  let requireSortDirection = search?.sd as string | null;
+  let requireSortDirection = search?.sortDirection as string | null;
   if (requireSortDirection && !isSortDirection(requireSortDirection)) {
     requireSortDirection = null;
   }
 
-  let requireCardAmount: number | null = search?.a ? Number(search?.a ?? 1) : null;
+  let requireCardAmount: number | null = search?.pageSize ? Number(search?.pageSize ?? 1) : null;
   if (requireCardAmount && !isCardAmount(requireCardAmount)) {
     requireCardAmount = null;
   }
 
-  let requireCardDisplayMode = search?.d as string | null;
+  let requireCardDisplayMode = search?.cardDisplayMode as string | null;
   if (requireCardDisplayMode && !isCardDisplayMode(requireCardDisplayMode)) {
     requireCardDisplayMode = null;
   }

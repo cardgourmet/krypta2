@@ -6,14 +6,13 @@ import styles from './Pagination.module.css';
 
 type CardPaginationProps = {
   lastPage: number;
-  pageSwitched: () => void;
   filter: DlcCardOverviewParams;
   setFilter: (params: DlcCardOverviewParams) => void;
 };
 
 const MIN_DESKTOP_SIZE_PX = 720;
 
-export default function Pagination({ lastPage, pageSwitched, filter, setFilter }: CardPaginationProps) {
+export default function Pagination({ lastPage, filter, setFilter }: CardPaginationProps) {
   const [width] = useWindowSize();
   const currentPage = filter.page ?? 1;
 
@@ -24,8 +23,6 @@ export default function Pagination({ lastPage, pageSwitched, filter, setFilter }
 
     const newFilter = { ...filter, page: nextPage };
     setFilter(newFilter);
-
-    pageSwitched();
   };
 
   return (
