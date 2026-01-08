@@ -12,3 +12,9 @@ Our Stack:
 - Package Management: https://pnpm.io/
 
 To get started run `pnpm install` and then `pnpm dev`. Make sure to have `pnpm` installed beforehand.
+
+## Linter Setup
+
+For IntelliJ there is an official plugin available: https://biomejs.dev/guides/editors/first-party-extensions/#intellij when configured correctly you should have Biome running on save and also during the Strg+Alt+L shortcut.
+
+For VSCode there is, of course, also one available: https://biomejs.dev/guides/editors/first-party-extensions/#vs-code
