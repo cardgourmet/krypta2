@@ -6,7 +6,8 @@ import {
   type CardDisplayMode,
   cardAmountElements,
   cardDisplayModeElements,
-  type DlcCardOverviewParams,
+  type DlcCardOverviewSearchParams,
+  type DlcCardOverviewSettings,
   type DlcCardSortBy,
   type SortDirection,
   sortByElements,
@@ -16,12 +17,11 @@ import Dropdown from '../../components/Dropdown.tsx';
 import styles from './CardGridSettings.module.css';
 
 interface CardGridSettingsProps {
-  filter: DlcCardOverviewParams;
-  setFilter: (newFilter: DlcCardOverviewParams) => void;
-  setLoading: (loading: boolean) => void;
+  settings: DlcCardOverviewSettings;
+  setSettings: (update: (params: DlcCardOverviewSearchParams) => DlcCardOverviewSearchParams) => void;
 }
 
-export default function CardGridSettings({ filter, setFilter, setLoading }: CardGridSettingsProps) {
+export default function CardGridSettings({ settings, setSettings }: CardGridSettingsProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,22 +48,20 @@ export default function CardGridSettings({ filter, setFilter, setLoading }: Card
                   <p>Sortieren nach</p>
                   <Dropdown
                     items={sortByElements}
-                    defaultSelected={filter.sortBy as string}
+                    defaultSelected={settings.sortBy as string}
                     onSelect={(selected: string) => {
-                      const newFilter = { ...filter, sortBy: selected as DlcCardSortBy };
-
-                      setLoading(true);
-                      setFilter(newFilter);
+                      setSettings((prev) => {
+                        return { ...prev, sortBy: selected as DlcCardSortBy };
+                      });
                     }}
                   />
                   <Dropdown
                     items={sortDirectionElements}
-                    defaultSelected={filter.sortDirection as string}
+                    defaultSelected={settings.sortDirection as string}
                     onSelect={(selected: string) => {
-                      const newFilter = { ...filter, sortDirection: selected as SortDirection };
-
-                      setLoading(true);
-                      setFilter(newFilter);
+                      setSettings((prev) => {
+                        return { ...prev, sortDirection: selected as SortDirection };
+                      });
                     }}
                   />
                 </div>
@@ -71,23 +69,21 @@ export default function CardGridSettings({ filter, setFilter, setLoading }: Card
                   <p>Zeige</p>
                   <Dropdown
                     items={cardAmountElements}
-                    defaultSelected={`${filter.pageSize}`}
+                    defaultSelected={`${settings.pageSize}`}
                     onSelect={(selected: string) => {
-                      const newFilter = { ...filter, pageSize: Number(selected) as CardAmount };
-
-                      setLoading(true);
-                      setFilter(newFilter);
+                      setSettings((prev) => {
+                        return { ...prev, pageSize: Number(selected) as CardAmount };
+                      });
                     }}
                   />
                   <p>Als</p>
                   <Dropdown
                     items={cardDisplayModeElements}
-                    defaultSelected={filter.cardDisplayMode as string}
+                    defaultSelected={settings.cardDisplayMode as string}
                     onSelect={(selected: string) => {
-                      const newFilter = { ...filter, cardDisplayMode: selected as CardDisplayMode };
-
-                      setLoading(true);
-                      setFilter(newFilter);
+                      setSettings((prev) => {
+                        return { ...prev, cardDisplayMode: selected as CardDisplayMode };
+                      });
                     }}
                   />
                 </div>
@@ -111,22 +107,20 @@ export default function CardGridSettings({ filter, setFilter, setLoading }: Card
             <p>Sortieren nach</p>
             <Dropdown
               items={sortByElements}
-              defaultSelected={filter.sortBy as string}
+              defaultSelected={settings.sortBy as string}
               onSelect={(selected: string) => {
-                const newFilter = { ...filter, sortBy: selected as DlcCardSortBy };
-
-                setLoading(true);
-                setFilter(newFilter);
+                setSettings((prev) => {
+                  return { ...prev, sortBy: selected as DlcCardSortBy };
+                });
               }}
             />
             <Dropdown
               items={sortDirectionElements}
-              defaultSelected={filter.sortDirection as string}
+              defaultSelected={settings.sortDirection as string}
               onSelect={(selected: string) => {
-                const newFilter = { ...filter, sortDirection: selected as SortDirection };
-
-                setLoading(true);
-                setFilter(newFilter);
+                setSettings((prev) => {
+                  return { ...prev, sortDirection: selected as SortDirection };
+                });
               }}
             />
           </div>
@@ -134,23 +128,21 @@ export default function CardGridSettings({ filter, setFilter, setLoading }: Card
             <p>Zeige</p>
             <Dropdown
               items={cardAmountElements}
-              defaultSelected={`${filter.pageSize}`}
+              defaultSelected={`${settings.pageSize}`}
               onSelect={(selected: string) => {
-                const newFilter = { ...filter, pageSize: Number(selected) as CardAmount };
-
-                setLoading(true);
-                setFilter(newFilter);
+                setSettings((prev) => {
+                  return { ...prev, pageSize: Number(selected) as CardAmount };
+                });
               }}
             />
             <p>Als</p>
             <Dropdown
               items={cardDisplayModeElements}
-              defaultSelected={filter.cardDisplayMode as string}
+              defaultSelected={settings.cardDisplayMode as string}
               onSelect={(selected: string) => {
-                const newFilter = { ...filter, cardDisplayMode: selected as CardDisplayMode };
-
-                setLoading(true);
-                setFilter(newFilter);
+                setSettings((prev) => {
+                  return { ...prev, cardDisplayMode: selected as CardDisplayMode };
+                });
               }}
             />
           </div>

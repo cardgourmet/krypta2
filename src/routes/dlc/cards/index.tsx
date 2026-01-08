@@ -1,6 +1,6 @@
 import type { Middleware } from 'openapi-fetch';
 import createClient from 'openapi-fetch';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import type { components as c, paths } from '@/schema/api.d.ts';
 import styles from './index.module.css';
@@ -11,8 +11,15 @@ import CardGridSettings from '@/components/dlc/CardGridSettings.tsx';
 import ImageCard from '@/components/ImageCard.tsx';
 import Pagination from '@/components/Pagination.tsx';
 import { calculateCardRange } from '@/helpers/dlc/calculateCardRange.ts';
-import type { DlcCardQuery } from '@/helpers/dlc/types.ts';
-import { validateSearchParams } from '@/helpers/dlc/validateSearchParams.ts';
+import { compareSearchParams, removeDefaults, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
+import {
+  cardAmountDefault,
+  cardDisplayModeDefault,
+  type DlcCardOverviewSettings,
+  type DlcCardQuery,
+  sortByDefault,
+  sortDirectionDefault,
+} from '@/helpers/dlc/types.ts';
 
 export const Route = createFileRoute('/dlc/cards/')({
   component: CardsOverview,
@@ -33,27 +40,37 @@ client.use(authMiddleware);
 const backupImageUrl =
   'https://media.discordapp.net/attachments/350014049750089732/1458761128866746381/NjNjY.png?ex=6960d0ab&is=695f7f2b&hm=13b11817308053850266de4cc15309e1a891fb85cf033277304736a8c218f285&=&format=webp&quality=lossless&width=577&height=799';
 
-export default function CardsOverview() {
-  const filter = Route.useSearch();
+function CardsOverview() {
+  const searchParams = Route.useSearch();
+  const settings: DlcCardOverviewSettings = useMemo(() => {
+    return {
+      page: searchParams.page ?? 1,
+      pageSize: searchParams.pageSize ?? cardAmountDefault,
+      sortBy: searchParams.sortBy ?? sortByDefault,
+      sortDirection: searchParams.sortDirection ?? sortDirectionDefault,
+      cardDisplayMode: searchParams.cardDisplayMode ?? cardDisplayModeDefault,
+    };
+  }, [searchParams]);
+
   const navigate = useNavigate({ from: Route.fullPath });
 
   const [cards, setCards] = useState<
     c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'] | null
   >(null);
   const [loading, setLoading] = useState(true);
-  const currentPage = cards?.data?.currentPage;
-  const lastPage = cards?.data?.pageCount || 0;
+  const dataCurrentPage = cards?.data?.currentPage;
+  const dataLastPage = cards?.data?.pageCount || 0;
 
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const query: DlcCardQuery = {
-      page: filter.page,
-      pageSize: filter.pageSize,
-      sortBy: filter.sortBy,
+      page: settings.page,
+      pageSize: settings.pageSize,
+      sortBy: settings.sortBy,
     };
-    if (filter.sortDirection !== 'auto') {
-      query.sortDirection = filter.sortDirection;
+    if (settings.sortDirection !== 'auto') {
+      query.sortDirection = settings.sortDirection;
     }
 
     const controller = new AbortController();
@@ -83,7 +100,7 @@ export default function CardsOverview() {
     return () => {
       controller.abort();
     };
-  }, [filter]);
+  }, [settings]);
 
   return (
     <div ref={scrollBackRef}>
@@ -98,12 +115,14 @@ export default function CardsOverview() {
           <p>Kartendatenbank</p>
         </div>
         <div className={styles.contentNav}>
-          {currentPage && (
+          {dataCurrentPage && (
             <Pagination
-              lastPage={lastPage}
-              filter={filter}
-              setFilter={(params) => {
-                if (params.page === currentPage) return;
+              lastPage={dataLastPage}
+              settings={settings}
+              setSettings={(updateSettings) => {
+                let newParams = updateSettings(searchParams);
+                if (newParams.page === dataCurrentPage) return;
+                newParams = removeDefaults(newParams);
 
                 setLoading(true);
                 window.scrollTo({
@@ -114,8 +133,8 @@ export default function CardsOverview() {
 
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  search: (prev) => {
-                    return { ...prev, ...params };
+                  search: () => {
+                    return { ...newParams };
                   },
                   replace: true,
                 });
@@ -125,31 +144,26 @@ export default function CardsOverview() {
         </div>
 
         <CardGridSettings
-          filter={filter}
-          setFilter={(params) => {
-            // TODO: on change: update page to 1
-            console.log(JSON.stringify(params));
+          settings={settings}
+          setSettings={(setNewParams) => {
+            let newParams = setNewParams(searchParams);
+            const changes = compareSearchParams(searchParams, newParams);
+            if (changes.length === 0) return;
+            newParams = removeDefaults(newParams);
+
+            // only change it if it's not just the display mode
+            if (!(changes.length === 1 && changes.includes('cardDisplayMode'))) {
+              delete newParams.page;
+            }
+
+            setLoading(true);
 
             // noinspection JSIgnoredPromiseFromCall
             navigate({
-              search: (prev) => ({ ...prev, ...params }),
+              search: () => ({ ...newParams }),
               replace: true,
             });
-
-            /*const changes = compareSearchParams(searchParams, params);
-            if (changes.length === 0) return;
-
-            if (changes.length === 1 && changes.includes('d')) {
-              setSearchParams(params);
-              return;
-            }
-
-            if (!changes.includes('p')) {
-              params.delete('p');
-            }
-            setSearchParams(params);*/
           }}
-          setLoading={setLoading}
         />
 
         <div className={styles.queryExplanation}>
@@ -160,8 +174,8 @@ export default function CardsOverview() {
           )}
           {!loading && (
             <p>
-              {calculateCardRange(currentPage, filter.pageSize).from}–
-              {calculateCardRange(currentPage, filter.pageSize).to} von {cards?.data.details?.explanation}
+              {calculateCardRange(dataCurrentPage, settings.pageSize).from}–
+              {calculateCardRange(dataCurrentPage, settings.pageSize).to} von {cards?.data.details?.explanation}
             </p>
           )}
         </div>
@@ -181,7 +195,7 @@ export default function CardsOverview() {
                 </div>
               ))}
           {!loading
-            && filter.cardDisplayMode === 'grid'
+            && settings.cardDisplayMode === 'grid'
             && cards
             && cards.data.items.map((card) => (
               <ImageCard

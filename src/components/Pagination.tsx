@@ -1,28 +1,29 @@
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Ellipsis } from 'lucide-react';
-import type { DlcCardOverviewParams } from '@/helpers/dlc/types.ts';
+import type { DlcCardOverviewSearchParams, DlcCardOverviewSettings } from '@/helpers/dlc/types.ts';
 import calculatePages from '../helpers/calculatePages.ts';
 import { useWindowSize } from '../hooks/useWindowSize.ts';
 import styles from './Pagination.module.css';
 
 type CardPaginationProps = {
   lastPage: number;
-  filter: DlcCardOverviewParams;
-  setFilter: (params: DlcCardOverviewParams) => void;
+  settings: DlcCardOverviewSettings;
+  setSettings: (update: (params: DlcCardOverviewSearchParams) => DlcCardOverviewSearchParams) => void;
 };
 
 const MIN_DESKTOP_SIZE_PX = 720;
 
-export default function Pagination({ lastPage, filter, setFilter }: CardPaginationProps) {
+export default function Pagination({ lastPage, settings, setSettings }: CardPaginationProps) {
   const [width] = useWindowSize();
-  const currentPage = filter.page ?? 1;
+  const currentPage = settings.page ?? 1;
 
   const switchPage = (nextPage: number) => {
     if (nextPage < 1) return;
     if (nextPage > lastPage) return;
     if (nextPage === currentPage) return;
 
-    const newFilter = { ...filter, page: nextPage };
-    setFilter(newFilter);
+    setSettings((params) => {
+      return { ...params, page: nextPage };
+    });
   };
 
   return (

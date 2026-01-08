@@ -47,7 +47,7 @@
   z-index: var(--dropdown-layer);
   display: none;
   position: absolute;
-  min-width: 8rem;
+  min-width: 11rem;
   margin-top: 0.5rem;
 
   flex-direction: column;
