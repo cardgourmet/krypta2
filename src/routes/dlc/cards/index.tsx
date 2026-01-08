@@ -5,8 +5,8 @@ import Skeleton from 'react-loading-skeleton';
 import type { components as c, paths } from '@/schema/api.d.ts';
 import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { IconChefHat, IconChevronRight } from '@tabler/icons-react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import { ChevronRight, LucideChefHat } from 'lucide-react';
 import CardGridSettings from '@/components/dlc/CardGridSettings.tsx';
 import ImageCard from '@/components/ImageCard.tsx';
 import Pagination from '@/components/Pagination.tsx';
@@ -107,11 +107,11 @@ function CardsOverview() {
       <div className={styles.mainContent}>
         <div className={styles.breadcrumb}>
           <Link to="/">
-            <LucideChefHat color="#9ba6b1" size={22} className={styles.homeButton} />
+            <IconChefHat color="#9ba6b1" size={22} className={styles.homeButton} />
           </Link>
-          <ChevronRight color="#9ba6b1" size={18} />
+          <IconChevronRight color="#9ba6b1" size={18} />
           <p>Disney Lorcana</p>
-          <ChevronRight color="#9ba6b1" size={18} />
+          <IconChevronRight color="#9ba6b1" size={18} />
           <p>Kartendatenbank</p>
         </div>
         <div className={styles.contentNav}>

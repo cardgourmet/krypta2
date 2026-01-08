@@ -1,4 +1,4 @@
-import { RefreshCcw } from 'lucide-react';
+import { IconRefresh } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styles from './ImageCard.module.css';
@@ -46,7 +46,7 @@ export default function ImageCard(props: ImageCardProps) {
               setFlipped(newFlipped);
             }}
           >
-            <RefreshCcw />
+            <IconRefresh />
           </button>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { IconCheck, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { useWindowSize } from '../hooks/useWindowSize.ts';
 import styles from './Dropdown.module.css';
@@ -88,8 +88,8 @@ export default function Dropdown(props: DropdownProps) {
         <div>
           <p>{selected ? props.items[selected] : '?'}</p>
 
-          {open && <ChevronUp size={15} />}
-          {!open && <ChevronDown size={15} />}
+          {open && <IconChevronUp size={15} />}
+          {!open && <IconChevronDown size={15} />}
         </div>
       </button>
       <div className={styles.dropdownContent} ref={contentRef}>
@@ -106,7 +106,7 @@ export default function Dropdown(props: DropdownProps) {
             }}
           >
             <p style={selected === key ? { color: 'white' } : {}}>{label}</p>
-            {selected === key && <Check color={'white'} size={18} />}
+            {selected === key && <IconCheck color={'white'} size={18} />}
           </div>
         ))}
       </div>

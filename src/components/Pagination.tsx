@@ -1,4 +1,10 @@
-import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Ellipsis } from 'lucide-react';
+import {
+  IconChevronLeft,
+  IconChevronLeftPipe,
+  IconChevronRight,
+  IconChevronRightPipe,
+  IconDots,
+} from '@tabler/icons-react';
 import type { DlcCardOverviewSearchParams, DlcCardOverviewSettings } from '@/helpers/dlc/types.ts';
 import calculatePages from '../helpers/calculatePages.ts';
 import { useWindowSize } from '../hooks/useWindowSize.ts';
@@ -30,10 +36,10 @@ export default function Pagination({ lastPage, settings, setSettings }: CardPagi
     <div className={styles.pagination}>
       <div className={styles.arrowsLeft}>
         <button type="button" disabled={currentPage === 1} onClick={() => switchPage(1)}>
-          <ChevronFirst />
+          <IconChevronLeftPipe />
         </button>
         <button type="button" disabled={currentPage === 1} onClick={() => switchPage(currentPage - 1)}>
-          <ChevronLeft />
+          <IconChevronLeft />
         </button>
       </div>
       {width <= MIN_DESKTOP_SIZE_PX && (
@@ -46,7 +52,7 @@ export default function Pagination({ lastPage, settings, setSettings }: CardPagi
       {width > MIN_DESKTOP_SIZE_PX
         && calculatePages(currentPage, lastPage, 1).map((page, index) => (
           <div key={index} className={styles.middle}>
-            {page === null && <Ellipsis color={'#636b72'} />}
+            {page === null && <IconDots color={'#636b72'} />}
             {page !== null && (
               <button
                 type="button"
@@ -60,10 +66,10 @@ export default function Pagination({ lastPage, settings, setSettings }: CardPagi
         ))}
       <div className={styles.arrowsRight}>
         <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(currentPage + 1)}>
-          <ChevronRight />
+          <IconChevronRight />
         </button>
         <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(lastPage)}>
-          <ChevronLast />
+          <IconChevronRightPipe />
         </button>
       </div>
     </div>

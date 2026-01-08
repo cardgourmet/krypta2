@@ -14,6 +14,9 @@ importers:
       '@mantine/hooks':
         specifier: 8.3.11
         version: 8.3.11(react@19.2.3)
+      '@tabler/icons-react':
+        specifier: ^3.36.1
+        version: 3.36.1(react@19.2.3)
       '@tanstack/react-devtools':
         specifier: ^0.7.0
         version: 0.7.11(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(csstype@3.2.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(solid-js@1.9.10)
@@ -26,9 +29,6 @@ importers:
       '@tanstack/router-plugin':
         specifier: ^1.132.0
         version: 1.145.10(@tanstack/react-router@1.145.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@22.19.3)(tsx@4.21.0))
-      lucide-react:
-        specifier: ^0.545.0
-        version: 0.545.0(react@19.2.3)
       openapi-fetch:
         specifier: ^0.15.0
         version: 0.15.0
@@ -652,6 +652,14 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@tabler/icons-react@3.36.1':
+    resolution: {integrity: sha512-/8nOXeNeMoze9xY/QyEKG65wuvRhkT3q9aytaur6Gj8bYU2A98YVJyLc9MRmc5nVvpy+bRlrrwK/Ykr8WGyUWg==}
+    peerDependencies:
+      react: '>= 16'
+
+  '@tabler/icons@3.36.1':
+    resolution: {integrity: sha512-f4Jg3Fof/Vru5ioix/UO4GX+sdDsF9wQo47FbtvG+utIYYVQ/QVAC0QYgcBbAjQGfbdOh2CCf0BgiFOF9Ixtjw==}
+
   '@tanstack/devtools-client@0.0.3':
     resolution: {integrity: sha512-kl0r6N5iIL3t9gGDRAv55VRM3UIyMKVH83esRGq7xBjYsRLe/BeCIN2HqrlJkObUXQMKhy7i8ejuGOn+bDqDBw==}
     engines: {node: '>=18'}
@@ -1146,11 +1154,6 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
-
-  lucide-react@0.545.0:
-    resolution: {integrity: sha512-7r1/yUuflQDSt4f1bpn5ZAocyIxcTyVyBBChSVtBKn5M+392cPmI5YJMWOJKk/HUWGm5wg83chlAZtCcGbEZtw==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -2082,6 +2085,13 @@ snapshots:
     dependencies:
       solid-js: 1.9.10
 
+  '@tabler/icons-react@3.36.1(react@19.2.3)':
+    dependencies:
+      '@tabler/icons': 3.36.1
+      react: 19.2.3
+
+  '@tabler/icons@3.36.1': {}
+
   '@tanstack/devtools-client@0.0.3':
     dependencies:
       '@tanstack/devtools-event-client': 0.3.5
@@ -2657,10 +2667,6 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
-
-  lucide-react@0.545.0(react@19.2.3):
-    dependencies:
-      react: 19.2.3
 
   lz-string@1.5.0: {}
 

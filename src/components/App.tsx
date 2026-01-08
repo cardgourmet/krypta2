@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@mantine/hooks';
+import { IconMenu2, IconMoon, IconSearch, IconUser } from '@tabler/icons-react';
 import { Link, Outlet } from '@tanstack/react-router';
-import { LucideMenu, LucideMoon, LucideSearch, LucideUserRound } from 'lucide-react';
 import { useState } from 'react';
 import { DLCIcon } from '@/helpers/icons/games/dlc/Icon.tsx';
 import { MTGIcon } from '@/helpers/icons/games/mtg/Icon.tsx';
@@ -86,7 +86,7 @@ function App() {
           </div>
 
           <div className={styles.navbarRight}>
-            <LucideMoon size={18} color={'#9ba6b1'} />
+            <IconMoon size={18} color={'#9ba6b1'} />
             <button type="button">Anmelden / Registrieren</button>
           </div>
         </nav>
@@ -100,10 +100,10 @@ function App() {
                 setSidebarOpen(true);
               }}
             >
-              <LucideMenu size={18} color={'#9ba6b1'} />
+              <IconMenu2 size={18} color={'#9ba6b1'} />
             </button>
             <button type="button">
-              <LucideSearch size={18} color={'#9ba6b1'} />
+              <IconSearch size={18} color={'#9ba6b1'} />
             </button>
           </div>
           <div>
@@ -113,7 +113,7 @@ function App() {
           </div>
           <div style={{ flex: 1, justifyContent: 'flex-end' }}>
             <button type="button">
-              <LucideUserRound size={18} color={'#9ba6b1'} />
+              <IconUser size={18} color={'#9ba6b1'} />
             </button>
           </div>
         </nav>

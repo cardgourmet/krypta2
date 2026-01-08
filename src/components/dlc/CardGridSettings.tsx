@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks';
-import { SlidersVertical } from 'lucide-react';
+import { IconAdjustmentsHorizontal } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import {
   type CardAmount,
@@ -96,7 +96,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             </div>
           )}
           <button type="button" className={styles.iconButton} onClick={() => setIsModalOpen(true)}>
-            <SlidersVertical />
+            <IconAdjustmentsHorizontal />
             <p>Einstellungen</p>
           </button>
         </div>
