@@ -6,8 +6,8 @@ import {
   IconDots,
 } from '@tabler/icons-react';
 import type { DlcCardOverviewSearchParams, DlcCardOverviewSettings } from '@/helpers/dlc/types.ts';
-import calculatePages from '../helpers/calculatePages.ts';
-import { useWindowSize } from '../hooks/useWindowSize.ts';
+import { useWindowSize } from '@/hooks/useWindowSize.ts';
+import calculatePages from '../../../helpers/calculatePages.ts';
 import styles from './Pagination.module.css';
 
 type CardPaginationProps = {

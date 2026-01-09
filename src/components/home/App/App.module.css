@@ -1,0 +1,33 @@
+body {
+  background-color: #161a1d;
+
+  h1,
+  h2,
+  h3,
+  p {
+    color: #9ba6b1;
+    font-family: "Montserrat", sans-serif;
+  }
+}
+
+button {
+  background-color: #9ba6b1;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 0.75rem;
+  font-family: var(--cgm-ui-font-family), sans-serif;
+
+  button:hover {
+    cursor: pointer;
+  }
+}
+
+.mainContent {
+  margin-left: var(--sidebar-width);
+}
+
+@media (max-width: 720px) {
+  .mainContent {
+    margin-left: 0;
+  }
+}

@@ -1,6 +1,6 @@
 import { IconCheck, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
-import { useWindowSize } from '../hooks/useWindowSize.ts';
+import { useWindowSize } from '../../../hooks/useWindowSize.ts';
 import styles from './Dropdown.module.css';
 
 interface DropdownProps {
@@ -29,8 +29,8 @@ export default function Dropdown(props: DropdownProps) {
     const newOpen = !open;
 
     setOpen(newOpen);
-    buttonRef.current?.setAttribute('active', newOpen + '');
-    contentRef.current?.setAttribute('active', newOpen + '');
+    buttonRef.current?.setAttribute('active', `${newOpen}`);
+    contentRef.current?.setAttribute('active', `${newOpen}`);
 
     const right = shouldOpenRight(contentRef.current, window.innerWidth);
     if (newOpen && right) {

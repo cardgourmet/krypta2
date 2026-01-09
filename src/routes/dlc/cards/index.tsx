@@ -7,9 +7,9 @@ import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { IconChefHat, IconChevronRight } from '@tabler/icons-react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import CardGridSettings from '@/components/dlc/CardGridSettings.tsx';
-import ImageCard from '@/components/ImageCard.tsx';
-import Pagination from '@/components/Pagination.tsx';
+import CardGridSettings from '@/components/dlc/CardGridSettings/CardGridSettings.tsx';
+import ImageCard from '@/components/dlc/ImageCard/ImageCard.tsx';
+import Pagination from '@/components/dlc/Pagination/Pagination.tsx';
 import { calculateCardRange } from '@/helpers/dlc/calculateCardRange.ts';
 import { compareSearchParams, removeDefaults, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
 import {
