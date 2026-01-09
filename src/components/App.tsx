@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks';
-import { IconMenu2, IconMoon, IconSearch, IconUser } from '@tabler/icons-react';
+import { IconMenu2, IconMoon, IconSearch, IconUser, IconX } from '@tabler/icons-react';
 import { Link, Outlet } from '@tanstack/react-router';
 import { useState } from 'react';
 import { DLCIcon } from '@/helpers/icons/games/dlc/Icon.tsx';
@@ -14,45 +14,38 @@ function App() {
 
   return (
     <>
-      {sidebarOpen && (
-        <nav className={styles.mobileSidebar}>
-          <div className={styles.mobileSidebarTop}>
-            <Link to="/" className={styles.sidebarLogo}>
-              <Logo height={24} width={24} style={{ color: '#9ba6b1' }} />
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                setSidebarOpen(false);
-              }}
-            >
-              Close
-            </button>
-          </div>
+      <nav className={`${styles.mobileSidebar} ${sidebarOpen ? styles.shown : ''}`}>
+        <div className={styles.mobileSidebarTop}>
+          <button
+            type="button"
+            onClick={() => {
+              setSidebarOpen(false);
+            }}
+          >
+            <IconX size={20} />
+          </button>
+        </div>
 
-          <div className={styles.mobileSidebarBottom}>
-            <div>
-              <a href="/mtg">
-                <MTGIcon height={24} width={24} color={'#9ba6b1'} />
-              </a>
-              <p>Magic: The Gathering</p>
-            </div>
+        <div className={styles.mobileSidebarBottom}>
+          <Link to="/mtg" className={styles.mobileSidebarLink} onClick={() => setSidebarOpen(false)}>
+            <MTGIcon height={24} width={24} color={'#9ba6b1'} />
+            <p>Magic: The Gathering</p>
+          </Link>
+          <Link to="/pcg" className={styles.mobileSidebarLink} onClick={() => setSidebarOpen(false)}>
+            <PCGIcon height={24} width={24} color={'#9ba6b1'} />
+            <p>Pokémon Card Game</p>
+          </Link>
+          <Link
+            to="/dlc"
+            className={`${styles.mobileSidebarLink} ${styles.active}`}
+            onClick={() => setSidebarOpen(false)}
+          >
+            <DLCIcon height={24} width={24} color={'#9ba6b1'} />
+            <p>Disney Lorcana</p>
+          </Link>
+        </div>
+      </nav>
 
-            <div>
-              <a href="/pcg">
-                <PCGIcon height={24} width={24} color={'#9ba6b1'} />
-              </a>
-              <p>Pokémon Card Game</p>
-            </div>
-            <div>
-              <a href="/dlc">
-                <DLCIcon height={24} width={24} color={'#9ba6b1'} />
-              </a>
-              <p>Disney Lorcana</p>
-            </div>
-          </div>
-        </nav>
-      )}
       {!smallScreen && (
         <nav className={styles.sidebar}>
           <Link to="/" className={styles.sidebarLogo}>
