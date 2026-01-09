@@ -61,10 +61,6 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
         <div>
           <div className={`${styles.settingsSidebar} ${isSidebarOpen ? styles.shown : ''}`} ref={sidebarRef}>
             <div className={styles.settingsSidebarHeader}>
-              <div>
-                <IconAdjustmentsHorizontal />
-                <h1>Anzeigeeinstellungen</h1>
-              </div>
               <button type="button" onClick={() => setIsSidebarOpen(false)}>
                 <IconX size={20} />
               </button>

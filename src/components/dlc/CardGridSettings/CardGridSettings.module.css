@@ -34,11 +34,12 @@
 .settingsSidebar {
   position: fixed;
   top: 0;
-  left: -60%;
-  width: 60dvw;
+  width: 75%;
+  left: -75%;
   height: 100dvh;
   background-color: #161a1d;
   z-index: var(--modal-layer);
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -47,7 +48,7 @@
 
   h1 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: calc(0.5rem + 1vw);
     font-family: var(--cgm-title-font-family), ui-sans-serif;
   }
 
@@ -59,7 +60,7 @@
 .settingsSidebarHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   padding: 1rem;
   height: var(--navbar-height);

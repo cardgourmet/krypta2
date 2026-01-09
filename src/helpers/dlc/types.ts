@@ -70,14 +70,7 @@ export type DlcCardOverviewSearchParams = {
   sortDirection?: SortDirection;
   cardDisplayMode?: CardDisplayMode;
 };
-// ugly, i know.
-export type DlcCardOverviewSettings = {
-  page: number;
-  pageSize: CardAmount;
-  sortBy: DlcCardSortBy;
-  sortDirection: SortDirection;
-  cardDisplayMode: CardDisplayMode;
-};
+export type DlcCardOverviewSettings = Required<DlcCardOverviewSearchParams>;
 
 export type DlcCardQuery = {
   mode?: string;
