@@ -23,6 +23,8 @@
     width: 32dvw;
     padding: 0.1rem 2.5rem 0.1rem 2.5rem;
 
+    color: var(--cgm-text-color);
+
     &:focus-visible {
       outline: 2px solid #0055cc;
     }

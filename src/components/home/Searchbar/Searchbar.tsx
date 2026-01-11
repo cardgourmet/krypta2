@@ -135,6 +135,7 @@ export default function Searchbar() {
   return (
     <>
       <div className={`${styles.searchOverlay} ${!isOpened ? styles.hidden : ''}`} />
+
       <div className={styles.searchbar} ref={mergedSearchRef}>
         <IconSearch size={18} color={'#9ba6b1'} className={styles.searchIcon} />
         <input
