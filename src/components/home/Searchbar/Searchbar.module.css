@@ -117,22 +117,25 @@
     li {
       display: flex;
       align-items: center;
-    }
 
-    button {
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      padding: 0.4rem 0.5rem;
-      border: none;
-      background-color: #24292e;
-      border-radius: 0.25rem;
-
-      &:hover {
-        cursor: pointer;
+      .suggestionHighlighted {
         background-color: #2c333a;
+      }
+
+      > button {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        padding: 0.4rem 0.5rem;
+        border: none;
+        background-color: #1d2125;
+        border-radius: 0.25rem;
+
+        &:hover {
+          background-color: #2c333a;
+        }
       }
     }
 

@@ -18,6 +18,7 @@ import styles from './Searchbar.module.css';
 export default function Searchbar() {
   const [isOpened, setIsOpened] = useState(false);
   const [focusableElements, setFocusableElements] = useState<Array<HTMLElement | null>>([]);
+  const [currentSuggestion, setCurrentSuggestion] = useState(0);
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
@@ -55,32 +56,20 @@ export default function Searchbar() {
       }
 
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        const firstElement = focusableElements[0];
-        const suggestions = focusableElements.filter((el) => el?.parentElement instanceof HTMLLIElement);
-        const firstSuggestion = suggestions[0];
-        const lastSuggestion = suggestions[suggestions.length - 1];
+        if (document.activeElement !== searchInputRef.current) return event.preventDefault();
 
-        if (suggestions.length === 0 || firstElement === null || firstSuggestion === null || lastSuggestion === null)
-          return;
+        const suggestions = focusableElements.filter((el) => el?.parentElement instanceof HTMLLIElement);
+        suggestions.unshift(null);
+
+        if (suggestions.length === 0) return;
         const arrowUp = event.key === 'ArrowUp';
 
-        if (
-          (!arrowUp && document.activeElement === lastSuggestion)
-          || (arrowUp && document.activeElement === firstSuggestion)
-        ) {
-          firstElement.focus();
-          return event.preventDefault();
-        }
-        if (arrowUp && document.activeElement === firstElement) {
-          lastSuggestion.focus();
-          return event.preventDefault();
-        }
+        let newIndex = arrowUp ? currentSuggestion - 1 : currentSuggestion + 1;
+        if (newIndex < 0) newIndex = suggestions.length - 1;
+        if (newIndex >= suggestions.length) newIndex = 0;
+        setCurrentSuggestion(newIndex);
 
-        const currentIndex = suggestions.indexOf(document.activeElement as HTMLElement);
-        const nextIndex = arrowUp ? currentIndex - 1 : currentIndex + 1;
-
-        suggestions[nextIndex]?.focus();
-        event.preventDefault();
+        return event.preventDefault();
       }
     };
 
@@ -89,7 +78,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [focusableElements]);
+  }, [focusableElements, isOpened, currentSuggestion]);
 
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
@@ -138,7 +127,11 @@ export default function Searchbar() {
                   'ability="Deep Freeze" and o:"chosen characters"',
                 ].map((query, index) => (
                   <li key={index}>
-                    <button type="button" tabIndex={0}>
+                    <button
+                      type="button"
+                      tabIndex={0}
+                      className={index + 1 === currentSuggestion ? styles.suggestionHighlighted : ''}
+                    >
                       <div className={styles.recentItemLeft}>
                         <IconClockHour8 size={22} color={'#9ba6b1'} />
                         <p>{query}</p>
