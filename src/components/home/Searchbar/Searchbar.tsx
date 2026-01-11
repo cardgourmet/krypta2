@@ -18,11 +18,22 @@ import styles from './Searchbar.module.css';
 export default function Searchbar() {
   const [isOpened, setIsOpened] = useState(false);
   const [focusableElements, setFocusableElements] = useState<Array<HTMLElement | null>>([]);
-  const [currentSuggestion, setCurrentSuggestion] = useState(0);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+
+  const recentQueries = [
+    'ink:amber and type:hero',
+    'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
+    'ability="Deep Freeze" and o:"chosen characters"',
+    'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
+    'ability="Deep Freeze" and o:"chosen characters"',
+  ];
+  const suggestions = [...recentQueries];
+  const [currentQuery, setCurrentQuery] = useState('');
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const deleteSearchButtonRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -64,10 +75,10 @@ export default function Searchbar() {
         if (suggestions.length === 0) return;
         const arrowUp = event.key === 'ArrowUp';
 
-        let newIndex = arrowUp ? currentSuggestion - 1 : currentSuggestion + 1;
+        let newIndex = arrowUp ? suggestionIndex - 1 : suggestionIndex + 1;
         if (newIndex < 0) newIndex = suggestions.length - 1;
         if (newIndex >= suggestions.length) newIndex = 0;
-        setCurrentSuggestion(newIndex);
+        setSuggestionIndex(newIndex);
 
         return event.preventDefault();
       }
@@ -78,7 +89,40 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [focusableElements, isOpened, currentSuggestion]);
+  }, [focusableElements, isOpened, suggestionIndex]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: _
+  useEffect(() => {
+    if (!isOpened) return;
+
+    let currentSugg = '';
+    if (suggestionIndex > 0) {
+      currentSugg = suggestions[suggestionIndex - 1];
+    }
+    setCurrentQuery(currentSugg);
+
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+
+      const length = currentSugg.length;
+      searchInputRef.current.setSelectionRange(length, length);
+
+      // hacky, I'm so sorry (LG zurück)
+      const timeoutId = setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.scrollLeft = searchInputRef.current.scrollWidth;
+        }
+      }, 10);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [suggestionIndex, isOpened]);
+
+  useEffect(() => {
+    if (currentQuery.length > 0) {
+      // TODO: start with normal suggestions, dont show recent anymore
+    }
+  }, [currentQuery]);
 
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
@@ -92,17 +136,29 @@ export default function Searchbar() {
     <>
       <div className={`${styles.searchOverlay} ${!isOpened ? styles.hidden : ''}`} />
       <div className={styles.searchbar} ref={mergedSearchRef}>
-        <IconSearch size={20} color={'#9ba6b1'} className={styles.searchIcon} />
+        <IconSearch size={18} color={'#9ba6b1'} className={styles.searchIcon} />
         <input
           type="text"
           ref={searchInputRef}
-          onFocus={() => {
-            setIsOpened(true);
-          }}
-          onClick={() => {
-            setIsOpened(true);
+          value={currentQuery}
+          onFocus={() => setIsOpened(true)}
+          onClick={() => setIsOpened(true)}
+          onChange={(event) => {
+            setCurrentQuery(event.target.value);
           }}
         />
+        <button
+          className={`${styles.deleteSearchIcon} ${currentQuery.length === 0 ? styles.hidden : ''}`}
+          type={'button'}
+          ref={deleteSearchButtonRef}
+          onClick={() => {
+            setCurrentQuery('');
+            searchInputRef.current?.focus();
+          }}
+        >
+          <IconX size={16} color={'#9ba6b1'} />
+        </button>
+
         <button type="button">
           <IconQuestionMark size={18} color={'#9ba6b1'} />
         </button>
@@ -119,18 +175,12 @@ export default function Searchbar() {
             <div className={styles.recent}>
               <p>ZULETZT</p>
               <ul>
-                {[
-                  'ink:amber and type:hero',
-                  'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
-                  'ability="Deep Freeze" and o:"chosen characters"',
-                  'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
-                  'ability="Deep Freeze" and o:"chosen characters"',
-                ].map((query, index) => (
+                {recentQueries.map((query, index) => (
                   <li key={index}>
                     <button
                       type="button"
                       tabIndex={0}
-                      className={index + 1 === currentSuggestion ? styles.suggestionHighlighted : ''}
+                      className={index + 1 === suggestionIndex ? styles.suggestionHighlighted : ''}
                     >
                       <div className={styles.recentItemLeft}>
                         <IconClockHour8 size={22} color={'#9ba6b1'} />
