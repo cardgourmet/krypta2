@@ -2,6 +2,7 @@ import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import {
   IconArrowBack,
   IconArrowDown,
+  IconArrowNarrowRight,
   IconArrowUp,
   IconChevronDown,
   IconClockHour8,
@@ -10,6 +11,7 @@ import {
   IconStar,
   IconX,
 } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { getFocusableElements } from '@/components/home/Searchbar/getFocusableElements.ts';
 import { DLCIcon } from '@/helpers/icons/games/dlc/Icon.tsx';
@@ -20,6 +22,10 @@ export default function Searchbar() {
   const [focusableElements, setFocusableElements] = useState<Array<HTMLElement | null>>([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
 
+  // while the user is typing themselves we want to show
+  // auto completions instead
+  const [isCaptainOfTheShip, setIsCaptainOfTheShip] = useState(false);
+
   const recentQueries = [
     'ink:amber and type:hero',
     'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
@@ -28,7 +34,10 @@ export default function Searchbar() {
     'ability="Deep Freeze" and o:"chosen characters"',
   ];
   const suggestions = [...recentQueries];
-  const [currentQuery, setCurrentQuery] = useState('');
+  const [currentQuery, setCurrentQuery] = useState<{
+    query: string;
+    isByUser?: boolean;
+  }>({ query: '' });
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
@@ -93,13 +102,13 @@ export default function Searchbar() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
-    if (!isOpened) return;
+    if (!isOpened || isCaptainOfTheShip) return;
 
     let currentSugg = '';
     if (suggestionIndex > 0) {
       currentSugg = suggestions[suggestionIndex - 1];
     }
-    setCurrentQuery(currentSugg);
+    setCurrentQuery({ query: currentSugg, isByUser: false });
 
     if (searchInputRef.current) {
       searchInputRef.current.focus();
@@ -116,13 +125,7 @@ export default function Searchbar() {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [suggestionIndex, isOpened]);
-
-  useEffect(() => {
-    if (currentQuery.length > 0) {
-      // TODO: start with normal suggestions, dont show recent anymore
-    }
-  }, [currentQuery]);
+  }, [suggestionIndex, isOpened, isCaptainOfTheShip]);
 
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
@@ -141,19 +144,27 @@ export default function Searchbar() {
         <input
           type="text"
           ref={searchInputRef}
-          value={currentQuery}
+          value={currentQuery.query}
           onFocus={() => setIsOpened(true)}
           onClick={() => setIsOpened(true)}
           onChange={(event) => {
-            setCurrentQuery(event.target.value);
+            const newQuery = event.target.value;
+            if (isCaptainOfTheShip && newQuery.length === 0) {
+              setIsCaptainOfTheShip(false);
+            } else if (!isCaptainOfTheShip && newQuery.length > 0) {
+              setIsCaptainOfTheShip(true);
+              setSuggestionIndex(0);
+            }
+
+            setCurrentQuery({ query: event.target.value, isByUser: true });
           }}
         />
         <button
-          className={`${styles.deleteSearchIcon} ${currentQuery.length === 0 ? styles.hidden : ''}`}
+          className={`${styles.deleteSearchIcon} ${currentQuery.query.length === 0 ? styles.hidden : ''}`}
           type={'button'}
           ref={deleteSearchButtonRef}
           onClick={() => {
-            setCurrentQuery('');
+            setCurrentQuery({ query: '', isByUser: false });
             searchInputRef.current?.focus();
           }}
         >
@@ -173,7 +184,12 @@ export default function Searchbar() {
                 <IconChevronDown size={18} color={'#9ba6b1'} />
               </button>
             </div>
-            <div className={styles.recent}>
+
+            <div className={styles.typingInfo}>
+              <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
+            </div>
+
+            <div className={`${styles.recent} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
               <p>ZULETZT</p>
               <ul>
                 {recentQueries.map((query, index) => (
@@ -195,6 +211,12 @@ export default function Searchbar() {
                   </li>
                 ))}
               </ul>
+              <div className={styles.moreRecents}>
+                <Link to={'/'}>
+                  Zur gesamten Chronik
+                  <IconArrowNarrowRight size={20} />
+                </Link>
+              </div>
             </div>
           </div>
 

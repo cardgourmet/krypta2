@@ -84,7 +84,6 @@
 
   padding: var(--shift-top) 0 0 0;
 
-  min-height: 18rem;
   border-radius: 1rem;
   border: 1px solid #2d353c;
   background-color: #161a1d;
@@ -116,7 +115,21 @@
     }
   }
 
+  .typingInfo {
+    p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+      color: #8c9bab;
+    }
+  }
+
   .recent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
     ul {
       display: flex;
       flex-direction: column;
@@ -153,7 +166,7 @@
     }
 
     & > p {
-      margin: 1rem 0;
+      margin: 1rem 0 0 0;
 
       font-size: 0.8rem;
       font-weight: 600;
@@ -190,6 +203,38 @@
       display: flex;
       align-items: center;
       gap: 0.2rem;
+    }
+
+    .moreRecents {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+
+      a {
+        padding: 0.5rem;
+        height: 2rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.25rem;
+
+        font-family: var(--cgm-ui-font-family), sans-serif;
+        text-decoration: none;
+        color: var(--cgm-sidebar-button-bg);
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: none;
+
+        &:hover {
+          background-color: #293037;
+        }
+      }
+
+      svg {
+        color: var(--cgm-sidebar-button-bg);
+      }
     }
   }
 }
@@ -248,5 +293,6 @@
 }
 
 .hidden {
-  display: none;
+  /* biome-ignore lint/complexity/noImportantStyles: _ */
+  display: none !important;
 }
