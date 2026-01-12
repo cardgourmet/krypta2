@@ -1,12 +1,12 @@
 import { IconCheck } from '@tabler/icons-react';
-import { type JSX, useEffect, useRef, useState } from 'react';
+import { type ReactElement, useEffect, useRef, useState } from 'react';
 import { useWindowSize } from '@/hooks/useWindowSize.ts';
 import styles from './IconDropdown.module.css';
 
 type IconDropdownProps = {
   items: Record<string, string>;
   dynamicIcons?: boolean;
-  icons: Record<string, JSX.Element>;
+  icons: Record<string, ReactElement>;
   defaultSelected?: string;
   onSelect?: (selected: string) => void;
 };

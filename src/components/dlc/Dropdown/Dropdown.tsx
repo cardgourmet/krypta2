@@ -1,16 +1,21 @@
 import { IconCheck, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
-import { useWindowSize } from '../../../hooks/useWindowSize.ts';
+import { type CSSProperties, type ReactElement, useEffect, useRef, useState } from 'react';
+import { useWindowSize } from '@/hooks/useWindowSize.ts';
 import styles from './Dropdown.module.css';
 
-interface DropdownProps {
+interface DropdownProps<T extends Record<string, string>> {
   buttonText?: string;
-  items: Record<string, string>;
-  defaultSelected?: string;
-  onSelect?: (selected: string) => void;
+  items: T;
+  defaultSelected?: keyof T;
+  onSelect?: (selected: keyof T) => void;
+
+  renderButtonContent?: (selected: keyof T | null) => ReactElement;
+  renderItem?: (selected: keyof T | null) => ReactElement;
+
+  styles?: CSSProperties;
 }
 
-export default function Dropdown(props: DropdownProps) {
+export default function Dropdown<T extends Record<string, string>>(props: DropdownProps<T>) {
   const [open, setOpen] = useState(false);
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -23,7 +28,7 @@ export default function Dropdown(props: DropdownProps) {
     return !isVisible;
   };
 
-  const [selected, setSelected] = useState<string | null>(props.defaultSelected || null);
+  const [selected, setSelected] = useState<keyof T | null>(props.defaultSelected || null);
 
   const toggle = () => {
     const newOpen = !open;
@@ -84,13 +89,22 @@ export default function Dropdown(props: DropdownProps) {
 
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
-      <button type="button" ref={buttonRef} className={styles.dropdownButton} onClick={() => toggle()}>
-        <div>
-          <p>{selected ? props.items[selected] : '?'}</p>
+      <button
+        type="button"
+        ref={buttonRef}
+        className={styles.dropdownButton}
+        style={props.styles}
+        onClick={() => toggle()}
+      >
+        {props.renderButtonContent && <>{props.renderButtonContent(selected)}</>}
+        {!props.renderButtonContent && (
+          <div>
+            <p>{selected ? props.items[selected] : '?'}</p>
 
-          {open && <IconChevronUp size={15} />}
-          {!open && <IconChevronDown size={15} />}
-        </div>
+            {open && <IconChevronUp size={15} />}
+            {!open && <IconChevronDown size={15} />}
+          </div>
+        )}
       </button>
       <div className={styles.dropdownContent} ref={contentRef}>
         {Object.entries(props.items).map(([key, label]) => (
@@ -107,6 +121,7 @@ export default function Dropdown(props: DropdownProps) {
           >
             <p style={selected === key ? { color: 'white' } : {}}>{label}</p>
             {selected === key && <IconCheck color={'white'} size={18} />}
+            {selected !== key && <IconCheck color={'white'} size={18} style={{ visibility: 'hidden' }} />}
           </div>
         ))}
       </div>

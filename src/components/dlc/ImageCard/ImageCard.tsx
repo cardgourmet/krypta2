@@ -42,7 +42,7 @@ export default function ImageCard(props: ImageCardProps) {
             onClick={() => {
               const newFlipped = !flipped;
 
-              flipRef.current?.setAttribute('flipped', newFlipped + '');
+              flipRef.current?.setAttribute('flipped', `${newFlipped}`);
               setFlipped(newFlipped);
             }}
           >
@@ -75,7 +75,7 @@ export default function ImageCard(props: ImageCardProps) {
               src={props.thumbnailUrl}
               loading={'lazy'}
               onError={(error) => {
-                console.log('Could not load image because: ' + error);
+                console.log(`Could not load image because: ${error}`);
 
                 if (!imageRef.current) return;
                 imageRef.current.src = props.backupImageUrl;
@@ -92,7 +92,7 @@ export default function ImageCard(props: ImageCardProps) {
                 alt={props.name}
                 src={props.backfaceThumbnailUrl}
                 onError={(error) => {
-                  console.log('Could not load backface image because: ' + error);
+                  console.log(`Could not load backface image because: ${error}`);
 
                   if (!backfaceImageRef.current) return;
                   backfaceImageRef.current.src = props.backupImageUrl;

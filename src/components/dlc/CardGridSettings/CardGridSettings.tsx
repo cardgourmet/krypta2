@@ -2,7 +2,6 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconAdjustmentsHorizontal, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import {
-  type CardAmount,
   type CardDisplayMode,
   cardAmountElements,
   cardDisplayModeElements,
@@ -70,7 +69,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 <p>Sortieren nach</p>
                 <Dropdown
                   items={sortByElements}
-                  defaultSelected={settings.sortBy as string}
+                  defaultSelected={settings.sortBy}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, sortBy: selected as DlcCardSortBy };
@@ -79,7 +78,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 />
                 <Dropdown
                   items={sortDirectionElements}
-                  defaultSelected={settings.sortDirection as string}
+                  defaultSelected={settings.sortDirection}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, sortDirection: selected as SortDirection };
@@ -91,10 +90,10 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 <p>Zeige</p>
                 <Dropdown
                   items={cardAmountElements}
-                  defaultSelected={`${settings.pageSize}`}
-                  onSelect={(selected: string) => {
+                  defaultSelected={settings.pageSize}
+                  onSelect={(selected) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, pageSize: Number(selected) as CardAmount };
+                      return { ...prev, pageSize: selected };
                     });
                   }}
                 />
@@ -103,7 +102,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 <p>Als</p>
                 <Dropdown
                   items={cardDisplayModeElements}
-                  defaultSelected={settings.cardDisplayMode as string}
+                  defaultSelected={settings.cardDisplayMode}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, cardDisplayMode: selected as CardDisplayMode };
@@ -125,7 +124,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             <p>Sortieren nach</p>
             <Dropdown
               items={sortByElements}
-              defaultSelected={settings.sortBy as string}
+              defaultSelected={settings.sortBy}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, sortBy: selected as DlcCardSortBy };
@@ -134,7 +133,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             />
             <Dropdown
               items={sortDirectionElements}
-              defaultSelected={settings.sortDirection as string}
+              defaultSelected={settings.sortDirection}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, sortDirection: selected as SortDirection };
@@ -146,17 +145,17 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             <p>Zeige</p>
             <Dropdown
               items={cardAmountElements}
-              defaultSelected={`${settings.pageSize}`}
-              onSelect={(selected: string) => {
+              defaultSelected={settings.pageSize}
+              onSelect={(selected) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, pageSize: Number(selected) as CardAmount };
+                  return { ...prev, pageSize: selected };
                 });
               }}
             />
             <p>Als</p>
             <Dropdown
               items={cardDisplayModeElements}
-              defaultSelected={settings.cardDisplayMode as string}
+              defaultSelected={settings.cardDisplayMode}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, cardDisplayMode: selected as CardDisplayMode };

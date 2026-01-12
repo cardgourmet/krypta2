@@ -1,0 +1,52 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  .controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+
+    background-color: #1c2b41;
+    border-top: 1px solid #09326c;
+    padding: 0.75rem;
+    border-radius: 0 0 1rem 1rem;
+
+    p {
+      margin: 0;
+      font-weight: 600;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 3px;
+
+      border-radius: 0.2rem;
+      max-height: 1.5rem;
+      min-height: 1.5rem;
+      min-width: 1.5rem;
+
+      background-color: #2c333a;
+      border: 1px solid #596773;
+      border-bottom-width: 2px;
+    }
+
+    & > div:last-child {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    & > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}

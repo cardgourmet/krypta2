@@ -36,18 +36,18 @@ export const sortDirectionDefault: SortDirection = 'auto';
 
 // =========================================================================
 
-export type CardAmount = 60 | 48 | 36 | 24 | 12;
-export function isCardAmount(d: number): d is CardAmount {
-  return d === 60 || d === 48 || d === 36 || d === 24 || d === 12;
+export type CardAmount = '60' | '48' | '36' | '24' | '12';
+export function isCardAmount(d: string): d is CardAmount {
+  return d === '60' || d === '48' || d === '36' || d === '24' || d === '12';
 }
 export const cardAmountElements: Record<CardAmount, string> = {
-  60: '60 Karten',
-  48: '48 Karten',
-  36: '36 Karten',
-  24: '24 Karten',
-  12: '12 Karten',
+  '60': '60 Karten',
+  '48': '48 Karten',
+  '36': '36 Karten',
+  '24': '24 Karten',
+  '12': '12 Karten',
 };
-export const cardAmountDefault: CardAmount = 60;
+export const cardAmountDefault: CardAmount = '60';
 
 // =========================================================================
 

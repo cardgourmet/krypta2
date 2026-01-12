@@ -66,7 +66,7 @@ function CardsOverview() {
   useEffect(() => {
     const query: DlcCardQuery = {
       page: settings.page,
-      pageSize: settings.pageSize,
+      pageSize: Number(settings.pageSize),
       sortBy: settings.sortBy,
     };
     if (settings.sortDirection !== 'auto') {
@@ -174,8 +174,8 @@ function CardsOverview() {
           )}
           {!loading && (
             <p>
-              {calculateCardRange(dataCurrentPage, settings.pageSize).from}–
-              {calculateCardRange(dataCurrentPage, settings.pageSize).to} von {cards?.data.details?.explanation}
+              {calculateCardRange(dataCurrentPage, Number(settings.pageSize)).from}–
+              {calculateCardRange(dataCurrentPage, Number(settings.pageSize)).to} von {cards?.data.details?.explanation}
             </p>
           )}
         </div>

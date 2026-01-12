@@ -1,20 +1,13 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
-import {
-  IconArrowBack,
-  IconArrowDown,
-  IconArrowNarrowRight,
-  IconArrowUp,
-  IconChevronDown,
-  IconClockHour8,
-  IconQuestionMark,
-  IconSearch,
-  IconStar,
-  IconX,
-} from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { IconChevronDown, IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
+import Dropdown from '@/components/dlc/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/components/home/Searchbar/getFocusableElements.ts';
+import SearchFooter from '@/components/home/Searchbar/SearchFooter.tsx';
+import SearchRecent from '@/components/home/Searchbar/SearchRecent.tsx';
 import { DLCIcon } from '@/helpers/icons/games/dlc/Icon.tsx';
+import { MTGIcon } from '@/helpers/icons/games/mtg/Icon.tsx';
+import { PCGIcon } from '@/helpers/icons/games/pcg/Icon.tsx';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
@@ -178,71 +171,49 @@ export default function Searchbar() {
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
             <div className={styles.gameSelector}>
-              <button type="button">
-                <DLCIcon width={20} height={20} color={'#9ba6b1'} />
-                <p>DISNEY LORCANA</p>
-                <IconChevronDown size={18} color={'#9ba6b1'} />
-              </button>
+              <Dropdown
+                items={{
+                  dlc: 'Disney Lorcana',
+                  mtg: 'Magic: The Gathering',
+                  pcg: 'Pokémon Card Game',
+                }}
+                defaultSelected={'dlc'}
+                renderButtonContent={(selected) => (
+                  <>
+                    {selected === 'dlc' && (
+                      <>
+                        <DLCIcon width={20} height={20} color={'#9ba6b1'} />
+                        <p className={styles.gameSelectorP}>DISNEY LORCANA</p>
+                      </>
+                    )}
+                    {selected === 'mtg' && (
+                      <>
+                        <MTGIcon width={20} height={20} color={'#9ba6b1'} />
+                        <p className={styles.gameSelectorP}>MAGIC: THE GATHERING</p>
+                      </>
+                    )}
+                    {selected === 'pcg' && (
+                      <>
+                        <PCGIcon width={20} height={20} color={'#9ba6b1'} />
+                        <p className={styles.gameSelectorP}>POKÉMON CARD GAME</p>
+                      </>
+                    )}
+                    <IconChevronDown size={18} color={'#9ba6b1'} />
+                  </>
+                )}
+              />
             </div>
 
             <div className={styles.typingInfo}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
-            <div className={`${styles.recent} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
-              <p>ZULETZT</p>
-              <ul>
-                {recentQueries.map((query, index) => (
-                  <li key={index}>
-                    <button
-                      type="button"
-                      tabIndex={0}
-                      className={index + 1 === suggestionIndex ? styles.suggestionHighlighted : ''}
-                    >
-                      <div className={styles.recentItemLeft}>
-                        <IconClockHour8 size={22} color={'#9ba6b1'} />
-                        <p>{query}</p>
-                      </div>
-                      <div className={styles.recentItemRight}>
-                        <IconStar size={16} color={'#9ba6b1'} />
-                        <IconX size={16} color={'#9ba6b1'} />
-                      </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <div className={styles.moreRecents}>
-                <Link to={'/'}>
-                  Zur gesamten Chronik
-                  <IconArrowNarrowRight size={20} />
-                </Link>
-              </div>
+            <div className={`${isCaptainOfTheShip ? styles.hidden : ''}`}>
+              <SearchRecent suggestionIndex={suggestionIndex} recentQueries={recentQueries} />
             </div>
           </div>
 
-          <div className={styles.footer}>
-            <div className={styles.controls}>
-              <div>
-                <p>Navigieren</p>
-                <kbd>
-                  <IconArrowUp size={18} color={'#9ba6b1'} />
-                </kbd>
-                <kbd>
-                  <IconArrowDown size={18} color={'#9ba6b1'} />
-                </kbd>
-              </div>
-              <div>
-                <p>Suche starten</p>
-                <kbd>
-                  <IconArrowBack size={18} color={'#9ba6b1'} />
-                </kbd>
-              </div>
-              <div>
-                <p>Schließen</p>
-                <kbd>esc</kbd>
-              </div>
-            </div>
-          </div>
+          <SearchFooter />
         </div>
       </div>
     </>
