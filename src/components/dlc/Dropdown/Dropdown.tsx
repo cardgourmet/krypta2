@@ -12,7 +12,8 @@ interface DropdownProps<T extends Record<string, string>> {
   renderButtonContent?: (selected: keyof T | null) => ReactElement;
   renderItem?: (selected: keyof T | null) => ReactElement;
 
-  styles?: CSSProperties;
+  className?: string;
+  style?: CSSProperties;
 }
 
 export default function Dropdown<T extends Record<string, string>>(props: DropdownProps<T>) {
@@ -92,8 +93,8 @@ export default function Dropdown<T extends Record<string, string>>(props: Dropdo
       <button
         type="button"
         ref={buttonRef}
-        className={styles.dropdownButton}
-        style={props.styles}
+        className={`${styles.dropdownButton} ${props.className}`}
+        style={props.style}
         onClick={() => toggle()}
       >
         {props.renderButtonContent && <>{props.renderButtonContent(selected)}</>}
