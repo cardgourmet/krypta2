@@ -94,6 +94,7 @@
   margin: 0 var(--padding);
 
   .gameSelector {
+    display: flex;
     padding: 0;
     margin: 0.25rem 0 0.5rem 0.5rem;
 
@@ -113,7 +114,7 @@
     }
   }
 
-  .gameSelectorP {
+  .gameSelectorLabel {
     margin: 0;
 
     font-family: var(--cgm-ui-font-family), sans-serif;

@@ -66,6 +66,9 @@ export default function Searchbar() {
         if (!isOpened && document.activeElement === searchInputRef.current) {
           setIsOpened(true);
         }
+        if (isOpened && document.activeElement === searchInputRef.current) {
+          // TODO: navigate with new query to current page (let filter stay the same)
+        }
       }
 
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
@@ -183,19 +186,19 @@ export default function Searchbar() {
                     {selected === 'dlc' && (
                       <>
                         <DLCIcon width={20} height={20} color={'#9ba6b1'} />
-                        <p className={styles.gameSelectorP}>DISNEY LORCANA</p>
+                        <p className={styles.gameSelectorLabel}>DISNEY LORCANA</p>
                       </>
                     )}
                     {selected === 'mtg' && (
                       <>
                         <MTGIcon width={20} height={20} color={'#9ba6b1'} />
-                        <p className={styles.gameSelectorP}>MAGIC: THE GATHERING</p>
+                        <p className={styles.gameSelectorLabel}>MAGIC: THE GATHERING</p>
                       </>
                     )}
                     {selected === 'pcg' && (
                       <>
                         <PCGIcon width={20} height={20} color={'#9ba6b1'} />
-                        <p className={styles.gameSelectorP}>POKÉMON CARD GAME</p>
+                        <p className={styles.gameSelectorLabel}>POKÉMON CARD GAME</p>
                       </>
                     )}
                     <IconChevronDown size={18} color={'#9ba6b1'} />

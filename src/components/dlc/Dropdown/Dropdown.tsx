@@ -99,12 +99,12 @@ export default function Dropdown<T extends Record<string, string>>(props: Dropdo
       >
         {props.renderButtonContent && <>{props.renderButtonContent(selected)}</>}
         {!props.renderButtonContent && (
-          <div>
+          <>
             <p>{selected ? props.items[selected] : '?'}</p>
 
             {open && <IconChevronUp size={15} />}
             {!open && <IconChevronDown size={15} />}
-          </div>
+          </>
         )}
       </button>
       <div className={styles.dropdownContent} ref={contentRef}>

@@ -12,34 +12,35 @@
   border-radius: 8px;
   color: #f9f6ee;
   padding: 0 0.5rem 0 0.5rem;
+  gap: 0.5rem;
 
   font-size: 1rem;
   cursor: pointer;
-}
 
-.dropdownButton div {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  div {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
 
-  p {
-    margin: 0.5rem 0 0.5rem 0;
+    p {
+      margin: 0.5rem 0 0.5rem 0;
+    }
   }
-}
 
-.dropdownButton svg {
-  pointer-events: none;
-}
+  svg {
+    pointer-events: none;
+  }
 
-.dropdownButton:hover {
-  background-color: #2b3137;
-}
+  &:hover {
+    background-color: #2b3137;
+  }
 
-.dropdownButton[active="true"] {
-  background-color: #2b3137;
+  &[active="true"] {
+    background-color: #2b3137;
+  }
 }
 
 .dropdownContent {
