@@ -1,5 +1,6 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import { IconChevronDown, IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
+import { getRouteApi, useLocation, useNavigate } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import Dropdown from '@/components/dlc/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/components/home/Searchbar/getFocusableElements.ts';
@@ -14,7 +15,6 @@ export default function Searchbar() {
   const [isOpened, setIsOpened] = useState(false);
   const [focusableElements, setFocusableElements] = useState<Array<HTMLElement | null>>([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
-
   // while the user is typing themselves we want to show
   // auto completions instead
   const [isCaptainOfTheShip, setIsCaptainOfTheShip] = useState(false);
@@ -31,6 +31,27 @@ export default function Searchbar() {
     query: string;
     isByUser?: boolean;
   }>({ query: '' });
+
+  // TODO: put that in separate hook
+  const location = useLocation();
+  const [_, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>('dlc');
+  const navigate = useNavigate();
+
+  const dlcRouteApi = getRouteApi('/dlc/cards/');
+  const dlcSearch = dlcRouteApi.useSearch();
+
+  useEffect(() => {
+    // only support dlc for now
+    if (!location.pathname.startsWith('/dlc/cards')) return;
+
+    const searchParamsQuery = dlcSearch.query ?? '';
+    if (searchParamsQuery.length === 0) return;
+
+    // user inputted search query already present
+    setIsCaptainOfTheShip(true);
+    setCurrentQuery({ query: dlcSearch.query ?? '', isByUser: true });
+  }, [location, dlcSearch.query]);
+  // TODO: put that in separate hook
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +88,16 @@ export default function Searchbar() {
           setIsOpened(true);
         }
         if (isOpened && document.activeElement === searchInputRef.current) {
-          // TODO: navigate with new query to current page (let filter stay the same)
+          searchInputRef.current?.blur();
+          setIsOpened(false);
+
+          // noinspection JSIgnoredPromiseFromCall
+          navigate({
+            to: '/dlc/cards',
+            search: (prev) => {
+              return { ...prev, query: currentQuery.query };
+            },
+          });
         }
       }
 
@@ -94,7 +124,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [focusableElements, isOpened, suggestionIndex]);
+  }, [focusableElements, isOpened, suggestionIndex, currentQuery, navigate]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
@@ -160,6 +190,7 @@ export default function Searchbar() {
           type={'button'}
           ref={deleteSearchButtonRef}
           onClick={() => {
+            setIsCaptainOfTheShip(false);
             setCurrentQuery({ query: '', isByUser: false });
             searchInputRef.current?.focus();
           }}
@@ -204,10 +235,13 @@ export default function Searchbar() {
                     <IconChevronDown size={18} color={'#9ba6b1'} />
                   </>
                 )}
+                onSelect={(selected) => {
+                  setCurrentTcg(selected);
+                }}
               />
             </div>
 
-            <div className={styles.typingInfo}>
+            <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 

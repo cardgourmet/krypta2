@@ -30,7 +30,7 @@ export const validateSearchParams = (search: Record<string, unknown>): DlcCardOv
     requireSortDirection = undefined;
   }
 
-  let requireCardAmount = search?.pageSize ? Number(search?.pageSize) : undefined;
+  let requireCardAmount = search?.pageSize as string | undefined;
   if (requireCardAmount && !isCardAmount(requireCardAmount)) {
     requireCardAmount = undefined;
   }
@@ -41,6 +41,7 @@ export const validateSearchParams = (search: Record<string, unknown>): DlcCardOv
   }
 
   return {
+    query: search?.query as string | undefined,
     page: requirePage,
     sortBy: requireSortBy as DlcCardSortBy,
     sortDirection: requireSortDirection as SortDirection,
@@ -49,7 +50,7 @@ export const validateSearchParams = (search: Record<string, unknown>): DlcCardOv
   };
 };
 
-export const compareSearchParams: (
+const compareSearchParams: (
   oldParams: DlcCardOverviewSearchParams,
   newParams: DlcCardOverviewSearchParams,
 ) => (keyof DlcCardOverviewSearchParams)[] = (oldParams, newParams) => {
@@ -73,9 +74,12 @@ export const compareSearchParams: (
   return changes;
 };
 
-export function removeDefaults(params: DlcCardOverviewSearchParams) {
+function removeDefaults(params: DlcCardOverviewSearchParams) {
   const newParams = { ...params };
 
+  if (newParams.query === '') {
+    delete newParams.query;
+  }
   if (newParams.page === 1) {
     delete newParams.page;
   }
@@ -93,3 +97,17 @@ export function removeDefaults(params: DlcCardOverviewSearchParams) {
   }
   return newParams;
 }
+
+export type ApplyFn<T> = (prev: T) => T;
+
+export const applyAndCleanup = (
+  apply: ApplyFn<DlcCardOverviewSearchParams>,
+  searchParams: DlcCardOverviewSearchParams,
+): DlcCardOverviewSearchParams | null => {
+  let newParams = apply(searchParams);
+  const changes = compareSearchParams(searchParams, newParams);
+  if (changes.length === 0) return null;
+  newParams = removeDefaults(newParams);
+
+  return newParams;
+};

@@ -5,8 +5,9 @@ import {
   type CardDisplayMode,
   cardAmountElements,
   cardDisplayModeElements,
+  type DlcCardOverviewDisplaySettings,
+  type DlcCardOverviewQuerySettings,
   type DlcCardOverviewSearchParams,
-  type DlcCardOverviewSettings,
   type DlcCardSortBy,
   type SortDirection,
   sortByElements,
@@ -16,11 +17,12 @@ import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardGridSettings.module.css';
 
 type CardGridSettingsProps = {
-  settings: DlcCardOverviewSettings;
+  querySettings: DlcCardOverviewQuerySettings;
+  displaySettings: DlcCardOverviewDisplaySettings;
   setSettings: (update: (params: DlcCardOverviewSearchParams) => DlcCardOverviewSearchParams) => void;
 };
 
-export default function CardGridSettings({ settings, setSettings }: CardGridSettingsProps) {
+export default function CardGridSettings({ querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -69,7 +71,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 <p>Sortieren nach</p>
                 <Dropdown
                   items={sortByElements}
-                  defaultSelected={settings.sortBy}
+                  defaultSelected={querySettings.sortBy}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, sortBy: selected as DlcCardSortBy };
@@ -78,7 +80,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 />
                 <Dropdown
                   items={sortDirectionElements}
-                  defaultSelected={settings.sortDirection}
+                  defaultSelected={querySettings.sortDirection}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, sortDirection: selected as SortDirection };
@@ -90,7 +92,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 <p>Zeige</p>
                 <Dropdown
                   items={cardAmountElements}
-                  defaultSelected={settings.pageSize}
+                  defaultSelected={querySettings.pageSize}
                   onSelect={(selected) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, pageSize: selected };
@@ -102,7 +104,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
                 <p>Als</p>
                 <Dropdown
                   items={cardDisplayModeElements}
-                  defaultSelected={settings.cardDisplayMode}
+                  defaultSelected={displaySettings.cardDisplayMode}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
                       return { ...prev, cardDisplayMode: selected as CardDisplayMode };
@@ -124,7 +126,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             <p>Sortieren nach</p>
             <Dropdown
               items={sortByElements}
-              defaultSelected={settings.sortBy}
+              defaultSelected={querySettings.sortBy}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, sortBy: selected as DlcCardSortBy };
@@ -133,7 +135,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             />
             <Dropdown
               items={sortDirectionElements}
-              defaultSelected={settings.sortDirection}
+              defaultSelected={querySettings.sortDirection}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, sortDirection: selected as SortDirection };
@@ -145,7 +147,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             <p>Zeige</p>
             <Dropdown
               items={cardAmountElements}
-              defaultSelected={settings.pageSize}
+              defaultSelected={querySettings.pageSize}
               onSelect={(selected) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, pageSize: selected };
@@ -155,7 +157,7 @@ export default function CardGridSettings({ settings, setSettings }: CardGridSett
             <p>Als</p>
             <Dropdown
               items={cardDisplayModeElements}
-              defaultSelected={settings.cardDisplayMode}
+              defaultSelected={displaySettings.cardDisplayMode}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
                   return { ...prev, cardDisplayMode: selected as CardDisplayMode };

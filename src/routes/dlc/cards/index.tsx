@@ -11,11 +11,13 @@ import CardGridSettings from '@/components/dlc/CardGridSettings/CardGridSettings
 import ImageCard from '@/components/dlc/ImageCard/ImageCard.tsx';
 import Pagination from '@/components/dlc/Pagination/Pagination.tsx';
 import { calculateCardRange } from '@/helpers/dlc/calculateCardRange.ts';
-import { compareSearchParams, removeDefaults, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
+import { type ApplyFn, applyAndCleanup, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
 import {
   cardAmountDefault,
   cardDisplayModeDefault,
-  type DlcCardOverviewSettings,
+  type DlcCardOverviewDisplaySettings,
+  type DlcCardOverviewQuerySettings,
+  type DlcCardOverviewSearchParams,
   type DlcCardQuery,
   sortByDefault,
   sortDirectionDefault,
@@ -42,12 +44,17 @@ const backupImageUrl =
 
 function CardsOverview() {
   const searchParams = Route.useSearch();
-  const settings: DlcCardOverviewSettings = useMemo(() => {
+  const querySettings: DlcCardOverviewQuerySettings = useMemo(() => {
     return {
+      query: searchParams.query ?? '',
       page: searchParams.page ?? 1,
       pageSize: searchParams.pageSize ?? cardAmountDefault,
       sortBy: searchParams.sortBy ?? sortByDefault,
       sortDirection: searchParams.sortDirection ?? sortDirectionDefault,
+    };
+  }, [searchParams]);
+  const displaySettings: DlcCardOverviewDisplaySettings = useMemo(() => {
+    return {
       cardDisplayMode: searchParams.cardDisplayMode ?? cardDisplayModeDefault,
     };
   }, [searchParams]);
@@ -59,19 +66,33 @@ function CardsOverview() {
   >(null);
   const [loading, setLoading] = useState(true);
   const dataCurrentPage = cards?.data?.currentPage;
-  const dataLastPage = cards?.data?.pageCount || 0;
+  const dataLastPage = cards?.data?.pageCount;
 
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
+  const setSettingsFn = (apply: ApplyFn<DlcCardOverviewSearchParams>) => {
+    const newParams = applyAndCleanup(apply, searchParams);
+    if (newParams === null) return;
+
+    // noinspection JSIgnoredPromiseFromCall
+    navigate({
+      search: () => ({ ...newParams }),
+      replace: true,
+    });
+  };
+
   useEffect(() => {
     const query: DlcCardQuery = {
-      page: settings.page,
-      pageSize: Number(settings.pageSize),
-      sortBy: settings.sortBy,
+      query: querySettings.query,
+      page: querySettings.page,
+      pageSize: Number(querySettings.pageSize),
+      sortBy: querySettings.sortBy,
     };
-    if (settings.sortDirection !== 'auto') {
-      query.sortDirection = settings.sortDirection;
+    if (querySettings.sortDirection !== 'auto') {
+      query.sortDirection = querySettings.sortDirection;
     }
+
+    setLoading(true);
 
     const controller = new AbortController();
     client
@@ -86,6 +107,7 @@ function CardsOverview() {
           return;
         }
 
+        // res.data.data.details.
         setCards(res.data);
         setLoading(false);
       })
@@ -100,7 +122,13 @@ function CardsOverview() {
     return () => {
       controller.abort();
     };
-  }, [settings]);
+  }, [
+    querySettings.query,
+    querySettings.page,
+    querySettings.pageSize,
+    querySettings.sortBy,
+    querySettings.sortDirection,
+  ]);
 
   return (
     <div ref={scrollBackRef}>
@@ -115,56 +143,10 @@ function CardsOverview() {
           <p>Kartendatenbank</p>
         </div>
         <div className={styles.contentNav}>
-          {dataCurrentPage && (
-            <Pagination
-              lastPage={dataLastPage}
-              settings={settings}
-              setSettings={(updateSettings) => {
-                let newParams = updateSettings(searchParams);
-                if (newParams.page === dataCurrentPage) return;
-                newParams = removeDefaults(newParams);
-
-                setLoading(true);
-                window.scrollTo({
-                  top: 0,
-                  left: 0,
-                  behavior: 'smooth',
-                });
-
-                // noinspection JSIgnoredPromiseFromCall
-                navigate({
-                  search: () => {
-                    return { ...newParams };
-                  },
-                  replace: true,
-                });
-              }}
-            />
-          )}
+          <Pagination lastPage={dataLastPage} settings={querySettings} setSettings={setSettingsFn} />
         </div>
 
-        <CardGridSettings
-          settings={settings}
-          setSettings={(setNewParams) => {
-            let newParams = setNewParams(searchParams);
-            const changes = compareSearchParams(searchParams, newParams);
-            if (changes.length === 0) return;
-            newParams = removeDefaults(newParams);
-
-            // only change it if it's not just the display mode
-            if (!(changes.length === 1 && changes.includes('cardDisplayMode'))) {
-              delete newParams.page;
-            }
-
-            setLoading(true);
-
-            // noinspection JSIgnoredPromiseFromCall
-            navigate({
-              search: () => ({ ...newParams }),
-              replace: true,
-            });
-          }}
-        />
+        <CardGridSettings querySettings={querySettings} displaySettings={displaySettings} setSettings={setSettingsFn} />
 
         <div className={styles.queryExplanation}>
           {loading && (
@@ -174,8 +156,9 @@ function CardsOverview() {
           )}
           {!loading && (
             <p>
-              {calculateCardRange(dataCurrentPage, Number(settings.pageSize)).from}–
-              {calculateCardRange(dataCurrentPage, Number(settings.pageSize)).to} von {cards?.data.details?.explanation}
+              {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).from}–
+              {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).to} von{' '}
+              {cards?.data.details?.explanation}
             </p>
           )}
         </div>
@@ -195,7 +178,7 @@ function CardsOverview() {
                 </div>
               ))}
           {!loading
-            && settings.cardDisplayMode === 'grid'
+            && displaySettings.cardDisplayMode === 'grid'
             && cards
             && cards.data.items.map((card) => (
               <ImageCard

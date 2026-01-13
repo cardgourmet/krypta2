@@ -64,13 +64,16 @@ export const cardDisplayModeDefault: CardDisplayMode = 'grid';
 // =========================================================================
 
 export type DlcCardOverviewSearchParams = {
+  query?: string;
   page?: number;
   pageSize?: CardAmount;
   sortBy?: DlcCardSortBy;
   sortDirection?: SortDirection;
   cardDisplayMode?: CardDisplayMode;
 };
-export type DlcCardOverviewSettings = Required<DlcCardOverviewSearchParams>;
+
+export type DlcCardOverviewQuerySettings = Required<Omit<DlcCardOverviewSearchParams, 'cardDisplayMode'>>;
+export type DlcCardOverviewDisplaySettings = Required<Pick<DlcCardOverviewSearchParams, 'cardDisplayMode'>>;
 
 export type DlcCardQuery = {
   mode?: string;
