@@ -1,81 +1,91 @@
 .mainContent {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto 0 auto;
-    padding: 1.5rem;
-    max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 0 auto;
+  padding: 1.5rem;
+  max-width: 1280px;
 
-    overflow: visible;
+  overflow: visible;
 }
 
 .breadcrumb > a {
-    display: flex;
+  display: flex;
 }
 
 .breadcrumb {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .breadcrumb p {
-    margin: 0;
-    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+  margin: 0;
+  font-family: var(--cgm-ui-font-family), ui-sans-serif;
 }
 
 .contentNav {
-    padding: 1rem 0 1rem 0;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: var(--navbar-height);
+  padding: 1rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: var(--navbar-height);
 
-    border: 0;
-    border-bottom: #2b3137 solid 2px;
+  border: 0;
+  border-bottom: #2b3137 solid 2px;
 
-    background-color: #161a1d;
-    z-index: var(--sticky-layer);
+  background-color: #161a1d;
+  z-index: var(--sticky-layer);
 }
 
 .queryExplanation {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    p {
-        margin: 1rem;
-        width: 24rem;
-        font-family: var(--cgm-ui-font-family), ui-sans-serif;
+  p {
+    margin: 1rem;
+    width: 50%;
+    font-size: 1.05rem;
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+
+    @media (max-width: 720px) {
+      width: 100%;
     }
+  }
+
+  code {
+    font-size: 1rem;
+    font-family: var(--cgm-monospace-font-family), ui-sans-serif;
+  }
 }
 
 .cardsOverview {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1rem;
-    column-gap: 0.5rem;
-    justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  column-gap: 0.5rem;
+  justify-content: center;
 }
 
 @media (max-width: 1110px) {
-    .cardsOverview {
-        grid-template-columns: repeat(5, 1fr);
-    }
+  .cardsOverview {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 @media (max-width: 930px) {
-    .cardsOverview {
-        grid-template-columns: repeat(4, 1fr);
-    }
+  .cardsOverview {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 @media (max-width: 750px) {
-    .cardsOverview {
-        grid-template-columns: repeat(3, 1fr);
-    }
+  .cardsOverview {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 565px) {
-    .cardsOverview {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .cardsOverview {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

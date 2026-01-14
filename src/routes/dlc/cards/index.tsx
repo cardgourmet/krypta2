@@ -11,6 +11,7 @@ import CardGridSettings from '@/components/dlc/CardGridSettings/CardGridSettings
 import ImageCard from '@/components/dlc/ImageCard/ImageCard.tsx';
 import Pagination from '@/components/dlc/Pagination/Pagination.tsx';
 import { calculateCardRange } from '@/helpers/dlc/calculateCardRange.ts';
+import { parseSearchExplanation } from '@/helpers/dlc/parseSearchExplanation.ts';
 import { type ApplyFn, applyAndCleanup, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
 import {
   cardAmountDefault,
@@ -81,6 +82,10 @@ function CardsOverview() {
     });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: _
+  useEffect(() => {
+    setCards(null);
+  }, [querySettings.query]);
   useEffect(() => {
     const query: DlcCardQuery = {
       query: querySettings.query,
@@ -158,7 +163,12 @@ function CardsOverview() {
             <p>
               {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).from}–
               {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).to} von{' '}
-              {cards?.data.details?.explanation}
+              <span
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: _
+                dangerouslySetInnerHTML={{
+                  __html: parseSearchExplanation(cards?.data.details?.explanation ?? '') ?? '',
+                }}
+              />
             </p>
           )}
         </div>

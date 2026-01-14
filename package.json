@@ -22,7 +22,8 @@
     "openapi-fetch": "^0.15.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-loading-skeleton": "^3.5.0"
+    "react-loading-skeleton": "^3.5.0",
+    "snarkdown": "^2.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
