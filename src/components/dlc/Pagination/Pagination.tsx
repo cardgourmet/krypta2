@@ -42,40 +42,42 @@ export default function Pagination({ lastPage, settings, setSettings }: CardPagi
         <>
           <div className={styles.arrowsLeft}>
             <button type="button" disabled={currentPage === 1} onClick={() => switchPage(1)}>
-              <IconChevronLeftPipe />
+              <IconChevronLeftPipe size={18} />
             </button>
             <button type="button" disabled={currentPage === 1} onClick={() => switchPage(currentPage - 1)}>
-              <IconChevronLeft />
+              <IconChevronLeft size={18} />
             </button>
           </div>
-          {width <= MIN_DESKTOP_SIZE_PX && (
-            <div className={styles.middle}>
-              <button type="button" className={styles.currentPage} onClick={() => switchPage(currentPage)}>
-                {currentPage}
-              </button>
-            </div>
-          )}
-          {width > MIN_DESKTOP_SIZE_PX
-            && calculatePages(currentPage, lastPage, 1).map((page, index) => (
-              <div key={index} className={styles.middle}>
-                {page === null && <IconDots color={'#636b72'} />}
-                {page !== null && (
-                  <button
-                    type="button"
-                    className={page === currentPage ? styles.currentPage : ''}
-                    onClick={() => switchPage(page)}
-                  >
-                    {page}
-                  </button>
-                )}
+          <div className={styles.buttonsMiddle}>
+            {width <= MIN_DESKTOP_SIZE_PX && (
+              <div className={styles.middle}>
+                <button type="button" className={styles.currentPage} onClick={() => switchPage(currentPage)}>
+                  {currentPage}
+                </button>
               </div>
-            ))}
+            )}
+            {width > MIN_DESKTOP_SIZE_PX
+              && calculatePages(currentPage, lastPage, 1).map((page, index) => (
+                <div key={index} className={styles.middle}>
+                  {page === null && <IconDots color={'#636b72'} />}
+                  {page !== null && (
+                    <button
+                      type="button"
+                      className={page === currentPage ? styles.currentPage : ''}
+                      onClick={() => switchPage(page)}
+                    >
+                      {page}
+                    </button>
+                  )}
+                </div>
+              ))}
+          </div>
           <div className={styles.arrowsRight}>
             <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(currentPage + 1)}>
-              <IconChevronRight />
+              <IconChevronRight size={18} />
             </button>
             <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(lastPage)}>
-              <IconChevronRightPipe />
+              <IconChevronRightPipe size={18} />
             </button>
           </div>
         </>
