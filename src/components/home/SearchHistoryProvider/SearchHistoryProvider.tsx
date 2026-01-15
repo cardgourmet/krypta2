@@ -8,9 +8,23 @@ export type SearchHistory = {
 export const SearchHistoryContext = createContext<SearchHistory | null>(null);
 
 const MAX_HISTORY_SIZE = 10;
+const HISTORY_STORAGE_KEY = 'search-history';
+
+function fetchHistoryFromStorage(): string[] {
+  const storage = localStorage.getItem(HISTORY_STORAGE_KEY);
+  if (storage == null) return [];
+
+  return JSON.parse(storage) as string[];
+}
 
 export default function SearchHistoryProvider({ children }: { children: ReactNode }) {
-  const [queries, setQueries] = useState<string[]>([]);
+  const [queries, setQueries] = useState<string[]>(fetchHistoryFromStorage());
+
+  const setQueriesWrapper = useCallback((queries: string[]) => {
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(queries));
+
+    setQueries(queries);
+  }, []);
 
   const addQuery = useCallback(
     (query: string) => {
@@ -22,9 +36,9 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
       if (newQueries.length > MAX_HISTORY_SIZE) {
         newQueries.shift();
       }
-      setQueries(newQueries);
+      setQueriesWrapper(newQueries);
     },
-    [queries],
+    [queries, setQueriesWrapper],
   );
   const contextValue: SearchHistory = useMemo(() => {
     return {
