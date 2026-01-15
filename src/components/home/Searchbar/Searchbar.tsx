@@ -1,11 +1,14 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import { IconChevronDown, IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
-import { getRouteApi, useLocation, useNavigate } from '@tanstack/react-router';
-import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Dropdown from '@/components/dlc/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/components/home/Searchbar/getFocusableElements.ts';
+import { handleKeydown } from '@/components/home/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/components/home/Searchbar/SearchFooter.tsx';
 import SearchRecent from '@/components/home/Searchbar/SearchRecent.tsx';
+import { useSearchQuery } from '@/components/home/Searchbar/useSearchQuery.ts';
+import { SearchHistoryContext } from '@/components/home/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { DLCIcon } from '@/helpers/icons/games/dlc/Icon.tsx';
 import { MTGIcon } from '@/helpers/icons/games/mtg/Icon.tsx';
 import { PCGIcon } from '@/helpers/icons/games/pcg/Icon.tsx';
@@ -13,123 +16,50 @@ import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
   const [isOpened, setIsOpened] = useState(false);
-  const [focusableElements, setFocusableElements] = useState<Array<HTMLElement | null>>([]);
-  const [suggestionIndex, setSuggestionIndex] = useState(0);
-  // while the user is typing themselves we want to show
-  // auto completions instead
-  const [isCaptainOfTheShip, setIsCaptainOfTheShip] = useState(false);
-
-  const recentQueries = [
-    'ink:amber and type:hero',
-    'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
-    'ability="Deep Freeze" and o:"chosen characters"',
-    'name:mickey name:mouse oracle:wunder oracle:haus ink:steel is:inkwell',
-    'ability="Deep Freeze" and o:"chosen characters"',
-  ];
-  const suggestions = [...recentQueries];
-  const [currentQuery, setCurrentQuery] = useState<{
-    query: string;
-    isByUser?: boolean;
-  }>({ query: '' });
-
-  // TODO: put that in separate hook
-  const location = useLocation();
   const [_, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>('dlc');
-  const navigate = useNavigate();
 
-  const dlcRouteApi = getRouteApi('/dlc/cards/');
-  const dlcSearch = dlcRouteApi.useSearch();
-
-  useEffect(() => {
-    // only support dlc for now
-    if (!location.pathname.startsWith('/dlc/cards')) return;
-
-    const searchParamsQuery = dlcSearch.query ?? '';
-    if (searchParamsQuery.length === 0) return;
-
-    // user inputted search query already present
-    setIsCaptainOfTheShip(true);
-    setCurrentQuery({ query: dlcSearch.query ?? '', isByUser: true });
-  }, [location, dlcSearch.query]);
-  // TODO: put that in separate hook
-
-  const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const deleteSearchButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const history = useContext(SearchHistoryContext);
+  const recentQueries = history?.pastQueries ?? [];
+
+  const [currentQuery, setCurrentQuery] = useSearchQuery();
+  const isCaptainOfTheShip = currentQuery.isByUser ?? false;
+
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const suggestions = useMemo(() => {
+    return [...recentQueries];
+  }, [recentQueries]);
+
+  const navigate = useNavigate();
   useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        searchInputRef.current?.focus();
-        setIsOpened(false);
-        return;
-      }
+    if (!searchContainerRef.current) return;
+    const focusableElements = getFocusableElements(searchContainerRef.current);
 
-      if (event.key === 'Tab') {
-        const total = focusableElements.length;
-        const shift = event.shiftKey;
+    const handle = handleKeydown({
+      searchInputRef: searchInputRef,
+      isOpened: isOpened,
+      setIsOpened: setIsOpened,
+      focusableElements: focusableElements,
+      suggestionIndex: suggestionIndex,
+      setSuggestionIndex: setSuggestionIndex,
+      currentQuery: currentQuery.query,
+      navigate: navigate,
+    });
 
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[total - 1];
-        if (firstElement === null || lastElement === null) return;
-
-        if (shift && document.activeElement === firstElement) {
-          lastElement.focus();
-          return event.preventDefault();
-        }
-        if (!shift && document.activeElement === lastElement) {
-          firstElement.focus();
-          return event.preventDefault();
-        }
-      }
-
-      if (event.key === 'Enter') {
-        if (!isOpened && document.activeElement === searchInputRef.current) {
-          setIsOpened(true);
-        }
-        if (isOpened && document.activeElement === searchInputRef.current) {
-          searchInputRef.current?.blur();
-          setIsOpened(false);
-
-          // noinspection JSIgnoredPromiseFromCall
-          navigate({
-            to: '/dlc/cards',
-            search: (prev) => {
-              return { ...prev, query: currentQuery.query };
-            },
-          });
-        }
-      }
-
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        if (document.activeElement !== searchInputRef.current) return event.preventDefault();
-
-        const suggestions = focusableElements.filter((el) => el?.parentElement instanceof HTMLLIElement);
-        suggestions.unshift(null);
-
-        if (suggestions.length === 0) return;
-        const arrowUp = event.key === 'ArrowUp';
-
-        let newIndex = arrowUp ? suggestionIndex - 1 : suggestionIndex + 1;
-        if (newIndex < 0) newIndex = suggestions.length - 1;
-        if (newIndex >= suggestions.length) newIndex = 0;
-        setSuggestionIndex(newIndex);
-
-        return event.preventDefault();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', handle);
     return () => {
       // Detach listener when component unmounts
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', handle);
     };
-  }, [focusableElements, isOpened, suggestionIndex, currentQuery, navigate]);
+  }, [isOpened, suggestionIndex, currentQuery, navigate]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
     if (!isOpened || isCaptainOfTheShip) return;
 
+    // TODO: extract to `currentSuggestion`
     let currentSugg = '';
     if (suggestionIndex > 0) {
       currentSugg = suggestions[suggestionIndex - 1];
@@ -153,13 +83,8 @@ export default function Searchbar() {
     }
   }, [suggestionIndex, isOpened, isCaptainOfTheShip]);
 
+  const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    if (!searchContainerRef.current) return;
-
-    setFocusableElements(getFocusableElements(searchContainerRef.current));
-  }, [searchContainerRef]);
 
   return (
     <>
@@ -176,21 +101,19 @@ export default function Searchbar() {
           onChange={(event) => {
             const newQuery = event.target.value;
             if (isCaptainOfTheShip && newQuery.length === 0) {
-              setIsCaptainOfTheShip(false);
+              setCurrentQuery({ query: '', isByUser: false });
             } else if (!isCaptainOfTheShip && newQuery.length > 0) {
-              setIsCaptainOfTheShip(true);
               setSuggestionIndex(0);
+              setCurrentQuery({ query: event.target.value, isByUser: true });
+            } else if (isCaptainOfTheShip && newQuery.length > 0) {
+              setCurrentQuery({ query: event.target.value, isByUser: true });
             }
-
-            setCurrentQuery({ query: event.target.value, isByUser: true });
           }}
         />
         <button
           className={`${styles.deleteSearchIcon} ${currentQuery.query.length === 0 ? styles.hidden : ''}`}
           type={'button'}
-          ref={deleteSearchButtonRef}
           onClick={() => {
-            setIsCaptainOfTheShip(false);
             setCurrentQuery({ query: '', isByUser: false });
             searchInputRef.current?.focus();
           }}

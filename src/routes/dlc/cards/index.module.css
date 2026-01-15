@@ -52,9 +52,16 @@
     }
   }
 
+  /* stolen from Krypta, without Mantine though (lol) */
   code {
-    font-size: 1rem;
-    font-family: var(--cgm-monospace-font-family), ui-sans-serif;
+    background-color: rgba(34, 139, 230, 0.15);
+    border-radius: 0.25rem;
+    color: #339af0;
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
   }
 }
 

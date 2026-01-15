@@ -1,6 +1,6 @@
 import type { Middleware } from 'openapi-fetch';
 import createClient from 'openapi-fetch';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import type { components as c, paths } from '@/schema/api.d.ts';
 import styles from './index.module.css';
@@ -10,6 +10,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import CardGridSettings from '@/components/dlc/CardGridSettings/CardGridSettings.tsx';
 import ImageCard from '@/components/dlc/ImageCard/ImageCard.tsx';
 import Pagination from '@/components/dlc/Pagination/Pagination.tsx';
+import { SearchHistoryContext } from '@/components/home/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { calculateCardRange } from '@/helpers/dlc/calculateCardRange.ts';
 import { parseSearchExplanation } from '@/helpers/dlc/parseSearchExplanation.ts';
 import { type ApplyFn, applyAndCleanup, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
@@ -40,8 +41,7 @@ const authMiddleware: Middleware = {
 };
 client.use(authMiddleware);
 
-const backupImageUrl =
-  'https://media.discordapp.net/attachments/350014049750089732/1458761128866746381/NjNjY.png?ex=6960d0ab&is=695f7f2b&hm=13b11817308053850266de4cc15309e1a891fb85cf033277304736a8c218f285&=&format=webp&quality=lossless&width=577&height=799';
+const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
 function CardsOverview() {
   const searchParams = Route.useSearch();
@@ -62,6 +62,7 @@ function CardsOverview() {
 
   const navigate = useNavigate({ from: Route.fullPath });
 
+  const history = useContext(SearchHistoryContext);
   const [cards, setCards] = useState<
     c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'] | null
   >(null);
@@ -112,6 +113,11 @@ function CardsOverview() {
           return;
         }
 
+        // write to history
+        if (query.query !== undefined) {
+          history?.addQuery(query.query);
+        }
+
         // res.data.data.details.
         setCards(res.data);
         setLoading(false);
@@ -133,6 +139,7 @@ function CardsOverview() {
     querySettings.pageSize,
     querySettings.sortBy,
     querySettings.sortDirection,
+    history,
   ]);
 
   return (

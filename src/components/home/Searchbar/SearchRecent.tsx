@@ -1,5 +1,6 @@
 import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
@@ -8,11 +9,15 @@ type SearchRecentItemProps = {
 };
 
 export default function SearchRecent({ suggestionIndex, recentQueries }: SearchRecentItemProps) {
+  const reversedRecentQueries = useMemo(() => {
+    return [...recentQueries].reverse();
+  }, [recentQueries]);
+
   return (
     <div className={styles.recent}>
       <p>ZULETZT</p>
       <ul>
-        {recentQueries.map((query, index) => (
+        {reversedRecentQueries.map((query, index) => (
           <li key={index}>
             <button
               type="button"
