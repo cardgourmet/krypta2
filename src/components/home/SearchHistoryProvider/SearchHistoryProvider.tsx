@@ -1,9 +1,4 @@
-import { createContext, type ReactNode, useCallback, useMemo, useState } from 'react';
-
-export type SearchHistory = {
-  pastQueries: string[];
-  addQuery: (query: string) => void;
-};
+import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 
 export const SearchHistoryContext = createContext<SearchHistory | null>(null);
 
@@ -16,6 +11,16 @@ function fetchHistoryFromStorage(): string[] {
 
   return JSON.parse(storage) as string[];
 }
+
+export function useSearchHistory() {
+  return useContext(SearchHistoryContext);
+}
+
+export type SearchHistory = {
+  pastQueries: string[];
+  addQuery: (query: string) => void;
+  removeQuery: (index: number) => void;
+};
 
 export default function SearchHistoryProvider({ children }: { children: ReactNode }) {
   const [queries, setQueries] = useState<string[]>(fetchHistoryFromStorage());
@@ -40,12 +45,25 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     },
     [queries, setQueriesWrapper],
   );
+  const removeQuery = useCallback(
+    (index: number) => {
+      if (queries.length === 0) return;
+      if (index < 0 || index >= queries.length) return;
+
+      const newQueries = [...queries];
+      newQueries.splice(index, 1);
+      setQueriesWrapper(newQueries);
+    },
+    [queries, setQueriesWrapper],
+  );
+
   const contextValue: SearchHistory = useMemo(() => {
     return {
       pastQueries: queries,
       addQuery: addQuery,
+      removeQuery: removeQuery,
     };
-  }, [queries, addQuery]);
+  }, [queries, addQuery, removeQuery]);
 
   return <SearchHistoryContext.Provider value={contextValue}>{children}</SearchHistoryContext.Provider>;
 }

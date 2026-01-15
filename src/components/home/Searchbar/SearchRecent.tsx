@@ -1,6 +1,7 @@
 import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
+import { useSearchHistory } from '@/components/home/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
@@ -9,6 +10,8 @@ type SearchRecentItemProps = {
 };
 
 export default function SearchRecent({ suggestionIndex, recentQueries }: SearchRecentItemProps) {
+  const history = useSearchHistory();
+
   const reversedRecentQueries = useMemo(() => {
     return [...recentQueries].reverse();
   }, [recentQueries]);
@@ -28,11 +31,26 @@ export default function SearchRecent({ suggestionIndex, recentQueries }: SearchR
                 <IconClockHour8 size={22} color={'#9ba6b1'} />
                 <p>{query}</p>
               </div>
-              <div className={styles.recentItemRight}>
-                <IconStar size={16} color={'#9ba6b1'} />
-                <IconX size={16} color={'#9ba6b1'} />
-              </div>
             </button>
+            <div className={styles.recentItemRight}>
+              <button
+                type={'button'}
+                onClick={() => {
+                  // TODO: add history entry to favorites
+                }}
+              >
+                <IconStar size={16} color={'#9ba6b1'} />
+              </button>
+              <button
+                type={'button'}
+                onClick={() => {
+                  const reverseIndex = recentQueries.length - 1 - index;
+                  history?.removeQuery(reverseIndex);
+                }}
+              >
+                <IconX size={16} color={'#9ba6b1'} />
+              </button>
+            </div>
           </li>
         ))}
       </ul>

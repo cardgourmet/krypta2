@@ -1,6 +1,6 @@
 import type { Middleware } from 'openapi-fetch';
 import createClient from 'openapi-fetch';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import type { components as c, paths } from '@/schema/api.d.ts';
 import styles from './index.module.css';
@@ -10,7 +10,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import CardGridSettings from '@/components/dlc/CardGridSettings/CardGridSettings.tsx';
 import ImageCard from '@/components/dlc/ImageCard/ImageCard.tsx';
 import Pagination from '@/components/dlc/Pagination/Pagination.tsx';
-import { SearchHistoryContext } from '@/components/home/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import { useSearchHistory } from '@/components/home/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { calculateCardRange } from '@/helpers/dlc/calculateCardRange.ts';
 import { parseSearchExplanation } from '@/helpers/dlc/parseSearchExplanation.ts';
 import { type ApplyFn, applyAndCleanup, validateSearchParams } from '@/helpers/dlc/searchParams.ts';
@@ -62,7 +62,7 @@ function CardsOverview() {
 
   const navigate = useNavigate({ from: Route.fullPath });
 
-  const history = useContext(SearchHistoryContext);
+  const history = useSearchHistory();
   const [cards, setCards] = useState<
     c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'] | null
   >(null);
@@ -87,6 +87,8 @@ function CardsOverview() {
   useEffect(() => {
     setCards(null);
   }, [querySettings.query]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
     const query: DlcCardQuery = {
       query: querySettings.query,
@@ -101,34 +103,16 @@ function CardsOverview() {
     setLoading(true);
 
     const controller = new AbortController();
-    client
-      .GET('/v1/dlc/cards/search', {
-        params: {
-          query: query,
-        },
-        signal: controller.signal,
-      })
-      .then((res) => {
-        if (!res.data) {
-          return;
-        }
+    fetchCards(query, controller, (data) => {
+      // write to history
+      if (query.query !== undefined) {
+        history?.addQuery(query.query);
+      }
 
-        // write to history
-        if (query.query !== undefined) {
-          history?.addQuery(query.query);
-        }
-
-        // res.data.data.details.
-        setCards(res.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        if (error.name === 'AbortError') {
-          console.log('Just aborted the call, no biggies.');
-        } else {
-          console.log(`Error: ${error}`);
-        }
-      });
+      // res.data.data.details.
+      setCards(data);
+      setLoading(false);
+    });
 
     return () => {
       controller.abort();
@@ -139,7 +123,6 @@ function CardsOverview() {
     querySettings.pageSize,
     querySettings.sortBy,
     querySettings.sortDirection,
-    history,
   ]);
 
   return (
@@ -211,4 +194,35 @@ function CardsOverview() {
       </div>
     </div>
   );
+}
+
+function fetchCards(
+  query: DlcCardQuery,
+  abort: AbortController,
+  onSuccess: (
+    data: c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'],
+  ) => void,
+) {
+  client
+    .GET('/v1/dlc/cards/search', {
+      params: {
+        query: query,
+      },
+      signal: abort.signal,
+    })
+    .then((res) => {
+      if (!res.data) {
+        return;
+      }
+
+      // res.data.data.details.
+      onSuccess(res.data);
+    })
+    .catch((error) => {
+      if (error.name === 'AbortError') {
+        console.log('Just aborted the call, no biggies.');
+      } else {
+        console.log(`Error: ${error}`);
+      }
+    });
 }

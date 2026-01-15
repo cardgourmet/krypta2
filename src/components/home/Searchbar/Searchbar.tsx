@@ -168,7 +168,7 @@ export default function Searchbar() {
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
-            <div className={`${isCaptainOfTheShip ? styles.hidden : ''}`}>
+            <div className={`${isCaptainOfTheShip || recentQueries.length === 0 ? styles.hidden : ''}`}>
               <SearchRecent suggestionIndex={suggestionIndex} recentQueries={recentQueries} />
             </div>
           </div>
