@@ -2,7 +2,7 @@ import { MantineProvider } from '@mantine/core';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
-import App from '@/components/home/App/App.tsx';
+import App from "@/parcels/homepage/App/App.tsx";
 import { theme } from '../theme';
 
 export const Route = createRootRoute({
