@@ -8,13 +8,13 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import { useWindowSize } from '@/parcels/overview/useWindowSize.ts';
 import type { ApplyFn } from '@/parcels/tcg/dlc/searchParams.ts';
-import type { DlcCardOverviewQuerySettings, DlcCardSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import type { DlcCardSearchParams, DlcCardSearchQuerySettings } from '@/parcels/tcg/dlc/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
 
 type CardPaginationProps = {
   lastPage?: number;
-  settings: DlcCardOverviewQuerySettings;
+  settings: DlcCardSearchQuerySettings;
   setSettings: (update: ApplyFn<DlcCardSearchParams>) => void;
 };
 

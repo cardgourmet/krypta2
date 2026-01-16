@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -8,15 +8,14 @@ import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettin
 import { calculateCardRange } from '@/parcels/overview/calculateCardRange.ts';
 import ImageCard from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
-import { cardAmountDefault, cardDisplayModeDefault, sortDirectionDefault } from '@/parcels/overview/types.ts';
 import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
+import { useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings } from '@/parcels/tcg/dlc/query.ts';
 import { type ApplyFn, dlcApplyAndCleanup, dlcValidateSearchParams } from '@/parcels/tcg/dlc/searchParams.ts';
-import {
-  type DlcCardOverviewDisplaySettings,
-  type DlcCardOverviewQuerySettings,
-  type DlcCardSearchParams,
-  sortByDefault,
+import type {
+  DlcCardSearchDisplaySettings,
+  DlcCardSearchParams,
+  DlcCardSearchQuerySettings,
 } from '@/parcels/tcg/dlc/types.ts';
 import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
 import { type DlcSearchCardsResult, fetchDlcCards, type PcgSearchCardsResult } from '@/parcels/umori/api.ts';
@@ -36,25 +35,14 @@ function CardsOverview() {
   const [loading, setLoading] = useState(true);
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
-  const [cards, setCards] = useState<DlcSearchCardsResult | null | PcgSearchCardsResult>(null);
+  const [cards, setCards] = useState<DlcSearchCardsResult | null>(null);
   const dataCurrentPage = cards?.data?.currentPage;
   const dataLastPage = cards?.data?.pageCount;
 
-  const querySettings: DlcCardOverviewQuerySettings = useMemo(() => {
-    return {
-      query: searchParams.query ?? '',
-      page: searchParams.page ?? 1,
-      pageSize: searchParams.pageSize ?? cardAmountDefault,
-      sortBy: searchParams.sortBy ?? sortByDefault,
-      sortDirection: searchParams.sortDirection ?? sortDirectionDefault,
-    };
-  }, [searchParams]);
-  const displaySettings: DlcCardOverviewDisplaySettings = useMemo(() => {
-    return {
-      cardDisplayMode: searchParams.cardDisplayMode ?? cardDisplayModeDefault,
-    };
-  }, [searchParams]);
-  const setSettingsFn = (apply: ApplyFn<DlcCardSearchParams>) => {
+  const querySettings: DlcCardSearchQuerySettings = useDlcMemoizedQuerySettings();
+  const displaySettings: DlcCardSearchDisplaySettings = useDlcMemoizedDisplaySettings();
+
+  const setSettings = (apply: ApplyFn<DlcCardSearchParams>) => {
     const newParams = dlcApplyAndCleanup(apply, searchParams);
     if (newParams === null) return;
 
@@ -68,10 +56,6 @@ function CardsOverview() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
     setCards(null);
-  }, [querySettings.query]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
     setLoading(true);
 
     const controller = new AbortController();
@@ -117,10 +101,10 @@ function CardsOverview() {
           <p>Kartendatenbank</p>
         </div>
         <div className={styles.contentNav}>
-          <Pagination lastPage={dataLastPage} settings={querySettings} setSettings={setSettingsFn} />
+          <Pagination lastPage={dataLastPage} settings={querySettings} setSettings={setSettings} />
         </div>
 
-        <CardGridSettings querySettings={querySettings} displaySettings={displaySettings} setSettings={setSettingsFn} />
+        <CardGridSettings querySettings={querySettings} displaySettings={displaySettings} setSettings={setSettings} />
 
         <div className={styles.queryExplanation}>
           {loading && (

@@ -1,5 +1,5 @@
 import createClient, { type Middleware } from 'openapi-fetch';
-import type { DlcCardOverviewQuerySettings } from '@/parcels/tcg/dlc/types.ts';
+import type { DlcCardSearchQuerySettings, DlcCardSortBy } from '@/parcels/tcg/dlc/types.ts';
 import type { components as c, paths } from '@/schema/api.d.ts';
 
 const client = createClient<paths>({
@@ -33,14 +33,14 @@ export type TcgCardQuery = {
 // ========================================================
 
 export type DlcCardQuery = TcgCardQuery & {
-  sortBy?: 'name' | 'set' | 'ink' | 'strength' | 'willpower' | 'movement' | 'released';
+  sortBy?: DlcCardSortBy;
 };
 
 export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 
 export async function fetchDlcCards(
-  settings: DlcCardOverviewQuerySettings,
+  settings: DlcCardSearchQuerySettings,
   abort: AbortController,
 ): Promise<{ query: DlcCardQuery; data?: DlcSearchCardsResult; error?: Error }> {
   const query: DlcCardQuery = {

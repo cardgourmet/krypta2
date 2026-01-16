@@ -9,9 +9,9 @@ import {
   sortDirectionElements,
 } from '@/parcels/overview/types.ts';
 import {
-  type DlcCardOverviewDisplaySettings,
-  type DlcCardOverviewQuerySettings,
+  type DlcCardSearchDisplaySettings,
   type DlcCardSearchParams,
+  type DlcCardSearchQuerySettings,
   type DlcCardSortBy,
   sortByElements,
 } from '@/parcels/tcg/dlc/types.ts';
@@ -19,8 +19,8 @@ import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardGridSettings.module.css';
 
 type CardGridSettingsProps = {
-  querySettings: DlcCardOverviewQuerySettings;
-  displaySettings: DlcCardOverviewDisplaySettings;
+  querySettings: DlcCardSearchQuerySettings;
+  displaySettings: DlcCardSearchDisplaySettings;
   setSettings: (update: (params: DlcCardSearchParams) => DlcCardSearchParams) => void;
 };
 

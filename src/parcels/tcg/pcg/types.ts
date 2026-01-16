@@ -5,5 +5,5 @@ export type PcgCardSearchParams = CardSearchParams & {
   sortBy?: PcgCardSortBy;
 };
 
-export type PcgCardOverviewQuerySettings = CardSearchQuerySettings<PcgCardSearchParams>;
-export type PcgCardOverviewDisplaySettings = CardSearchDisplaySettings<PcgCardSearchParams>;
+export type PcgCardSearchQuerySettings = CardSearchQuerySettings<PcgCardSearchParams>;
+export type PcgCardSearchDisplaySettings = CardSearchDisplaySettings<PcgCardSearchParams>;

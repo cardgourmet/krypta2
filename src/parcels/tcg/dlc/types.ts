@@ -29,5 +29,5 @@ export type DlcCardSearchParams = CardSearchParams & {
   sortBy?: DlcCardSortBy;
 };
 
-export type DlcCardOverviewQuerySettings = CardSearchQuerySettings<DlcCardSearchParams>;
-export type DlcCardOverviewDisplaySettings = CardSearchDisplaySettings<DlcCardSearchParams>;
+export type DlcCardSearchQuerySettings = CardSearchQuerySettings<DlcCardSearchParams>;
+export type DlcCardSearchDisplaySettings = CardSearchDisplaySettings<DlcCardSearchParams>;
