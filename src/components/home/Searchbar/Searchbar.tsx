@@ -96,6 +96,7 @@ export default function Searchbar() {
           type="text"
           ref={searchInputRef}
           value={currentQuery.query}
+          placeholder={'Suche nach Karten..'}
           onFocus={() => setIsOpened(true)}
           onClick={() => setIsOpened(true)}
           onChange={(event) => {
@@ -169,7 +170,7 @@ export default function Searchbar() {
             </div>
 
             <div className={`${isCaptainOfTheShip || recentQueries.length === 0 ? styles.hidden : ''}`}>
-              <SearchRecent suggestionIndex={suggestionIndex} recentQueries={recentQueries} />
+              <SearchRecent suggestionIndex={suggestionIndex} recentQueries={recentQueries} setIsOpened={setIsOpened} />
             </div>
           </div>
 

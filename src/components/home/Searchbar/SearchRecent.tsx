@@ -1,5 +1,5 @@
 import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useSearchHistory } from '@/components/home/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import styles from './SearchRecent.module.css';
@@ -7,10 +7,12 @@ import styles from './SearchRecent.module.css';
 type SearchRecentItemProps = {
   suggestionIndex: number;
   recentQueries: string[];
+  setIsOpened: (isOpened: boolean) => void;
 };
 
-export default function SearchRecent({ suggestionIndex, recentQueries }: SearchRecentItemProps) {
+export default function SearchRecent({ suggestionIndex, recentQueries, setIsOpened }: SearchRecentItemProps) {
   const history = useSearchHistory();
+  const navigate = useNavigate();
 
   const reversedRecentQueries = useMemo(() => {
     return [...recentQueries].reverse();
@@ -26,6 +28,16 @@ export default function SearchRecent({ suggestionIndex, recentQueries }: SearchR
               type="button"
               tabIndex={0}
               className={index + 1 === suggestionIndex ? styles.suggestionHighlighted : ''}
+              onClick={() => {
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  to: '/dlc/cards',
+                  search: (prev) => {
+                    return { ...prev, query: query };
+                  },
+                });
+                setIsOpened(false);
+              }}
             >
               <div className={styles.recentItemLeft}>
                 <IconClockHour8 size={22} color={'#9ba6b1'} />
