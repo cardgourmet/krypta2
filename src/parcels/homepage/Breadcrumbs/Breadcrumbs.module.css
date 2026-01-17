@@ -1,0 +1,14 @@
+.breadcrumb > a {
+  display: flex;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.breadcrumb p {
+  margin: 0;
+  font-family: var(--cgm-ui-font-family), ui-sans-serif;
+}

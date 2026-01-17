@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { IconChefHat, IconChevronRight } from '@tabler/icons-react';
-import { createFileRoute, Link, stripSearchParams, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
+import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettings.tsx';
 import { calculateCardRange } from '@/parcels/overview/calculateCardRange.ts';
 import ImageCard from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
+import { type DlcSearchCardsResult, fetchDlcCards } from '@/parcels/tcg/dlc/api.ts';
 import { useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings } from '@/parcels/tcg/dlc/query.ts';
 import {
   type DlcSearchDisplaySettings,
@@ -18,9 +19,10 @@ import {
   dlcSearchParamsDefaults,
   dlcSearchParamsSchema,
 } from '@/parcels/tcg/dlc/types.ts';
+import type { PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
 import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
-import { type DlcSearchCardsResult, fetchDlcCards, type PcgSearchCardsResult } from '@/parcels/umori/api.ts';
+import { usePrevious } from '@/parcels/usePrevious.ts';
 
 export const Route = createFileRoute('/dlc/cards/')({
   component: CardsOverview,
@@ -97,19 +99,7 @@ function CardsOverview() {
   return (
     <div ref={scrollBackRef}>
       <div className={styles.mainContent}>
-        <div className={styles.breadcrumb}>
-          <Link to="/">
-            <IconChefHat color="#9ba6b1" size={22} className={styles.homeButton} />
-          </Link>
-          <IconChevronRight color="#9ba6b1" size={18} />
-          <p>
-            {tcg === 'dlc' && 'Disney Lorcana'}
-            {tcg === 'pcg' && 'Pokémon Card Game'}
-            {tcg === 'mtg' && 'Magic: The Gathering'}
-          </p>
-          <IconChevronRight color="#9ba6b1" size={18} />
-          <p>Kartendatenbank</p>
-        </div>
+        <Breadcrumbs />
         <div className={styles.contentNav}>
           <Pagination
             currentPage={dataCurrentPage}
@@ -193,12 +183,4 @@ function getImageCards(tcg: Tcg, cards: DlcSearchCardsResult | PcgSearchCardsRes
     case 'mtg':
       return <div></div>;
   }
-}
-
-function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>(undefined);
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return ref.current;
 }
