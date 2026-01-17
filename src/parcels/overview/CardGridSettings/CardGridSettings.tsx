@@ -2,28 +2,40 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconAdjustmentsHorizontal, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import {
+  type CardAmount,
   type CardDisplayMode,
   cardAmountElements,
   cardDisplayModeElements,
   type SortDirection,
   sortDirectionElements,
 } from '@/parcels/overview/types.ts';
-import type {
-  DlcSearchDisplaySettings,
-  DlcSearchParams,
-  DlcSearchQuerySettings,
-  DlcSortBy,
+import {
+  type DlcSearchDisplaySettings,
+  type DlcSearchParams,
+  type DlcSearchQuerySettings,
+  type DlcSortBy,
+  dlcSortBys,
 } from '@/parcels/tcg/dlc/types.ts';
+import {
+  type PcgSearchDisplaySettings,
+  type PcgSearchParams,
+  type PcgSearchQuerySettings,
+  type PcgSortBy,
+  pcgSortBys,
+} from '@/parcels/tcg/pcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcg.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardGridSettings.module.css';
 
 type CardGridSettingsProps = {
-  querySettings: DlcSearchQuerySettings;
-  displaySettings: DlcSearchDisplaySettings;
-  setSettings: (update: (params: DlcSearchParams) => DlcSearchParams) => void;
+  tcg: Tcg;
+  querySettings: DlcSearchQuerySettings | PcgSearchQuerySettings;
+  displaySettings: DlcSearchDisplaySettings | PcgSearchDisplaySettings;
+  setSettings: (update: ApplyFn<DlcSearchParams | PcgSearchParams>) => void;
 };
 
-export default function CardGridSettings({ querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
+export default function CardGridSettings({ tcg, querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -57,6 +69,15 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
     setSettings(update);
   };
 
+  let sortBys: readonly DlcSortBy[] | readonly PcgSortBy[] = dlcSortBys;
+  if (tcg === 'pcg') {
+    sortBys = pcgSortBys;
+  }
+  const sortByItems: Record<string, string> = {};
+  sortBys.forEach((sortBy) => {
+    sortByItems[sortBy as string] = (sortBy as string).toLowerCase();
+  });
+
   return (
     <div className={styles.settings}>
       {smallScreen && (
@@ -71,19 +92,11 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
               <div>
                 <p>Sortieren nach</p>
                 <Dropdown
-                  items={{
-                    name: 'Name',
-                    set: 'Set',
-                    ink: 'Ink',
-                    strength: 'Stärke',
-                    willpower: 'Willensstärke',
-                    movement: 'Bewegungskosten',
-                    released: 'Releasedatum',
-                  }}
+                  items={sortByItems}
                   defaultSelected={querySettings.sortBy}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, sortBy: selected as DlcSortBy };
+                      return { ...prev, sortBy: selected as DlcSortBy | PcgSortBy };
                     });
                   }}
                 />
@@ -104,7 +117,7 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
                   defaultSelected={querySettings.pageSize}
                   onSelect={(selected) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, pageSize: selected };
+                      return { ...prev, pageSize: selected as CardAmount };
                     });
                   }}
                 />
@@ -134,19 +147,11 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
           <div>
             <p>Sortieren nach</p>
             <Dropdown
-              items={{
-                name: 'Name',
-                set: 'Set',
-                ink: 'Ink',
-                strength: 'Stärke',
-                willpower: 'Willensstärke',
-                movement: 'Bewegungskosten',
-                released: 'Releasedatum',
-              }}
+              items={sortByItems}
               defaultSelected={querySettings.sortBy}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, sortBy: selected as DlcSortBy };
+                  return { ...prev, sortBy: selected as DlcSortBy | PcgSortBy };
                 });
               }}
             />
@@ -167,7 +172,7 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
               defaultSelected={querySettings.pageSize}
               onSelect={(selected) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, pageSize: selected };
+                  return { ...prev, pageSize: selected as CardAmount };
                 });
               }}
             />

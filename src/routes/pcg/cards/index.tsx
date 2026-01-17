@@ -8,35 +8,35 @@ import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettin
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
-import { type DlcSearchCardsResult, fetchDlcCards } from '@/parcels/tcg/dlc/api.ts';
-import { useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings } from '@/parcels/tcg/dlc/query.ts';
+import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import { fetchPcgCards, type PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
+import { usePcgMemoizedDisplaySettings, usePcgMemoizedQuerySettings } from '@/parcels/tcg/pcg/query.ts';
 import {
-  type DlcSearchDisplaySettings,
-  type DlcSearchParams,
-  type DlcSearchQuerySettings,
-  dlcSearchParamsDefaults,
-  dlcSearchParamsSchema,
-} from '@/parcels/tcg/dlc/types.ts';
-import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
+  type PcgSearchDisplaySettings,
+  type PcgSearchParams,
+  type PcgSearchQuerySettings,
+  pcgSearchParamsDefaults,
+  pcgSearchParamsSchema,
+} from '@/parcels/tcg/pcg/types.ts';
 import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
 
-export const Route = createFileRoute('/dlc/cards/')({
-  component: DlcCardsOverview,
-  validateSearch: dlcSearchParamsSchema,
+export const Route = createFileRoute('/pcg/cards/')({
+  component: PcgCardsOverview,
+  validateSearch: pcgSearchParamsSchema,
   search: {
-    middlewares: [stripSearchParams(dlcSearchParamsDefaults)],
+    middlewares: [stripSearchParams(pcgSearchParamsDefaults)],
   },
 });
 
-function DlcCardsOverview() {
+function PcgCardsOverview() {
   const tcg = useTcg() as Tcg;
-  const searchParams = Route.useSearch() as DlcSearchParams;
-  const searchQuerySettings: DlcSearchQuerySettings = useDlcMemoizedQuerySettings();
+  const searchParams = Route.useSearch() as PcgSearchParams;
+  const searchQuerySettings: PcgSearchQuerySettings = usePcgMemoizedQuerySettings();
   const prevSearchQuerySettings = usePrevious(searchQuerySettings);
-  const searchDisplaySettings: DlcSearchDisplaySettings = useDlcMemoizedDisplaySettings();
-  const [cards, setCards] = useState<DlcSearchCardsResult | null>(null);
+  const searchDisplaySettings: PcgSearchDisplaySettings = usePcgMemoizedDisplaySettings();
+  const [cards, setCards] = useState<PcgSearchCardsResult | null>(null);
 
   const navigate = useNavigate({ from: Route.fullPath });
   const history = useSearchHistory();
@@ -45,7 +45,7 @@ function DlcCardsOverview() {
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
   const setSettings = (apply: ApplyFn<PcgSearchParams | DlcSearchParams>) => {
-    const newParams = apply(searchParams) as Required<DlcSearchParams>;
+    const newParams = apply(searchParams) as Required<PcgSearchParams>;
 
     // noinspection JSIgnoredPromiseFromCall
     navigate({
@@ -66,7 +66,7 @@ function DlcCardsOverview() {
     setIsLoading(true);
 
     const controller = new AbortController();
-    fetchDlcCards(searchQuerySettings, controller).then(({ query, data, error }) => {
+    fetchPcgCards(searchQuerySettings, controller).then(({ query, data, error }) => {
       if (error !== undefined) {
         // non 200 status basically
         return;
@@ -76,7 +76,7 @@ function DlcCardsOverview() {
       if (query.query !== undefined) {
         onQueryChange(query.query);
       }
-      setCards(data as DlcSearchCardsResult);
+      setCards(data as PcgSearchCardsResult);
 
       setIsLoading(false);
       setIsQueryLoading(false);

@@ -3,20 +3,20 @@ import { type CSSProperties, type ReactElement, useEffect, useRef, useState } fr
 import { useWindowSize } from '@/parcels/overview/useWindowSize.ts';
 import styles from './Dropdown.module.css';
 
-interface DropdownProps<T extends Record<string, string>> {
+interface DropdownProps {
   buttonText?: string;
-  items: T;
-  defaultSelected?: keyof T;
-  onSelect?: (selected: keyof T) => void;
+  items: Record<string, string>;
+  defaultSelected?: string;
+  onSelect?: (selected: string) => void;
 
-  renderButtonContent?: (selected: keyof T | null) => ReactElement;
-  renderItem?: (selected: keyof T | null) => ReactElement;
+  renderButtonContent?: (selected: string | null) => ReactElement;
+  renderItem?: (selected: string | null) => ReactElement;
 
   className?: string;
   style?: CSSProperties;
 }
 
-export default function Dropdown<T extends Record<string, string>>(props: DropdownProps<T>) {
+export default function Dropdown(props: DropdownProps) {
   const [open, setOpen] = useState(false);
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -29,7 +29,7 @@ export default function Dropdown<T extends Record<string, string>>(props: Dropdo
     return !isVisible;
   };
 
-  const [selected, setSelected] = useState<keyof T | null>(props.defaultSelected || null);
+  const [selected, setSelected] = useState<string | null>(props.defaultSelected || null);
 
   const toggle = () => {
     const newOpen = !open;

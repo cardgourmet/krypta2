@@ -1,3 +1,4 @@
+import type { PcgSearchQuerySettings, PcgSortBy } from '@/parcels/tcg/pcg/types.ts';
 import type { TcgCardQuery } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -6,49 +7,48 @@ export type PcgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
 export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
 
-export type PcgCardSortBy = 'name' | 'set' | 'rarity' | 'type' | 'health' | 'released';
 export type PcgCardQuery = TcgCardQuery & {
-  sortBy?: PcgCardSortBy;
+  sortBy?: PcgSortBy;
 };
 
-export function isPcgCardSortBy(s: string): s is PcgCardSortBy {
-  return s === 'name' || s === 'set' || s === 'rarity' || s === 'type' || s === 'health' || s === 'released';
-}
-
-export const pcgSortByElements: Record<PcgCardSortBy, string> = {
-  name: 'Name',
-  set: 'Set',
-  rarity: 'Seltenheit',
-  type: 'Typ',
-  health: 'Leben',
-  released: 'Veröffentlichkeitsdatum',
-};
-export const pcgSortByDefault = 'name';
-
-export function fetchPcgCards(
-  query: PcgCardQuery,
+export async function fetchPcgCards(
+  settings: PcgSearchQuerySettings,
   abort: AbortController,
-  onSuccess: (data: PcgSearchCardsResult) => void,
-) {
-  umoriClient
-    .GET(`/v1/pcg/cards/search`, {
+): Promise<{ query: PcgCardQuery; data?: PcgSearchCardsResult; error?: Error }> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: Number(settings.pageSize),
+    sortBy: settings.sortBy,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  try {
+    const res = await umoriClient.GET(`/v1/pcg/cards/search`, {
       params: {
         query: query,
       },
       signal: abort.signal,
-    })
-    .then((res) => {
-      if (!res.data) {
-        return;
-      }
-
-      onSuccess(res.data as PcgSearchCardsResult);
-    })
-    .catch((error) => {
-      if (error.name === 'AbortError') {
-        console.log('Just aborted the call, no biggies.');
-      } else {
-        console.log(`Error: ${error}`);
-      }
     });
+
+    if (!res.response.ok) {
+      return { query: query, error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { query: query, error: new Error('Received invalid data') };
+    }
+
+    return { query: query, data: res.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { query: query, error: error };
+  }
 }

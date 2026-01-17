@@ -27,10 +27,8 @@ export const dlcSearchParamsSchema = z.object({
   page: z.number().catch(dlcSearchParamsDefaults.page),
   pageSize: z.enum(dlcPageSizes).catch(dlcSearchParamsDefaults.pageSize),
   sortDirection: z.enum(dlcSortDirections).catch(dlcSearchParamsDefaults.sortDirection),
-  cardDisplayMode: z.enum(['grid', 'table']).catch(dlcSearchParamsDefaults.cardDisplayMode),
-  sortBy: z
-    .enum(['name', 'set', 'ink', 'strength', 'willpower', 'movement', 'released'])
-    .catch(dlcSearchParamsDefaults.sortBy),
+  cardDisplayMode: z.enum(dlcDisplayModes).catch(dlcSearchParamsDefaults.cardDisplayMode),
+  sortBy: z.enum(dlcSortBys).catch(dlcSearchParamsDefaults.sortBy),
 });
 
 export type DlcSearchParams = CardSearchParams & {

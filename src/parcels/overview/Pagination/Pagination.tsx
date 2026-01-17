@@ -8,6 +8,7 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import { useWindowSize } from '@/parcels/overview/useWindowSize.ts';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
@@ -17,7 +18,7 @@ type CardPaginationProps = {
   lastPage?: number;
   isLoading?: boolean;
   isQueryLoading?: boolean;
-  setSettings: (update: ApplyFn<DlcSearchParams>) => void;
+  setSettings: (update: ApplyFn<DlcSearchParams | PcgSearchParams>) => void;
 };
 
 const MIN_DESKTOP_SIZE_PX = 720;

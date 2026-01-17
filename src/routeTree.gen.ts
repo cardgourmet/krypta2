@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PcgIndexRouteImport } from './routes/pcg/index'
 import { Route as MtgIndexRouteImport } from './routes/mtg/index'
 import { Route as DlcIndexRouteImport } from './routes/dlc/index'
+import { Route as PcgCardsIndexRouteImport } from './routes/pcg/cards/index'
 import { Route as DlcCardsIndexRouteImport } from './routes/dlc/cards/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const DlcIndexRoute = DlcIndexRouteImport.update({
   path: '/dlc/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PcgCardsIndexRoute = PcgCardsIndexRouteImport.update({
+  id: '/pcg/cards/',
+  path: '/pcg/cards/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DlcCardsIndexRoute = DlcCardsIndexRouteImport.update({
   id: '/dlc/cards/',
   path: '/dlc/cards/',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/mtg': typeof MtgIndexRoute
   '/pcg': typeof PcgIndexRoute
   '/dlc/cards': typeof DlcCardsIndexRoute
+  '/pcg/cards': typeof PcgCardsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/mtg': typeof MtgIndexRoute
   '/pcg': typeof PcgIndexRoute
   '/dlc/cards': typeof DlcCardsIndexRoute
+  '/pcg/cards': typeof PcgCardsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,21 @@ export interface FileRoutesById {
   '/mtg/': typeof MtgIndexRoute
   '/pcg/': typeof PcgIndexRoute
   '/dlc/cards/': typeof DlcCardsIndexRoute
+  '/pcg/cards/': typeof PcgCardsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dlc' | '/mtg' | '/pcg' | '/dlc/cards'
+  fullPaths: '/' | '/dlc' | '/mtg' | '/pcg' | '/dlc/cards' | '/pcg/cards'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dlc' | '/mtg' | '/pcg' | '/dlc/cards'
-  id: '__root__' | '/' | '/dlc/' | '/mtg/' | '/pcg/' | '/dlc/cards/'
+  to: '/' | '/dlc' | '/mtg' | '/pcg' | '/dlc/cards' | '/pcg/cards'
+  id:
+    | '__root__'
+    | '/'
+    | '/dlc/'
+    | '/mtg/'
+    | '/pcg/'
+    | '/dlc/cards/'
+    | '/pcg/cards/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +93,7 @@ export interface RootRouteChildren {
   MtgIndexRoute: typeof MtgIndexRoute
   PcgIndexRoute: typeof PcgIndexRoute
   DlcCardsIndexRoute: typeof DlcCardsIndexRoute
+  PcgCardsIndexRoute: typeof PcgCardsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DlcIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pcg/cards/': {
+      id: '/pcg/cards/'
+      path: '/pcg/cards'
+      fullPath: '/pcg/cards'
+      preLoaderRoute: typeof PcgCardsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dlc/cards/': {
       id: '/dlc/cards/'
       path: '/dlc/cards'
@@ -125,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   MtgIndexRoute: MtgIndexRoute,
   PcgIndexRoute: PcgIndexRoute,
   DlcCardsIndexRoute: DlcCardsIndexRoute,
+  PcgCardsIndexRoute: PcgCardsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
