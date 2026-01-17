@@ -1,6 +1,7 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAdjustmentsHorizontal, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   type CardAmount,
   type CardDisplayMode,
@@ -36,6 +37,7 @@ type CardGridSettingsProps = {
 };
 
 export default function CardGridSettings({ tcg, querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
+  const { t } = useTranslation('translation', { keyPrefix: `${tcg}` });
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -75,7 +77,7 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
   }
   const sortByItems: Record<string, string> = {};
   sortBys.forEach((sortBy) => {
-    sortByItems[sortBy as string] = (sortBy as string).toLowerCase();
+    sortByItems[sortBy as string] = t(`sortby.${(sortBy as string).toLowerCase()}`);
   });
 
   return (

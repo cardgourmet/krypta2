@@ -1,10 +1,12 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { IconLanguage, IconMenu2, IconMoon, IconSearch, IconSun, IconSunMoon, IconUser } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import Searchbar from '@/parcels/homepage/Searchbar/Searchbar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import styles from './Navbar.module.css';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 interface NavbarProps {
   setSidebarOpen: (open: boolean) => void;
@@ -12,6 +14,18 @@ interface NavbarProps {
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
+
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = useState<string>('en');
+  const switchLanguage = useEffectEvent((language: string) => {
+    // noinspection JSIgnoredPromiseFromCall
+    i18n.changeLanguage(language);
+  });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: _
+  useEffect(() => {
+    switchLanguage(language);
+  }, [language]);
 
   return (
     <>
@@ -33,8 +47,11 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 de: 'Deutsch',
                 en: 'English',
               }}
-              defaultSelected={'de'}
+              defaultSelected={language}
               renderButtonContent={() => <IconLanguage size={22} color={'#9ba6b1'} />}
+              onSelect={(selected) => {
+                setLanguage(selected);
+              }}
             />
             <Dropdown
               className={styles.iconButton}

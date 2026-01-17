@@ -113,9 +113,7 @@ function DlcCardsOverview() {
           explanation={cards?.data.details?.explanation ?? ''}
         />
 
-        {cards && searchDisplaySettings.cardDisplayMode === 'grid' && (
-          <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />
-        )}
+        {searchDisplaySettings.cardDisplayMode === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
       </div>
     </div>
   );

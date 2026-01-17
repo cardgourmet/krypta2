@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals.ts';
 import { routeTree } from './routeTree.gen';
 import './styles.css';
+import './parcels/i18n/i18n';
 
 import '@mantine/core/styles.layer.css';
 

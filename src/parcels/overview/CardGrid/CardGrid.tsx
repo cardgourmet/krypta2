@@ -8,12 +8,14 @@ import styles from './CardGrid.module.css';
 
 type CardGridProps = {
   tcg: Tcg;
-  cards: DlcSearchCardsResult | PcgSearchCardsResult | null;
+  cards: DlcSearchCardsResult | PcgSearchCardsResult | null | undefined;
   isLoading: boolean;
 };
 
 export function CardGrid({ tcg, cards, isLoading }: CardGridProps) {
   const cardItems: DlcSearchDataCard[] | PcgSearchDataCard[] | null = useMemo(() => {
+    if (!cards) return null;
+
     if (tcg === 'dlc') {
       return (cards as DlcSearchCardsResult).data.items;
     } else if (tcg === 'pcg') {
