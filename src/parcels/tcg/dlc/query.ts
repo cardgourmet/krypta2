@@ -13,7 +13,7 @@ export function useDlcMemoizedQuerySettings() {
       sortBy: searchParams.sortBy,
       sortDirection: searchParams.sortDirection,
     };
-  }, [searchParams]);
+  }, [searchParams.query, searchParams.page, searchParams.pageSize, searchParams.sortBy, searchParams.sortDirection]);
 }
 
 export function useDlcMemoizedDisplaySettings() {
@@ -23,5 +23,5 @@ export function useDlcMemoizedDisplaySettings() {
     return {
       cardDisplayMode: searchParams.cardDisplayMode ?? cardDisplayModeDefault,
     };
-  }, [searchParams]);
+  }, [searchParams.cardDisplayMode]);
 }

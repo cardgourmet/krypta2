@@ -1,3 +1,17 @@
+.contentNav {
+  padding: 1rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: var(--navbar-height);
+
+  border: 0;
+  border-bottom: #2b3137 solid 2px;
+
+  background-color: #161a1d;
+  z-index: var(--sticky-layer);
+}
+
 .pagination {
   display: flex;
   flex-direction: row;

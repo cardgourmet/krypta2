@@ -1,7 +1,7 @@
 import Skeleton from 'react-loading-skeleton';
 import { calculateCardRange } from '@/parcels/overview/calculateCardRange.ts';
 import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
-import styles from '@/routes/dlc/cards/index.module.css';
+import styles from './QueryExplanation.module.css';
 
 type QueryExplanationProps = {
   isLoading: boolean;

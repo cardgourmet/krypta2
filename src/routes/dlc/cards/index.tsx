@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
-import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
+import Breadcrumbs from '@/parcels/overview/Breadcrumbs/Breadcrumbs.tsx';
+import { CardGrid } from '@/parcels/overview/CardGrid/CardGrid.tsx';
 import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettings.tsx';
-import ImageCard from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
@@ -57,7 +56,11 @@ function CardsOverview() {
     });
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
+  const onQueryChange = useEffectEvent((query: string) => {
+    history?.addQuery(tcg, query);
+  });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: it's only prevQuerySettings
   useEffect(() => {
     if (querySettings.query !== prevQuerySettings?.query) {
       setIsQueryLoading(true);
@@ -73,7 +76,7 @@ function CardsOverview() {
 
       // write to history
       if (query.query !== undefined) {
-        history?.addQuery(tcg, query.query);
+        onQueryChange(query.query);
       }
       setCards(data as DlcSearchCardsResult);
 
@@ -84,26 +87,18 @@ function CardsOverview() {
     return () => {
       controller.abort();
     };
-  }, [
-    querySettings.query,
-    querySettings.page,
-    querySettings.pageSize,
-    querySettings.sortBy,
-    querySettings.sortDirection,
-  ]);
+  }, [querySettings]);
 
   return (
     <div ref={scrollBackRef}>
       <div className={styles.mainContent}>
         <Breadcrumbs />
-        <div className={styles.contentNav}>
-          <Pagination
-            currentPage={dataCurrentPage}
-            lastPage={dataLastPage}
-            isQueryLoading={isQueryLoading}
-            setSettings={setSettings}
-          />
-        </div>
+        <Pagination
+          currentPage={dataCurrentPage}
+          lastPage={dataLastPage}
+          isQueryLoading={isQueryLoading}
+          setSettings={setSettings}
+        />
 
         <CardGridSettings querySettings={querySettings} displaySettings={displaySettings} setSettings={setSettings} />
 
@@ -115,25 +110,7 @@ function CardsOverview() {
           explanation={cards?.data.details?.explanation ?? ''}
         />
 
-        <div className={styles.cardsOverview}>
-          {isLoading
-            && Array(60)
-              .fill(0)
-              .map((_, i) => (
-                <div key={i} className={styles.card}>
-                  <Skeleton
-                    baseColor={'#444'}
-                    highlightColor={'#656565'}
-                    height={'100%'}
-                    style={{ borderRadius: '15px', aspectRatio: 672 / 936 }}
-                  />
-                </div>
-              ))}
-          {!isLoading
-            && cards
-            && displaySettings.cardDisplayMode === 'grid'
-            && cards.data.items.map((card, index) => <ImageCard key={index} tcg={tcg} card={card} />)}
-        </div>
+        {displaySettings.cardDisplayMode === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
       </div>
     </div>
   );
