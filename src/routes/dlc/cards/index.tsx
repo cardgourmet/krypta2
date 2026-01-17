@@ -5,10 +5,9 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettings.tsx';
-import { calculateCardRange } from '@/parcels/overview/calculateCardRange.ts';
 import ImageCard from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
-import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
+import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import { type DlcSearchCardsResult, fetchDlcCards } from '@/parcels/tcg/dlc/api.ts';
 import { useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings } from '@/parcels/tcg/dlc/query.ts';
@@ -19,7 +18,6 @@ import {
   dlcSearchParamsDefaults,
   dlcSearchParamsSchema,
 } from '@/parcels/tcg/dlc/types.ts';
-import type { PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
 import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
@@ -31,8 +29,6 @@ export const Route = createFileRoute('/dlc/cards/')({
     middlewares: [stripSearchParams(dlcSearchParamsDefaults)],
   },
 });
-
-const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
 function CardsOverview() {
   const tcg = useTcg() as Tcg;
@@ -111,25 +107,13 @@ function CardsOverview() {
 
         <CardGridSettings querySettings={querySettings} displaySettings={displaySettings} setSettings={setSettings} />
 
-        <div className={styles.queryExplanation}>
-          {isLoading && (
-            <p>
-              <Skeleton baseColor={'#444'} highlightColor={'#656565'} />
-            </p>
-          )}
-          {!isLoading && (
-            <p>
-              {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).from}–
-              {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize), cards?.data?.details?.count).to} von{' '}
-              <span
-                // biome-ignore lint/security/noDangerouslySetInnerHtml: _
-                dangerouslySetInnerHTML={{
-                  __html: parseSearchExplanation(cards?.data.details?.explanation ?? '') ?? '',
-                }}
-              />
-            </p>
-          )}
-        </div>
+        <QueryExplanation
+          isLoading={isLoading}
+          currentPage={dataCurrentPage}
+          pageSize={Number(querySettings.pageSize)}
+          cardCount={cards?.data?.details?.count ?? 0}
+          explanation={cards?.data.details?.explanation ?? ''}
+        />
 
         <div className={styles.cardsOverview}>
           {isLoading
@@ -145,42 +129,12 @@ function CardsOverview() {
                   />
                 </div>
               ))}
-          {!isLoading && cards && displaySettings.cardDisplayMode === 'grid' && getImageCards(tcg, cards)}
+          {!isLoading
+            && cards
+            && displaySettings.cardDisplayMode === 'grid'
+            && cards.data.items.map((card, index) => <ImageCard key={index} tcg={tcg} card={card} />)}
         </div>
       </div>
     </div>
   );
-}
-
-function getImageCards(tcg: Tcg, cards: DlcSearchCardsResult | PcgSearchCardsResult) {
-  switch (tcg) {
-    case 'dlc': {
-      const dlcCards = cards as DlcSearchCardsResult;
-      return dlcCards.data.items.map((card) => (
-        <ImageCard
-          key={card.card.id}
-          id={card.card.id}
-          name={card.card.name}
-          thumbnailUrl={card.card.print.translations.en?.imageUrls?.thumbnail ?? ''}
-          backfaceThumbnailUrl={backupImageUrl}
-          backupImageUrl={backupImageUrl}
-        />
-      ));
-    }
-    case 'pcg': {
-      const pcgCards = cards as PcgSearchCardsResult;
-      return pcgCards.data.items.map((card) => (
-        <ImageCard
-          key={card.card.id}
-          id={card.card.id}
-          name={card.card.name}
-          thumbnailUrl={card.card.print.translations.en?.imageUrls?.thumbnail ?? ''}
-          backfaceThumbnailUrl={backupImageUrl}
-          backupImageUrl={backupImageUrl}
-        />
-      ));
-    }
-    case 'mtg':
-      return <div></div>;
-  }
 }

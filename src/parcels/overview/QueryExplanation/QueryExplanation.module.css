@@ -1,0 +1,27 @@
+.queryExplanation {
+  display: flex;
+  flex-direction: row;
+
+  p {
+    margin: 1rem;
+    width: 50%;
+    font-size: 1.05rem;
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+
+    @media (max-width: 720px) {
+      width: 100%;
+    }
+  }
+
+  /* stolen from Krypta, without Mantine though (lol) */
+  code {
+    background-color: rgba(34, 139, 230, 0.15);
+    border-radius: 0.25rem;
+    color: #339af0;
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
+  }
+}

@@ -4,6 +4,7 @@ import umoriClient from '@/schema/umoriClient.ts';
 
 export type PcgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
 
 export type PcgCardSortBy = 'name' | 'set' | 'rarity' | 'type' | 'health' | 'released';
 export type PcgCardQuery = TcgCardQuery & {

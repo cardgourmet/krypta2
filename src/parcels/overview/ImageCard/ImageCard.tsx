@@ -1,17 +1,52 @@
 import { IconRefresh } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import type { DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { Tcg } from '@/parcels/tcg/useTcg.ts';
 import styles from './ImageCard.module.css';
 
 interface ImageCardProps {
+  tcg: Tcg;
+  card: DlcSearchDataCard | PcgSearchDataCard;
+}
+
+type CardProperties = {
   id: string;
   name?: string;
   thumbnailUrl?: string;
   backfaceThumbnailUrl?: string;
   backupImageUrl: string;
-}
+};
 
-export default function ImageCard(props: ImageCardProps) {
+const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
+
+export default function ImageCard({ tcg, card }: ImageCardProps) {
+  const properties: CardProperties = useMemo(() => {
+    if (tcg === 'dlc') {
+      const dlcCard = card as DlcSearchDataCard;
+
+      return {
+        id: dlcCard.card.id,
+        name: dlcCard.card.name,
+        thumbnailUrl: dlcCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
+        backfaceThumbnailUrl: backupImageUrl,
+        backupImageUrl: backupImageUrl,
+      };
+    } else if (tcg === 'pcg') {
+      const pcgCard = card as PcgSearchDataCard;
+
+      return {
+        id: pcgCard.card.id,
+        name: pcgCard.card.name,
+        thumbnailUrl: pcgCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
+        backfaceThumbnailUrl: backupImageUrl,
+        backupImageUrl: backupImageUrl,
+      };
+    }
+    return {} as CardProperties;
+  }, [tcg, card]);
+
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -34,9 +69,9 @@ export default function ImageCard(props: ImageCardProps) {
   }, []);
 
   return (
-    <div key={props.id} className={styles.card}>
+    <div key={properties.id} className={styles.card}>
       {imageLoaded && backfaceImageLoaded && (
-        <div key={`${props.id}-overlay`} className={styles.contentOverlay}>
+        <div key={`${properties.id}-overlay`} className={styles.contentOverlay}>
           <button
             type="button"
             onClick={() => {
@@ -50,7 +85,7 @@ export default function ImageCard(props: ImageCardProps) {
           </button>
         </div>
       )}
-      <a href={`/dlc/cards/${props.id}`}>
+      <a href={`/dlc/cards/${properties.id}`}>
         {(!imageLoaded || !backfaceImageLoaded) && (
           <Skeleton
             style={{
@@ -71,31 +106,31 @@ export default function ImageCard(props: ImageCardProps) {
           <div>
             <img
               ref={imageRef}
-              alt={props.name}
-              src={props.thumbnailUrl}
+              alt={properties.name}
+              src={properties.thumbnailUrl}
               loading={'lazy'}
               onError={(error) => {
                 console.log(`Could not load image because: ${error}`);
 
                 if (!imageRef.current) return;
-                imageRef.current.src = props.backupImageUrl;
+                imageRef.current.src = properties.backupImageUrl;
               }}
               onLoad={() => {
                 setImageLoaded(true);
               }}
             />
           </div>
-          {props.backfaceThumbnailUrl && (
+          {properties.backfaceThumbnailUrl && (
             <div style={{ transform: 'rotateY(180deg)' }}>
               <img
                 ref={backfaceImageRef}
-                alt={props.name}
-                src={props.backfaceThumbnailUrl}
+                alt={properties.name}
+                src={properties.backfaceThumbnailUrl}
                 onError={(error) => {
                   console.log(`Could not load backface image because: ${error}`);
 
                   if (!backfaceImageRef.current) return;
-                  backfaceImageRef.current.src = props.backupImageUrl;
+                  backfaceImageRef.current.src = properties.backupImageUrl;
                 }}
                 onLoad={() => {
                   setBackfaceImageLoaded(true);

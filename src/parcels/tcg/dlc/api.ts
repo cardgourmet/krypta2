@@ -9,6 +9,7 @@ export type DlcCardQuery = TcgCardQuery & {
 
 export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
 
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,
