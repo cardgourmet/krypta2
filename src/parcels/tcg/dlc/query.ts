@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import { cardAmountDefault, cardDisplayModeDefault, sortDirectionDefault } from '@/parcels/overview/types.ts';
-import { sortByDefault } from '@/parcels/tcg/dlc/types.ts';
+import { cardDisplayModeDefault } from '@/parcels/overview/types.ts';
 import { Route } from '@/routes/dlc/cards';
 
 export function useDlcMemoizedQuerySettings() {
@@ -8,11 +7,11 @@ export function useDlcMemoizedQuerySettings() {
 
   return useMemo(() => {
     return {
-      query: searchParams.query ?? '',
-      page: searchParams.page ?? 1,
-      pageSize: searchParams.pageSize ?? cardAmountDefault,
-      sortBy: searchParams.sortBy ?? sortByDefault,
-      sortDirection: searchParams.sortDirection ?? sortDirectionDefault,
+      query: searchParams.query,
+      page: searchParams.page,
+      pageSize: searchParams.pageSize,
+      sortBy: searchParams.sortBy,
+      sortDirection: searchParams.sortDirection,
     };
   }, [searchParams]);
 }

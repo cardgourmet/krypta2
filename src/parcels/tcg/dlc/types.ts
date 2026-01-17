@@ -1,33 +1,41 @@
+import { z } from 'zod';
 import type { CardSearchDisplaySettings, CardSearchParams, CardSearchQuerySettings } from '@/parcels/overview/types.ts';
 
-export type DlcCardSortBy = 'name' | 'set' | 'ink' | 'strength' | 'willpower' | 'movement' | 'released';
-export function isDlcCardSortBy(s: string): s is DlcCardSortBy {
-  return (
-    s === 'name'
-    || s === 'set'
-    || s === 'ink'
-    || s === 'strength'
-    || s === 'willpower'
-    || s === 'movement'
-    || s === 'released'
-  );
-}
-export const sortByElements: Record<DlcCardSortBy, string> = {
-  name: 'Name',
-  set: 'Set',
-  ink: 'Ink',
-  strength: 'Stärke',
-  willpower: 'Widerstandskraft',
-  movement: 'Bewegungskosten',
-  released: 'Veröffentlichkeitsdatum',
-};
-export const sortByDefault = 'name';
+export const dlcPageSizes = ['60', '48', '36', '24', '12'] as const;
+export type DlcPageSize = (typeof dlcPageSizes)[number];
 
-// =========================================================================
+export const dlcSortDirections = ['asc', 'desc', 'auto'] as const;
+export type DlcSortDirection = (typeof dlcSortDirections)[number];
 
-export type DlcCardSearchParams = CardSearchParams & {
-  sortBy?: DlcCardSortBy;
+export const dlcDisplayModes = ['grid', 'table'] as const;
+export type DlcDisplayMode = (typeof dlcDisplayModes)[number];
+
+export const dlcSortBys = ['name', 'set', 'ink', 'strength', 'willpower', 'movement', 'released'] as const;
+export type DlcSortBy = (typeof dlcSortBys)[number];
+
+export const dlcSearchParamsDefaults = {
+  query: '',
+  page: 1,
+  pageSize: '60' as DlcPageSize,
+  sortDirection: 'auto' as DlcSortDirection,
+  cardDisplayMode: 'grid' as DlcDisplayMode,
+  sortBy: 'name' as DlcSortBy,
 };
 
-export type DlcCardSearchQuerySettings = CardSearchQuerySettings<DlcCardSearchParams>;
-export type DlcCardSearchDisplaySettings = CardSearchDisplaySettings<DlcCardSearchParams>;
+export const dlcSearchParamsSchema = z.object({
+  query: z.string().catch(dlcSearchParamsDefaults.query),
+  page: z.number().catch(dlcSearchParamsDefaults.page),
+  pageSize: z.enum(dlcPageSizes).catch(dlcSearchParamsDefaults.pageSize),
+  sortDirection: z.enum(dlcSortDirections).catch(dlcSearchParamsDefaults.sortDirection),
+  cardDisplayMode: z.enum(['grid', 'table']).catch(dlcSearchParamsDefaults.cardDisplayMode),
+  sortBy: z
+    .enum(['name', 'set', 'ink', 'strength', 'willpower', 'movement', 'released'])
+    .catch(dlcSearchParamsDefaults.sortBy),
+});
+
+export type DlcSearchParams = CardSearchParams & {
+  sortBy?: DlcSortBy;
+};
+
+export type DlcSearchQuerySettings = CardSearchQuerySettings<DlcSearchParams>;
+export type DlcSearchDisplaySettings = CardSearchDisplaySettings<DlcSearchParams>;

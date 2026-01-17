@@ -8,20 +8,19 @@ import {
   type SortDirection,
   sortDirectionElements,
 } from '@/parcels/overview/types.ts';
-import {
-  type DlcCardSearchDisplaySettings,
-  type DlcCardSearchParams,
-  type DlcCardSearchQuerySettings,
-  type DlcCardSortBy,
-  sortByElements,
+import type {
+  DlcSearchDisplaySettings,
+  DlcSearchParams,
+  DlcSearchQuerySettings,
+  DlcSortBy,
 } from '@/parcels/tcg/dlc/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardGridSettings.module.css';
 
 type CardGridSettingsProps = {
-  querySettings: DlcCardSearchQuerySettings;
-  displaySettings: DlcCardSearchDisplaySettings;
-  setSettings: (update: (params: DlcCardSearchParams) => DlcCardSearchParams) => void;
+  querySettings: DlcSearchQuerySettings;
+  displaySettings: DlcSearchDisplaySettings;
+  setSettings: (update: (params: DlcSearchParams) => DlcSearchParams) => void;
 };
 
 export default function CardGridSettings({ querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
@@ -72,11 +71,19 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
               <div>
                 <p>Sortieren nach</p>
                 <Dropdown
-                  items={sortByElements}
+                  items={{
+                    name: 'Name',
+                    set: 'Set',
+                    ink: 'Ink',
+                    strength: 'Stärke',
+                    willpower: 'Willensstärke',
+                    movement: 'Bewegungskosten',
+                    released: 'Releasedatum',
+                  }}
                   defaultSelected={querySettings.sortBy}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, sortBy: selected as DlcCardSortBy };
+                      return { ...prev, sortBy: selected as DlcSortBy };
                     });
                   }}
                 />
@@ -127,11 +134,19 @@ export default function CardGridSettings({ querySettings, displaySettings, setSe
           <div>
             <p>Sortieren nach</p>
             <Dropdown
-              items={sortByElements}
+              items={{
+                name: 'Name',
+                set: 'Set',
+                ink: 'Ink',
+                strength: 'Stärke',
+                willpower: 'Willensstärke',
+                movement: 'Bewegungskosten',
+                released: 'Releasedatum',
+              }}
               defaultSelected={querySettings.sortBy}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, sortBy: selected as DlcCardSortBy };
+                  return { ...prev, sortBy: selected as DlcSortBy };
                 });
               }}
             />

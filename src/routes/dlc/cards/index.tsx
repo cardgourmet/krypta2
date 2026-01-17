@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { IconChefHat, IconChevronRight } from '@tabler/icons-react';
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link, stripSearchParams, useNavigate } from '@tanstack/react-router';
 import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettings.tsx';
 import { calculateCardRange } from '@/parcels/overview/calculateCardRange.ts';
 import ImageCard from '@/parcels/overview/ImageCard/ImageCard.tsx';
@@ -11,40 +11,46 @@ import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import { useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings } from '@/parcels/tcg/dlc/query.ts';
-import { type ApplyFn, dlcApplyAndCleanup, dlcValidateSearchParams } from '@/parcels/tcg/dlc/searchParams.ts';
-import type {
-  DlcCardSearchDisplaySettings,
-  DlcCardSearchParams,
-  DlcCardSearchQuerySettings,
+import {
+  type DlcSearchDisplaySettings,
+  type DlcSearchParams,
+  type DlcSearchQuerySettings,
+  dlcSearchParamsDefaults,
+  dlcSearchParamsSchema,
 } from '@/parcels/tcg/dlc/types.ts';
 import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 import { type DlcSearchCardsResult, fetchDlcCards, type PcgSearchCardsResult } from '@/parcels/umori/api.ts';
 
 export const Route = createFileRoute('/dlc/cards/')({
   component: CardsOverview,
-  validateSearch: dlcValidateSearchParams,
+  validateSearch: dlcSearchParamsSchema,
+  search: {
+    middlewares: [stripSearchParams(dlcSearchParamsDefaults)],
+  },
 });
 
 const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
 function CardsOverview() {
   const tcg = useTcg() as Tcg;
-  const searchParams = Route.useSearch();
+  const searchParams = Route.useSearch() as DlcSearchParams;
   const navigate = useNavigate({ from: Route.fullPath });
   const history = useSearchHistory();
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isQueryLoading, setIsQueryLoading] = useState(true);
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
   const [cards, setCards] = useState<DlcSearchCardsResult | null>(null);
   const dataCurrentPage = cards?.data?.currentPage;
   const dataLastPage = cards?.data?.pageCount;
 
-  const querySettings: DlcCardSearchQuerySettings = useDlcMemoizedQuerySettings();
-  const displaySettings: DlcCardSearchDisplaySettings = useDlcMemoizedDisplaySettings();
+  const querySettings: DlcSearchQuerySettings = useDlcMemoizedQuerySettings();
+  const prevQuerySettings = usePrevious(querySettings);
+  const displaySettings: DlcSearchDisplaySettings = useDlcMemoizedDisplaySettings();
 
-  const setSettings = (apply: ApplyFn<DlcCardSearchParams>) => {
-    const newParams = dlcApplyAndCleanup(apply, searchParams);
-    if (newParams === null) return;
+  const setSettings = (apply: ApplyFn<DlcSearchParams>) => {
+    const newParams = apply(searchParams) as Required<DlcSearchParams>;
 
     // noinspection JSIgnoredPromiseFromCall
     navigate({
@@ -55,8 +61,10 @@ function CardsOverview() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
-    setCards(null);
-    setLoading(true);
+    if (querySettings.query !== prevQuerySettings?.query) {
+      setIsQueryLoading(true);
+    }
+    setIsLoading(true);
 
     const controller = new AbortController();
     fetchDlcCards(querySettings, controller).then(({ query, data, error }) => {
@@ -70,7 +78,9 @@ function CardsOverview() {
         history?.addQuery(tcg, query.query);
       }
       setCards(data as DlcSearchCardsResult);
-      setLoading(false);
+
+      setIsLoading(false);
+      setIsQueryLoading(false);
     });
 
     return () => {
@@ -101,21 +111,26 @@ function CardsOverview() {
           <p>Kartendatenbank</p>
         </div>
         <div className={styles.contentNav}>
-          <Pagination lastPage={dataLastPage} settings={querySettings} setSettings={setSettings} />
+          <Pagination
+            currentPage={dataCurrentPage}
+            lastPage={dataLastPage}
+            isQueryLoading={isQueryLoading}
+            setSettings={setSettings}
+          />
         </div>
 
         <CardGridSettings querySettings={querySettings} displaySettings={displaySettings} setSettings={setSettings} />
 
         <div className={styles.queryExplanation}>
-          {loading && (
+          {isLoading && (
             <p>
               <Skeleton baseColor={'#444'} highlightColor={'#656565'} />
             </p>
           )}
-          {!loading && (
+          {!isLoading && (
             <p>
               {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).from}–
-              {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize)).to} von{' '}
+              {calculateCardRange(dataCurrentPage, Number(querySettings.pageSize), cards?.data?.details?.count).to} von{' '}
               <span
                 // biome-ignore lint/security/noDangerouslySetInnerHtml: _
                 dangerouslySetInnerHTML={{
@@ -127,7 +142,7 @@ function CardsOverview() {
         </div>
 
         <div className={styles.cardsOverview}>
-          {loading
+          {isLoading
             && Array(60)
               .fill(0)
               .map((_, i) => (
@@ -140,7 +155,7 @@ function CardsOverview() {
                   />
                 </div>
               ))}
-          {!loading && cards && displaySettings.cardDisplayMode === 'grid' && getImageCards(tcg, cards)}
+          {!isLoading && cards && displaySettings.cardDisplayMode === 'grid' && getImageCards(tcg, cards)}
         </div>
       </div>
     </div>
@@ -178,4 +193,12 @@ function getImageCards(tcg: Tcg, cards: DlcSearchCardsResult | PcgSearchCardsRes
     case 'mtg':
       return <div></div>;
   }
+}
+
+function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef<T>(undefined);
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 }

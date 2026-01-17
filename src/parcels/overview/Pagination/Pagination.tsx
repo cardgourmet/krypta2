@@ -7,27 +7,29 @@ import {
 } from '@tabler/icons-react';
 import Skeleton from 'react-loading-skeleton';
 import { useWindowSize } from '@/parcels/overview/useWindowSize.ts';
-import type { ApplyFn } from '@/parcels/tcg/dlc/searchParams.ts';
-import type { DlcCardSearchParams, DlcCardSearchQuerySettings } from '@/parcels/tcg/dlc/types.ts';
+import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
 
 type CardPaginationProps = {
+  currentPage?: number;
   lastPage?: number;
-  settings: DlcCardSearchQuerySettings;
-  setSettings: (update: ApplyFn<DlcCardSearchParams>) => void;
+  isLoading?: boolean;
+  isQueryLoading?: boolean;
+  setSettings: (update: ApplyFn<DlcSearchParams>) => void;
 };
 
 const MIN_DESKTOP_SIZE_PX = 720;
 
-export default function Pagination({ lastPage, settings, setSettings }: CardPaginationProps) {
+export default function Pagination({ currentPage, lastPage, isQueryLoading, setSettings }: CardPaginationProps) {
   const [width] = useWindowSize();
-  const currentPage = settings.page ?? 1;
+  const mustCurrentPage = currentPage ?? 1;
 
   const switchPage = (nextPage: number) => {
     if (nextPage < 1) return;
     if (nextPage > (lastPage ?? 0)) return;
-    if (nextPage === currentPage) return;
+    if (nextPage === mustCurrentPage) return;
 
     setSettings((params) => {
       return { ...params, page: nextPage };
@@ -36,28 +38,30 @@ export default function Pagination({ lastPage, settings, setSettings }: CardPagi
 
   return (
     <div className={styles.pagination}>
-      {!lastPage && <Skeleton baseColor={'#444'} highlightColor={'#656565'} height={'2.5rem'} width={'20rem'} />}
+      {(isQueryLoading || !lastPage) && (
+        <Skeleton baseColor={'#444'} highlightColor={'#656565'} height={'2.5rem'} width={'20rem'} />
+      )}
 
-      {lastPage && (
+      {!isQueryLoading && lastPage && (
         <>
           <div className={styles.arrowsLeft}>
             <button type="button" disabled={currentPage === 1} onClick={() => switchPage(1)}>
               <IconChevronLeftPipe size={18} />
             </button>
-            <button type="button" disabled={currentPage === 1} onClick={() => switchPage(currentPage - 1)}>
+            <button type="button" disabled={currentPage === 1} onClick={() => switchPage(mustCurrentPage - 1)}>
               <IconChevronLeft size={18} />
             </button>
           </div>
           <div className={styles.buttonsMiddle}>
             {width <= MIN_DESKTOP_SIZE_PX && (
               <div className={styles.middle}>
-                <button type="button" className={styles.currentPage} onClick={() => switchPage(currentPage)}>
+                <button type="button" className={styles.currentPage} onClick={() => switchPage(mustCurrentPage)}>
                   {currentPage}
                 </button>
               </div>
             )}
             {width > MIN_DESKTOP_SIZE_PX
-              && calculatePages(currentPage, lastPage, 1).map((page, index) => (
+              && calculatePages(mustCurrentPage, lastPage, 1).map((page, index) => (
                 <div key={index} className={styles.middle}>
                   {page === null && <IconDots color={'#636b72'} />}
                   {page !== null && (
@@ -73,7 +77,7 @@ export default function Pagination({ lastPage, settings, setSettings }: CardPagi
               ))}
           </div>
           <div className={styles.arrowsRight}>
-            <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(currentPage + 1)}>
+            <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(mustCurrentPage + 1)}>
               <IconChevronRight size={18} />
             </button>
             <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(lastPage)}>
