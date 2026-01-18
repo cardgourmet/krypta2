@@ -27,16 +27,21 @@ import {
 import type { Tcg } from '@/parcels/tcg/useTcg.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
-import styles from './CardGridSettings.module.css';
+import styles from './CardOverviewSettings.module.css';
 
-type CardGridSettingsProps = {
+type CardOverviewSettingsProps = {
   tcg: Tcg;
   querySettings: DlcSearchQuerySettings | PcgSearchQuerySettings;
   displaySettings: DlcSearchDisplaySettings | PcgSearchDisplaySettings;
   setSettings: (update: ApplyFn<DlcSearchParams | PcgSearchParams>) => void;
 };
 
-export default function CardGridSettings({ tcg, querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
+export default function CardOverviewSettings({
+  tcg,
+  querySettings,
+  displaySettings,
+  setSettings,
+}: CardOverviewSettingsProps) {
   const { t } = useTranslation('cards', { keyPrefix: `${tcg}` });
   function fillTranslation(prefix: string, elements: string[]) {
     const items: Record<string, string> = {};

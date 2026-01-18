@@ -4,7 +4,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
 import Breadcrumbs from '@/parcels/overview/Breadcrumbs/Breadcrumbs.tsx';
 import { CardGrid } from '@/parcels/overview/CardGrid/CardGrid.tsx';
-import CardGridSettings from '@/parcels/overview/CardGridSettings/CardGridSettings.tsx';
+import CardOverviewSettings from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
@@ -98,7 +98,7 @@ function PcgCardsOverview() {
           setSettings={setSettings}
         />
 
-        <CardGridSettings
+        <CardOverviewSettings
           tcg={tcg}
           querySettings={searchQuerySettings}
           displaySettings={searchDisplaySettings}
