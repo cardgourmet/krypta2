@@ -3,14 +3,6 @@ import { IconAdjustmentsHorizontal, IconX } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  type CardAmount,
-  type CardDisplayMode,
-  cardAmountElements,
-  cardDisplayModeElements,
-  type SortDirection,
-  sortDirectionElements,
-} from '@/parcels/overview/types.ts';
-import {
   type DlcSearchDisplaySettings,
   type DlcSearchParams,
   type DlcSearchQuerySettings,
@@ -24,6 +16,14 @@ import {
   type PcgSortBy,
   pcgSortBys,
 } from '@/parcels/tcg/pcg/types.ts';
+import {
+  type DisplayMode,
+  displayModes,
+  type PageSize,
+  pageSizes,
+  type SortDirection,
+  sortDirections,
+} from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcg.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
@@ -37,7 +37,15 @@ type CardGridSettingsProps = {
 };
 
 export default function CardGridSettings({ tcg, querySettings, displaySettings, setSettings }: CardGridSettingsProps) {
-  const { t } = useTranslation('translation', { keyPrefix: `${tcg}` });
+  const { t } = useTranslation('cards', { keyPrefix: `${tcg}` });
+  function fillTranslation(prefix: string, elements: string[]) {
+    const items: Record<string, string> = {};
+    elements.forEach((sortBy) => {
+      items[sortBy as string] = t(`${prefix}.${(sortBy as string).toLowerCase()}`);
+    });
+    return items;
+  }
+
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -75,10 +83,10 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
   if (tcg === 'pcg') {
     sortBys = pcgSortBys;
   }
-  const sortByItems: Record<string, string> = {};
-  sortBys.forEach((sortBy) => {
-    sortByItems[sortBy as string] = t(`sortby.${(sortBy as string).toLowerCase()}`);
-  });
+  const sortByItems = fillTranslation('sortby', sortBys as string[]);
+  const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
+  const pageSizeItems = fillTranslation('pagesize', pageSizes as readonly PageSize[] as string[]);
+  const displayModeItems = fillTranslation('displaymode', displayModes as readonly DisplayMode[] as string[]);
 
   return (
     <div className={styles.settings}>
@@ -92,7 +100,7 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
             </div>
             <div className={styles.settingsSidebarContent}>
               <div>
-                <p>Sortieren nach</p>
+                <p>{t('common.sortby')}</p>
                 <Dropdown
                   items={sortByItems}
                   defaultSelected={querySettings.sortBy}
@@ -103,7 +111,7 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
                   }}
                 />
                 <Dropdown
-                  items={sortDirectionElements}
+                  items={sortDirItems}
                   defaultSelected={querySettings.sortDirection}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
@@ -113,25 +121,25 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
                 />
               </div>
               <div>
-                <p>Zeige</p>
+                <p>{t('common.show')}</p>
                 <Dropdown
-                  items={cardAmountElements}
+                  items={pageSizeItems}
                   defaultSelected={querySettings.pageSize}
                   onSelect={(selected) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, pageSize: selected as CardAmount };
+                      return { ...prev, pageSize: selected as PageSize };
                     });
                   }}
                 />
               </div>
               <div>
-                <p>Als</p>
+                <p>{t('common.as')}</p>
                 <Dropdown
-                  items={cardDisplayModeElements}
+                  items={displayModeItems}
                   defaultSelected={displaySettings.cardDisplayMode}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, cardDisplayMode: selected as CardDisplayMode };
+                      return { ...prev, cardDisplayMode: selected as DisplayMode };
                     });
                   }}
                 />
@@ -147,7 +155,7 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
       {!smallScreen && (
         <>
           <div>
-            <p>Sortieren nach</p>
+            <p>{t('common.sortby')}</p>
             <Dropdown
               items={sortByItems}
               defaultSelected={querySettings.sortBy}
@@ -158,7 +166,7 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
               }}
             />
             <Dropdown
-              items={sortDirectionElements}
+              items={sortDirItems}
               defaultSelected={querySettings.sortDirection}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
@@ -168,23 +176,23 @@ export default function CardGridSettings({ tcg, querySettings, displaySettings, 
             />
           </div>
           <div>
-            <p>Zeige</p>
+            <p>{t('common.show')}</p>
             <Dropdown
-              items={cardAmountElements}
+              items={pageSizeItems}
               defaultSelected={querySettings.pageSize}
               onSelect={(selected) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, pageSize: selected as CardAmount };
+                  return { ...prev, pageSize: selected as PageSize };
                 });
               }}
             />
-            <p>Als</p>
+            <p>{t('common.as')}</p>
             <Dropdown
-              items={cardDisplayModeElements}
+              items={displayModeItems}
               defaultSelected={displaySettings.cardDisplayMode}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, cardDisplayMode: selected as CardDisplayMode };
+                  return { ...prev, cardDisplayMode: selected as DisplayMode };
                 });
               }}
             />

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { cardDisplayModeDefault } from '@/parcels/overview/types.ts';
+import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
 import { Route } from '@/routes/pcg/cards';
 
 export function usePcgMemoizedQuerySettings() {
@@ -21,7 +21,7 @@ export function usePcgMemoizedDisplaySettings() {
 
   return useMemo(() => {
     return {
-      cardDisplayMode: searchParams.cardDisplayMode ?? cardDisplayModeDefault,
+      cardDisplayMode: searchParams.cardDisplayMode ?? pcgSearchParamsDefaults.cardDisplayMode,
     };
   }, [searchParams.cardDisplayMode]);
 }

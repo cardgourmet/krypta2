@@ -1,0 +1,34 @@
+{
+  "dlc": {
+    "common": {
+      "sortby": "Sortieren nach",
+      "show": "Zeige",
+      "as": "Als"
+    },
+    "sortby": {
+      "strength": "Stärke",
+      "name": "Name",
+      "set": "Set",
+      "ink": "Ink",
+      "willpower": "Willenskraft",
+      "movement": "Bewegungskosten",
+      "released": "Veröffentlicht"
+    },
+    "sortdir": {
+      "auto": "Automatisch",
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "pagesize": {
+      "12": "12 Karten",
+      "24": "24 Karten",
+      "36": "36 Karten",
+      "48": "48 Karten",
+      "60": "60 Karten"
+    },
+    "displaymode": {
+      "grid": "Gitter",
+      "table": "Tisch"
+    }
+  }
+}

@@ -1,32 +1,24 @@
-// noinspection JSIgnoredPromiseFromCall
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+import cardsDE from '@/../locales/cards/de.json';
+import cardsEN from '@/../locales/cards/en.json';
+
 const resources = {
   en: {
-    translation: {
-      dlc: {
-        sortby: {
-          strength: 'Strength',
-        },
-      },
-    },
+    cards: cardsEN,
   },
   de: {
-    translation: {
-      dlc: {
-        sortby: {
-          strength: 'Stärke',
-        },
-      },
-    },
+    cards: cardsDE,
   },
 };
 
+// noinspection JSIgnoredPromiseFromCall
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en', // TODO
+  lng: 'en',
+  ns: ['cards'],
+  defaultNS: 'cards',
   interpolation: {
     escapeValue: false,
   },
