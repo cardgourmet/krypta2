@@ -1,5 +1,6 @@
 import { Outlet } from '@tanstack/react-router';
 import { useState } from 'react';
+import { Footer } from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import SearchHistoryProvider from '@/parcels/search/SearchHistoryProvider.tsx';
@@ -15,6 +16,9 @@ function App() {
 
       <div className={styles.mainContent}>
         <Outlet />
+      </div>
+      <div className={styles.footer}>
+        <Footer />
       </div>
     </SearchHistoryProvider>
   );

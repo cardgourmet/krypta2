@@ -1,0 +1,26 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding: 1rem;
+
+  background-color: #1d2125;
+
+  font-size: 0.75rem;
+  color: var(--mantine-color-gray-6);
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  hr {
+    width: 100%;
+    color: #2d353c;
+  }
+}
+
+.copyright {
+  color: var(--mantine-color-gray-5);
+}

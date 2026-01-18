@@ -1,12 +1,12 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { IconLanguage, IconMenu2, IconMoon, IconSearch, IconSun, IconSunMoon, IconUser } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Searchbar from '@/parcels/homepage/Searchbar/Searchbar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import styles from './Navbar.module.css';
-import { useEffect, useEffectEvent, useState } from 'react';
 
 interface NavbarProps {
   setSidebarOpen: (open: boolean) => void;

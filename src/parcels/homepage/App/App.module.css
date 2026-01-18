@@ -24,10 +24,17 @@ button {
 
 .mainContent {
   margin-left: var(--sidebar-width);
+  min-height: calc(100vh - var(--navbar-height));
+
+  @media (max-width: 720px) {
+    margin-left: 0;
+  }
 }
 
-@media (max-width: 720px) {
-  .mainContent {
+.footer {
+  margin-left: var(--sidebar-width);
+
+  @media (max-width: 720px) {
     margin-left: 0;
   }
 }

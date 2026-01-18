@@ -1,6 +1,5 @@
-import { getRouteApi, type RouteApi } from '@tanstack/react-router';
+import { useLocation } from '@tanstack/react-router';
 import { useCallback, useEffect, useState } from 'react';
-import { useTcg } from '@/parcels/tcg/useTcg.ts';
 
 export type SearchQuery = { query: string; isByUser: boolean };
 
@@ -12,31 +11,20 @@ export function useSearchQuery() {
     setCurrentQuery(query);
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
-    const searchParamsQuery = query ?? '';
-    if (searchParamsQuery.length === 0) return;
+    if (query.length === 0) return;
 
     // user inputted search query already present
-    wrapSetCurrentQuery({ query: query ?? '', isByUser: true });
-  }, [query, wrapSetCurrentQuery]);
+    wrapSetCurrentQuery({ query: query, isByUser: true });
+  }, [query]);
 
   return [currentQuery, wrapSetCurrentQuery] as const;
 }
 
 function useTcgSpecificQuery() {
-  // ugly
-  const tcg = useTcg();
-  let routeApi: RouteApi<unknown> | undefined;
-  switch (tcg) {
-    case 'dlc':
-      routeApi = getRouteApi('/dlc/cards/');
-      break;
-    case 'pcg':
-      break;
-    case 'mtg':
-      break;
-  }
+  const location = useLocation();
 
-  const search = routeApi?.useSearch() as { query: string };
-  return search.query;
+  const search = location.search as { query: string };
+  return search?.query ?? '';
 }

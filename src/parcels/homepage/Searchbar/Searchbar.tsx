@@ -12,6 +12,7 @@ import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcg.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
@@ -160,7 +161,7 @@ export default function Searchbar() {
                   </>
                 )}
                 onSelect={(selected) => {
-                  setCurrentTcg(selected);
+                  setCurrentTcg(selected as Tcg);
                 }}
               />
             </div>

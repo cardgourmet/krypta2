@@ -1,4 +1,6 @@
 .homepage {
+  /*background: linear-gradient(to bottom, #101d2e, #2e5387);*/
+
   position: absolute;
   top: 3.5rem;
   left: 3.5rem;
@@ -15,19 +17,33 @@
   flex-direction: column;
   align-items: center;
 
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+
   h1 {
+    font-family: var(--cgm-title-font-family), serif;
+    font-weight: 600;
     font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    color: var(--cgm-sidebar-button-bg);
   }
 
   h2 {
+    font-family: var(--cgm-title-font-family), serif;
+    font-weight: 500;
     font-size: clamp(1rem, 1.5vw, 1.5rem);
   }
 
   p {
+    font-family: var(--cgm-content-font-family), serif;
+    font-weight: 300;
     font-size: clamp(0.75rem, 1.2vw, 1rem);
   }
 
   .homePageGrid {
+    width: 60%;
     margin: 0 8vw 8vw 8vw;
 
     display: grid;
@@ -41,12 +57,33 @@
   }
 
   .homePageGridItem {
-    border: 0.15rem solid #2e5387;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    background-color: var(--cgm-sidebar-bg);
+    border: 0.1rem solid var(--cgm-sidebar-border);
     border-radius: 5px;
     margin: 0.6rem;
     padding: 1rem;
 
     word-break: break-word;
+
+    a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: #ff9b5d;
+      color: inherit;
+    }
+
+    code {
+      background-color: rgb(255 155 93, 0.15);
+      color: #ff9b5d;
+      font-family: var(--cgm-monospace-font-family), monospace;
+      font-weight: 300;
+      padding: 2px calc(0.625rem / 2);
+      white-space: nowrap;
+    }
   }
 }
 
