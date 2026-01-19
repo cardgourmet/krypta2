@@ -2,6 +2,7 @@ import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/i
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
+import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
 import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
 import styles from './SearchRecent.module.css';
 
@@ -17,7 +18,7 @@ export default function SearchRecent({ suggestionIndex, recentQueries, setIsOpen
   const navigate = useNavigate();
 
   const reversedRecentQueries = useMemo(() => {
-    return [...recentQueries].reverse();
+    return [...recentQueries].reverse().slice(0, 5);
   }, [recentQueries]);
 
   return (
@@ -35,7 +36,7 @@ export default function SearchRecent({ suggestionIndex, recentQueries, setIsOpen
                 navigate({
                   to: '/dlc/cards',
                   search: (prev) => {
-                    return { ...prev, query: query };
+                    return { ...prev, query: query } as Required<DlcSearchParams>;
                   },
                 });
                 setIsOpened(false);

@@ -1,5 +1,6 @@
 import type { UseNavigateResult } from '@tanstack/react-router';
 import type { RefObject } from 'react';
+import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
 
 export function handleKeydown({
   searchInputRef,
@@ -57,7 +58,7 @@ export function handleKeydown({
         navigate({
           to: '/dlc/cards',
           search: (prev) => {
-            return { ...prev, query: currentQuery };
+            return { ...prev, query: currentQuery } as Required<DlcSearchParams>;
           },
         });
       }

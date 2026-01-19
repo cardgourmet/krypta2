@@ -72,13 +72,15 @@
     a {
       text-decoration: underline;
       text-underline-offset: 4px;
-      text-decoration-color: #ff9b5d;
+      text-decoration-color: var(--cgm-sidebar-button-bg);
       color: inherit;
     }
 
     code {
-      background-color: rgb(255 155 93, 0.15);
-      color: #ff9b5d;
+      /*background-color: rgb(255 155 93, 0.15);
+      color: #ff9b5d;*/
+      /*background-color: rgba(87, 157, 255, 0.15);*/
+      color: var(--cgm-sidebar-button-bg);
       font-family: var(--cgm-monospace-font-family), monospace;
       font-weight: 300;
       padding: 2px calc(0.625rem / 2);

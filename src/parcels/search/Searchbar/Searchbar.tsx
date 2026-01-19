@@ -2,11 +2,11 @@ import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import { IconChevronDown, IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { getFocusableElements } from '@/parcels/homepage/Searchbar/getFocusableElements.ts';
-import { handleKeydown } from '@/parcels/homepage/Searchbar/handleKeydown.ts';
-import SearchFooter from '@/parcels/homepage/Searchbar/SearchFooter.tsx';
-import SearchRecent from '@/parcels/homepage/Searchbar/SearchRecent.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
+import { getFocusableElements } from '@/parcels/search/Searchbar/getFocusableElements.ts';
+import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
+import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
+import SearchRecent from '@/parcels/search/Searchbar/SearchRecent.tsx';
 import { SearchHistoryContext } from '@/parcels/search/SearchHistoryProvider.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
@@ -30,7 +30,10 @@ export default function Searchbar() {
 
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const suggestions = useMemo(() => {
-    return [...recentQueries];
+    const suggs = [...recentQueries].reverse().slice(0, 5);
+    suggs.unshift('');
+
+    return suggs;
   }, [recentQueries]);
 
   const navigate = useNavigate();
@@ -63,7 +66,10 @@ export default function Searchbar() {
     // TODO: extract to `currentSuggestion`
     let currentSugg = '';
     if (suggestionIndex > 0) {
-      currentSugg = suggestions[suggestionIndex - 1];
+      console.log('suggestionIndex', suggestionIndex);
+      console.log(suggestions);
+
+      currentSugg = suggestions[suggestionIndex];
     }
     setCurrentQuery({ query: currentSugg, isByUser: false });
 
