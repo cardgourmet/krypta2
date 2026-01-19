@@ -13,8 +13,6 @@ export function useSearchQuery() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
-    if (query.length === 0) return;
-
     // user inputted search query already present
     wrapSetCurrentQuery({ query: query, isByUser: true });
   }, [query]);
