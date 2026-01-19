@@ -1,0 +1,33 @@
+.gameSelector {
+  display: flex;
+  padding: 0;
+  margin: 0.25rem 0 0.5rem 0.5rem;
+
+  button {
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+      background-color: #293037;
+    }
+  }
+}
+
+.gameSelectorLabel {
+  margin: 0;
+
+  font-family: var(--cgm-ui-font-family), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.hidden {
+  /* biome-ignore lint/complexity/noImportantStyles: _ */
+  display: none !important;
+}

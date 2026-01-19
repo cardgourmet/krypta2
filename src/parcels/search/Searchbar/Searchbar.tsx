@@ -1,18 +1,15 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
-import { IconChevronDown, IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
+import { IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
+import { GameSelector } from '@/parcels/search/Searchbar/GameSelector.tsx';
 import { getFocusableElements } from '@/parcels/search/Searchbar/getFocusableElements.ts';
 import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
 import SearchRecent from '@/parcels/search/Searchbar/SearchRecent.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
-import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
-import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
-import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
@@ -138,42 +135,7 @@ export default function Searchbar() {
 
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
-            <div className={styles.gameSelector}>
-              <Dropdown
-                items={{
-                  dlc: 'Disney Lorcana',
-                  mtg: 'Magic: The Gathering',
-                  pcg: 'Pokémon Card Game',
-                }}
-                selected={currentTcg}
-                renderButtonContent={(selected) => (
-                  <>
-                    {selected === 'dlc' && (
-                      <>
-                        <DLCIcon width={20} height={20} color={'#9ba6b1'} />
-                        <p className={styles.gameSelectorLabel}>DISNEY LORCANA</p>
-                      </>
-                    )}
-                    {selected === 'mtg' && (
-                      <>
-                        <MTGIcon width={20} height={20} color={'#9ba6b1'} />
-                        <p className={styles.gameSelectorLabel}>MAGIC: THE GATHERING</p>
-                      </>
-                    )}
-                    {selected === 'pcg' && (
-                      <>
-                        <PCGIcon width={20} height={20} color={'#9ba6b1'} />
-                        <p className={styles.gameSelectorLabel}>POKÉMON CARD GAME</p>
-                      </>
-                    )}
-                    <IconChevronDown size={18} color={'#9ba6b1'} />
-                  </>
-                )}
-                onSelect={(selected) => {
-                  setCurrentTcg(selected as Tcg);
-                }}
-              />
-            </div>
+            <GameSelector tcg={currentTcg} setTcg={setCurrentTcg} />
 
             <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
