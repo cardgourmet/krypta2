@@ -24,7 +24,7 @@ import {
   type SortDirection,
   sortDirections,
 } from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcg.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardOverviewSettings.module.css';

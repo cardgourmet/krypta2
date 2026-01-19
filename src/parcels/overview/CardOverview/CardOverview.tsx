@@ -8,7 +8,7 @@ import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
 import type { DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings } from '@/parcels/tcg/dlc/types.ts';
 import type { PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
 import type { PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings } from '@/parcels/tcg/pcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcg.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import styles from './CardOverview.module.css';
 

@@ -6,7 +6,7 @@ import { Logo } from '@/parcels/Logo.tsx';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import { useTcg } from '@/parcels/tcg/useTcg.ts';
+import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {
@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
-  const tcg = useTcg();
+  const tcg = useTcgByLocation();
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const sidebarRef = useRef<HTMLDivElement | null>(null);

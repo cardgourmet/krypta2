@@ -7,6 +7,7 @@ interface DropdownProps {
   buttonText?: string;
   items: Record<string, string>;
   defaultSelected?: string;
+  selected?: string;
   onSelect?: (selected: string) => void;
 
   renderButtonContent?: (selected: string | null) => ReactElement;
@@ -30,6 +31,11 @@ export default function Dropdown(props: DropdownProps) {
   };
 
   const [selected, setSelected] = useState<string | null>(props.defaultSelected || null);
+  useEffect(() => {
+    if (!props.selected) return;
+
+    setSelected(props.selected);
+  }, [props.selected]);
 
   const toggle = () => {
     const newOpen = !open;

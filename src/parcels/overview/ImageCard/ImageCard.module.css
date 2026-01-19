@@ -3,7 +3,7 @@
   word-break: break-all;
   overflow: hidden;
 
-  border-radius: calc(0.5rem + 1px);
+  border-radius: 15px;
   object-fit: contain;
   aspect-ratio: 672 / 936;
   max-width: 252px;

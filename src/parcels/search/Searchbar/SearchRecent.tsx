@@ -3,18 +3,19 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
-import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
+  tcg: Tcg;
   suggestionIndex: number;
-  recentQueries: string[];
   setIsOpened: (isOpened: boolean) => void;
 };
 
-export default function SearchRecent({ suggestionIndex, recentQueries, setIsOpened }: SearchRecentItemProps) {
-  const tcg = useTcg() as Tcg;
-  const history = useSearchHistory();
+export default function SearchRecent({ tcg, suggestionIndex, setIsOpened }: SearchRecentItemProps) {
+  const history = useSearchHistory(tcg);
+  const recentQueries = history.pastQueries ?? [];
+
   const navigate = useNavigate();
 
   const reversedRecentQueries = useMemo(() => {
@@ -60,7 +61,7 @@ export default function SearchRecent({ suggestionIndex, recentQueries, setIsOpen
                 type={'button'}
                 onClick={() => {
                   const reverseIndex = recentQueries.length - 1 - index;
-                  history?.removeQuery(tcg, reverseIndex);
+                  history?.removeQuery(reverseIndex);
                 }}
               >
                 <IconX size={16} color={'#9ba6b1'} />

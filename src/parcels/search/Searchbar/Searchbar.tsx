@@ -1,29 +1,33 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import { IconChevronDown, IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/parcels/search/Searchbar/getFocusableElements.ts';
 import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
 import SearchRecent from '@/parcels/search/Searchbar/SearchRecent.tsx';
-import { SearchHistoryContext } from '@/parcels/search/SearchHistoryProvider.tsx';
+import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
-  const tcg = useTcg();
+  const tcg = useTcgByLocation();
   const [isOpened, setIsOpened] = useState(false);
-  const [_, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>('dlc');
+
+  const [currentTcg, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>(tcg ?? 'dlc');
+  useEffect(() => {
+    setCurrentTcg(tcg ?? 'dlc');
+  }, [tcg]);
 
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  const history = useContext(SearchHistoryContext);
+  const history = useSearchHistory(currentTcg);
   const recentQueries = history?.pastQueries ?? [];
 
   const [currentQuery, setCurrentQuery] = useSearchQuery();
@@ -67,9 +71,6 @@ export default function Searchbar() {
     // TODO: extract to `currentSuggestion`
     let currentSugg = '';
     if (suggestionIndex > 0) {
-      console.log('suggestionIndex', suggestionIndex);
-      console.log(suggestions);
-
       currentSugg = suggestions[suggestionIndex];
     }
     setCurrentQuery({ query: currentSugg, isByUser: false });
@@ -143,7 +144,7 @@ export default function Searchbar() {
                   mtg: 'Magic: The Gathering',
                   pcg: 'Pokémon Card Game',
                 }}
-                defaultSelected={tcg ?? 'dlc'}
+                selected={currentTcg}
                 renderButtonContent={(selected) => (
                   <>
                     {selected === 'dlc' && (
@@ -177,10 +178,8 @@ export default function Searchbar() {
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
-            {/* // TODO: es werden keine vorschläge angezeigt beim erstmaligen reinklicken???
-             */}
             <div className={`${isCaptainOfTheShip || recentQueries.length === 0 ? styles.hidden : ''}`}>
-              <SearchRecent suggestionIndex={suggestionIndex} recentQueries={recentQueries} setIsOpened={setIsOpened} />
+              <SearchRecent tcg={currentTcg} suggestionIndex={suggestionIndex} setIsOpened={setIsOpened} />
             </div>
           </div>
 

@@ -13,7 +13,7 @@ import {
   dlcSearchParamsSchema,
 } from '@/parcels/tcg/dlc/types.ts';
 import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
-import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
 
@@ -26,7 +26,7 @@ export const Route = createFileRoute('/dlc/cards/')({
 });
 
 function DlcCardsOverview() {
-  const tcg = useTcg() as Tcg;
+  const tcg = useTcgByLocation() as Tcg;
   const searchParams = Route.useSearch() as DlcSearchParams;
   const searchQuerySettings: DlcSearchQuerySettings = useDlcMemoizedQuerySettings();
   const prevSearchQuerySettings = usePrevious(searchQuerySettings);
@@ -34,7 +34,7 @@ function DlcCardsOverview() {
   const [cards, setCards] = useState<DlcSearchCardsResult | null>(null);
 
   const navigate = useNavigate({ from: Route.fullPath });
-  const history = useSearchHistory();
+  const history = useSearchHistory(tcg);
   const [isLoading, setIsLoading] = useState(true);
   const [isQueryLoading, setIsQueryLoading] = useState(true);
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
@@ -50,7 +50,7 @@ function DlcCardsOverview() {
   };
 
   const onQueryChange = useEffectEvent((query: string) => {
-    history?.addQuery(tcg, query);
+    history?.addQuery(query);
   });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: it's only prevQuerySettings

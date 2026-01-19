@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import type { DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
 import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
-import type { Tcg } from '@/parcels/tcg/useTcg.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
 
 interface ImageCardProps {

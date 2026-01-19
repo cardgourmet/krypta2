@@ -2,7 +2,7 @@ import { useLocation } from '@tanstack/react-router';
 
 export type Tcg = 'dlc' | 'pcg' | 'mtg';
 
-export function useTcg(): Tcg | undefined {
+export function useTcgByLocation(): Tcg | undefined {
   const location = useLocation();
   let tcg: Tcg | undefined;
   if (location.pathname.startsWith('/dlc/')) {

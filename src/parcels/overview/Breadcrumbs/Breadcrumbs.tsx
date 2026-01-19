@@ -1,10 +1,10 @@
 import { IconChefHat, IconChevronRight } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Breadcrumbs.module.css';
 
 export default function Breadcrumbs() {
-  const tcg = useTcg() as Tcg;
+  const tcg = useTcgByLocation() as Tcg;
 
   return (
     <div className={styles.breadcrumb}>
