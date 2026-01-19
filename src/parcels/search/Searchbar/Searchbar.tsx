@@ -47,6 +47,7 @@ export default function Searchbar() {
     const focusableElements = getFocusableElements(searchContainerRef.current);
 
     const handle = handleKeydown({
+      tcg: currentTcg,
       searchInputRef: searchInputRef,
       isOpened: isOpened,
       setIsOpened: setIsOpened,
@@ -62,7 +63,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [isOpened, suggestionIndex, currentQuery, navigate]);
+  }, [currentTcg, isOpened, suggestionIndex, currentQuery, navigate]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {

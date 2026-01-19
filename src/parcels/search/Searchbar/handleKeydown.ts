@@ -1,8 +1,10 @@
 import type { UseNavigateResult } from '@tanstack/react-router';
 import type { RefObject } from 'react';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function handleKeydown({
+  tcg,
   searchInputRef,
   isOpened,
   setIsOpened,
@@ -12,6 +14,7 @@ export function handleKeydown({
   currentQuery,
   navigate,
 }: {
+  tcg: Tcg;
   searchInputRef: RefObject<HTMLInputElement | null>;
   isOpened: boolean;
   setIsOpened: (isOpened: boolean) => void;
@@ -56,7 +59,7 @@ export function handleKeydown({
 
         // noinspection JSIgnoredPromiseFromCall
         navigate({
-          to: '/dlc/cards',
+          to: `/${tcg}/cards`,
           search: (prev) => {
             return { ...prev, query: currentQuery } as Required<DlcSearchParams>;
           },
