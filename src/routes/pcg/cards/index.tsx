@@ -1,12 +1,7 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
-import styles from './index.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
-import Breadcrumbs from '@/parcels/overview/Breadcrumbs/Breadcrumbs.tsx';
-import { CardGrid } from '@/parcels/overview/CardGrid/CardGrid.tsx';
-import CardOverviewSettings from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.tsx';
-import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
-import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
+import { CardOverview } from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
 import { fetchPcgCards, type PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
@@ -88,35 +83,15 @@ function PcgCardsOverview() {
   }, [searchQuerySettings]);
 
   return (
-    <div ref={scrollBackRef}>
-      <div className={styles.mainContent}>
-        <Breadcrumbs />
-        <Pagination
-          currentPage={cards?.data?.currentPage}
-          lastPage={cards?.data?.pageCount}
-          isQueryLoading={isQueryLoading}
-          setSettings={setSettings}
-        />
-
-        <CardOverviewSettings
-          tcg={tcg}
-          querySettings={searchQuerySettings}
-          displaySettings={searchDisplaySettings}
-          setSettings={setSettings}
-        />
-
-        <QueryExplanation
-          isLoading={isLoading}
-          currentPage={cards?.data?.currentPage}
-          pageSize={Number(searchQuerySettings.pageSize)}
-          cardCount={cards?.data?.details?.count ?? 0}
-          explanation={cards?.data.details?.explanation ?? ''}
-        />
-
-        {cards && searchDisplaySettings.cardDisplayMode === 'grid' && (
-          <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />
-        )}
-      </div>
-    </div>
+    <CardOverview
+      tcg={tcg}
+      scrollbackRef={scrollBackRef}
+      isLoading={isLoading}
+      isQueryLoading={isQueryLoading}
+      cards={cards}
+      setSettings={setSettings}
+      searchQuerySettings={searchQuerySettings}
+      searchDisplaySettings={searchDisplaySettings}
+    />
   );
 }

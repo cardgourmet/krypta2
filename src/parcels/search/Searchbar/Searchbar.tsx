@@ -12,10 +12,11 @@ import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import type { Tcg } from '@/parcels/tcg/useTcg.ts';
+import { type Tcg, useTcg } from '@/parcels/tcg/useTcg.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
+  const tcg = useTcg();
   const [isOpened, setIsOpened] = useState(false);
   const [_, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>('dlc');
 
@@ -142,7 +143,7 @@ export default function Searchbar() {
                   mtg: 'Magic: The Gathering',
                   pcg: 'Pokémon Card Game',
                 }}
-                defaultSelected={'dlc'}
+                defaultSelected={tcg ?? 'dlc'}
                 renderButtonContent={(selected) => (
                   <>
                     {selected === 'dlc' && (

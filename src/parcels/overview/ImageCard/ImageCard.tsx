@@ -121,7 +121,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
             />
           </div>
           {properties.backfaceThumbnailUrl && (
-            <div style={{ transform: 'rotateY(180deg)' }}>
+            <div style={{ transform: 'rotateY(180deg)', height: '100%' }}>
               <img
                 ref={backfaceImageRef}
                 alt={properties.name}

@@ -1,9 +1,1 @@
-.mainContent {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto 0 auto;
-  padding: 1.5rem;
-  max-width: 1280px;
 
-  overflow: visible;
-}

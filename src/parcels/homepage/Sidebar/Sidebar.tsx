@@ -6,6 +6,7 @@ import { Logo } from '@/parcels/Logo.tsx';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
+import { useTcg } from '@/parcels/tcg/useTcg.ts';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {
@@ -14,6 +15,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
+  const tcg = useTcg();
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -46,17 +48,25 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         </div>
 
         <div className={styles.mobileSidebarBottom}>
-          <Link to="/mtg" className={styles.mobileSidebarLink} onClick={() => setSidebarOpen(false)}>
+          <Link
+            to="/mtg"
+            className={`${styles.mobileSidebarLink} ${tcg === 'mtg' ? styles.active : ''}`}
+            onClick={() => setSidebarOpen(false)}
+          >
             <MTGIcon height={24} width={24} color={'#9ba6b1'} />
             <p>Magic: The Gathering</p>
           </Link>
-          <Link to="/pcg" className={styles.mobileSidebarLink} onClick={() => setSidebarOpen(false)}>
+          <Link
+            to="/pcg"
+            className={`${styles.mobileSidebarLink} ${tcg === 'pcg' ? styles.active : ''}`}
+            onClick={() => setSidebarOpen(false)}
+          >
             <PCGIcon height={24} width={24} color={'#9ba6b1'} />
             <p>Pokémon Card Game</p>
           </Link>
           <Link
             to="/dlc"
-            className={`${styles.mobileSidebarLink} ${styles.active}`}
+            className={`${styles.mobileSidebarLink} ${tcg === 'dlc' ? styles.active : ''}`}
             onClick={() => setSidebarOpen(false)}
           >
             <DLCIcon height={24} width={24} color={'#9ba6b1'} />
@@ -72,13 +82,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           </Link>
 
           <div>
-            <Link to="/mtg" className={styles.sidebarButton}>
+            <Link to="/mtg" className={`${styles.sidebarButton}`} data-state={tcg === 'mtg' ? 'enabled' : ''}>
               <MTGIcon height={24} width={24} />
             </Link>
-            <Link to="/pcg" className={styles.sidebarButton}>
+            <Link to="/pcg" className={styles.sidebarButton} data-state={tcg === 'pcg' ? 'enabled' : ''}>
               <PCGIcon height={24} width={24} />
             </Link>
-            <Link to="/dlc" className={styles.sidebarButton} data-state={'enabled'}>
+            <Link to="/dlc" className={styles.sidebarButton} data-state={tcg === 'dlc' ? 'enabled' : ''}>
               <DLCIcon height={24} width={24} />
             </Link>
           </div>
