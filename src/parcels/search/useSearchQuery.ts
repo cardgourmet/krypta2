@@ -13,8 +13,10 @@ export function useSearchQuery() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
+    const isByUser = query.length > 0;
+
     // user inputted search query already present
-    wrapSetCurrentQuery({ query: query, isByUser: true });
+    wrapSetCurrentQuery({ query: query, isByUser: isByUser });
   }, [query]);
 
   return [currentQuery, wrapSetCurrentQuery] as const;

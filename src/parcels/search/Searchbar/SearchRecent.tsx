@@ -17,7 +17,6 @@ export default function SearchRecent({ suggestionIndex, recentQueries, setIsOpen
   const history = useSearchHistory();
   const navigate = useNavigate();
 
-  // TODO: es werden keine vorschläge angezeigt beim erstmaligen reinklicken???
   const reversedRecentQueries = useMemo(() => {
     return [...recentQueries].reverse().slice(0, 5);
   }, [recentQueries]);
