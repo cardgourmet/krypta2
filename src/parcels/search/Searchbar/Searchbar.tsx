@@ -1,44 +1,55 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import { IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
 import { GameSelector } from '@/parcels/search/Searchbar/GameSelector.tsx';
-import { getFocusableElements } from '@/parcels/search/Searchbar/getFocusableElements.ts';
 import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
+import { SearchCompletion } from '@/parcels/search/Searchbar/SearchCompletion.tsx';
 import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
-import SearchRecent from '@/parcels/search/Searchbar/SearchRecent.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
+import SearchRecent from '@/parcels/search/SearchRecent/SearchRecent.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
   const tcg = useTcgByLocation();
-  const [isOpened, setIsOpened] = useState(false);
-
   const [currentTcg, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>(tcg ?? 'dlc');
   useEffect(() => {
     setCurrentTcg(tcg ?? 'dlc');
   }, [tcg]);
-
+  const navigate = useNavigate();
+  const [isOpened, setIsOpened] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const history = useSearchHistory(currentTcg);
   const recentQueries = history?.pastQueries ?? [];
-
   const [currentQuery, setCurrentQuery] = useSearchQuery();
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
 
-  const [suggestionIndex, setSuggestionIndex] = useState(0);
-  const suggestions = useMemo(() => {
-    const suggs = [...recentQueries].reverse().slice(0, 5);
-    suggs.unshift('');
+  const setQueryWrapper = useCallback(
+    (query: string, isByUser: boolean) => {
+      setCurrentQuery({ query, isByUser });
 
-    return suggs;
-  }, [recentQueries]);
+      if (searchInputRef.current) {
+        searchInputRef.current.focus();
 
-  const navigate = useNavigate();
+        const length = query.length;
+        searchInputRef.current.setSelectionRange(length, length);
+
+        // hacky, I'm so sorry (LG zurück)
+        setTimeout(() => {
+          if (searchInputRef.current) {
+            searchInputRef.current.scrollLeft = searchInputRef.current.scrollWidth;
+          }
+        }, 10);
+      }
+    },
+    [setCurrentQuery],
+  );
+
   useEffect(() => {
     if (!searchContainerRef.current) return;
     const focusableElements = getFocusableElements(searchContainerRef.current);
@@ -49,8 +60,6 @@ export default function Searchbar() {
       isOpened: isOpened,
       setIsOpened: setIsOpened,
       focusableElements: focusableElements,
-      suggestionIndex: suggestionIndex,
-      setSuggestionIndex: setSuggestionIndex,
       currentQuery: currentQuery.query,
       navigate: navigate,
     });
@@ -60,35 +69,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [currentTcg, isOpened, suggestionIndex, currentQuery, navigate]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    if (!isOpened || isCaptainOfTheShip) return;
-
-    // TODO: extract to `currentSuggestion`
-    let currentSugg = '';
-    if (suggestionIndex > 0) {
-      currentSugg = suggestions[suggestionIndex];
-    }
-    setCurrentQuery({ query: currentSugg, isByUser: false });
-
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-
-      const length = currentSugg.length;
-      searchInputRef.current.setSelectionRange(length, length);
-
-      // hacky, I'm so sorry (LG zurück)
-      const timeoutId = setTimeout(() => {
-        if (searchInputRef.current) {
-          searchInputRef.current.scrollLeft = searchInputRef.current.scrollWidth;
-        }
-      }, 10);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [suggestionIndex, isOpened, isCaptainOfTheShip]);
+  }, [currentTcg, isOpened, currentQuery, navigate]);
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
@@ -111,7 +92,6 @@ export default function Searchbar() {
             if (isCaptainOfTheShip && newQuery.length === 0) {
               setCurrentQuery({ query: '', isByUser: false });
             } else if (!isCaptainOfTheShip && newQuery.length > 0) {
-              setSuggestionIndex(0);
               setCurrentQuery({ query: event.target.value, isByUser: true });
             } else if (isCaptainOfTheShip && newQuery.length > 0) {
               setCurrentQuery({ query: event.target.value, isByUser: true });
@@ -142,7 +122,17 @@ export default function Searchbar() {
             </div>
 
             <div className={`${isCaptainOfTheShip || recentQueries.length === 0 ? styles.hidden : ''}`}>
-              <SearchRecent tcg={currentTcg} suggestionIndex={suggestionIndex} setIsOpened={setIsOpened} />
+              <SearchRecent
+                tcg={currentTcg}
+                setIsOpened={setIsOpened}
+                setQuery={setQueryWrapper}
+                searchContainerRef={searchContainerRef}
+                searchInputRef={searchInputRef}
+              />
+            </div>
+
+            <div className={`${!isCaptainOfTheShip || currentQuery?.query?.length === 0 ? styles.hidden : ''}`}>
+              <SearchCompletion tcg={currentTcg} currentQuery={currentQuery.query} />
             </div>
           </div>
 

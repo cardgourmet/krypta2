@@ -9,8 +9,6 @@ export function handleKeydown({
   isOpened,
   setIsOpened,
   focusableElements,
-  suggestionIndex,
-  setSuggestionIndex,
   currentQuery,
   navigate,
 }: {
@@ -19,8 +17,6 @@ export function handleKeydown({
   isOpened: boolean;
   setIsOpened: (isOpened: boolean) => void;
   focusableElements: Array<HTMLElement | null>;
-  suggestionIndex: number;
-  setSuggestionIndex: (index: number) => void;
   currentQuery: string;
   navigate: UseNavigateResult<string>;
 }) {
@@ -65,23 +61,6 @@ export function handleKeydown({
           },
         });
       }
-    }
-
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      if (document.activeElement !== searchInputRef.current) return event.preventDefault();
-
-      const suggestions = focusableElements.filter((el) => el?.parentElement instanceof HTMLLIElement);
-      suggestions.unshift(null);
-
-      if (suggestions.length === 0) return;
-      const arrowUp = event.key === 'ArrowUp';
-
-      let newIndex = arrowUp ? suggestionIndex - 1 : suggestionIndex + 1;
-      if (newIndex < 0) newIndex = suggestions.length - 1;
-      if (newIndex >= suggestions.length) newIndex = 0;
-      setSuggestionIndex(newIndex);
-
-      return event.preventDefault();
     }
   };
 }
