@@ -65,7 +65,6 @@ export default function SearchRecent({
 
     document.addEventListener('keydown', handle);
     return () => {
-      // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
   }, [suggestionIndex]);

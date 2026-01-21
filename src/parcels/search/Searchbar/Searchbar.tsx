@@ -33,7 +33,7 @@ export default function Searchbar() {
     (query: string, isByUser: boolean) => {
       setCurrentQuery({ query, isByUser });
 
-      if (searchInputRef.current) {
+      if (isOpened && searchInputRef.current) {
         searchInputRef.current.focus();
 
         const length = query.length;
@@ -47,7 +47,7 @@ export default function Searchbar() {
         }, 10);
       }
     },
-    [setCurrentQuery],
+    [setCurrentQuery, isOpened],
   );
 
   useEffect(() => {
@@ -121,7 +121,7 @@ export default function Searchbar() {
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
-            <div className={`${isCaptainOfTheShip || recentQueries.length === 0 ? styles.hidden : ''}`}>
+            {!isCaptainOfTheShip && recentQueries.length > 0 && (
               <SearchRecent
                 tcg={currentTcg}
                 setIsOpened={setIsOpened}
@@ -129,11 +129,11 @@ export default function Searchbar() {
                 searchContainerRef={searchContainerRef}
                 searchInputRef={searchInputRef}
               />
-            </div>
+            )}
 
-            <div className={`${!isCaptainOfTheShip || currentQuery?.query?.length === 0 ? styles.hidden : ''}`}>
+            {isCaptainOfTheShip && currentQuery.query.length > 0 && (
               <SearchCompletion tcg={currentTcg} currentQuery={currentQuery.query} />
-            </div>
+            )}
           </div>
 
           <SearchFooter />
