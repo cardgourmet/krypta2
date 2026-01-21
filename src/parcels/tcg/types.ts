@@ -21,3 +21,7 @@ export type TcgCardQuery = {
   allowedValueTypes?: string;
   retries?: string;
 };
+
+export const filterOperatorsRegex = '[=:><]';
+export const filterOperators = [':', '>=', '>', '<=', '<', '='] as const;
+export type TcgFilterOperator = (typeof filterOperators)[number];

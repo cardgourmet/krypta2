@@ -1,5 +1,5 @@
 import type { PcgSearchQuerySettings, PcgSortBy } from '@/parcels/tcg/pcg/types.ts';
-import type { TcgCardQuery } from '@/parcels/tcg/types.ts';
+import type { TcgCardQuery, TcgFilterOperator } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -87,10 +87,18 @@ export async function fetchPcgFilters(abort: AbortController): Promise<{ data?: 
 export async function fetchPcgFilterValues(
   filter: string,
   abort: AbortController,
+  operator?: TcgFilterOperator,
+  query?: string,
+  amount?: number,
 ): Promise<{ data?: PcgSearchFilterValues; error?: Error }> {
   try {
     const res = await umoriClient.GET(`/v1/pcg/cards/search/filters/{filter}/values`, {
       params: {
+        query: {
+          operator: operator,
+          query: query,
+          amount: amount,
+        },
         path: {
           filter: filter,
         },
