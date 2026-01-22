@@ -7,8 +7,8 @@ export type SearchFilterStore = Record<Tcg, PcgSearchFilter[]>;
 export type SearchFilterValueStoreEntry = { value: string; aliasOf?: string };
 export type SearchFilterValueStore = Record<Tcg, Record<TcgFilterOperator, SearchFilterValueStoreEntry[]>>;
 
-const QUERY_REGEX = /^[-(]*([a-z]*)(>=|>|<=|<|:)([^><:= ()]*)$/;
-const QUERY_WITH_PARENTS_REGEX = /[-(]*([a-z]+)([:=])"([^><:=()]*)$/;
+const QUERY_REGEX = /^[-(]*([a-z]*)(>=|>|<=|<|:)([^><:= ()]*)$/g;
+const QUERY_WITH_PARENTS_REGEX = /[-(]*([a-z]+)([:=])"([^><:=()]*)$/g;
 
 export async function generateCompletions(
   tcg: Tcg,
@@ -27,10 +27,10 @@ export async function generateCompletions(
   if (parentheseCount % 2 !== 0) {
     const matches = Array.from(currentQuery.matchAll(QUERY_WITH_PARENTS_REGEX));
     if (matches.length === 0) return []; // mode: invalid
-    const [filter, operator, value] = matches[0];
+    const [_, filter, operator, value] = matches[0];
     if (filter.length === 0) return []; // mode: invalid
 
-    const matchedFilter = filterStore[tcg].find((f) => f.keywords.includes(filter));
+    const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
     if (!matchedFilter) return []; // mode: invalid filter name
 
     // `mode: value`, find matches with `value` and `operator`
@@ -53,10 +53,10 @@ export async function generateCompletions(
   if (matches.length === 0) {
     return generateFilterCompletions(tcg, currentPart, filterStore, max);
   }
-  const [filter, operator, value] = matches[0];
+  const [_, filter, operator, value] = matches[0];
   if (filter.length === 0) return []; // mode: invalid
 
-  const matchedFilter = filterStore[tcg].find((f) => f.keywords.includes(filter));
+  const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
   if (!matchedFilter) return []; // mode: invalid filter name
 
   // `mode: value`, find matches with `value` and `operator`
