@@ -4,11 +4,17 @@ import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type SearchFilterStore = Record<Tcg, PcgSearchFilter[]>;
-export type SearchFilterValueStoreEntry = { value: string; aliasOf?: string };
+export type SearchFilterValueStoreEntry = { value: string; type: string; aliasOf?: string };
 export type SearchFilterValueStore = Record<Tcg, Record<TcgFilterOperator, SearchFilterValueStoreEntry[]>>;
 
 const QUERY_REGEX = /^[-(]*([a-z]*)(>=|>|<=|<|:)([^><:= ()]*)$/g;
 const QUERY_WITH_PARENTS_REGEX = /[-(]*([a-z]+)([:=])"([^><:=()]*)$/g;
+
+export type GeneratedSearchCompletion = {
+  value: string;
+  type?: string;
+  aliasOf?: string;
+};
 
 export async function generateCompletions(
   tcg: Tcg,
@@ -16,7 +22,9 @@ export async function generateCompletions(
   filterStore: SearchFilterStore,
   filterValueStore: SearchFilterValueStore,
   max: number = 5,
-) {
+  setIsLoading: (value: boolean) => void,
+  abort?: AbortController,
+): Promise<GeneratedSearchCompletion[]> {
   if (currentQuery.length === 0) return []; // mode: filter
   if (currentQuery.trim().length === 0) return []; // mode: filter
 
@@ -41,6 +49,8 @@ export async function generateCompletions(
       value,
       filterValueStore,
       max,
+      setIsLoading,
+      abort,
     );
   }
 
@@ -67,6 +77,8 @@ export async function generateCompletions(
     value,
     filterValueStore,
     max,
+    setIsLoading,
+    abort,
   );
 }
 
@@ -78,7 +90,9 @@ async function generateFilterValueCompletions(
   currentValue: string,
   store: SearchFilterValueStore,
   max: number,
-): Promise<string[]> {
+  setIsLoading: (value: boolean) => void,
+  abort?: AbortController,
+): Promise<GeneratedSearchCompletion[]> {
   if (!filter.providesValues) return []; // e.g. numbers
   if (filter.properties.length === 0) return [];
 
@@ -88,22 +102,23 @@ async function generateFilterValueCompletions(
 
   const cachedValues: SearchFilterValueStoreEntry[] | undefined = store[tcg]?.[operator];
   if (cachedValues !== undefined) {
-    const potentialMatches: { value: string; aliasOf?: string; distance: number }[] = [];
-    for (const { value, aliasOf } of cachedValues) {
+    const potentialMatches: { entry: SearchFilterValueStoreEntry; distance: number }[] = [];
+    for (const entry of cachedValues) {
       potentialMatches.push({
-        value: value,
-        aliasOf: aliasOf,
-        distance: levenshtein(value, currentValue),
+        entry: entry,
+        distance: levenshtein(entry.value, currentValue),
       });
     }
     return potentialMatches
       .sort((a, b) => a.distance - b.distance)
       .slice(0, max)
-      .map((match) => `${match.value}${match.aliasOf !== undefined ? ` (${match.aliasOf})` : ''}`);
+      .map((match) => match.entry);
   }
 
   const maxAmount = 100;
-  const abort = new AbortController();
+
+  // TODO: sometimes this flickers since it's async, so if abort: set it to false
+  setIsLoading(true);
   const { data, error } = await fetchPcgFilterValues(
     filter.keywords[0],
     abort,
@@ -111,22 +126,26 @@ async function generateFilterValueCompletions(
     currentValue,
     maxAmount,
   );
+  setIsLoading(false);
+
   if (error !== undefined) {
     throw error;
   }
   if (!data) return [];
 
-  const values: SearchFilterValueStoreEntry[] = data.values.flatMap((value) => [
-    { value: value.value },
-    ...(value.aliases?.map((alias) => {
-      return { value: alias, aliasOf: value.value };
-    }) ?? []),
-  ]);
+  const values: SearchFilterValueStoreEntry[] = data.values
+    .flatMap((value) => [
+      { value: value.value, type: value.type },
+      ...(value.aliases?.map((alias) => {
+        return { value: alias, type: value.type, aliasOf: value.value };
+      }) ?? []),
+    ])
+    .filter((value) => value.value.length > 0);
   if (data.matches === data.total && data.total <= maxAmount) {
     // store in cache
     store[tcg][operator] = values;
   }
-  return values.slice(0, max).map((value) => value.value);
+  return values.slice(0, max);
 }
 
 export function generateFilterCompletions(
@@ -134,7 +153,7 @@ export function generateFilterCompletions(
   currentWord: string,
   store: SearchFilterStore,
   max: number,
-): string[] {
+): GeneratedSearchCompletion[] {
   if (currentWord.length === 0) return []; // TODO: maybe instead return "featured list = most used filters"
   const filters = store[tcg];
   if (!filters || filters.length === 0) return [];
@@ -163,57 +182,7 @@ export function generateFilterCompletions(
   return potentialMatches
     .sort((a, b) => a.distance - b.distance)
     .slice(0, max)
-    .map((filter) => `${filter.filter}${filter.aliasOf !== undefined ? ` (${filter.aliasOf})` : ''}`);
-}
-
-// TODO: remove after unused
-export function oldGenerateFilterCompletions(
-  tcg: Tcg,
-  currentQuery: string,
-  store: SearchFilterStore,
-  max: number,
-): string[] {
-  if (!(currentQuery?.length > 0)) return [];
-
-  const filters = store[tcg];
-  if (!filters || filters.length === 0) return [];
-
-  // if we have an uneven numbers of `"`, then the user opened one and didn't close it
-  // so we assume we are still in a filter value.
-  const unescapedQuery = currentQuery.replace('\\"', '');
-  const parentheseCount = (unescapedQuery.match(/"/g) || []).length;
-  if (parentheseCount % 2 !== 0) return [];
-
-  const nonWordCharacters = ['(', ')', '>', '>=', '<', '<=', ':', '-', '"'];
-  const currentWord = currentQuery.split(' ').slice(-1)[0];
-  if (currentWord.length === 0) return []; // TODO: maybe instead return "featured list = most used filters"
-  for (const nonWordCharacter of nonWordCharacters) {
-    if (currentWord.startsWith(nonWordCharacter) || currentWord.endsWith(nonWordCharacter)) return [];
-  }
-
-  // get all keywords that start with the currentWord
-  // and calculate the levenshtein distance for them (for sorting).
-  const potentialMatches: { filter: string; aliasOf?: string; distance: number }[] = [];
-  for (const filter of filters) {
-    if (filter.keywords.length === 0) continue;
-
-    const primary = filter.keywords[0];
-    for (let i = 0; i < filter.keywords.length; i++) {
-      const keyword = filter.keywords[i];
-      if (!keyword.startsWith(currentWord)) continue;
-      const isAlias = i > 0;
-
-      potentialMatches.push({
-        filter: keyword,
-        aliasOf: isAlias ? primary : undefined,
-        distance: levenshtein(keyword, currentWord),
-      });
-    }
-  }
-  if (potentialMatches.length === 0) return [];
-
-  return potentialMatches
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, max)
-    .map((filter) => `${filter.filter}${filter.aliasOf !== undefined ? ` (${filter.aliasOf})` : ''}`);
+    .map((filter) => {
+      return { value: filter.filter, aliasOf: filter.aliasOf } as GeneratedSearchCompletion;
+    });
 }

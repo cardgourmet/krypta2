@@ -1,0 +1,36 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.completionList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.completionEntry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    margin: 0;
+  }
+
+  .entryType {
+    background-color: rgba(34, 139, 230, 0.15);
+    border-radius: 0.25rem;
+    color: #339af0;
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.75rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
+  }
+
+  .entryAlias {
+    color: var(--cgm-text-color-dimmed);
+  }
+}

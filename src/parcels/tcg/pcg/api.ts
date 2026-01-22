@@ -86,7 +86,7 @@ export async function fetchPcgFilters(abort: AbortController): Promise<{ data?: 
 // /v1/pcg/cards/search/filters/{filter}/values
 export async function fetchPcgFilterValues(
   filter: string,
-  abort: AbortController,
+  abort?: AbortController,
   operator?: TcgFilterOperator,
   query?: string,
   amount?: number,
@@ -103,7 +103,7 @@ export async function fetchPcgFilterValues(
           filter: filter,
         },
       },
-      signal: abort.signal,
+      signal: abort?.signal,
     });
 
     if (!res.response.ok) {

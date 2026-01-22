@@ -132,7 +132,7 @@ export default function Searchbar() {
             )}
 
             {isCaptainOfTheShip && currentQuery.query.length > 0 && (
-              <SearchCompletion tcg={currentTcg} currentQuery={currentQuery.query} />
+              <SearchCompletion tcg={currentTcg} currentQuery={currentQuery.query} isOpened={isOpened} />
             )}
           </div>
 
