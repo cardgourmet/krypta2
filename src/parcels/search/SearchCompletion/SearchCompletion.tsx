@@ -28,7 +28,7 @@ export function SearchCompletion({ tcg, currentQuery, isOpened }: SearchCompleti
   useEffect(() => {
     if (!isOpened) return;
 
-    const abort = new AbortController();
+    const controller = new AbortController();
     generateCompletions(
       tcg,
       debouncedQuery,
@@ -36,13 +36,13 @@ export function SearchCompletion({ tcg, currentQuery, isOpened }: SearchCompleti
       filterValueStore.current,
       5,
       setIsLoading,
-      abort,
+      controller,
     ).then((values) => {
       setCompletions(values);
     });
 
     return () => {
-      abort.abort();
+      controller.abort();
     };
   }, [tcg, debouncedQuery, isOpened]);
 

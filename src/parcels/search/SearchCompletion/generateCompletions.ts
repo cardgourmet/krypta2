@@ -117,7 +117,6 @@ async function generateFilterValueCompletions(
 
   const maxAmount = 100;
 
-  // TODO: sometimes this flickers since it's async, so if abort: set it to false
   setIsLoading(true);
   const { data, error } = await fetchPcgFilterValues(
     filter.keywords[0],
@@ -126,11 +125,15 @@ async function generateFilterValueCompletions(
     currentValue,
     maxAmount,
   );
+  if (error !== undefined) {
+    // if it was aborted, we don't reset the loading indicator to not
+    // interfere with the new request
+    if (error.name === 'AbortError') {
+      return [];
+    }
+  }
   setIsLoading(false);
 
-  if (error !== undefined) {
-    throw error;
-  }
   if (!data) return [];
 
   const values: SearchFilterValueStoreEntry[] = data.values
