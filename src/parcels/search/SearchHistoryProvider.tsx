@@ -30,15 +30,17 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
 
   const addQuery = useCallback(
     (tcg: Tcg, query: string) => {
+      const cleanedQuery = query.trimEnd();
+
       // don't allow empty queries in the history
-      if (query.length === 0) return;
+      if (cleanedQuery.length === 0) return;
       const queries = queriesByTcg[tcg] ?? [];
 
       const lastQuery = queries.length > 0 ? queries[queries.length - 1] : null;
-      if (lastQuery !== null && lastQuery === query) return;
+      if (lastQuery !== null && lastQuery === cleanedQuery) return;
 
       const newQueries = [...queries];
-      newQueries.push(query);
+      newQueries.push(cleanedQuery);
       if (newQueries.length > MAX_HISTORY_SIZE) {
         newQueries.shift();
       }
