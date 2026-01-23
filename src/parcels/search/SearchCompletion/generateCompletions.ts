@@ -16,6 +16,17 @@ export type GeneratedSearchCompletion = {
   aliasOf?: string;
 };
 
+export type SearchCompletionState = {
+  mode: 'filter' | 'value' | 'none' | 'invalid';
+  userInput?: {
+    filter?: string;
+    operator?: string;
+    value?: string;
+  };
+  toReplace?: string; // which string to replace (last) when completing
+  completions: GeneratedSearchCompletion[];
+};
+
 export async function generateCompletions(
   tcg: Tcg,
   currentQuery: string,
@@ -24,9 +35,9 @@ export async function generateCompletions(
   max: number = 5,
   setIsLoading: (value: boolean) => void,
   abort?: AbortController,
-): Promise<GeneratedSearchCompletion[]> {
-  if (currentQuery.length === 0) return []; // mode: filter
-  if (currentQuery.trim().length === 0) return []; // mode: filter
+): Promise<SearchCompletionState> {
+  if (currentQuery.length === 0) return { mode: 'filter', completions: [] }; // mode: filter
+  if (currentQuery.trim().length === 0) return { mode: 'filter', completions: [] }; // mode: filter
 
   // if we have an uneven numbers of `"`, then the user opened one and didn't close it
   // so we assume we are still in a filter value.
@@ -34,12 +45,18 @@ export async function generateCompletions(
   const parentheseCount = (unescapedQuery.match(/"/g) || []).length;
   if (parentheseCount % 2 !== 0) {
     const matches = Array.from(currentQuery.matchAll(QUERY_WITH_PARENTS_REGEX));
-    if (matches.length === 0) return []; // mode: invalid
+    if (matches.length === 0) {
+      return { mode: 'invalid', completions: [] };
+    }
     const [_, filter, operator, value] = matches[0];
-    if (filter.length === 0) return []; // mode: invalid
+    if (filter.length === 0) {
+      return { mode: 'invalid', completions: [] };
+    }
 
     const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
-    if (!matchedFilter) return []; // mode: invalid filter name
+    if (!matchedFilter) {
+      return { mode: 'invalid', completions: [] };
+    }
 
     // `mode: value`, find matches with `value` and `operator`
     return generateFilterValueCompletions(
@@ -55,19 +72,23 @@ export async function generateCompletions(
   }
 
   const currentPart = currentQuery.split(' ').slice(-1)[0];
-  if (currentPart.length === 0) return []; // mode: filter
-  if (currentPart.replace(/[ (-]/, '').length === 0) return []; // mode: filter
+  if (currentPart.length === 0) {
+    return { mode: 'filter', completions: [] };
+  }
+  if (currentPart.replace(/[ (-]/, '').length === 0) {
+    return { mode: 'filter', completions: [] };
+  }
 
   const matches = Array.from(currentPart.matchAll(QUERY_REGEX));
-  if (matches.length > 1) return []; // mode: invalid
+  if (matches.length > 1) return { mode: 'invalid', completions: [] };
   if (matches.length === 0) {
     return generateFilterCompletions(tcg, currentPart, filterStore, max);
   }
   const [_, filter, operator, value] = matches[0];
-  if (filter.length === 0) return []; // mode: invalid
+  if (filter.length === 0) return { mode: 'invalid', completions: [] };
 
   const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
-  if (!matchedFilter) return []; // mode: invalid filter name
+  if (!matchedFilter) return { mode: 'invalid', completions: [] };
 
   // `mode: value`, find matches with `value` and `operator`
   return generateFilterValueCompletions(
@@ -92,13 +113,16 @@ async function generateFilterValueCompletions(
   max: number,
   setIsLoading: (value: boolean) => void,
   abort?: AbortController,
-): Promise<GeneratedSearchCompletion[]> {
-  if (!filter.providesValues) return []; // e.g. numbers
-  if (filter.properties.length === 0) return [];
+): Promise<SearchCompletionState> {
+  if (!filter.providesValues) return { mode: 'invalid', completions: [] }; // e.g. numbers
+  if (filter.properties.length === 0) return { mode: 'invalid', completions: [] };
 
   const allowedOperators = filter.properties.flatMap((prop) => prop.operators);
-  if (allowedOperators.length === 0) return [];
-  if (!allowedOperators.includes(operator)) return []; // user error, operator does not work for this filter
+  if (allowedOperators.length === 0) return { mode: 'invalid', completions: [] };
+  if (!allowedOperators.includes(operator)) {
+    // user error, operator does not work for this filter
+    return { mode: 'invalid', completions: [] };
+  }
 
   const cachedValues: SearchFilterValueStoreEntry[] | undefined = store[tcg]?.[operator];
   if (cachedValues !== undefined) {
@@ -109,10 +133,15 @@ async function generateFilterValueCompletions(
         distance: levenshtein(entry.value, currentValue),
       });
     }
-    return potentialMatches
+    const matches = potentialMatches
       .sort((a, b) => a.distance - b.distance)
       .slice(0, max)
       .map((match) => match.entry);
+
+    return {
+      mode: 'value',
+      completions: matches,
+    };
   }
 
   const maxAmount = 100;
@@ -129,12 +158,12 @@ async function generateFilterValueCompletions(
     // if it was aborted, we don't reset the loading indicator to not
     // interfere with the new request
     if (error.name === 'AbortError') {
-      return [];
+      return { mode: 'invalid', completions: [] };
     }
   }
   setIsLoading(false);
 
-  if (!data) return [];
+  if (!data) return { mode: 'invalid', completions: [] };
 
   const values: SearchFilterValueStoreEntry[] = data.values
     .flatMap((value) => [
@@ -148,7 +177,16 @@ async function generateFilterValueCompletions(
     // store in cache
     store[tcg][operator] = values;
   }
-  return values.slice(0, max);
+  const completions = values.slice(0, max);
+
+  return {
+    mode: 'value',
+    userInput: {
+      operator: operator,
+      value: currentValue,
+    },
+    completions: completions,
+  };
 }
 
 export function generateFilterCompletions(
@@ -156,10 +194,13 @@ export function generateFilterCompletions(
   currentWord: string,
   store: SearchFilterStore,
   max: number,
-): GeneratedSearchCompletion[] {
-  if (currentWord.length === 0) return []; // TODO: maybe instead return "featured list = most used filters"
+): SearchCompletionState {
+  if (currentWord.length === 0) {
+    // TODO: maybe instead return "featured list = most used filters"
+    return { mode: 'filter', completions: [] };
+  }
   const filters = store[tcg];
-  if (!filters || filters.length === 0) return [];
+  if (!filters || filters.length === 0) return { mode: 'invalid', completions: [] };
 
   // get all keywords that start with the currentWord
   // and calculate the levenshtein distance for them (for sorting).
@@ -180,12 +221,20 @@ export function generateFilterCompletions(
       });
     }
   }
-  if (potentialMatches.length === 0) return [];
+  if (potentialMatches.length === 0) return { mode: 'filter', completions: [] };
 
-  return potentialMatches
+  const completions = potentialMatches
     .sort((a, b) => a.distance - b.distance)
     .slice(0, max)
     .map((filter) => {
       return { value: filter.filter, aliasOf: filter.aliasOf } as GeneratedSearchCompletion;
     });
+
+  return {
+    mode: 'filter',
+    userInput: {
+      filter: currentWord,
+    },
+    completions: completions,
+  };
 }

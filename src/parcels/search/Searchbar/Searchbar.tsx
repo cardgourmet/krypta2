@@ -29,6 +29,9 @@ export default function Searchbar() {
   const [currentQuery, setCurrentQuery] = useSearchQuery();
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
 
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const hasActiveSuggestion = suggestionIndex > 0;
+
   const setQueryWrapper = useCallback(
     (query: string, isByUser: boolean) => {
       setCurrentQuery({ query, isByUser });
@@ -62,6 +65,7 @@ export default function Searchbar() {
       focusableElements: focusableElements,
       currentQuery: currentQuery.query,
       navigate: navigate,
+      hasActiveSuggestion: hasActiveSuggestion,
     });
 
     document.addEventListener('keydown', handle);
@@ -69,7 +73,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [currentTcg, isOpened, currentQuery, navigate]);
+  }, [currentTcg, isOpened, currentQuery, navigate, hasActiveSuggestion]);
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
@@ -121,7 +125,7 @@ export default function Searchbar() {
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
-            {!isCaptainOfTheShip && recentQueries.length > 0 && (
+            {!isCaptainOfTheShip && currentQuery.query.length === 0 && recentQueries.length > 0 && (
               <SearchRecent
                 tcg={currentTcg}
                 setIsOpened={setIsOpened}
@@ -132,7 +136,15 @@ export default function Searchbar() {
             )}
 
             {isCaptainOfTheShip && currentQuery.query.length > 0 && (
-              <SearchCompletion tcg={currentTcg} currentQuery={currentQuery.query} isOpened={isOpened} />
+              <SearchCompletion
+                tcg={currentTcg}
+                currentQuery={currentQuery.query}
+                suggestionIndex={suggestionIndex}
+                setSuggestionIndex={setSuggestionIndex}
+                isOpened={isOpened}
+                setQuery={setQueryWrapper}
+                searchInputRef={searchInputRef}
+              />
             )}
           </div>
 

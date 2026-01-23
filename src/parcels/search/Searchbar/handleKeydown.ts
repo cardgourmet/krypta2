@@ -11,6 +11,7 @@ export function handleKeydown({
   focusableElements,
   currentQuery,
   navigate,
+  hasActiveSuggestion,
 }: {
   tcg: Tcg;
   searchInputRef: RefObject<HTMLInputElement | null>;
@@ -19,6 +20,7 @@ export function handleKeydown({
   focusableElements: Array<HTMLElement | null>;
   currentQuery: string;
   navigate: UseNavigateResult<string>;
+  hasActiveSuggestion: boolean;
 }) {
   return (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -50,6 +52,8 @@ export function handleKeydown({
         setIsOpened(true);
       }
       if (isOpened && document.activeElement === searchInputRef.current) {
+        if (hasActiveSuggestion) return;
+
         searchInputRef.current?.blur();
         setIsOpened(false);
 
