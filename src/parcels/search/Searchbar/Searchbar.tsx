@@ -1,16 +1,19 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
-import { IconQuestionMark, IconSearch, IconX } from '@tabler/icons-react';
+import { IconCaretDownFilled, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
-import { GameSelector } from '@/parcels/search/Searchbar/GameSelector.tsx';
 import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
 import { SearchCompletion } from '@/parcels/search/SearchCompletion/SearchCompletion.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/SearchRecent/SearchRecent.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
-import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
+import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
+import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
@@ -85,7 +88,27 @@ export default function Searchbar() {
       <div className={`${styles.searchOverlay} ${!isOpened ? styles.hidden : ''}`} />
 
       <div className={styles.searchbar} ref={mergedSearchRef}>
-        <IconSearch size={18} color={'#9ba6b1'} className={styles.searchIcon} />
+        <div className={styles.searchIcon}>
+          <Dropdown
+            items={{
+              dlc: 'Disney Lorcana',
+              mtg: 'Magic: The Gathering',
+              pcg: 'Pokémon Card Game',
+            }}
+            selected={tcg}
+            renderButtonContent={(selected) => (
+              <>
+                {selected === 'dlc' && <DLCIcon width={20} height={20} color={'#9ba6b1'} />}
+                {selected === 'mtg' && <MTGIcon width={20} height={20} color={'#9ba6b1'} />}
+                {selected === 'pcg' && <PCGIcon width={20} height={20} color={'#9ba6b1'} />}
+                <IconCaretDownFilled size={12} color={'#9ba6b1'} />
+              </>
+            )}
+            onSelect={(selected) => {
+              setCurrentTcg(selected as Tcg);
+            }}
+          />
+        </div>
         <input
           type="text"
           ref={searchInputRef}
@@ -127,8 +150,6 @@ export default function Searchbar() {
 
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
-            <GameSelector tcg={currentTcg} setTcg={setCurrentTcg} />
-
             <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>

@@ -1,6 +1,7 @@
 import { Loader } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   type GeneratedSearchCompletion,
   generateCompletions,
@@ -31,6 +32,7 @@ export function SearchCompletion({
   searchInputRef,
   setQuery,
 }: SearchCompletionProps) {
+  const { t } = useTranslation('search');
   const filterStore = useRef<SearchFilterStore>({} as SearchFilterStore);
   const filterValueStore = useRef<SearchFilterValueStore>({} as SearchFilterValueStore);
   const [debouncedQuery] = useDebouncedValue(currentQuery, 0); // maybe? wouldn't feel snappy anymore tho
@@ -135,7 +137,11 @@ export function SearchCompletion({
             >
               <p>{completion.value}</p>
               {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
-              {completion.aliasOf !== undefined && <p className={styles.entryAlias}>alias für: {completion.aliasOf}</p>}
+              {completion.aliasOf !== undefined && (
+                <p className={styles.entryAlias}>
+                  {t('aliasFor')}: {completion.aliasOf}
+                </p>
+              )}
             </button>
           );
         })}

@@ -1,4 +1,7 @@
 {
+  "search": {
+    "aliasFor": "alias for"
+  },
   "dlc": {
     "common": {
       "sortby": "Sort by",

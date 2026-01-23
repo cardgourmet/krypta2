@@ -21,7 +21,7 @@
     border: solid 2px var(--cgm-button-border);
     border-radius: 0.2rem;
     width: 32dvw;
-    padding: 0.1rem 2.5rem 0.1rem 2.5rem;
+    padding: 0.25rem 3rem 0.25rem 3.25rem;
 
     color: var(--cgm-text-color);
 
@@ -48,8 +48,26 @@
   & .searchIcon {
     position: absolute;
     top: 50%;
-    left: 1.25rem;
+    left: 1.75rem;
     transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+
+    button {
+      border: none;
+      background-color: transparent;
+      gap: 0.25rem;
+      padding: 0.25rem;
+      max-height: 1.75rem;
+
+      &:hover {
+        border-radius: 4px;
+        background-color: #2d353c;
+        cursor: pointer;
+      }
+    }
   }
 
   & .deleteSearchIcon {
@@ -91,7 +109,7 @@
 
 .content {
   flex-grow: 1;
-  margin: 0 var(--padding);
+  margin: 1rem var(--padding) 0 var(--padding);
 
   .typingInfo {
     p {
