@@ -29,6 +29,8 @@ export default function Searchbar() {
   const [currentQuery, setCurrentQuery] = useSearchQuery();
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
 
+  const [historyIndex, setHistoryIndex] = useState(0);
+
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const hasActiveSuggestion = suggestionIndex > 0;
 
@@ -94,10 +96,16 @@ export default function Searchbar() {
           onChange={(event) => {
             const newQuery = event.target.value;
             if (isCaptainOfTheShip && newQuery.length === 0) {
+              setHistoryIndex(0);
+              setCurrentQuery({ query: '', isByUser: false });
+            } else if (!isCaptainOfTheShip && newQuery.length === 0) {
+              setHistoryIndex(0);
               setCurrentQuery({ query: '', isByUser: false });
             } else if (!isCaptainOfTheShip && newQuery.length > 0) {
+              setSuggestionIndex(0);
               setCurrentQuery({ query: event.target.value, isByUser: true });
             } else if (isCaptainOfTheShip && newQuery.length > 0) {
+              setSuggestionIndex(0);
               setCurrentQuery({ query: event.target.value, isByUser: true });
             }
           }}
@@ -125,11 +133,13 @@ export default function Searchbar() {
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
-            {!isCaptainOfTheShip && currentQuery.query.length === 0 && recentQueries.length > 0 && (
+            {!isCaptainOfTheShip && recentQueries.length > 0 && (
               <SearchRecent
                 tcg={currentTcg}
                 setIsOpened={setIsOpened}
                 setQuery={setQueryWrapper}
+                historyIndex={historyIndex}
+                setHistoryIndex={setHistoryIndex}
                 searchContainerRef={searchContainerRef}
                 searchInputRef={searchInputRef}
               />

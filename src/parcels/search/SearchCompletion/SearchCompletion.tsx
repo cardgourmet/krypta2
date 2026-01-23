@@ -40,6 +40,8 @@ export function SearchCompletion({
 
   const handleKeydown = useCallback(
     (event: KeyboardEvent) => {
+      console.log('handleKEydown');
+
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
         if (document.activeElement !== searchInputRef.current) return event.preventDefault();
 
@@ -126,7 +128,6 @@ export function SearchCompletion({
               <p>{completion.value}</p>
               {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
               {completion.aliasOf !== undefined && <p className={styles.entryAlias}>alias für: {completion.aliasOf}</p>}
-              <p>{index}</p>
             </div>
           );
         })}

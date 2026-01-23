@@ -1,6 +1,6 @@
 import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { type RefObject, useEffect, useMemo, useState } from 'react';
+import { type RefObject, useEffect, useMemo } from 'react';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
@@ -12,6 +12,8 @@ type SearchRecentItemProps = {
   tcg: Tcg;
   setIsOpened: (isOpened: boolean) => void;
   setQuery: (query: string, isByUser: boolean) => void;
+  historyIndex: number;
+  setHistoryIndex: (historyIndex: number) => void;
   searchContainerRef: RefObject<HTMLDivElement | null>;
   searchInputRef: RefObject<HTMLInputElement | null>;
 };
@@ -20,6 +22,8 @@ export default function SearchRecent({
   tcg,
   setIsOpened,
   setQuery,
+  historyIndex,
+  setHistoryIndex,
   searchContainerRef,
   searchInputRef,
 }: SearchRecentItemProps) {
@@ -27,7 +31,6 @@ export default function SearchRecent({
   const recentQueries = history.pastQueries ?? [];
   const navigate = useNavigate();
 
-  const [suggestionIndex, setSuggestionIndex] = useState(0);
   const suggestions = useMemo(() => {
     const suggs = [...recentQueries].reverse().slice(0, 5);
     suggs.unshift('');
@@ -54,10 +57,10 @@ export default function SearchRecent({
         if (suggestions.length === 0) return;
         const arrowUp = event.key === 'ArrowUp';
 
-        let newIndex = arrowUp ? suggestionIndex - 1 : suggestionIndex + 1;
+        let newIndex = arrowUp ? historyIndex - 1 : historyIndex + 1;
         if (newIndex < 0) newIndex = suggestions.length - 1;
         if (newIndex >= suggestions.length) newIndex = 0;
-        setSuggestionIndex(newIndex);
+        setHistoryIndex(newIndex);
 
         return event.preventDefault();
       }
@@ -67,16 +70,16 @@ export default function SearchRecent({
     return () => {
       document.removeEventListener('keydown', handle);
     };
-  }, [suggestionIndex]);
+  }, [historyIndex]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
     let currentSugg = '';
-    if (suggestionIndex > 0) {
-      currentSugg = suggestions[suggestionIndex];
+    if (historyIndex > 0) {
+      currentSugg = suggestions[historyIndex];
     }
     setQuery(currentSugg, false);
-  }, [suggestionIndex]);
+  }, [historyIndex]);
 
   return (
     <div className={styles.recent}>
@@ -87,7 +90,7 @@ export default function SearchRecent({
             <button
               type="button"
               tabIndex={0}
-              className={index + 1 === suggestionIndex ? styles.suggestionHighlighted : ''}
+              className={index + 1 === historyIndex ? styles.suggestionHighlighted : ''}
               onClick={() => {
                 if (tcg === 'dlc') {
                   // noinspection JSIgnoredPromiseFromCall
