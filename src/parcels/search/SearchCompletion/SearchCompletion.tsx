@@ -40,8 +40,6 @@ export function SearchCompletion({
 
   const handleKeydown = useCallback(
     (event: KeyboardEvent) => {
-      console.log('handleKEydown');
-
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
         if (document.activeElement !== searchInputRef.current) return event.preventDefault();
 
@@ -124,11 +122,21 @@ export function SearchCompletion({
           const selected = index === suggestionIndex - 1;
 
           return (
-            <div className={styles.completionEntry} key={completion.value} data-state={selected ? 'selected' : ''}>
+            <button
+              type={'button'}
+              className={styles.completionEntry}
+              key={completion.value}
+              data-state={selected ? 'selected' : ''}
+              onClick={() => {
+                const currentSugg = sugg.fullQuery;
+                setQuery(currentSugg, true);
+                setSuggestionIndex(0);
+              }}
+            >
               <p>{completion.value}</p>
               {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
               {completion.aliasOf !== undefined && <p className={styles.entryAlias}>alias für: {completion.aliasOf}</p>}
-            </div>
+            </button>
           );
         })}
       </div>

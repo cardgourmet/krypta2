@@ -12,12 +12,20 @@
 
 .completionEntry {
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   gap: 1rem;
   padding: 0.5rem;
   border-radius: 5px;
 
+  border: none;
+  background-color: transparent;
+
   &[data-state="selected"] {
+    background-color: #2c333a;
+  }
+
+  :hover {
     background-color: #2c333a;
   }
 
