@@ -1,4 +1,6 @@
-import { Outlet } from '@tanstack/react-router';
+import { MantineProvider } from '@mantine/core';
+import { NavigationProgress, nprogress } from '@mantine/nprogress';
+import { Outlet, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Footer } from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
@@ -10,20 +12,31 @@ import styles from './App.module.css';
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  return (
-    <SearchCacheProvider>
-      <SearchHistoryProvider>
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <Navbar setSidebarOpen={setSidebarOpen} />
+  const router = useRouter();
+  router.subscribe('onBeforeLoad', ({ fromLocation, pathChanged }) => {
+    fromLocation && pathChanged && nprogress.start();
+  });
+  router.subscribe('onLoad', () => {
+    nprogress.complete();
+  });
 
-        <div className={styles.mainContent}>
-          <Outlet />
-        </div>
-        <div className={styles.footer}>
-          <Footer />
-        </div>
-      </SearchHistoryProvider>
-    </SearchCacheProvider>
+  return (
+    <MantineProvider>
+      <SearchCacheProvider>
+        <SearchHistoryProvider>
+          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Navbar setSidebarOpen={setSidebarOpen} />
+          <NavigationProgress />
+
+          <div className={styles.mainContent}>
+            <Outlet />
+          </div>
+          <div className={styles.footer}>
+            <Footer />
+          </div>
+        </SearchHistoryProvider>
+      </SearchCacheProvider>
+    </MantineProvider>
   );
 }
 

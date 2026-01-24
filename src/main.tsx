@@ -7,6 +7,7 @@ import './styles.css';
 import './parcels/i18n/i18n';
 
 import '@mantine/core/styles.layer.css';
+import '@mantine/nprogress/styles.css';
 
 // Create a new router instance
 const router = createRouter({

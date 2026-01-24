@@ -14,6 +14,9 @@ importers:
       '@mantine/hooks':
         specifier: 8.3.11
         version: 8.3.11(react@19.2.3)
+      '@mantine/nprogress':
+        specifier: ^8.3.13
+        version: 8.3.13(@mantine/core@8.3.11(@mantine/hooks@8.3.11(react@19.2.3))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@mantine/hooks@8.3.11(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@tabler/icons-react':
         specifier: ^3.36.1
         version: 3.36.1(react@19.2.3)
@@ -32,9 +35,6 @@ importers:
       i18next:
         specifier: ^25.7.4
         version: 25.7.4(typescript@5.9.3)
-      js-levenshtein:
-        specifier: ^1.1.6
-        version: 1.1.6
       openapi-fetch:
         specifier: ^0.15.0
         version: 0.15.0
@@ -506,6 +506,19 @@ packages:
 
   '@mantine/hooks@8.3.11':
     resolution: {integrity: sha512-WJFKDnJJM2fAOCkrO8qRsi3wDdicSFqElruPj5TEYWDL93vl0pITOyN0oRF93bUtx190waqela3edfGH3r5/1g==}
+    peerDependencies:
+      react: ^18.x || ^19.x
+
+  '@mantine/nprogress@8.3.13':
+    resolution: {integrity: sha512-itDLHIAbjPWjKrRgoCyf39vXoxEwgHb6gzDjKV0LSaVsHkWT1Mdvm9VB7qlNnRnvf/mxKSMe2mtLaSiHNnCC7A==}
+    peerDependencies:
+      '@mantine/core': 8.3.13
+      '@mantine/hooks': 8.3.13
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
+
+  '@mantine/store@8.3.13':
+    resolution: {integrity: sha512-pnHHwiffGfaqLFxuyJIuU1P6+3zOd7bfBRVFFzIEDyUbPJs7dmVUFt31bry5FokrBfCjNWyg2XfyAQqIwd2LLA==}
     peerDependencies:
       react: ^18.x || ^19.x
 
@@ -1142,10 +1155,6 @@ packages:
   isbot@5.1.32:
     resolution: {integrity: sha512-VNfjM73zz2IBZmdShMfAUg10prm6t7HFUQmNAEOAVS4YH92ZrZcvkMcGX6cIgBJAzWDzPent/EeAtYEHNPNPBQ==}
     engines: {node: '>=18'}
-
-  js-levenshtein@1.1.6:
-    resolution: {integrity: sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==}
-    engines: {node: '>=0.10.0'}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2030,6 +2039,18 @@ snapshots:
     dependencies:
       react: 19.2.3
 
+  '@mantine/nprogress@8.3.13(@mantine/core@8.3.11(@mantine/hooks@8.3.11(react@19.2.3))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@mantine/hooks@8.3.11(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@mantine/core': 8.3.11(@mantine/hooks@8.3.11(react@19.2.3))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@mantine/hooks': 8.3.11(react@19.2.3)
+      '@mantine/store': 8.3.13(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
+  '@mantine/store@8.3.13(react@19.2.3)':
+    dependencies:
+      react: 19.2.3
+
   '@rolldown/pluginutils@1.0.0-beta.53': {}
 
   '@rollup/rollup-android-arm-eabi@4.55.1':
@@ -2684,8 +2705,6 @@ snapshots:
   is-potential-custom-element-name@1.0.1: {}
 
   isbot@5.1.32: {}
-
-  js-levenshtein@1.1.6: {}
 
   js-tokens@4.0.0: {}
 
