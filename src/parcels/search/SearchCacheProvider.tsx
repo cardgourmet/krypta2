@@ -23,8 +23,6 @@ export default function SearchCacheProvider({ children }: { children: ReactNode 
     const controller = new AbortController();
     if (filterStore.current[tcg]?.length > 0) return;
 
-    console.log(tcg, 'fetch filters', structuredClone(filterStore));
-
     if (tcg === 'pcg') {
       fetchPcgFilters(controller).then(({ data, error }) => {
         if (error !== undefined) {

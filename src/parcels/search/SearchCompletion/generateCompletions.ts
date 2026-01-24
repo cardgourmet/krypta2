@@ -191,8 +191,11 @@ async function generateFilterValueCompletions(
       }) ?? []),
     ])
     .filter((value) => value.value.length > 0);
-  if (data.matches === data.total && data.total <= maxAmount) {
+  if (data.total > 0 && data.total <= maxAmount && data.matches === data.total) {
     // store in cache
+    if (!store[tcg]) {
+      store[tcg] = { ':': [], '<': [], '<=': [], '=': [], '>': [], '>=': [] };
+    }
     store[tcg][operator] = values;
   }
   const completions = values.slice(0, max);
