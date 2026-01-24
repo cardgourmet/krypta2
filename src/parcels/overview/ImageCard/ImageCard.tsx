@@ -107,7 +107,11 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
             <img
               ref={imageRef}
               alt={properties.name}
-              src={properties.thumbnailUrl}
+              src={
+                properties.thumbnailUrl === ''
+                  ? properties.backupImageUrl
+                  : (properties.thumbnailUrl ?? properties.backupImageUrl)
+              }
               loading={'lazy'}
               onError={(error) => {
                 console.log(`Could not load image because: ${error}`);
