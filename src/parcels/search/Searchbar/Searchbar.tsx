@@ -7,7 +7,7 @@ import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
 import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
 import { SearchCompletion } from '@/parcels/search/SearchCompletion/SearchCompletion.tsx';
-import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
+import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/SearchRecent/SearchRecent.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';

@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Footer } from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
-import SearchCacheProvider from '@/parcels/search/SearchCacheProvider.tsx';
-import SearchHistoryProvider from '@/parcels/search/SearchHistoryProvider.tsx';
+import SearchCacheProvider from '@/parcels/search/SearchCacheProvider/SearchCacheProvider.tsx';
+import SearchHistoryProvider from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import styles from './App.module.css';
 
 function App() {

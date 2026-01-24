@@ -1,12 +1,12 @@
-import { Loader } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchCache } from '@/parcels/search/SearchCacheProvider.tsx';
+import { useSearchCache } from '@/parcels/search/SearchCacheProvider/SearchCacheProvider.tsx';
 import {
   type GeneratedSearchCompletion,
   generateCompletions,
 } from '@/parcels/search/SearchCompletion/generateCompletions.ts';
+import { SearchQueryExplanation } from '@/parcels/search/SearchCompletion/SearchQueryExplanation.tsx';
 import { type SearchSuggestion, transformCompletions } from '@/parcels/search/SearchCompletion/transformCompletions.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
@@ -32,9 +32,9 @@ export function SearchCompletion({
 }: SearchCompletionProps) {
   const { t } = useTranslation('search');
   const { filter: filterStore, values: filterValueStore } = useSearchCache();
-  const [debouncedQuery] = useDebouncedValue(currentQuery, 0); // maybe? wouldn't feel snappy anymore tho
+  const [debouncedQuery] = useDebouncedValue(currentQuery, 500);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [_, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
 
   const handleKeydown = useCallback(
@@ -76,23 +76,20 @@ export function SearchCompletion({
     if (!isOpened) return;
 
     const controller = new AbortController();
-    generateCompletions(tcg, debouncedQuery, filterStore, filterValueStore, 5, setIsLoading, controller).then(
-      (state) => {
-        const suggestions = transformCompletions(currentQuery, state);
-        setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
-      },
-    );
+    generateCompletions(tcg, currentQuery, filterStore, filterValueStore, 5, setIsLoading, controller).then((state) => {
+      const suggestions = transformCompletions(currentQuery, state);
+      setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
+    });
 
     return () => {
       controller.abort();
     };
-  }, [tcg, debouncedQuery, isOpened]);
+  }, [tcg, currentQuery, isOpened]);
 
   return (
     <div className={styles.main}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        SearchCompletion ({tcg}: `{debouncedQuery}`)
-        {isLoading && <Loader color="gray" size="xs" type="dots" />}
+        <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
       </div>
       <div className={styles.completionList}>
         {suggestions.slice(1).map((sugg, index) => {

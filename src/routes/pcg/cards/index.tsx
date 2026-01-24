@@ -2,7 +2,7 @@ import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
 import { CardOverview } from '@/parcels/overview/CardOverview/CardOverview.tsx';
-import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider.tsx';
+import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
 import { fetchPcgCards, type PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
 import { usePcgMemoizedDisplaySettings, usePcgMemoizedQuerySettings } from '@/parcels/tcg/pcg/query.ts';

@@ -125,3 +125,35 @@ export async function fetchPcgFilterValues(
     return { error: error };
   }
 }
+
+// /v1/pcg/cards/search/explain
+export async function fetchPcgQueryExplain(query: string, abort?: AbortController) {
+  try {
+    const res = await umoriClient.GET(`/v1/pcg/cards/search/explain`, {
+      params: {
+        query: {
+          query: query,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { query: query, error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { query: query, error: new Error('Received invalid data') };
+    }
+
+    return { query: query, data: res.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { query: query, error: error };
+  }
+}

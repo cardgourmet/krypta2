@@ -1,0 +1,10 @@
+.explanation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    margin: 0;
+    color: var(--cgm-text-color-less-dimmed);
+  }
+}
