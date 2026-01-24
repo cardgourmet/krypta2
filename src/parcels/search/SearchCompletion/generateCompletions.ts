@@ -1,5 +1,6 @@
 import { levenshtein } from '@/parcels/search/levenshtein.ts';
-import { fetchPcgFilterValues, type PcgSearchFilter } from '@/parcels/tcg/pcg/api.ts';
+import { type DlcSearchFilterValues, fetchDlcFilterValues } from '@/parcels/tcg/dlc/api.ts';
+import { fetchPcgFilterValues, type PcgSearchFilter, type PcgSearchFilterValues } from '@/parcels/tcg/pcg/api.ts';
 import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -147,13 +148,30 @@ async function generateFilterValueCompletions(
   const maxAmount = 100;
 
   setIsLoading(true);
-  const { data, error } = await fetchPcgFilterValues(
-    filter.keywords[0],
-    abort,
-    operator as TcgFilterOperator,
-    currentValue,
-    maxAmount,
-  );
+  let data: PcgSearchFilterValues | DlcSearchFilterValues | undefined;
+  let error: Error | undefined;
+
+  if (tcg === 'pcg') {
+    const res = await fetchPcgFilterValues(
+      filter.keywords[0],
+      abort,
+      operator as TcgFilterOperator,
+      currentValue,
+      maxAmount,
+    );
+    data = res.data;
+    error = res.error;
+  } else if (tcg === 'dlc') {
+    const res = await fetchDlcFilterValues(
+      filter.keywords[0],
+      abort,
+      operator as TcgFilterOperator,
+      currentValue,
+      maxAmount,
+    );
+    data = res.data;
+    error = res.error;
+  }
   if (error !== undefined) {
     // if it was aborted, we don't reset the loading indicator to not
     // interfere with the new request

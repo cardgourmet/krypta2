@@ -9,6 +9,7 @@ import {
   type SearchFilterValueStore,
 } from '@/parcels/search/SearchCompletion/generateCompletions.ts';
 import { type SearchSuggestion, transformCompletions } from '@/parcels/search/SearchCompletion/transformCompletions.ts';
+import { fetchDlcFilters } from '@/parcels/tcg/dlc/api.ts';
 import { fetchPcgFilters } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
@@ -99,13 +100,25 @@ export function SearchCompletion({
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchPcgFilters(controller).then(({ data, error }) => {
-      if (error !== undefined) {
-        // non 200 status basically
-        return;
-      }
-      filterStore.current[tcg] = data ?? [];
-    });
+
+    if (tcg === 'pcg') {
+      fetchPcgFilters(controller).then(({ data, error }) => {
+        if (error !== undefined) {
+          // non 200 status basically
+          return;
+        }
+        filterStore.current[tcg] = data ?? [];
+      });
+    } else if (tcg === 'dlc') {
+      fetchDlcFilters(controller).then(({ data, error }) => {
+        if (error !== undefined) {
+          // non 200 status basically
+          return;
+        }
+        filterStore.current[tcg] = data ?? [];
+      });
+    } else if (tcg === 'mtg') {
+    }
 
     return () => {
       controller.abort();

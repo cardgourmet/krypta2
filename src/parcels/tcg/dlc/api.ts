@@ -1,5 +1,5 @@
 import type { DlcSearchQuerySettings, DlcSortBy } from '@/parcels/tcg/dlc/types.ts';
-import type { TcgCardQuery } from '@/parcels/tcg/types.ts';
+import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -10,6 +10,8 @@ export type DlcCardQuery = TcgCardQuery & {
 export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
+export type DlcSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,
@@ -50,5 +52,75 @@ export async function fetchDlcCards(
       console.log(`Error: ${error}`);
     }
     return { query: query, error: error };
+  }
+}
+
+// /v1/dlc/cards/search/filters
+export async function fetchDlcFilters(abort: AbortController): Promise<{ data?: DlcSearchFilter[]; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/dlc/cards/search/filters`, {
+      signal: abort.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
+// /v1/dlc/cards/search/filters/{filter}/values
+export async function fetchDlcFilterValues(
+  filter: string,
+  abort?: AbortController,
+  operator?: TcgFilterOperator,
+  query?: string,
+  amount?: number,
+): Promise<{ data?: DlcSearchFilterValues; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/dlc/cards/search/filters/{filter}/values`, {
+      params: {
+        query: {
+          operator: operator,
+          query: query,
+          amount: amount,
+        },
+        path: {
+          filter: filter,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
   }
 }
