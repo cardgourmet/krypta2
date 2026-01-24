@@ -7,3 +7,23 @@
 
   overflow: visible;
 }
+
+.root {
+  width: 50%;
+}
+
+.item {
+  margin: 0 0 2rem 1rem;
+  border: none;
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    border-radius: 5px;
+    border: none;
+    color: #cf8636;
+    background-color: #443121;
+  }
+}

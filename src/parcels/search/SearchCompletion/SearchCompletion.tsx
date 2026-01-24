@@ -91,34 +91,36 @@ export function SearchCompletion({
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
       </div>
-      <div className={styles.completionList}>
-        {suggestions.slice(1).map((sugg, index) => {
-          const completion = sugg.completion as GeneratedSearchCompletion;
-          const selected = index === suggestionIndex - 1;
+      {suggestions.length > 1 && (
+        <div className={styles.completionList}>
+          {suggestions.slice(1).map((sugg, index) => {
+            const completion = sugg.completion as GeneratedSearchCompletion;
+            const selected = index === suggestionIndex - 1;
 
-          return (
-            <button
-              type={'button'}
-              className={styles.completionEntry}
-              key={completion.value}
-              data-state={selected ? 'selected' : ''}
-              onClick={() => {
-                const currentSugg = sugg.fullQuery;
-                setQuery(currentSugg, true);
-                setSuggestionIndex(0);
-              }}
-            >
-              <p>{completion.value}</p>
-              {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
-              {completion.aliasOf !== undefined && (
-                <p className={styles.entryAlias}>
-                  {t('aliasFor')}: {completion.aliasOf}
-                </p>
-              )}
-            </button>
-          );
-        })}
-      </div>
+            return (
+              <button
+                type={'button'}
+                className={styles.completionEntry}
+                key={completion.value}
+                data-state={selected ? 'selected' : ''}
+                onClick={() => {
+                  const currentSugg = sugg.fullQuery;
+                  setQuery(currentSugg, true);
+                  setSuggestionIndex(0);
+                }}
+              >
+                <p>{completion.value}</p>
+                {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
+                {completion.aliasOf !== undefined && (
+                  <p className={styles.entryAlias}>
+                    {t('aliasFor')}: {completion.aliasOf}
+                  </p>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

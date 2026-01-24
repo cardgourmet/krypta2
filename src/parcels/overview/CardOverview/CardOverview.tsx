@@ -1,3 +1,5 @@
+import { Accordion } from '@mantine/core';
+import { IconAlertCircleFilled } from '@tabler/icons-react';
 import type { RefObject } from 'react';
 import Breadcrumbs from '@/parcels/overview/Breadcrumbs/Breadcrumbs.tsx';
 import { CardGrid } from '@/parcels/overview/CardGrid/CardGrid.tsx';
@@ -59,6 +61,25 @@ export function CardOverview({
           cardCount={cards?.data?.details?.count ?? 0}
           explanation={cards?.data.details?.explanation ?? ''}
         />
+        {(cards?.data.details?.ignored ?? []).length > 0 && (
+          <Accordion classNames={{ item: styles.item, root: styles.root, icon: styles.icon }}>
+            <Accordion.Item value={'yee'}>
+              <Accordion.Control icon={<IconAlertCircleFilled />}>
+                There are some ignored filters in your query
+              </Accordion.Control>
+              <Accordion.Panel>
+                {cards?.data.details?.ignored.map((ignore) => (
+                  <div key={ignore.value} style={{ display: 'flex', gap: '1rem' }}>
+                    <code>{ignore.value}</code>
+                    <span>{ignore.reason}</span>
+                  </div>
+                ))}
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        )}
+        {/* TODO: if explanation contains ignored values: display accordion
+         */}
 
         {searchDisplaySettings.cardDisplayMode === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
       </div>
