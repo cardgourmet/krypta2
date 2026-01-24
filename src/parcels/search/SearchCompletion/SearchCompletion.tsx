@@ -1,16 +1,13 @@
 import { Loader } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchCache } from '@/parcels/search/SearchCacheProvider.tsx';
 import {
   type GeneratedSearchCompletion,
   generateCompletions,
-  type SearchFilterStore,
-  type SearchFilterValueStore,
 } from '@/parcels/search/SearchCompletion/generateCompletions.ts';
 import { type SearchSuggestion, transformCompletions } from '@/parcels/search/SearchCompletion/transformCompletions.ts';
-import { fetchDlcFilters } from '@/parcels/tcg/dlc/api.ts';
-import { fetchPcgFilters } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
 
@@ -34,8 +31,7 @@ export function SearchCompletion({
   setQuery,
 }: SearchCompletionProps) {
   const { t } = useTranslation('search');
-  const filterStore = useRef<SearchFilterStore>({} as SearchFilterStore);
-  const filterValueStore = useRef<SearchFilterValueStore>({} as SearchFilterValueStore);
+  const { filter: filterStore, values: filterValueStore } = useSearchCache();
   const [debouncedQuery] = useDebouncedValue(currentQuery, 0); // maybe? wouldn't feel snappy anymore tho
 
   const [isLoading, setIsLoading] = useState(false);
@@ -80,50 +76,17 @@ export function SearchCompletion({
     if (!isOpened) return;
 
     const controller = new AbortController();
-    generateCompletions(
-      tcg,
-      debouncedQuery,
-      filterStore.current,
-      filterValueStore.current,
-      5,
-      setIsLoading,
-      controller,
-    ).then((state) => {
-      const suggestions = transformCompletions(currentQuery, state);
-      setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
-    });
+    generateCompletions(tcg, debouncedQuery, filterStore, filterValueStore, 5, setIsLoading, controller).then(
+      (state) => {
+        const suggestions = transformCompletions(currentQuery, state);
+        setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
+      },
+    );
 
     return () => {
       controller.abort();
     };
   }, [tcg, debouncedQuery, isOpened]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    if (tcg === 'pcg') {
-      fetchPcgFilters(controller).then(({ data, error }) => {
-        if (error !== undefined) {
-          // non 200 status basically
-          return;
-        }
-        filterStore.current[tcg] = data ?? [];
-      });
-    } else if (tcg === 'dlc') {
-      fetchDlcFilters(controller).then(({ data, error }) => {
-        if (error !== undefined) {
-          // non 200 status basically
-          return;
-        }
-        filterStore.current[tcg] = data ?? [];
-      });
-    } else if (tcg === 'mtg') {
-    }
-
-    return () => {
-      controller.abort();
-    };
-  }, [tcg]);
 
   return (
     <div className={styles.main}>

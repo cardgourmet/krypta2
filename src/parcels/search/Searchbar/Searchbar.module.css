@@ -16,7 +16,7 @@
   align-items: center;
   gap: 1rem;
 
-  & > input {
+  .searchInput {
     background-color: var(--cgm-button-bg);
     border: solid 2px var(--cgm-button-border);
     border-radius: 0.2rem;
@@ -87,7 +87,7 @@
 .searchModal {
   --padding: 1rem;
   --negative-padding: calc(-1 * var(--padding));
-  --shift-top: 3rem;
+  --shift-top: 3.5rem;
 
   position: absolute;
   left: var(--negative-padding);
@@ -108,8 +108,26 @@
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
   flex-grow: 1;
-  margin: 1rem var(--padding) 0 var(--padding);
+  margin: 0 var(--padding) 0 var(--padding);
+
+  .advancedSearch {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 3rem;
+
+    a {
+      font-size: var(--mantine-font-size-sm);
+      text-decoration: none;
+      color: var(--cgm-sidebar-button-bg);
+
+      margin: 0;
+    }
+  }
 
   .typingInfo {
     p {

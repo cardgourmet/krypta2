@@ -1,6 +1,6 @@
 import { useClickOutside, useMergedRef } from '@mantine/hooks';
 import { IconCaretDownFilled, IconQuestionMark, IconX } from '@tabler/icons-react';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
@@ -110,6 +110,7 @@ export default function Searchbar() {
           />
         </div>
         <input
+          className={styles.searchInput}
           type="text"
           ref={searchInputRef}
           value={currentQuery.query}
@@ -150,6 +151,10 @@ export default function Searchbar() {
 
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
+            <div className={styles.advancedSearch}>
+              <Link to={`/${tcg as Tcg}/advanced`}>Advanced Search</Link>
+            </div>
+
             <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
