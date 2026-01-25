@@ -98,10 +98,10 @@ export default function Searchbar() {
             selected={tcg}
             renderButtonContent={(selected) => (
               <>
-                {selected === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-light-gray-4)'} />}
-                {selected === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-light-gray-4)'} />}
-                {selected === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-light-gray-4)'} />}
-                <IconCaretDownFilled size={12} color={'var(--gourmet-light-gray-4)'} />
+                {selected === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-dark-9)'} />}
+                {selected === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-neutral-dark-9)'} />}
+                {selected === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-neutral-dark-9)'} />}
+                <IconCaretDownFilled size={12} color={'var(--gourmet-neutral-dark-9)'} />
               </>
             )}
             onSelect={(selected) => {
@@ -142,11 +142,11 @@ export default function Searchbar() {
             searchInputRef.current?.focus();
           }}
         >
-          <IconX size={16} color={'var(--gourmet-light-gray-4)'} />
+          <IconX size={16} color={'var(--gourmet-neutral-dark-9)'} />
         </button>
 
         <button type="button">
-          <IconQuestionMark size={18} color={'var(--gourmet-light-gray-4)'} />
+          <IconQuestionMark size={18} color={'var(--gourmet-neutral-dark-9)'} />
         </button>
 
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>

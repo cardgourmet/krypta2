@@ -76,19 +76,19 @@ html[data-mantine-color-scheme="auto"] {
   --navbar-height: 3.5rem;
   --sidebar-width: 3.5rem;
 
-  --cgm-sidebar-bg: var(--gourmet-gray-1);
-  --cgm-sidebar-border: var(--gourmet-gray-2);
+  --cgm-sidebar-bg: var(--gourmet-neutral-dark-2);
+  --cgm-sidebar-border: var(--gourmet-neutral-dark-4);
   --cgm-sidebar-button-bg: var(--gourmet-blue-1);
 
-  --cgm-navbar-bg: var(--gourmet-gray-3);
-  --cgm-navbar-border: var(--gourmet-gray-4);
+  --cgm-navbar-bg: var(--gourmet-neutral-dark-1);
+  --cgm-navbar-border: var(--gourmet-neutral-dark-4);
 
-  --cgm-text-color: var(--gourmet-light-gray-1);
-  --cgm-text-color-less-dimmed: var(--gourmet-light-gray-2);
-  --cgm-text-color-dimmed: var(--gourmet-light-gray-3);
+  --cgm-text-color: var(--gourmet-neutral-dark-10);
+  --cgm-text-color-less-dimmed: var(--gourmet-neutral-dark-8);
+  --cgm-text-color-dimmed: var(--gourmet-neutral-dark-7);
 
-  --cgm-button-bg: var(--gourmet-gray-1);
-  --cgm-button-border: var(--gourmet-gray-5);
+  --cgm-button-bg: var(--gourmet-neutral-dark-2);
+  --cgm-button-border: var(--gourmet-neutral-dark-3);
   --cgm-button-highlight-bg: var(--gourmet-blue-2);
   --cgm-button-highlight-border: var(--gourmet-blue-3);
   --cgm-icon-button-highlight-bg: var(--gourmet-blue-3);

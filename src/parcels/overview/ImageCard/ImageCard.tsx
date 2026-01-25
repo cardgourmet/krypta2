@@ -95,8 +95,8 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
               aspectRatio: 672 / 936,
               borderRadius: '15px',
             }}
-            baseColor={'var(--gourmet-grey-1)'}
-            highlightColor={'var(--gourmet-grey-2)'}
+            baseColor={'var(--gourmet-neutral-dark-5)'}
+            highlightColor={'var(--gourmet-neutral-dark-6)'}
             height={'100%'}
             width={'100%'}
           />

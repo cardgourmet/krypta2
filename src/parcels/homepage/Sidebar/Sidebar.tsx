@@ -53,7 +53,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             className={`${styles.mobileSidebarLink} ${tcg === 'mtg' ? styles.active : ''}`}
             onClick={() => setSidebarOpen(false)}
           >
-            <MTGIcon height={24} width={24} color={'var(--gourmet-light-gray-4)'} />
+            <MTGIcon height={24} width={24} color={'var(--gourmet-neutral-dark-9)'} />
             <p>Magic: The Gathering</p>
           </Link>
           <Link
@@ -61,7 +61,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             className={`${styles.mobileSidebarLink} ${tcg === 'pcg' ? styles.active : ''}`}
             onClick={() => setSidebarOpen(false)}
           >
-            <PCGIcon height={24} width={24} color={'var(--gourmet-light-gray-4)'} />
+            <PCGIcon height={24} width={24} color={'var(--gourmet-neutral-dark-9)'} />
             <p>Pokémon Card Game</p>
           </Link>
           <Link
@@ -69,7 +69,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             className={`${styles.mobileSidebarLink} ${tcg === 'dlc' ? styles.active : ''}`}
             onClick={() => setSidebarOpen(false)}
           >
-            <DLCIcon height={24} width={24} color={'var(--gourmet-light-gray-4)'} />
+            <DLCIcon height={24} width={24} color={'var(--gourmet-neutral-dark-9)'} />
             <p>Disney Lorcana</p>
           </Link>
         </div>
@@ -78,7 +78,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       {!smallScreen && (
         <nav className={styles.sidebar}>
           <Link to="/" className={styles.sidebarLogo}>
-            <Logo height={30} width={30} style={{ color: 'var(--gourmet-light-gray-1)' }} />
+            <Logo height={30} width={30} style={{ color: 'var(--gourmet-neutral-dark-10)' }} />
           </Link>
 
           <div>

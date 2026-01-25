@@ -50,7 +50,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 en: 'English',
               }}
               defaultSelected={language}
-              renderButtonContent={() => <IconLanguage size={22} color={'var(--gourmet-light-gray-4)'} />}
+              renderButtonContent={() => <IconLanguage size={22} color={'var(--gourmet-neutral-dark-9)'} />}
               onSelect={(selected) => {
                 setLanguage(selected);
               }}
@@ -66,9 +66,9 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               renderButtonContent={(selected) => {
                 return (
                   <>
-                    {selected === 'dark' && <IconMoon size={22} color={'var(--gourmet-light-gray-4)'} />}
-                    {selected === 'light' && <IconSun size={22} color={'var(--gourmet-light-gray-4)'} />}
-                    {selected === 'system' && <IconSunMoon size={22} color={'var(--gourmet-light-gray-4)'} />}
+                    {selected === 'dark' && <IconMoon size={22} color={'var(--gourmet-neutral-dark-9)'} />}
+                    {selected === 'light' && <IconSun size={22} color={'var(--gourmet-neutral-dark-9)'} />}
+                    {selected === 'system' && <IconSunMoon size={22} color={'var(--gourmet-neutral-dark-9)'} />}
                   </>
                 );
               }}
@@ -90,20 +90,20 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 setSidebarOpen(true);
               }}
             >
-              <IconMenu2 size={18} color={'var(--gourmet-light-gray-4)'} />
+              <IconMenu2 size={18} color={'var(--gourmet-neutral-dark-9)'} />
             </button>
             <button type="button">
-              <IconSearch size={18} color={'var(--gourmet-light-gray-4)'} />
+              <IconSearch size={18} color={'var(--gourmet-neutral-dark-9)'} />
             </button>
           </div>
           <div>
             <Link to="/" style={{ margin: 'auto' }}>
-              <Logo height={30} width={30} style={{ color: 'var(--gourmet-light-gray-1)' }} />
+              <Logo height={30} width={30} style={{ color: 'var(--gourmet-neutral-dark-10)' }} />
             </Link>
           </div>
           <div style={{ flex: 1, justifyContent: 'flex-end' }}>
             <button type="button">
-              <IconUser size={18} color={'var(--gourmet-light-gray-4)'} />
+              <IconUser size={18} color={'var(--gourmet-neutral-dark-9)'} />
             </button>
           </div>
         </nav>

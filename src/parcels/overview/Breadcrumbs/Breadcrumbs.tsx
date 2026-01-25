@@ -9,15 +9,15 @@ export default function Breadcrumbs() {
   return (
     <div className={styles.breadcrumb}>
       <Link to="/">
-        <IconChefHat color="var(--gourmet-light-gray-4)" size={22} className={styles.homeButton} />
+        <IconChefHat color="var(--gourmet-neutral-dark-9)" size={22} className={styles.homeButton} />
       </Link>
-      <IconChevronRight color="var(--gourmet-light-gray-4)" size={18} />
+      <IconChevronRight color="var(--gourmet-neutral-dark-9)" size={18} />
       <p>
         {tcg === 'dlc' && 'Disney Lorcana'}
         {tcg === 'pcg' && 'Pokémon Card Game'}
         {tcg === 'mtg' && 'Magic: The Gathering'}
       </p>
-      <IconChevronRight color="var(--gourmet-light-gray-4)" size={18} />
+      <IconChevronRight color="var(--gourmet-neutral-dark-9)" size={18} />
       <p>Kartendatenbank</p>
     </div>
   );

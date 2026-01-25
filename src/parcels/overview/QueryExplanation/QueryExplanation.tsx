@@ -16,7 +16,7 @@ export function QueryExplanation({ isLoading, currentPage, pageSize, cardCount, 
     <div className={styles.queryExplanation}>
       {isLoading && (
         <p>
-          <Skeleton baseColor={'var(--gourmet-grey-1)'} highlightColor={'var(--gourmet-grey-2)'} />
+          <Skeleton baseColor={'var(--gourmet-neutral-dark-5)'} highlightColor={'var(--gourmet-neutral-dark-6)'} />
         </p>
       )}
       {!isLoading && (

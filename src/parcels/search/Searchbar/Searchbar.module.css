@@ -41,7 +41,7 @@
     border: solid 1px var(--cgm-button-border);
 
     &:hover {
-      background-color: var(--gourmet-gray-7);
+      background-color: var(--gourmet-neutral-dark-4);
     }
   }
 
@@ -64,7 +64,7 @@
 
       &:hover {
         border-radius: 4px;
-        background-color: var(--gourmet-gray-4);
+        background-color: var(--gourmet-neutral-dark-4);
         cursor: pointer;
       }
     }
@@ -103,8 +103,8 @@
   padding: var(--shift-top) 0 0 0;
 
   border-radius: 1rem;
-  border: 1px solid var(--gourmet-gray-4);
-  background-color: var(--gourmet-gray-3);
+  border: 1px solid var(--gourmet-neutral-dark-4);
+  background-color: var(--gourmet-neutral-dark-1);
 }
 
 .content {
@@ -135,7 +135,7 @@
       font-size: 1rem;
       font-weight: 400;
       font-style: italic;
-      color: var(--gourmet-light-gray-7);
+      color: var(--gourmet-neutral-dark-8);
     }
   }
 }

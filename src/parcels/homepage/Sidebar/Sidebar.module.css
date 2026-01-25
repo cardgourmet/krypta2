@@ -30,12 +30,12 @@
   padding: 0.5rem;
 
   svg {
-    color: var(--gourmet-light-gray-5);
+    color: var(--gourmet-neutral-dark-7);
   }
 }
 
 .sidebarButton:hover {
-  background-color: var(--gourmet-gray-6);
+  background-color: var(--gourmet-neutral-dark-4);
 }
 
 .sidebarButton[data-disabled="true"] {
@@ -50,7 +50,7 @@
   background-color: var(--cgm-sidebar-button-bg);
 
   svg {
-    color: var(--gourmet-gray-3);
+    color: var(--gourmet-neutral-dark-1);
   }
 }
 
@@ -67,7 +67,7 @@
   z-index: var(--sidebar-layer);
   width: 50%;
   height: 100%;
-  background-color: var(--gourmet-gray-3);
+  background-color: var(--gourmet-neutral-dark-1);
 
   display: flex;
   flex-direction: column;
@@ -91,7 +91,7 @@
 
   height: var(--navbar-height);
 
-  border-bottom: 0.1rem solid var(--gourmet-gray-1);
+  border-bottom: 0.1rem solid var(--gourmet-neutral-dark-2);
 }
 
 .mobileSidebarTop > button {
@@ -116,18 +116,18 @@
   gap: 1rem;
 
   &:hover {
-    background-color: var(--gourmet-gray-6);
+    background-color: var(--gourmet-neutral-dark-4);
   }
 
   &.active {
     background-color: var(--cgm-sidebar-button-bg);
 
     p {
-      color: var(--gourmet-gray-3);
+      color: var(--gourmet-neutral-dark-1);
     }
 
     svg {
-      color: var(--gourmet-gray-3);
+      color: var(--gourmet-neutral-dark-1);
     }
   }
 }

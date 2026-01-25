@@ -1,9 +1,9 @@
 :root {
-  --krypta-color-neutral-0a: #091E4208;
-  --krypta-color-neutral-1a: #091E420F;
-  --krypta-color-neutral-2a: #091E4224;
-  --krypta-color-neutral-3a: #091E424F;
-  --krypta-color-neutral-4a: #091E427D;
+  --krypta-color-neutral-0a: #091e4208;
+  --krypta-color-neutral-1a: #091e420f;
+  --krypta-color-neutral-2a: #091e4224;
+  --krypta-color-neutral-3a: #091e424f;
+  --krypta-color-neutral-4a: #091e427d;
 
   --krypta-color-lime: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
   --krypta-color-lime-bd: light-dark(oklch(62.91% 0.1533 129.62), oklch(71.24% 0.1636 128.95));
@@ -180,7 +180,10 @@
 
   --krypta-color-success: light-dark(oklch(48.25% 0.0911 161.78), oklch(84.01% 0.1126 164.78));
   --krypta-color-success-bd: light-dark(oklch(62.68% 0.133 159.56), oklch(70.38% 0.1481 160));
-  --krypta-color-success-bg: light-dark(oklch(97.13% 0.04060687746502259 169.37224451454657), oklch(29.84% 0.0346 164.81));
+  --krypta-color-success-bg: light-dark(
+    oklch(97.13% 0.04060687746502259 169.37224451454657),
+    oklch(29.84% 0.0346 164.81)
+  );
   --krypta-color-success-bg-hover: light-dark(oklch(91.86% 0.0665 167.18), oklch(37.11% 0.0678 162.26));
   --krypta-color-success-bg-press: light-dark(oklch(84.01% 0.1126 164.78), oklch(48.25% 0.0911 161.78));
   --krypta-color-success-bg-bold: light-dark(oklch(54.63% 0.1118 160.46), oklch(76.52% 0.1403 161.99));
@@ -188,31 +191,31 @@
   --krypta-color-success-bg-bold-press: light-dark(oklch(37.11% 0.0678 162.26), oklch(91.86% 0.0665 167.18));
   --krypta-color-success-icon: light-dark(oklch(62.68% 0.133 159.56), oklch(70.38% 0.1481 160));
 
-  --krypta-color-warning: light-dark(#A54800, #F5CD47);
-  --krypta-color-warning-bd: light-dark(#E56910, #CF9F02);
-  --krypta-color-warning-bg: light-dark(#FFF7D6, #332E1B);
-  --krypta-color-warning-bg-hover: light-dark(#F8E6A0, #533F04);
+  --krypta-color-warning: light-dark(#a54800, #f5cd47);
+  --krypta-color-warning-bd: light-dark(#e56910, #cf9f02);
+  --krypta-color-warning-bg: light-dark(#fff7d6, #332e1b);
+  --krypta-color-warning-bg-hover: light-dark(#f8e6a0, #533f04);
   --krypta-color-warning-bg-press: light-dark(oklch(86% 0.1524 91.88), oklch(50.46% 0.103 85.45));
-  --krypta-color-warning-bg-bold: #F5CD47;
-  --krypta-color-warning-bg-bold-hover: #E2B203;
+  --krypta-color-warning-bg-bold: #f5cd47;
+  --krypta-color-warning-bg-bold-hover: #e2b203;
   --krypta-color-warning-bg-bold-press: oklch(72.71% 0.1484 86.77);
-  --krypta-color-warning-icon: light-dark(#E56910, #F5CD47);
-  --krypta-color-warning-inverse: light-dark(#172B4D, var(--gourmet-gray-1));
+  --krypta-color-warning-icon: light-dark(#e56910, #f5cd47);
+  --krypta-color-warning-inverse: light-dark(#172b4d, var(--gourmet-neutral-dark-2));
 
   --krypta-color-border: var(--krypta-color-neutral-2a);
   --krypta-color-brand: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
-  --krypta-color-inverse: light-dark(#FFF, var(--gourmet-gray-1));
+  --krypta-color-inverse: light-dark(#fff, var(--gourmet-neutral-dark-2));
   --krypta-shadow-overflow: 0 0 0.5rem rgba(9 30 66 / 0.16), 0 0 1px rgba(9 30 66 / 0.12);
   --krypta-shadow-overlay: 0 0.5rem 0.75rem rgba(9 30 66 / 0.15), 0 0 1px rgba(9 30 66 / 0.31);
   --krypta-shadow-raised: 0 1px 1px rgba(9 30 66 / 0.25), 0 0 1px rgba(9 30 66 / 0.31);
   --krypta-transition: cubic-bezier(0.22, 1, 0.36, 1);
 
   &[data-mantine-color-scheme="dark"] {
-    --krypta-color-neutral-0a: #BCD6F00A;
-    --krypta-color-neutral-1a: #A1BDD914;
-    --krypta-color-neutral-2a: #A6C5E229;
-    --krypta-color-neutral-3a: #BFDBF847;
-    --krypta-color-neutral-4a: #9BB4CA80;
+    --krypta-color-neutral-0a: #bcd6f00a;
+    --krypta-color-neutral-1a: #a1bdd914;
+    --krypta-color-neutral-2a: #a6c5e229;
+    --krypta-color-neutral-3a: #bfdbf847;
+    --krypta-color-neutral-4a: #9bb4ca80;
 
     --krypta-shadow-overflow: 0 0 0.75rem rgba(3 4 4 / 0.56), 0 0 1px rgba(3 4 4 / 0.5);
     --krypta-shadow-overlay: 0 0 0 rgba(57 66 74 / 1), 0 0.5rem 0.75rem rgba(3 4 4 / 0.36), 0 0 1px rgba(3 4 4 / 0.5);

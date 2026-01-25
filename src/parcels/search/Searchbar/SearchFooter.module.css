@@ -31,8 +31,8 @@
       min-height: 1.5rem;
       min-width: 1.5rem;
 
-      background-color: var(--gourmet-gray-11);
-      border: 1px solid var(--gourmet-light-gray-6);
+      background-color: var(--gourmet-neutral-dark-21);
+      border: 1px solid var(--gourmet-neutral-dark-6);
       border-bottom-width: 2px;
     }
 

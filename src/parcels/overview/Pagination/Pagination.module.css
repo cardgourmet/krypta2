@@ -6,9 +6,9 @@
   top: var(--navbar-height);
 
   border: 0;
-  border-bottom: var(--gourmet-gray-7) solid 2px;
+  border-bottom: var(--gourmet-neutral-dark-4) solid 2px;
 
-  background-color: var(--gourmet-gray-3);
+  background-color: var(--gourmet-neutral-dark-1);
   z-index: var(--sticky-layer);
 }
 
@@ -21,8 +21,8 @@
 }
 
 button {
-  border: 2px solid var(--gourmet-gray-8);
-  background-color: var(--gourmet-gray-1);
+  border: 2px solid var(--gourmet-neutral-dark-3);
+  background-color: var(--gourmet-neutral-dark-2);
   border-radius: 8px;
   color: var(--cgm-text-color);
   font-size: 1rem;
@@ -38,7 +38,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--gourmet-gray-7);
+  background-color: var(--gourmet-neutral-dark-4);
 }
 
 button.currentPage {
@@ -52,8 +52,8 @@ button:hover.currentPage {
 
 button:disabled {
   background-color: var(--gourmet-black-2);
-  border: 2px solid var(--gourmet-gray-10);
-  color: var(--gourmet-grey-3);
+  border: 2px solid var(--gourmet-neutral-dark-20);
+  color: var(--gourmet-neutral-dark-6);
 
   cursor: default;
 }

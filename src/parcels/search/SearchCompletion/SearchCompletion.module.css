@@ -22,11 +22,11 @@
   background-color: transparent;
 
   &[data-state="selected"] {
-    background-color: var(--gourmet-gray-11);
+    background-color: var(--gourmet-neutral-dark-21);
   }
 
   :hover {
-    background-color: var(--gourmet-gray-11);
+    background-color: var(--gourmet-neutral-dark-21);
   }
 
   p {
