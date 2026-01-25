@@ -8,16 +8,16 @@ export default function SearchFooter() {
         <div>
           <p>Navigieren</p>
           <kbd>
-            <IconArrowUp size={18} color={'#9ba6b1'} />
+            <IconArrowUp size={18} color={'var(--gourmet-light-gray-4)'} />
           </kbd>
           <kbd>
-            <IconArrowDown size={18} color={'#9ba6b1'} />
+            <IconArrowDown size={18} color={'var(--gourmet-light-gray-4)'} />
           </kbd>
         </div>
         <div>
           <p>Suche starten</p>
           <kbd>
-            <IconArrowBack size={18} color={'#9ba6b1'} />
+            <IconArrowBack size={18} color={'var(--gourmet-light-gray-4)'} />
           </kbd>
         </div>
         <div>

@@ -7,10 +7,10 @@
   justify-content: space-between;
   align-items: center;
 
-  border: 2px solid #282d33;
-  background-color: #1d2125;
+  border: 2px solid var(--gourmet-gray-8);
+  background-color: var(--gourmet-gray-1);
   border-radius: 8px;
-  color: #f9f6ee;
+  color: var(--gourmet-white-1);
   padding: 0 0.5rem 0 0.5rem;
   gap: 0.5rem;
 
@@ -35,11 +35,11 @@
   }
 
   &:hover {
-    background-color: #2b3137;
+    background-color: var(--gourmet-gray-7);
   }
 
   &[active="true"] {
-    background-color: #2b3137;
+    background-color: var(--gourmet-gray-7);
   }
 }
 
@@ -52,8 +52,8 @@
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 2px solid #3e4650;
-  background-color: #2b3137;
+  border: 2px solid var(--gourmet-gray-9);
+  background-color: var(--gourmet-gray-7);
 
   &[active="true"] {
     display: flex;
@@ -81,7 +81,7 @@
     }
 
     &:hover {
-      background-color: #3e4650;
+      background-color: var(--gourmet-gray-9);
       cursor: pointer;
     }
   }

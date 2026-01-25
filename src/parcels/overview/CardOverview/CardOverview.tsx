@@ -78,8 +78,6 @@ export function CardOverview({
             </Accordion.Item>
           </Accordion>
         )}
-        {/* TODO: if explanation contains ignored values: display accordion
-         */}
 
         {searchDisplaySettings.cardDisplayMode === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
       </div>

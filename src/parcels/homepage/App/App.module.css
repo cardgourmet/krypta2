@@ -1,17 +1,17 @@
 body {
-  background-color: #161a1d;
+  background-color: var(--gourmet-gray-3);
 
   h1,
   h2,
   h3,
   p {
-    color: #9ba6b1;
+    color: var(--gourmet-light-gray-4);
     font-family: "Montserrat", sans-serif;
   }
 }
 
 button {
-  background-color: #9ba6b1;
+  background-color: var(--gourmet-light-gray-4);
   border-radius: 3px;
   box-sizing: border-box;
   font-size: 0.75rem;

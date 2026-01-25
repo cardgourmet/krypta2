@@ -32,8 +32,8 @@ export function CardGrid({ tcg, cards, isLoading }: CardGridProps) {
           .map((_, i) => (
             <div key={i} className={styles.card}>
               <Skeleton
-                baseColor={'#444'}
-                highlightColor={'#656565'}
+                baseColor={'var(--gourmet-grey-1)'}
+                highlightColor={'var(--gourmet-grey-2)'}
                 height={'100%'}
                 style={{ borderRadius: '15px', aspectRatio: 672 / 936 }}
               />

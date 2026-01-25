@@ -1,11 +1,12 @@
+import { useMantineColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconLanguage, IconMenu2, IconMoon, IconSearch, IconSun, IconSunMoon, IconUser } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useEffect, useEffectEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Searchbar from '@/parcels/search/Searchbar/Searchbar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
+import Searchbar from '@/parcels/search/Searchbar/Searchbar.tsx';
 import styles from './Navbar.module.css';
 
 interface NavbarProps {
@@ -14,6 +15,7 @@ interface NavbarProps {
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
+  const { setColorScheme } = useMantineColorScheme();
 
   const { i18n } = useTranslation();
   const [language, setLanguage] = useState<string>('en');
@@ -48,7 +50,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 en: 'English',
               }}
               defaultSelected={language}
-              renderButtonContent={() => <IconLanguage size={22} color={'#9ba6b1'} />}
+              renderButtonContent={() => <IconLanguage size={22} color={'var(--gourmet-light-gray-4)'} />}
               onSelect={(selected) => {
                 setLanguage(selected);
               }}
@@ -64,11 +66,15 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               renderButtonContent={(selected) => {
                 return (
                   <>
-                    {selected === 'dark' && <IconMoon size={22} color={'#9ba6b1'} />}
-                    {selected === 'light' && <IconSun size={22} color={'#9ba6b1'} />}
-                    {selected === 'system' && <IconSunMoon size={22} color={'#9ba6b1'} />}
+                    {selected === 'dark' && <IconMoon size={22} color={'var(--gourmet-light-gray-4)'} />}
+                    {selected === 'light' && <IconSun size={22} color={'var(--gourmet-light-gray-4)'} />}
+                    {selected === 'system' && <IconSunMoon size={22} color={'var(--gourmet-light-gray-4)'} />}
                   </>
                 );
+              }}
+              onSelect={(selected) => {
+                if (selected === 'system') setColorScheme('auto');
+                else setColorScheme(selected as 'light' | 'dark');
               }}
             />
             <button type="button">Anmelden / Registrieren</button>
@@ -84,20 +90,20 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 setSidebarOpen(true);
               }}
             >
-              <IconMenu2 size={18} color={'#9ba6b1'} />
+              <IconMenu2 size={18} color={'var(--gourmet-light-gray-4)'} />
             </button>
             <button type="button">
-              <IconSearch size={18} color={'#9ba6b1'} />
+              <IconSearch size={18} color={'var(--gourmet-light-gray-4)'} />
             </button>
           </div>
           <div>
             <Link to="/" style={{ margin: 'auto' }}>
-              <Logo height={30} width={30} style={{ color: '#b6c2cf' }} />
+              <Logo height={30} width={30} style={{ color: 'var(--gourmet-light-gray-1)' }} />
             </Link>
           </div>
           <div style={{ flex: 1, justifyContent: 'flex-end' }}>
             <button type="button">
-              <IconUser size={18} color={'#9ba6b1'} />
+              <IconUser size={18} color={'var(--gourmet-light-gray-4)'} />
             </button>
           </div>
         </nav>

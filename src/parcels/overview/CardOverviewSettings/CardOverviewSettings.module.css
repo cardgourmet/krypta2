@@ -37,13 +37,13 @@
   width: 75%;
   left: -75%;
   height: 100dvh;
-  background-color: #161a1d;
+  background-color: var(--gourmet-gray-3);
   z-index: var(--modal-layer);
   overflow: hidden;
 
   display: flex;
   flex-direction: column;
-  box-shadow: 0.25rem 0 0.2rem -0.2rem #0b0c0c;
+  box-shadow: 0.25rem 0 0.2rem -0.2rem var(--gourmet-black-1);
   transition: left 0.1s ease-in-out;
 
   h1 {
@@ -64,7 +64,7 @@
 
   padding: 1rem;
   height: var(--navbar-height);
-  border-bottom: 0.1rem solid #2b3137;
+  border-bottom: 0.1rem solid var(--gourmet-gray-7);
 
   h1 {
     margin: 0;

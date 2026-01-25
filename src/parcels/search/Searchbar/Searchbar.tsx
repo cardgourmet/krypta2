@@ -98,10 +98,10 @@ export default function Searchbar() {
             selected={tcg}
             renderButtonContent={(selected) => (
               <>
-                {selected === 'dlc' && <DLCIcon width={20} height={20} color={'#9ba6b1'} />}
-                {selected === 'mtg' && <MTGIcon width={20} height={20} color={'#9ba6b1'} />}
-                {selected === 'pcg' && <PCGIcon width={20} height={20} color={'#9ba6b1'} />}
-                <IconCaretDownFilled size={12} color={'#9ba6b1'} />
+                {selected === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-light-gray-4)'} />}
+                {selected === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-light-gray-4)'} />}
+                {selected === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-light-gray-4)'} />}
+                <IconCaretDownFilled size={12} color={'var(--gourmet-light-gray-4)'} />
               </>
             )}
             onSelect={(selected) => {
@@ -142,11 +142,11 @@ export default function Searchbar() {
             searchInputRef.current?.focus();
           }}
         >
-          <IconX size={16} color={'#9ba6b1'} />
+          <IconX size={16} color={'var(--gourmet-light-gray-4)'} />
         </button>
 
         <button type="button">
-          <IconQuestionMark size={18} color={'#9ba6b1'} />
+          <IconQuestionMark size={18} color={'var(--gourmet-light-gray-4)'} />
         </button>
 
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>

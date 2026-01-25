@@ -18,7 +18,7 @@
     align-items: center;
 
     .suggestionHighlighted {
-      background-color: #2c333a;
+      background-color: var(--gourmet-gray-11);
     }
 
     > button {
@@ -29,11 +29,11 @@
 
       padding: 0.4rem 0.5rem;
       border: none;
-      background-color: #1d2125;
+      background-color: var(--gourmet-gray-1);
       border-radius: 0.25rem;
 
       &:hover {
-        background-color: #2c333a;
+        background-color: var(--gourmet-gray-11);
       }
     }
   }
@@ -88,7 +88,7 @@
       min-width: 2rem;
 
       &:hover {
-        background-color: #2c333a;
+        background-color: var(--gourmet-gray-11);
       }
     }
   }
@@ -116,7 +116,7 @@
       background: none;
 
       &:hover {
-        background-color: #293037;
+        background-color: var(--gourmet-gray-12);
       }
     }
 

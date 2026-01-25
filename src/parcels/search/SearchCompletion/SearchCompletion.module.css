@@ -22,11 +22,11 @@
   background-color: transparent;
 
   &[data-state="selected"] {
-    background-color: #2c333a;
+    background-color: var(--gourmet-gray-11);
   }
 
   :hover {
-    background-color: #2c333a;
+    background-color: var(--gourmet-gray-11);
   }
 
   p {
@@ -34,9 +34,9 @@
   }
 
   .entryType {
-    background-color: rgba(34, 139, 230, 0.15);
+    background-color: var(--gourmet-teal-1);
     border-radius: 0.25rem;
-    color: #339af0;
+    color: var(--gourmet-blue-5);
     font-family: var(--cgm-monospace-font-family), monospace;
     font-size: 0.75rem;
     font-weight: 300;

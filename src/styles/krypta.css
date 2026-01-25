@@ -1,0 +1,223 @@
+:root {
+  --krypta-color-neutral-0a: #091E4208;
+  --krypta-color-neutral-1a: #091E420F;
+  --krypta-color-neutral-2a: #091E4224;
+  --krypta-color-neutral-3a: #091E424F;
+  --krypta-color-neutral-4a: #091E427D;
+
+  --krypta-color-lime: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
+  --krypta-color-lime-bd: light-dark(oklch(62.91% 0.1533 129.62), oklch(71.24% 0.1636 128.95));
+  --krypta-color-lime-bg-sxx: light-dark(oklch(97.77% 0.056 124.79), oklch(29.8% 0.0394 126.77));
+  --krypta-color-lime-bg-sxx-hover: light-dark(oklch(91.87% 0.1012 126.24), oklch(37.35% 0.0654 127.29));
+  --krypta-color-lime-bg-sxx-press: light-dark(oklch(84.89% 0.1457 127.35), oklch(48.71% 0.1092 128.96));
+  --krypta-color-lime-bg-sx: light-dark(oklch(91.87% 0.1012 126.24), oklch(37.35% 0.0654 127.29));
+  --krypta-color-lime-bg-sx-hover: light-dark(oklch(84.89% 0.1457 127.35), oklch(48.71% 0.1092 128.96));
+  --krypta-color-lime-bg-sx-press: light-dark(oklch(76.85% 0.1649 128.42), oklch(55.03% 0.1251 128.66));
+  --krypta-color-lime-bg-s: light-dark(oklch(76.85% 0.1649 128.42), oklch(48.71% 0.1092 128.96));
+  --krypta-color-lime-bg-s-hover: light-dark(oklch(84.89% 0.1457 127.35), oklch(37.35% 0.0654 127.29));
+  --krypta-color-lime-bg-s-press: light-dark(oklch(91.87% 0.1012 126.24), oklch(29.8% 0.0394 126.77));
+  --krypta-color-lime-bg-bold: light-dark(oklch(55.03% 0.1251 128.66), oklch(76.85% 0.1649 128.42));
+  --krypta-color-lime-bg-bold-hover: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
+  --krypta-color-lime-bg-bold-press: light-dark(oklch(37.35% 0.0654 127.29), oklch(91.87% 0.1012 126.24));
+  --krypta-color-lime-bold: light-dark(oklch(37.35% 0.0654 127.29), oklch(91.87% 0.1012 126.24));
+  --krypta-color-lime-icon: light-dark(oklch(62.91% 0.1533 129.62), oklch(71.24% 0.1636 128.95));
+
+  --krypta-color-red: light-dark(oklch(49.99% 0.1663 28.93), oklch(78.26% 0.1224 24.48));
+  --krypta-color-red-bd: light-dark(oklch(61.84% 0.1924 28.13), oklch(66.63% 0.1868 27.46));
+  --krypta-color-red-bg-sxx: light-dark(oklch(95.79% 0.0208 21.17), oklch(29.42% 0.0498 26.18));
+  --krypta-color-red-bg-sxx-hover: light-dark(oklch(90.79% 0.0474 22.87), oklch(33.41% 0.092 27.7));
+  --krypta-color-red-bg-sxx-press: light-dark(oklch(78.26% 0.1224 24.48), oklch(49.99% 0.1663 28.93));
+  --krypta-color-red-bg-sx: light-dark(oklch(90.79% 0.0474 22.87), oklch(33.41% 0.092 27.7));
+  --krypta-color-red-bg-sx-hover: light-dark(oklch(78.26% 0.1224 24.48), oklch(49.99% 0.1663 28.93));
+  --krypta-color-red-bg-sx-press: light-dark(oklch(70.89% 0.1674 26.04), oklch(55.7% 0.1847 28.8));
+  --krypta-color-red-bg-s: light-dark(oklch(70.89% 0.1674 26.04), oklch(49.99% 0.1663 28.93));
+  --krypta-color-red-bg-s-hover: light-dark(oklch(78.26% 0.1224 24.48), oklch(33.41% 0.092 27.7));
+  --krypta-color-red-bg-s-press: light-dark(oklch(90.79% 0.0474 22.87), oklch(29.42% 0.0498 26.18));
+  --krypta-color-red-bg-bold: light-dark(oklch(55.7% 0.1847 28.8), oklch(70.89% 0.1674 26.04));
+  --krypta-color-red-bg-bold-hover: light-dark(oklch(49.99% 0.1663 28.93), oklch(78.26% 0.1224 24.48));
+  --krypta-color-red-bg-bold-press: light-dark(oklch(33.41% 0.092 27.7), oklch(90.79% 0.0474 22.87));
+  --krypta-color-red-bold: light-dark(oklch(33.41% 0.092 27.7), oklch(90.79% 0.0474 22.87));
+  --krypta-color-red-icon: light-dark(oklch(55.7% 0.1847 28.8), oklch(61.84% 0.1924 28.13));
+
+  --krypta-color-orange: light-dark(oklch(51.5% 0.1402 47.97), oklch(85.6% 0.091 56.97));
+  --krypta-color-orange-bd: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));
+  --krypta-color-orange-bg-sxx: light-dark(oklch(97.14% 0.0168 56.19), oklch(29.51% 0.0294 57.56));
+  --krypta-color-orange-bg-sxx-hover: light-dark(oklch(92.14% 0.0461 56.59), oklch(38.81% 0.1064 47.56));
+  --krypta-color-orange-bg-sxx-press: light-dark(oklch(85.6% 0.091 56.97), oklch(51.5% 0.1402 47.97));
+  --krypta-color-orange-bg-sx: light-dark(oklch(92.14% 0.0461 56.59), oklch(38.81% 0.1064 47.56));
+  --krypta-color-orange-bg-sx-hover: light-dark(oklch(85.6% 0.091 56.97), oklch(51.5% 0.1402 47.97));
+  --krypta-color-orange-bg-sx-press: light-dark(oklch(79.41% 0.135 54.93), oklch(57.37% 0.162 45.72));
+  --krypta-color-orange-bg-s: light-dark(oklch(79.41% 0.135 54.93), oklch(51.5% 0.1402 47.97));
+  --krypta-color-orange-bg-s-hover: light-dark(oklch(85.6% 0.091 56.97), oklch(38.81% 0.1064 47.56));
+  --krypta-color-orange-bg-s-press: light-dark(oklch(92.14% 0.0461 56.59), oklch(29.51% 0.0294 57.56));
+  --krypta-color-orange-bg-bold: light-dark(oklch(57.37% 0.162 45.72), oklch(79.41% 0.135 54.93));
+  --krypta-color-orange-bg-bold-hover: light-dark(oklch(51.5% 0.1402 47.97), oklch(85.6% 0.091 56.97));
+  --krypta-color-orange-bg-bold-press: light-dark(oklch(38.81% 0.1064 47.56), oklch(92.14% 0.0461 56.59));
+  --krypta-color-orange-bold: light-dark(oklch(38.81% 0.1064 47.56), oklch(92.14% 0.0461 56.59));
+  --krypta-color-orange-icon: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));
+
+  --krypta-color-yellow: light-dark(oklch(50.46% 0.103 85.45), oklch(86% 0.1524 91.88));
+  --krypta-color-yellow-bd: light-dark(oklch(64.62% 0.1324 84.72), oklch(72.71% 0.1484 86.77));
+  --krypta-color-yellow-bg-sxx: light-dark(oklch(97.39% 0.0437 95.85), oklch(30.1% 0.0322 95.14));
+  --krypta-color-yellow-bg-sxx-hover: light-dark(oklch(92.35% 0.0905 95.44), oklch(37.91% 0.0751 87.48));
+  --krypta-color-yellow-bg-sxx-press: light-dark(oklch(86% 0.1524 91.88), oklch(50.46% 0.103 85.45));
+  --krypta-color-yellow-bg-sx: light-dark(oklch(92.35% 0.0905 95.44), oklch(37.91% 0.0751 87.48));
+  --krypta-color-yellow-bg-sx-hover: light-dark(oklch(86% 0.1524 91.88), oklch(50.46% 0.103 85.45));
+  --krypta-color-yellow-bg-sx-press: light-dark(oklch(78.49% 0.16 89), oklch(56.33% 0.1153 85.35));
+  --krypta-color-yellow-bg-s: light-dark(oklch(86% 0.1524 91.88), oklch(50.46% 0.103 85.45));
+  --krypta-color-yellow-bg-s-hover: light-dark(oklch(78.49% 0.16 89), oklch(37.91% 0.0751 87.48));
+  --krypta-color-yellow-bg-s-press: light-dark(oklch(72.71% 0.1484 86.77), oklch(30.1% 0.0322 95.14));
+  --krypta-color-yellow-bg-bold: light-dark(oklch(56.33% 0.1153 85.35), oklch(78.49% 0.16 89));
+  --krypta-color-yellow-bg-bold-hover: light-dark(oklch(50.46% 0.103 85.45), oklch(86% 0.1524 91.88));
+  --krypta-color-yellow-bg-bold-press: light-dark(oklch(37.91% 0.0751 87.48), oklch(92.35% 0.0905 95.44));
+  --krypta-color-yellow-bold: light-dark(oklch(37.91% 0.0751 87.48), oklch(92.35% 0.0905 95.44));
+  --krypta-color-yellow-icon: light-dark(oklch(64.62% 0.1324 84.72), oklch(86% 0.1524 91.88));
+
+  --krypta-color-green: light-dark(oklch(48.25% 0.0911 161.78), oklch(84.01% 0.1126 164.78));
+  --krypta-color-green-bd: light-dark(oklch(62.68% 0.133 159.56), oklch(70.38% 0.1481 160));
+  --krypta-color-green-bg-sxx: light-dark(oklch(97.13% 0.0406 169.37), oklch(29.84% 0.0346 164.81));
+  --krypta-color-green-bg-sxx-hover: light-dark(oklch(91.86% 0.0665 167.18), oklch(37.11% 0.0678 162.26));
+  --krypta-color-green-bg-sxx-press: light-dark(oklch(84.01% 0.1126 164.78), oklch(48.25% 0.0911 161.78));
+  --krypta-color-green-bg-sx: light-dark(oklch(91.86% 0.0665 167.18), oklch(37.11% 0.0678 162.26));
+  --krypta-color-green-bg-sx-hover: light-dark(oklch(84.01% 0.1126 164.78), oklch(48.25% 0.0911 161.78));
+  --krypta-color-green-bg-sx-press: light-dark(oklch(76.52% 0.1403 161.99), oklch(54.63% 0.1118 160.46));
+  --krypta-color-green-bg-s: light-dark(oklch(76.52% 0.1403 161.99), oklch(48.25% 0.0911 161.78));
+  --krypta-color-green-bg-s-hover: light-dark(oklch(84.01% 0.1126 164.78), oklch(37.11% 0.0678 162.26));
+  --krypta-color-green-bg-s-press: light-dark(oklch(91.86% 0.0665 167.18), oklch(29.84% 0.0346 164.81));
+  --krypta-color-green-bg-bold: light-dark(oklch(54.63% 0.1118 160.46), oklch(76.52% 0.1403 161.99));
+  --krypta-color-green-bg-bold-hover: light-dark(oklch(48.25% 0.0911 161.78), oklch(84.01% 0.1126 164.78));
+  --krypta-color-green-bg-bold-press: light-dark(oklch(37.11% 0.0678 162.26), oklch(91.86% 0.0665 167.18));
+  --krypta-color-green-bold: light-dark(oklch(37.11% 0.0678 162.26), oklch(91.86% 0.0665 167.18));
+  --krypta-color-green-icon: light-dark(oklch(62.68% 0.133 159.56), oklch(70.38% 0.1481 160));
+
+  --krypta-color-teal: light-dark(oklch(49.11% 0.0806 224.93), oklch(85.16% 0.0676 221.63));
+  --krypta-color-teal-bd: light-dark(oklch(63.55% 0.1099 225.42), oklch(71.56% 0.1125 223.84));
+  --krypta-color-teal-bg-sxx: light-dark(oklch(97.06% 0.0206 219.68), oklch(29.95% 0.0269 219.69));
+  --krypta-color-teal-bg-sxx-hover: light-dark(oklch(92.28% 0.0447 221.59), oklch(36.64% 0.0567 224.29));
+  --krypta-color-teal-bg-sxx-press: light-dark(oklch(85.16% 0.0676 221.63), oklch(49.11% 0.0806 224.93));
+  --krypta-color-teal-bg-sx: light-dark(oklch(92.28% 0.0447 221.59), oklch(36.64% 0.0567 224.29));
+  --krypta-color-teal-bg-sx-hover: light-dark(oklch(85.16% 0.0676 221.63), oklch(49.11% 0.0806 224.93));
+  --krypta-color-teal-bg-sx-press: light-dark(oklch(77.34% 0.0935 221.87), oklch(55.15% 0.0936 225));
+  --krypta-color-teal-bg-s: light-dark(oklch(77.34% 0.0935 221.87), oklch(49.11% 0.0806 224.93));
+  --krypta-color-teal-bg-s-hover: light-dark(oklch(85.16% 0.0676 221.63), oklch(36.64% 0.0567 224.29));
+  --krypta-color-teal-bg-s-press: light-dark(oklch(92.28% 0.0447 221.59), oklch(29.95% 0.0269 219.69));
+  --krypta-color-teal-bg-bold: light-dark(oklch(55.15% 0.0936 225), oklch(77.34% 0.0935 221.87));
+  --krypta-color-teal-bg-bold-hover: light-dark(oklch(49.11% 0.0806 224.93), oklch(85.16% 0.0676 221.63));
+  --krypta-color-teal-bg-bold-press: light-dark(oklch(36.64% 0.0567 224.29), oklch(92.28% 0.0447 221.59));
+  --krypta-color-teal-bold: light-dark(oklch(36.64% 0.0567 224.29), oklch(92.28% 0.0447 221.59));
+  --krypta-color-teal-icon: light-dark(oklch(63.55% 0.1099 225.42), oklch(71.56% 0.1125 223.84));
+
+  --krypta-color-blue: light-dark(oklch(48.62% 0.1975 259.93), oklch(77.48% 0.1158 256.78));
+  --krypta-color-blue-bd: light-dark(oklch(60.35% 0.2112 258.65), oklch(64.69% 0.1902 257.72));
+  --krypta-color-blue-bg-sxx: light-dark(oklch(95.82% 0.0199 257.47), oklch(28.69% 0.0455 257.84));
+  --krypta-color-blue-bg-sxx-hover: light-dark(oklch(90.17% 0.0477 259.1), oklch(32.81% 0.1104 258.49));
+  --krypta-color-blue-bg-sxx-press: light-dark(oklch(77.48% 0.1158 256.78), oklch(48.62% 0.1975 259.93));
+  --krypta-color-blue-bg-sx: light-dark(oklch(90.17% 0.0477 259.1), oklch(32.81% 0.1104 258.49));
+  --krypta-color-blue-bg-sx-hover: light-dark(oklch(77.48% 0.1158 256.78), oklch(48.62% 0.1975 259.93));
+  --krypta-color-blue-bg-sx-press: light-dark(oklch(69.57% 0.1612 257.18), oklch(54.19% 0.2065 259.4));
+  --krypta-color-blue-bg-s: light-dark(oklch(69.57% 0.1612 257.18), oklch(48.62% 0.1975 259.93));
+  --krypta-color-blue-bg-s-hover: light-dark(oklch(77.48% 0.1158 256.78), oklch(32.81% 0.1104 258.49));
+  --krypta-color-blue-bg-s-press: light-dark(oklch(90.17% 0.0477 259.1), oklch(28.69% 0.0455 257.84));
+  --krypta-color-blue-bg-bold: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
+  --krypta-color-blue-bg-bold-hover: light-dark(oklch(48.62% 0.1975 259.93), oklch(77.48% 0.1158 256.78));
+  --krypta-color-blue-bg-bold-press: light-dark(oklch(32.81% 0.1104 258.49), oklch(90.17% 0.0477 259.1));
+  --krypta-color-blue-bold: light-dark(oklch(32.81% 0.1104 258.49), oklch(90.17% 0.0477 259.1));
+  --krypta-color-blue-icon: light-dark(oklch(60.35% 0.2112 258.65), oklch(64.69% 0.1902 257.72));
+
+  --krypta-color-purple: light-dark(oklch(49.14% 0.1541 287.02), oklch(78.15% 0.1047 291.21));
+  --krypta-color-purple-bd: light-dark(oklch(61.17% 0.1573 288.59), oklch(65.49% 0.1527 288.9));
+  --krypta-color-purple-bg-sxx: light-dark(oklch(96.18% 0.0202 295.19), oklch(28.86% 0.0435 291.06));
+  --krypta-color-purple-bg-sxx-hover: light-dark(oklch(89.93% 0.0507 294.03), oklch(33.38% 0.0935 287.75));
+  --krypta-color-purple-bg-sxx-press: light-dark(oklch(78.15% 0.1047 291.21), oklch(49.14% 0.1541 287.02));
+  --krypta-color-purple-bg-sx: light-dark(oklch(89.93% 0.0507 294.03), oklch(33.38% 0.0935 287.75));
+  --krypta-color-purple-bg-sx-hover: light-dark(oklch(78.15% 0.1047 291.21), oklch(49.14% 0.1541 287.02));
+  --krypta-color-purple-bg-sx-press: light-dark(oklch(70.35% 0.1382 290.02), oklch(54.74% 0.1573 287.46));
+  --krypta-color-purple-bg-s: light-dark(oklch(70.35% 0.1382 290.02), oklch(49.14% 0.1541 287.02));
+  --krypta-color-purple-bg-s-hover: light-dark(oklch(78.15% 0.1047 291.21), oklch(33.38% 0.0935 287.75));
+  --krypta-color-purple-bg-s-press: light-dark(oklch(89.93% 0.0507 294.03), oklch(28.86% 0.0435 291.06));
+  --krypta-color-purple-bg-bold: light-dark(oklch(54.74% 0.1573 287.46), oklch(70.35% 0.1382 290.02));
+  --krypta-color-purple-bg-bold-hover: light-dark(oklch(49.14% 0.1541 287.02), oklch(78.15% 0.1047 291.21));
+  --krypta-color-purple-bg-bold-press: light-dark(oklch(33.38% 0.0935 287.75), oklch(89.93% 0.0507 294.03));
+  --krypta-color-purple-bold: light-dark(oklch(33.38% 0.0935 287.75), oklch(89.93% 0.0507 294.03));
+  --krypta-color-purple-icon: light-dark(oklch(61.17% 0.1573 288.59), oklch(65.49% 0.1527 288.9));
+
+  --krypta-color-magenta: light-dark(oklch(49.47% 0.1333 344.88), oklch(79.24% 0.1351 343.06));
+  --krypta-color-magenta-bd: light-dark(oklch(62.05% 0.1771 345.72), oklch(66.57% 0.1715 344.82));
+  --krypta-color-magenta-bg-sxx: light-dark(oklch(96.16% 0.0257 339.37), oklch(29.33% 0.0482 344.08));
+  --krypta-color-magenta-bg-sxx-hover: light-dark(oklch(90.43% 0.0619 340.65), oklch(33.32% 0.0737 344.66));
+  --krypta-color-magenta-bg-sxx-press: light-dark(oklch(79.24% 0.1351 343.06), oklch(49.47% 0.1333 344.88));
+  --krypta-color-magenta-bg-sx: light-dark(oklch(90.43% 0.0619 340.65), oklch(33.32% 0.0737 344.66));
+  --krypta-color-magenta-bg-sx-hover: light-dark(oklch(79.24% 0.1351 343.06), oklch(49.47% 0.1333 344.88));
+  --krypta-color-magenta-bg-sx-press: light-dark(oklch(71.28% 0.1636 344.15), oklch(55.44% 0.1529 345));
+  --krypta-color-magenta-bg-s: light-dark(oklch(71.28% 0.1636 344.15), oklch(49.47% 0.1333 344.88));
+  --krypta-color-magenta-bg-s-hover: light-dark(oklch(79.24% 0.1351 343.06), oklch(33.32% 0.0737 344.66));
+  --krypta-color-magenta-bg-s-press: light-dark(oklch(90.43% 0.0619 340.65), oklch(29.33% 0.0482 344.08));
+  --krypta-color-magenta-bg-bold: light-dark(oklch(55.44% 0.1529 345), oklch(71.28% 0.1636 344.15));
+  --krypta-color-magenta-bg-bold-hover: light-dark(oklch(49.47% 0.1333 344.88), oklch(79.24% 0.1351 343.06));
+  --krypta-color-magenta-bg-bold-press: light-dark(oklch(33.32% 0.0737 344.66), oklch(90.43% 0.0619 340.65));
+  --krypta-color-magenta-bold: light-dark(oklch(33.32% 0.0737 344.66), oklch(90.43% 0.0619 340.65));
+  --krypta-color-magenta-icon: light-dark(oklch(62.05% 0.1771 345.72), oklch(66.57% 0.1715 344.82));
+
+  --krypta-color-danger: light-dark(oklch(49.99% 0.1663 28.93), oklch(78.26% 0.1224 24.48));
+  --krypta-color-danger-bd: light-dark(oklch(61.84% 0.1924 28.13), oklch(66.63% 0.1868 27.46));
+  --krypta-color-danger-bg: light-dark(oklch(95.79% 0.0208 21.17), oklch(29.42% 0.0498 26.18));
+  --krypta-color-danger-bg-hover: light-dark(oklch(90.79% 0.0474 22.87), oklch(33.41% 0.092 27.7));
+  --krypta-color-danger-bg-press: light-dark(oklch(78.26% 0.1224 24.48), oklch(49.99% 0.1663 28.93));
+  --krypta-color-danger-bg-bold: light-dark(oklch(55.7% 0.1847 28.8), oklch(70.89% 0.1674 26.04));
+  --krypta-color-danger-bg-bold-hover: light-dark(oklch(49.99% 0.1663 28.93), oklch(78.26% 0.1224 24.48));
+  --krypta-color-danger-bg-bold-press: light-dark(oklch(33.41% 0.092 27.7), oklch(90.79% 0.0474 22.87));
+  --krypta-color-danger-icon: light-dark(oklch(55.7% 0.1847 28.8), oklch(66.63% 0.1868 27.46));
+
+  --krypta-color-info: light-dark(oklch(48.62% 0.1975 259.93), oklch(77.48% 0.1158 256.78));
+  --krypta-color-info-bd: light-dark(oklch(60.35% 0.2112 258.65), oklch(64.69% 0.1902 257.72));
+  --krypta-color-info-bg: light-dark(oklch(95.82% 0.0199 257.47), oklch(28.69% 0.0455 257.84));
+  --krypta-color-info-bg-hover: light-dark(oklch(90.17% 0.0477 259.1), oklch(32.81% 0.1104 258.49));
+  --krypta-color-info-bg-press: light-dark(oklch(77.48% 0.1158 256.78), oklch(48.62% 0.1975 259.93));
+  --krypta-color-info-bg-bold: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
+  --krypta-color-info-bg-bold-hover: light-dark(oklch(48.62% 0.1975 259.93), oklch(77.48% 0.1158 256.78));
+  --krypta-color-info-bg-bold-press: light-dark(oklch(32.81% 0.1104 258.49), oklch(90.17% 0.0477 259.1));
+  --krypta-color-info-icon: light-dark(oklch(60.35% 0.2112 258.65), oklch(64.69% 0.1902 257.72));
+
+  --krypta-color-success: light-dark(oklch(48.25% 0.0911 161.78), oklch(84.01% 0.1126 164.78));
+  --krypta-color-success-bd: light-dark(oklch(62.68% 0.133 159.56), oklch(70.38% 0.1481 160));
+  --krypta-color-success-bg: light-dark(oklch(97.13% 0.04060687746502259 169.37224451454657), oklch(29.84% 0.0346 164.81));
+  --krypta-color-success-bg-hover: light-dark(oklch(91.86% 0.0665 167.18), oklch(37.11% 0.0678 162.26));
+  --krypta-color-success-bg-press: light-dark(oklch(84.01% 0.1126 164.78), oklch(48.25% 0.0911 161.78));
+  --krypta-color-success-bg-bold: light-dark(oklch(54.63% 0.1118 160.46), oklch(76.52% 0.1403 161.99));
+  --krypta-color-success-bg-bold-hover: light-dark(oklch(48.25% 0.0911 161.78), oklch(84.01% 0.1126 164.78));
+  --krypta-color-success-bg-bold-press: light-dark(oklch(37.11% 0.0678 162.26), oklch(91.86% 0.0665 167.18));
+  --krypta-color-success-icon: light-dark(oklch(62.68% 0.133 159.56), oklch(70.38% 0.1481 160));
+
+  --krypta-color-warning: light-dark(#A54800, #F5CD47);
+  --krypta-color-warning-bd: light-dark(#E56910, #CF9F02);
+  --krypta-color-warning-bg: light-dark(#FFF7D6, #332E1B);
+  --krypta-color-warning-bg-hover: light-dark(#F8E6A0, #533F04);
+  --krypta-color-warning-bg-press: light-dark(oklch(86% 0.1524 91.88), oklch(50.46% 0.103 85.45));
+  --krypta-color-warning-bg-bold: #F5CD47;
+  --krypta-color-warning-bg-bold-hover: #E2B203;
+  --krypta-color-warning-bg-bold-press: oklch(72.71% 0.1484 86.77);
+  --krypta-color-warning-icon: light-dark(#E56910, #F5CD47);
+  --krypta-color-warning-inverse: light-dark(#172B4D, var(--gourmet-gray-1));
+
+  --krypta-color-border: var(--krypta-color-neutral-2a);
+  --krypta-color-brand: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
+  --krypta-color-inverse: light-dark(#FFF, var(--gourmet-gray-1));
+  --krypta-shadow-overflow: 0 0 0.5rem rgba(9 30 66 / 0.16), 0 0 1px rgba(9 30 66 / 0.12);
+  --krypta-shadow-overlay: 0 0.5rem 0.75rem rgba(9 30 66 / 0.15), 0 0 1px rgba(9 30 66 / 0.31);
+  --krypta-shadow-raised: 0 1px 1px rgba(9 30 66 / 0.25), 0 0 1px rgba(9 30 66 / 0.31);
+  --krypta-transition: cubic-bezier(0.22, 1, 0.36, 1);
+
+  &[data-mantine-color-scheme="dark"] {
+    --krypta-color-neutral-0a: #BCD6F00A;
+    --krypta-color-neutral-1a: #A1BDD914;
+    --krypta-color-neutral-2a: #A6C5E229;
+    --krypta-color-neutral-3a: #BFDBF847;
+    --krypta-color-neutral-4a: #9BB4CA80;
+
+    --krypta-shadow-overflow: 0 0 0.75rem rgba(3 4 4 / 0.56), 0 0 1px rgba(3 4 4 / 0.5);
+    --krypta-shadow-overlay: 0 0 0 rgba(57 66 74 / 1), 0 0.5rem 0.75rem rgba(3 4 4 / 0.36), 0 0 1px rgba(3 4 4 / 0.5);
+    --krypta-shadow-raised: 0 0 0 rgba(0 0 0 / 0), 0 1px 1px rgba(3 4 4 / 0.5), 0 0 1px rgba(3 4 4 / 0.5);
+
+    --mantine-color-body: var(--mantine-color-dark-9);
+  }
+}

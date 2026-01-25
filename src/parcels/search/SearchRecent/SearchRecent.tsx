@@ -113,7 +113,7 @@ export default function SearchRecent({
               }}
             >
               <div className={styles.recentItemLeft}>
-                <IconClockHour8 size={22} color={'#9ba6b1'} />
+                <IconClockHour8 size={22} color={'var(--gourmet-light-gray-4)'} />
                 <p>{query}</p>
               </div>
             </button>
@@ -124,7 +124,7 @@ export default function SearchRecent({
                   // TODO: add history entry to favorites
                 }}
               >
-                <IconStar size={16} color={'#9ba6b1'} />
+                <IconStar size={16} color={'var(--gourmet-light-gray-4)'} />
               </button>
               <button
                 type={'button'}
@@ -133,7 +133,7 @@ export default function SearchRecent({
                   history?.removeQuery(reverseIndex);
                 }}
               >
-                <IconX size={16} color={'#9ba6b1'} />
+                <IconX size={16} color={'var(--gourmet-light-gray-4)'} />
               </button>
             </div>
           </li>

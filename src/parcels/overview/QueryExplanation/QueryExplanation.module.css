@@ -15,9 +15,9 @@
 
   /* stolen from Krypta, without Mantine though (lol) */
   code {
-    background-color: rgba(34, 139, 230, 0.15);
+    background-color: var(--gourmet-teal-1);
     border-radius: 0.25rem;
-    color: #339af0;
+    color: var(--gourmet-blue-5);
     font-family: var(--cgm-monospace-font-family), monospace;
     font-size: 0.9rem;
     font-weight: 300;

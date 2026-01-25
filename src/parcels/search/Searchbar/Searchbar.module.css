@@ -26,7 +26,7 @@
     color: var(--cgm-text-color);
 
     &:focus-visible {
-      outline: 2px solid #0055cc;
+      outline: 2px solid var(--gourmet-blue-2);
     }
   }
 
@@ -41,7 +41,7 @@
     border: solid 1px var(--cgm-button-border);
 
     &:hover {
-      background-color: #2b3137;
+      background-color: var(--gourmet-gray-7);
     }
   }
 
@@ -64,7 +64,7 @@
 
       &:hover {
         border-radius: 4px;
-        background-color: #2d353c;
+        background-color: var(--gourmet-gray-4);
         cursor: pointer;
       }
     }
@@ -103,8 +103,8 @@
   padding: var(--shift-top) 0 0 0;
 
   border-radius: 1rem;
-  border: 1px solid #2d353c;
-  background-color: #161a1d;
+  border: 1px solid var(--gourmet-gray-4);
+  background-color: var(--gourmet-gray-3);
 }
 
 .content {
@@ -135,7 +135,7 @@
       font-size: 1rem;
       font-weight: 400;
       font-style: italic;
-      color: #8c9bab;
+      color: var(--gourmet-light-gray-7);
     }
   }
 }

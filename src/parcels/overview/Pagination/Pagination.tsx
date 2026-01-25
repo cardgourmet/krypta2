@@ -41,7 +41,12 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
     <div className={styles.contentNav}>
       <div className={styles.pagination}>
         {(isQueryLoading || !lastPage) && (
-          <Skeleton baseColor={'#444'} highlightColor={'#656565'} height={'2.5rem'} width={'20rem'} />
+          <Skeleton
+            baseColor={'var(--gourmet-grey-1)'}
+            highlightColor={'var(--gourmet-grey-2)'}
+            height={'2.5rem'}
+            width={'20rem'}
+          />
         )}
 
         {!isQueryLoading && lastPage && (
@@ -65,7 +70,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
               {width > MIN_DESKTOP_SIZE_PX
                 && calculatePages(mustCurrentPage, lastPage, 1).map((page, index) => (
                   <div key={index} className={styles.middle}>
-                    {page === null && <IconDots color={'#636b72'} />}
+                    {page === null && <IconDots color={'var(--gourmet-grey-4)'} />}
                     {page !== null && (
                       <button
                         type="button"

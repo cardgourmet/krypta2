@@ -5,7 +5,7 @@
 
   padding: 1rem;
 
-  background-color: #1d2125;
+  background-color: var(--gourmet-gray-1);
 
   font-size: 0.75rem;
   color: var(--mantine-color-gray-6);
@@ -17,7 +17,7 @@
 
   hr {
     width: 100%;
-    color: #2d353c;
+    color: var(--gourmet-gray-4);
   }
 }
 
