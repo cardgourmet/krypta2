@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: var(--gourmet-neutral-0);
+  background-color: var(--cgm-sidebar-bg);
   border-right: 0.1rem solid var(--cgm-sidebar-border);
 
   display: flex;
@@ -63,9 +63,9 @@
 .mobileSidebar {
   position: fixed;
   top: 0;
-  left: -50%;
+  left: calc(-1 * max(360px, 50%));
   z-index: var(--sidebar-layer);
-  width: 50%;
+  width: max(360px, 50%);
   height: 100%;
   background-color: var(--gourmet-neutral-0);
 

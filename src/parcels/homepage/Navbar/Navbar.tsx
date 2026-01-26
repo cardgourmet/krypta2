@@ -1,12 +1,26 @@
-import { useMantineColorScheme } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { IconLanguage, IconMenu2, IconMoon, IconSearch, IconSun, IconSunMoon, IconUser } from '@tabler/icons-react';
+import { Button, Combobox, Drawer, Group, TextInput, useCombobox, useMantineColorScheme } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import {
+  IconCaretDownFilled,
+  IconCheck,
+  IconLanguage,
+  IconMenu2,
+  IconMoon,
+  IconSearch,
+  IconSun,
+  IconSunMoon,
+  IconUser,
+  IconX,
+} from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useEffect, useEffectEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/parcels/Logo.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import Searchbar from '@/parcels/search/Searchbar/Searchbar.tsx';
+import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
+import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
+import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
 import styles from './Navbar.module.css';
 
 interface NavbarProps {
@@ -29,15 +43,86 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
     switchLanguage(language);
   }, [language]);
 
+  const [mobileSearchOpened, { open, close }] = useDisclosure(false);
+
+  const combobox = useCombobox();
+  const [value, setValue] = useState<string | null>('dlc');
+
   return (
     <>
+      <Drawer
+        classNames={{
+          content: styles.searchBarDrawer,
+        }}
+        size="100%"
+        opened={mobileSearchOpened}
+        onClose={close}
+        withCloseButton={false}
+      >
+        <Group>
+          <TextInput
+            leftSection={
+              <Combobox
+                store={combobox}
+                width={200}
+                position="bottom-start"
+                onOptionSubmit={(val) => {
+                  setValue(val);
+                  combobox.closeDropdown();
+                }}
+              >
+                <Combobox.Target>
+                  <Button
+                    classNames={{ root: styles.testButtonRoot }}
+                    onClick={() => {
+                      combobox.toggleDropdown();
+                    }}
+                  >
+                    {value === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
+                    {value === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
+                    {value === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
+                    <IconCaretDownFilled width={14} height={14} color={'var(--gourmet-neutral-8)'} />
+                  </Button>
+                </Combobox.Target>
+
+                <Combobox.Dropdown>
+                  <Combobox.Options>
+                    {Object.entries({
+                      mtg: 'Magic: The Gathering',
+                      dlc: 'Disney Lorcana',
+                      pcg: 'Pokémon Card Game',
+                    }).map(([tcg, name], index) => (
+                      <Combobox.Option value={tcg} key={index} active={value === tcg}>
+                        <Group justify={'space-between'}>
+                          {name}
+                          {tcg === value && <IconCheck size={16} />}
+                        </Group>
+                      </Combobox.Option>
+                    ))}
+                  </Combobox.Options>
+                </Combobox.Dropdown>
+              </Combobox>
+            }
+            rightSection={
+              <Button classNames={{ root: styles.testButtonRoot }}>
+                <IconX size={16} color={'var(--gourmet-neutral-8)'} />
+              </Button>
+            }
+            classNames={{
+              root: styles.testInputRoot,
+              input: styles.testInput,
+              section: styles.testInputSection,
+            }}
+          />
+          <Button onClick={close}>
+            <IconX size={16} color={'var(--gourmet-neutral-8)'} />
+          </Button>
+        </Group>
+        Hallo Welt
+      </Drawer>
+
       {!smallScreen && (
         <nav className={styles.navbar}>
-          <div className={styles.navbarLeft}>
-            <p>Über uns</p>
-            <p>Dokumentation</p>
-          </div>
-
           <div className={styles.navbarSearch}>
             <Searchbar />
           </div>
@@ -92,7 +177,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
             >
               <IconMenu2 size={18} color={'var(--gourmet-neutral-8)'} />
             </button>
-            <button type="button">
+            <button type="button" onClick={open}>
               <IconSearch size={18} color={'var(--gourmet-neutral-8)'} />
             </button>
           </div>

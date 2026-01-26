@@ -20,13 +20,17 @@
     background-color: var(--cgm-button-bg);
     border: solid 2px var(--cgm-button-border);
     border-radius: 0.2rem;
-    width: 32dvw;
+    min-width: 32dvw;
     padding: 0.25rem 3rem 0.25rem 3.25rem;
 
     color: var(--cgm-text-color);
 
     &:focus-visible {
       outline: 2px solid var(--gourmet-blue-2);
+    }
+
+    @media (max-width: 1111px) {
+      min-width: 42dvw;
     }
   }
 
