@@ -108,8 +108,8 @@ export default function Dropdown(props: DropdownProps) {
           <>
             <p>{selected ? props.items[selected] : '?'}</p>
 
-            {open && <IconChevronUp size={15} />}
-            {!open && <IconChevronDown size={15} />}
+            {open && <IconChevronUp size={15} color={'var(--gourmet-neutral-8)'} />}
+            {!open && <IconChevronDown size={15} color={'var(--gourmet-neutral-8)'} />}
           </>
         )}
       </button>

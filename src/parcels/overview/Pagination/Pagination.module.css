@@ -51,8 +51,8 @@ button:hover.currentPage {
 }
 
 button:disabled {
-  background-color: var(--gourmet-black-2);
-  border: 2px solid var(--gourmet-neutral-dark-20);
+  background-color: var(--gourmet-neutral-0);
+  border: 2px solid var(--gourmet-neutral-1);
   color: var(--gourmet-neutral-5);
 
   cursor: default;
