@@ -37,7 +37,7 @@
   width: 75%;
   left: -75%;
   height: 100dvh;
-  background-color: var(--gourmet-neutral-dark-1);
+  background-color: var(--gourmet-neutral-0);
   z-index: var(--modal-layer);
   overflow: hidden;
 
@@ -64,7 +64,7 @@
 
   padding: 1rem;
   height: var(--navbar-height);
-  border-bottom: 0.1rem solid var(--gourmet-neutral-dark-4);
+  border-bottom: 0.1rem solid var(--gourmet-neutral-3);
 
   h1 {
     margin: 0;

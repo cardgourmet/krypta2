@@ -42,8 +42,8 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
       <div className={styles.pagination}>
         {(isQueryLoading || !lastPage) && (
           <Skeleton
-            baseColor={'var(--gourmet-neutral-dark-5)'}
-            highlightColor={'var(--gourmet-neutral-dark-6)'}
+            baseColor={'var(--gourmet-neutral-4)'}
+            highlightColor={'var(--gourmet-neutral-5)'}
             height={'2.5rem'}
             width={'20rem'}
           />
@@ -70,7 +70,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
               {width > MIN_DESKTOP_SIZE_PX
                 && calculatePages(mustCurrentPage, lastPage, 1).map((page, index) => (
                   <div key={index} className={styles.middle}>
-                    {page === null && <IconDots color={'var(--gourmet-neutral-dark-6)'} />}
+                    {page === null && <IconDots color={'var(--gourmet-neutral-5)'} />}
                     {page !== null && (
                       <button
                         type="button"

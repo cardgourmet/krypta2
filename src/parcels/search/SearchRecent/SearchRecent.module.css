@@ -29,7 +29,7 @@
 
       padding: 0.4rem 0.5rem;
       border: none;
-      background-color: var(--gourmet-neutral-dark-2);
+      background-color: var(--gourmet-neutral-1);
       border-radius: 0.25rem;
 
       &:hover {

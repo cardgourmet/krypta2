@@ -20,8 +20,8 @@ export const theme = createTheme({
       '#454F59',
       '#2C333A',
       '#22272B',
-      'var(--gourmet-neutral-dark-2)',
-      'var(--gourmet-neutral-dark-1)',
+      'var(--gourmet-neutral-1)',
+      'var(--gourmet-neutral-0)',
     ],
     gray: [
       '#F7F8F9',
@@ -36,8 +36,8 @@ export const theme = createTheme({
       '#172B4D',
     ],
     neutralDark: [
-      'var(--gourmet-neutral-dark-1)',
-      'var(--gourmet-neutral-dark-2)',
+      'var(--gourmet-neutral-0)',
+      'var(--gourmet-neutral-1)',
       '#22272B',
       '#2C333A',
       '#454F59',

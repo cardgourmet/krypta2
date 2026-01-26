@@ -7,8 +7,8 @@
   justify-content: space-between;
   align-items: center;
 
-  border: 2px solid var(--gourmet-neutral-dark-3);
-  background-color: var(--gourmet-neutral-dark-2);
+  border: 2px solid var(--gourmet-neutral-2);
+  background-color: var(--gourmet-neutral-1);
   border-radius: 8px;
   color: var(--gourmet-white-1);
   padding: 0 0.5rem 0 0.5rem;
@@ -35,11 +35,11 @@
   }
 
   &:hover {
-    background-color: var(--gourmet-neutral-dark-4);
+    background-color: var(--gourmet-neutral-3);
   }
 
   &[active="true"] {
-    background-color: var(--gourmet-neutral-dark-4);
+    background-color: var(--gourmet-neutral-3);
   }
 }
 
@@ -52,8 +52,8 @@
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 2px solid var(--gourmet-neutral-dark-5);
-  background-color: var(--gourmet-neutral-dark-4);
+  border: 2px solid var(--gourmet-neutral-4);
+  background-color: var(--gourmet-neutral-3);
 
   &[active="true"] {
     display: flex;
@@ -81,7 +81,7 @@
     }
 
     &:hover {
-      background-color: var(--gourmet-neutral-dark-5);
+      background-color: var(--gourmet-neutral-4);
       cursor: pointer;
     }
   }

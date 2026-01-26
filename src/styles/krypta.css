@@ -200,11 +200,11 @@
   --krypta-color-warning-bg-bold-hover: #e2b203;
   --krypta-color-warning-bg-bold-press: oklch(72.71% 0.1484 86.77);
   --krypta-color-warning-icon: light-dark(#e56910, #f5cd47);
-  --krypta-color-warning-inverse: light-dark(#172b4d, var(--gourmet-neutral-dark-2));
+  --krypta-color-warning-inverse: light-dark(#172b4d, var(--gourmet-neutral-1));
 
   --krypta-color-border: var(--krypta-color-neutral-2a);
   --krypta-color-brand: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
-  --krypta-color-inverse: light-dark(#fff, var(--gourmet-neutral-dark-2));
+  --krypta-color-inverse: light-dark(#fff, var(--gourmet-neutral-1));
   --krypta-shadow-overflow: 0 0 0.5rem rgba(9 30 66 / 0.16), 0 0 1px rgba(9 30 66 / 0.12);
   --krypta-shadow-overlay: 0 0.5rem 0.75rem rgba(9 30 66 / 0.15), 0 0 1px rgba(9 30 66 / 0.31);
   --krypta-shadow-raised: 0 1px 1px rgba(9 30 66 / 0.25), 0 0 1px rgba(9 30 66 / 0.31);

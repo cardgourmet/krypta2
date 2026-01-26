@@ -1,5 +1,5 @@
 :root {
-  --gourmet-blue-1: #579dff;
+  --gourmet-blue-1: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
   --gourmet-blue-2: #0055cc;
   --gourmet-blue-3: #388bff;
   --gourmet-blue-4: #0949a3;
@@ -15,6 +15,17 @@
   --gourmet-white-1: #f9f6ee;
   --gourmet-black-1: #0b0c0c;
   --gourmet-black-2: #191d21;
+
+  --gourmet-neutral-0: light-dark(var(--gourmet-neutral-light-1), var(--gourmet-neutral-dark-1));
+  --gourmet-neutral-1: light-dark(var(--gourmet-neutral-light-2), var(--gourmet-neutral-dark-2));
+  --gourmet-neutral-2: light-dark(var(--gourmet-neutral-light-3), var(--gourmet-neutral-dark-3));
+  --gourmet-neutral-3: light-dark(var(--gourmet-neutral-light-4), var(--gourmet-neutral-dark-4));
+  --gourmet-neutral-4: light-dark(var(--gourmet-neutral-light-5), var(--gourmet-neutral-dark-5));
+  --gourmet-neutral-5: light-dark(var(--gourmet-neutral-light-6), var(--gourmet-neutral-dark-6));
+  --gourmet-neutral-6: light-dark(var(--gourmet-neutral-light-7), var(--gourmet-neutral-dark-7));
+  --gourmet-neutral-7: light-dark(var(--gourmet-neutral-light-8), var(--gourmet-neutral-dark-8));
+  --gourmet-neutral-8: light-dark(var(--gourmet-neutral-light-9), var(--gourmet-neutral-dark-9));
+  --gourmet-neutral-9: light-dark(var(--gourmet-neutral-light-10), var(--gourmet-neutral-dark-10));
 
   --gourmet-neutral-dark-1: #161a1d;
   --gourmet-neutral-dark-2: #1d2125;

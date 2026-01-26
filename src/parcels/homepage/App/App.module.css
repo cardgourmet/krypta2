@@ -1,17 +1,17 @@
 body {
-  background-color: var(--gourmet-neutral-dark-1);
+  background-color: var(--gourmet-neutral-0);
 
   h1,
   h2,
   h3,
   p {
-    color: var(--gourmet-neutral-dark-9);
+    color: var(--gourmet-neutral-8);
     font-family: "Montserrat", sans-serif;
   }
 }
 
 button {
-  background-color: var(--gourmet-neutral-dark-9);
+  background-color: var(--gourmet-neutral-8);
   border-radius: 3px;
   box-sizing: border-box;
   font-size: 0.75rem;
