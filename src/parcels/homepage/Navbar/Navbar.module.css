@@ -81,29 +81,3 @@
 .searchBarDrawer {
   background-color: var(--gourmet-neutral-0);
 }
-
-.testInputRoot {
-  flex-grow: 1;
-}
-
-.testInputSection[data-position="left"] {
-  width: 3rem;
-}
-
-.testInput {
-  border-radius: 0.2rem;
-  border: solid 2px var(--cgm-button-border);
-  background-color: var(--cgm-button-bg);
-  padding-left: 3rem;
-
-  &:focus-visible {
-    outline: 2px solid var(--gourmet-blue-2);
-  }
-}
-
-.testButtonRoot {
-  padding: 0;
-  width: 100%;
-  border: none;
-  background-color: transparent;
-}
