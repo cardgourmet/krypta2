@@ -29,6 +29,12 @@
   border-radius: 10px;
 }
 
+.closeButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
 .typingInfo {
   p {
     margin: 0;
@@ -39,12 +45,28 @@
   }
 }
 
-.advancedSearch {
+.help {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 0.25rem;
+
+  p {
+    font-size: var(--mantine-font-size-sm);
+    text-decoration: none;
+    color: var(--cgm-sidebar-button-bg);
+
+    margin: 0;
+  }
+}
+
+.advancedSearch {
   margin-right: 3rem;
 
   a {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
     font-size: var(--mantine-font-size-sm);
     text-decoration: none;
     color: var(--cgm-sidebar-button-bg);

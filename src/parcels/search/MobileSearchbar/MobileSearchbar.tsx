@@ -1,6 +1,6 @@
 import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconX } from '@tabler/icons-react';
+import { IconDeviceVisionPro, IconHelpHexagon, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { type RefObject, useState } from 'react';
 import { MobileTcgSelector } from '@/parcels/search/MobileSearchbar/MobileTcgSelector.tsx';
@@ -28,6 +28,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
     setHistoryIndex,
     suggestionIndex,
     setSuggestionIndex,
+    startSearch,
   } = useSearchQueryV2(true, selectedTcg, close);
 
   const history = useSearchHistory(selectedTcg);
@@ -36,7 +37,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
 
   return (
-    <Stack gap={'sm'}>
+    <Stack gap={'xs'}>
       <Group>
         <TextInput
           classNames={{
@@ -53,15 +54,21 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
             setCurrentQuery(newQuery);
           }}
         />
-        <Button onClick={close}>
-          <IconX size={16} color={'var(--gourmet-neutral-8)'} />
+        <Button onClick={close} classNames={{ root: styles.closeButton }}>
+          <IconX size={18} color={'var(--gourmet-neutral-8)'} />
         </Button>
       </Group>
 
-      <Group>
-        <Text>Help</Text>
+      <Group ml={'xs'}>
+        <div className={styles.help}>
+          <IconHelpHexagon size={16} color={'var(--cgm-sidebar-button-bg)'} />
+          <Text>Help</Text>
+        </div>
         <div className={styles.advancedSearch}>
-          <Link to={`/${tcg as Tcg}/advanced`}>Advanced Search</Link>
+          <Link to={`/${tcg as Tcg}/advanced`} search={{ query: currentQuery.query }}>
+            <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
+            Advanced Search
+          </Link>
         </div>
       </Group>
 
@@ -78,7 +85,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
         )}
 
         <Stack>
-          <Button fz={'0.85rem'} color={'blue'}>
+          <Button fz={'0.85rem'} color={'blue'} onClick={startSearch} disabled={currentQuery.query.length === 0}>
             Suche starten
           </Button>
           <Divider my="xs" />

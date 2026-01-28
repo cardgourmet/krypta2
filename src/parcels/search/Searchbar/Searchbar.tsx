@@ -1,5 +1,5 @@
 import { useClickOutside, useDebouncedValue, useMergedRef } from '@mantine/hooks';
-import { IconCaretDownFilled, IconQuestionMark, IconX } from '@tabler/icons-react';
+import { IconCaretDownFilled, IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
@@ -153,7 +153,10 @@ export default function Searchbar() {
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
             <div className={styles.advancedSearch}>
-              <Link to={`/${tcg as Tcg}/advanced`}>Advanced Search</Link>
+              <Link to={`/${tcg as Tcg}/advanced`} search={{ query: currentQuery.query }}>
+                <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
+                Advanced Search
+              </Link>
             </div>
 
             <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>

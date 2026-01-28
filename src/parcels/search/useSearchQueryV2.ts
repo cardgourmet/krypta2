@@ -12,6 +12,7 @@ export type SearchQueryController = {
   setHistoryIndex: (index: number) => void;
   suggestionIndex: number;
   setSuggestionIndex: (index: number) => void;
+  startSearch: () => void;
 };
 
 export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () => void): SearchQueryController {
@@ -20,6 +21,24 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [historyIndex, setHistoryIndex] = useState(0);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const navigate = useNavigate();
+
+  const startSearch = useCallback(() => {
+    close();
+
+    // noinspection JSIgnoredPromiseFromCall
+    navigate({
+      to: `/${tcg}/cards`,
+      search: (prev) => {
+        return { ...prev, query: currentQuery.query } as Required<DlcSearchParams>;
+      },
+    });
+  }, [
+    close,
+    tcg,
+    currentQuery.query, // noinspection JSIgnoredPromiseFromCall
+    navigate,
+  ]);
 
   const setQueryWrapper = useCallback(
     ({ query, isByUser }: SearchQuery) => {
@@ -76,21 +95,12 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
     setQueryWrapper({ query: query, isByUser: isByUser });
   }, [query]);
 
-  const navigate = useNavigate();
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         if (document.activeElement !== searchInputRef.current) return;
         if (suggestionIndex > 0) return;
-        close();
-
-        // noinspection JSIgnoredPromiseFromCall
-        navigate({
-          to: `/${tcg}/cards`,
-          search: (prev) => {
-            return { ...prev, query: currentQuery.query } as Required<DlcSearchParams>;
-          },
-        });
+        startSearch();
       }
     };
 
@@ -99,7 +109,7 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [close, navigate, suggestionIndex, currentQuery.query, tcg]);
+  }, [suggestionIndex, startSearch]);
 
   return {
     currentQuery: currentQuery,
@@ -109,6 +119,7 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
     setHistoryIndex: setHistoryIndex,
     suggestionIndex: suggestionIndex,
     setSuggestionIndex: setSuggestionIndex,
+    startSearch: startSearch,
   };
 }
 

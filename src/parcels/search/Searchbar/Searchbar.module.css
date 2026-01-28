@@ -130,11 +130,14 @@
   margin: 0 var(--padding) 0 var(--padding);
 
   .advancedSearch {
-    display: flex;
-    justify-content: flex-end;
     margin-right: 3rem;
 
     a {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.25rem;
+
       font-size: var(--mantine-font-size-sm);
       text-decoration: none;
       color: var(--cgm-sidebar-button-bg);
