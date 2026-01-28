@@ -1,9 +1,11 @@
-import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 import { IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { type RefObject, useState } from 'react';
 import { MobileTcgSelector } from '@/parcels/search/MobileSearchbar/MobileTcgSelector.tsx';
 import { SearchCompletion } from '@/parcels/search/SearchCompletion/SearchCompletion.tsx';
+import { SearchQueryExplanation } from '@/parcels/search/SearchCompletion/SearchQueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/SearchRecent/SearchRecent.tsx';
 import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
@@ -31,14 +33,16 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
   const history = useSearchHistory(selectedTcg);
   const recentQueries = history?.pastQueries ?? [];
 
+  const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
+
   return (
-    <Stack>
+    <Stack gap={'sm'}>
       <Group>
         <TextInput
           classNames={{
-            root: styles.testInputRoot,
-            input: styles.testInput,
-            section: styles.testInputSection,
+            root: styles.mantineInputRoot,
+            input: styles.mantineInput,
+            section: styles.mantineInputSection,
           }}
           ref={inputRef}
           value={currentQuery.query}
@@ -56,13 +60,29 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
 
       <Group>
         <Text>Help</Text>
-        <Link to={`/${tcg as Tcg}/advanced`}>Advanced Search</Link>
+        <div className={styles.advancedSearch}>
+          <Link to={`/${tcg as Tcg}/advanced`}>Advanced Search</Link>
+        </div>
       </Group>
 
-      <Stack>
+      <Stack gap={'sm'}>
         {currentQuery.query.length === 0 && (
-          <Text>Beginne zu Tippen um Vorschläge zu bekommen / Query Explanation</Text>
+          <div className={`${styles.typingInfo}`}>
+            <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
+          </div>
         )}
+        {currentQuery.query.length > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <SearchQueryExplanation tcg={selectedTcg} query={debouncedQuery} />
+          </div>
+        )}
+
+        <Stack>
+          <Button fz={'0.85rem'} color={'blue'}>
+            Suche starten
+          </Button>
+          <Divider my="xs" />
+        </Stack>
 
         {currentQuery.isByUser && currentQuery.query.length > 0 && (
           <SearchCompletion

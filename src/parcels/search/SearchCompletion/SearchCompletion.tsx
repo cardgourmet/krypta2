@@ -1,4 +1,3 @@
-import { useDebouncedValue } from '@mantine/hooks';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchCache } from '@/parcels/search/SearchCacheProvider/SearchCacheProvider.tsx';
@@ -6,7 +5,6 @@ import {
   type GeneratedSearchCompletion,
   generateCompletions,
 } from '@/parcels/search/SearchCompletion/generateCompletions.ts';
-import { SearchQueryExplanation } from '@/parcels/search/SearchCompletion/SearchQueryExplanation.tsx';
 import { type SearchSuggestion, transformCompletions } from '@/parcels/search/SearchCompletion/transformCompletions.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
@@ -32,7 +30,6 @@ export function SearchCompletion({
 }: SearchCompletionProps) {
   const { t } = useTranslation('search');
   const { filter: filterStore, values: filterValueStore } = useSearchCache();
-  const [debouncedQuery] = useDebouncedValue(currentQuery, 500);
 
   const [_, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
@@ -90,9 +87,6 @@ export function SearchCompletion({
 
   return (
     <div className={styles.main}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
-      </div>
       {suggestions.length > 1 && (
         <div className={styles.completionList}>
           {suggestions.slice(1).map((sugg, index) => {
@@ -109,6 +103,8 @@ export function SearchCompletion({
                   const currentSugg = sugg.fullQuery;
                   setQuery(currentSugg, true);
                   setSuggestionIndex(0);
+
+                  searchInputRef.current?.focus();
                 }}
               >
                 <p>{completion.value}</p>

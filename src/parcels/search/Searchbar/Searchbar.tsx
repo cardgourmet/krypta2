@@ -1,4 +1,4 @@
-import { useClickOutside, useMergedRef } from '@mantine/hooks';
+import { useClickOutside, useDebouncedValue, useMergedRef } from '@mantine/hooks';
 import { IconCaretDownFilled, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -7,6 +7,7 @@ import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
 import { handleKeydown } from '@/parcels/search/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/Searchbar/SearchFooter.tsx';
 import { SearchCompletion } from '@/parcels/search/SearchCompletion/SearchCompletion.tsx';
+import { SearchQueryExplanation } from '@/parcels/search/SearchCompletion/SearchQueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/SearchRecent/SearchRecent.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
@@ -35,6 +36,7 @@ export default function Searchbar() {
   const hasActiveSuggestion = suggestionIndex > 0;
 
   const [currentQuery, setCurrentQuery] = useSearchQuery();
+  const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
   const setQueryWrapper = useCallback(
     (query: string, isByUser?: boolean) => {
@@ -144,7 +146,7 @@ export default function Searchbar() {
           <IconX size={16} color={'var(--gourmet-neutral-8)'} />
         </button>
 
-        <button type="button">
+        <button type="button" className={styles.helpButton}>
           <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
         </button>
 
@@ -173,15 +175,20 @@ export default function Searchbar() {
             )}
 
             {isCaptainOfTheShip && currentQuery.query.length > 0 && (
-              <SearchCompletion
-                tcg={currentTcg}
-                currentQuery={currentQuery.query}
-                suggestionIndex={suggestionIndex}
-                setSuggestionIndex={setSuggestionIndex}
-                isOpened={isOpened}
-                setQuery={setQueryWrapper}
-                searchInputRef={searchInputRef}
-              />
+              <>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <SearchQueryExplanation tcg={currentTcg} query={debouncedQuery} />
+                </div>
+                <SearchCompletion
+                  tcg={currentTcg}
+                  currentQuery={currentQuery.query}
+                  suggestionIndex={suggestionIndex}
+                  setSuggestionIndex={setSuggestionIndex}
+                  isOpened={isOpened}
+                  setQuery={setQueryWrapper}
+                  searchInputRef={searchInputRef}
+                />
+              </>
             )}
           </div>
 

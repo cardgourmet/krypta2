@@ -63,7 +63,7 @@ export function CardOverview({
         />
         {(cards?.data.details?.ignored ?? []).length > 0 && (
           <Accordion classNames={{ item: styles.item, root: styles.root, icon: styles.icon }}>
-            <Accordion.Item value={'yee'}>
+            <Accordion.Item value={'yeet'}>
               <Accordion.Control icon={<IconAlertCircleFilled />}>
                 <Text>There are some ignored filters in your query</Text>
               </Accordion.Control>

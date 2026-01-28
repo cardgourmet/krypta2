@@ -25,8 +25,9 @@
     background-color: var(--gourmet-neutral-dark-4);
   }
 
-  :hover {
-    background-color: var(--gourmet-neutral-dark-4);
+  &:hover {
+    background-color: var(--gourmet-neutral-dark-3);
+    cursor: pointer;
   }
 
   p {

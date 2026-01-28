@@ -10,7 +10,7 @@ body {
   }
 }
 
-button {
+/*button {
   background-color: var(--gourmet-neutral-8);
   border-radius: 3px;
   box-sizing: border-box;
@@ -20,7 +20,7 @@ button {
   button:hover {
     cursor: pointer;
   }
-}
+}*/
 
 .mainContent {
   margin-left: var(--sidebar-width);

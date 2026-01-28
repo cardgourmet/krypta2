@@ -33,6 +33,7 @@
       border-radius: 0.25rem;
 
       &:hover {
+        cursor: pointer;
         background-color: var(--gourmet-neutral-dark-4);
       }
     }
@@ -81,13 +82,19 @@
     right: 1.75rem;
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       border: none;
       background: none;
       padding: 0;
       border-radius: 0;
-      min-width: 2rem;
+      min-width: 1.5rem;
+      height: 1.5rem;
 
       &:hover {
+        cursor: pointer;
         background-color: var(--gourmet-neutral-dark-4);
       }
     }
@@ -116,7 +123,7 @@
       background: none;
 
       &:hover {
-        background-color: var(--gourmet-neutral-dark-22);
+        background-color: var(--gourmet-neutral-dark-2);
       }
     }
 

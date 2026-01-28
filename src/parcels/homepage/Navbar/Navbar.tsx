@@ -89,7 +89,9 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 else setColorScheme(selected as 'light' | 'dark');
               }}
             />
-            <button type="button">Anmelden / Registrieren</button>
+            <button type="button" className={styles.loginButton}>
+              Anmelden / Registrieren
+            </button>
           </div>
         </nav>
       )}

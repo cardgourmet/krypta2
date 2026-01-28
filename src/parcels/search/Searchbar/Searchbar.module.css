@@ -86,6 +86,16 @@
     border: none;
     background-color: transparent;
   }
+
+  & .helpButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .searchModal {

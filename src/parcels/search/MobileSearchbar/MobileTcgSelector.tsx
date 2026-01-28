@@ -16,7 +16,7 @@ export function MobileTcgSelector({ selectedTcg, setSelectedTcg }: MobileTcgSele
 
   return (
     <Combobox
-      classNames={{ dropdown: styles.cgmDropdown }}
+      classNames={{ dropdown: styles.mantineDropdown }}
       store={combobox}
       width={200}
       position="bottom-start"
@@ -27,7 +27,7 @@ export function MobileTcgSelector({ selectedTcg, setSelectedTcg }: MobileTcgSele
     >
       <Combobox.Target>
         <Button
-          classNames={{ root: styles.testButtonRoot }}
+          classNames={{ root: styles.mantineButtonRoot }}
           onClick={() => {
             combobox.toggleDropdown();
           }}
