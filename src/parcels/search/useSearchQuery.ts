@@ -6,11 +6,11 @@ export type SearchQuery = { query: string; isByUser: boolean };
 export function useSearchQuery() {
   const [currentQuery, setCurrentQuery] = useState<SearchQuery>({ query: '', isByUser: false });
 
-  const query = useTcgSpecificQuery();
   const wrapSetCurrentQuery = useCallback((query: SearchQuery) => {
     setCurrentQuery(query);
   }, []);
 
+  const query = useTcgSpecificQuery();
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
     const isByUser = query.length > 0;

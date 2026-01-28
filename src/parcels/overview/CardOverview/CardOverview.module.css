@@ -10,6 +10,10 @@
 
 .root {
   width: 50%;
+
+  @media (max-width: 720px) {
+    width: 100%;
+  }
 }
 
 .item {
@@ -25,5 +29,8 @@
     border: none;
     color: var(--gourmet-orange-1);
     background-color: var(--gourmet-orange-2);
+
+    height: fit-content;
+    padding: 0 1rem 0 1rem;
   }
 }

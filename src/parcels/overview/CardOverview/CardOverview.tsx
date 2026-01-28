@@ -1,4 +1,4 @@
-import { Accordion } from '@mantine/core';
+import { Accordion, Text } from '@mantine/core';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
 import type { RefObject } from 'react';
 import Breadcrumbs from '@/parcels/overview/Breadcrumbs/Breadcrumbs.tsx';
@@ -65,7 +65,7 @@ export function CardOverview({
           <Accordion classNames={{ item: styles.item, root: styles.root, icon: styles.icon }}>
             <Accordion.Item value={'yee'}>
               <Accordion.Control icon={<IconAlertCircleFilled />}>
-                There are some ignored filters in your query
+                <Text>There are some ignored filters in your query</Text>
               </Accordion.Control>
               <Accordion.Panel>
                 {cards?.data.details?.ignored.map((ignore) => (

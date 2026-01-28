@@ -1,21 +1,35 @@
-import { Button, Combobox, Group, Stack, Text, TextInput, useCombobox } from '@mantine/core';
-import { IconCaretDownFilled, IconCheck, IconX } from '@tabler/icons-react';
-import { useState } from 'react';
-import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
-import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
-import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
+import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { IconX } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { type RefObject, useState } from 'react';
+import { MobileTcgSelector } from '@/parcels/search/MobileSearchbar/MobileTcgSelector.tsx';
+import { SearchCompletion } from '@/parcels/search/SearchCompletion/SearchCompletion.tsx';
+import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import SearchRecent from '@/parcels/search/SearchRecent/SearchRecent.tsx';
+import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './MobileSearchbar.module.css';
 
 type MobileSearchbarProps = {
   close: () => void;
+  containerRef: RefObject<HTMLDivElement | null>;
 };
 
-export function MobileSearchbar({ close }: MobileSearchbarProps) {
+export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
   const tcg = useTcgByLocation() ?? 'dlc';
+  const [selectedTcg, setSelectedTcg] = useState<Tcg>(tcg);
+  const {
+    currentQuery,
+    setCurrentQuery,
+    inputRef,
+    historyIndex,
+    setHistoryIndex,
+    suggestionIndex,
+    setSuggestionIndex,
+  } = useSearchQueryV2(true, selectedTcg, close);
 
-  const combobox = useCombobox();
-  const [selectedTcg, setSelectedTcg] = useState<Tcg | null>(tcg);
+  const history = useSearchHistory(selectedTcg);
+  const recentQueries = history?.pastQueries ?? [];
 
   return (
     <Stack>
@@ -26,54 +40,14 @@ export function MobileSearchbar({ close }: MobileSearchbarProps) {
             input: styles.testInput,
             section: styles.testInputSection,
           }}
-          leftSection={
-            <Combobox
-              classNames={{ dropdown: styles.cgmDropdown }}
-              store={combobox}
-              width={200}
-              position="bottom-start"
-              onOptionSubmit={(val) => {
-                setSelectedTcg(val as Tcg);
-                combobox.closeDropdown();
-              }}
-            >
-              <Combobox.Target>
-                <Button
-                  classNames={{ root: styles.testButtonRoot }}
-                  onClick={() => {
-                    combobox.toggleDropdown();
-                  }}
-                >
-                  {selectedTcg === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-                  {selectedTcg === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-                  {selectedTcg === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-                  <IconCaretDownFilled width={14} height={14} color={'var(--gourmet-neutral-8)'} />
-                </Button>
-              </Combobox.Target>
-
-              <Combobox.Dropdown>
-                <Combobox.Options>
-                  {Object.entries({
-                    mtg: 'Magic: The Gathering',
-                    dlc: 'Disney Lorcana',
-                    pcg: 'Pokémon Card Game',
-                  }).map(([tcg, name], index) => (
-                    <Combobox.Option value={tcg} key={index} active={selectedTcg === tcg}>
-                      <Group justify={'space-between'}>
-                        {name}
-                        {tcg === selectedTcg && <IconCheck size={16} />}
-                      </Group>
-                    </Combobox.Option>
-                  ))}
-                </Combobox.Options>
-              </Combobox.Dropdown>
-            </Combobox>
-          }
-          rightSection={
-            <Button classNames={{ root: styles.testButtonRoot }}>
-              <IconX size={16} color={'var(--gourmet-neutral-8)'} />
-            </Button>
-          }
+          ref={inputRef}
+          value={currentQuery.query}
+          placeholder={'Suche nach Karten..'}
+          leftSection={<MobileTcgSelector selectedTcg={selectedTcg} setSelectedTcg={setSelectedTcg} />}
+          onChange={(event) => {
+            const newQuery = event.target.value;
+            setCurrentQuery(newQuery);
+          }}
         />
         <Button onClick={close}>
           <IconX size={16} color={'var(--gourmet-neutral-8)'} />
@@ -82,16 +56,37 @@ export function MobileSearchbar({ close }: MobileSearchbarProps) {
 
       <Group>
         <Text>Help</Text>
-        <Text>Advanced Search</Text>
-      </Group>
-
-      <Group>
-        <Text>Beginne zu Tippen um Vorschläge zu bekommen / Query Explanation</Text>
+        <Link to={`/${tcg as Tcg}/advanced`}>Advanced Search</Link>
       </Group>
 
       <Stack>
-        <Text>Zuletzt</Text>
-        <Text>History</Text>
+        {currentQuery.query.length === 0 && (
+          <Text>Beginne zu Tippen um Vorschläge zu bekommen / Query Explanation</Text>
+        )}
+
+        {currentQuery.isByUser && currentQuery.query.length > 0 && (
+          <SearchCompletion
+            tcg={selectedTcg}
+            currentQuery={currentQuery.query}
+            suggestionIndex={suggestionIndex}
+            setSuggestionIndex={setSuggestionIndex}
+            isOpened={true}
+            setQuery={setCurrentQuery}
+            searchInputRef={inputRef}
+          />
+        )}
+
+        {!currentQuery.isByUser && recentQueries.length > 0 && (
+          <SearchRecent
+            tcg={selectedTcg}
+            close={close}
+            setQuery={setCurrentQuery}
+            historyIndex={historyIndex}
+            setHistoryIndex={setHistoryIndex}
+            searchContainerRef={containerRef}
+            searchInputRef={inputRef}
+          />
+        )}
       </Stack>
     </Stack>
   );

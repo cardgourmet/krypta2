@@ -22,6 +22,7 @@
     "@tanstack/router-plugin": "^1.132.0",
     "i18next": "^25.7.4",
     "openapi-fetch": "^0.15.0",
+    "quick-score": "^0.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-i18next": "^16.5.3",

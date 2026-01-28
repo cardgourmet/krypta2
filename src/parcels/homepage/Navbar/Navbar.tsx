@@ -2,7 +2,7 @@ import { Drawer, useMantineColorScheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconLanguage, IconMenu2, IconMoon, IconSearch, IconSun, IconSunMoon, IconUser } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/parcels/Logo.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
@@ -31,6 +31,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
   }, [language]);
 
   const [mobileSearchOpened, { open, close }] = useDisclosure(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <>
@@ -38,12 +39,13 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
         classNames={{
           content: styles.searchBarDrawer,
         }}
+        ref={containerRef}
         size="100%"
         opened={mobileSearchOpened}
         onClose={close}
         withCloseButton={false}
       >
-        <MobileSearchbar close={close} />
+        <MobileSearchbar close={close} containerRef={containerRef} />
       </Drawer>
 
       {!smallScreen && (

@@ -29,17 +29,16 @@ export default function Searchbar() {
 
   const history = useSearchHistory(currentTcg);
   const recentQueries = history?.pastQueries ?? [];
-  const [currentQuery, setCurrentQuery] = useSearchQuery();
-  const isCaptainOfTheShip = currentQuery.isByUser ?? false;
 
   const [historyIndex, setHistoryIndex] = useState(0);
-
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const hasActiveSuggestion = suggestionIndex > 0;
 
+  const [currentQuery, setCurrentQuery] = useSearchQuery();
+  const isCaptainOfTheShip = currentQuery.isByUser ?? false;
   const setQueryWrapper = useCallback(
-    (query: string, isByUser: boolean) => {
-      setCurrentQuery({ query, isByUser });
+    (query: string, isByUser?: boolean) => {
+      setCurrentQuery({ query: query, isByUser: isByUser !== undefined ? isByUser : false });
 
       if (isOpened && searchInputRef.current) {
         searchInputRef.current.focus();
@@ -162,7 +161,9 @@ export default function Searchbar() {
             {!isCaptainOfTheShip && recentQueries.length > 0 && (
               <SearchRecent
                 tcg={currentTcg}
-                setIsOpened={setIsOpened}
+                close={() => {
+                  setIsOpened(false);
+                }}
                 setQuery={setQueryWrapper}
                 historyIndex={historyIndex}
                 setHistoryIndex={setHistoryIndex}

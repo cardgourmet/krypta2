@@ -1,3 +1,4 @@
+import { quickScore } from 'quick-score';
 import { levenshtein } from '@/parcels/search/levenshtein.ts';
 import { type DlcSearchFilterValues, fetchDlcFilterValues } from '@/parcels/tcg/dlc/api.ts';
 import { fetchPcgFilterValues, type PcgSearchFilter, type PcgSearchFilterValues } from '@/parcels/tcg/pcg/api.ts';
@@ -127,15 +128,19 @@ async function generateFilterValueCompletions(
 
   const cachedValues: SearchFilterValueStoreEntry[] | undefined = store[tcg]?.[operator];
   if (cachedValues !== undefined) {
-    const potentialMatches: { entry: SearchFilterValueStoreEntry; distance: number }[] = [];
+    const potentialMatches: { entry: SearchFilterValueStoreEntry; score: number }[] = [];
     for (const entry of cachedValues) {
+      const score = quickScore(entry.value, currentValue);
+      if (currentValue.length > 0 && score === 0) continue;
+
       potentialMatches.push({
         entry: entry,
-        distance: levenshtein(entry.value, currentValue),
+        score: score,
       });
     }
+
     const matches = potentialMatches
-      .sort((a, b) => a.distance - b.distance)
+      .sort((a, b) => (a.score - b.score) * -1)
       .slice(0, max)
       .map((match) => match.entry);
 

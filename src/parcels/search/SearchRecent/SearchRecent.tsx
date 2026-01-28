@@ -10,8 +10,8 @@ import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
   tcg: Tcg;
-  setIsOpened: (isOpened: boolean) => void;
-  setQuery: (query: string, isByUser: boolean) => void;
+  close: () => void;
+  setQuery: (query: string, isByUser?: boolean) => void;
   historyIndex: number;
   setHistoryIndex: (historyIndex: number) => void;
   searchContainerRef: RefObject<HTMLDivElement | null>;
@@ -20,7 +20,7 @@ type SearchRecentItemProps = {
 
 export default function SearchRecent({
   tcg,
-  setIsOpened,
+  close,
   setQuery,
   historyIndex,
   setHistoryIndex,
@@ -109,7 +109,7 @@ export default function SearchRecent({
                     },
                   });
                 }
-                setIsOpened(false);
+                close()
               }}
             >
               <div className={styles.recentItemLeft}>

@@ -38,6 +38,9 @@ importers:
       openapi-fetch:
         specifier: ^0.15.0
         version: 0.15.0
+      quick-score:
+        specifier: ^0.2.0
+        version: 0.2.0
       react:
         specifier: ^19.2.0
         version: 19.2.3
@@ -1262,6 +1265,9 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+
+  quick-score@0.2.0:
+    resolution: {integrity: sha512-y9PW9rl7BhjTykkGYi4wh0FsXWrWFv3IJVxtAI9FMargSOhqzRN3OjO2itpw63PoSu1FY07i8B2aCwpolQucOQ==}
 
   react-dom@19.2.3:
     resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
@@ -2812,6 +2818,8 @@ snapshots:
       react-is: 17.0.2
 
   punycode@2.3.1: {}
+
+  quick-score@0.2.0: {}
 
   react-dom@19.2.3(react@19.2.3):
     dependencies:
