@@ -65,7 +65,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           <Text>Help</Text>
         </div>
         <div className={styles.advancedSearch}>
-          <Link to={`/${tcg as Tcg}/advanced`} search={{ query: currentQuery.query }}>
+          <Link to={`/${selectedTcg as Tcg}/advanced`}>
             <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
             Advanced Search
           </Link>

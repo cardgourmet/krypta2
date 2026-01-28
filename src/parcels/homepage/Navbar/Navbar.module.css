@@ -103,9 +103,9 @@
   border: none;
   border-radius: 4px;
   background-color: var(--gourmet-blue-2);
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  padding: 0.4rem 0.6rem;
 
-  color: var(--gourmet-neutral-9);
+  color: var(--gourmet-neutral-light-2);
   font-size: 0.95rem;
   font-family: var(--cgm-ui-font-family), ui-sans-serif;
   font-weight: 500;

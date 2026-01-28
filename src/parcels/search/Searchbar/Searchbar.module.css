@@ -130,6 +130,8 @@
   margin: 0 var(--padding) 0 var(--padding);
 
   .advancedSearch {
+    display: flex;
+    justify-content: flex-end;
     margin-right: 3rem;
 
     a {

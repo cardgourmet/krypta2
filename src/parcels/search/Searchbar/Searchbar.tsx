@@ -1,6 +1,6 @@
 import { useClickOutside, useDebouncedValue, useMergedRef } from '@mantine/hooks';
 import { IconCaretDownFilled, IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate, useRouter } from '@tanstack/react-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
@@ -19,16 +19,16 @@ import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
   const tcg = useTcgByLocation();
-  const [currentTcg, setCurrentTcg] = useState<'dlc' | 'mtg' | 'pcg'>(tcg ?? 'dlc');
+  const [selectedTcg, setSelectedTcg] = useState<'dlc' | 'mtg' | 'pcg'>(tcg ?? 'dlc');
   useEffect(() => {
-    setCurrentTcg(tcg ?? 'dlc');
+    setSelectedTcg(tcg ?? 'dlc');
   }, [tcg]);
   const navigate = useNavigate();
   const [isOpened, setIsOpened] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  const history = useSearchHistory(currentTcg);
+  const history = useSearchHistory(selectedTcg);
   const recentQueries = history?.pastQueries ?? [];
 
   const [historyIndex, setHistoryIndex] = useState(0);
@@ -64,7 +64,7 @@ export default function Searchbar() {
     const focusableElements = getFocusableElements(searchContainerRef.current);
 
     const handle = handleKeydown({
-      tcg: currentTcg,
+      tcg: selectedTcg,
       searchInputRef: searchInputRef,
       isOpened: isOpened,
       setIsOpened: setIsOpened,
@@ -79,10 +79,17 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [currentTcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
+  }, [selectedTcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
+
+  const router = useRouter();
+  router.subscribe('onLoad', () => {
+    requestAnimationFrame(() => {
+      setIsOpened(false);
+    });
+  });
 
   return (
     <>
@@ -96,7 +103,7 @@ export default function Searchbar() {
               mtg: 'Magic: The Gathering',
               pcg: 'Pokémon Card Game',
             }}
-            selected={tcg}
+            selected={selectedTcg}
             renderButtonContent={(selected) => (
               <>
                 {selected === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
@@ -106,7 +113,7 @@ export default function Searchbar() {
               </>
             )}
             onSelect={(selected) => {
-              setCurrentTcg(selected as Tcg);
+              setSelectedTcg(selected as Tcg);
             }}
           />
         </div>
@@ -153,7 +160,7 @@ export default function Searchbar() {
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
             <div className={styles.advancedSearch}>
-              <Link to={`/${tcg as Tcg}/advanced`} search={{ query: currentQuery.query }}>
+              <Link to={`/${selectedTcg as Tcg}/advanced`}>
                 <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
                 Advanced Search
               </Link>
@@ -165,7 +172,7 @@ export default function Searchbar() {
 
             {!isCaptainOfTheShip && recentQueries.length > 0 && (
               <SearchRecent
-                tcg={currentTcg}
+                tcg={selectedTcg}
                 close={() => {
                   setIsOpened(false);
                 }}
@@ -180,10 +187,10 @@ export default function Searchbar() {
             {isCaptainOfTheShip && currentQuery.query.length > 0 && (
               <>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <SearchQueryExplanation tcg={currentTcg} query={debouncedQuery} />
+                  <SearchQueryExplanation tcg={selectedTcg} query={debouncedQuery} />
                 </div>
                 <SearchCompletion
-                  tcg={currentTcg}
+                  tcg={selectedTcg}
                   currentQuery={currentQuery.query}
                   suggestionIndex={suggestionIndex}
                   setSuggestionIndex={setSuggestionIndex}

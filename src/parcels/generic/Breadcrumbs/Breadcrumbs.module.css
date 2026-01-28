@@ -11,4 +11,5 @@
 .breadcrumb p {
   margin: 0;
   font-family: var(--cgm-ui-font-family), ui-sans-serif;
+  color: var(--gourmet-neutral-6);
 }
