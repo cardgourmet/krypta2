@@ -29,6 +29,16 @@
   justify-content: center;
   padding: 0.5rem;
   gap: 0.5rem;
+
+  color: var(--cgm-text-color);
+  border-radius: 8px;
+  border: 2px solid var(--gourmet-neutral-2);
+  background-color: var(--gourmet-neutral-1);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+    cursor: pointer;
+  }
 }
 
 .settingsSidebar {
