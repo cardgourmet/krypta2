@@ -18,7 +18,7 @@
     align-items: center;
 
     .suggestionHighlighted {
-      background-color: var(--gourmet-neutral-dark-21);
+      background-color: var(--gourmet-neutral-dark-4);
     }
 
     > button {
@@ -33,7 +33,7 @@
       border-radius: 0.25rem;
 
       &:hover {
-        background-color: var(--gourmet-neutral-dark-21);
+        background-color: var(--gourmet-neutral-dark-4);
       }
     }
   }
@@ -88,7 +88,7 @@
       min-width: 2rem;
 
       &:hover {
-        background-color: var(--gourmet-neutral-dark-21);
+        background-color: var(--gourmet-neutral-dark-4);
       }
     }
   }
