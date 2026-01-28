@@ -77,7 +77,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [currentTcg, isOpened, currentQuery, navigate, hasActiveSuggestion]);
+  }, [currentTcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
