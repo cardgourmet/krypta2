@@ -112,7 +112,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--gourmet-blue-2-lighten);
+    background-color: color-mix(in srgb, var(--gourmet-blue-2), black 10%);
   }
 }
 

@@ -1,11 +1,37 @@
-import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Code,
+  Divider,
+  Group,
+  MultiSelect,
+  NumberInput,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 import { createFileRoute } from '@tanstack/react-router';
+import type { ReactElement } from 'react';
 import Breadcrumbs from '@/parcels/generic/Breadcrumbs/Breadcrumbs.tsx';
+import { franchises, inks, rarities, setNames, typesAndClassifications } from '@/routes/dlc/advanced/dlcValues.ts';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
   component: RouteComponent,
 });
+
+type InputFilterMeta = {
+  inputPlaceholder: string;
+};
+type AdvancedFilter = {
+  key?: string;
+  title: string;
+  description?: string;
+  filter?: string | string[];
+  meta?: InputFilterMeta | undefined;
+};
 
 function RouteComponent() {
   // const tcg = useTcgByLocation() as Tcg;
@@ -25,22 +51,11 @@ function RouteComponent() {
 
   */
 
-  type InputFilterMeta = {
-    inputPlaceholder: string;
-  };
-
-  type AdvancedFilter = {
-    title: string;
-    description: string;
-    type: 'text' | 'toggle';
-    meta?: InputFilterMeta | undefined;
-  };
-
   const DlcAdvancedFilters: Record<string, AdvancedFilter> = {
     name: {
       title: 'Kartenname',
       description: 'Wähle irgendein Wort, das im Namen der Karte vorkommt',
-      type: 'text',
+      filter: 'name',
       meta: {
         inputPlaceholder: `Irgendein Wort im Namen, z.B. "Micky"`,
       },
@@ -48,42 +63,47 @@ function RouteComponent() {
     text: {
       title: 'Text',
       description: '',
-      type: 'text',
+      filter: 'text',
     },
     type: {
       title: 'Typ und Klassifikation',
       description: '',
-      type: 'text',
+      filter: 'type',
     },
     ink: {
       title: 'Tinte',
       description: '',
-      type: 'text',
+      filter: 'ink',
     },
     stats: {
       title: 'Statuswerte',
       description: '',
-      type: 'text',
+      filter: ['strength', 'willpower', 'movecost', 'lore'],
     },
     sets: {
       title: 'Sets',
       description: '',
-      type: 'text',
+      filter: 'set',
     },
     rarity: {
       title: 'Seltenheit',
       description: '',
-      type: 'text',
+      filter: 'rarity',
     },
     artist: {
       title: 'Künstler:in',
       description: '',
-      type: 'text',
+      filter: 'artist',
+    },
+    franchise: {
+      title: 'Franchise',
+      description: '',
+      filter: 'franchise',
     },
     flavortext: {
       title: 'Flavortext',
       description: '',
-      type: 'text',
+      filter: 'flavor',
     },
   };
 
@@ -104,17 +124,18 @@ function RouteComponent() {
             return (
               <Stack gap={'sm'} key={key}>
                 <Stack gap={'0.1rem'}>
-                  <Text fz={'h4'} fw={'bold'} c={'var(--gourmet-neutral-8)'}>
-                    {filter.title}
-                  </Text>
+                  <Group>
+                    <Text fz={'h4'} fw={'bold'} c={'var(--gourmet-neutral-8)'}>
+                      {filter.title}
+                    </Text>
+                    {filter.filter !== undefined && typeof filter.filter === 'string' && <Code>{filter.filter}</Code>}
+                  </Group>
                   <Text fz={'h5'} c={'var(--gourmet-neutral-6)'}>
                     {filter.description}
                   </Text>
                 </Stack>
 
-                {filter.type === 'text' && (
-                  <TextInput w={'50%'} placeholder={(filter.meta as InputFilterMeta)?.inputPlaceholder ?? ''} />
-                )}
+                <div style={{ maxWidth: '75%' }}>{generateDlcFilterComponents(key, filter)}</div>
 
                 <Divider my={'xl'} />
               </Stack>
@@ -123,5 +144,72 @@ function RouteComponent() {
         </div>
       </div>
     </div>
+  );
+}
+
+function generateDlcFilterComponents(key: string, filter: AdvancedFilter): ReactElement {
+  if (filter.key === undefined) {
+    filter.key = key;
+  }
+
+  switch (filter.key) {
+    case 'name': {
+      return <FilterComponentText />;
+    }
+    case 'text': {
+      return <FilterComponentText />;
+    }
+    case 'type': {
+      return <FilterComponentDropdown data={typesAndClassifications.data.values.map((d) => d.value)} />;
+    }
+    case 'ink': {
+      return <FilterComponentList data={inks.data.values.map((d) => d.value)} />;
+    }
+    case 'stats': {
+      return <FilterComponentMultiNumberCompare />;
+    }
+    case 'sets': {
+      return <FilterComponentDropdown data={setNames.data.values.map((d) => d.value)} />;
+    }
+    case 'rarity': {
+      return <FilterComponentList data={rarities.data.values.map((d) => d.value)} />;
+    }
+    case 'artist': {
+      return <FilterComponentText />;
+    }
+    case 'franchise': {
+      return <FilterComponentDropdown data={franchises.data.values.map((d) => d.value)} />;
+    }
+    case 'flavortext': {
+      return <FilterComponentText />;
+    }
+  }
+  return <div></div>;
+}
+
+function FilterComponentText() {
+  return <TextInput />;
+}
+
+function FilterComponentDropdown({ data }: { data: string[] }) {
+  return <MultiSelect data={data} searchable />;
+}
+
+function FilterComponentList({ data }: { data: string[] }) {
+  return <MultiSelect data={data} />;
+}
+
+function FilterComponentMultiNumberCompare() {
+  return (
+    <Stack>
+      <Group>
+        <Select />
+        <Select />
+        <NumberInput />
+      </Group>
+      <ActionIcon color="gray">
+        <IconPlus />
+      </ActionIcon>
+    </Stack>
   );
 }
