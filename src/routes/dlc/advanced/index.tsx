@@ -1,8 +1,8 @@
 import {
-  ActionIcon,
+  Accordion,
   Button,
   Code,
-  Divider,
+  Grid,
   Group,
   MultiSelect,
   NumberInput,
@@ -11,99 +11,41 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan } from '@tabler/icons-react';
 import { createFileRoute } from '@tanstack/react-router';
 import type { ReactElement } from 'react';
 import Breadcrumbs from '@/parcels/generic/Breadcrumbs/Breadcrumbs.tsx';
-import { franchises, inks, rarities, setNames, typesAndClassifications } from '@/routes/dlc/advanced/dlcValues.ts';
+import { type AdvancedFilter, DlcAdvancedFilters } from '@/routes/dlc/advanced/-dlcFilters.ts';
+import { franchises, inks, rarities, setNames, typesAndClassifications } from '@/routes/dlc/advanced/-dlcValues.ts';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
   component: RouteComponent,
 });
 
-type InputFilterMeta = {
-  inputPlaceholder: string;
-};
-type AdvancedFilter = {
-  key?: string;
-  title: string;
-  description?: string;
-  filter?: string | string[];
-  meta?: InputFilterMeta | undefined;
-};
-
 function RouteComponent() {
   // const tcg = useTcgByLocation() as Tcg;
 
-  /*
-
-  CGM/DLC
-    Card Name
-    Text
-    Type Line
-    Inks
-    Stats (Power, etc.)
-    Sets
-    Rarity
-    Artist
-    Flavor Text
-
-  */
-
-  const DlcAdvancedFilters: Record<string, AdvancedFilter> = {
-    name: {
-      title: 'Kartenname',
-      description: 'Wähle irgendein Wort, das im Namen der Karte vorkommt',
-      filter: 'name',
-      meta: {
-        inputPlaceholder: `Irgendein Wort im Namen, z.B. "Micky"`,
-      },
+  const categories: Record<string, { icon?: ReactElement; filters: (keyof typeof DlcAdvancedFilters)[] }> = {
+    identity: {
+      icon: <IconUserScan />,
+      filters: ['type', 'ink'],
     },
     text: {
-      title: 'Text',
-      description: '',
-      filter: 'text',
+      icon: <IconTextSize />,
+      filters: ['name', 'text', 'flavortext'],
     },
-    type: {
-      title: 'Typ und Klassifikation',
-      description: '',
-      filter: 'type',
-    },
-    ink: {
-      title: 'Tinte',
-      description: '',
-      filter: 'ink',
+    release: {
+      icon: <IconMeteorFilled />,
+      filters: ['sets', 'rarity'],
     },
     stats: {
-      title: 'Statuswerte',
-      description: '',
-      filter: ['strength', 'willpower', 'movecost', 'lore'],
+      icon: <IconNumbers />,
+      filters: ['strength', 'willpower', 'movecost', 'lore'],
     },
-    sets: {
-      title: 'Sets',
-      description: '',
-      filter: 'set',
-    },
-    rarity: {
-      title: 'Seltenheit',
-      description: '',
-      filter: 'rarity',
-    },
-    artist: {
-      title: 'Künstler:in',
-      description: '',
-      filter: 'artist',
-    },
-    franchise: {
-      title: 'Franchise',
-      description: '',
-      filter: 'franchise',
-    },
-    flavortext: {
-      title: 'Flavortext',
-      description: '',
-      filter: 'flavor',
+    artwork: {
+      icon: <IconBrush />,
+      filters: ['artist', 'franchise'],
     },
   };
 
@@ -120,27 +62,64 @@ function RouteComponent() {
         </div>
 
         <div className={styles.searchOptions}>
-          {Object.entries(DlcAdvancedFilters).map(([key, filter]) => {
-            return (
-              <Stack gap={'sm'} key={key}>
-                <Stack gap={'0.1rem'}>
-                  <Group>
-                    <Text fz={'h4'} fw={'bold'} c={'var(--gourmet-neutral-8)'}>
-                      {filter.title}
-                    </Text>
-                    {filter.filter !== undefined && typeof filter.filter === 'string' && <Code>{filter.filter}</Code>}
-                  </Group>
-                  <Text fz={'h5'} c={'var(--gourmet-neutral-6)'}>
-                    {filter.description}
-                  </Text>
-                </Stack>
+          <Stack gap={'xs'}>
+            {Object.entries(categories).map(([key, value]) => {
+              return (
+                <Accordion
+                  chevronPosition="right"
+                  key={key}
+                  defaultValue={key}
+                  classNames={{
+                    item: styles.accordionItem,
+                    panel: styles.accordionPanel,
+                    control: styles.accordionControl,
+                  }}
+                >
+                  <Accordion.Item value={key}>
+                    <Accordion.Control>
+                      <Stack gap={'0.5rem'}>
+                        <Group style={{ color: 'var(--gourmet-blue-1)' }}>
+                          {value.icon}
+                          <Text fz={'h4'} fw={'bold'} ff={'var(--cgm-title-font-family)'} c={'var(--gourmet-blue-1)'}>
+                            {key.toUpperCase()}
+                          </Text>
+                        </Group>
+                      </Stack>
+                    </Accordion.Control>
 
-                <div style={{ maxWidth: '75%' }}>{generateDlcFilterComponents(key, filter)}</div>
-
-                <Divider my={'xl'} />
-              </Stack>
-            );
-          })}
+                    <Accordion.Panel>
+                      <Stack gap={'xl'}>
+                        {value.filters
+                          .map((v) => [v as string, DlcAdvancedFilters[v]] as const)
+                          .map(([key, filter]) => {
+                            return (
+                              <Grid key={key} gutter={'xl'}>
+                                <Grid.Col span={4}>
+                                  <Stack gap={'0.25rem'}>
+                                    <Group gap={'xs'}>
+                                      <Text fz={'h5'} c={'var(--gourmet-neutral-8)'}>
+                                        {filter.title}
+                                      </Text>
+                                      {filter.filter !== undefined && <Code>{filter.filter}</Code>}
+                                    </Group>
+                                    <Text fz={'h6'} c={'var(--gourmet-neutral-6)'}>
+                                      {filter.description}
+                                    </Text>
+                                  </Stack>
+                                </Grid.Col>
+                                <Grid.Col span={8}>
+                                  <div style={{ maxWidth: '75%' }}>{generateDlcFilterComponents(key, filter)}</div>
+                                </Grid.Col>
+                              </Grid>
+                            );
+                          })}
+                      </Stack>
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                </Accordion>
+              );
+            })}
+          </Stack>
         </div>
       </div>
     </div>
@@ -165,8 +144,17 @@ function generateDlcFilterComponents(key: string, filter: AdvancedFilter): React
     case 'ink': {
       return <FilterComponentList data={inks.data.values.map((d) => d.value)} />;
     }
-    case 'stats': {
-      return <FilterComponentMultiNumberCompare />;
+    case 'strength': {
+      return <FilterComponentNumberCompare />;
+    }
+    case 'willpower': {
+      return <FilterComponentNumberCompare />;
+    }
+    case 'movecost': {
+      return <FilterComponentNumberCompare />;
+    }
+    case 'lore': {
+      return <FilterComponentNumberCompare />;
     }
     case 'sets': {
       return <FilterComponentDropdown data={setNames.data.values.map((d) => d.value)} />;
@@ -199,17 +187,13 @@ function FilterComponentList({ data }: { data: string[] }) {
   return <MultiSelect data={data} />;
 }
 
-function FilterComponentMultiNumberCompare() {
+function FilterComponentNumberCompare() {
   return (
     <Stack>
       <Group>
         <Select />
-        <Select />
         <NumberInput />
       </Group>
-      <ActionIcon color="gray">
-        <IconPlus />
-      </ActionIcon>
     </Stack>
   );
 }

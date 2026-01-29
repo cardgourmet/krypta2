@@ -24,6 +24,26 @@
   }
 
   .searchOptions {
-    padding: 0 1rem;
+    padding: 1rem 1rem;
+
+    p {
+      font-family: var(--cgm-content-font-family), Monserrat, sans-serif;
+    }
+
+    code {
+      font-family: var(--cgm-monospace-font-family), monospace;
+    }
   }
+}
+
+.accordionControl {
+  border-bottom: 1px solid var(--gourmet-neutral-4);
+}
+
+.accordionItem {
+  border: none;
+}
+
+.accordionPanel {
+  padding: 1rem 0 0 0;
 }
