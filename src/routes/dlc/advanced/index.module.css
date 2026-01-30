@@ -94,6 +94,10 @@
   }
 }
 
+.selectOption {
+  font-size: 1rem;
+}
+
 .multiSelectRoot {
   .multiSelectInput {
     font-family: var(--cgm-content-font-family), sans-serif;
@@ -112,4 +116,10 @@
 
 .multiSelectOption {
   font-size: 1rem;
+}
+
+.numberInputInput {
+  font-size: 1rem;
+  font-family: var(--cgm-content-font-family), sans-serif;
+  width: 6rem;
 }

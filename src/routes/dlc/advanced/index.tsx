@@ -341,6 +341,7 @@ function FilterComponentDropdown(props: SelectProps) {
       classNames={{
         root: styles.selectRoot,
         input: styles.selectInput,
+        option: styles.selectOption,
       }}
       {...props}
     />
@@ -351,8 +352,14 @@ function FilterComponentNumberCompare() {
   return (
     <Stack>
       <Group>
-        <Select />
-        <NumberInput />
+        <FilterComponentDropdown
+          data={['gleich', 'kleiner als', 'kleiner oder gleich', 'größer als', 'größer oder gleich']}
+          defaultValue={'gleich'}
+          allowDeselect={false}
+          withCheckIcon={false}
+          style={{ width: '12rem' }}
+        />
+        <NumberInput classNames={{ input: styles.numberInputInput }} allowNegative={false} />
       </Group>
     </Stack>
   );
