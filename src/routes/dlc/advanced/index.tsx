@@ -35,13 +35,13 @@ function RouteComponent() {
       icon: <IconTextSize />,
       filters: ['name', 'text', 'flavortext'],
     },
-    release: {
-      icon: <IconMeteorFilled />,
-      filters: ['sets', 'rarity'],
-    },
     stats: {
       icon: <IconNumbers />,
       filters: ['strength', 'willpower', 'movecost', 'lore'],
+    },
+    release: {
+      icon: <IconMeteorFilled />,
+      filters: ['sets', 'rarity'],
     },
     artwork: {
       icon: <IconBrush />,

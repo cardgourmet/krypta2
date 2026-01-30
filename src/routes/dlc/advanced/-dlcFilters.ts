@@ -25,57 +25,57 @@ export const DlcAdvancedFilters = {
   },
   type: {
     title: 'Typ und Klassifikation',
-    description: '',
+    description: 'Begriff, der in der Typzeile der Karte steht',
     filter: 'type',
   },
   ink: {
     title: 'Tinte',
-    description: '',
+    description: 'Sorte der Tinte, gekennzeichnet durch Farbe und Symbol auf der Karte',
     filter: 'ink',
   },
   strength: {
     title: 'Stärke',
-    description: '',
+    description: 'Der Stärkewert beginnend von 0, nur für Charaktere',
     filter: 'strength',
   },
   willpower: {
     title: 'Willenskraft',
-    description: '',
+    description: 'Der Verteidigungswert beginnend von 0, nur für Charaktere',
     filter: 'willpower',
   },
   movecost: {
     title: 'Bewegungskosten',
-    description: '',
+    description: 'Die Bewegungskosten beginnend von 0, nur für Orte',
     filter: 'movecost',
   },
   lore: {
     title: 'Legendenwert',
-    description: '',
+    description: 'Der Legendenwert beginnend von 0, falls einer existiert',
     filter: 'lore',
   },
   sets: {
     title: 'Sets',
-    description: '',
+    description: 'Sets, in der die Karte gedruckt wurde',
     filter: 'set',
   },
   rarity: {
     title: 'Seltenheit',
-    description: '',
+    description: 'Seltenheit, mit der die Karte in einem Set gedruckt wurde',
     filter: 'rarity',
   },
   artist: {
     title: 'Künstler:in',
-    description: '',
+    description: 'Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt',
     filter: 'artist',
   },
   franchise: {
     title: 'Franchise',
-    description: '',
+    description: 'Das Franchise, in das die Karte zugeordnet werden kann',
     filter: 'franchise',
   },
   flavortext: {
     title: 'Flavortext',
-    description: 'Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert.',
+    description: 'Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert',
     filter: 'flavor',
   },
 };
