@@ -72,12 +72,12 @@ export const rarities = {
     matches: 7,
     values: [
       { value: 'common', type: 'rarity' },
-      { value: 'enchanted', type: 'rarity' },
-      { value: 'legendary', type: 'rarity' },
-      { value: 'promo', type: 'rarity', aliases: ['special'] },
+      { value: 'uncommon', type: 'rarity' },
       { value: 'rare', type: 'rarity' },
       { value: 'super_rare', type: 'rarity', aliases: ['super', 'superrare'] },
-      { value: 'uncommon', type: 'rarity' },
+      { value: 'legendary', type: 'rarity' },
+      { value: 'enchanted', type: 'rarity' },
+      { value: 'promo', type: 'rarity', aliases: ['special'] },
     ],
   },
 };

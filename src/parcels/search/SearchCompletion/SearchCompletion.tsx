@@ -36,8 +36,6 @@ export function SearchCompletion({
 
   const handleKeydown = useCallback(
     (event: KeyboardEvent) => {
-      console.log('handleKeydown', event.key, suggestionIndex);
-
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
         if (document.activeElement !== searchInputRef.current) return event.preventDefault();
 

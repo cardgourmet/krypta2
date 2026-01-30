@@ -1,4 +1,3 @@
-import { MantineProvider } from '@mantine/core';
 import { NavigationProgress, nprogress } from '@mantine/nprogress';
 import { Outlet, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -21,22 +20,20 @@ function App() {
   });
 
   return (
-    <MantineProvider>
-      <SearchCacheProvider>
-        <SearchHistoryProvider>
-          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <Navbar setSidebarOpen={setSidebarOpen} />
-          <NavigationProgress />
+    <SearchCacheProvider>
+      <SearchHistoryProvider>
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Navbar setSidebarOpen={setSidebarOpen} />
+        <NavigationProgress />
 
-          <div className={styles.mainContent}>
-            <Outlet />
-          </div>
-          <div className={styles.footer}>
-            <Footer />
-          </div>
-        </SearchHistoryProvider>
-      </SearchCacheProvider>
-    </MantineProvider>
+        <div className={styles.mainContent}>
+          <Outlet />
+        </div>
+        <div className={styles.footer}>
+          <Footer />
+        </div>
+      </SearchHistoryProvider>
+    </SearchCacheProvider>
   );
 }
 

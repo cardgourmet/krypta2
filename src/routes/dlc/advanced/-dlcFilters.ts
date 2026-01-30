@@ -20,7 +20,7 @@ export const DlcAdvancedFilters = {
   },
   text: {
     title: 'Text',
-    description: 'Irgendein Wort, das im Text der Karte vorkommt',
+    description: 'Irgendeine Wortfolge, die im Text der Karte vorkommt',
     filter: 'text',
   },
   type: {
