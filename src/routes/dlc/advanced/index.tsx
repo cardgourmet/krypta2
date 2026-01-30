@@ -1,7 +1,7 @@
 import { Accordion, Button, Code, Grid, Group, Stack, Text } from '@mantine/core';
 import { createFileRoute } from '@tanstack/react-router';
 import Breadcrumbs from '@/parcels/generic/Breadcrumbs/Breadcrumbs.tsx';
-import { categories, DlcAdvancedFilters, generateDlcFilterComponents } from '@/routes/dlc/advanced/-dlcFilters.tsx';
+import { dlcAdvancedFilters, generateDlcFilterComponents } from '@/routes/dlc/advanced/dlcAdvancedFilters.tsx';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
@@ -25,7 +25,7 @@ function RouteComponent() {
 
         <div className={styles.searchOptions}>
           <Stack gap={'xs'}>
-            {Object.entries(categories).map(([key, value]) => {
+            {Object.entries(dlcAdvancedFilters).map(([key, category]) => {
               return (
                 <Accordion
                   chevronPosition="right"
@@ -41,7 +41,7 @@ function RouteComponent() {
                     <Accordion.Control>
                       <Stack gap={'0.5rem'}>
                         <Group style={{ color: 'var(--gourmet-blue-1)' }}>
-                          {value.icon}
+                          {category.icon}
                           <Text fz={'h4'} fw={'bold'} ff={'var(--cgm-title-font-family)'} c={'var(--gourmet-blue-1)'}>
                             {key.toUpperCase()}
                           </Text>
@@ -51,30 +51,28 @@ function RouteComponent() {
 
                     <Accordion.Panel>
                       <Stack gap={'xl'}>
-                        {value.filters
-                          .map((v) => [v as string, DlcAdvancedFilters[v]] as const)
-                          .map(([key, filter]) => {
-                            return (
-                              <Grid key={key} gutter={'xl'}>
-                                <Grid.Col span={4}>
-                                  <Stack gap={'0.25rem'}>
-                                    <Group gap={'xs'}>
-                                      <Text fz={'h5'} c={'var(--gourmet-neutral-8)'}>
-                                        {filter.title}
-                                      </Text>
-                                      {filter.filter !== undefined && <Code>{filter.filter}</Code>}
-                                    </Group>
-                                    <Text fz={'h6'} c={'var(--gourmet-neutral-6)'}>
-                                      {filter.description}
+                        {category.filters.map((filter) => {
+                          return (
+                            <Grid key={filter.key} gutter={'xl'}>
+                              <Grid.Col span={4}>
+                                <Stack gap={'0.25rem'}>
+                                  <Group gap={'xs'}>
+                                    <Text fz={'h5'} c={'var(--gourmet-neutral-8)'}>
+                                      {filter.title}
                                     </Text>
-                                  </Stack>
-                                </Grid.Col>
-                                <Grid.Col span={8}>
-                                  <div style={{ maxWidth: '75%' }}>{generateDlcFilterComponents(key, filter)}</div>
-                                </Grid.Col>
-                              </Grid>
-                            );
-                          })}
+                                    {filter.filter !== undefined && <Code>{filter.filter}</Code>}
+                                  </Group>
+                                  <Text fz={'h6'} c={'var(--gourmet-neutral-6)'}>
+                                    {filter.description}
+                                  </Text>
+                                </Stack>
+                              </Grid.Col>
+                              <Grid.Col span={8}>
+                                <div style={{ maxWidth: '75%' }}>{generateDlcFilterComponents(filter)}</div>
+                              </Grid.Col>
+                            </Grid>
+                          );
+                        })}
                       </Stack>
                     </Accordion.Panel>
                   </Accordion.Item>
