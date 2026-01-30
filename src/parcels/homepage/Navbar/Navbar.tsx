@@ -6,8 +6,8 @@ import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/parcels/Logo.tsx';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
-import { MobileSearchbar } from '@/parcels/search/MobileSearchbar/MobileSearchbar.tsx';
-import Searchbar from '@/parcels/search/Searchbar/Searchbar.tsx';
+import { MobileSearchbar } from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
+import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 import styles from './Navbar.module.css';
 
 interface NavbarProps {

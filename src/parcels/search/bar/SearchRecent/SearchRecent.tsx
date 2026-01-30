@@ -1,8 +1,8 @@
 import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { type RefObject, useEffect, useMemo } from 'react';
+import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
-import { useSearchHistory } from '@/parcels/search/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
 import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -109,7 +109,7 @@ export default function SearchRecent({
                     },
                   });
                 }
-                close()
+                close();
               }}
             >
               <div className={styles.recentItemLeft}>

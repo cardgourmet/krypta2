@@ -2,7 +2,7 @@ import { createContext, type ReactNode, useContext, useEffect, useMemo, useRef }
 import type {
   SearchFilterStore,
   SearchFilterValueStore,
-} from '@/parcels/search/SearchCompletion/generateCompletions.ts';
+} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
 import { fetchDlcFilters } from '@/parcels/tcg/dlc/api.ts';
 import { fetchPcgFilters } from '@/parcels/tcg/pcg/api.ts';
 import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';

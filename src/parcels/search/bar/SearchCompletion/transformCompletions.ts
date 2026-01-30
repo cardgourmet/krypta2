@@ -1,7 +1,7 @@
 import type {
   GeneratedSearchCompletion,
   SearchCompletionState,
-} from '@/parcels/search/SearchCompletion/generateCompletions.ts';
+} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
 
 export type SearchSuggestion = {
   completion?: GeneratedSearchCompletion;

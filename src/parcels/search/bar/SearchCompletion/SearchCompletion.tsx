@@ -1,11 +1,14 @@
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchCache } from '@/parcels/search/SearchCacheProvider/SearchCacheProvider.tsx';
+import { useSearchCache } from '@/parcels/search/bar/SearchCacheProvider/SearchCacheProvider.tsx';
 import {
   type GeneratedSearchCompletion,
   generateCompletions,
-} from '@/parcels/search/SearchCompletion/generateCompletions.ts';
-import { type SearchSuggestion, transformCompletions } from '@/parcels/search/SearchCompletion/transformCompletions.ts';
+} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
+import {
+  type SearchSuggestion,
+  transformCompletions,
+} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
 
