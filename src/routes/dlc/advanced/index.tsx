@@ -1,7 +1,10 @@
 import { Accordion, Button, Code, Grid, Group, Stack, Text } from '@mantine/core';
 import { createFileRoute } from '@tanstack/react-router';
 import Breadcrumbs from '@/parcels/generic/Breadcrumbs/Breadcrumbs.tsx';
-import { dlcAdvancedFilters, generateDlcFilterComponents } from '@/routes/dlc/advanced/dlcAdvancedFilters.tsx';
+import {
+  dlcAdvancedCategories,
+  useGenerateDlcFilterComponents,
+} from '@/routes/dlc/advanced/-dlcAdvancedCategories.tsx';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
@@ -10,6 +13,8 @@ export const Route = createFileRoute('/dlc/advanced/')({
 
 function RouteComponent() {
   // const tcg = useTcgByLocation() as Tcg;
+
+  const generateDlcComponent = useGenerateDlcFilterComponents();
 
   return (
     <div className={styles.mainContent}>
@@ -25,7 +30,7 @@ function RouteComponent() {
 
         <div className={styles.searchOptions}>
           <Stack gap={'xs'}>
-            {Object.entries(dlcAdvancedFilters).map(([key, category]) => {
+            {Object.entries(dlcAdvancedCategories).map(([key, category]) => {
               return (
                 <Accordion
                   chevronPosition="right"
@@ -68,7 +73,7 @@ function RouteComponent() {
                                 </Stack>
                               </Grid.Col>
                               <Grid.Col span={8}>
-                                <div style={{ maxWidth: '75%' }}>{generateDlcFilterComponents(filter)}</div>
+                                <div style={{ maxWidth: '75%' }}>{generateDlcComponent(filter)}</div>
                               </Grid.Col>
                             </Grid>
                           );
