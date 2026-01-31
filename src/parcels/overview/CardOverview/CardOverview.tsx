@@ -1,7 +1,7 @@
 import { Accordion, Text } from '@mantine/core';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
 import type { RefObject } from 'react';
-import Breadcrumbs from '@/parcels/generic/Breadcrumbs/Breadcrumbs.tsx';
+import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import { CardGrid } from '@/parcels/overview/CardGrid/CardGrid.tsx';
 import CardOverviewSettings from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
