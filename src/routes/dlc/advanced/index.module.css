@@ -8,6 +8,19 @@
   overflow: visible;
 }
 
+.queryExplanation {
+  code {
+    background-color: var(--gourmet-teal-1);
+    border-radius: 0.25rem;
+    color: var(--gourmet-blue-5);
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
+  }
+}
+
 .advancedSearch {
   margin-top: 1rem;
 

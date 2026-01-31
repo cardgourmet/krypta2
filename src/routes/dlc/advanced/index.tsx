@@ -1,7 +1,11 @@
 import { Accordion, Button, Code, Grid, Group, Stack, Text } from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 import { createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
+import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import { useDlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
@@ -9,9 +13,13 @@ export const Route = createFileRoute('/dlc/advanced/')({
 });
 
 function RouteComponent() {
-  // const tcg = useTcgByLocation() as Tcg;
+  const tcg = useTcgByLocation() as Tcg;
 
   const { filters: dlcFiltersByCategory, constructedQueryFilters, resetFilters } = useDlcAdvancedFilters();
+  const constructedQuery = useMemo<string>(() => {
+    return constructedQueryFilters.map((f) => `(${f})`).join(' ');
+  }, [constructedQueryFilters]);
+  const [debouncedQuery] = useDebouncedValue(constructedQuery, 500);
 
   return (
     <div className={styles.mainContent}>
@@ -24,9 +32,7 @@ function RouteComponent() {
               {constructedQueryFilters.length === 0 && (
                 <Text fs={'italic'}>Benutze die Filter unten, um dir die Suche zusammenzubauen.</Text>
               )}
-              {constructedQueryFilters.length > 0 && (
-                <Text fs={'italic'}>{JSON.stringify(constructedQueryFilters)}</Text>
-              )}
+              {constructedQueryFilters.length > 0 && <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />}
             </div>
             <Group>
               {constructedQueryFilters.length > 0 && (

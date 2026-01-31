@@ -7,4 +7,16 @@
     margin: 0;
     color: var(--cgm-text-color-less-dimmed);
   }
+
+  /* stolen from Krypta, without Mantine though (lol) */
+  code {
+    background-color: var(--gourmet-teal-1);
+    border-radius: 0.25rem;
+    color: var(--gourmet-blue-5);
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
+  }
 }
