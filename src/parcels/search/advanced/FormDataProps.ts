@@ -1,5 +1,5 @@
 import type { SetStateAction } from 'react';
-import type { DlcAdvancedFilterFormData } from '@/routes/dlc/advanced/-dlcAdvancedCategories.tsx';
+import type { DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
 
 export type FormDataProps = {
   formData: DlcAdvancedFilterFormData;

@@ -1,7 +1,7 @@
 import { Accordion, Button, Code, Grid, Group, Stack, Text } from '@mantine/core';
 import { createFileRoute } from '@tanstack/react-router';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
-import { useDlcFiltersByCategory } from '@/parcels/tcg/dlc/advanced/useDlcFiltersByCategory.tsx';
+import { useDlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
@@ -11,7 +11,7 @@ export const Route = createFileRoute('/dlc/advanced/')({
 function RouteComponent() {
   // const tcg = useTcgByLocation() as Tcg;
 
-  const dlcFiltersByCategory = useDlcFiltersByCategory();
+  const { filters: dlcFiltersByCategory, constructedQueryFilters, resetFilters } = useDlcAdvancedFilters();
 
   return (
     <div className={styles.mainContent}>
@@ -20,8 +20,24 @@ function RouteComponent() {
       <div className={styles.advancedSearch}>
         <div className={styles.header}>
           <Group justify={'space-between'}>
-            <Text fs={'italic'}>Benutze die Filter unten, um dir die Suche zusammenzubauen.</Text>
-            <Button color={'var(--gourmet-blue-2)'}>Suche starten</Button>
+            <div style={{ width: '50%' }}>
+              {constructedQueryFilters.length === 0 && (
+                <Text fs={'italic'}>Benutze die Filter unten, um dir die Suche zusammenzubauen.</Text>
+              )}
+              {constructedQueryFilters.length > 0 && (
+                <Text fs={'italic'}>{JSON.stringify(constructedQueryFilters)}</Text>
+              )}
+            </div>
+            <Group>
+              {constructedQueryFilters.length > 0 && (
+                <Button color={'var(--gourmet-neutral-3)'} onClick={resetFilters}>
+                  {constructedQueryFilters.length} Filter zurücksetzen
+                </Button>
+              )}
+              <Button color={'var(--gourmet-blue-2)'} disabled={constructedQueryFilters.length === 0}>
+                Suche starten
+              </Button>
+            </Group>
           </Group>
         </div>
 

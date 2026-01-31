@@ -1,5 +1,7 @@
 import { IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan } from '@tabler/icons-react';
-import { type ReactElement, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import type { AdvancedFilterCategory } from '@/parcels/search/advanced/types.ts';
+import { constructDlcQuery } from '@/parcels/tcg/dlc/advanced/constructDlcQuery.ts';
 import { DlcArtistFilter } from '@/parcels/tcg/dlc/advanced/DlcArtistFilter.tsx';
 import { DlcFlavortextFilter } from '@/parcels/tcg/dlc/advanced/DlcFlavortextFilter.tsx';
 import { DlcFranchiseFilter } from '@/parcels/tcg/dlc/advanced/DlcFranchiseFilter.tsx';
@@ -14,18 +16,6 @@ import { DlcTextFilter } from '@/parcels/tcg/dlc/advanced/DlcTextFilter.tsx';
 import { DlcTypeFilter } from '@/parcels/tcg/dlc/advanced/DlcTypeFilter.tsx';
 import { DlcWillpowerFilter } from '@/parcels/tcg/dlc/advanced/DlcWillpowerFilter.tsx';
 
-export type AdvancedFilterCategory = {
-  icon: ReactElement;
-  filters: AdvancedFilter[];
-};
-export type AdvancedFilter = {
-  key: string;
-  title: string;
-  description?: string;
-  filter?: string | string[];
-  component: ReactElement;
-};
-
 export type DlcAdvancedFilterFormData = {
   name: {
     value: string;
@@ -37,6 +27,7 @@ export type DlcAdvancedFilterFormData = {
   };
   type: {
     values: string[];
+    exact: boolean;
   };
   ink: {
     values: Record<string, boolean>;
@@ -77,24 +68,34 @@ export type DlcAdvancedFilterFormData = {
   };
 };
 
-export function useDlcFiltersByCategory() {
-  const [formData, setFormData] = useState<DlcAdvancedFilterFormData>({
-    artist: { exact: false, value: '' },
-    flavortext: { exact: false, value: '' },
-    franchise: { values: [] },
-    ink: { exact: false, values: {} },
-    lore: { operator: '=', value: '' },
-    movecost: { operator: '=', value: '' },
-    name: { exact: false, value: '' },
-    rarity: { values: {} },
-    sets: { values: [] },
-    strength: { operator: '=', value: '' },
-    text: { exact: false, value: '' },
-    type: { values: [] },
-    willpower: { operator: '=', value: '' },
-  });
+const createDefaultFormData: () => DlcAdvancedFilterFormData = () => ({
+  artist: { exact: false, value: '' },
+  flavortext: { exact: false, value: '' },
+  franchise: { values: [] },
+  ink: { exact: false, values: {} },
+  lore: { operator: '=', value: '' },
+  movecost: { operator: '=', value: '' },
+  name: { exact: false, value: '' },
+  rarity: { values: {} },
+  sets: { values: [] },
+  strength: { operator: '=', value: '' },
+  text: { exact: false, value: '' },
+  type: { exact: false, values: [] },
+  willpower: { operator: '=', value: '' },
+});
 
-  return useMemo<Record<string, AdvancedFilterCategory>>(() => {
+export function useDlcAdvancedFilters() {
+  const [formData, setFormData] = useState<DlcAdvancedFilterFormData>(createDefaultFormData());
+  const constructedQueryFilters = useMemo(() => {
+    console.log(`re-memoize constructed query: ${JSON.stringify(formData)}`);
+
+    return constructDlcQuery(formData);
+  }, [formData]);
+  const resetFilters = () => {
+    setFormData(createDefaultFormData());
+  };
+
+  const filtersByCategory = useMemo<Record<string, AdvancedFilterCategory>>(() => {
     return {
       identity: {
         icon: <IconUserScan />,
@@ -214,4 +215,6 @@ export function useDlcFiltersByCategory() {
       },
     };
   }, [formData]);
+
+  return { filters: filtersByCategory, constructedQueryFilters, resetFilters };
 }
