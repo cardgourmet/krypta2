@@ -146,6 +146,10 @@ async function generateFilterValueCompletions(
 
     return {
       mode: 'value',
+      userInput: {
+        operator: operator,
+        value: currentValue,
+      },
       completions: matches,
     };
   }

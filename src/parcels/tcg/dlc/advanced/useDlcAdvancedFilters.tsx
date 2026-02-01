@@ -87,8 +87,6 @@ const createDefaultFormData: () => DlcAdvancedFilterFormData = () => ({
 export function useDlcAdvancedFilters() {
   const [formData, setFormData] = useState<DlcAdvancedFilterFormData>(createDefaultFormData());
   const constructedQueryFilters = useMemo(() => {
-    console.log(`re-memoize constructed query: ${JSON.stringify(formData)}`);
-
     return constructDlcQuery(formData);
   }, [formData]);
   const resetFilters = () => {

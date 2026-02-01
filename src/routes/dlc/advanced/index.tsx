@@ -1,12 +1,12 @@
 import { Accordion, Button, Code, Grid, Group, Stack, Text } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useCallback, useMemo } from 'react';
+import { createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
+import { useStartSearch } from '@/parcels/search/startSearch.ts';
 import { useDlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
-import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './index.module.css';
 
@@ -26,18 +26,7 @@ function RouteComponent() {
   }, [constructedQueryFilters]);
   const [debouncedQuery] = useDebouncedValue(constructedQuery, 500);
 
-  const navigate = useNavigate();
-  const startSearch = useCallback(() => {
-    if (constructedQuery.length === 0) return;
-
-    // noinspection JSIgnoredPromiseFromCall
-    navigate({
-      to: `/${tcg}/cards`,
-      search: (prev) => {
-        return { ...prev, query: constructedQuery } as Required<DlcSearchParams>;
-      },
-    });
-  }, [constructedQuery, tcg, navigate]);
+  const startSearch = useStartSearch(tcg, constructedQuery);
 
   return (
     <div className={styles.mainContent}>
