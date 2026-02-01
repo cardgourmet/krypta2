@@ -1,7 +1,7 @@
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentNumberCompare } from '@/parcels/search/advanced/FilterComponentNumberCompare.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 
-export function DlcWillpowerFilter({ formData, setFormData }: FormDataProps) {
+export function DlcWillpowerFilter({ formData, setFormData }: DlcFormDataProps) {
   return (
     <FilterComponentNumberCompare
       operator={formData.willpower.operator}

@@ -9,6 +9,11 @@ import {
 import { useMemo, useState } from 'react';
 import type { AdvancedFilterCategory } from '@/parcels/search/advanced/types.ts';
 import { constructPcgQuery } from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
+import { PcgBasetypeFilter } from '@/parcels/tcg/pcg/advanced/PcgBasetypeFilter.tsx';
+import { PcgEnergyFilter } from '@/parcels/tcg/pcg/advanced/PcgEnergyFilter.tsx';
+import { PcgEvolvesFilter } from '@/parcels/tcg/pcg/advanced/PcgEvolvesFilter.tsx';
+import { PcgStageFilter } from '@/parcels/tcg/pcg/advanced/PcgStageFilter.tsx';
+import { PcgSubtypeFilter } from '@/parcels/tcg/pcg/advanced/PcgSubtypeFilter.tsx';
 import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 
 export function usePcgAdvancedFilters() {
@@ -27,38 +32,38 @@ export function usePcgAdvancedFilters() {
         filters: [
           {
             key: 'basetype',
-            title: '',
+            title: 'Basistyp',
             description: '',
             filter: 'basetype',
-            component: <div></div>,
+            component: <PcgBasetypeFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'energy',
-            title: '',
+            title: 'Energie',
             description: '',
             filter: 'energy',
-            component: <div></div>,
+            component: <PcgEnergyFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'subtype',
-            title: '',
+            title: 'Subtyp',
             description: '',
             filter: 'subtype',
-            component: <div></div>,
+            component: <PcgSubtypeFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'stage',
-            title: '',
+            title: 'Entwicklungsstufe',
             description: '',
             filter: 'stage',
-            component: <div></div>,
+            component: <PcgStageFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'evolves',
-            title: '',
+            title: 'Entwicklung',
             description: '',
             filter: 'evolves',
-            component: <div></div>,
+            component: <PcgEvolvesFilter formData={formData} setFormData={setFormData} />,
           },
         ],
       },
@@ -165,7 +170,7 @@ export function usePcgAdvancedFilters() {
         ],
       },
     }),
-    [],
+    [formData],
   );
 
   return { filters: filtersByCategory, constructedQueryFilters, resetFilters };
@@ -189,7 +194,7 @@ export type PcgAdvancedFilterFormData = {
     values: string[];
   };
   evolves: {
-    value: string;
+    values: string[];
     exact: boolean;
   };
 
@@ -254,7 +259,7 @@ const createDefaultFormData: () => PcgAdvancedFilterFormData = () => ({
   basetype: { exact: false, values: [] },
   effect: { exact: false, values: [] },
   energy: { exact: false, values: {} },
-  evolves: { exact: false, value: '' },
+  evolves: { exact: false, values: [] },
   flavortext: { exact: false, value: '' },
   hp: { operator: '=', value: '' },
   name: { exact: false, value: '' },

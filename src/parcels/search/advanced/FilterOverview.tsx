@@ -7,7 +7,7 @@ import type { AdvancedFilterCategory } from '@/parcels/search/advanced/types.ts'
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from '@/routes/dlc/advanced/index.module.css';
+import styles from './FilterOverview.module.css';
 
 type FilterOverviewProps = {
   tcg: Tcg;

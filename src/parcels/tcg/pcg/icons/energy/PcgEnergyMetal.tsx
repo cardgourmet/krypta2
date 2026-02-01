@@ -4,7 +4,7 @@ interface PcgEnergyIconProps extends React.ComponentPropsWithoutRef<'svg'> {
   size?: number | string;
 }
 
-export function PcgEnergySteel({ size, style, ...others }: PcgEnergyIconProps) {
+export function PcgEnergyMetal({ size, style, ...others }: PcgEnergyIconProps) {
   return (
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 595.3 841.9" {...others}>
       <title>pcg-energy-steel</title>

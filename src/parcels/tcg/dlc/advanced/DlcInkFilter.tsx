@@ -1,8 +1,8 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
 import { FilterComponentDropdown } from '@/parcels/search/advanced/FilterComponentDropdown.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 import { DlcInkAmber } from '@/parcels/tcg/dlc/icons/DlcInkAmber.tsx';
 import { DlcInkAmethyst } from '@/parcels/tcg/dlc/icons/DlcInkAmethyst.tsx';
 import { DlcInkEmerald } from '@/parcels/tcg/dlc/icons/DlcInkEmerald.tsx';
@@ -11,7 +11,7 @@ import { DlcInkSapphire } from '@/parcels/tcg/dlc/icons/DlcInkSapphire.tsx';
 import { DlcInkSteel } from '@/parcels/tcg/dlc/icons/DlcInkSteel.tsx';
 import { inks } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
-export function DlcInkFilter({ formData, setFormData }: FormDataProps) {
+export function DlcInkFilter({ formData, setFormData }: DlcFormDataProps) {
   const iconSize = 32;
   return (
     <Stack>

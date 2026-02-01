@@ -1,9 +1,9 @@
-import {capitalizeFirstLetter} from "@/parcels/capitalizeFirstLetter.ts";
-import {FilterComponentMultiDropdown} from "@/parcels/search/advanced/FilterComponentMultiDropdown.tsx";
-import type {FormDataProps} from "@/parcels/search/advanced/FormDataProps.ts";
-import {franchises} from "@/parcels/tcg/dlc/raw/apiValues.ts";
+import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
+import { FilterComponentMultiDropdown } from '@/parcels/search/advanced/FilterComponentMultiDropdown.tsx';
+import { franchises } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
-export function DlcFranchiseFilter({formData, setFormData}: FormDataProps) {
+export function DlcFranchiseFilter({ formData, setFormData }: DlcFormDataProps) {
   const franchiseNames = franchises.data.values
     .filter((d) => d.type === 'name')
     .map((d) => {

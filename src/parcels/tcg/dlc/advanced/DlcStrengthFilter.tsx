@@ -1,7 +1,7 @@
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentNumberCompare } from '@/parcels/search/advanced/FilterComponentNumberCompare.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 
-export function DlcStrengthFilter({ formData, setFormData }: FormDataProps) {
+export function DlcStrengthFilter({ formData, setFormData }: DlcFormDataProps) {
   return (
     <FilterComponentNumberCompare
       operator={formData.strength.operator}

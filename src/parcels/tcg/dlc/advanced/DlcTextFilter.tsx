@@ -1,9 +1,9 @@
 import { Stack } from '@mantine/core';
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
 import { FilterComponentText } from '@/parcels/search/advanced/FilterComponentText.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 
-export function DlcTextFilter({ formData, setFormData }: FormDataProps) {
+export function DlcTextFilter({ formData, setFormData }: DlcFormDataProps) {
   return (
     <Stack>
       <FilterComponentText

@@ -11,7 +11,7 @@ export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedEnergies.length > 0) {
-    filters.push(constructArrayFilter('ink', selectedEnergies, formData.energy.exact));
+    filters.push(constructArrayFilter('energy', selectedEnergies, formData.energy.exact));
   }
   if (formData.subtype.values.length > 0) {
     filters.push(constructArrayFilter('subtype', formData.subtype.values, formData.subtype.exact));
@@ -19,8 +19,8 @@ export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
   if (formData.stage.values.length > 0) {
     filters.push(constructArrayFilter('stage', formData.stage.values, false));
   }
-  if (formData.evolves.value !== '') {
-    filters.push(constructTextFilter('evolves', formData.evolves.value, formData.evolves.exact));
+  if (formData.evolves.values.length > 0) {
+    filters.push(constructArrayFilter('evolves', formData.evolves.values, false));
   }
 
   // TEXT

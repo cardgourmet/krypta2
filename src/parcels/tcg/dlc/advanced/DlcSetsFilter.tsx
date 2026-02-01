@@ -1,8 +1,8 @@
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentMultiDropdown } from '@/parcels/search/advanced/FilterComponentMultiDropdown.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 import { setNames } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
-export function DlcSetsFilter({ formData, setFormData }: FormDataProps) {
+export function DlcSetsFilter({ formData, setFormData }: DlcFormDataProps) {
   return (
     <FilterComponentMultiDropdown
       data={setNames.data.values.map((d) => d.value)}

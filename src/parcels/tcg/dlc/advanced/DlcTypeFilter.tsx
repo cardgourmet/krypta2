@@ -1,9 +1,9 @@
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentMultiDropdown } from '@/parcels/search/advanced/FilterComponentMultiDropdown.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 import { typesAndClassifications } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
-export function DlcTypeFilter({ formData, setFormData }: FormDataProps) {
+export function DlcTypeFilter({ formData, setFormData }: DlcFormDataProps) {
   const types = typesAndClassifications.data.values
     .filter((d) => d.type === 'type')
     .map((d) => {

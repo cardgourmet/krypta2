@@ -1,7 +1,7 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 import { DlcRarityCommon } from '@/parcels/tcg/dlc/icons/DlcRarityCommon.tsx';
 import { DlcRarityEnchanted } from '@/parcels/tcg/dlc/icons/DlcRarityEnchanted.tsx';
 import { DlcRarityLegendary } from '@/parcels/tcg/dlc/icons/DlcRarityLegendary.tsx';
@@ -10,7 +10,7 @@ import { DlcRaritySuperRare } from '@/parcels/tcg/dlc/icons/DlcRaritySuperRare.t
 import { DlcRarityUncommon } from '@/parcels/tcg/dlc/icons/DlcRarityUncommon.tsx';
 import { rarities } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
-export function DlcRarityFilter({ formData, setFormData }: FormDataProps) {
+export function DlcRarityFilter({ formData, setFormData }: DlcFormDataProps) {
   const iconSize = 20;
   return (
     <Stack>

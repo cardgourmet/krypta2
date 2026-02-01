@@ -1,7 +1,7 @@
+import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
 import { FilterComponentNumberCompare } from '@/parcels/search/advanced/FilterComponentNumberCompare.tsx';
-import type { FormDataProps } from '@/parcels/search/advanced/FormDataProps.ts';
 
-export function DlcMovecostFilter({ formData, setFormData }: FormDataProps) {
+export function DlcMovecostFilter({ formData, setFormData }: DlcFormDataProps) {
   return (
     <FilterComponentNumberCompare
       operator={formData.movecost.operator}
