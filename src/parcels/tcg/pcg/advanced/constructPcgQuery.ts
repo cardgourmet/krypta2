@@ -1,17 +1,26 @@
-import type { DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
+import type { PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/usePcgAdvancedFilters.tsx';
 
-export const constructDlcQuery = (formData: DlcAdvancedFilterFormData) => {
+export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
   const filters: string[] = [];
 
   // IDENTITY
-  if (formData.type.values.length > 0) {
-    filters.push(constructArrayFilter('type', formData.type.values, formData.type.exact));
+  if (formData.basetype.values.length > 0) {
+    filters.push(constructArrayFilter('basetype', formData.basetype.values, formData.basetype.exact));
   }
-  const selectedInks = Object.entries(formData.ink.values)
+  const selectedEnergies = Object.entries(formData.energy.values)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
-  if (selectedInks.length > 0) {
-    filters.push(constructArrayFilter('ink', selectedInks, formData.ink.exact));
+  if (selectedEnergies.length > 0) {
+    filters.push(constructArrayFilter('ink', selectedEnergies, formData.energy.exact));
+  }
+  if (formData.subtype.values.length > 0) {
+    filters.push(constructArrayFilter('subtype', formData.subtype.values, formData.subtype.exact));
+  }
+  if (formData.stage.values.length > 0) {
+    filters.push(constructArrayFilter('stage', formData.stage.values, false));
+  }
+  if (formData.evolves.value !== '') {
+    filters.push(constructTextFilter('evolves', formData.evolves.value, formData.evolves.exact));
   }
 
   // TEXT
@@ -25,18 +34,23 @@ export const constructDlcQuery = (formData: DlcAdvancedFilterFormData) => {
     filters.push(constructTextFilter('flavortext', formData.flavortext.value, formData.flavortext.exact));
   }
 
+  // EFFECT
+  if (formData.ability.values.length > 0) {
+    filters.push(constructArrayFilter('ability', formData.ability.values, formData.ability.exact));
+  }
+  if (formData.attack.value !== '') {
+    filters.push(constructTextFilter('attack', formData.attack.value, formData.attack.exact));
+  }
+  if (formData.effect.values.length > 0) {
+    filters.push(constructArrayFilter('stage', formData.effect.values, formData.effect.exact));
+  }
+
   // STATS
-  if (formData.strength.value !== '') {
-    filters.push(constructNumberFilter('strength', formData.strength.value as number, formData.strength.operator));
+  if (formData.hp.value !== '') {
+    filters.push(constructNumberFilter('hp', formData.hp.value as number, formData.hp.operator));
   }
-  if (formData.willpower.value !== '') {
-    filters.push(constructNumberFilter('willpower', formData.willpower.value as number, formData.willpower.operator));
-  }
-  if (formData.movecost.value !== '') {
-    filters.push(constructNumberFilter('movecost', formData.movecost.value as number, formData.movecost.operator));
-  }
-  if (formData.lore.value !== '') {
-    filters.push(constructNumberFilter('lore', formData.lore.value as number, formData.lore.operator));
+  if (formData.retreat.value !== '') {
+    filters.push(constructNumberFilter('retreat', formData.retreat.value as number, formData.retreat.operator));
   }
 
   // RELEASE
@@ -53,9 +67,6 @@ export const constructDlcQuery = (formData: DlcAdvancedFilterFormData) => {
   // ARTWORK
   if (formData.artist.value !== '') {
     filters.push(constructTextFilter('artist', formData.artist.value, formData.artist.exact));
-  }
-  if (formData.franchise.values.length > 0) {
-    filters.push(constructArrayFilter('franchise', formData.franchise.values, false));
   }
 
   return filters;

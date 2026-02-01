@@ -1,14 +1,7 @@
-import { Accordion, Button, Code, Grid, Group, Stack, Text } from '@mantine/core';
-import { useDebouncedValue } from '@mantine/hooks';
-import { IconSearch } from '@tabler/icons-react';
 import { createFileRoute } from '@tanstack/react-router';
-import { useMemo } from 'react';
-import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useStartSearch } from '@/parcels/search/startSearch.ts';
+import { FilterOverview } from '@/parcels/search/advanced/FilterOverview.tsx';
 import { useDlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './index.module.css';
 
 export const Route = createFileRoute('/dlc/advanced/')({
   component: RouteComponent,
@@ -18,106 +11,12 @@ function RouteComponent() {
   const tcg = useTcgByLocation() as Tcg;
 
   const { filters: dlcFiltersByCategory, constructedQueryFilters, resetFilters } = useDlcAdvancedFilters();
-  const constructedQuery = useMemo<string>(() => {
-    if (constructedQueryFilters.length === 1) {
-      return constructedQueryFilters[0];
-    }
-    return constructedQueryFilters.map((f) => `(${f})`).join(' ');
-  }, [constructedQueryFilters]);
-  const [debouncedQuery] = useDebouncedValue(constructedQuery, 500);
-
-  const startSearch = useStartSearch(tcg, constructedQuery);
-
   return (
-    <div className={styles.mainContent}>
-      <Breadcrumbs subpage={'Erweiterte Suche'} />
-
-      <div className={styles.advancedSearch}>
-        <div className={styles.header}>
-          <Group justify={'space-between'}>
-            <div style={{ width: '50%' }}>
-              {constructedQueryFilters.length === 0 && (
-                <Text fs={'italic'}>Benutze die Filter unten, um dir die Suche zusammenzubauen.</Text>
-              )}
-              {constructedQueryFilters.length > 0 && <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />}
-            </div>
-            <Group>
-              {constructedQueryFilters.length > 0 && (
-                <Button color={'var(--gourmet-neutral-3)'} onClick={resetFilters}>
-                  {constructedQueryFilters.length} Filter zurücksetzen
-                </Button>
-              )}
-              <Button
-                color={'var(--gourmet-blue-2)'}
-                disabled={constructedQueryFilters.length === 0}
-                leftSection={<IconSearch size={18} />}
-                onClick={startSearch}
-              >
-                Suche starten
-              </Button>
-            </Group>
-          </Group>
-        </div>
-
-        <div className={styles.searchOptions}>
-          <Stack gap={'xs'}>
-            {Object.entries(dlcFiltersByCategory).map(([key, category]) => {
-              return (
-                <Accordion
-                  chevronPosition="right"
-                  key={key}
-                  defaultValue={key}
-                  classNames={{
-                    item: styles.accordionItem,
-                    panel: styles.accordionPanel,
-                    control: styles.accordionControl,
-                  }}
-                >
-                  <Accordion.Item value={key}>
-                    <Accordion.Control>
-                      <Stack gap={'0.5rem'}>
-                        <Group style={{ color: 'var(--gourmet-blue-1)' }}>
-                          {category.icon}
-                          <Text fz={'h4'} fw={'bold'} ff={'var(--cgm-title-font-family)'} c={'var(--gourmet-blue-1)'}>
-                            {key.toUpperCase()}
-                          </Text>
-                        </Group>
-                      </Stack>
-                    </Accordion.Control>
-
-                    <Accordion.Panel>
-                      <Stack gap={'xl'}>
-                        {category.filters.map((filter) => {
-                          return (
-                            <Grid key={filter.key} gutter={'xl'}>
-                              <Grid.Col span={4}>
-                                <Stack gap={'0.25rem'}>
-                                  <Group gap={'xs'}>
-                                    <Text fz={'h5'} c={'var(--gourmet-neutral-8)'}>
-                                      {filter.title}
-                                    </Text>
-                                    {filter.filter !== undefined && <Code>{filter.filter}</Code>}
-                                  </Group>
-                                  <Text fz={'h6'} c={'var(--gourmet-neutral-6)'}>
-                                    {filter.description}
-                                  </Text>
-                                </Stack>
-                              </Grid.Col>
-                              <Grid.Col span={8}>
-                                <div style={{ maxWidth: '75%' }}>{filter.component}</div>
-                              </Grid.Col>
-                            </Grid>
-                          );
-                        })}
-                      </Stack>
-                    </Accordion.Panel>
-                  </Accordion.Item>
-                </Accordion>
-              );
-            })}
-          </Stack>
-        </div>
-      </div>
-    </div>
+    <FilterOverview
+      tcg={tcg}
+      filtersByCategory={dlcFiltersByCategory}
+      constructedQueryFilters={constructedQueryFilters}
+      resetFilters={resetFilters}
+    />
   );
 }
