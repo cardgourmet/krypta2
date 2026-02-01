@@ -1,4 +1,5 @@
 import type React from 'react';
+import { rem } from '@mantine/core';
 
 interface PcgEnergyIconProps extends React.ComponentPropsWithoutRef<'svg'> {
   size?: number | string;
@@ -6,8 +7,14 @@ interface PcgEnergyIconProps extends React.ComponentPropsWithoutRef<'svg'> {
 
 export function PcgEnergyPsychic({ size, style, ...others }: PcgEnergyIconProps) {
   return (
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 595.3 841.9" {...others}>
-      <title>pcg-energy-psycho</title>
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 595.3 841.9"
+      style={{ width: rem(size), height: rem(size), strokeWidth: 0, ...style }}
+      {...others}
+    >
+      <title>pcg-energy-psychic</title>
       <g>
         <path
           className="st0"

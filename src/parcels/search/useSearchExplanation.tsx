@@ -7,6 +7,8 @@ export function useSearchExplanation(tcg: Tcg, query: string): [boolean, string 
   const [explanation, setExplanation] = useState<string | null>(null);
   const [loading, startLoading] = useTransition();
   useEffect(() => {
+    if (query.replaceAll(' ', '').length === 0) return;
+
     const abort = new AbortController();
 
     startLoading(async () => {

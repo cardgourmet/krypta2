@@ -4,7 +4,7 @@ import type { PcgFormDataProps } from '@/parcels/search/advanced/DlcFormDataProp
 import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
 import { FilterComponentDropdown } from '@/parcels/search/advanced/FilterComponentDropdown.tsx';
 import { PcgEnergyColorless } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
-import { PcgEnergyDark } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDark.tsx';
+import { PcgEnergyDarkness } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
 import { PcgEnergyDragon } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
 import { PcgEnergyFairy } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFairy.tsx';
 import { PcgEnergyFighting } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFighting.tsx';
@@ -43,7 +43,7 @@ export function PcgEnergyFilter({ formData, setFormData }: PcgFormDataProps) {
                 />
                 <Group gap={'0.1rem'}>
                   {d.value === 'colorless' && <PcgEnergyColorless size={iconSize} />}
-                  {d.value === 'darkness' && <PcgEnergyDark size={iconSize} />}
+                  {d.value === 'darkness' && <PcgEnergyDarkness size={iconSize} />}
                   {d.value === 'dragon' && <PcgEnergyDragon size={iconSize} />}
                   {d.value === 'fairy' && <PcgEnergyFairy size={iconSize} />}
                   {d.value === 'fighting' && <PcgEnergyFighting size={iconSize} />}
