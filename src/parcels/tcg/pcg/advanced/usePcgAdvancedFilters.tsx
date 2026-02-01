@@ -7,13 +7,15 @@ import {
   IconUserScan,
 } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
+import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
+import { AdvancedMultiSelectFilter, AdvancedTextFilter } from '@/parcels/search/advanced/advancedFilters.tsx';
 import type { AdvancedFilterCategory } from '@/parcels/search/advanced/types.ts';
 import { constructPcgQuery } from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
 import { PcgBasetypeFilter } from '@/parcels/tcg/pcg/advanced/PcgBasetypeFilter.tsx';
 import { PcgEnergyFilter } from '@/parcels/tcg/pcg/advanced/PcgEnergyFilter.tsx';
 import { PcgEvolvesFilter } from '@/parcels/tcg/pcg/advanced/PcgEvolvesFilter.tsx';
 import { PcgStageFilter } from '@/parcels/tcg/pcg/advanced/PcgStageFilter.tsx';
-import { PcgSubtypeFilter } from '@/parcels/tcg/pcg/advanced/PcgSubtypeFilter.tsx';
+import { subTypes } from '@/parcels/tcg/pcg/raw/apiValues.ts';
 import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 
 export function usePcgAdvancedFilters() {
@@ -33,35 +35,45 @@ export function usePcgAdvancedFilters() {
           {
             key: 'basetype',
             title: 'Basistyp',
-            description: '',
+            description: 'Art der Karte',
             filter: 'basetype',
             component: <PcgBasetypeFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'energy',
             title: 'Energie',
-            description: '',
+            description: 'Sorte der Energie, gekennzeichnet durch ein Symbol auf der Karte',
             filter: 'energy',
             component: <PcgEnergyFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'subtype',
             title: 'Subtyp',
-            description: '',
+            description: 'Unterart des Basistypen für speziellere Karten',
             filter: 'subtype',
-            component: <PcgSubtypeFilter formData={formData} setFormData={setFormData} />,
+            component: (
+              <AdvancedMultiSelectFilter
+                formData={formData}
+                setFormData={setFormData}
+                formKey={'subtype'}
+                data={subTypes.data.values.map((d) => {
+                  return { value: d.value, label: capitalizeFirstLetter(d.value) };
+                })}
+                dropdownPlaceholder={'Gib einen Subtypen ein oder wähle einen'}
+              />
+            ),
           },
           {
             key: 'stage',
             title: 'Entwicklungsstufe',
-            description: '',
+            description: 'Die Entwicklungsstufe der Karte',
             filter: 'stage',
             component: <PcgStageFilter formData={formData} setFormData={setFormData} />,
           },
           {
             key: 'evolves',
             title: 'Entwicklung',
-            description: '',
+            description: 'Name der Karte, aus der sich diese Karte entwickeln kann, falls vorhanden',
             filter: 'evolves',
             component: <PcgEvolvesFilter formData={formData} setFormData={setFormData} />,
           },
@@ -72,24 +84,51 @@ export function usePcgAdvancedFilters() {
         filters: [
           {
             key: 'name',
-            title: '',
-            description: '',
+            title: 'Kartenname',
+            description: 'Irgendein Wort, das im Namen der Karte vorkommt',
             filter: 'name',
-            component: <div></div>,
+            component: (
+              <AdvancedTextFilter
+                formData={formData}
+                setFormData={setFormData}
+                formKey={'name'}
+                withExactCheckbox
+                dropdownPlaceholder={`Irgendein Wort wie "tuff"`}
+                checkboxLabel={'Genaue Übereinstimmung'}
+              />
+            ),
           },
           {
             key: 'text',
-            title: '',
-            description: '',
+            title: 'Text',
+            description: 'Irgendeine Wortfolge, die im Text der Karte vorkommt',
             filter: 'text',
-            component: <div></div>,
+            component: (
+              <AdvancedTextFilter
+                formData={formData}
+                setFormData={setFormData}
+                formKey={'text'}
+                withExactCheckbox
+                dropdownPlaceholder={`Irgendein Wort wie "Round"`}
+                checkboxLabel={'Genaue Übereinstimmung'}
+              />
+            ),
           },
           {
             key: 'flavortext',
-            title: '',
-            description: '',
+            title: 'Flavortext',
+            description: 'Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert',
             filter: 'flavortext',
-            component: <div></div>,
+            component: (
+              <AdvancedTextFilter
+                formData={formData}
+                setFormData={setFormData}
+                formKey={'flavortext'}
+                withExactCheckbox
+                dropdownPlaceholder={`Irgendein Wort wie "fine fur"`}
+                checkboxLabel={'Genaue Übereinstimmung'}
+              />
+            ),
           },
         ],
       },
@@ -98,21 +137,21 @@ export function usePcgAdvancedFilters() {
         filters: [
           {
             key: 'ability',
-            title: '',
+            title: 'Fähigkeit',
             description: '',
             filter: 'ability',
             component: <div></div>,
           },
           {
             key: 'attack',
-            title: '',
+            title: 'Angriff',
             description: '',
             filter: 'attack',
             component: <div></div>,
           },
           {
             key: 'effect',
-            title: '',
+            title: 'Effekt',
             description: '',
             filter: 'effect',
             component: <div></div>,
@@ -124,14 +163,14 @@ export function usePcgAdvancedFilters() {
         filters: [
           {
             key: 'hp',
-            title: '',
+            title: 'Lebenspunkte',
             description: '',
             filter: 'hp',
             component: <div></div>,
           },
           {
             key: 'retreat',
-            title: '',
+            title: 'Rückzugskosten',
             description: '',
             filter: 'retreat',
             component: <div></div>,
@@ -143,15 +182,15 @@ export function usePcgAdvancedFilters() {
         filters: [
           {
             key: 'set',
-            title: '',
-            description: '',
+            title: 'Sets',
+            description: 'Sets, in der die Karte gedruckt wurde',
             filter: 'set',
             component: <div></div>,
           },
           {
             key: 'rarity',
-            title: '',
-            description: '',
+            title: 'Seltenheit',
+            description: 'Seltenheit, mit der die Karte in einem Set gedruckt wurde',
             filter: 'rarity',
             component: <div></div>,
           },
@@ -162,10 +201,19 @@ export function usePcgAdvancedFilters() {
         filters: [
           {
             key: 'artist',
-            title: '',
-            description: '',
+            title: 'Künstler:in',
+            description: 'Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt',
             filter: 'artist',
-            component: <div></div>,
+            component: (
+              <AdvancedTextFilter
+                formData={formData}
+                setFormData={setFormData}
+                formKey={'artist'}
+                withExactCheckbox
+                dropdownPlaceholder={`Irgendein Wort wie "Dunce"`}
+                checkboxLabel={'Genaue Übereinstimmung'}
+              />
+            ),
           },
         ],
       },
@@ -179,8 +227,7 @@ export function usePcgAdvancedFilters() {
 export type PcgAdvancedFilterFormData = {
   /* IDENTITY */
   basetype: {
-    values: string[];
-    exact: boolean;
+    values: Record<string, boolean>;
   };
   energy: {
     values: Record<string, boolean>;
@@ -256,7 +303,7 @@ const createDefaultFormData: () => PcgAdvancedFilterFormData = () => ({
   ability: { exact: false, values: [] },
   artist: { exact: false, value: '' },
   attack: { exact: false, value: '' },
-  basetype: { exact: false, values: [] },
+  basetype: { values: {} },
   effect: { exact: false, values: [] },
   energy: { exact: false, values: {} },
   evolves: { exact: false, values: [] },

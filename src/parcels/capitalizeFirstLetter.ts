@@ -8,6 +8,9 @@ export function capitalizeFirstLetter(str: string): string {
     return spl.map((s) => capitalizeFirstLetter(s)).join(' ');
   }
 
+  if (str.includes('pokemon')) {
+    return capitalizeFirstLetter(str.replace('pokemon', 'pokémon'));
+  }
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

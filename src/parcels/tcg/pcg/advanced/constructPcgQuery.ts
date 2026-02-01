@@ -4,8 +4,11 @@ export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
   const filters: string[] = [];
 
   // IDENTITY
-  if (formData.basetype.values.length > 0) {
-    filters.push(constructArrayFilter('basetype', formData.basetype.values, formData.basetype.exact));
+  const selectedBasetypes = Object.entries(formData.basetype.values)
+    .filter(([_, value]) => value)
+    .map(([key, _]) => key);
+  if (selectedBasetypes.length > 0) {
+    filters.push(constructArrayFilter('basetype', selectedBasetypes, false));
   }
   const selectedEnergies = Object.entries(formData.energy.values)
     .filter(([_, value]) => value)
