@@ -14,7 +14,7 @@ export function PcgRaritySpecialIllustrationRare({ size, style, ...others }: Pcg
           <path d="M0 0h612v792H0Z" />
         </clipPath>
       </defs>
-      <g clip-path="url(#a)" transform="matrix(1.93916 0 0 -1.93916 -851.432 74.62)">
+      <g clipPath="url(#a)" transform="matrix(1.93916 0 0 -1.93916 -851.432 74.62)">
         <path
           fill="#fab40a"
           d="M440.687 32.7a.238.238 0 0 0-.232.281l.34 1.721-1.288 1.195a.237.237 0 0 0 .134.408l1.743.21.737 1.592a.237.237 0 0 0 .429 0l.737-1.593 1.743-.209a.235.235 0 0 0 .132-.408l-1.286-1.195.34-1.72a.24.24 0 0 0-.093-.238.24.24 0 0 0-.254-.017l-1.534.856-1.533-.856a.244.244 0 0 0-.115-.028"

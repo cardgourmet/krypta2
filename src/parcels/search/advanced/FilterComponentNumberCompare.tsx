@@ -2,7 +2,7 @@ import { Group, NumberInput, Stack } from '@mantine/core';
 import { FilterComponentDropdown } from '@/parcels/search/advanced/FilterComponentDropdown.tsx';
 import styles from './mantineStyles.module.css';
 
-type NumberCompareOperator = '>=' | '>' | '<' | '<=' | '=';
+export type NumberCompareOperator = '>=' | '>' | '<' | '<=' | '=';
 type NumberCompareProps = {
   operator: NumberCompareOperator;
   onOperatorChange: (value: NumberCompareOperator) => void;

@@ -17,7 +17,7 @@ export function PcgRarityAmazingRare({ size, style, ...others }: PcgRarityIconPr
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#a)" transform="matrix(4.01809 0 0 4.0453 -.382 -.481)">
+      <g clipPath="url(#a)" transform="matrix(4.01809 0 0 4.0453 -.382 -.481)">
         <path d="m1.188 3.06-.261.493.71.273h.92l.177-.359-.372-.626h-.426Z" fill="#8f4496" />
         <path d="m4.136 2.968-1.161.9-.848-1.399-.089.001.03-.098-.055-.09.263-.55Z" fill="#e7450c" />
         <path d="m.456 1.842 1.117.52-.385.698-.261.493-.545-.842-.287-.819Z" fill="#e64293" />

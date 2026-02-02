@@ -21,7 +21,7 @@ export function PcgRarityBlackWhiteRare({ size, style, ...others }: PcgRarityIco
         />
       </defs>
       <style></style>
-      <g id="Clip-Path" clip-path="url(#cp1)"></g>
+      <g id="clipPath" clipPath="url(#cp1)"></g>
       <use id="61px-Rarity_Black_White_Rare(1)" href="#img1" transform="matrix(.375,0,0,.375,0,0)" />
     </svg>
   );

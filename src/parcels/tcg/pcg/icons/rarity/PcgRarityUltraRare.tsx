@@ -15,6 +15,7 @@ export function PcgRarityUltraRare({ size, style, ...others }: PcgRarityIconProp
       {...others}
     >
       <title>pcg-rarity-ultra-rare</title>
+      <defs />
       <g
         style={{
           display: 'inline',
@@ -37,7 +38,9 @@ export function PcgRarityUltraRare({ size, style, ...others }: PcgRarityIconProp
             fillOpacity: 1,
           }}
         >
+          {/** biome-ignore lint/correctness/useUniqueElementIds: _ */}
           <path
+            id="path2644"
             style={{
               display: 'inline',
               fill: '#a6a8ab',
@@ -56,6 +59,7 @@ export function PcgRarityUltraRare({ size, style, ...others }: PcgRarityIconProp
             x="0"
             y="0"
             transform="translate(3.8515658,1.2433929)"
+            href="#path2644"
             style={{
               display: 'inline',
               fill: '#a6a8ab',
