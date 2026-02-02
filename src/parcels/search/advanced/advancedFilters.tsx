@@ -1,13 +1,13 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { type ReactElement, type SetStateAction, useMemo } from 'react';
-import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
-import { FilterComponentDropdown } from '@/parcels/search/advanced/FilterComponentDropdown.tsx';
-import { FilterComponentMultiDropdown } from '@/parcels/search/advanced/FilterComponentMultiDropdown.tsx';
+import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
+import { StyledMultiSelect } from '@/parcels/search/advanced/styled/StyledMultiSelect.tsx';
 import {
-  FilterComponentNumberCompare,
   type NumberCompareOperator,
-} from '@/parcels/search/advanced/FilterComponentNumberCompare.tsx';
-import { FilterComponentText } from '@/parcels/search/advanced/FilterComponentText.tsx';
+  StyledNumberCompare,
+} from '@/parcels/search/advanced/styled/StyledNumberCompare.tsx';
+import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx';
+import { StyledTextInput } from '@/parcels/search/advanced/styled/StyledTextInput.tsx';
 
 type FormFilterData = {
   value?: string | number;
@@ -41,7 +41,7 @@ export function AdvancedTextFilter<FormData>({
 
   return (
     <Stack>
-      <FilterComponentText
+      <StyledTextInput
         placeholder={dropdownPlaceholder}
         value={specificFormData[specificKey].value}
         onChange={(event) => {
@@ -53,7 +53,7 @@ export function AdvancedTextFilter<FormData>({
         }}
       />
       {withExactCheckbox && (
-        <FilterComponentCheckbox
+        <StyledCheckbox
           label={checkboxLabel}
           checked={specificFormData[specificKey].exact}
           onChange={(event) => {
@@ -91,7 +91,7 @@ export function AdvancedMultiSelectFilter<FormData>({
   const specificKey = formKey as string;
 
   return (
-    <FilterComponentMultiDropdown
+    <StyledMultiSelect
       data={data}
       placeholder={dropdownPlaceholder}
       searchable
@@ -155,7 +155,7 @@ export function AdvancedMultiCheckboxFilter<FormData>({
           .map((d) => {
             return (
               <Group gap={'0.5rem'} key={d.value}>
-                <FilterComponentCheckbox
+                <StyledCheckbox
                   checked={specificValues[d.value] ?? false}
                   onChange={(event) => {
                     specificValues[d.value] = event.currentTarget.checked;
@@ -176,7 +176,7 @@ export function AdvancedMultiCheckboxFilter<FormData>({
           })}
       </Group>
       {moreValues && moreValues.length > 0 && (
-        <FilterComponentMultiDropdown
+        <StyledMultiSelect
           data={moreValues}
           placeholder={moreValuesPlaceholder}
           searchable
@@ -197,7 +197,7 @@ export function AdvancedMultiCheckboxFilter<FormData>({
         />
       )}
       {exactDropdownValues?.true && (
-        <FilterComponentDropdown
+        <StyledSelect
           withCheckIcon={false}
           allowDeselect={false}
           defaultValue={'contains'}
@@ -232,7 +232,7 @@ export function AdvancedNumberFilter<FormData>({
   const specificKey = formKey as string;
 
   return (
-    <FilterComponentNumberCompare
+    <StyledNumberCompare
       operator={specificFormData[specificKey].operator as NumberCompareOperator}
       onOperatorChange={(operator) => {
         const deepCopy = structuredClone(specificFormData);

@@ -1,6 +1,6 @@
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
-import { FilterComponentMultiDropdown } from '@/parcels/search/advanced/FilterComponentMultiDropdown.tsx';
+import { StyledMultiSelect } from '@/parcels/search/advanced/styled/StyledMultiSelect.tsx';
 import { typesAndClassifications } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
 export function DlcTypeFilter({ formData, setFormData }: DlcFormDataProps) {
@@ -16,7 +16,7 @@ export function DlcTypeFilter({ formData, setFormData }: DlcFormDataProps) {
     });
 
   return (
-    <FilterComponentMultiDropdown
+    <StyledMultiSelect
       data={[
         { group: 'Types', items: types },
         { group: 'Classifications', items: classifications },

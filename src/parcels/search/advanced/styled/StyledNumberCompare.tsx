@@ -1,5 +1,5 @@
 import { Group, NumberInput, Stack } from '@mantine/core';
-import { FilterComponentDropdown } from '@/parcels/search/advanced/FilterComponentDropdown.tsx';
+import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx';
 import styles from './mantineStyles.module.css';
 
 export type NumberCompareOperator = '>=' | '>' | '<' | '<=' | '=';
@@ -10,11 +10,11 @@ type NumberCompareProps = {
   onValueChange: (value: number | string) => void;
 };
 
-export function FilterComponentNumberCompare({ operator, onOperatorChange, value, onValueChange }: NumberCompareProps) {
+export function StyledNumberCompare({ operator, onOperatorChange, value, onValueChange }: NumberCompareProps) {
   return (
     <Stack>
       <Group>
-        <FilterComponentDropdown
+        <StyledSelect
           data={[
             { value: '=', label: 'gleich' },
             { value: '<', label: 'kleiner als' },

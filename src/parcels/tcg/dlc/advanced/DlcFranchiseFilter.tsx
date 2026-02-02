@@ -1,6 +1,6 @@
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
-import { FilterComponentMultiDropdown } from '@/parcels/search/advanced/FilterComponentMultiDropdown.tsx';
+import { StyledMultiSelect } from '@/parcels/search/advanced/styled/StyledMultiSelect.tsx';
 import { franchises } from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
 export function DlcFranchiseFilter({ formData, setFormData }: DlcFormDataProps) {
@@ -11,7 +11,7 @@ export function DlcFranchiseFilter({ formData, setFormData }: DlcFormDataProps) 
     });
 
   return (
-    <FilterComponentMultiDropdown
+    <StyledMultiSelect
       data={franchiseNames}
       searchable
       placeholder={`Gib ein Franchise ein oder wähle eins`}

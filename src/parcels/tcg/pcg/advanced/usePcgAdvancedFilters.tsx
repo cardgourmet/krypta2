@@ -16,6 +16,7 @@ import {
 } from '@/parcels/search/advanced/advancedFilters.tsx';
 import type { AdvancedFilterCategory } from '@/parcels/search/advanced/types.ts';
 import { constructPcgQuery } from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
+import { createDefaultFormData, type PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formData.ts';
 import { PcgEnergyColorless } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
 import { PcgEnergyDarkness } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
 import { PcgEnergyDragon } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
@@ -46,7 +47,6 @@ import {
   setNames,
   subTypes,
 } from '@/parcels/tcg/pcg/raw/apiValues.ts';
-import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 
 export function usePcgAdvancedFilters() {
   const [formData, setFormData] = useState<PcgAdvancedFilterFormData>(createDefaultFormData());
@@ -370,97 +370,3 @@ export function usePcgAdvancedFilters() {
 
   return { filters: filtersByCategory, constructedQueryFilters, resetFilters };
 }
-
-export type PcgAdvancedFilterFormData = {
-  /* IDENTITY */
-  basetype: {
-    values: Record<string, boolean>;
-  };
-  energy: {
-    values: Record<string, boolean>;
-    exact: boolean;
-  };
-  subtype: {
-    values: string[];
-    exact: boolean;
-  };
-  stage: {
-    values: string[];
-  };
-  evolves: {
-    values: string[];
-    exact: boolean;
-  };
-
-  /* TEXT */
-  name: {
-    value: string;
-    exact: boolean;
-  };
-  text: {
-    value: string;
-    exact: boolean;
-  };
-  flavortext: {
-    value: string;
-    exact: boolean;
-  };
-
-  /* EFFECT */
-  ability: {
-    values: string[];
-    exact: boolean;
-  };
-  attack: {
-    // name
-    value: string;
-    exact: boolean;
-  };
-  effect: {
-    values: string[];
-    exact: boolean;
-  };
-
-  /* STATS */
-  hp: {
-    value: number | string;
-    operator: Exclude<TcgFilterOperator, ':'>;
-  };
-  retreat: {
-    value: number | string;
-    operator: Exclude<TcgFilterOperator, ':'>;
-  };
-
-  /* RELEASE */
-  sets: {
-    values: string[];
-  };
-  rarity: {
-    values: string[];
-  };
-
-  /* ARTWORK */
-  artist: {
-    value: string;
-    exact: boolean;
-  };
-};
-
-const createDefaultFormData: () => PcgAdvancedFilterFormData = () => ({
-  ability: { exact: false, values: [] },
-  artist: { exact: false, value: '' },
-  attack: { exact: false, value: '' },
-  basetype: { values: {} },
-  effect: { exact: false, values: [] },
-  energy: { exact: false, values: {} },
-  evolves: { exact: false, values: [] },
-  flavortext: { exact: false, value: '' },
-  hp: { operator: '=', value: '' },
-  name: { exact: false, value: '' },
-  rarity: { values: [] },
-  retreat: { operator: '=', value: '' },
-  sets: { values: [] },
-  stage: { values: [] },
-  subtype: { exact: false, values: [] },
-  text: { exact: false, value: '' },
-});

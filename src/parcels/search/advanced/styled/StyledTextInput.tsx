@@ -1,7 +1,7 @@
 import { TextInput, type TextInputProps } from '@mantine/core';
 import styles from './mantineStyles.module.css';
 
-export function FilterComponentText(props: TextInputProps) {
+export function StyledTextInput(props: TextInputProps) {
   return (
     <TextInput
       classNames={{

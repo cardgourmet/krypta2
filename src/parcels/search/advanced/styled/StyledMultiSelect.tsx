@@ -1,7 +1,7 @@
 import { MultiSelect, type MultiSelectProps } from '@mantine/core';
 import styles from './mantineStyles.module.css';
 
-export function FilterComponentMultiDropdown(props: MultiSelectProps) {
+export function StyledMultiSelect(props: MultiSelectProps) {
   return (
     <MultiSelect
       classNames={{

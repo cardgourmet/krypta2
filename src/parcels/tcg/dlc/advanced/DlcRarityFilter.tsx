@@ -1,7 +1,7 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
-import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
+import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
 import { DlcRarityCommon } from '@/parcels/tcg/dlc/icons/DlcRarityCommon.tsx';
 import { DlcRarityEnchanted } from '@/parcels/tcg/dlc/icons/DlcRarityEnchanted.tsx';
 import { DlcRarityLegendary } from '@/parcels/tcg/dlc/icons/DlcRarityLegendary.tsx';
@@ -18,7 +18,7 @@ export function DlcRarityFilter({ formData, setFormData }: DlcFormDataProps) {
         {rarities.data.values.map((d) => {
           return (
             <Group gap={'0.5rem'} key={d.value}>
-              <FilterComponentCheckbox
+              <StyledCheckbox
                 checked={formData.rarity.values[d.value] ?? false}
                 onChange={(event) => {
                   const value = event.currentTarget.checked;

@@ -1,7 +1,7 @@
 import { Select, type SelectProps } from '@mantine/core';
 import styles from './mantineStyles.module.css';
 
-export function FilterComponentDropdown(props: SelectProps) {
+export function StyledSelect(props: SelectProps) {
   return (
     <Select
       classNames={{

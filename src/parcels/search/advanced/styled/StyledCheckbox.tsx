@@ -1,7 +1,7 @@
 import { Checkbox, type CheckboxProps } from '@mantine/core';
 import styles from './mantineStyles.module.css';
 
-export function FilterComponentCheckbox(props: CheckboxProps) {
+export function StyledCheckbox(props: CheckboxProps) {
   return (
     <Checkbox
       classNames={{

@@ -1,8 +1,8 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import type { DlcFormDataProps } from '@/parcels/search/advanced/DlcFormDataProps.ts';
-import { FilterComponentCheckbox } from '@/parcels/search/advanced/FilterComponentCheckbox.tsx';
-import { FilterComponentDropdown } from '@/parcels/search/advanced/FilterComponentDropdown.tsx';
+import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
+import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx';
 import { DlcInkAmber } from '@/parcels/tcg/dlc/icons/DlcInkAmber.tsx';
 import { DlcInkAmethyst } from '@/parcels/tcg/dlc/icons/DlcInkAmethyst.tsx';
 import { DlcInkEmerald } from '@/parcels/tcg/dlc/icons/DlcInkEmerald.tsx';
@@ -21,7 +21,7 @@ export function DlcInkFilter({ formData, setFormData }: DlcFormDataProps) {
           .map((d) => {
             return (
               <Group gap={'0.25rem'} key={d.value}>
-                <FilterComponentCheckbox
+                <StyledCheckbox
                   checked={formData.ink.values[d.value] ?? false}
                   onChange={(event) => {
                     const value = event.currentTarget.checked;
@@ -49,7 +49,7 @@ export function DlcInkFilter({ formData, setFormData }: DlcFormDataProps) {
             );
           })}
       </Group>
-      <FilterComponentDropdown
+      <StyledSelect
         withCheckIcon={false}
         allowDeselect={false}
         defaultValue={'contains'}
