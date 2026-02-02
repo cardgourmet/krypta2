@@ -3,7 +3,7 @@ import type { PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formD
 
 export type AdvancedFormProps = {
   k: keyof (PcgAdvancedFilterFormData & DlcAdvancedFilterFormData);
-  title?: string;
-  description?: string;
-  filter?: string;
+  title: string;
+  description: string;
+  filter: string;
 };

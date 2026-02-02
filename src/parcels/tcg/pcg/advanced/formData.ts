@@ -7,18 +7,18 @@ export type PcgAdvancedFilterFormData = {
   };
   energy: {
     values: Record<string, boolean>;
-    exact: boolean;
+    mode: 'contains' | 'exact';
   };
   subtype: {
     values: string[];
-    exact: boolean;
+    mode: 'contains' | 'exact';
   };
   stage: {
     values: string[];
   };
   evolves: {
     values: string[];
-    exact: boolean;
+    mode: 'contains' | 'exact';
   };
 
   /* TEXT */
@@ -38,7 +38,7 @@ export type PcgAdvancedFilterFormData = {
   /* EFFECT */
   ability: {
     values: string[];
-    exact: boolean;
+    mode: 'contains' | 'exact';
   };
   attack: {
     // name
@@ -47,7 +47,7 @@ export type PcgAdvancedFilterFormData = {
   };
   effect: {
     values: string[];
-    exact: boolean;
+    mode: 'contains' | 'exact';
   };
 
   /* STATS */
@@ -76,13 +76,13 @@ export type PcgAdvancedFilterFormData = {
 };
 
 export const createDefaultFormData: () => PcgAdvancedFilterFormData = () => ({
-  ability: { exact: false, values: [] },
+  ability: { mode: 'contains', values: [] },
   artist: { exact: false, value: '' },
   attack: { exact: false, value: '' },
   basetype: { values: {} },
-  effect: { exact: false, values: [] },
-  energy: { exact: false, values: {} },
-  evolves: { exact: false, values: [] },
+  effect: { mode: 'contains', values: [] },
+  energy: { mode: 'contains', values: {} },
+  evolves: { mode: 'contains', values: [] },
   flavortext: { exact: false, value: '' },
   hp: { operator: '=', value: '' },
   name: { exact: false, value: '' },
@@ -90,6 +90,6 @@ export const createDefaultFormData: () => PcgAdvancedFilterFormData = () => ({
   retreat: { operator: '=', value: '' },
   sets: { values: [] },
   stage: { values: [] },
-  subtype: { exact: false, values: [] },
+  subtype: { mode: 'contains', values: [] },
   text: { exact: false, value: '' },
 });

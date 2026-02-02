@@ -4,31 +4,31 @@ import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts'
 import styles from './AdvancedFilterCategory.module.css';
 
 export function AdvancedFilterCategory({
-  category,
+  title,
   icon,
   children,
 }: PropsWithChildren<{
-  category: string;
+  title: string;
   icon: ReactNode;
 }>) {
   return (
     <Accordion
       chevronPosition="right"
-      key={category}
-      defaultValue={category}
+      key={title}
+      defaultValue={title}
       classNames={{
         item: styles.accordionItem,
         panel: styles.accordionPanel,
         control: styles.accordionControl,
       }}
     >
-      <Accordion.Item value={category}>
+      <Accordion.Item value={title}>
         <Accordion.Control>
           <Stack gap={'0.5rem'}>
             <Group style={{ color: 'var(--gourmet-blue-1)' }}>
               {icon}
               <Text fz={'h4'} fw={'bold'} ff={'var(--cgm-title-font-family)'} c={'var(--gourmet-blue-1)'}>
-                {category.toUpperCase()}
+                {title.toUpperCase()}
               </Text>
             </Group>
           </Stack>

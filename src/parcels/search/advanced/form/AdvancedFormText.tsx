@@ -5,19 +5,20 @@ import { AdvancedFilterContext } from '@/parcels/search/advanced/form/AdvancedFi
 import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
 import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
 import { StyledTextInput } from '@/parcels/search/advanced/styled/StyledTextInput.tsx';
-import type { PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formData.ts';
 
-export type AdvancedFormTextProps = AdvancedFormProps & {
+type AdvancedFormTextProps = AdvancedFormProps & {
+  inputPlaceholder?: string;
+  checkboxLabel?: string;
   withCheckbox: boolean;
 };
 
-export function AdvancedFormText({ k, withCheckbox }: AdvancedFormTextProps) {
-  const form = useContext(AdvancedFilterContext) as UseFormReturnType<PcgAdvancedFilterFormData>;
+export function AdvancedFormText({ k, inputPlaceholder, checkboxLabel, withCheckbox }: AdvancedFormTextProps) {
+  const form = useContext(AdvancedFilterContext) as UseFormReturnType<unknown>;
 
   return (
     <Stack>
-      <StyledTextInput placeholder={''} {...form?.getInputProps(`${k}.value`)} />
-      {withCheckbox && <StyledCheckbox label={''} {...form?.getInputProps(`${k}.exact`)} />}
+      <StyledTextInput placeholder={inputPlaceholder} {...form?.getInputProps(`${k}.value`)} />
+      {withCheckbox && <StyledCheckbox label={checkboxLabel} {...form?.getInputProps(`${k}.exact`)} />}
     </Stack>
   );
 }
