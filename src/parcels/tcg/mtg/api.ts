@@ -1,0 +1,159 @@
+import type { MtgSearchQuerySettings, MtgSortBy } from '@/parcels/tcg/mtg/types.ts';
+import type { TcgCardQuery, TcgFilterOperator } from '@/parcels/tcg/types.ts';
+import type { components as c } from '@/schema/api';
+import umoriClient from '@/schema/umoriClient.ts';
+
+export type MtgSearchCardsResult =
+  c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+export type MtgSearchDataCard = c['schemas']['CardSearchResult-MtgDataCard'];
+export type MtgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
+
+export type MtgCardQuery = TcgCardQuery & {
+  sortBy?: MtgSortBy;
+};
+
+// /v1/mtg/cards/search
+export async function fetchMtgCards(
+  settings: MtgSearchQuerySettings,
+  abort: AbortController,
+): Promise<{ query: MtgCardQuery; data?: MtgSearchCardsResult; error?: Error }> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: Number(settings.pageSize),
+    sortBy: settings.sortBy,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  try {
+    const res = await umoriClient.GET(`/v1/mtg/cards/search`, {
+      params: {
+        query: query,
+      },
+      signal: abort.signal,
+    });
+
+    if (!res.response.ok) {
+      return { query: query, error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { query: query, error: new Error('Received invalid data') };
+    }
+
+    return { query: query, data: res.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { query: query, error: error };
+  }
+}
+
+// /v1/mtg/cards/search/filters
+export async function fetchMtgFilters(abort: AbortController): Promise<{ data?: MtgSearchFilter[]; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/mtg/cards/search/filters`, {
+      signal: abort.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
+// /v1/mtg/cards/search/filters/{filter}/values
+export async function fetchMtgFilterValues(
+  filter: string,
+  abort?: AbortController,
+  operator?: TcgFilterOperator,
+  query?: string,
+  amount?: number,
+): Promise<{ data?: MtgSearchFilterValues; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/mtg/cards/search/filters/{filter}/values`, {
+      params: {
+        query: {
+          operator: operator,
+          query: query,
+          amount: amount,
+        },
+        path: {
+          filter: filter,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
+// /v1/mtg/cards/search/explain
+export async function fetchMtgQueryExplain(query: string, abort?: AbortController) {
+  try {
+    const res = await umoriClient.GET(`/v1/mtg/cards/search/explain`, {
+      params: {
+        query: {
+          query: query,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { query: query, error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { query: query, error: new Error('Received invalid data') };
+    }
+
+    return { query: query, data: res.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { query: query, error: error };
+  }
+}

@@ -12,13 +12,14 @@ import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
+import type {MtgSearchParams} from "@/parcels/tcg/mtg/types.ts";
 
 type CardPaginationProps = {
   currentPage?: number;
   lastPage?: number;
   isLoading?: boolean;
   isQueryLoading?: boolean;
-  setSettings: (update: ApplyFn<DlcSearchParams | PcgSearchParams>) => void;
+  setSettings: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
 };
 
 const MIN_DESKTOP_SIZE_PX = 720;

@@ -2,13 +2,14 @@ import { IconRefresh } from '@tabler/icons-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import type { DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
 
 interface ImageCardProps {
   tcg: Tcg;
-  card: DlcSearchDataCard | PcgSearchDataCard;
+  card: MtgSearchDataCard | DlcSearchDataCard | PcgSearchDataCard;
 }
 
 type CardProperties = {
@@ -29,7 +30,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
       return {
         id: dlcCard.card.id,
         name: dlcCard.card.name,
-        thumbnailUrl: dlcCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
+        thumbnailUrl: dlcCard.card.print.translations?.en?.imageUrls?.thumbnail ?? '',
         backfaceThumbnailUrl: backupImageUrl,
         backupImageUrl: backupImageUrl,
       };
@@ -40,6 +41,16 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
         id: pcgCard.card.id,
         name: pcgCard.card.name,
         thumbnailUrl: pcgCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
+        backfaceThumbnailUrl: backupImageUrl,
+        backupImageUrl: backupImageUrl,
+      };
+    } else if (tcg === 'mtg') {
+      const mtgCard = card as MtgSearchDataCard;
+
+      return {
+        id: mtgCard.card.id,
+        name: mtgCard.card.name,
+        thumbnailUrl: mtgCard.card.print.faces[0]?.translations.en?.imageUrls?.thumbnail ?? '',
         backfaceThumbnailUrl: backupImageUrl,
         backupImageUrl: backupImageUrl,
       };

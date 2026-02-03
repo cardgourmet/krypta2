@@ -15,6 +15,7 @@ import { Route as MtgIndexRouteImport } from './routes/mtg/index'
 import { Route as DlcIndexRouteImport } from './routes/dlc/index'
 import { Route as PcgCardsIndexRouteImport } from './routes/pcg/cards/index'
 import { Route as PcgAdvancedIndexRouteImport } from './routes/pcg/advanced/index'
+import { Route as MtgCardsIndexRouteImport } from './routes/mtg/cards/index'
 import { Route as MtgAdvancedIndexRouteImport } from './routes/mtg/advanced/index'
 import { Route as DlcCardsIndexRouteImport } from './routes/dlc/cards/index'
 import { Route as DlcAdvancedIndexRouteImport } from './routes/dlc/advanced/index'
@@ -49,6 +50,11 @@ const PcgAdvancedIndexRoute = PcgAdvancedIndexRouteImport.update({
   path: '/pcg/advanced/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MtgCardsIndexRoute = MtgCardsIndexRouteImport.update({
+  id: '/mtg/cards/',
+  path: '/mtg/cards/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MtgAdvancedIndexRoute = MtgAdvancedIndexRouteImport.update({
   id: '/mtg/advanced/',
   path: '/mtg/advanced/',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/dlc/advanced': typeof DlcAdvancedIndexRoute
   '/dlc/cards': typeof DlcCardsIndexRoute
   '/mtg/advanced': typeof MtgAdvancedIndexRoute
+  '/mtg/cards': typeof MtgCardsIndexRoute
   '/pcg/advanced': typeof PcgAdvancedIndexRoute
   '/pcg/cards': typeof PcgCardsIndexRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/dlc/advanced': typeof DlcAdvancedIndexRoute
   '/dlc/cards': typeof DlcCardsIndexRoute
   '/mtg/advanced': typeof MtgAdvancedIndexRoute
+  '/mtg/cards': typeof MtgCardsIndexRoute
   '/pcg/advanced': typeof PcgAdvancedIndexRoute
   '/pcg/cards': typeof PcgCardsIndexRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/dlc/advanced/': typeof DlcAdvancedIndexRoute
   '/dlc/cards/': typeof DlcCardsIndexRoute
   '/mtg/advanced/': typeof MtgAdvancedIndexRoute
+  '/mtg/cards/': typeof MtgCardsIndexRoute
   '/pcg/advanced/': typeof PcgAdvancedIndexRoute
   '/pcg/cards/': typeof PcgCardsIndexRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/dlc/advanced'
     | '/dlc/cards'
     | '/mtg/advanced'
+    | '/mtg/cards'
     | '/pcg/advanced'
     | '/pcg/cards'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/dlc/advanced'
     | '/dlc/cards'
     | '/mtg/advanced'
+    | '/mtg/cards'
     | '/pcg/advanced'
     | '/pcg/cards'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/dlc/advanced/'
     | '/dlc/cards/'
     | '/mtg/advanced/'
+    | '/mtg/cards/'
     | '/pcg/advanced/'
     | '/pcg/cards/'
   fileRoutesById: FileRoutesById
@@ -143,6 +155,7 @@ export interface RootRouteChildren {
   DlcAdvancedIndexRoute: typeof DlcAdvancedIndexRoute
   DlcCardsIndexRoute: typeof DlcCardsIndexRoute
   MtgAdvancedIndexRoute: typeof MtgAdvancedIndexRoute
+  MtgCardsIndexRoute: typeof MtgCardsIndexRoute
   PcgAdvancedIndexRoute: typeof PcgAdvancedIndexRoute
   PcgCardsIndexRoute: typeof PcgCardsIndexRoute
 }
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PcgAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mtg/cards/': {
+      id: '/mtg/cards/'
+      path: '/mtg/cards'
+      fullPath: '/mtg/cards'
+      preLoaderRoute: typeof MtgCardsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mtg/advanced/': {
       id: '/mtg/advanced/'
       path: '/mtg/advanced'
@@ -223,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   DlcAdvancedIndexRoute: DlcAdvancedIndexRoute,
   DlcCardsIndexRoute: DlcCardsIndexRoute,
   MtgAdvancedIndexRoute: MtgAdvancedIndexRoute,
+  MtgCardsIndexRoute: MtgCardsIndexRoute,
   PcgAdvancedIndexRoute: PcgAdvancedIndexRoute,
   PcgCardsIndexRoute: PcgCardsIndexRoute,
 }

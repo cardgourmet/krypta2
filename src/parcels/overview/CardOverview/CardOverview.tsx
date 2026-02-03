@@ -8,6 +8,8 @@ import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
 import type { DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings } from '@/parcels/tcg/dlc/types.ts';
+import type { MtgSearchCardsResult } from '@/parcels/tcg/mtg/api.ts';
+import type { MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
 import type { PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings } from '@/parcels/tcg/pcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -20,10 +22,10 @@ type CardOverviewProps = {
   isLoading: boolean;
   isQueryLoading: boolean;
 
-  cards: DlcSearchCardsResult | PcgSearchCardsResult | null;
-  setSettings: (apply: ApplyFn<PcgSearchParams | DlcSearchParams>) => void;
-  searchQuerySettings: DlcSearchQuerySettings | PcgSearchQuerySettings;
-  searchDisplaySettings: DlcSearchDisplaySettings | PcgSearchDisplaySettings;
+  cards: MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult | null;
+  setSettings: (apply: ApplyFn<MtgSearchParams | PcgSearchParams | DlcSearchParams>) => void;
+  searchQuerySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
+  searchDisplaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
 };
 
 export function CardOverview({

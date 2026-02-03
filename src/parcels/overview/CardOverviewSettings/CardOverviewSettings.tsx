@@ -28,12 +28,13 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardOverviewSettings.module.css';
+import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from "@/parcels/tcg/mtg/types.ts";
 
 type CardOverviewSettingsProps = {
   tcg: Tcg;
-  querySettings: DlcSearchQuerySettings | PcgSearchQuerySettings;
-  displaySettings: DlcSearchDisplaySettings | PcgSearchDisplaySettings;
-  setSettings: (update: ApplyFn<DlcSearchParams | PcgSearchParams>) => void;
+  querySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
+  displaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
+  setSettings: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
 };
 
 export default function CardOverviewSettings({

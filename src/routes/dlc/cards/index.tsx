@@ -12,6 +12,7 @@ import {
   dlcSearchParamsDefaults,
   dlcSearchParamsSchema,
 } from '@/parcels/tcg/dlc/types.ts';
+import type { MtgSearchParams } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
@@ -39,7 +40,7 @@ function DlcCardsOverview() {
   const [isQueryLoading, setIsQueryLoading] = useState(true);
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
-  const setSettings = (apply: ApplyFn<PcgSearchParams | DlcSearchParams>) => {
+  const setSettings = (apply: ApplyFn<MtgSearchParams | PcgSearchParams | DlcSearchParams>) => {
     const newParams = apply(searchParams) as Required<DlcSearchParams>;
 
     // noinspection JSIgnoredPromiseFromCall

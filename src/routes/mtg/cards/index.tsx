@@ -1,38 +1,31 @@
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { createFileRoute, stripSearchParams, useNavigate } from '@tanstack/react-router';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { CardOverview } from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgSearchParams } from '@/parcels/tcg/mtg/types.ts';
-import { fetchPcgCards, type PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
-import { usePcgMemoizedDisplaySettings, usePcgMemoizedQuerySettings } from '@/parcels/tcg/pcg/query.ts';
-import {
-  type PcgSearchDisplaySettings,
-  type PcgSearchParams,
-  type PcgSearchQuerySettings,
-  pcgSearchParamsDefaults,
-  pcgSearchParamsSchema,
-} from '@/parcels/tcg/pcg/types.ts';
+import { fetchMtgCards, type MtgSearchCardsResult } from '@/parcels/tcg/mtg/api.ts';
+import { useMtgMemoizedDisplaySettings, useMtgMemoizedQuerySettings } from '@/parcels/tcg/mtg/query.ts';
+import { type MtgSearchParams, mtgSearchParamsDefaults, mtgSearchParamsSchema } from '@/parcels/tcg/mtg/types.ts';
+import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
 
-export const Route = createFileRoute('/pcg/cards/')({
-  component: PcgCardsOverview,
-  validateSearch: pcgSearchParamsSchema,
+export const Route = createFileRoute('/mtg/cards/')({
+  component: MtgCardsOverview,
+  validateSearch: mtgSearchParamsSchema,
   search: {
-    middlewares: [stripSearchParams(pcgSearchParamsDefaults)],
+    middlewares: [stripSearchParams(mtgSearchParamsDefaults)],
   },
 });
 
-function PcgCardsOverview() {
+function MtgCardsOverview() {
   const tcg = useTcgByLocation() as Tcg;
-  const searchParams = Route.useSearch() as PcgSearchParams;
-  const searchQuerySettings: PcgSearchQuerySettings = usePcgMemoizedQuerySettings();
+  const searchParams = Route.useSearch() as MtgSearchParams;
+  const searchQuerySettings = useMtgMemoizedQuerySettings();
   const prevSearchQuerySettings = usePrevious(searchQuerySettings);
-  const searchDisplaySettings: PcgSearchDisplaySettings = usePcgMemoizedDisplaySettings();
-  const [cards, setCards] = useState<PcgSearchCardsResult | null>(null);
+  const searchDisplaySettings = useMtgMemoizedDisplaySettings();
+  const [cards, setCards] = useState<MtgSearchCardsResult | null>(null);
 
   const navigate = useNavigate({ from: Route.fullPath });
   const history = useSearchHistory(tcg);
@@ -41,7 +34,7 @@ function PcgCardsOverview() {
   const scrollBackRef = useRef<HTMLDivElement | null>(null);
 
   const setSettings = (apply: ApplyFn<MtgSearchParams | PcgSearchParams | DlcSearchParams>) => {
-    const newParams = apply(searchParams) as Required<PcgSearchParams>;
+    const newParams = apply(searchParams) as Required<MtgSearchParams>;
 
     // noinspection JSIgnoredPromiseFromCall
     navigate({
@@ -62,7 +55,7 @@ function PcgCardsOverview() {
     setIsLoading(true);
 
     const controller = new AbortController();
-    fetchPcgCards(searchQuerySettings, controller).then(({ query, data, error }) => {
+    fetchMtgCards(searchQuerySettings, controller).then(({ query, data, error }) => {
       if (error !== undefined) {
         // non 200 status basically
         return;
@@ -72,7 +65,7 @@ function PcgCardsOverview() {
       if (query.query !== undefined) {
         onQueryChange(query.query);
       }
-      setCards(data as PcgSearchCardsResult);
+      setCards(data as MtgSearchCardsResult);
 
       setIsLoading(false);
       setIsQueryLoading(false);

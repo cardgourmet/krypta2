@@ -21,18 +21,14 @@ export default function TcgProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (tcgByLocation !== undefined && previousTcgByLocation !== tcgByLocation) {
+      console.log('Tcg by location has changed :O', tcgByLocation);
       setCurrentTcg((prev) => ({
         ...prev,
         tcg: tcgByLocation,
       }));
       return;
     }
-
-    setCurrentTcg((prev) => ({
-      ...prev,
-      tcg: tcg,
-    }));
-  }, [tcgByLocation, previousTcgByLocation, tcg]);
+  }, [tcgByLocation, previousTcgByLocation]);
 
   return <TcgContext.Provider value={currentTcg}>{children}</TcgContext.Provider>;
 }
