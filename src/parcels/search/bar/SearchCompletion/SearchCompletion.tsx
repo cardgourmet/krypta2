@@ -1,3 +1,4 @@
+import { Highlight } from '@mantine/core';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchCache } from '@/parcels/search/bar/SearchCacheProvider/SearchCacheProvider.tsx';
@@ -77,8 +78,6 @@ export function SearchCompletion({
 
     const controller = new AbortController();
     generateCompletions(tcg, currentQuery, filterStore, filterValueStore, 5, setIsLoading, controller).then((state) => {
-      console.log('state', state);
-
       const suggestions = transformCompletions(currentQuery, state);
       setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
     });
@@ -95,6 +94,7 @@ export function SearchCompletion({
           {suggestions.slice(1).map((sugg, index) => {
             const completion = sugg.completion as GeneratedSearchCompletion;
             const selected = index === suggestionIndex - 1;
+            const userInput = sugg.userInput;
 
             return (
               <button
@@ -110,7 +110,19 @@ export function SearchCompletion({
                   searchInputRef.current?.focus();
                 }}
               >
-                <p>{completion.value}</p>
+                {userInput && (
+                  <Highlight
+                    highlight={userInput as string}
+                    highlightStyles={{
+                      fontWeight: 'bold',
+                      backgroundColor: 'transparent',
+                      color: 'var(--gourmet-blue-5)',
+                    }}
+                  >
+                    {completion.value}
+                  </Highlight>
+                )}
+                {!userInput && <p>{completion.value}</p>}
                 {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
                 {completion.aliasOf !== undefined && (
                   <p className={styles.entryAlias}>

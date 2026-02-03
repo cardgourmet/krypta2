@@ -5,6 +5,7 @@ import type {
 
 export type SearchSuggestion = {
   completion?: GeneratedSearchCompletion;
+  userInput?: string;
   fullQuery: string;
 };
 
@@ -20,11 +21,13 @@ export function transformCompletions(currentQuery: string, state: SearchCompleti
       return {
         completion: compl,
         fullQuery: `${newQuery} `,
+        userInput: state.userInput?.value,
       } as SearchSuggestion;
     } else if (state.mode === 'filter' && state.userInput?.filter !== undefined) {
       return {
         completion: compl,
         fullQuery: replaceLast(currentQuery, state.userInput?.filter as string, compl.value),
+        userInput: state.userInput?.filter,
       } as SearchSuggestion;
     }
     return {
