@@ -191,7 +191,7 @@ export function PcgAdvancedFilters() {
           k={'sets'}
           title={'Sets'}
           description={'Sets, in der die Karte gedruckt wurde'}
-          filter={'sets'}
+          filter={'setname'}
           data={setNamesMapped}
           dropdownPlaceholder={'Suche nach einem Set'}
         />

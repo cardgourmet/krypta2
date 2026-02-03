@@ -58,7 +58,7 @@ export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
 
   // RELEASE
   if (formData.sets.values.length > 0) {
-    filters.push(constructArrayFilter('sets', formData.sets.values, false));
+    filters.push(constructArrayFilter('setname', formData.sets.values, false));
   }
   const selectedRarities = Object.entries(formData.rarity.values)
     .filter(([_, value]) => value)
