@@ -1,4 +1,4 @@
-import type { PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/usePcgAdvancedFilters.tsx';
+import type { PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formData.ts';
 
 export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
   const filters: string[] = [];
@@ -14,10 +14,10 @@ export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedEnergies.length > 0) {
-    filters.push(constructArrayFilter('energy', selectedEnergies, formData.energy.exact));
+    filters.push(constructArrayFilter('energy', selectedEnergies, formData.energy.mode === 'exact'));
   }
   if (formData.subtype.values.length > 0) {
-    filters.push(constructArrayFilter('subtype', formData.subtype.values, formData.subtype.exact));
+    filters.push(constructArrayFilter('subtype', formData.subtype.values, formData.subtype.mode === 'exact'));
   }
   if (formData.stage.values.length > 0) {
     filters.push(constructArrayFilter('stage', formData.stage.values, false));
@@ -39,13 +39,13 @@ export const constructPcgQuery = (formData: PcgAdvancedFilterFormData) => {
 
   // EFFECT
   if (formData.ability.values.length > 0) {
-    filters.push(constructArrayFilter('ability', formData.ability.values, formData.ability.exact));
+    filters.push(constructArrayFilter('ability', formData.ability.values, formData.ability.mode === 'exact'));
   }
   if (formData.attack.value !== '') {
     filters.push(constructTextFilter('attack', formData.attack.value, formData.attack.exact));
   }
   if (formData.effect.values.length > 0) {
-    filters.push(constructArrayFilter('stage', formData.effect.values, formData.effect.exact));
+    filters.push(constructArrayFilter('stage', formData.effect.values, formData.effect.mode === 'exact'));
   }
 
   // STATS

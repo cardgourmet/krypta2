@@ -6,16 +6,5 @@ export const Route = createFileRoute('/pcg/advanced/')({
 });
 
 function RouteComponent() {
-  /*const tcg = useTcgByLocation() as Tcg;
-
-  const { filters: pcgFiltersByCategory, constructedQueryFilters, resetFilters } = usePcgAdvancedFilters();*/
-  return (
-    <AdvancedFiltersOverview />
-    /*<FilterOverview
-      tcg={tcg}
-      filtersByCategory={pcgFiltersByCategory}
-      constructedQueryFilters={constructedQueryFilters}
-      resetFilters={resetFilters}
-    />*/
-  );
+  return <AdvancedFiltersOverview />;
 }

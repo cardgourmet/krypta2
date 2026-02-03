@@ -8,9 +8,10 @@ type AdvancedFormMultiSelectProps = AdvancedFormProps & {
   data: { value: string; label: string }[];
   dropdownPlaceholder?: string;
   withExactDropdown?: boolean;
+  withoutLimit?: boolean;
 };
 
-export function AdvancedFormMultiSelect({ k, data, dropdownPlaceholder }: AdvancedFormMultiSelectProps) {
+export function AdvancedFormMultiSelect({ k, data, dropdownPlaceholder, withoutLimit }: AdvancedFormMultiSelectProps) {
   const form = useContext(AdvancedFilterContext) as UseFormReturnType<unknown>;
 
   return (
@@ -18,7 +19,7 @@ export function AdvancedFormMultiSelect({ k, data, dropdownPlaceholder }: Advanc
       data={data}
       placeholder={dropdownPlaceholder}
       searchable
-      limit={10}
+      limit={withoutLimit ? 10_000 : 10}
       {...form?.getInputProps(`${k}.values`)}
     />
   );

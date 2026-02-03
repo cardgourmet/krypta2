@@ -75,7 +75,7 @@ export type PcgAdvancedFilterFormData = {
   };
 };
 
-export const createDefaultFormData: () => PcgAdvancedFilterFormData = () => ({
+export const createDefaultPcgFormData: () => PcgAdvancedFilterFormData = () => ({
   ability: { mode: 'contains', values: [] },
   artist: { exact: false, value: '' },
   attack: { exact: false, value: '' },

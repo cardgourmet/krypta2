@@ -24,14 +24,6 @@ import { PcgEnergyLightning } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyLigh
 import { PcgEnergyMetal } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyMetal.tsx';
 import { PcgEnergyPsychic } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.tsx';
 import { PcgEnergyWater } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
-import { PcgRarityCommon } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityCommon.tsx';
-import { PcgRarityDoubleRare } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityDoubleRare.tsx';
-import { PcgRarityHyperRare } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityHyperRare.tsx';
-import { PcgRarityIllustrationRare } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityIllustrationRare.tsx';
-import { PcgRarityRare } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityRare.tsx';
-import { PcgRaritySpecialIllustrationRare } from '@/parcels/tcg/pcg/icons/rarity/PcgRaritySpecialIllustrationRare.tsx';
-import { PcgRarityUltraRare } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityUltraRare.tsx';
-import { PcgRarityUncommon } from '@/parcels/tcg/pcg/icons/rarity/PcgRarityUncommon.tsx';
 import {
   abilityTypes,
   baseTypes,
@@ -153,7 +145,7 @@ export function PcgAdvancedFilters() {
         <AdvancedFormMultiSelect
           k={'ability'}
           title={'Fähigkeit'}
-          description={''}
+          description={'Der Fähigkeitentyp, falls einer existiert'}
           filter={'ability'}
           data={abilityTypes.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
@@ -163,7 +155,7 @@ export function PcgAdvancedFilters() {
         <AdvancedFormText
           k={'attack'}
           title={'Angriff'}
-          description={''}
+          description={'Irgendein Wort, das im Namen einer Attacke vorkommt, falls eine existiert'}
           filter={'attack'}
           inputPlaceholder={`Irgendein Wort wie "Psybeam"`}
           checkboxLabel={'Genaue Übereinstimmung'}
@@ -172,7 +164,7 @@ export function PcgAdvancedFilters() {
         <AdvancedFormMultiSelect
           k={'effect'}
           title={'Effekt'}
-          description={''}
+          description={'Typ eines Effektes, der weder eine Fähigkeit noch eine Attacke ist'}
           filter={'effect'}
           data={effectTypes.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
@@ -181,8 +173,18 @@ export function PcgAdvancedFilters() {
         />
       </AdvancedFilterCategory>
       <AdvancedFilterCategory title={'stats'} icon={<IconNumbers />}>
-        <AdvancedFormNumberCompare k={'hp'} title={'Lebenspunkte'} description={''} filter={'hp'} />
-        <AdvancedFormNumberCompare k={'retreat'} title={'Rückzugskosten'} description={''} filter={'retreat'} />
+        <AdvancedFormNumberCompare
+          k={'hp'}
+          title={'Lebenspunkte'}
+          description={'Wert der Lebenspunkte, falls vorhanden'}
+          filter={'hp'}
+        />
+        <AdvancedFormNumberCompare
+          k={'retreat'}
+          title={'Rückzugskosten'}
+          description={'Kosten die Karte zurückzuziehen, falls vorhanden'}
+          filter={'retreat'}
+        />
       </AdvancedFilterCategory>
       <AdvancedFilterCategory title={'release'} icon={<IconMeteorFilled />}>
         <AdvancedFormMultiSelect
@@ -193,7 +195,7 @@ export function PcgAdvancedFilters() {
           data={setNamesMapped}
           dropdownPlaceholder={'Suche nach einem Set'}
         />
-        <AdvancedFormMultiCheckbox
+        <AdvancedFormMultiSelect
           k={'rarity'}
           title={'Seltenheit'}
           description={'Seltenheit, mit der die Karte in einem Set gedruckt wurde'}
@@ -201,16 +203,8 @@ export function PcgAdvancedFilters() {
           data={rarities.data.values
             .filter((d) => d.value !== 'free')
             .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
-          iconsMap={{
-            common: <PcgRarityCommon size={32} />,
-            uncommon: <PcgRarityUncommon size={32} />,
-            rare: <PcgRarityRare size={32} />,
-            double_rare: <PcgRarityDoubleRare size={32} />,
-            ultra_rare: <PcgRarityUltraRare size={32} />,
-            illustration_rare: <PcgRarityIllustrationRare size={32} />,
-            special_illustration_rare: <PcgRaritySpecialIllustrationRare size={32} />,
-            hyper_rare: <PcgRarityHyperRare size={32} />,
-          }}
+          withoutLimit
+          dropdownPlaceholder={'Suche nach einer Seltenheit'}
         />
       </AdvancedFilterCategory>
       <AdvancedFilterCategory title={'artist'} icon={<IconBrush />}>
