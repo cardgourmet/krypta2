@@ -64,5 +64,44 @@
       "grid": "Grid",
       "table": "Table"
     }
+  },
+  "mtg": {
+    "common": {
+      "sortby": "Sort by",
+      "show": "Show",
+      "as": "As"
+    },
+    "sortby": {
+      "cmc": "Mana Value",
+      "power": "Power",
+      "toughness": "Toughness",
+      "defense": "Defense",
+      "loyalty": "Loyalty",
+      "name": "Name",
+      "rarity": "Rarity",
+      "set": "Set",
+      "usd": "Price (USD)",
+      "tix": "Price (TIX)",
+      "eur": "Price (EUR)",
+      "color": "Color",
+      "edhrec": "EDHREC Rank",
+      "released": "Released"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "pagesize": {
+      "12": "12 Cards",
+      "24": "24 Cards",
+      "36": "36 Cards",
+      "48": "48 Cards",
+      "60": "60 Cards"
+    },
+    "displaymode": {
+      "grid": "Grid",
+      "table": "Table"
+    }
   }
 }

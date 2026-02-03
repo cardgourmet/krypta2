@@ -10,19 +10,19 @@ import {
 } from '@/parcels/tcg/types.ts';
 
 export const mtgSortBys = [
+  'name',
+  'released',
+  'set',
+  'rarity',
   'cmc',
   'power',
   'toughness',
   'defense',
   'loyalty',
-  'set',
-  'name',
+  'color',
   'usd',
   'tix',
   'eur',
-  'rarity',
-  'color',
-  'released',
   'edhrec',
 ] as const;
 export type MtgSortBy = (typeof mtgSortBys)[number];

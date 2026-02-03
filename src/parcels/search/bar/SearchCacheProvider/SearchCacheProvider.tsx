@@ -4,6 +4,7 @@ import type {
   SearchFilterValueStore,
 } from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
 import { fetchDlcFilters } from '@/parcels/tcg/dlc/api.ts';
+import { fetchMtgFilters } from '@/parcels/tcg/mtg/api.ts';
 import { fetchPcgFilters } from '@/parcels/tcg/pcg/api.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
@@ -41,6 +42,13 @@ export default function SearchCacheProvider({ children }: { children: ReactNode 
         filterStore.current[tcg] = data ?? [];
       });
     } else if (tcg === 'mtg') {
+      fetchMtgFilters(controller).then(({ data, error }) => {
+        if (error !== undefined) {
+          // non 200 status basically
+          return;
+        }
+        filterStore.current[tcg] = data ?? [];
+      });
     }
 
     return () => {

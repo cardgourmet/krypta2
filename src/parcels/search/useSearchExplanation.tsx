@@ -1,5 +1,6 @@
 import { useEffect, useState, useTransition } from 'react';
 import { fetchDlcQueryExplain } from '@/parcels/tcg/dlc/api.ts';
+import { fetchMtgQueryExplain } from '@/parcels/tcg/mtg/api.ts';
 import { fetchPcgQueryExplain } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -17,6 +18,9 @@ export function useSearchExplanation(tcg: Tcg, query: string): [boolean, string 
         setExplanation(res.data?.data?.explanation ?? null);
       } else if (tcg === 'pcg') {
         const res = await fetchPcgQueryExplain(query, abort);
+        setExplanation(res.data?.data?.explanation ?? null);
+      } else if (tcg === 'mtg') {
+        const res = await fetchMtgQueryExplain(query, abort);
         setExplanation(res.data?.data?.explanation ?? null);
       }
     });

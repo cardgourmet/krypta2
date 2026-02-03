@@ -1,18 +1,23 @@
 import { quickScore } from 'quick-score';
 import { levenshtein } from '@/parcels/search/levenshtein.ts';
-import { type DlcSearchFilterValues, fetchDlcFilterValues } from '@/parcels/tcg/dlc/api.ts';
+import { type DlcSearchFilter, type DlcSearchFilterValues, fetchDlcFilterValues } from '@/parcels/tcg/dlc/api.ts';
+import { fetchMtgFilterValues, type MtgSearchFilter } from '@/parcels/tcg/mtg/api.ts';
 import { fetchPcgFilterValues, type PcgSearchFilter, type PcgSearchFilterValues } from '@/parcels/tcg/pcg/api.ts';
 import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export type SearchFilterStore = Record<Tcg, PcgSearchFilter[]>;
+export type SearchFilterStore = {
+  pcg: PcgSearchFilter[];
+  dlc: DlcSearchFilter[];
+  mtg: MtgSearchFilter[];
+};
 export type SearchFilterValueStoreEntry = { value: string; type: string; aliasOf?: string };
 export type SearchFilterValueStore = Record<
   Tcg,
   Record<string, Record<TcgFilterOperator, SearchFilterValueStoreEntry[]>>
 >;
 
-const QUERY_REGEX = /^[-(]*([a-z]*)(>=|>|<=|<|:)([^><:= ()]*)$/g;
+const QUERY_REGEX = /^[-(]*([a-z]*)(>=|>|<=|<|:|=)([^><:= ()]*)$/g;
 const QUERY_WITH_PARENTS_REGEX = /[-(]*([a-z]+)([:=])"([^><:=()]*)$/g;
 
 export type GeneratedSearchCompletion = {
@@ -111,7 +116,7 @@ export async function generateCompletions(
 // async since it's doing a fetch call
 async function generateFilterValueCompletions(
   tcg: Tcg,
-  filter: PcgSearchFilter,
+  filter: PcgSearchFilter | DlcSearchFilter | MtgSearchFilter,
   operator: TcgFilterOperator,
   currentValue: string,
   store: SearchFilterValueStore,
@@ -175,6 +180,16 @@ async function generateFilterValueCompletions(
     error = res.error;
   } else if (tcg === 'dlc') {
     const res = await fetchDlcFilterValues(
+      filter.keywords[0],
+      abort,
+      operator as TcgFilterOperator,
+      currentValue,
+      maxAmount,
+    );
+    data = res.data;
+    error = res.error;
+  } else if (tcg === 'mtg') {
+    const res = await fetchMtgFilterValues(
       filter.keywords[0],
       abort,
       operator as TcgFilterOperator,

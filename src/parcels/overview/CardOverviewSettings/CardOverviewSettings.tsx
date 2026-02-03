@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAdjustmentsHorizontal, IconX } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   type DlcSearchDisplaySettings,
@@ -28,7 +28,13 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardOverviewSettings.module.css';
-import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from "@/parcels/tcg/mtg/types.ts";
+import {
+  type MtgSearchDisplaySettings,
+  type MtgSearchParams,
+  type MtgSearchQuerySettings,
+  type MtgSortBy,
+  mtgSortBys,
+} from '@/parcels/tcg/mtg/types.ts';
 
 type CardOverviewSettingsProps = {
   tcg: Tcg;
@@ -85,10 +91,15 @@ export default function CardOverviewSettings({
     setSettings(update);
   };
 
-  let sortBys: readonly DlcSortBy[] | readonly PcgSortBy[] = dlcSortBys;
-  if (tcg === 'pcg') {
-    sortBys = pcgSortBys;
-  }
+  const sortBys: readonly DlcSortBy[] | readonly PcgSortBy[] | readonly MtgSortBy[] = useMemo(() => {
+    if (tcg === 'pcg') {
+      return pcgSortBys;
+    } else if (tcg === 'mtg') {
+      return mtgSortBys;
+    } else {
+      return dlcSortBys;
+    }
+  }, [tcg]);
   const sortByItems = fillTranslation('sortby', sortBys as string[]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
   const pageSizeItems = fillTranslation('pagesize', pageSizes as readonly PageSize[] as string[]);

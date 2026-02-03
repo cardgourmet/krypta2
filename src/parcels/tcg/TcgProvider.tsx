@@ -16,12 +16,14 @@ export default function TcgProvider({ children }: { children: ReactNode }) {
 
   const [currentTcg, setCurrentTcg] = useState<CurrentTcg>({
     tcg: tcg, // later mtg or the last used tcg
-    setTcg: setTcg,
+    setTcg: (tcg) => {
+      setTcg(tcg);
+      setCurrentTcg({ ...currentTcg, tcg });
+    },
   });
 
   useEffect(() => {
     if (tcgByLocation !== undefined && previousTcgByLocation !== tcgByLocation) {
-      console.log('Tcg by location has changed :O', tcgByLocation);
       setCurrentTcg((prev) => ({
         ...prev,
         tcg: tcgByLocation,

@@ -4,6 +4,7 @@ import { type RefObject, useEffect, useMemo } from 'react';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
 import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import type { MtgSearchParams } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchRecent.module.css';
@@ -106,6 +107,14 @@ export default function SearchRecent({
                     to: '/pcg/cards',
                     search: (prev) => {
                       return { ...prev, query: query } as Required<PcgSearchParams>;
+                    },
+                  });
+                } else if (tcg === 'mtg') {
+                  // noinspection JSIgnoredPromiseFromCall
+                  navigate({
+                    to: '/mtg/cards',
+                    search: (prev) => {
+                      return { ...prev, query: query } as Required<MtgSearchParams>;
                     },
                   });
                 }

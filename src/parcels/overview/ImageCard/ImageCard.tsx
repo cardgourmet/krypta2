@@ -46,12 +46,14 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
       };
     } else if (tcg === 'mtg') {
       const mtgCard = card as MtgSearchDataCard;
+      const frontFace = mtgCard.card.print.faces[0]?.translations?.en;
+      const backFace = mtgCard.card.print.faces[1]?.translations?.en;
 
       return {
         id: mtgCard.card.id,
         name: mtgCard.card.name,
-        thumbnailUrl: mtgCard.card.print.faces[0]?.translations.en?.imageUrls?.thumbnail ?? '',
-        backfaceThumbnailUrl: backupImageUrl,
+        thumbnailUrl: frontFace?.imageUrls?.thumbnail ?? frontFace?.imageUrls?.full ?? '',
+        backfaceThumbnailUrl: backFace?.imageUrls?.thumbnail ?? backFace?.imageUrls?.full ?? undefined,
         backupImageUrl: backupImageUrl,
       };
     }
@@ -73,7 +75,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
     if (imageRef.current?.complete) {
       setImageLoaded(true);
     }
-    if (backfaceImageRef.current?.complete) {
+    if (!properties.backfaceThumbnailUrl || backfaceImageRef.current?.complete) {
       setBackfaceImageLoaded(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,7 +83,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
 
   return (
     <div key={properties.id} className={styles.card}>
-      {imageLoaded && backfaceImageLoaded && (
+      {properties.backfaceThumbnailUrl && imageLoaded && backfaceImageLoaded && (
         <div key={`${properties.id}-overlay`} className={styles.contentOverlay}>
           <button
             type="button"
