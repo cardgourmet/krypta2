@@ -6,6 +6,7 @@ import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import SearchCacheProvider from '@/parcels/search/bar/SearchCacheProvider/SearchCacheProvider.tsx';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './App.module.css';
 
 function App() {
@@ -20,20 +21,22 @@ function App() {
   });
 
   return (
-    <SearchCacheProvider>
-      <SearchHistoryProvider>
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <Navbar setSidebarOpen={setSidebarOpen} />
-        <NavigationProgress />
+    <TcgProvider>
+      <SearchCacheProvider>
+        <SearchHistoryProvider>
+          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Navbar setSidebarOpen={setSidebarOpen} />
+          <NavigationProgress />
 
-        <div className={styles.mainContent}>
-          <Outlet />
-        </div>
-        <div className={styles.footer}>
-          <Footer />
-        </div>
-      </SearchHistoryProvider>
-    </SearchCacheProvider>
+          <div className={styles.mainContent}>
+            <Outlet />
+          </div>
+          <div className={styles.footer}>
+            <Footer />
+          </div>
+        </SearchHistoryProvider>
+      </SearchCacheProvider>
+    </TcgProvider>
   );
 }
 

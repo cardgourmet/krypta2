@@ -14,21 +14,19 @@ import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
-  const tcg = useTcgByLocation();
-  const [selectedTcg, setSelectedTcg] = useState<'dlc' | 'mtg' | 'pcg'>(tcg ?? 'dlc');
-  useEffect(() => {
-    setSelectedTcg(tcg ?? 'dlc');
-  }, [tcg]);
+  const { tcg, setTcg } = useTcg();
+
   const navigate = useNavigate();
   const [isOpened, setIsOpened] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  const history = useSearchHistory(selectedTcg);
+  const history = useSearchHistory(tcg);
   const recentQueries = history?.pastQueries ?? [];
 
   const [historyIndex, setHistoryIndex] = useState(0);
@@ -64,7 +62,7 @@ export default function Searchbar() {
     const focusableElements = getFocusableElements(searchContainerRef.current);
 
     const handle = handleKeydown({
-      tcg: selectedTcg,
+      tcg: tcg,
       searchInputRef: searchInputRef,
       isOpened: isOpened,
       setIsOpened: setIsOpened,
@@ -79,7 +77,7 @@ export default function Searchbar() {
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [selectedTcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
+  }, [tcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
 
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
   const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
@@ -103,7 +101,7 @@ export default function Searchbar() {
               mtg: 'Magic: The Gathering',
               pcg: 'Pokémon Card Game',
             }}
-            selected={selectedTcg}
+            selected={tcg}
             renderButtonContent={(selected) => (
               <>
                 {selected === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
@@ -113,7 +111,7 @@ export default function Searchbar() {
               </>
             )}
             onSelect={(selected) => {
-              setSelectedTcg(selected as Tcg);
+              setTcg(selected as Tcg);
             }}
           />
         </div>
@@ -160,7 +158,7 @@ export default function Searchbar() {
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
             <div className={styles.advancedSearch}>
-              <Link to={`/${selectedTcg as Tcg}/advanced`}>
+              <Link to={`/${tcg as Tcg}/advanced`}>
                 <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
                 Advanced Search
               </Link>
@@ -172,7 +170,7 @@ export default function Searchbar() {
 
             {!isCaptainOfTheShip && recentQueries.length > 0 && (
               <SearchRecent
-                tcg={selectedTcg}
+                tcg={tcg}
                 close={() => {
                   setIsOpened(false);
                 }}
@@ -187,10 +185,10 @@ export default function Searchbar() {
             {isCaptainOfTheShip && currentQuery.query.length > 0 && (
               <>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <SearchQueryExplanation tcg={selectedTcg} query={debouncedQuery} />
+                  <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
                 </div>
                 <SearchCompletion
-                  tcg={selectedTcg}
+                  tcg={tcg}
                   currentQuery={currentQuery.query}
                   suggestionIndex={suggestionIndex}
                   setSuggestionIndex={setSuggestionIndex}

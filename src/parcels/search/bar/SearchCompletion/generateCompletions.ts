@@ -95,8 +95,6 @@ export async function generateCompletions(
   const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
   if (!matchedFilter) return { mode: 'invalid', completions: [] };
 
-  console.log('matched filter', matchedFilter);
-
   // `mode: value`, find matches with `value` and `operator`
   return generateFilterValueCompletions(
     tcg,

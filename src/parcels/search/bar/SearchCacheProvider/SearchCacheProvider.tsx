@@ -5,7 +5,7 @@ import type {
 } from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
 import { fetchDlcFilters } from '@/parcels/tcg/dlc/api.ts';
 import { fetchPcgFilters } from '@/parcels/tcg/pcg/api.ts';
-import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
 export const SearchCacheContext = createContext<SearchCache | null>(null);
 
@@ -15,7 +15,8 @@ type SearchCache = {
 };
 
 export default function SearchCacheProvider({ children }: { children: ReactNode }) {
-  const tcg = useTcgByLocation() || 'dlc';
+  const { tcg } = useTcg();
+
   const filterStore = useRef<SearchFilterStore>({} as SearchFilterStore);
   const filterValueStore = useRef<SearchFilterValueStore>({} as SearchFilterValueStore);
 

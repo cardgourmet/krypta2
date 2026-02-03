@@ -2,14 +2,15 @@ import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconDeviceVisionPro, IconHelpHexagon, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { type RefObject, useState } from 'react';
+import type { RefObject } from 'react';
 import { MobileTcgSelector } from '@/parcels/search/bar/MobileSearchbar/MobileTcgSelector.tsx';
 import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import {useTcg} from "@/parcels/tcg/TcgProvider.tsx";
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './MobileSearchbar.module.css';
 
 type MobileSearchbarProps = {
@@ -18,8 +19,7 @@ type MobileSearchbarProps = {
 };
 
 export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
-  const tcg = useTcgByLocation() ?? 'dlc';
-  const [selectedTcg, setSelectedTcg] = useState<Tcg>(tcg);
+  const { tcg, setTcg } = useTcg();
   const {
     currentQuery,
     setCurrentQuery,
@@ -29,9 +29,9 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
     suggestionIndex,
     setSuggestionIndex,
     startSearch,
-  } = useSearchQueryV2(true, selectedTcg, close);
+  } = useSearchQueryV2(true, tcg, close);
 
-  const history = useSearchHistory(selectedTcg);
+  const history = useSearchHistory(tcg);
   const recentQueries = history?.pastQueries ?? [];
 
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
@@ -48,7 +48,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           ref={inputRef}
           value={currentQuery.query}
           placeholder={'Suche nach Karten..'}
-          leftSection={<MobileTcgSelector selectedTcg={selectedTcg} setSelectedTcg={setSelectedTcg} />}
+          leftSection={<MobileTcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />}
           onChange={(event) => {
             const newQuery = event.target.value;
             setCurrentQuery(newQuery);
@@ -65,7 +65,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           <Text>Help</Text>
         </div>
         <div className={styles.advancedSearch}>
-          <Link to={`/${selectedTcg as Tcg}/advanced`}>
+          <Link to={`/${tcg as Tcg}/advanced`}>
             <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
             Advanced Search
           </Link>
@@ -80,7 +80,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
         )}
         {currentQuery.query.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <SearchQueryExplanation tcg={selectedTcg} query={debouncedQuery} />
+            <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
           </div>
         )}
 
@@ -93,7 +93,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
 
         {currentQuery.isByUser && currentQuery.query.length > 0 && (
           <SearchCompletion
-            tcg={selectedTcg}
+            tcg={tcg}
             currentQuery={currentQuery.query}
             suggestionIndex={suggestionIndex}
             setSuggestionIndex={setSuggestionIndex}
@@ -105,7 +105,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
 
         {!currentQuery.isByUser && recentQueries.length > 0 && (
           <SearchRecent
-            tcg={selectedTcg}
+            tcg={tcg}
             close={close}
             setQuery={setCurrentQuery}
             historyIndex={historyIndex}
