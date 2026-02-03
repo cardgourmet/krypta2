@@ -8,6 +8,7 @@ import styles from '@/parcels/search/advanced/FilterOverview.module.css';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';
 import { constructDlcQuery } from '@/parcels/tcg/dlc/advanced/constructDlcQuery.ts';
+import { DlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/DlcAdvancedFilters.tsx';
 import { createDefaultDlcFormData, type DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/formData.ts';
 import { constructPcgQuery } from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
 import { createDefaultPcgFormData, type PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formData.ts';
@@ -85,7 +86,7 @@ export function AdvancedFiltersOverview() {
         <div className={styles.searchOptions}>
           <AdvancedFilterContext value={form}>
             {tcg === 'pcg' && <PcgAdvancedFilters />}
-            {tcg === 'dlc' && <div></div>}
+            {tcg === 'dlc' && <DlcAdvancedFilters />}
           </AdvancedFilterContext>
         </div>
       </div>

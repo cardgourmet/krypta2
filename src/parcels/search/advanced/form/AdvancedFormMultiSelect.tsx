@@ -4,8 +4,9 @@ import { AdvancedFilterContext } from '@/parcels/search/advanced/form/AdvancedFi
 import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
 import { StyledMultiSelect } from '@/parcels/search/advanced/styled/StyledMultiSelect.tsx';
 
+type ValueLabel = { value: string; label: string };
 type AdvancedFormMultiSelectProps = AdvancedFormProps & {
-  data: { value: string; label: string }[];
+  data: ValueLabel[] | { group: string; items: ValueLabel[] }[];
   dropdownPlaceholder?: string;
   withExactDropdown?: boolean;
   withoutLimit?: boolean;

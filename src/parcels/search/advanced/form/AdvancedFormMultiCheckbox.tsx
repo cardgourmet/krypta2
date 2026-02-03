@@ -61,7 +61,6 @@ export function AdvancedFormMultiCheckbox({ k, data, iconsMap, exactDropdownValu
         <StyledSelect
           withCheckIcon={false}
           allowDeselect={false}
-          defaultValue={'contains'}
           data={[
             { value: 'exact', label: exactDropdownValues?.true },
             { value: 'contains', label: exactDropdownValues?.false },

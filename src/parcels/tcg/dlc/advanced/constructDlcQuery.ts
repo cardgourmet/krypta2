@@ -1,5 +1,4 @@
-import type { DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/useDlcAdvancedFilters.tsx';
-
+import type { DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/formData.ts';
 export const constructDlcQuery = (formData: DlcAdvancedFilterFormData) => {
   const filters: string[] = [];
 
@@ -11,7 +10,7 @@ export const constructDlcQuery = (formData: DlcAdvancedFilterFormData) => {
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedInks.length > 0) {
-    filters.push(constructArrayFilter('ink', selectedInks, formData.ink.exact));
+    filters.push(constructArrayFilter('ink', selectedInks, formData.ink.mode === 'exact'));
   }
 
   // TEXT

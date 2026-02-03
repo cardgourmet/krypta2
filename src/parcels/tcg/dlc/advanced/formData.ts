@@ -13,7 +13,7 @@ export type DlcAdvancedFilterFormData = {
   };
   ink: {
     values: Record<string, boolean>;
-    exact: boolean;
+    mode: 'contains' | 'exact';
   };
   strength: {
     value: number | string;
@@ -54,7 +54,7 @@ export const createDefaultDlcFormData: () => DlcAdvancedFilterFormData = () => (
   artist: { exact: false, value: '' },
   flavortext: { exact: false, value: '' },
   franchise: { values: [] },
-  ink: { exact: false, values: {} },
+  ink: { mode: 'contains', values: {} },
   lore: { operator: '=', value: '' },
   movecost: { operator: '=', value: '' },
   name: { exact: false, value: '' },
