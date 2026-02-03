@@ -30,8 +30,6 @@ export function handleKeydown({
     }
 
     if (event.key === 'Tab') {
-      console.log('tab', focusableElements);
-
       const total = focusableElements.length;
       const shift = event.shiftKey;
 

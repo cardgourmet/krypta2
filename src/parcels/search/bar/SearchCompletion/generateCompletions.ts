@@ -7,7 +7,10 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type SearchFilterStore = Record<Tcg, PcgSearchFilter[]>;
 export type SearchFilterValueStoreEntry = { value: string; type: string; aliasOf?: string };
-export type SearchFilterValueStore = Record<Tcg, Record<TcgFilterOperator, SearchFilterValueStoreEntry[]>>;
+export type SearchFilterValueStore = Record<
+  Tcg,
+  Record<string, Record<TcgFilterOperator, SearchFilterValueStoreEntry[]>>
+>;
 
 const QUERY_REGEX = /^[-(]*([a-z]*)(>=|>|<=|<|:)([^><:= ()]*)$/g;
 const QUERY_WITH_PARENTS_REGEX = /[-(]*([a-z]+)([:=])"([^><:=()]*)$/g;
@@ -92,6 +95,8 @@ export async function generateCompletions(
   const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
   if (!matchedFilter) return { mode: 'invalid', completions: [] };
 
+  console.log('matched filter', matchedFilter);
+
   // `mode: value`, find matches with `value` and `operator`
   return generateFilterValueCompletions(
     tcg,
@@ -126,7 +131,7 @@ async function generateFilterValueCompletions(
     return { mode: 'invalid', completions: [] };
   }
 
-  const cachedValues: SearchFilterValueStoreEntry[] | undefined = store[tcg]?.[operator];
+  const cachedValues: SearchFilterValueStoreEntry[] | undefined = store[tcg]?.[filter.keywords[0]]?.[operator];
   if (cachedValues !== undefined) {
     const potentialMatches: { entry: SearchFilterValueStoreEntry; score: number }[] = [];
     for (const entry of cachedValues) {
@@ -202,10 +207,10 @@ async function generateFilterValueCompletions(
     .filter((value) => value.value.length > 0);
   if (data.total > 0 && data.total <= maxAmount && data.matches === data.total) {
     // store in cache
-    if (!store[tcg]) {
-      store[tcg] = { ':': [], '<': [], '<=': [], '=': [], '>': [], '>=': [] };
+    if (!store[tcg]?.[filter.keywords[0]]) {
+      store[tcg] = { [filter.keywords[0]]: { ':': [], '<': [], '<=': [], '=': [], '>': [], '>=': [] } };
     }
-    store[tcg][operator] = values;
+    store[tcg][filter.keywords[0]][operator] = values;
   }
   const completions = values.slice(0, max);
 

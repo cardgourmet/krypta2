@@ -10,8 +10,6 @@ export type SearchSuggestion = {
 
 export function transformCompletions(currentQuery: string, state: SearchCompletionState) {
   return state.completions.map((compl) => {
-    console.log("state", state)
-
     if (state.mode === 'value' && state.userInput?.value !== undefined) {
       let completionValue = compl.value;
       if (completionValue.includes(' ') && !completionValue.endsWith('"')) {

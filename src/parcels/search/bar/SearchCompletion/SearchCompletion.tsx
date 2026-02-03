@@ -77,6 +77,8 @@ export function SearchCompletion({
 
     const controller = new AbortController();
     generateCompletions(tcg, currentQuery, filterStore, filterValueStore, 5, setIsLoading, controller).then((state) => {
+      console.log('state', state);
+
       const suggestions = transformCompletions(currentQuery, state);
       setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
     });

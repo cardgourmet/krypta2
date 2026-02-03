@@ -62,8 +62,6 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
   );
   const setQueryString = useCallback(
     (newQuery: string, byUser?: boolean) => {
-      console.log('setQuery', newQuery, byUser);
-
       if (byUser !== undefined) {
         setCurrentQuery({ query: newQuery, isByUser: byUser });
         return;
