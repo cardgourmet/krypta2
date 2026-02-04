@@ -6,7 +6,7 @@
   top: var(--navbar-height);
 
   border: 0;
-  border-bottom: var(--gourmet-neutral-3) solid 2px;
+  border-bottom: var(--gourmet-neutral-3) solid 1px;
 
   background-color: var(--gourmet-neutral-0);
   z-index: var(--sticky-layer);

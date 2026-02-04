@@ -19,6 +19,7 @@ import { Route as MtgCardsIndexRouteImport } from './routes/mtg/cards/index'
 import { Route as MtgAdvancedIndexRouteImport } from './routes/mtg/advanced/index'
 import { Route as DlcCardsIndexRouteImport } from './routes/dlc/cards/index'
 import { Route as DlcAdvancedIndexRouteImport } from './routes/dlc/advanced/index'
+import { Route as MtgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/mtg/sets/$setCode/$collectorNumber/{-$any}'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,12 @@ const DlcAdvancedIndexRoute = DlcAdvancedIndexRouteImport.update({
   path: '/dlc/advanced/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MtgSetsSetCodeCollectorNumberChar123AnyChar125Route =
+  MtgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport.update({
+    id: '/mtg/sets/$setCode/$collectorNumber/{-$any}',
+    path: '/mtg/sets/$setCode/$collectorNumber/{-$any}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/mtg/cards': typeof MtgCardsIndexRoute
   '/pcg/advanced': typeof PcgAdvancedIndexRoute
   '/pcg/cards': typeof PcgCardsIndexRoute
+  '/mtg/sets/$setCode/$collectorNumber/{-$any}': typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +102,7 @@ export interface FileRoutesByTo {
   '/mtg/cards': typeof MtgCardsIndexRoute
   '/pcg/advanced': typeof PcgAdvancedIndexRoute
   '/pcg/cards': typeof PcgCardsIndexRoute
+  '/mtg/sets/$setCode/$collectorNumber/{-$any}': typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +116,7 @@ export interface FileRoutesById {
   '/mtg/cards/': typeof MtgCardsIndexRoute
   '/pcg/advanced/': typeof PcgAdvancedIndexRoute
   '/pcg/cards/': typeof PcgCardsIndexRoute
+  '/mtg/sets/$setCode/$collectorNumber/{-$any}': typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/mtg/cards'
     | '/pcg/advanced'
     | '/pcg/cards'
+    | '/mtg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/mtg/cards'
     | '/pcg/advanced'
     | '/pcg/cards'
+    | '/mtg/sets/$setCode/$collectorNumber/{-$any}'
   id:
     | '__root__'
     | '/'
@@ -145,6 +157,7 @@ export interface FileRouteTypes {
     | '/mtg/cards/'
     | '/pcg/advanced/'
     | '/pcg/cards/'
+    | '/mtg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +171,7 @@ export interface RootRouteChildren {
   MtgCardsIndexRoute: typeof MtgCardsIndexRoute
   PcgAdvancedIndexRoute: typeof PcgAdvancedIndexRoute
   PcgCardsIndexRoute: typeof PcgCardsIndexRoute
+  MtgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DlcAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mtg/sets/$setCode/$collectorNumber/{-$any}': {
+      id: '/mtg/sets/$setCode/$collectorNumber/{-$any}'
+      path: '/mtg/sets/$setCode/$collectorNumber/{-$any}'
+      fullPath: '/mtg/sets/$setCode/$collectorNumber/{-$any}'
+      preLoaderRoute: typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +267,8 @@ const rootRouteChildren: RootRouteChildren = {
   MtgCardsIndexRoute: MtgCardsIndexRoute,
   PcgAdvancedIndexRoute: PcgAdvancedIndexRoute,
   PcgCardsIndexRoute: PcgCardsIndexRoute,
+  MtgSetsSetCodeCollectorNumberChar123AnyChar125Route:
+    MtgSetsSetCodeCollectorNumberChar123AnyChar125Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

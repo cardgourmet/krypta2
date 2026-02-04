@@ -5,10 +5,12 @@ import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
   subpage: string;
+  moreSubpages?: string[];
 };
 
-export default function Breadcrumbs({ subpage }: BreadcrumbProps) {
+export default function Breadcrumbs({ subpage, moreSubpages }: BreadcrumbProps) {
   const tcg = useTcgByLocation() as Tcg;
+  const subpages = [subpage, ...(moreSubpages ?? [])];
 
   return (
     <div className={styles.breadcrumb}>
@@ -21,8 +23,14 @@ export default function Breadcrumbs({ subpage }: BreadcrumbProps) {
         {tcg === 'pcg' && 'Pokémon Card Game'}
         {tcg === 'mtg' && 'Magic: The Gathering'}
       </p>
-      <IconChevronRight color="var(--gourmet-neutral-6)" size={18} />
-      <p>{subpage}</p>
+      {subpages.map((subpage) => {
+        return (
+          <>
+            <IconChevronRight color="var(--gourmet-neutral-6)" size={18} />
+            <p>{subpage}</p>
+          </>
+        );
+      })}
     </div>
   );
 }

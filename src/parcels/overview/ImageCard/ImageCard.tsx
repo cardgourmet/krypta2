@@ -1,6 +1,7 @@
 import { IconRefresh } from '@tabler/icons-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { slugify } from '@/parcels/slugify.ts';
 import type { DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
 import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
@@ -18,12 +19,15 @@ type CardProperties = {
   thumbnailUrl?: string;
   backfaceThumbnailUrl?: string;
   backupImageUrl: string;
+
+  setCode?: string;
+  collectorNumber?: string;
 };
 
 const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
 export default function ImageCard({ tcg, card }: ImageCardProps) {
-  const properties: CardProperties = useMemo(() => {
+  const prop: CardProperties = useMemo(() => {
     if (tcg === 'dlc') {
       const dlcCard = card as DlcSearchDataCard;
 
@@ -33,6 +37,8 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
         thumbnailUrl: dlcCard.card.print.translations?.en?.imageUrls?.thumbnail ?? '',
         backfaceThumbnailUrl: backupImageUrl,
         backupImageUrl: backupImageUrl,
+        setCode: dlcCard.card.print.setCode,
+        collectorNumber: dlcCard.card.print.collectorNumber,
       };
     } else if (tcg === 'pcg') {
       const pcgCard = card as PcgSearchDataCard;
@@ -43,6 +49,8 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
         thumbnailUrl: pcgCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
         backfaceThumbnailUrl: backupImageUrl,
         backupImageUrl: backupImageUrl,
+        setCode: pcgCard.card.print.setCode ?? undefined,
+        collectorNumber: pcgCard.card.print.collectorNumber,
       };
     } else if (tcg === 'mtg') {
       const mtgCard = card as MtgSearchDataCard;
@@ -55,6 +63,8 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
         thumbnailUrl: frontFace?.imageUrls?.thumbnail ?? frontFace?.imageUrls?.full ?? '',
         backfaceThumbnailUrl: backFace?.imageUrls?.thumbnail ?? backFace?.imageUrls?.full ?? undefined,
         backupImageUrl: backupImageUrl,
+        setCode: mtgCard.card.print.setCode,
+        collectorNumber: mtgCard.card.print.collectorNumber,
       };
     }
     return {} as CardProperties;
@@ -75,16 +85,16 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
     if (imageRef.current?.complete) {
       setImageLoaded(true);
     }
-    if (!properties.backfaceThumbnailUrl || backfaceImageRef.current?.complete) {
+    if (!prop.backfaceThumbnailUrl || backfaceImageRef.current?.complete) {
       setBackfaceImageLoaded(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div key={properties.id} className={styles.card}>
-      {properties.backfaceThumbnailUrl && imageLoaded && backfaceImageLoaded && (
-        <div key={`${properties.id}-overlay`} className={styles.contentOverlay}>
+    <div key={prop.id} className={styles.card}>
+      {prop.backfaceThumbnailUrl && imageLoaded && backfaceImageLoaded && (
+        <div key={`${prop.id}-overlay`} className={styles.contentOverlay}>
           <button
             type="button"
             onClick={() => {
@@ -98,7 +108,9 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
           </button>
         </div>
       )}
-      <a href={`/dlc/cards/${properties.id}`}>
+      <a
+        href={`/${tcg}/sets/${prop.setCode?.toLowerCase()}/${prop.collectorNumber?.toLowerCase()}/${slugify(prop.name ?? '')}`}
+      >
         {(!imageLoaded || !backfaceImageLoaded) && (
           <Skeleton
             style={{
@@ -119,35 +131,31 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
           <div>
             <img
               ref={imageRef}
-              alt={properties.name}
-              src={
-                properties.thumbnailUrl === ''
-                  ? properties.backupImageUrl
-                  : (properties.thumbnailUrl ?? properties.backupImageUrl)
-              }
+              alt={prop.name}
+              src={prop.thumbnailUrl === '' ? prop.backupImageUrl : (prop.thumbnailUrl ?? prop.backupImageUrl)}
               loading={'lazy'}
               onError={(error) => {
                 console.log(`Could not load image because: ${error}`);
 
                 if (!imageRef.current) return;
-                imageRef.current.src = properties.backupImageUrl;
+                imageRef.current.src = prop.backupImageUrl;
               }}
               onLoad={() => {
                 setImageLoaded(true);
               }}
             />
           </div>
-          {properties.backfaceThumbnailUrl && (
+          {prop.backfaceThumbnailUrl && (
             <div style={{ transform: 'rotateY(180deg)', height: '100%' }}>
               <img
                 ref={backfaceImageRef}
-                alt={properties.name}
-                src={properties.backfaceThumbnailUrl}
+                alt={prop.name}
+                src={prop.backfaceThumbnailUrl}
                 onError={(error) => {
                   console.log(`Could not load backface image because: ${error}`);
 
                   if (!backfaceImageRef.current) return;
-                  backfaceImageRef.current.src = properties.backupImageUrl;
+                  backfaceImageRef.current.src = prop.backupImageUrl;
                 }}
                 onLoad={() => {
                   setBackfaceImageLoaded(true);
