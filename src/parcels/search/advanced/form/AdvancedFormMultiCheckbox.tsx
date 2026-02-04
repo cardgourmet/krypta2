@@ -9,7 +9,7 @@ import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx'
 type AdvancedFormMultiCheckboxProps = AdvancedFormProps & {
   data: { value: string; label: string }[];
   iconsMap?: Record<string, ReactElement>;
-  exactDropdownValues?: Record<'true' | 'false', string>;
+  exactDropdownValues?: Record<'exact' | 'contains', string>;
 };
 
 export function AdvancedFormMultiCheckbox({ k, data, iconsMap, exactDropdownValues }: AdvancedFormMultiCheckboxProps) {
@@ -36,34 +36,13 @@ export function AdvancedFormMultiCheckbox({ k, data, iconsMap, exactDropdownValu
             );
           })}
       </Group>
-      {/*{moreValues && moreValues.length > 0 && (
-        <StyledMultiSelect
-          data={moreValues}
-          placeholder={moreValuesPlaceholder}
-          searchable
-          value={moreValuesList}
-          onChange={(values) => {
-            const newValues = { ...specificValues };
-            moreValuesList.forEach((d) => {
-              delete newValues[d];
-            });
-            values.forEach((d) => {
-              newValues[d] = true;
-            });
-
-            const deepCopy = structuredClone(specificFormData);
-            deepCopy[specificKey].values = newValues;
-            setFormData(deepCopy as FormData);
-          }}
-        />
-      )}*/}
-      {exactDropdownValues?.true && (
+      {exactDropdownValues?.exact && (
         <StyledSelect
           withCheckIcon={false}
           allowDeselect={false}
           data={[
-            { value: 'exact', label: exactDropdownValues?.true },
-            { value: 'contains', label: exactDropdownValues?.false },
+            { value: 'exact', label: exactDropdownValues?.exact },
+            { value: 'contains', label: exactDropdownValues?.contains },
           ]}
           {...form.getInputProps(`${k}.mode`)}
         />

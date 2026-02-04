@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+import { AdvancedFiltersOverview } from '@/parcels/search/advanced/form/AdvancedFiltersOverview.tsx';
 
 export const Route = createFileRoute('/mtg/advanced/')({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/mtg/advanced/"!</div>
+  return <AdvancedFiltersOverview />;
 }

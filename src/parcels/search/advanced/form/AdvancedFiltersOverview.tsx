@@ -10,13 +10,16 @@ import { useStartSearch } from '@/parcels/search/startSearch.ts';
 import { constructDlcQuery } from '@/parcels/tcg/dlc/advanced/constructDlcQuery.ts';
 import { DlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/DlcAdvancedFilters.tsx';
 import { createDefaultDlcFormData, type DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/formData.ts';
+import { constructMtgQuery } from '@/parcels/tcg/mtg/advanced/constructMtgQuery.ts';
+import { createDefaultMtgFormData, type MtgAdvancedFilterFormData } from '@/parcels/tcg/mtg/advanced/formData.ts';
+import { MtgAdvancedFilters } from '@/parcels/tcg/mtg/advanced/MtgAdvancedFilters.tsx';
 import { constructPcgQuery } from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
 import { createDefaultPcgFormData, type PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formData.ts';
 import { PcgAdvancedFilters } from '@/parcels/tcg/pcg/advanced/PcgAdvancedFilters.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const AdvancedFilterContext = createContext<UseFormReturnType<
-  PcgAdvancedFilterFormData | DlcAdvancedFilterFormData
+  PcgAdvancedFilterFormData | DlcAdvancedFilterFormData | MtgAdvancedFilterFormData
 > | null>(null);
 
 export function AdvancedFiltersOverview() {
@@ -28,6 +31,8 @@ export function AdvancedFiltersOverview() {
       return createDefaultPcgFormData();
     } else if (tcg === 'dlc') {
       return createDefaultDlcFormData();
+    } else if (tcg === 'mtg') {
+      return createDefaultMtgFormData();
     }
   }, [tcg]);
   const form = useForm({
@@ -38,6 +43,8 @@ export function AdvancedFiltersOverview() {
         setConstructedQueryFilters(constructPcgQuery(values as unknown as PcgAdvancedFilterFormData));
       } else if (tcg === 'dlc') {
         setConstructedQueryFilters(constructDlcQuery(values as unknown as DlcAdvancedFilterFormData));
+      } else if (tcg === 'mtg') {
+        setConstructedQueryFilters(constructMtgQuery(values as unknown as MtgAdvancedFilterFormData));
       }
     },
   });
@@ -87,6 +94,7 @@ export function AdvancedFiltersOverview() {
           <AdvancedFilterContext value={form}>
             {tcg === 'pcg' && <PcgAdvancedFilters />}
             {tcg === 'dlc' && <DlcAdvancedFilters />}
+            {tcg === 'mtg' && <MtgAdvancedFilters />}
           </AdvancedFilterContext>
         </div>
       </div>

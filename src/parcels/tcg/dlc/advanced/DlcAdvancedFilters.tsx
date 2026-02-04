@@ -64,7 +64,7 @@ export function DlcAdvancedFilters() {
             sapphire: <DlcInkSapphire size={32} color={'#0b87c1'} />,
             steel: <DlcInkSteel size={32} color={'#9da7b1'} />,
           }}
-          exactDropdownValues={{ true: 'Genau diese Tinten', false: 'Enthält eine dieser Tinten' }}
+          exactDropdownValues={{ exact: 'Genau diese Tinten', contains: 'Enthält eine dieser Tinten' }}
         />
       </AdvancedFilterCategory>
       <AdvancedFilterCategory title={'text'} icon={<IconTextSize />}>

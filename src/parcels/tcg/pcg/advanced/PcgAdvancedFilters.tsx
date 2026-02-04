@@ -81,7 +81,7 @@ export function PcgAdvancedFilters() {
             psychic: <PcgEnergyPsychic size={32} />,
             water: <PcgEnergyWater size={32} />,
           }}
-          exactDropdownValues={{ true: 'Genau diese Energien', false: 'Enthält eine dieser Energien' }}
+          exactDropdownValues={{ exact: 'Genau diese Energien', contains: 'Enthält eine dieser Energien' }}
         />
         <AdvancedFormMultiSelect
           k={'subtype'}
@@ -207,7 +207,7 @@ export function PcgAdvancedFilters() {
           dropdownPlaceholder={'Suche nach einer Seltenheit'}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'artist'} icon={<IconBrush />}>
+      <AdvancedFilterCategory title={'artwork'} icon={<IconBrush />}>
         <AdvancedFormText
           k={'artist'}
           title={'Künstler:in'}
