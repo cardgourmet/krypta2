@@ -1,8 +1,9 @@
-import {Group, Stack, Text} from "@mantine/core";
-import {useMemo} from "react";
-import type {MtgDataPrintFace} from "@/parcels/tcg/mtg/api.ts";
-import {MtgColorIndicator} from "@/parcels/tcg/mtg/MtgColorIndicator/MtgColorIndicator.tsx";
-import {MtgSymbolSVG} from "@/parcels/tcg/mtg/MtgSymbolSVG/MtgSymbolSVG.tsx";
+import { Group, Stack, Text } from '@mantine/core';
+import { type ReactElement, type ReactNode, useMemo } from 'react';
+import reactStringReplace from 'react-string-replace';
+import type { MtgDataPrintFace } from '@/parcels/tcg/mtg/api.ts';
+import { MtgColorIndicator } from '@/parcels/tcg/mtg/MtgColorIndicator/MtgColorIndicator.tsx';
+import { MtgSymbolSVG } from '@/parcels/tcg/mtg/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
 export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace }) {
   const trans = print.translations.en;
@@ -55,7 +56,7 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
       <Stack gap={'sm'}>
         {trans.oracleText?.split('\n').map((line, i) => (
           <Text ff={'var(--cgm-content-font-family)'} key={i}>
-            {line}
+            {renderOracleLine(line)}
           </Text>
         ))}
       </Stack>
@@ -81,4 +82,36 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
       )}
     </Stack>
   );
+}
+
+function renderOracleLine(line: string): ReactElement {
+  const symbolRegex = /\{[^{}]+}/g;
+  const symbols = line.match(symbolRegex)?.map((s) => s) ?? [];
+  let formattedLine: ReactNode[] = [line];
+  for (const symbol of symbols) {
+    formattedLine = reactStringReplace(formattedLine, symbol, () => {
+      return (
+        <span
+          style={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            height: '21px' /* idk why: 'calc(1rem * var(--mantine-line-height-md))' doesnt work ...*/,
+            marginLeft: '0.2rem',
+          }}
+        >
+          <MtgSymbolSVG symbol={symbol as `{$string}`} size={16} />
+        </span>
+      );
+    });
+  }
+
+  const reminderRegex = /\([^()]+\)/g;
+  const reminderPassages = line.match(reminderRegex)?.map((s) => s) ?? [];
+  for (const reminderPassage of reminderPassages) {
+    formattedLine = reactStringReplace(formattedLine, reminderPassage, () => {
+      return <em style={{ color: 'var(--gourmet-neutral-6)' }}>{reminderPassage}</em>;
+    });
+  }
+
+  return <>{formattedLine}</>;
 }
