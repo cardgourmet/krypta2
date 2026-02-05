@@ -82,8 +82,8 @@ function RouteComponent() {
         <br />
         <br />
       </p>
-      <p>{JSON.stringify(frontFace)}</p>
-      <p>{JSON.stringify(backFace)}</p>
+      <p style={{ wordWrap: 'break-word' }}>{JSON.stringify(cardWithPrints)}</p>
+      <p style={{ wordWrap: 'break-word' }}>{JSON.stringify(set)}</p>
     </div>
   );
 }

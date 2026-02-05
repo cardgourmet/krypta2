@@ -21,5 +21,5 @@ export const MtgColorIndicator = ({ colors }: { colors: string[] }) => {
       {},
     ) as CSSProperties;
 
-  return <div className={styles.base} color-count={colors.length.toString()} style={style} />;
+  return <span className={styles.base} color-count={colors.length.toString()} style={style} />;
 };

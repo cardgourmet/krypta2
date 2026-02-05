@@ -15,15 +15,19 @@ export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set:
         maxWidth: '16rem',
         marginLeft: 'auto',
       }}
-      p={'0.25rem'}
     >
       <Stack gap={'xs'}>
         <Link to={'/mtg/sets/$setCode'} params={{ setCode: set.code.toLowerCase() }} className={styles.setLink}>
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
             <MtgSetIcon setCode={set.code.toLowerCase()} />
-            <Text ff={'var(--cgm-content-font-family)'} fz={'1rem'} c={'var(--gourmet-neutral-9)'}>
-              {set.translations.en.name}
-            </Text>
+            <Stack gap={'0.25rem'}>
+              <Text ff={'var(--cgm-content-font-family)'} fz={'1rem'} c={'var(--gourmet-neutral-9)'}>
+                {set.translations.en.name}
+              </Text>
+              <Text ff={'var(--cgm-content-font-family)'} fz={'xs'} c={'var(--gourmet-neutral-7)'}>
+                {set.code} &#x2022; {set.printsAvailable} Karten &#x2022; {set.releaseDate}
+              </Text>
+            </Stack>
           </Group>
         </Link>
         <Group p={'sm'}>
@@ -34,10 +38,6 @@ export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set:
           <Group gap={'xs'}>
             <IconDiamond />
             <Text>{print.rarity}</Text>
-          </Group>
-          <Group gap={'xs'}>
-            <IconCalendar />
-            <Text>{print.releaseDate}</Text>
           </Group>
 
           <Group gap={'xs'} wrap="nowrap" align={'start'}>

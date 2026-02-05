@@ -94,9 +94,10 @@ function renderOracleLine(line: string): ReactElement {
   const symbols = line.match(symbolRegex)?.map((s) => s) ?? [];
   let formattedLine: ReactNode[] = [line];
   for (const symbol of symbols) {
-    formattedLine = reactStringReplace(formattedLine, symbol, () => {
+    formattedLine = reactStringReplace(formattedLine, symbol, (_, index) => {
       return (
         <span
+          key={index}
           style={{
             display: 'inline-block',
             verticalAlign: 'middle',
