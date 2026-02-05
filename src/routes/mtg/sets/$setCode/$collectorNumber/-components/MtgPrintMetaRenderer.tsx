@@ -1,8 +1,8 @@
-import {Divider, Group, Stack, Text} from "@mantine/core";
-import {IconBrush, IconCalendar, IconDiamond, IconLanguage, IconMagnetic, IconNumber, IconPlayCard} from "@tabler/icons-react";
-import {Link} from "@tanstack/react-router";
-import type {MtgDataPrint, MtgDataSet} from "@/parcels/tcg/mtg/api.ts";
-import styles from "@/routes/mtg/sets/$setCode/$collectorNumber/{-$any}.module.css";
+import { Group, Stack, Text } from '@mantine/core';
+import { IconBrush, IconCalendar, IconDiamond, IconLanguage, IconNumber, IconPlayCard } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import type { MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import styles from '@/routes/mtg/sets/$setCode/$collectorNumber/{-$any}.module.css';
 
 export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set: MtgDataSet }) {
   return (
@@ -13,13 +13,14 @@ export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set:
         flexGrow: '1',
         minHeight: '32rem',
         maxWidth: '16rem',
+        marginLeft: 'auto',
       }}
       p={'0.25rem'}
     >
       <Stack gap={'xs'}>
         <Link to={'/mtg/sets/$setCode'} params={{ setCode: set.code.toLowerCase() }} className={styles.setLink}>
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
-            <IconMagnetic size={32} />
+            <MtgSetIcon setCode={set.code.toLowerCase()} />
             <Text ff={'var(--cgm-content-font-family)'} fz={'1rem'} c={'var(--gourmet-neutral-9)'}>
               {set.translations.en.name}
             </Text>
@@ -39,8 +40,6 @@ export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set:
             <Text>{print.releaseDate}</Text>
           </Group>
 
-          <Divider my="xs" color={'var(--gourmet-neutral-2)'} w={'100%'} />
-
           <Group gap={'xs'} wrap="nowrap" align={'start'}>
             <IconPlayCard />
             <Text>{print.finishes.join(', ')}</Text>
@@ -49,8 +48,6 @@ export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set:
             <IconLanguage />
             <Text style={{ textWrap: 'wrap' }}>{print.supportedLanguages.join(', ')}</Text>
           </Group>
-
-          <Divider my="xs" color={'var(--gourmet-neutral-2)'} w={'100%'} />
 
           <Group gap={'xs'} wrap="nowrap" align={'start'}>
             <IconBrush />
@@ -61,3 +58,9 @@ export function MtgPrintMetaRenderer({ print, set }: { print: MtgDataPrint; set:
     </Stack>
   );
 }
+
+export const MtgSetIcon = ({ setCode }: { setCode: string }) => {
+  return (
+    <i className={`ss ss-${setCode.toLowerCase()}`} style={{ color: 'var(--gourmet-neutral-9)', fontSize: '1.5rem' }} />
+  );
+};

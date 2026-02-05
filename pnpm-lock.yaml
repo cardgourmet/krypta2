@@ -38,6 +38,9 @@ importers:
       i18next:
         specifier: ^25.7.4
         version: 25.7.4(typescript@5.9.3)
+      keyrune:
+        specifier: ^3.18.0
+        version: 3.18.0
       openapi-fetch:
         specifier: ^0.15.0
         version: 0.15.0
@@ -1197,6 +1200,9 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+
+  keyrune@3.18.0:
+    resolution: {integrity: sha512-sm9aVZpxPHftqp65cf4IXCXS8FI5gzEonZhWZkK76A9sNMfQncukSIjT2wx+I9e9QwfkGOXnB8CaxuXRwHhRhw==}
 
   klona@2.0.6:
     resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
@@ -2782,6 +2788,8 @@ snapshots:
   jsesc@3.1.0: {}
 
   json5@2.2.3: {}
+
+  keyrune@3.18.0: {}
 
   klona@2.0.6: {}
 

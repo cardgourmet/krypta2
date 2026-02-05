@@ -1,10 +1,10 @@
-import type {MtgDataCard} from "@/parcels/tcg/mtg/api.ts";
-import {useRef, useState} from "react";
-import {Button, Group, Image, Stack, Text} from "@mantine/core";
-import {IconArrowRight, IconRefresh} from "@tabler/icons-react";
-import {Link} from "@tanstack/react-router";
-import {slugify} from "@/parcels/slugify.ts";
-import {FlippableCard} from "@/routes/mtg/sets/$setCode/$collectorNumber/-components/FlippableCard.tsx";
+import { Button, Group, Image, Stack, Text } from '@mantine/core';
+import { IconArrowRight, IconRefresh } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useRef, useState } from 'react';
+import { slugify } from '@/parcels/slugify.ts';
+import type { MtgDataCard } from '@/parcels/tcg/mtg/api.ts';
+import { FlippableCard } from '@/routes/mtg/sets/$setCode/$collectorNumber/-components/FlippableCard.tsx';
 
 export function MtgPrintImageRenderer({ card }: { card: MtgDataCard }) {
   const front = card.print.faces[0];
@@ -22,21 +22,23 @@ export function MtgPrintImageRenderer({ card }: { card: MtgDataCard }) {
         backUrl={back?.translations?.en?.imageUrls?.full ?? undefined}
         flipRef={flipRef}
       />
-      <Button
-        onClick={() => {
-          const newFlipped = !flipped;
+      {back && (
+        <Button
+          onClick={() => {
+            const newFlipped = !flipped;
 
-          flipRef.current?.setAttribute('flipped', `${newFlipped}`);
-          setFlipped(newFlipped);
-        }}
-        color={'var(--gourmet-neutral-2)'}
-        c={'var(--gourmet-neutral-7)'}
-      >
-        <Group gap={'0.25rem'}>
-          <IconRefresh size={18} />
-          Transform
-        </Group>
-      </Button>
+            flipRef.current?.setAttribute('flipped', `${newFlipped}`);
+            setFlipped(newFlipped);
+          }}
+          color={'var(--gourmet-neutral-2)'}
+          c={'var(--gourmet-neutral-7)'}
+        >
+          <Group gap={'0.25rem'}>
+            <IconRefresh size={18} />
+            Transform
+          </Group>
+        </Button>
+      )}
 
       {otherPrints.length > 0 && (
         <Group gap={'0.5rem'} maw={'18rem'} w={'100%'}>
