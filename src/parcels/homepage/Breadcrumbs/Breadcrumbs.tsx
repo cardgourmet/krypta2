@@ -25,10 +25,10 @@ export default function Breadcrumbs({ subpage, moreSubpages }: BreadcrumbProps) 
       </p>
       {subpages.map((subpage) => {
         return (
-          <>
+          <div key={subpage}>
             <IconChevronRight color="var(--gourmet-neutral-6)" size={18} />
             <p>{subpage}</p>
-          </>
+          </div>
         );
       })}
     </div>

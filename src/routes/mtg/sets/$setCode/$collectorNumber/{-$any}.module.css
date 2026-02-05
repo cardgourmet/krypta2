@@ -35,3 +35,23 @@
   aspect-ratio: 672 / 936;
   width: 18rem;
 }
+
+.setLink {
+  text-decoration: none;
+  background-color: var(--gourmet-neutral-1);
+  border: 1px solid var(--gourmet-neutral-3);
+  border-bottom: 2px solid var(--gourmet-neutral-3);
+  border-radius: 0.25rem;
+
+  :hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+
+  > div {
+    padding: 0.5rem;
+  }
+
+  svg {
+    color: var(--gourmet-neutral-7);
+  }
+}

@@ -10,13 +10,52 @@ export type MtgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter
 export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type MtgDataCard = c['schemas']['MtgDataCard'];
 export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
+export type MtgDataPrint = c['schemas']['MtgDataPrint'];
+export type MtgDataSet = c['schemas']['MtgDataSet'];
 
 export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
 
+export async function fetchMtgSet(
+  setId: string,
+  abort?: AbortController,
+): Promise<{ data?: MtgDataSet; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/mtg/sets/{setId}`, {
+      params: {
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
 // /v1/mtg/prints/{setCode}/{collectorNumber}
-export async function fetchMtgPrint(setCode: string, collectorNumber: string, abort?: AbortController) {
+export async function fetchMtgPrint(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<{ data?: MtgDataCard; error?: Error }> {
   try {
     const res = await umoriClient.GET(`/v1/mtg/prints/{setCode}/{collectorNumber}`, {
       params: {
@@ -34,7 +73,7 @@ export async function fetchMtgPrint(setCode: string, collectorNumber: string, ab
     if (!res.data) {
       return { error: new Error('Received invalid data') };
     }
-    return { data: res.data };
+    return { data: res.data.data };
   } catch (error) {
     if (!(error instanceof Error)) throw error;
 

@@ -13,6 +13,7 @@ import { AdvancedFormMultiCheckbox } from '@/parcels/search/advanced/form/Advanc
 import { AdvancedFormMultiSelect } from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
 import { AdvancedFormNumberCompare } from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
 import { AdvancedFormText } from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import { SymbolSVG } from '@/parcels/tcg/mtg';
 import {
   mtgColors,
   mtgFormats,
@@ -22,7 +23,6 @@ import {
   mtgSetNames,
   mtgTypes,
 } from '@/parcels/tcg/mtg/raw/apiValues.ts';
-import { SymbolSVG } from '@/parcels/tcg/mtg/symbols';
 
 export function MtgAdvancedFilters() {
   const setNamesMapped = useMemo(() => {
