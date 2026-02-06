@@ -5,12 +5,15 @@ import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
   subpage: string;
-  moreSubpages?: string[];
+  moreSubpages?: { label: string; href?: string }[];
 };
 
 export default function Breadcrumbs({ subpage, moreSubpages }: BreadcrumbProps) {
   const tcg = useTcgByLocation() as Tcg;
-  const subpages = [subpage, ...(moreSubpages ?? [])];
+  const subpages = [...(moreSubpages ?? [])];
+  if (subpage.length > 0) {
+    subpages.unshift({ label: subpage });
+  }
 
   return (
     <div className={styles.breadcrumb}>
@@ -23,11 +26,23 @@ export default function Breadcrumbs({ subpage, moreSubpages }: BreadcrumbProps) 
         {tcg === 'pcg' && 'Pokémon Card Game'}
         {tcg === 'mtg' && 'Magic: The Gathering'}
       </p>
-      {subpages.map((subpage) => {
+      {subpages.map(({ label, href }) => {
         return (
-          <div key={subpage}>
-            <IconChevronRight color="var(--gourmet-neutral-6)" size={18} />
-            <p>{subpage}</p>
+          <div key={label}>
+            {href && (
+              <>
+                <IconChevronRight color="var(--gourmet-neutral-6)" size={18} />
+                <Link to={href}>
+                  <p>{label}</p>
+                </Link>
+              </>
+            )}
+            {!href && (
+              <div>
+                <IconChevronRight color="var(--gourmet-neutral-6)" size={18} />
+                <p>{label}</p>
+              </div>
+            )}
           </div>
         );
       })}

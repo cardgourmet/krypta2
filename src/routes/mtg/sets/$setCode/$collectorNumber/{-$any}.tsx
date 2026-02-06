@@ -92,8 +92,21 @@ function RouteComponent() {
 
   return (
     <div className={styles.mainContent}>
+      <title>{`${cardWithPrints.name} (${set.translations?.en?.name} #${cardWithPrints.print.collectorNumber}) – Magic: The Gathering – Cardgourmet`}</title>
       <Stack gap={'xs'}>
-        <Breadcrumbs subpage={'Sets'} moreSubpages={[set.translations.en.name]} />
+        <Breadcrumbs
+          subpage={''}
+          moreSubpages={[
+            {
+              label: 'Sets',
+              href: `/mtg/sets`,
+            },
+            {
+              label: set.translations.en.name,
+              href: `/mtg/sets/${set.code.toLowerCase()}`,
+            },
+          ]}
+        />
         <Text ff={'var(--cgm-title-font-family)'} fz={'1.5rem'} fw={'bold'}>
           {cardWithPrints.name}
         </Text>

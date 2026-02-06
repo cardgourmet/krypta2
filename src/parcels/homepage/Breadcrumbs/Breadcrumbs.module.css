@@ -1,5 +1,13 @@
-.breadcrumb > a {
+.breadcrumb a {
   display: flex;
+
+  text-decoration: none;
+
+  :hover {
+    text-decoration: underline;
+    text-decoration-color: var(--cgm-sidebar-button-bg);
+    text-underline-offset: 2px;
+  }
 }
 
 .breadcrumb {
