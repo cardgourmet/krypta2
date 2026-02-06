@@ -96,35 +96,52 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
 }
 
 function renderOracleLine(line: string): ReactElement {
-  const symbolRegex = /\{[^{}]+}/g;
-  const symbols = line.match(symbolRegex)?.map((s) => s) ?? [];
   let formattedLine: ReactNode[] = [line];
-  for (const symbol of symbols) {
-    formattedLine = reactStringReplace(formattedLine, symbol, (_, index) => {
-      return (
-        <span
-          key={index}
-          style={{
-            display: 'inline-block',
-            verticalAlign: 'middle',
-            height: '21px' /* idk why: 'calc(1rem * var(--mantine-line-height-md))' doesnt work ...*/,
-            marginLeft: '0.15rem',
-            marginRight: '0.15rem',
-          }}
-        >
-          <MtgSymbolSVG symbol={symbol as `{$string}`} size={16} />
-        </span>
-      );
-    });
-  }
+  const symbolRegex = /\{(?<symbol>.+?)}/g;
 
-  const reminderRegex = /\([^()]+\)/g;
-  const reminderPassages = line.match(reminderRegex)?.map((s) => s) ?? [];
-  for (const reminderPassage of reminderPassages) {
-    formattedLine = reactStringReplace(formattedLine, reminderPassage, () => {
-      return <em style={{ color: 'var(--gourmet-neutral-6)' }}>{reminderPassage}</em>;
-    });
-  }
+  formattedLine = reactStringReplace(formattedLine, /\((.*?)\)/g, (match, index) => {
+    const innerRichContent = reactStringReplace(match, symbolRegex, (match, index) => (
+      <span
+        key={match + index}
+        style={{
+          display: 'inline-block',
+          verticalAlign: 'middle',
+          height: '21px' /* idk why: 'calc(1rem * var(--mantine-line-height-md))' doesnt work ...*/,
+          marginLeft: '0.15rem',
+          marginRight: '0.15rem',
+        }}
+      >
+        <MtgSymbolSVG symbol={`{${match}}`} size={16} />
+      </span>
+    ));
+
+    return (
+      <em key={match + index} style={{ color: 'var(--gourmet-neutral-6)' }}>
+        (
+        {innerRichContent.map((node, index) =>
+          typeof node === 'string' && !!node ? <span key={node + index}>{node}</span> : node,
+        )}
+        )
+      </em>
+    );
+  });
+
+  formattedLine = reactStringReplace(formattedLine, symbolRegex, (match, index) => {
+    return (
+      <span
+        key={match + index}
+        style={{
+          display: 'inline-block',
+          verticalAlign: 'middle',
+          height: '21px' /* idk why: 'calc(1rem * var(--mantine-line-height-md))' doesnt work ...*/,
+          marginLeft: '0.15rem',
+          marginRight: '0.15rem',
+        }}
+      >
+        <MtgSymbolSVG symbol={`{${match}}`} size={16} />
+      </span>
+    );
+  });
 
   return <>{formattedLine}</>;
 }
