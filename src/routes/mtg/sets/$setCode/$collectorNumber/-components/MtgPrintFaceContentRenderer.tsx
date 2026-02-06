@@ -29,17 +29,24 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
 
   return (
     <Stack w={'20rem'} align={'start'} gap={'sm'} p={'sm'}>
-      <Stack gap={'xs'} style={{ width: '100%' }}>
+      <Stack gap={'sm'} style={{ width: '100%' }}>
         <Group align={'start'} justify={'space-between'} style={{ width: '100%' }} wrap={'nowrap'}>
-          <Text
-            ff={'var(--cgm-content-font-family)'}
-            fw={'bold'}
-            fz={'1.1rem'}
-            c={'var(--gourmet-neutral-9)'}
-            style={{ flexGrow: 1 }}
-          >
-            {trans.name}
-          </Text>
+          <Stack gap={'0.1rem'}>
+            <Text
+              ff={'var(--cgm-content-font-family)'}
+              fw={'bold'}
+              fz={'1.1rem'}
+              c={'var(--gourmet-neutral-9)'}
+              style={{ flexGrow: 1 }}
+            >
+              {trans.name}
+            </Text>
+            {trans.flavorName && (
+              <Text ff={'var(--cgm-content-font-family)'} fs={'italic'} c={'var(--gourmet-neutral-6)'}>
+                {trans.flavorName}
+              </Text>
+            )}
+          </Stack>
           <Group wrap={'nowrap'} gap={'0.2rem'} h={'calc(1rem * var(--mantine-line-height-md))'}>
             {manaCostParts.map((p, i) => (
               <MtgSymbolSVG key={i} symbol={p as `{$string}`} size={16} />
@@ -52,7 +59,6 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
         </Text>
       </Stack>
 
-      <Text ff={'var(--cgm-content-font-family)'}>{trans.flavorName}</Text>
       <Stack gap={'sm'}>
         {trans.oracleText?.split('\n').map((line, i) => (
           <Text ff={'var(--cgm-content-font-family)'} key={i}>
