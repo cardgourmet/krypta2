@@ -7,6 +7,7 @@ import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
+import { Link } from '@tanstack/react-router';
 
 interface ImageCardProps {
   tcg: Tcg;
@@ -108,8 +109,13 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
           </button>
         </div>
       )}
-      <a
-        href={`/${tcg}/sets/${prop.setCode?.toLowerCase()}/${prop.collectorNumber?.toLowerCase()}/${slugify(prop.name ?? '')}`}
+      <Link
+        to={'/mtg/sets/$setCode/$collectorNumber/{-$any}'}
+        params={{
+          setCode: prop.setCode?.toLowerCase() as string,
+          collectorNumber: prop.collectorNumber?.toLowerCase() as string,
+          any: slugify(prop.name ?? ''),
+        }}
       >
         {(!imageLoaded || !backfaceImageLoaded) && (
           <Skeleton
@@ -164,7 +170,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
             </div>
           )}
         </div>
-      </a>
+      </Link>
     </div>
   );
 }
