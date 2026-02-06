@@ -18,13 +18,15 @@ export function MtgPrintMetaRenderer({
   card,
   print,
   set,
+  language,
+  setLanguage,
 }: {
   card: MtgDataCard;
   print: MtgDataPrint;
   set: MtgDataSet;
+  language: string;
+  setLanguage: (lang: string, printId: string) => void;
 }) {
-  const currentLanguage = 'en';
-
   const { thisPrintLanguages, otherPrintLanguages } = useMemo(() => {
     const languageMap = {
       en: 'English',
@@ -113,7 +115,11 @@ export function MtgPrintMetaRenderer({
             },
           ]}
           maxDropdownHeight={350}
-          defaultValue={currentLanguage}
+          value={language}
+          onChange={(e) => {
+            if (e === null) return;
+            setLanguage(e, '');
+          }}
           checkIconPosition="right"
           renderOption={renderSelectOption}
           disabled={thisPrintLanguages.length + otherPrintLanguages.length === 1}
