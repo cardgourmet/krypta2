@@ -13,7 +13,7 @@ export function MtgPrintImageRenderer({ card }: { card: MtgDataCard }) {
   const [flipped, setFlipped] = useState(false);
   const flipRef = useRef<HTMLDivElement>(null);
 
-  const otherPrints = card.allPrints.filter((c) => c.id !== card.print.id);
+  const otherPrints = card.allPrints.filter((c) => c.id !== card.print.id && c.setCode === card.print.setCode);
 
   return (
     <Stack>

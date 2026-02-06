@@ -72,7 +72,7 @@ function RouteComponent() {
           <MtgPrintFaceContentRenderer print={frontFace} />
           {backFace && <MtgPrintFaceContentRenderer print={backFace} />}
         </Group>
-        <MtgPrintMetaRenderer print={cardWithPrints.print} set={set} />
+        <MtgPrintMetaRenderer card={cardWithPrints} print={cardWithPrints.print} set={set} />
       </Group>
 
       <p>
