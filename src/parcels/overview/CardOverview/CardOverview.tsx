@@ -21,6 +21,7 @@ type CardOverviewProps = {
   scrollbackRef: RefObject<HTMLDivElement | null>;
   isLoading: boolean;
   isQueryLoading: boolean;
+  isSetSpecific?: boolean;
 
   cards: MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult | null;
   setSettings: (apply: ApplyFn<MtgSearchParams | PcgSearchParams | DlcSearchParams>) => void;
@@ -42,6 +43,8 @@ export function CardOverview({
     <div ref={scrollbackRef}>
       <div className={styles.mainContent}>
         <Breadcrumbs subpage={'Kartendatenbank'} />
+
+        {/*{isSetSpecific && <Text>SetSpecific JOONGE</Text>}*/}
         <Pagination
           currentPage={cards?.data?.currentPage}
           lastPage={cards?.data?.pageCount}
