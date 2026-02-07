@@ -1,6 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 import {createFileRoute, stripSearchParams, useNavigate} from '@tanstack/react-router';
-import {constructCardOverview} from '@/parcels/tcg/constructCardOverview.tsx';
+import {constructCardOverview} from '@/parcels/overview/CardOverview/constructCardOverview.tsx';
 import {usePcgMemoizedDisplaySettings, usePcgMemoizedQuerySettings} from '@/parcels/tcg/pcg/query.ts';
 import {
   type PcgSearchDisplaySettings,

@@ -1,8 +1,12 @@
-import {Image} from "@mantine/core";
-import type {RefObject} from "react";
-import styles from "@/routes/mtg/sets/$setCode/$collectorNumber/{-$any}.module.css";
+import {Image} from '@mantine/core';
+import type {RefObject} from 'react';
+import styles from './FlippableCard.module.css';
 
-export function FlippableCard(props: { frontUrl: string; backUrl?: string; flipRef: RefObject<HTMLDivElement | null> }) {
+export function FlippableCard(props: {
+  frontUrl: string;
+  backUrl?: string;
+  flipRef: RefObject<HTMLDivElement | null>;
+}) {
   return (
     <div className={styles.card}>
       <div className={styles.flippableContent} ref={props.flipRef}>

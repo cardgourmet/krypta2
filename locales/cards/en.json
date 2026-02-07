@@ -22,12 +22,9 @@
       "asc": "Ascending",
       "desc": "Descending"
     },
-    "pagesize": {
-      "12": "12 Cards",
-      "24": "24 Cards",
-      "36": "36 Cards",
-      "48": "48 Cards",
-      "60": "60 Cards"
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints"
     },
     "displaymode": {
       "grid": "Grid",
@@ -53,12 +50,9 @@
       "asc": "Ascending",
       "desc": "Descending"
     },
-    "pagesize": {
-      "12": "12 Cards",
-      "24": "24 Cards",
-      "36": "36 Cards",
-      "48": "48 Cards",
-      "60": "60 Cards"
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints"
     },
     "displaymode": {
       "grid": "Grid",
@@ -92,12 +86,11 @@
       "asc": "Ascending",
       "desc": "Descending"
     },
-    "pagesize": {
-      "12": "12 Cards",
-      "24": "24 Cards",
-      "36": "36 Cards",
-      "48": "48 Cards",
-      "60": "60 Cards"
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints",
+      "faces": "Faces",
+      "printfaces": "Print Faces"
     },
     "displaymode": {
       "grid": "Grid",

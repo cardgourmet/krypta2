@@ -19,8 +19,12 @@ import { Route as MtgCardsIndexRouteImport } from './routes/mtg/cards/index'
 import { Route as MtgAdvancedIndexRouteImport } from './routes/mtg/advanced/index'
 import { Route as DlcCardsIndexRouteImport } from './routes/dlc/cards/index'
 import { Route as DlcAdvancedIndexRouteImport } from './routes/dlc/advanced/index'
+import { Route as PcgSetsSetCodeIndexRouteImport } from './routes/pcg/sets/$setCode/index'
 import { Route as MtgSetsSetCodeIndexRouteImport } from './routes/mtg/sets/$setCode/index'
+import { Route as DlcSetsSetCodeIndexRouteImport } from './routes/dlc/sets/$setCode/index'
+import { Route as PcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/pcg/sets/$setCode/$collectorNumber/{-$any}'
 import { Route as MtgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/mtg/sets/$setCode/$collectorNumber/{-$any}'
+import { Route as DlcSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/dlc/sets/$setCode/$collectorNumber/{-$any}'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -72,15 +76,37 @@ const DlcAdvancedIndexRoute = DlcAdvancedIndexRouteImport.update({
   path: '/dlc/advanced/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PcgSetsSetCodeIndexRoute = PcgSetsSetCodeIndexRouteImport.update({
+  id: '/pcg/sets/$setCode/',
+  path: '/pcg/sets/$setCode/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MtgSetsSetCodeIndexRoute = MtgSetsSetCodeIndexRouteImport.update({
   id: '/mtg/sets/$setCode/',
   path: '/mtg/sets/$setCode/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DlcSetsSetCodeIndexRoute = DlcSetsSetCodeIndexRouteImport.update({
+  id: '/dlc/sets/$setCode/',
+  path: '/dlc/sets/$setCode/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
+  PcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport.update({
+    id: '/pcg/sets/$setCode/$collectorNumber/{-$any}',
+    path: '/pcg/sets/$setCode/$collectorNumber/{-$any}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const MtgSetsSetCodeCollectorNumberChar123AnyChar125Route =
   MtgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport.update({
     id: '/mtg/sets/$setCode/$collectorNumber/{-$any}',
     path: '/mtg/sets/$setCode/$collectorNumber/{-$any}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DlcSetsSetCodeCollectorNumberChar123AnyChar125Route =
+  DlcSetsSetCodeCollectorNumberChar123AnyChar125RouteImport.update({
+    id: '/dlc/sets/$setCode/$collectorNumber/{-$any}',
+    path: '/dlc/sets/$setCode/$collectorNumber/{-$any}',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -95,8 +121,12 @@ export interface FileRoutesByFullPath {
   '/mtg/cards': typeof MtgCardsIndexRoute
   '/pcg/advanced': typeof PcgAdvancedIndexRoute
   '/pcg/cards': typeof PcgCardsIndexRoute
+  '/dlc/sets/$setCode': typeof DlcSetsSetCodeIndexRoute
   '/mtg/sets/$setCode': typeof MtgSetsSetCodeIndexRoute
+  '/pcg/sets/$setCode': typeof PcgSetsSetCodeIndexRoute
+  '/dlc/sets/$setCode/$collectorNumber/{-$any}': typeof DlcSetsSetCodeCollectorNumberChar123AnyChar125Route
   '/mtg/sets/$setCode/$collectorNumber/{-$any}': typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
+  '/pcg/sets/$setCode/$collectorNumber/{-$any}': typeof PcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,8 +139,12 @@ export interface FileRoutesByTo {
   '/mtg/cards': typeof MtgCardsIndexRoute
   '/pcg/advanced': typeof PcgAdvancedIndexRoute
   '/pcg/cards': typeof PcgCardsIndexRoute
+  '/dlc/sets/$setCode': typeof DlcSetsSetCodeIndexRoute
   '/mtg/sets/$setCode': typeof MtgSetsSetCodeIndexRoute
+  '/pcg/sets/$setCode': typeof PcgSetsSetCodeIndexRoute
+  '/dlc/sets/$setCode/$collectorNumber/{-$any}': typeof DlcSetsSetCodeCollectorNumberChar123AnyChar125Route
   '/mtg/sets/$setCode/$collectorNumber/{-$any}': typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
+  '/pcg/sets/$setCode/$collectorNumber/{-$any}': typeof PcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,8 +158,12 @@ export interface FileRoutesById {
   '/mtg/cards/': typeof MtgCardsIndexRoute
   '/pcg/advanced/': typeof PcgAdvancedIndexRoute
   '/pcg/cards/': typeof PcgCardsIndexRoute
+  '/dlc/sets/$setCode/': typeof DlcSetsSetCodeIndexRoute
   '/mtg/sets/$setCode/': typeof MtgSetsSetCodeIndexRoute
+  '/pcg/sets/$setCode/': typeof PcgSetsSetCodeIndexRoute
+  '/dlc/sets/$setCode/$collectorNumber/{-$any}': typeof DlcSetsSetCodeCollectorNumberChar123AnyChar125Route
   '/mtg/sets/$setCode/$collectorNumber/{-$any}': typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
+  '/pcg/sets/$setCode/$collectorNumber/{-$any}': typeof PcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,8 +178,12 @@ export interface FileRouteTypes {
     | '/mtg/cards'
     | '/pcg/advanced'
     | '/pcg/cards'
+    | '/dlc/sets/$setCode'
     | '/mtg/sets/$setCode'
+    | '/pcg/sets/$setCode'
+    | '/dlc/sets/$setCode/$collectorNumber/{-$any}'
     | '/mtg/sets/$setCode/$collectorNumber/{-$any}'
+    | '/pcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,8 +196,12 @@ export interface FileRouteTypes {
     | '/mtg/cards'
     | '/pcg/advanced'
     | '/pcg/cards'
+    | '/dlc/sets/$setCode'
     | '/mtg/sets/$setCode'
+    | '/pcg/sets/$setCode'
+    | '/dlc/sets/$setCode/$collectorNumber/{-$any}'
     | '/mtg/sets/$setCode/$collectorNumber/{-$any}'
+    | '/pcg/sets/$setCode/$collectorNumber/{-$any}'
   id:
     | '__root__'
     | '/'
@@ -168,8 +214,12 @@ export interface FileRouteTypes {
     | '/mtg/cards/'
     | '/pcg/advanced/'
     | '/pcg/cards/'
+    | '/dlc/sets/$setCode/'
     | '/mtg/sets/$setCode/'
+    | '/pcg/sets/$setCode/'
+    | '/dlc/sets/$setCode/$collectorNumber/{-$any}'
     | '/mtg/sets/$setCode/$collectorNumber/{-$any}'
+    | '/pcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,8 +233,12 @@ export interface RootRouteChildren {
   MtgCardsIndexRoute: typeof MtgCardsIndexRoute
   PcgAdvancedIndexRoute: typeof PcgAdvancedIndexRoute
   PcgCardsIndexRoute: typeof PcgCardsIndexRoute
+  DlcSetsSetCodeIndexRoute: typeof DlcSetsSetCodeIndexRoute
   MtgSetsSetCodeIndexRoute: typeof MtgSetsSetCodeIndexRoute
+  PcgSetsSetCodeIndexRoute: typeof PcgSetsSetCodeIndexRoute
+  DlcSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof DlcSetsSetCodeCollectorNumberChar123AnyChar125Route
   MtgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125Route
+  PcgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof PcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 
 declare module '@tanstack/react-router' {
@@ -259,6 +313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DlcAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pcg/sets/$setCode/': {
+      id: '/pcg/sets/$setCode/'
+      path: '/pcg/sets/$setCode'
+      fullPath: '/pcg/sets/$setCode'
+      preLoaderRoute: typeof PcgSetsSetCodeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mtg/sets/$setCode/': {
       id: '/mtg/sets/$setCode/'
       path: '/mtg/sets/$setCode'
@@ -266,11 +327,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MtgSetsSetCodeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dlc/sets/$setCode/': {
+      id: '/dlc/sets/$setCode/'
+      path: '/dlc/sets/$setCode'
+      fullPath: '/dlc/sets/$setCode'
+      preLoaderRoute: typeof DlcSetsSetCodeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pcg/sets/$setCode/$collectorNumber/{-$any}': {
+      id: '/pcg/sets/$setCode/$collectorNumber/{-$any}'
+      path: '/pcg/sets/$setCode/$collectorNumber/{-$any}'
+      fullPath: '/pcg/sets/$setCode/$collectorNumber/{-$any}'
+      preLoaderRoute: typeof PcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mtg/sets/$setCode/$collectorNumber/{-$any}': {
       id: '/mtg/sets/$setCode/$collectorNumber/{-$any}'
       path: '/mtg/sets/$setCode/$collectorNumber/{-$any}'
       fullPath: '/mtg/sets/$setCode/$collectorNumber/{-$any}'
       preLoaderRoute: typeof MtgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dlc/sets/$setCode/$collectorNumber/{-$any}': {
+      id: '/dlc/sets/$setCode/$collectorNumber/{-$any}'
+      path: '/dlc/sets/$setCode/$collectorNumber/{-$any}'
+      fullPath: '/dlc/sets/$setCode/$collectorNumber/{-$any}'
+      preLoaderRoute: typeof DlcSetsSetCodeCollectorNumberChar123AnyChar125RouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -287,9 +369,15 @@ const rootRouteChildren: RootRouteChildren = {
   MtgCardsIndexRoute: MtgCardsIndexRoute,
   PcgAdvancedIndexRoute: PcgAdvancedIndexRoute,
   PcgCardsIndexRoute: PcgCardsIndexRoute,
+  DlcSetsSetCodeIndexRoute: DlcSetsSetCodeIndexRoute,
   MtgSetsSetCodeIndexRoute: MtgSetsSetCodeIndexRoute,
+  PcgSetsSetCodeIndexRoute: PcgSetsSetCodeIndexRoute,
+  DlcSetsSetCodeCollectorNumberChar123AnyChar125Route:
+    DlcSetsSetCodeCollectorNumberChar123AnyChar125Route,
   MtgSetsSetCodeCollectorNumberChar123AnyChar125Route:
     MtgSetsSetCodeCollectorNumberChar123AnyChar125Route,
+  PcgSetsSetCodeCollectorNumberChar123AnyChar125Route:
+    PcgSetsSetCodeCollectorNumberChar123AnyChar125Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

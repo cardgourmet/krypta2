@@ -1,6 +1,6 @@
-import type { MtgSearchQuerySettings, MtgSortBy } from '@/parcels/tcg/mtg/types.ts';
-import type { TcgCardQuery, TcgFilterOperator } from '@/parcels/tcg/types.ts';
-import type { components as c } from '@/schema/api';
+import type {MtgSearchQuerySettings, MtgSortBy} from '@/parcels/tcg/mtg/types.ts';
+import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
+import type {components as c} from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
 
 export type MtgSearchCardsResult =
@@ -17,6 +17,7 @@ export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
 
+// v1/mtg/sets/{setId}
 export async function fetchMtgSet(
   setId: string,
   abort?: AbortController,

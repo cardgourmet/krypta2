@@ -1,19 +1,20 @@
-import { Accordion, Text } from '@mantine/core';
-import { IconAlertCircleFilled } from '@tabler/icons-react';
-import type { RefObject } from 'react';
+import {Accordion, Text} from '@mantine/core';
+import {IconAlertCircleFilled} from '@tabler/icons-react';
+import type {RefObject} from 'react';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
-import { CardGrid } from '@/parcels/overview/CardGrid/CardGrid.tsx';
+import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
 import CardOverviewSettings from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.tsx';
+import {CardTable} from '@/parcels/overview/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
-import { QueryExplanation } from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
-import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
-import type { DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgSearchCardsResult } from '@/parcels/tcg/mtg/api.ts';
-import type { MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings } from '@/parcels/tcg/mtg/types.ts';
-import type { PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
-import type { PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings } from '@/parcels/tcg/pcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import type { ApplyFn } from '@/parcels/types.ts';
+import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
+import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
+import type {DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
+import type {MtgSearchCardsResult} from '@/parcels/tcg/mtg/api.ts';
+import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
+import type {PcgSearchCardsResult} from '@/parcels/tcg/pcg/api.ts';
+import type {PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import type {ApplyFn} from '@/parcels/types.ts';
 import styles from './CardOverview.module.css';
 
 type CardOverviewProps = {
@@ -85,6 +86,9 @@ export function CardOverview({
         )}
 
         {searchDisplaySettings.cardDisplayMode === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
+        {searchDisplaySettings.cardDisplayMode === 'table' && (
+          <CardTable tcg={tcg} cards={cards} isLoading={isLoading} />
+        )}
       </div>
     </div>
   );

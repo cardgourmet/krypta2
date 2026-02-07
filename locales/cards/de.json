@@ -22,12 +22,9 @@
       "asc": "Aufsteigend",
       "desc": "Absteigend"
     },
-    "pagesize": {
-      "12": "12 Karten",
-      "24": "24 Karten",
-      "36": "36 Karten",
-      "48": "48 Karten",
-      "60": "60 Karten"
+    "uniqueby": {
+      "cards": "Karten",
+      "prints": "Prints"
     },
     "displaymode": {
       "grid": "Gitter",

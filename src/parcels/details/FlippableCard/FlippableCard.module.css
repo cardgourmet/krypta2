@@ -1,0 +1,27 @@
+.flippableContent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+
+  &[flipped="true"] {
+    transform: rotateY(180deg);
+  }
+
+  div {
+    position: absolute;
+    backface-visibility: hidden;
+  }
+}
+
+.card {
+  position: relative;
+  word-break: break-all;
+  overflow: hidden;
+
+  border-radius: 15px;
+  object-fit: contain;
+  aspect-ratio: 672 / 936;
+  width: 18rem;
+}

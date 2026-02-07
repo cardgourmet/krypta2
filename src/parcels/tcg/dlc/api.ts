@@ -1,6 +1,6 @@
-import type { DlcSearchQuerySettings, DlcSortBy } from '@/parcels/tcg/dlc/types.ts';
-import type { TcgCardQuery, TcgFilterOperator } from '@/parcels/tcg/types.ts';
-import type { components as c } from '@/schema/api.d.ts';
+import type {DlcSearchQuerySettings, DlcSortBy} from '@/parcels/tcg/dlc/types.ts';
+import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
+import type {components as c} from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
 export type DlcCardQuery = TcgCardQuery & {
@@ -12,6 +12,80 @@ export type DlcSearchCardsResult =
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
 export type DlcSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
+
+export type DlcDataCard = c['schemas']['DlcDataCard'];
+export type DlcDataPrint = c['schemas']['DlcDataPrint'];
+export type DlcDataSet = c['schemas']['DlcDataSet'];
+
+// v1/mtg/sets/{setId}
+export async function fetchDlcSet(
+  setId: string,
+  abort?: AbortController,
+): Promise<{ data?: DlcDataSet; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/dlc/sets/{setId}`, {
+      params: {
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
+// /v1/mtg/prints/{setCode}/{collectorNumber}
+export async function fetchDlcPrint(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<{ data?: DlcDataCard; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/dlc/prints/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
 
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,

@@ -1,15 +1,17 @@
 .contentNav {
-  padding: 1rem 0 1rem 0;
   display: flex;
+  justify-content: center;
   flex-direction: column;
+
   position: sticky;
   top: var(--navbar-height);
+  z-index: var(--sticky-layer);
+
+  height: var(--navbar-height);
 
   border: 0;
   border-bottom: var(--gourmet-neutral-3) solid 1px;
-
   background-color: var(--gourmet-neutral-0);
-  z-index: var(--sticky-layer);
 }
 
 .pagination {

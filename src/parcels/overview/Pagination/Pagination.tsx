@@ -1,18 +1,12 @@
-import {
-  IconChevronLeft,
-  IconChevronLeftPipe,
-  IconChevronRight,
-  IconChevronRightPipe,
-  IconDots,
-} from '@tabler/icons-react';
+import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRightPipe, IconDots,} from '@tabler/icons-react';
 import Skeleton from 'react-loading-skeleton';
-import { useWindowSize } from '@/parcels/overview/useWindowSize.ts';
-import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
-import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
-import type { ApplyFn } from '@/parcels/types.ts';
+import {useWindowSize} from '@/parcels/overview/useWindowSize.ts';
+import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
+import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
+import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';
+import type {ApplyFn} from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
-import type {MtgSearchParams} from "@/parcels/tcg/mtg/types.ts";
 
 type CardPaginationProps = {
   currentPage?: number;

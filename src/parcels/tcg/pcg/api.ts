@@ -1,6 +1,6 @@
-import type { PcgSearchQuerySettings, PcgSortBy } from '@/parcels/tcg/pcg/types.ts';
-import type { TcgCardQuery, TcgFilterOperator } from '@/parcels/tcg/types.ts';
-import type { components as c } from '@/schema/api';
+import type {PcgSearchQuerySettings, PcgSortBy} from '@/parcels/tcg/pcg/types.ts';
+import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
+import type {components as c} from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
 
 export type PcgSearchCardsResult =
@@ -12,6 +12,80 @@ export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValue
 export type PcgCardQuery = TcgCardQuery & {
   sortBy?: PcgSortBy;
 };
+
+export type PcgDataCard = c['schemas']['PcgDataCard'];
+export type PcgDataPrint = c['schemas']['PcgDataPrint'];
+export type PcgDataSet = c['schemas']['PcgDataSet'];
+
+// v1/mtg/sets/{setId}
+export async function fetchPcgSet(
+  setId: string,
+  abort?: AbortController,
+): Promise<{ data?: PcgDataSet; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/pcg/sets/{setId}`, {
+      params: {
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
+// /v1/mtg/prints/{setCode}/{collectorNumber}
+export async function fetchPcgPrint(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<{ data?: PcgDataCard; error?: Error }> {
+  try {
+    const res = await umoriClient.GET(`/v1/pcg/prints/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { data: res.data.data };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
 
 // /v1/pcg/cards/search
 export async function fetchPcgCards(

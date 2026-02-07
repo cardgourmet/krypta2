@@ -91,17 +91,20 @@ export function constructCardOverview(
   }, [searchQuerySettings]);
 
   return (
-    <CardOverview
-      tcg={tcg}
-      scrollbackRef={scrollBackRef}
-      isLoading={isLoading}
-      isQueryLoading={isQueryLoading}
-      isSetSpecific={isSetSpecific}
-      cards={cards}
-      setSettings={setSettings}
-      searchQuerySettings={searchQuerySettings}
-      searchDisplaySettings={searchDisplaySettings}
-    />
+    <>
+      <title>{`${searchParams.query} – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+      <CardOverview
+        tcg={tcg}
+        scrollbackRef={scrollBackRef}
+        isLoading={isLoading}
+        isQueryLoading={isQueryLoading}
+        isSetSpecific={isSetSpecific}
+        cards={cards}
+        setSettings={setSettings}
+        searchQuerySettings={searchQuerySettings}
+        searchDisplaySettings={searchDisplaySettings}
+      />
+    </>
   );
 }
 

@@ -1,10 +1,10 @@
-import { Button, Group, Image, Stack, Text } from '@mantine/core';
-import { IconArrowRight, IconRefresh } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-import { useRef, useState } from 'react';
-import { slugify } from '@/parcels/slugify.ts';
-import type { MtgDataCard } from '@/parcels/tcg/mtg/api.ts';
-import { FlippableCard } from '@/routes/mtg/sets/$setCode/$collectorNumber/-components/FlippableCard.tsx';
+import {Button, Group, Image, Stack, Text} from '@mantine/core';
+import {IconArrowRight, IconRefresh} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
+import {useRef, useState} from 'react';
+import {FlippableCard} from '@/parcels/details/FlippableCard/FlippableCard.tsx';
+import {slugify} from '@/parcels/slugify.ts';
+import type {MtgDataCard} from '@/parcels/tcg/mtg/api.ts';
 
 export function MtgPrintImageRenderer({ card }: { card: MtgDataCard }) {
   const front = card.print.faces[0];

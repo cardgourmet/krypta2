@@ -1,9 +1,9 @@
-import { Divider, Group, Stack, Text } from '@mantine/core';
-import { type ReactElement, type ReactNode, useMemo } from 'react';
-import reactStringReplace from 'react-string-replace';
-import type { MtgDataPrintFace } from '@/parcels/tcg/mtg/api.ts';
-import { MtgColorIndicator } from '@/parcels/tcg/mtg/MtgColorIndicator/MtgColorIndicator.tsx';
-import { MtgSymbolSVG } from '@/parcels/tcg/mtg/MtgSymbolSVG/MtgSymbolSVG.tsx';
+import {Divider, Group, Stack, Text} from '@mantine/core';
+import {useMemo} from 'react';
+import type {MtgDataPrintFace} from '@/parcels/tcg/mtg/api.ts';
+import {MtgColorIndicator} from '@/parcels/tcg/mtg/details/MtgColorIndicator/MtgColorIndicator.tsx';
+import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
+import {renderRichText} from '@/parcels/tcg/mtg/renderRichText.tsx';
 
 export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace }) {
   const trans = print.translations.en;
@@ -62,7 +62,7 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
       <Stack gap={'sm'}>
         {trans.oracleText?.split('\n').map((line, i) => (
           <Text ff={'var(--cgm-content-font-family)'} key={i}>
-            {renderOracleLine(line)}
+            {renderRichText(line)}
           </Text>
         ))}
       </Stack>
@@ -93,55 +93,4 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
       )}
     </Stack>
   );
-}
-
-function renderOracleLine(line: string): ReactElement {
-  let formattedLine: ReactNode[] = [line];
-  const symbolRegex = /\{(?<symbol>.+?)}/g;
-
-  formattedLine = reactStringReplace(formattedLine, /\((.*?)\)/g, (match, index) => {
-    const innerRichContent = reactStringReplace(match, symbolRegex, (match, index) => (
-      <span
-        key={match + index}
-        style={{
-          display: 'inline-block',
-          verticalAlign: 'middle',
-          height: '21px' /* idk why: 'calc(1rem * var(--mantine-line-height-md))' doesnt work ...*/,
-          marginLeft: '0.15rem',
-          marginRight: '0.15rem',
-        }}
-      >
-        <MtgSymbolSVG symbol={`{${match}}`} size={16} />
-      </span>
-    ));
-
-    return (
-      <em key={match + index} style={{ color: 'var(--gourmet-neutral-6)' }}>
-        (
-        {innerRichContent.map((node, index) =>
-          typeof node === 'string' && !!node ? <span key={node + index}>{node}</span> : node,
-        )}
-        )
-      </em>
-    );
-  });
-
-  formattedLine = reactStringReplace(formattedLine, symbolRegex, (match, index) => {
-    return (
-      <span
-        key={match + index}
-        style={{
-          display: 'inline-block',
-          verticalAlign: 'middle',
-          height: '21px' /* idk why: 'calc(1rem * var(--mantine-line-height-md))' doesnt work ...*/,
-          marginLeft: '0.15rem',
-          marginRight: '0.15rem',
-        }}
-      >
-        <MtgSymbolSVG symbol={`{${match}}`} size={16} />
-      </span>
-    );
-  });
-
-  return <>{formattedLine}</>;
 }
