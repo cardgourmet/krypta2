@@ -1,9 +1,8 @@
-import type { DisplayMode, PageSize, SortDirection } from '@/parcels/tcg/types.ts';
+import type { DisplayMode, SortDirection } from '@/parcels/tcg/types.ts';
 
 export type CardSearchParams = {
   query?: string;
   page?: number;
-  pageSize?: PageSize;
   sortDirection?: SortDirection;
   cardDisplayMode?: DisplayMode;
 };

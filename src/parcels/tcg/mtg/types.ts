@@ -1,13 +1,6 @@
 import { z } from 'zod';
 import type { CardSearchDisplaySettings, CardSearchParams, CardSearchQuerySettings } from '@/parcels/overview/types.ts';
-import {
-  type DisplayMode,
-  displayModes,
-  type PageSize,
-  pageSizes,
-  type SortDirection,
-  sortDirections,
-} from '@/parcels/tcg/types.ts';
+import { type DisplayMode, displayModes, type SortDirection, sortDirections } from '@/parcels/tcg/types.ts';
 
 export const mtgSortBys = [
   'name',
@@ -27,25 +20,29 @@ export const mtgSortBys = [
 ] as const;
 export type MtgSortBy = (typeof mtgSortBys)[number];
 
+export const mtgUniqueBys = ['cards', 'prints', 'faces', 'printfaces'];
+export type MtgUniqueBy = (typeof mtgUniqueBys)[number];
+
 export const mtgSearchParamsDefaults = {
   query: '',
   page: 1,
-  pageSize: '60' as PageSize,
   sortDirection: 'auto' as SortDirection,
   cardDisplayMode: 'grid' as DisplayMode,
+  uniqueBy: 'cards' as MtgUniqueBy,
   sortBy: 'name' as MtgSortBy,
 };
 
 export const mtgSearchParamsSchema = z.object({
   query: z.string().catch(mtgSearchParamsDefaults.query),
   page: z.number().catch(mtgSearchParamsDefaults.page),
-  pageSize: z.enum(pageSizes).catch(mtgSearchParamsDefaults.pageSize),
   sortDirection: z.enum(sortDirections).catch(mtgSearchParamsDefaults.sortDirection),
   cardDisplayMode: z.enum(displayModes).catch(mtgSearchParamsDefaults.cardDisplayMode),
+  uniqueBy: z.enum(mtgUniqueBys).catch(mtgSearchParamsDefaults.uniqueBy),
   sortBy: z.enum(mtgSortBys).catch(mtgSearchParamsDefaults.sortBy),
 });
 
 export type MtgSearchParams = CardSearchParams & {
+  uniqueBy?: MtgUniqueBy;
   sortBy?: MtgSortBy;
 };
 

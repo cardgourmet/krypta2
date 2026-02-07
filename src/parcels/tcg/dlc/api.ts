@@ -20,7 +20,8 @@ export async function fetchDlcCards(
   const query: DlcCardQuery = {
     query: settings.query,
     page: settings.page,
-    pageSize: Number(settings.pageSize),
+    pageSize: 60,
+    mode: `unique:${settings.uniqueBy}`,
     sortBy: settings.sortBy,
   };
   if (settings.sortDirection !== 'auto') {

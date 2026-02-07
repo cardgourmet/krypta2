@@ -9,11 +9,11 @@ export function useDlcMemoizedQuerySettings() {
     return {
       query: searchParams.query,
       page: searchParams.page,
-      pageSize: searchParams.pageSize,
       sortBy: searchParams.sortBy,
+      uniqueBy: searchParams.uniqueBy,
       sortDirection: searchParams.sortDirection,
     };
-  }, [searchParams.query, searchParams.page, searchParams.pageSize, searchParams.sortBy, searchParams.sortDirection]);
+  }, [searchParams.query, searchParams.page, searchParams.uniqueBy, searchParams.sortBy, searchParams.sortDirection]);
 }
 
 export function useDlcMemoizedDisplaySettings() {

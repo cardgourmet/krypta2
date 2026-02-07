@@ -9,11 +9,11 @@ export function usePcgMemoizedQuerySettings() {
     return {
       query: searchParams.query,
       page: searchParams.page,
-      pageSize: searchParams.pageSize,
+      uniqueBy: searchParams.uniqueBy,
       sortBy: searchParams.sortBy,
       sortDirection: searchParams.sortDirection,
     };
-  }, [searchParams.query, searchParams.page, searchParams.pageSize, searchParams.sortBy, searchParams.sortDirection]);
+  }, [searchParams.query, searchParams.page, searchParams.uniqueBy, searchParams.sortBy, searchParams.sortDirection]);
 }
 
 export function usePcgMemoizedDisplaySettings() {

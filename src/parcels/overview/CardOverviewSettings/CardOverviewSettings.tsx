@@ -7,34 +7,33 @@ import {
   type DlcSearchParams,
   type DlcSearchQuerySettings,
   type DlcSortBy,
+  type DlcUniqueBy,
   dlcSortBys,
+  dlcUniqueBys,
 } from '@/parcels/tcg/dlc/types.ts';
-import {
-  type PcgSearchDisplaySettings,
-  type PcgSearchParams,
-  type PcgSearchQuerySettings,
-  type PcgSortBy,
-  pcgSortBys,
-} from '@/parcels/tcg/pcg/types.ts';
-import {
-  type DisplayMode,
-  displayModes,
-  type PageSize,
-  pageSizes,
-  type SortDirection,
-  sortDirections,
-} from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import type { ApplyFn } from '@/parcels/types.ts';
-import Dropdown from '../Dropdown/Dropdown.tsx';
-import styles from './CardOverviewSettings.module.css';
 import {
   type MtgSearchDisplaySettings,
   type MtgSearchParams,
   type MtgSearchQuerySettings,
   type MtgSortBy,
+  type MtgUniqueBy,
   mtgSortBys,
+  mtgUniqueBys,
 } from '@/parcels/tcg/mtg/types.ts';
+import {
+  type PcgSearchDisplaySettings,
+  type PcgSearchParams,
+  type PcgSearchQuerySettings,
+  type PcgSortBy,
+  type PcgUniqueBy,
+  pcgSortBys,
+  pcgUniqueBys,
+} from '@/parcels/tcg/pcg/types.ts';
+import { type DisplayMode, displayModes, type SortDirection, sortDirections } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
+import Dropdown from '../Dropdown/Dropdown.tsx';
+import styles from './CardOverviewSettings.module.css';
 
 type CardOverviewSettingsProps = {
   tcg: Tcg;
@@ -100,9 +99,18 @@ export default function CardOverviewSettings({
       return dlcSortBys;
     }
   }, [tcg]);
+  const uniqueBys: readonly DlcUniqueBy[] | readonly PcgUniqueBy[] | readonly MtgUniqueBy[] = useMemo(() => {
+    if (tcg === 'pcg') {
+      return pcgUniqueBys;
+    } else if (tcg === 'mtg') {
+      return mtgUniqueBys;
+    } else {
+      return dlcUniqueBys;
+    }
+  }, [tcg]);
   const sortByItems = fillTranslation('sortby', sortBys as string[]);
+  const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
-  const pageSizeItems = fillTranslation('pagesize', pageSizes as readonly PageSize[] as string[]);
   const displayModeItems = fillTranslation('displaymode', displayModes as readonly DisplayMode[] as string[]);
 
   return (
@@ -123,7 +131,7 @@ export default function CardOverviewSettings({
                   defaultSelected={querySettings.sortBy}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, sortBy: selected as DlcSortBy | PcgSortBy };
+                      return { ...prev, sortBy: selected as DlcSortBy | PcgSortBy | MtgSortBy };
                     });
                   }}
                 />
@@ -140,11 +148,11 @@ export default function CardOverviewSettings({
               <div>
                 <p>{t('common.show')}</p>
                 <Dropdown
-                  items={pageSizeItems}
-                  defaultSelected={querySettings.pageSize}
+                  items={uniqueByItems}
+                  defaultSelected={querySettings.uniqueBy}
                   onSelect={(selected) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, pageSize: selected as PageSize };
+                      return { ...prev, pageSize: selected as DlcUniqueBy | PcgUniqueBy | MtgUniqueBy };
                     });
                   }}
                 />
@@ -195,11 +203,11 @@ export default function CardOverviewSettings({
           <div>
             <p>{t('common.show')}</p>
             <Dropdown
-              items={pageSizeItems}
-              defaultSelected={querySettings.pageSize}
+              items={uniqueByItems}
+              defaultSelected={querySettings.uniqueBy}
               onSelect={(selected) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, pageSize: selected as PageSize };
+                  return { ...prev, pageSize: selected as DlcUniqueBy | PcgUniqueBy | MtgUniqueBy };
                 });
               }}
             />

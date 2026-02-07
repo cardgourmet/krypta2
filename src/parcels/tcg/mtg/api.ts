@@ -94,8 +94,9 @@ export async function fetchMtgCards(
   const query: MtgCardQuery = {
     query: settings.query,
     page: settings.page,
-    pageSize: Number(settings.pageSize),
+    pageSize: 60,
     sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;

@@ -62,7 +62,7 @@ export function CardOverview({
         <QueryExplanation
           isLoading={isLoading}
           currentPage={cards?.data?.currentPage}
-          pageSize={Number(searchQuerySettings.pageSize)}
+          pageSize={60}
           cardCount={cards?.data?.details?.count ?? 0}
           explanation={cards?.data.details?.explanation ?? ''}
         />
