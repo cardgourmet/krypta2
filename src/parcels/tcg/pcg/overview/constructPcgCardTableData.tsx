@@ -2,6 +2,7 @@ import {Link} from '@tanstack/react-router';
 import {type ReactElement, useCallback, useMemo} from 'react';
 import {slugify} from '@/parcels/slugify.ts';
 import type {PcgDataCard, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import {PcgSymbolSVG} from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
 import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
 
 export function constructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
@@ -21,15 +22,20 @@ export function constructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
           {card.name}
         </Link>
       ),
-      Cost: <>{card.retreatCost}</>,
-      Type: <>{card.superType}</>,
+      Energy: (
+        <>
+          {card.types.map((s) => (
+            <PcgSymbolSVG key={s} symbol={s} size={32} />
+          ))}
+        </>
+      ),
       Rarity: <>{card.print.rarity}</>,
       Artist: <>{card.print.illustrators}</>,
     } as Record<string, ReactElement>;
   }, []);
   const pcgTableData = useMemo(() => {
     return {
-      columns: ['Set', 'Number', 'Name', 'Cost', 'Type', 'Rarity', 'Artist'],
+      columns: ['Set', 'Number', 'Name', 'Energy', 'Rarity', 'Artist'],
       rows:
         cardItems?.map((card, _) => {
           if (!('superType' in card.card)) return { card: card.card, data: [] };
