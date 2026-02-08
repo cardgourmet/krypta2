@@ -1,13 +1,13 @@
-import { IconRefresh } from '@tabler/icons-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {IconRefresh} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { slugify } from '@/parcels/slugify.ts';
-import type { DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
-import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {slugify} from '@/parcels/slugify.ts';
+import type {DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
+import type {MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
-import { Link } from '@tanstack/react-router';
 
 interface ImageCardProps {
   tcg: Tcg;
@@ -55,8 +55,8 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
       };
     } else if (tcg === 'mtg') {
       const mtgCard = card as MtgSearchDataCard;
-      const frontFace = mtgCard.card.print.faces[0]?.translations?.en;
-      const backFace = mtgCard.card.print.faces[1]?.translations?.en;
+      const frontFace = mtgCard.card.print.faces?.[0]?.translations?.en;
+      const backFace = mtgCard.card.print.faces?.[1]?.translations?.en;
 
       return {
         id: mtgCard.card.id,

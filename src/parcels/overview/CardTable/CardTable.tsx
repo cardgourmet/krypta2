@@ -1,12 +1,11 @@
-/** biome-ignore-all lint/correctness/noNestedComponentDefinitions: <explanation> */
 import {useMediaQuery} from '@mantine/hooks';
-import {Link} from '@tanstack/react-router';
 import {useMemo} from 'react';
-import {slugify} from '@/parcels/slugify.ts';
 import type {DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import {renderRichText} from '@/parcels/tcg/mtg/renderRichText.tsx';
+import {constructDlcCardTableData} from '@/parcels/tcg/dlc/overview/constructDlcCardTableData.tsx';
+import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
+import {constructMtgCardTableData} from '@/parcels/tcg/mtg/overview/constructMtgCardTableData.tsx';
 import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import {constructPcgCardTableData} from '@/parcels/tcg/pcg/overview/constructPcgCardTableData.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardTable.module.css';
 
@@ -31,35 +30,15 @@ export function CardTable({ tcg, cards, isLoading }: CardTableProps) {
     return null;
   }, [tcg, cards]);
 
+  const mtgData = constructMtgCardTableData((cardItems ?? []) as MtgSearchDataCard[]);
+  const dlcData = constructDlcCardTableData((cardItems ?? []) as DlcSearchDataCard[]);
+  const pcgData = constructPcgCardTableData((cardItems ?? []) as PcgSearchDataCard[]);
   const tableData = useMemo(() => {
-    return {
-      header: ['Set', 'Number', 'Name', 'Cost', 'Type', 'Rarity', 'Artist'],
-      rows: [
-        {
-          Set: (card: MtgDataCard) => {
-            return <>{card.print.setCode}</>;
-          },
-          Number: (card: MtgDataCard) => {
-            return <>{card.print.collectorNumber}</>;
-          },
-          Name: (card: MtgDataCard) => {
-            return (
-              <Link
-                to={`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`}
-                params={{
-                  setCode: card.print.setCode?.toLowerCase() as string,
-                  collectorNumber: card.print.collectorNumber?.toLowerCase() as string,
-                  any: slugify(card.name ?? ''),
-                }}
-              >
-                {card.name}
-              </Link>
-            );
-          },
-        },
-      ],
-    };
-  }, [tcg]);
+    if (tcg === 'mtg') return mtgData;
+    else if (tcg === 'dlc') return dlcData;
+    else if (tcg === 'pcg') return pcgData;
+    return null;
+  }, [mtgData, dlcData, pcgData, tcg]);
 
   return (
     <>
@@ -67,42 +46,23 @@ export function CardTable({ tcg, cards, isLoading }: CardTableProps) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Set</th>
-              <th>Number</th>
-              <th>Name</th>
-              <th>Cost</th>
-              <th>Type</th>
-              <th>Rarity</th>
-              <th>Artist</th>
+              {tableData?.columns.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {!isLoading
-              && cardItems
-              && cardItems.map((card, index) => (
-                <tr key={index} className={styles.clickableRow}>
-                  <td>{card.card.print.setCode}</td>
-                  <td>{card.card.print.collectorNumber}</td>
-                  <td style={{ maxWidth: '24rem' }}>
-                    <Link
-                      to={`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`}
-                      params={{
-                        setCode: card.card.print.setCode?.toLowerCase() as string,
-                        collectorNumber: card.card.print.collectorNumber?.toLowerCase() as string,
-                        any: slugify(card.card.name ?? ''),
-                      }}
-                    >
-                      {card.card.name}
-                    </Link>
-                  </td>
-                  <td>{renderRichText((card.card as MtgDataCard)?.print.faces[0]?.manaDisplay ?? '')}</td>
-                  <td style={{ maxWidth: '20rem' }}>
-                    {(card.card as MtgDataCard)?.print.faces[0]?.translations?.en?.typeLine}
-                  </td>
-                  <td>{card.card.print.rarity}</td>
-                  <td style={{ maxWidth: '12rem' }}>{(card.card as MtgDataCard)?.print?.artist}</td>
-                </tr>
-              ))}
+              && (tableData?.rows?.length ?? 0) > 0
+              && tableData?.rows.map(({ card, data }) => {
+                return (
+                  <tr key={card.print.id}>
+                    {tableData.columns.map((column) => (
+                      <td key={column}>{data[column]}</td>
+                    ))}
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       )}
@@ -110,50 +70,15 @@ export function CardTable({ tcg, cards, isLoading }: CardTableProps) {
         <table className={styles.table}>
           <tbody>
             {!isLoading
-              && cardItems
-              && cardItems.map((card, index) => (
+              && (tableData?.rows?.length ?? 0) > 0
+              && tableData?.rows.map(({ card, data }) => (
                 <>
-                  <tr key={`${index}_1`}>
-                    <th>Set</th>
-                    <td>{card.card.print.setCode}</td>
-                  </tr>
-                  <tr key={`${index}_2`}>
-                    <th>Number</th>
-                    <td>{card.card.print.collectorNumber}</td>
-                  </tr>
-                  <tr key={`${index}_3`}>
-                    <th>Name</th>
-                    <td style={{ maxWidth: '24rem' }}>
-                      <Link
-                        to={`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`}
-                        params={{
-                          setCode: card.card.print.setCode?.toLowerCase() as string,
-                          collectorNumber: card.card.print.collectorNumber?.toLowerCase() as string,
-                          any: slugify(card.card.name ?? ''),
-                        }}
-                      >
-                        {card.card.name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr key={`${index}_4`}>
-                    <th>Cost</th>
-                    <td>{renderRichText((card.card as MtgDataCard)?.print.faces[0]?.manaDisplay ?? '')}</td>
-                  </tr>
-                  <tr key={`${index}_5`}>
-                    <th>Type</th>
-                    <td style={{ maxWidth: '20rem' }}>
-                      {(card.card as MtgDataCard)?.print.faces[0]?.translations?.en?.typeLine}
-                    </td>
-                  </tr>
-                  <tr key={`${index}_6`}>
-                    <th>Rarity</th>
-                    <td>{card.card.print.rarity}</td>
-                  </tr>
-                  <tr key={`${index}_7`} data-cell={'last'}>
-                    <th>Artist</th>
-                    <td style={{ maxWidth: '12rem' }}>{(card.card as MtgDataCard)?.print?.artist}</td>
-                  </tr>
+                  {tableData?.columns.map((column) => (
+                    <tr key={`${card.print.id}_${column}`}>
+                      <th>{column}</th>
+                      <td>{data[column]}</td>
+                    </tr>
+                  ))}
                 </>
               ))}
           </tbody>
@@ -161,24 +86,4 @@ export function CardTable({ tcg, cards, isLoading }: CardTableProps) {
       )}
     </>
   );
-
-  /*
-
-  <GourmetTable>
-    <GourmetTableHeader />
-    <GourmetTableBody>
-      <GourmetTableRow>
-        -- element to render
-      </GourmetTableRow>
-    </GourmetTableBody />
-  </GourmetTable>
-
-
-   */
 }
-
-function GourmetTable() {}
-
-function GourmetTableHeader() {}
-
-function GourmetTableRow() {}

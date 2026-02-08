@@ -1,3 +1,8 @@
+import type {ReactElement} from 'react';
+import type {DlcDataCard} from '@/parcels/tcg/dlc/api.ts';
+import type {MtgDataCard} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgDataCard} from '@/parcels/tcg/pcg/api.ts';
+
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];
 
@@ -22,3 +27,11 @@ export type TcgCardQuery = {
 export const filterOperatorsRegex = '[=:><]';
 export const filterOperators = [':', '>=', '>', '<=', '<', '='] as const;
 export type TcgFilterOperator = (typeof filterOperators)[number];
+
+export type TcgCardTableData = {
+  columns: string[];
+  rows: {
+    card: MtgDataCard | DlcDataCard | PcgDataCard;
+    data: Record<string, ReactElement>;
+  }[];
+};
