@@ -1,6 +1,7 @@
 import {Divider, Group, Stack, Text} from '@mantine/core';
 import {createFileRoute, notFound, redirect, stripSearchParams} from '@tanstack/react-router';
 import {z} from 'zod';
+import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {fetchPcgPrint, fetchPcgSet, type PcgDataCard, type PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
@@ -111,6 +112,8 @@ function RouteComponent() {
       <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
 
       <Group align={'start'} style={{ minHeight: '100vh' }}>
+        <TcgPrintImageRenderer tcg={'pcg'} card={cardWithPrints} />
+
         {/*<MtgPrintImageRenderer card={cardWithPrints} />
         <Group align={'start'}>
           <MtgPrintFaceContentRenderer print={frontFace} />

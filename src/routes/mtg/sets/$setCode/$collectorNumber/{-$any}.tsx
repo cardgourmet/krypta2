@@ -1,13 +1,13 @@
-import { Divider, Group, Stack, Text } from '@mantine/core';
-import { createFileRoute, notFound, redirect, stripSearchParams, useNavigate } from '@tanstack/react-router';
-import { useCallback } from 'react';
-import { z } from 'zod';
+import {Divider, Group, Stack, Text} from '@mantine/core';
+import {createFileRoute, notFound, redirect, stripSearchParams, useNavigate} from '@tanstack/react-router';
+import {useCallback} from 'react';
+import {z} from 'zod';
+import {TcgPrintImageRenderer} from "@/parcels/details/TcgPrintImageRenderer.tsx";
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
-import { slugify } from '@/parcels/slugify.ts';
-import { fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
-import { MtgPrintFaceContentRenderer } from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
-import { MtgPrintImageRenderer } from '@/parcels/tcg/mtg/details/MtgPrintImageRenderer.tsx';
-import { MtgPrintMetaRenderer } from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer.tsx';
+import {slugify} from '@/parcels/slugify.ts';
+import {fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
+import {MtgPrintFaceContentRenderer} from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
+import {MtgPrintMetaRenderer} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer.tsx';
 import styles from './{-$any}.module.css';
 
 const cardDetailDefaults = { lang: 'en' };
@@ -115,7 +115,7 @@ function RouteComponent() {
       <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
 
       <Group align={'start'} style={{ minHeight: '100vh' }}>
-        <MtgPrintImageRenderer card={cardWithPrints} />
+        <TcgPrintImageRenderer tcg={'mtg'} card={cardWithPrints} />
         <Group align={'start'}>
           <MtgPrintFaceContentRenderer print={frontFace} />
           {backFace && <MtgPrintFaceContentRenderer print={backFace} />}
