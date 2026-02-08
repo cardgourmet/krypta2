@@ -1,17 +1,19 @@
 import {Divider, Group, Stack, Text} from '@mantine/core';
-import {createFileRoute, notFound, redirect, stripSearchParams} from '@tanstack/react-router';
+import {createFileRoute, notFound, redirect, stripSearchParams, useNavigate} from '@tanstack/react-router';
+import {useCallback} from 'react';
 import {z} from 'zod';
 import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {fetchPcgPrint, fetchPcgSet, type PcgDataCard, type PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
+import {PcgPrintMetaRenderer} from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
 import styles from './{-$any}.module.css';
 
 const cardDetailDefaults = { lang: 'en' };
 const cardDetailSearchSchema = z.object({
   lang: z.string().default(cardDetailDefaults.lang),
 });
-// type CardDetailsSearch = z.infer<typeof cardDetailSearchSchema>;
+type CardDetailsSearch = z.infer<typeof cardDetailSearchSchema>;
 
 export const Route = createFileRoute('/pcg/sets/$setCode/$collectorNumber/{-$any}')({
   component: RouteComponent,
@@ -61,11 +63,9 @@ export const Route = createFileRoute('/pcg/sets/$setCode/$collectorNumber/{-$any
 
 function RouteComponent() {
   const { print: cardWithPrints, set } = Route.useLoaderData();
-  /*const { lang } = Route.useSearch() as CardDetailsSearch;
-  const frontFace = cardWithPrints.print.faces[0];
-  const backFace = cardWithPrints.print.faces[1];*/
 
-  /*const navigate = useNavigate();
+  const { lang } = Route.useSearch() as CardDetailsSearch;
+  const navigate = useNavigate();
   const setLanguage = useCallback(
     (lang: string, _: string) => {
       const specificPrint =
@@ -75,7 +75,7 @@ function RouteComponent() {
       navigate({
         to: Route.to,
         params: {
-          setCode: specificPrint.setCode.toLowerCase(),
+          setCode: specificPrint.setCode?.toLowerCase() ?? '???',
           collectorNumber: specificPrint.collectorNumber.toLowerCase(),
           any: slugify(cardWithPrints.name),
         },
@@ -85,7 +85,7 @@ function RouteComponent() {
       });
     },
     [navigate, cardWithPrints],
-  );*/
+  );
 
   return (
     <div className={styles.mainContent}>
@@ -114,6 +114,14 @@ function RouteComponent() {
       <Group align={'start'} style={{ minHeight: '100vh' }}>
         <TcgPrintImageRenderer tcg={'pcg'} card={cardWithPrints} />
 
+        <PcgPrintMetaRenderer
+          tcg={'pcg'}
+          card={cardWithPrints}
+          print={cardWithPrints.print}
+          set={set}
+          language={lang}
+          setLanguage={setLanguage}
+        />
         {/*<MtgPrintImageRenderer card={cardWithPrints} />
         <Group align={'start'}>
           <MtgPrintFaceContentRenderer print={frontFace} />

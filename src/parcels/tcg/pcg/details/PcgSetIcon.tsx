@@ -3,9 +3,7 @@ const images = import.meta.glob<string>('/src/parcels/tcg/pcg/icons/sets/**/*.{p
   import: 'default',
 });
 
-export function PcgSetSymbol({ setCode }: { setCode: string }) {
-  console.log(Object.keys(images));
-
+export function PcgSetIcon({ setCode }: { setCode: string }) {
   const entry = Object.entries(images).find(([key, _]) => key.includes(setCode.toLowerCase()));
   if (entry) {
     const [fileName, fileData] = entry;

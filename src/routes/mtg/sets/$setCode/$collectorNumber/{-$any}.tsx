@@ -2,12 +2,12 @@ import {Divider, Group, Stack, Text} from '@mantine/core';
 import {createFileRoute, notFound, redirect, stripSearchParams, useNavigate} from '@tanstack/react-router';
 import {useCallback} from 'react';
 import {z} from 'zod';
-import {TcgPrintImageRenderer} from "@/parcels/details/TcgPrintImageRenderer.tsx";
+import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
 import {MtgPrintFaceContentRenderer} from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
-import {MtgPrintMetaRenderer} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer.tsx';
+import {MtgPrintMetaRenderer} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 import styles from './{-$any}.module.css';
 
 const cardDetailDefaults = { lang: 'en' };
