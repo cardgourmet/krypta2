@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
-import { Route } from '@/routes/dlc/cards';
+import {useMemo} from 'react';
+import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
+import {Route} from '@/routes/dlc/cards';
 
 export function useDlcMemoizedQuerySettings() {
   const searchParams = Route.useSearch();
@@ -21,7 +21,7 @@ export function useDlcMemoizedDisplaySettings() {
 
   return useMemo(() => {
     return {
-      cardDisplayMode: searchParams.cardDisplayMode ?? dlcSearchParamsDefaults.cardDisplayMode,
+      display: searchParams.display ?? dlcSearchParamsDefaults.display,
     };
-  }, [searchParams.cardDisplayMode]);
+  }, [searchParams.display]);
 }

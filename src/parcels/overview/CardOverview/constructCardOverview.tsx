@@ -1,16 +1,16 @@
-import type { UseNavigateResult } from '@tanstack/react-router';
-import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
-import { CardOverview } from '@/parcels/overview/CardOverview/CardOverview.tsx';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import { type DlcCardQuery, type DlcSearchCardsResult, fetchDlcCards } from '@/parcels/tcg/dlc/api.ts';
-import type { DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings } from '@/parcels/tcg/dlc/types.ts';
-import { fetchMtgCards, type MtgCardQuery, type MtgSearchCardsResult } from '@/parcels/tcg/mtg/api.ts';
-import type { MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings } from '@/parcels/tcg/mtg/types.ts';
-import { fetchPcgCards, type PcgCardQuery, type PcgSearchCardsResult } from '@/parcels/tcg/pcg/api.ts';
-import type { PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings } from '@/parcels/tcg/pcg/types.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
-import type { ApplyFn } from '@/parcels/types.ts';
-import { usePrevious } from '@/parcels/usePrevious.ts';
+import type {UseNavigateResult} from '@tanstack/react-router';
+import {useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
+import {CardOverview} from '@/parcels/overview/CardOverview/CardOverview.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {type DlcCardQuery, type DlcSearchCardsResult, fetchDlcCards} from '@/parcels/tcg/dlc/api.ts';
+import type {DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
+import {fetchMtgCards, type MtgCardQuery, type MtgSearchCardsResult} from '@/parcels/tcg/mtg/api.ts';
+import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
+import {fetchPcgCards, type PcgCardQuery, type PcgSearchCardsResult} from '@/parcels/tcg/pcg/api.ts';
+import type {PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import type {ApplyFn} from '@/parcels/types.ts';
+import {usePrevious} from '@/parcels/usePrevious.ts';
 
 export function constructCardOverview(
   searchParams: MtgSearchParams | DlcSearchParams | PcgSearchParams,
@@ -92,7 +92,7 @@ export function constructCardOverview(
 
   return (
     <>
-      <title>{`${searchParams.query} – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+      <title>{`${(searchParams.query?.length ?? 0) === 0 ? 'Card Database' : searchParams.query} – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       <CardOverview
         tcg={tcg}
         scrollbackRef={scrollBackRef}

@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
-import { Route } from '@/routes/pcg/cards';
+import {useMemo} from 'react';
+import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
+import {Route} from '@/routes/pcg/cards';
 
 export function usePcgMemoizedQuerySettings() {
   const searchParams = Route.useSearch();
@@ -21,7 +21,7 @@ export function usePcgMemoizedDisplaySettings() {
 
   return useMemo(() => {
     return {
-      cardDisplayMode: searchParams.cardDisplayMode ?? pcgSearchParamsDefaults.cardDisplayMode,
+      display: searchParams.display ?? pcgSearchParamsDefaults.display,
     };
-  }, [searchParams.cardDisplayMode]);
+  }, [searchParams.display]);
 }

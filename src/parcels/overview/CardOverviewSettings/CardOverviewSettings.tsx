@@ -1,14 +1,14 @@
-import { useMediaQuery } from '@mantine/hooks';
-import { IconAdjustmentsHorizontal, IconX } from '@tabler/icons-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import {useMediaQuery} from '@mantine/hooks';
+import {IconAdjustmentsHorizontal, IconX} from '@tabler/icons-react';
+import {useEffect, useMemo, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   type DlcSearchDisplaySettings,
   type DlcSearchParams,
   type DlcSearchQuerySettings,
   type DlcSortBy,
-  type DlcUniqueBy,
   dlcSortBys,
+  type DlcUniqueBy,
   dlcUniqueBys,
 } from '@/parcels/tcg/dlc/types.ts';
 import {
@@ -16,8 +16,8 @@ import {
   type MtgSearchParams,
   type MtgSearchQuerySettings,
   type MtgSortBy,
-  type MtgUniqueBy,
   mtgSortBys,
+  type MtgUniqueBy,
   mtgUniqueBys,
 } from '@/parcels/tcg/mtg/types.ts';
 import {
@@ -25,13 +25,13 @@ import {
   type PcgSearchParams,
   type PcgSearchQuerySettings,
   type PcgSortBy,
-  type PcgUniqueBy,
   pcgSortBys,
+  type PcgUniqueBy,
   pcgUniqueBys,
 } from '@/parcels/tcg/pcg/types.ts';
-import { type DisplayMode, displayModes, type SortDirection, sortDirections } from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import type { ApplyFn } from '@/parcels/types.ts';
+import {type DisplayMode, displayModes, type SortDirection, sortDirections} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import type {ApplyFn} from '@/parcels/types.ts';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardOverviewSettings.module.css';
 
@@ -161,10 +161,10 @@ export default function CardOverviewSettings({
                 <p>{t('common.as')}</p>
                 <Dropdown
                   items={displayModeItems}
-                  defaultSelected={displaySettings.cardDisplayMode}
+                  defaultSelected={displaySettings.display}
                   onSelect={(selected: string) => {
                     setSettingsWrapper((prev) => {
-                      return { ...prev, cardDisplayMode: selected as DisplayMode };
+                      return { ...prev, display: selected as DisplayMode };
                     });
                   }}
                 />
@@ -214,10 +214,10 @@ export default function CardOverviewSettings({
             <p>{t('common.as')}</p>
             <Dropdown
               items={displayModeItems}
-              defaultSelected={displaySettings.cardDisplayMode}
+              defaultSelected={displaySettings.display}
               onSelect={(selected: string) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, cardDisplayMode: selected as DisplayMode };
+                  return { ...prev, display: selected as DisplayMode };
                 });
               }}
             />

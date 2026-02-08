@@ -110,7 +110,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
         </div>
       )}
       <Link
-        to={'/mtg/sets/$setCode/$collectorNumber/{-$any}'}
+        to={`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`}
         params={{
           setCode: prop.setCode?.toLowerCase() as string,
           collectorNumber: prop.collectorNumber?.toLowerCase() as string,

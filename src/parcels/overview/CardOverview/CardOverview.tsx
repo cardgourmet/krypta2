@@ -85,10 +85,8 @@ export function CardOverview({
           </Accordion>
         )}
 
-        {searchDisplaySettings.cardDisplayMode === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
-        {searchDisplaySettings.cardDisplayMode === 'table' && (
-          <CardTable tcg={tcg} cards={cards} isLoading={isLoading} />
-        )}
+        {searchDisplaySettings.display === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
+        {searchDisplaySettings.display === 'table' && <CardTable tcg={tcg} cards={cards} isLoading={isLoading} />}
       </div>
     </div>
   );
