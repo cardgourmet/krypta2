@@ -1,5 +1,5 @@
+import {rem} from '@mantine/core';
 import type React from 'react';
-import { rem } from '@mantine/core';
 
 interface PcgEnergyIconProps extends React.ComponentPropsWithoutRef<'svg'> {
   size?: number | string;
@@ -10,7 +10,7 @@ export function PcgEnergyGrass({ size, style, ...others }: PcgEnergyIconProps) {
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 595.3 841.9"
+      viewBox="47.57 170.88 500.03 500.03"
       style={{ width: rem(size), height: rem(size), strokeWidth: 0, ...style }}
       {...others}
     >

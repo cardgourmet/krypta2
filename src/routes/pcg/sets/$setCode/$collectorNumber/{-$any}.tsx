@@ -6,7 +6,9 @@ import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {fetchPcgPrint, fetchPcgSet, type PcgDataCard, type PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
+import {PcgPrintContentRenderer} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer.tsx';
 import {PcgPrintMetaRenderer} from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
+import {renderRichPcgText} from '@/parcels/tcg/pcg/renderRichText.tsx';
 import styles from './{-$any}.module.css';
 
 const cardDetailDefaults = { lang: 'en' };
@@ -105,7 +107,7 @@ function RouteComponent() {
           ]}
         />
         <Text ff={'var(--cgm-title-font-family)'} fz={'1.5rem'} fw={'bold'}>
-          {cardWithPrints.name}
+          {renderRichPcgText(cardWithPrints.name, true)}
         </Text>
       </Stack>
 
@@ -114,6 +116,7 @@ function RouteComponent() {
       <Group align={'start'} style={{ minHeight: '100vh' }}>
         <TcgPrintImageRenderer tcg={'pcg'} card={cardWithPrints} />
 
+        <PcgPrintContentRenderer card={cardWithPrints} print={cardWithPrints.print} />
         <PcgPrintMetaRenderer
           tcg={'pcg'}
           card={cardWithPrints}
@@ -122,18 +125,6 @@ function RouteComponent() {
           language={lang}
           setLanguage={setLanguage}
         />
-        {/*<MtgPrintImageRenderer card={cardWithPrints} />
-        <Group align={'start'}>
-          <MtgPrintFaceContentRenderer print={frontFace} />
-          {backFace && <MtgPrintFaceContentRenderer print={backFace} />}
-        </Group>
-        <MtgPrintMetaRenderer
-          card={cardWithPrints}
-          print={cardWithPrints.print}
-          set={set}
-          language={lang}
-          setLanguage={setLanguage}
-        />*/}
       </Group>
 
       <p style={{ wordWrap: 'break-word' }}>{JSON.stringify(cardWithPrints)}</p>

@@ -28,8 +28,8 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
   }, [print.manaDisplay]);
 
   return (
-    <Stack w={'20rem'} align={'start'} gap={'sm'} p={'sm'}>
-      <Stack gap={'sm'} style={{ width: '100%' }}>
+    <Stack w={'20rem'} align={'start'} gap={'lg'} p={'sm'}>
+      <Stack gap={'xs'} style={{ width: '100%' }}>
         <Group align={'start'} justify={'space-between'} style={{ width: '100%' }} wrap={'nowrap'}>
           <Stack gap={'0.1rem'}>
             <Text

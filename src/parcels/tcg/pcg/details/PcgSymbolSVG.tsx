@@ -11,7 +11,7 @@ import {PcgEnergyPsychic} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.
 import {PcgEnergyWater} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
 import type {components as c} from '@/schema/api';
 
-type PcgSymbol = c['schemas']['PcgDataCard']['types'][number];
+export type PcgSymbol = c['schemas']['PcgDataCard']['types'][number];
 
 export function PcgSymbolSVG({ symbol, size }: { symbol: PcgSymbol; size: number }) {
   switch (symbol) {

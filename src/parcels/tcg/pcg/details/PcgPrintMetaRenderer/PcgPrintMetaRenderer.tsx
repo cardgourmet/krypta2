@@ -1,5 +1,5 @@
 import {Code, Group, Select, type SelectProps, Stack, Text} from '@mantine/core';
-import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber,} from '@tabler/icons-react';
+import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useMemo} from 'react';
 import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
@@ -69,7 +69,6 @@ export function PcgPrintMetaRenderer({
   return (
     <Stack
       style={{
-        /*border: '1px dashed var(--gourmet-neutral-5)',*/
         borderRadius: '0.5rem',
         flexGrow: '1',
         minHeight: '32rem',
@@ -163,41 +162,32 @@ export function PcgPrintMetaRenderer({
               </Link>
             </Group>
           </Stack>
-          {/*<Stack gap={'0.1rem'}>
-            <Group gap={'0.5rem'}>
-              <IconPlayCard color={'var(--gourmet-neutral-6)'} size={18} />
-              <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                {`Finishes`.toUpperCase()}
-              </Text>
-            </Group>
-            <Group gap={'xs'}>
-              <Text ff={'var(--cgm-content-font-family)'}>{print.finishes.join(', ')}</Text>
-            </Group>
-          </Stack>*/}
-          <Stack gap={'0.1rem'}>
-            <Group gap={'0.5rem'}>
-              <IconBrush color={'var(--gourmet-neutral-6)'} size={18} />
-              <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                {`Artist`.toUpperCase()}
-              </Text>
-            </Group>
-            <Group gap={'xs'}>
-              <Link
-                to={`/${tcg}/cards`}
-                search={{
-                  ...pcgSearchParamsDefaults,
-                  query: `artist="${(print as PcgDataPrint).illustrators}"`,
-                }}
-                style={{
-                  textDecoration: 'underline',
-                  textDecorationColor: 'var(--gourmet-blue-03)',
-                  textUnderlineOffset: '2px',
-                }}
-              >
-                <Text ff={'var(--cgm-content-font-family)'}>{(print as PcgDataPrint).illustrators}</Text>
-              </Link>
-            </Group>
-          </Stack>
+          {(print as PcgDataPrint).illustrators.length > 0 && (
+            <Stack gap={'0.1rem'}>
+              <Group gap={'0.5rem'}>
+                <IconBrush color={'var(--gourmet-neutral-6)'} size={18} />
+                <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
+                  {`Artist`.toUpperCase()}
+                </Text>
+              </Group>
+              <Group gap={'xs'}>
+                <Link
+                  to={`/${tcg}/cards`}
+                  search={{
+                    ...pcgSearchParamsDefaults,
+                    query: `artist:"${(print as PcgDataPrint).illustrators}"`,
+                  }}
+                  style={{
+                    textDecoration: 'underline',
+                    textDecorationColor: 'var(--gourmet-blue-03)',
+                    textUnderlineOffset: '2px',
+                  }}
+                >
+                  <Text ff={'var(--cgm-content-font-family)'}>{(print as PcgDataPrint).illustrators}</Text>
+                </Link>
+              </Group>
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Stack>

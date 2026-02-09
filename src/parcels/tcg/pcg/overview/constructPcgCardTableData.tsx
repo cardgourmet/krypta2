@@ -1,3 +1,4 @@
+import {Group} from '@mantine/core';
 import {Link} from '@tanstack/react-router';
 import {type ReactElement, useCallback, useMemo} from 'react';
 import {slugify} from '@/parcels/slugify.ts';
@@ -23,11 +24,11 @@ export function constructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
         </Link>
       ),
       Energy: (
-        <>
+        <Group align={'center'}>
           {card.types.map((s) => (
-            <PcgSymbolSVG key={s} symbol={s} size={32} />
+            <PcgSymbolSVG key={s} symbol={s} size={20} />
           ))}
-        </>
+        </Group>
       ),
       Rarity: <>{card.print.rarity}</>,
       Artist: <>{card.print.illustrators}</>,
