@@ -6,7 +6,7 @@ import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {fetchPcgPrint, fetchPcgSet, type PcgDataCard, type PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import {PcgPrintContentRenderer} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer.tsx';
+import {PcgPrintContentRenderer} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentRenderer.tsx';
 import {PcgPrintMetaRenderer} from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
 import {renderRichPcgText} from '@/parcels/tcg/pcg/renderRichText.tsx';
 import styles from './{-$any}.module.css';
