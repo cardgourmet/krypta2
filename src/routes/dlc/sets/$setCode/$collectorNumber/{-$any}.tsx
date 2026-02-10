@@ -1,16 +1,20 @@
 import {Divider, Group, Stack, Text} from '@mantine/core';
-import {createFileRoute, notFound, redirect, stripSearchParams} from '@tanstack/react-router';
+import {createFileRoute, notFound, redirect, stripSearchParams, useNavigate} from '@tanstack/react-router';
+import {useCallback} from 'react';
 import {z} from 'zod';
+import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {type DlcDataCard, type DlcDataSet, fetchDlcPrint, fetchDlcSet} from '@/parcels/tcg/dlc/api.ts';
+import {DlcPrintContentRenderer} from '@/parcels/tcg/dlc/details/DlcPrintContentRenderer/DlcPrintContentRenderer.tsx';
+import {DlcPrintMetaRenderer} from '@/parcels/tcg/dlc/details/DlcPrintMetaRenderer/DlcPrintMetaRenderer.tsx';
 import styles from './{-$any}.module.css';
 
 const cardDetailDefaults = { lang: 'en' };
 const cardDetailSearchSchema = z.object({
   lang: z.string().default(cardDetailDefaults.lang),
 });
-// type CardDetailsSearch = z.infer<typeof cardDetailSearchSchema>;
+type CardDetailsSearch = z.infer<typeof cardDetailSearchSchema>;
 
 export const Route = createFileRoute('/dlc/sets/$setCode/$collectorNumber/{-$any}')({
   component: RouteComponent,
@@ -60,11 +64,9 @@ export const Route = createFileRoute('/dlc/sets/$setCode/$collectorNumber/{-$any
 
 function RouteComponent() {
   const { print: cardWithPrints, set } = Route.useLoaderData();
-  /*const { lang } = Route.useSearch() as CardDetailsSearch;
-  const frontFace = cardWithPrints.print.faces[0];
-  const backFace = cardWithPrints.print.faces[1];*/
+  const { lang } = Route.useSearch() as CardDetailsSearch;
 
-  /*const navigate = useNavigate();
+  const navigate = useNavigate();
   const setLanguage = useCallback(
     (lang: string, _: string) => {
       const specificPrint =
@@ -84,7 +86,7 @@ function RouteComponent() {
       });
     },
     [navigate, cardWithPrints],
-  );*/
+  );
 
   return (
     <div className={styles.mainContent}>
@@ -111,18 +113,17 @@ function RouteComponent() {
       <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
 
       <Group align={'start'} style={{ minHeight: '100vh' }}>
-        {/*<MtgPrintImageRenderer card={cardWithPrints} />
-        <Group align={'start'}>
-          <MtgPrintFaceContentRenderer print={frontFace} />
-          {backFace && <MtgPrintFaceContentRenderer print={backFace} />}
-        </Group>
-        <MtgPrintMetaRenderer
+        <TcgPrintImageRenderer tcg={'dlc'} card={cardWithPrints} />
+
+        <DlcPrintContentRenderer card={cardWithPrints} print={cardWithPrints.print} lang={lang} />
+        <DlcPrintMetaRenderer
+          tcg={'dlc'}
           card={cardWithPrints}
           print={cardWithPrints.print}
           set={set}
           language={lang}
           setLanguage={setLanguage}
-        />*/}
+        />
       </Group>
 
       <p style={{ wordWrap: 'break-word' }}>{JSON.stringify(cardWithPrints)}</p>

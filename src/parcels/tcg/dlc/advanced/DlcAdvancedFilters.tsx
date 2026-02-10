@@ -1,23 +1,23 @@
-import { IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan } from '@tabler/icons-react';
-import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
-import { AdvancedFilterCategory } from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
-import { AdvancedFormMultiCheckbox } from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
-import { AdvancedFormMultiSelect } from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
-import { AdvancedFormNumberCompare } from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
-import { AdvancedFormText } from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import { DlcInkAmber } from '@/parcels/tcg/dlc/icons/DlcInkAmber.tsx';
-import { DlcInkAmethyst } from '@/parcels/tcg/dlc/icons/DlcInkAmethyst.tsx';
-import { DlcInkEmerald } from '@/parcels/tcg/dlc/icons/DlcInkEmerald.tsx';
-import { DlcInkRuby } from '@/parcels/tcg/dlc/icons/DlcInkRuby.tsx';
-import { DlcInkSapphire } from '@/parcels/tcg/dlc/icons/DlcInkSapphire.tsx';
-import { DlcInkSteel } from '@/parcels/tcg/dlc/icons/DlcInkSteel.tsx';
-import { DlcRarityCommon } from '@/parcels/tcg/dlc/icons/DlcRarityCommon.tsx';
-import { DlcRarityEnchanted } from '@/parcels/tcg/dlc/icons/DlcRarityEnchanted.tsx';
-import { DlcRarityLegendary } from '@/parcels/tcg/dlc/icons/DlcRarityLegendary.tsx';
-import { DlcRarityRare } from '@/parcels/tcg/dlc/icons/DlcRarityRare.tsx';
-import { DlcRaritySuperRare } from '@/parcels/tcg/dlc/icons/DlcRaritySuperRare.tsx';
-import { DlcRarityUncommon } from '@/parcels/tcg/dlc/icons/DlcRarityUncommon.tsx';
-import { franchises, inks, rarities, setNames, typesAndClassifications } from '@/parcels/tcg/dlc/raw/apiValues.ts';
+import {IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan} from '@tabler/icons-react';
+import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
+import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
+import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
+import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
+import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
+import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import {DlcInkAmber} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
+import {DlcInkAmethyst} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
+import {DlcInkEmerald} from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
+import {DlcInkRuby} from '@/parcels/tcg/dlc/icons/ink/DlcInkRuby.tsx';
+import {DlcInkSapphire} from '@/parcels/tcg/dlc/icons/ink/DlcInkSapphire.tsx';
+import {DlcInkSteel} from '@/parcels/tcg/dlc/icons/ink/DlcInkSteel.tsx';
+import {DlcRarityCommon} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityCommon.tsx';
+import {DlcRarityEnchanted} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityEnchanted.tsx';
+import {DlcRarityLegendary} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityLegendary.tsx';
+import {DlcRarityRare} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityRare.tsx';
+import {DlcRaritySuperRare} from '@/parcels/tcg/dlc/icons/rarity/DlcRaritySuperRare.tsx';
+import {DlcRarityUncommon} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityUncommon.tsx';
+import {franchises, inks, rarities, setNames, typesAndClassifications} from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
 export function DlcAdvancedFilters() {
   return (

@@ -1,8 +1,9 @@
-import { devtools } from '@tanstack/devtools-vite';
-import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import {devtools} from '@tanstack/devtools-vite';
+import {tanstackRouter} from '@tanstack/router-plugin/vite';
 import viteReact from '@vitejs/plugin-react';
-import { fileURLToPath, URL } from 'node:url';
-import { defineConfig } from 'vite';
+import {fileURLToPath, URL} from 'node:url';
+import {defineConfig} from 'vite';
+import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
       target: 'react',
     }),
     viteReact(),
+    svgr()
   ],
   resolve: {
     alias: {

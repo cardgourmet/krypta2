@@ -80,7 +80,7 @@ export function TcgPrintImageRenderer({ tcg, card }: { tcg: Tcg; card: MtgDataCa
           })}
         </Group>
       )}
-      {card.allPrints.length > 0 && (
+      {card.allPrints.length > 1 && (
         <Link to={'/'} style={{ textDecoration: 'none' }}>
           <Group gap={'xs'}>
             <Text fz={'sm'} c={'var(--gourmet-blue-5)'}>

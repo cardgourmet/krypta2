@@ -1,4 +1,4 @@
-import { rem } from '@mantine/core';
+import {rem} from '@mantine/core';
 import type React from 'react';
 
 interface DlcInkIconProps extends React.ComponentPropsWithoutRef<'svg'> {
@@ -10,7 +10,7 @@ export function DlcInkRuby({ size, style, ...others }: DlcInkIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 57.7106 57.1441"
+      viewBox="9.78 7.33 38.15 42.48"
       fill="currentColor"
       stroke="currentColor"
       style={{ width: rem(size), height: rem(size), strokeWidth: 0, ...style }}

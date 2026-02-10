@@ -2,7 +2,7 @@ import {Link} from '@tanstack/react-router';
 import {type ReactElement, useCallback, useMemo} from 'react';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcDataCard, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import {DlcSymbolSVG} from '@/parcels/tcg/dlc/details/DlcSymbolSVG.tsx';
+import {DlcInkSymbolSVG} from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
 import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
 
 export function constructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
@@ -25,7 +25,7 @@ export function constructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
       Ink: (
         <>
           {card.inkTypes.map((i) => (
-            <DlcSymbolSVG key={i} symbol={i} size={32} />
+            <DlcInkSymbolSVG key={i} symbol={i} size={32} />
           ))}
         </>
       ),

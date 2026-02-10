@@ -1,15 +1,16 @@
-import {Code, Group, Select, type SelectProps, Stack, Text} from '@mantine/core';
-import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgDataCard, PcgDataPrint, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import {PcgSetIcon} from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
-import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './PcgPrintMetaRenderer.module.css';
+import { Code, Group, Select, type SelectProps, Stack, Text } from '@mantine/core';
+import { IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import type { DlcDataCard, DlcDataPrint, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
+import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
+import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgDataCard, PcgDataPrint, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './DlcPrintMetaRenderer.module.css';
 
-export function PcgPrintMetaRenderer({
+export function DlcPrintMetaRenderer({
   tcg,
   card,
   print,
@@ -18,9 +19,9 @@ export function PcgPrintMetaRenderer({
   setLanguage,
 }: {
   tcg: Tcg;
-  card: MtgDataCard | PcgDataCard;
-  print: MtgDataPrint | PcgDataPrint;
-  set: MtgDataSet | PcgDataSet;
+  card: MtgDataCard | PcgDataCard | DlcDataCard;
+  print: MtgDataPrint | PcgDataPrint | DlcDataPrint;
+  set: MtgDataSet | PcgDataSet | DlcDataSet;
   language: string;
   setLanguage: (lang: string, printId: string) => void;
 }) {
@@ -79,17 +80,17 @@ export function PcgPrintMetaRenderer({
       <Stack gap={'xs'}>
         <Link
           to={`/${tcg}/sets/$setCode`}
-          params={{ setCode: (set as PcgDataSet).code?.toLowerCase() ?? '???' }}
+          params={{ setCode: (set as DlcDataSet).code.toLowerCase() }}
           className={styles.setLink}
         >
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
-            <PcgSetIcon setCode={(set as PcgDataSet).code?.toLowerCase() ?? '???'} />
+            <PcgSetIcon setCode={(set as DlcDataSet).code.toLowerCase()} />
             <Stack gap={'0.25rem'}>
               <Text ff={'var(--cgm-content-font-family)'} fz={'1rem'} c={'var(--gourmet-neutral-9)'}>
                 {set.translations.en.name}
               </Text>
               <Text ff={'var(--cgm-content-font-family)'} fz={'xs'} c={'var(--gourmet-neutral-7)'}>
-                {set.code} &#x2022; {set.printsAvailable} Karten &#x2022; {(set as PcgDataSet).releaseStartDate}
+                {set.code} &#x2022; {set.printsAvailable} Karten &#x2022; {(set as DlcDataSet).releaseDate}
               </Text>
             </Stack>
           </Group>
@@ -147,7 +148,7 @@ export function PcgPrintMetaRenderer({
               <Link
                 to={`/${tcg}/cards`}
                 search={{
-                  ...pcgSearchParamsDefaults,
+                  ...dlcSearchParamsDefaults,
                   query: `rarity:"${print.rarity}"`,
                 }}
                 style={{
@@ -162,7 +163,7 @@ export function PcgPrintMetaRenderer({
               </Link>
             </Group>
           </Stack>
-          {(print as PcgDataPrint).illustrators.length > 0 && (
+          {(print as DlcDataPrint).artist && (
             <Stack gap={'0.1rem'}>
               <Group gap={'0.5rem'}>
                 <IconBrush color={'var(--gourmet-neutral-6)'} size={18} />
@@ -174,8 +175,8 @@ export function PcgPrintMetaRenderer({
                 <Link
                   to={`/${tcg}/cards`}
                   search={{
-                    ...pcgSearchParamsDefaults,
-                    query: `artist:"${(print as PcgDataPrint).illustrators}"`,
+                    ...dlcSearchParamsDefaults,
+                    query: `artist:"${(print as DlcDataPrint).artist}"`,
                   }}
                   style={{
                     textDecoration: 'underline',
@@ -183,7 +184,7 @@ export function PcgPrintMetaRenderer({
                     textUnderlineOffset: '2px',
                   }}
                 >
-                  <Text ff={'var(--cgm-content-font-family)'}>{(print as PcgDataPrint).illustrators}</Text>
+                  <Text ff={'var(--cgm-content-font-family)'}>{(print as DlcDataPrint).artist}</Text>
                 </Link>
               </Group>
             </Stack>
