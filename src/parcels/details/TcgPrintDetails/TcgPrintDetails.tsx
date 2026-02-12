@@ -28,16 +28,16 @@ type TcgPrintDetailsPage = {
 };
 
 export function TcgPrintDetails({
-                                  findParamsByLanguage,
-                                  constructPageTitle,
-                                  constructPrintFaces,
-                                  constructPrintMeta,
-                                }: TcgPrintDetailsPage) {
+  findParamsByLanguage,
+  constructPageTitle,
+  constructPrintFaces,
+  constructPrintMeta,
+}: TcgPrintDetailsPage) {
   const tcg = useTcgByLocation() as Tcg;
 
-  const routeApi = getRouteApi(`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`)
-  const {print: cardWithPrints, set} = routeApi.useLoaderData();
-  const {lang: printLanguage} = routeApi.useSearch() as CardDetailsSearch;
+  const routeApi = getRouteApi(`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`);
+  const { print: cardWithPrints, set } = routeApi.useLoaderData();
+  const { lang: printLanguage } = routeApi.useSearch() as CardDetailsSearch;
 
   const navigate = useNavigate();
   const setLanguage = useCallback(
@@ -49,7 +49,7 @@ export function TcgPrintDetails({
         to: `/${tcg}/sets/$setCode/$collectorNumber/{-$any}`,
         params: specificParams,
         search: (prev) => {
-          return {...prev, lang: lang} as CardDetailsSearch;
+          return { ...prev, lang: lang } as CardDetailsSearch;
         },
       });
     },
@@ -80,22 +80,22 @@ export function TcgPrintDetails({
         </Text>
       </Stack>
 
-      <Divider my="lg" color={'var(--gourmet-neutral-3)'}/>
+      <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
       <Group justify={smallScreen ? 'center' : 'start'}>
         <Flex
           align={'start'}
-          style={{minHeight: '100vh'}}
+          style={{ minHeight: '100vh' }}
           wrap={'nowrap'}
           direction={smallScreen ? 'column' : 'row'}
           gap={smallScreen ? '1rem' : '0.1rem'}
           w={'100%'}
           maw={smallScreen ? '26rem' : ''}
         >
-          <TcgPrintImageRenderer tcg={tcg} card={cardWithPrints} w={smallScreen ? '100%' : ''} align={'center'}/>
+          <TcgPrintImageRenderer tcg={tcg} card={cardWithPrints} w={smallScreen ? '100%' : ''} align={'center'} />
           <Flex
             align={smallScreen ? 'center' : 'start'}
             wrap={'nowrap'}
-            style={{flexShrink: 10_000}}
+            style={{ flexShrink: 10_000 }}
             direction={smallerScreen ? 'column' : 'row'}
             w={smallScreen ? '100%' : ''}
           >

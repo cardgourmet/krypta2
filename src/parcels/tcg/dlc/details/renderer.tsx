@@ -1,16 +1,15 @@
-import type {TcgDataCard, TcgDataSet} from "@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx";
-import type {TcgDetailParams} from "@/parcels/details/loadTcgPrintAndSet.ts";
-import {slugify} from "@/parcels/slugify.ts";
-import type {ReactElement} from "react";
-import type {DlcDataCard, DlcDataSet} from "@/parcels/tcg/dlc/api.ts";
-import {DlcPrintContentRenderer} from "@/parcels/tcg/dlc/details/DlcPrintContentRenderer/DlcPrintContentRenderer.tsx";
-import {DlcPrintMetaRenderer} from "@/parcels/tcg/dlc/details/DlcPrintMetaRenderer/DlcPrintMetaRenderer.tsx";
+import type { ReactElement } from 'react';
+import type { TcgDetailParams } from '@/parcels/details/loadTcgPrintAndSet.ts';
+import type { TcgDataCard, TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { slugify } from '@/parcels/slugify.ts';
+import type { DlcDataCard, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
+import { DlcPrintContentRenderer } from '@/parcels/tcg/dlc/details/DlcPrintContentRenderer/DlcPrintContentRenderer.tsx';
+import { DlcPrintMetaRenderer } from '@/parcels/tcg/dlc/details/DlcPrintMetaRenderer/DlcPrintMetaRenderer.tsx';
 
 export function findDlcParamsByLanguage(cardWithPrints: TcgDataCard, lang: string): TcgDetailParams {
   const card = cardWithPrints as DlcDataCard;
 
-  const specificPrint =
-    card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? card.print;
+  const specificPrint = card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? card.print;
   return {
     setCode: specificPrint.setCode.toLowerCase(),
     collectorNumber: specificPrint.collectorNumber.toLowerCase(),
@@ -30,9 +29,7 @@ export function constructDlcPageTitle(c: TcgDataCard, s: TcgDataSet) {
 export function constructDlcPrintFaces(c: TcgDataCard, lang: string): ReactElement[] {
   const cardWithPrints = c as DlcDataCard;
 
-  return [
-    <DlcPrintContentRenderer card={cardWithPrints} print={cardWithPrints.print} lang={lang} />
-  ]
+  return [<DlcPrintContentRenderer key={c.id} card={cardWithPrints} print={cardWithPrints.print} lang={lang} />];
 }
 
 export function constructDlcPrintMeta(

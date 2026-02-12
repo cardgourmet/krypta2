@@ -1,16 +1,15 @@
-import type {TcgDataCard, TcgDataSet} from "@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx";
-import type {TcgDetailParams} from "@/parcels/details/loadTcgPrintAndSet.ts";
-import {slugify} from "@/parcels/slugify.ts";
-import type {ReactElement} from "react";
-import type {PcgDataCard, PcgDataSet} from "@/parcels/tcg/pcg/api.ts";
-import {PcgPrintContentRenderer} from "@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentRenderer.tsx";
-import {PcgPrintMetaRenderer} from "@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx";
+import type {ReactElement} from 'react';
+import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
+import type {TcgDataCard, TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {slugify} from '@/parcels/slugify.ts';
+import type {PcgDataCard, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
+import {PcgPrintContentRenderer} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentRenderer.tsx';
+import {PcgPrintMetaRenderer} from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
 
 export function findPcgParamsByLanguage(cardWithPrints: TcgDataCard, lang: string): TcgDetailParams {
   const card = cardWithPrints as PcgDataCard;
 
-  const specificPrint =
-    card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? cardWithPrints.print;
+  const specificPrint = card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? cardWithPrints.print;
   return {
     setCode: specificPrint.setCode?.toLowerCase() ?? '???',
     collectorNumber: specificPrint.collectorNumber.toLowerCase(),
@@ -30,9 +29,7 @@ export function constructPcgPageTitle(c: TcgDataCard, s: TcgDataSet) {
 export function constructPcgPrintFaces(c: TcgDataCard, _: string): ReactElement[] {
   const cardWithPrints = c as PcgDataCard;
 
-  return [
-    <PcgPrintContentRenderer card={cardWithPrints} print={cardWithPrints.print} />
-  ]
+  return [<PcgPrintContentRenderer key={c.id} card={cardWithPrints} print={cardWithPrints.print} />];
 }
 
 export function constructPcgPrintMeta(

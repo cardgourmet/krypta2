@@ -1,16 +1,15 @@
-import type {TcgDataCard, TcgDataSet} from "@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx";
-import type {TcgDetailParams} from "@/parcels/details/loadTcgPrintAndSet.ts";
-import type {MtgDataCard, MtgDataSet} from "@/parcels/tcg/mtg/api.ts";
-import {slugify} from "@/parcels/slugify.ts";
-import type {ReactElement} from "react";
-import {MtgPrintFaceContentRenderer} from "@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx";
-import {MtgPrintMetaRenderer} from "@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx";
+import type {ReactElement} from 'react';
+import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
+import type {TcgDataCard, TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {slugify} from '@/parcels/slugify.ts';
+import type {MtgDataCard, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
+import {MtgPrintFaceContentRenderer} from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
+import {MtgPrintMetaRenderer} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 
 export function findMtgParamsByLanguage(cardWithPrints: TcgDataCard, lang: string): TcgDetailParams {
   const card = cardWithPrints as MtgDataCard;
 
-  const specificPrint =
-    card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? card.print;
+  const specificPrint = card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? card.print;
   return {
     setCode: specificPrint.setCode.toLowerCase(),
     collectorNumber: specificPrint.collectorNumber.toLowerCase(),
@@ -34,11 +33,11 @@ export function constructMtgPrintFaces(c: TcgDataCard, _: string): ReactElement[
 
   const elements = [];
   elements.push(
-    <MtgPrintFaceContentRenderer print={frontFace} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'}/>,
+    <MtgPrintFaceContentRenderer print={frontFace} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'} />,
   );
   if (backFace) {
     elements.push(
-      <MtgPrintFaceContentRenderer print={backFace} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'}/>,
+      <MtgPrintFaceContentRenderer print={backFace} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'} />,
     );
   }
   return elements;
