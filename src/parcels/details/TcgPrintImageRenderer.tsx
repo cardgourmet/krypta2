@@ -5,8 +5,11 @@ import {useMemo, useRef, useState} from 'react';
 import {FlippableCard} from '@/parcels/details/FlippableCard/FlippableCard.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcDataCard, DlcDataPrint} from '@/parcels/tcg/dlc/api.ts';
+import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgDataCard, MtgDataPrint} from '@/parcels/tcg/mtg/api.ts';
+import {mtgSearchParamsDefaults} from '@/parcels/tcg/mtg/types.ts';
 import type {PcgDataCard, PcgDataPrint} from '@/parcels/tcg/pcg/api.ts';
+import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
@@ -33,6 +36,9 @@ export function TcgPrintImageRenderer({
   const otherPrints = card.allPrints.filter((c) => {
     return c.id !== card.print.id && c.setCode === card.print.setCode;
   });
+  const searchParamsDefault = useMemo(() => {
+    return tcg === 'mtg' ? mtgSearchParamsDefaults : tcg === 'dlc' ? dlcSearchParamsDefaults : pcgSearchParamsDefaults;
+  }, [tcg]);
 
   return (
     <Stack {...others}>
@@ -87,7 +93,15 @@ export function TcgPrintImageRenderer({
         </Group>
       )}
       {card.allPrints.length > 1 && (
-        <Link to={'/'} style={{ textDecoration: 'none' }}>
+        <Link
+          to={`/${tcg}/cards`}
+          search={{
+            ...searchParamsDefault,
+            query: `cardid:"${card.id}"`,
+            uniqueBy: 'prints',
+          }}
+          style={{ textDecoration: 'none' }}
+        >
           <Group gap={'xs'}>
             <Text fz={'sm'} c={'var(--gourmet-blue-5)'}>
               Alle {card.allPrints.length} Prints ansehen

@@ -91,7 +91,12 @@ export function TcgPrintDetails({
           w={'100%'}
           maw={smallScreen ? '26rem' : ''}
         >
-          <TcgPrintImageRenderer tcg={tcg} card={cardWithPrints} w={smallScreen ? '100%' : ''} align={'center'} />
+          <TcgPrintImageRenderer
+            tcg={tcg}
+            card={cardWithPrints}
+            w={smallScreen ? '100%' : ''}
+            align={smallScreen ? 'center' : 'start'}
+          />
           <Flex
             align={smallScreen ? 'center' : 'start'}
             wrap={'nowrap'}
