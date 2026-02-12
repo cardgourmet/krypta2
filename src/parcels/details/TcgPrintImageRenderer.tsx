@@ -1,4 +1,4 @@
-import {Button, Group, Image, Stack, Text} from '@mantine/core';
+import {Button, Group, Image, Stack, type StackProps, Text} from '@mantine/core';
 import {IconArrowRight, IconRefresh} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useMemo, useRef, useState} from 'react';
@@ -11,7 +11,11 @@ import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
-export function TcgPrintImageRenderer({ tcg, card }: { tcg: Tcg; card: MtgDataCard | PcgDataCard | DlcDataCard }) {
+export function TcgPrintImageRenderer({
+  tcg,
+  card,
+  ...others
+}: { tcg: Tcg; card: MtgDataCard | PcgDataCard | DlcDataCard } & StackProps) {
   const frontUrl = useMemo(() => {
     if (tcg === 'mtg') return (card.print as MtgDataPrint).faces[0].translations.en.imageUrls?.full ?? '';
     else if (tcg === 'pcg') return (card.print as PcgDataPrint).translations.en.imageUrls?.full ?? '';
@@ -31,7 +35,7 @@ export function TcgPrintImageRenderer({ tcg, card }: { tcg: Tcg; card: MtgDataCa
   });
 
   return (
-    <Stack>
+    <Stack {...others}>
       <FlippableCard
         frontUrl={frontUrl ?? ''}
         backUrl={backUrl ?? undefined}
@@ -48,6 +52,8 @@ export function TcgPrintImageRenderer({ tcg, card }: { tcg: Tcg; card: MtgDataCa
           }}
           color={'var(--gourmet-neutral-2)'}
           c={'var(--gourmet-neutral-7)'}
+          w={'100%'}
+          maw={'18rem'}
         >
           <Group gap={'0.25rem'}>
             <IconRefresh size={18} />

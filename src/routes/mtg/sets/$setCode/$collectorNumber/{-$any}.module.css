@@ -7,3 +7,13 @@
 
   overflow: visible;
 }
+
+.printContent {
+  @media (max-width: 950px) {
+  }
+}
+
+.printMeta {
+  @media (max-width: 950px) {
+  }
+}

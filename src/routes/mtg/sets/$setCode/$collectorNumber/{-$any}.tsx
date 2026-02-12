@@ -1,11 +1,12 @@
-import {Divider, Group, Stack, Text} from '@mantine/core';
-import {createFileRoute, notFound, redirect, stripSearchParams, useNavigate} from '@tanstack/react-router';
+import {Divider, Flex, Group, Stack, Text} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
+import {createFileRoute, stripSearchParams, useNavigate} from '@tanstack/react-router';
 import {useCallback} from 'react';
 import {z} from 'zod';
+import {loadTcgPrintAndSet} from '@/parcels/details/loadTcgPrintAndSet.ts';
 import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import {slugify} from '@/parcels/slugify.ts';
-import {fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
 import {MtgPrintFaceContentRenderer} from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
 import {MtgPrintMetaRenderer} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 import styles from './{-$any}.module.css';
@@ -23,42 +24,7 @@ export const Route = createFileRoute('/mtg/sets/$setCode/$collectorNumber/{-$any
     middlewares: [stripSearchParams(cardDetailDefaults)],
   },
   loader: async ({ params }) => {
-    const res = await fetchMtgPrint(params.setCode, params.collectorNumber);
-    if (!res.data) {
-      console.log('Could not fetch print', res);
-      throw notFound();
-    }
-    const cardWithPrints = res.data;
-    if (!cardWithPrints) {
-      throw notFound();
-    }
-    const slug = slugify(cardWithPrints.name);
-    if (params.any !== slug) {
-      throw redirect({
-        to: Route.to,
-        params: {
-          setCode: params.setCode.toLowerCase(),
-          collectorNumber: params.collectorNumber.toLowerCase(),
-          any: slug,
-        },
-        replace: true,
-      });
-    }
-
-    const res2 = await fetchMtgSet(cardWithPrints.print.setId);
-    if (!res2.data) {
-      console.log('Could not fetch set', res2);
-      throw notFound();
-    }
-    const printSet = res2.data;
-    if (!printSet) {
-      throw notFound();
-    }
-
-    return {
-      print: cardWithPrints as MtgDataCard,
-      set: printSet as MtgDataSet,
-    };
+    return loadTcgPrintAndSet('mtg', params);
   },
 });
 
@@ -90,6 +56,9 @@ function RouteComponent() {
     [navigate, cardWithPrints],
   );
 
+  const smallerScreen = useMediaQuery('(max-width: 1110px)');
+  const smallScreen = useMediaQuery('(max-width: 950px)');
+
   return (
     <div className={styles.mainContent}>
       <title>{`${cardWithPrints.name} (${set.translations?.en?.name} #${cardWithPrints.print.collectorNumber}) – Magic: The Gathering – Cardgourmet`}</title>
@@ -113,24 +82,61 @@ function RouteComponent() {
       </Stack>
 
       <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
-
-      <Group align={'start'} style={{ minHeight: '100vh' }}>
-        <TcgPrintImageRenderer tcg={'mtg'} card={cardWithPrints} />
-        <Group align={'start'}>
-          <MtgPrintFaceContentRenderer print={frontFace} />
-          {backFace && <MtgPrintFaceContentRenderer print={backFace} />}
-        </Group>
-        <MtgPrintMetaRenderer
-          card={cardWithPrints}
-          print={cardWithPrints.print}
-          set={set}
-          language={lang}
-          setLanguage={setLanguage}
-        />
+      <Group justify={'center'}>
+        <Flex
+          align={'start'}
+          style={{ minHeight: '100vh' }}
+          wrap={'nowrap'}
+          direction={smallScreen ? 'column' : 'row'}
+          gap={smallScreen ? '1rem' : '0.1rem'}
+          maw={smallScreen ? '26rem' : ''}
+        >
+          <TcgPrintImageRenderer tcg={'mtg'} card={cardWithPrints} w={smallScreen ? '100%' : ''} align={'center'} />
+          <Flex
+            align={smallScreen ? 'center' : 'start'}
+            wrap={'nowrap'}
+            style={{ flexShrink: 10_000 }}
+            direction={smallerScreen ? 'column' : 'row'}
+            w={smallScreen ? '100%' : ''}
+          >
+            <MtgPrintFaceContentRenderer
+              print={frontFace}
+              maw={'26rem'}
+              miw={'16rem'}
+              align={'start'}
+              gap={'lg'}
+              p={'sm'}
+            />
+            {backFace && (
+              <MtgPrintFaceContentRenderer
+                print={backFace}
+                maw={'26rem'}
+                miw={'16rem'}
+                align={'start'}
+                gap={'lg'}
+                p={'sm'}
+              />
+            )}
+          </Flex>
+          <Group
+            align={'start'}
+            ml={smallScreen ? '' : 'auto'}
+            maw={smallScreen ? '' : '16rem'}
+            miw={'12rem'}
+            mih={'32rem'}
+            w={smallScreen ? '100%' : ''}
+            justify={smallScreen ? 'center' : 'start'}
+          >
+            <MtgPrintMetaRenderer
+              card={cardWithPrints}
+              print={cardWithPrints.print}
+              set={set}
+              language={lang}
+              setLanguage={setLanguage}
+            />
+          </Group>
+        </Flex>
       </Group>
-
-      <p style={{ wordWrap: 'break-word' }}>{JSON.stringify(cardWithPrints)}</p>
-      <p style={{ wordWrap: 'break-word' }}>{JSON.stringify(set)}</p>
     </div>
   );
 }

@@ -1,11 +1,11 @@
-import {Divider, Group, Stack, Text} from '@mantine/core';
+import {Divider, Group, Stack, type StackProps, Text} from '@mantine/core';
 import {useMemo} from 'react';
 import type {MtgDataPrintFace} from '@/parcels/tcg/mtg/api.ts';
 import {MtgColorIndicator} from '@/parcels/tcg/mtg/details/MtgColorIndicator/MtgColorIndicator.tsx';
 import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 import {renderRichText} from '@/parcels/tcg/mtg/renderRichText.tsx';
 
-export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace }) {
+export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDataPrintFace } & StackProps) {
   const trans = print.translations.en;
   const colorIndicator = print.colorIndicator.map((d) => `{${d}}`).join('/');
 
@@ -28,7 +28,7 @@ export function MtgPrintFaceContentRenderer({ print }: { print: MtgDataPrintFace
   }, [print.manaDisplay]);
 
   return (
-    <Stack w={'20rem'} align={'start'} gap={'lg'} p={'sm'}>
+    <Stack {...styles}>
       <Stack gap={'xs'} style={{ width: '100%' }}>
         <Group align={'start'} justify={'space-between'} style={{ width: '100%' }} wrap={'nowrap'}>
           <Stack gap={'0.1rem'}>
