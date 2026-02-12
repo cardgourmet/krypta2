@@ -11,6 +11,7 @@ export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValue
 export type MtgDataCard = c['schemas']['MtgDataCard'];
 export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
 export type MtgDataPrint = c['schemas']['MtgDataPrint'];
+export type MtgDataPrintReference = c['schemas']['MtgDataPrintReference'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
 
 export type MtgCardQuery = TcgCardQuery & {

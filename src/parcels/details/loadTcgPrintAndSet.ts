@@ -5,13 +5,13 @@ import {fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet} from '@/p
 import {fetchPcgPrint, fetchPcgSet} from '@/parcels/tcg/pcg/api.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
-type Params = {
+export type TcgDetailParams = {
   setCode: string;
   collectorNumber: string;
   any?: string | undefined;
 };
 
-export const loadTcgPrintAndSet = async (tcg: Tcg, params: Params) => {
+export const loadTcgPrintAndSet = async (tcg: Tcg, params: TcgDetailParams) => {
   const res =
     tcg === 'mtg'
       ? await fetchMtgPrint(params.setCode, params.collectorNumber)
