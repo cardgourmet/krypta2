@@ -1,40 +1,23 @@
-import {
-  IconBrush,
-  IconMeteorFilled,
-  IconNumbers,
-  IconSparkles,
-  IconTextSize,
-  IconUserScan,
-} from '@tabler/icons-react';
-import { useMemo } from 'react';
-import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
-import { AdvancedFilterCategory } from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
-import { AdvancedFormMultiCheckbox } from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
-import { AdvancedFormMultiSelect } from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
-import { AdvancedFormNumberCompare } from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
-import { AdvancedFormText } from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import { PcgEnergyColorless } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
-import { PcgEnergyDarkness } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
-import { PcgEnergyDragon } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
-import { PcgEnergyFairy } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFairy.tsx';
-import { PcgEnergyFighting } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFighting.tsx';
-import { PcgEnergyFire } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFire.tsx';
-import { PcgEnergyGrass } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyGrass.tsx';
-import { PcgEnergyLightning } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyLightning.tsx';
-import { PcgEnergyMetal } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyMetal.tsx';
-import { PcgEnergyPsychic } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.tsx';
-import { PcgEnergyWater } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
-import {
-  abilityTypes,
-  baseTypes,
-  effectTypes,
-  energyTypes,
-  evolvesFromName,
-  evoStages,
-  rarities,
-  setNames,
-  subTypes,
-} from '@/parcels/tcg/pcg/raw/apiValues.ts';
+import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
+import {useMemo} from 'react';
+import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
+import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
+import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
+import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
+import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
+import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import {PcgEnergyColorless} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
+import {PcgEnergyDarkness} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
+import {PcgEnergyDragon} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
+import {PcgEnergyFairy} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFairy.tsx';
+import {PcgEnergyFighting} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFighting.tsx';
+import {PcgEnergyFire} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFire.tsx';
+import {PcgEnergyGrass} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyGrass.tsx';
+import {PcgEnergyLightning} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyLightning.tsx';
+import {PcgEnergyMetal} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyMetal.tsx';
+import {PcgEnergyPsychic} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.tsx';
+import {PcgEnergyWater} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
+import {abilityTypes, baseTypes, effectTypes, energyTypes, evolvesFromName, evoStages, rarities, setNames, subTypes,} from '@/parcels/tcg/pcg/raw/apiValues.ts';
 
 export function PcgAdvancedFilters() {
   const setNamesMapped = useMemo(() => {
@@ -69,17 +52,17 @@ export function PcgAdvancedFilters() {
             .filter((d) => d.value !== 'free')
             .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
           iconsMap={{
-            colorless: <PcgEnergyColorless size={32} />,
-            darkness: <PcgEnergyDarkness size={32} />,
-            dragon: <PcgEnergyDragon size={32} />,
-            fairy: <PcgEnergyFairy size={32} />,
-            fighting: <PcgEnergyFighting size={32} />,
-            fire: <PcgEnergyFire size={32} />,
-            grass: <PcgEnergyGrass size={32} />,
-            lightning: <PcgEnergyLightning size={32} />,
-            metal: <PcgEnergyMetal size={32} />,
-            psychic: <PcgEnergyPsychic size={32} />,
-            water: <PcgEnergyWater size={32} />,
+            colorless: <PcgEnergyColorless size={22} />,
+            darkness: <PcgEnergyDarkness size={22} />,
+            dragon: <PcgEnergyDragon size={22} />,
+            fairy: <PcgEnergyFairy size={22} />,
+            fighting: <PcgEnergyFighting size={22} />,
+            fire: <PcgEnergyFire size={22} />,
+            grass: <PcgEnergyGrass size={22} />,
+            lightning: <PcgEnergyLightning size={22} />,
+            metal: <PcgEnergyMetal size={22} />,
+            psychic: <PcgEnergyPsychic size={22} />,
+            water: <PcgEnergyWater size={22} />,
           }}
           exactDropdownValues={{ exact: 'Genau diese Energien', contains: 'Enthält eine dieser Energien' }}
         />

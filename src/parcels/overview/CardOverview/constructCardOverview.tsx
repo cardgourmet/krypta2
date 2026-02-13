@@ -16,7 +16,7 @@ export function constructCardOverview(
   searchParams: MtgSearchParams | DlcSearchParams | PcgSearchParams,
   searchQuerySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings,
   searchDisplaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings,
-  navigate: UseNavigateResult<'/mtg/cards' | '/dlc/cards' | '/pcg/cards'>,
+  navigate: UseNavigateResult<'/$tcg/cards'>,
 ) {
   const tcg = useTcgByLocation() as Tcg;
   const prevSearchQuerySettings = usePrevious(searchQuerySettings);
@@ -33,6 +33,9 @@ export function constructCardOverview(
     // noinspection JSIgnoredPromiseFromCall
     navigate({
       search: () => ({ ...newParams }),
+      params: {
+        tcg: tcg,
+      },
       replace: true,
     });
   };
@@ -92,7 +95,8 @@ export function constructCardOverview(
 
   return (
     <>
-      <title>{`${(searchParams.query?.length ?? 0) === 0 ? 'Card Database' : searchParams.query} – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+      <title>{`${(searchParams.query?.length ?? 0) === 0 ? 'Card Database' : searchParams.query} 
+      – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       <CardOverview
         tcg={tcg}
         scrollbackRef={scrollBackRef}

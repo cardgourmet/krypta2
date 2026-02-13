@@ -1,12 +1,13 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router';
-import { StrictMode } from 'react';
+import {createRouter, RouterProvider} from '@tanstack/react-router';
+import {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals.ts';
-import { routeTree } from './routeTree.gen';
+import {routeTree} from './routeTree.gen';
 import './styles/styles.css';
 import './styles/gourmet.css';
 import './parcels/i18n/i18n';
 
+import 'react-loading-skeleton/dist/skeleton.css'
 import '@mantine/core/styles.layer.css';
 import '@mantine/nprogress/styles.css';
 import 'keyrune/css/keyrune.min.css';

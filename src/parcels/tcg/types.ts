@@ -1,7 +1,12 @@
 import type {ReactElement} from 'react';
+import z from 'zod';
+import type {CardSearchParams} from '@/parcels/overview/types.ts';
 import type {DlcDataCard} from '@/parcels/tcg/dlc/api.ts';
+import {dlcSortBys, dlcUniqueBys} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgDataCard} from '@/parcels/tcg/mtg/api.ts';
+import {mtgSortBys, mtgUniqueBys} from '@/parcels/tcg/mtg/types.ts';
 import type {PcgDataCard} from '@/parcels/tcg/pcg/api.ts';
+import {pcgSortBys, pcgUniqueBys} from '@/parcels/tcg/pcg/types.ts';
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];
@@ -35,3 +40,32 @@ export type TcgCardTableData = {
     data: Record<string, ReactElement>;
   }[];
 };
+
+export const tcgSearchParamsDefaults = {
+  query: '',
+  page: 1,
+  sortDirection: 'auto' as SortDirection,
+  display: 'grid' as DisplayMode,
+  uniqueBy: 'cards' as TcgUniqueBy,
+  sortBy: 'name' as TcgSortBy,
+};
+
+export const tcgSortBys = [...dlcSortBys, ...mtgSortBys, ...pcgSortBys] as const;
+export type TcgSortBy = (typeof tcgSortBys)[number];
+
+export const tcgUniqueBys = [...dlcUniqueBys, ...mtgUniqueBys, ...pcgUniqueBys] as const;
+export type TcgUniqueBy = (typeof tcgUniqueBys)[number];
+
+export type TcgSearchParams = CardSearchParams & {
+  uniqueBy?: TcgUniqueBy;
+  sortBy?: TcgSortBy;
+};
+
+export const tcgSearchParamsSchema = z.object({
+  query: z.string().catch(tcgSearchParamsDefaults.query),
+  page: z.number().catch(tcgSearchParamsDefaults.page),
+  sortDirection: z.enum(sortDirections).catch(tcgSearchParamsDefaults.sortDirection),
+  display: z.enum(displayModes).catch(tcgSearchParamsDefaults.display),
+  uniqueBy: z.enum(tcgUniqueBys).catch(tcgSearchParamsDefaults.uniqueBy),
+  sortBy: z.enum(tcgSortBys).catch(tcgSearchParamsDefaults.sortBy),
+});

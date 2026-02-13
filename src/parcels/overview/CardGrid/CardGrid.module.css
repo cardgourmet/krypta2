@@ -6,6 +6,18 @@
   justify-content: center;
 }
 
+.card {
+  position: relative;
+  word-break: break-all;
+  overflow: hidden;
+
+  border-radius: 15px;
+  object-fit: contain;
+  aspect-ratio: 672 / 936;
+  max-width: 252px;
+  max-height: 351px;
+}
+
 @media (max-width: 1110px) {
   .cardsOverview {
     grid-template-columns: repeat(5, 1fr);

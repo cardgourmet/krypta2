@@ -1,9 +1,10 @@
 import {useMemo} from 'react';
+import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
 import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
-import {Route} from '@/routes/mtg/cards';
+import {Route} from '@/routes/$tcg/cards';
 
 export function useMtgMemoizedQuerySettings() {
-  const searchParams = Route.useSearch();
+  const searchParams = Route.useSearch() as MtgSearchParams;
 
   return useMemo(() => {
     return {
@@ -17,7 +18,7 @@ export function useMtgMemoizedQuerySettings() {
 }
 
 export function useMtgMemoizedDisplaySettings() {
-  const searchParams = Route.useSearch();
+  const searchParams = Route.useSearch() as MtgSearchParams;
 
   return useMemo(() => {
     return {

@@ -1,28 +1,13 @@
-import {
-  IconBrush,
-  IconMeteorFilled,
-  IconNumbers,
-  IconSparkles,
-  IconTextSize,
-  IconUserScan,
-} from '@tabler/icons-react';
-import { useMemo } from 'react';
-import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
-import { AdvancedFilterCategory } from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
-import { AdvancedFormMultiCheckbox } from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
-import { AdvancedFormMultiSelect } from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
-import { AdvancedFormNumberCompare } from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
-import { AdvancedFormText } from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import { SymbolSVG } from '@/parcels/tcg/mtg';
-import {
-  mtgColors,
-  mtgFormats,
-  mtgGames,
-  mtgKeywords,
-  mtgRarities,
-  mtgSetNames,
-  mtgTypes,
-} from '@/parcels/tcg/mtg/raw/apiValues.ts';
+import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
+import {useMemo} from 'react';
+import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
+import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
+import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
+import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
+import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
+import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
+import {mtgColors, mtgFormats, mtgGames, mtgKeywords, mtgRarities, mtgSetNames, mtgTypes,} from '@/parcels/tcg/mtg/raw/apiValues.ts';
 
 export function MtgAdvancedFilters() {
   const setNamesMapped = useMemo(() => {
@@ -61,12 +46,12 @@ export function MtgAdvancedFilters() {
             .filter((d) => d.type === 'color')
             .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
           iconsMap={{
-            colorless: <SymbolSVG symbol={'{C}'} size={24} />,
-            black: <SymbolSVG symbol={'{B}'} size={24} />,
-            blue: <SymbolSVG symbol={'{U}'} size={24} />,
-            red: <SymbolSVG symbol={'{R}'} size={24} />,
-            white: <SymbolSVG symbol={'{W}'} size={24} />,
-            green: <SymbolSVG symbol={'{G}'} size={24} />,
+            colorless: <MtgSymbolSVG symbol={'{C}'} size={24} />,
+            black: <MtgSymbolSVG symbol={'{B}'} size={24} />,
+            blue: <MtgSymbolSVG symbol={'{U}'} size={24} />,
+            red: <MtgSymbolSVG symbol={'{R}'} size={24} />,
+            white: <MtgSymbolSVG symbol={'{W}'} size={24} />,
+            green: <MtgSymbolSVG symbol={'{G}'} size={24} />,
           }}
           exactDropdownValues={{ exact: 'Genau diese Farben', contains: 'Enthält eine dieser Farben' }}
         />

@@ -74,8 +74,9 @@ export function TcgPrintImageRenderer({
             return (
               <Link
                 key={print.id}
-                to={`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`}
+                to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
                 params={{
+                  tcg: tcg,
                   setCode: print.setCode?.toLowerCase() ?? '???',
                   collectorNumber: print.collectorNumber.toLowerCase(),
                   any: slugify(card.name),
@@ -94,11 +95,14 @@ export function TcgPrintImageRenderer({
       )}
       {card.allPrints.length > 1 && (
         <Link
-          to={`/${tcg}/cards`}
+          to={`/$tcg/cards`}
           search={{
             ...searchParamsDefault,
             query: `cardid:"${card.id}"`,
             uniqueBy: 'prints',
+          }}
+          params={{
+            tcg: tcg,
           }}
           style={{ textDecoration: 'none' }}
         >

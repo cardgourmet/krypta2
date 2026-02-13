@@ -35,7 +35,7 @@ export function TcgPrintDetails({
 }: TcgPrintDetailsPage) {
   const tcg = useTcgByLocation() as Tcg;
 
-  const routeApi = getRouteApi(`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`);
+  const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
   const { print: cardWithPrints, set } = routeApi.useLoaderData();
   const { lang: printLanguage } = routeApi.useSearch() as CardDetailsSearch;
 

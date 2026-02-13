@@ -1,6 +1,5 @@
-import {z} from 'zod';
 import type {CardSearchDisplaySettings, CardSearchParams, CardSearchQuerySettings} from '@/parcels/overview/types.ts';
-import {type DisplayMode, displayModes, type SortDirection, sortDirections} from '@/parcels/tcg/types.ts';
+import type {DisplayMode, SortDirection,} from '@/parcels/tcg/types.ts';
 
 export const mtgSortBys = [
   'name',
@@ -31,15 +30,6 @@ export const mtgSearchParamsDefaults = {
   uniqueBy: 'cards' as MtgUniqueBy,
   sortBy: 'name' as MtgSortBy,
 };
-
-export const mtgSearchParamsSchema = z.object({
-  query: z.string().catch(mtgSearchParamsDefaults.query),
-  page: z.number().catch(mtgSearchParamsDefaults.page),
-  sortDirection: z.enum(sortDirections).catch(mtgSearchParamsDefaults.sortDirection),
-  display: z.enum(displayModes).catch(mtgSearchParamsDefaults.display),
-  uniqueBy: z.enum(mtgUniqueBys).catch(mtgSearchParamsDefaults.uniqueBy),
-  sortBy: z.enum(mtgSortBys).catch(mtgSearchParamsDefaults.sortBy),
-});
 
 export type MtgSearchParams = CardSearchParams & {
   uniqueBy?: MtgUniqueBy;
