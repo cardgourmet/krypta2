@@ -1,12 +1,13 @@
-import { Drawer, useMantineColorScheme } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { IconLanguage, IconMenu2, IconMoon, IconSearch, IconSun, IconSunMoon, IconUser } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Logo } from '@/parcels/Logo.tsx';
-import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
-import { MobileSearchbar } from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
+import {Drawer} from '@mantine/core';
+import {useDisclosure, useMediaQuery} from '@mantine/hooks';
+import {IconMenu2, IconSearch, IconUser} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
+import {useRef} from 'react';
+import {LanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector.tsx';
+import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector.tsx';
+import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay.tsx';
+import {Logo} from '@/parcels/Logo.tsx';
+import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 import styles from './Navbar.module.css';
 
@@ -16,19 +17,6 @@ interface NavbarProps {
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
-  const { setColorScheme } = useMantineColorScheme();
-
-  const { i18n } = useTranslation();
-  const [language, setLanguage] = useState<string>('en');
-  const switchLanguage = useEffectEvent((language: string) => {
-    // noinspection JSIgnoredPromiseFromCall
-    i18n.changeLanguage(language);
-  });
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    switchLanguage(language);
-  }, [language]);
 
   const [mobileSearchOpened, { open, close }] = useDisclosure(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -55,43 +43,10 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
           </div>
 
           <div className={styles.navbarRight}>
-            <Dropdown
-              className={styles.iconButton}
-              items={{
-                de: 'Deutsch',
-                en: 'English',
-              }}
-              defaultSelected={language}
-              renderButtonContent={() => <IconLanguage size={22} color={'var(--gourmet-neutral-8)'} />}
-              onSelect={(selected) => {
-                setLanguage(selected);
-              }}
-            />
-            <Dropdown
-              className={styles.iconButton}
-              items={{
-                dark: 'Dark Mode',
-                light: 'Light Mode',
-                system: 'Auto',
-              }}
-              defaultSelected={'dark'}
-              renderButtonContent={(selected) => {
-                return (
-                  <>
-                    {selected === 'dark' && <IconMoon size={22} color={'var(--gourmet-neutral-8)'} />}
-                    {selected === 'light' && <IconSun size={22} color={'var(--gourmet-neutral-8)'} />}
-                    {selected === 'system' && <IconSunMoon size={22} color={'var(--gourmet-neutral-8)'} />}
-                  </>
-                );
-              }}
-              onSelect={(selected) => {
-                if (selected === 'system') setColorScheme('auto');
-                else setColorScheme(selected as 'light' | 'dark');
-              }}
-            />
-            <button type="button" className={styles.loginButton}>
-              Anmelden / Registrieren
-            </button>
+            <LanguageSelector />
+            <ThemeSelector />
+
+            <UserDisplay />
           </div>
         </nav>
       )}

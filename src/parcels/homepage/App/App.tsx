@@ -1,7 +1,6 @@
 import {NavigationProgress, nprogress} from '@mantine/nprogress';
 import {Outlet, useRouter} from '@tanstack/react-router';
 import {useState} from 'react';
-import {AuthContextProvider} from "@/parcels/auth/AuthContext.tsx";
 import {Footer} from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
@@ -22,24 +21,24 @@ function App() {
   });
 
   return (
-    <AuthContextProvider>
-      <TcgProvider>
-        <SearchCacheProvider>
-          <SearchHistoryProvider>
-            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            <Navbar setSidebarOpen={setSidebarOpen} />
-            <NavigationProgress />
+    <TcgProvider>
+      <SearchCacheProvider>
+        <SearchHistoryProvider>
+          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Navbar setSidebarOpen={setSidebarOpen} />
+          <NavigationProgress />
 
-            <div className={styles.mainContent}>
+          <div className={styles.mainContent}>
+            <div className={styles.content}>
               <Outlet />
             </div>
-            <div className={styles.footer}>
-              <Footer />
-            </div>
-          </SearchHistoryProvider>
-        </SearchCacheProvider>
-      </TcgProvider>
-    </AuthContextProvider>
+          </div>
+          <div className={styles.footer}>
+            <Footer />
+          </div>
+        </SearchHistoryProvider>
+      </SearchCacheProvider>
+    </TcgProvider>
   );
 }
 

@@ -50,6 +50,44 @@ export async function registerUsingBasicAuth(
   }
 }
 
+// /v1/auth/confirm
+export async function resendConfirmationMail(
+  data: {
+    email: string;
+  },
+  sessionToken?: string,
+  abort?: AbortController,
+): Promise<{ data?: AuthApiRegisterResponse; error?: Error; statusCode?: number }> {
+  try {
+    const res = await umoriClient.POST(`/v1/auth/confirm`, {
+      headers: {
+        'x-user-session': sessionToken ?? undefined,
+      },
+      body: {
+        username: data.email,
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { statusCode: res.data.statusCode };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
 // /v1/auth/basic/logout
 export async function loginUsingBasicAuth(
   data: {
@@ -110,7 +148,7 @@ export async function logout(
     if (!res.data) {
       return { error: new Error('Received invalid data') };
     }
-    return { data: undefined, statusCode: res.response.status };
+    return { statusCode: res.response.status };
   } catch (error) {
     if (!(error instanceof Error)) throw error;
 

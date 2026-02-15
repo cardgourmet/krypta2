@@ -10,7 +10,6 @@ import type {DlcDataCard, DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgDataCard, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
 import type {PcgDataCard, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './TcgPrintDetails.module.css';
 
 export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
@@ -59,7 +58,7 @@ export function TcgPrintDetails({
   const smallerScreen = useMediaQuery('(max-width: 1110px)');
   const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
-    <div className={styles.mainContent}>
+    <div>
       {constructPageTitle(cardWithPrints, set, printLanguage)}
       <Stack gap={'xs'}>
         <Breadcrumbs
