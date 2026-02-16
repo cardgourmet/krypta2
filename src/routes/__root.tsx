@@ -2,7 +2,7 @@ import {MantineProvider} from '@mantine/core';
 import {TanStackDevtools} from '@tanstack/react-devtools';
 import {createRootRouteWithContext} from '@tanstack/react-router';
 import {TanStackRouterDevtoolsPanel} from '@tanstack/react-router-devtools';
-import type {useAuth} from '@/parcels/auth/AuthContext.tsx';
+import type {useAuth} from '@/parcels/auth/AuthContextProvider.tsx';
 import App from '@/parcels/homepage/App/App.tsx';
 import {theme} from '../theme';
 

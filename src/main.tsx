@@ -9,7 +9,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import '@mantine/core/styles.layer.css';
 import '@mantine/nprogress/styles.css';
 import 'keyrune/css/keyrune.min.css';
-import {AuthContextProvider} from '@/parcels/auth/AuthContext.tsx';
+import {AuthContextProvider} from '@/parcels/auth/AuthContextProvider.tsx';
 import {AppRouter} from '@/parcels/router/AppRouter.tsx'; // Render the app
 
 // Render the app

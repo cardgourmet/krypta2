@@ -1,0 +1,12 @@
+.iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--cgm-button-border);
+  }
+}

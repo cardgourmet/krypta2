@@ -1,8 +1,8 @@
 import {IconLanguage} from '@tabler/icons-react';
 import {useEffect, useEffectEvent, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import styles from '@/parcels/homepage/Navbar/Navbar.module.css';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
+import styles from './LanguageSelector.module.css';
 
 export function LanguageSelector() {
   const { i18n } = useTranslation();

@@ -1,7 +1,7 @@
 import {useMantineColorScheme} from '@mantine/core';
 import {IconMoon, IconSun, IconSunMoon} from '@tabler/icons-react';
-import styles from '@/parcels/homepage/Navbar/Navbar.module.css';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
+import styles from './ThemeSelector.module.css';
 
 export function ThemeSelector() {
   const { setColorScheme } = useMantineColorScheme();

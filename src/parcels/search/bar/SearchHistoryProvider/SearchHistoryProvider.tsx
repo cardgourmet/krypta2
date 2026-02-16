@@ -1,10 +1,10 @@
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {createContext, type ReactNode, useCallback, useContext, useMemo, useState} from 'react';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const SearchHistoryContext = createContext<SearchHistory | null>(null);
 
 const MAX_HISTORY_SIZE = 10;
-const HISTORY_STORAGE_KEY = 'search-history';
+const HISTORY_STORAGE_KEY = 'cgm-search-history';
 
 type HistoryByTcg = Record<Tcg, string[]>;
 

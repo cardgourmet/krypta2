@@ -1,14 +1,14 @@
 import {Button, Group, PasswordInput, Stack, Text, TextInput} from '@mantine/core';
 import {IconArrowRight} from '@tabler/icons-react';
-import {createFileRoute, Link, redirect} from '@tanstack/react-router';
+import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
-import {useUserSession} from '@/parcels/auth/useUserSession.ts';
 
 export const Route = createFileRoute('/login/')({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
-    if (context.auth) {
+    if (context.auth.user) {
       // if the user is already logged in -> forward to the home page
       throw redirect({
         to: '/',
@@ -18,9 +18,11 @@ export const Route = createFileRoute('/login/')({
 });
 
 function RouteComponent() {
-  const { session, setSession } = useUserSession();
+  const { token, login } = useAuth();
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+
+  const navigate = useNavigate();
 
   return (
     <Stack gap={'xl'} m={'6rem 20rem'}>
@@ -63,20 +65,26 @@ function RouteComponent() {
                 usernameOrEmail: loginUsername,
                 password: loginPassword,
               },
-              session?.sessionToken,
+              token,
             ).then((r) => {
               if (r.error) {
                 console.log('Error during login', r.error);
                 return;
               }
               if (r.session && r.data?.session) {
-                setSession({
-                  sessionToken: r.session,
+                login({
+                  token: r.session,
                   expiresAt: r.data?.session.expiresAt,
                 });
               }
 
               console.log('Successfully loginned', JSON.stringify(r.data));
+
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                to: '/',
+                replace: true,
+              });
             });
           }}
         >

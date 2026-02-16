@@ -1,6 +1,5 @@
-// Create a new router instance
 import {createRouter, RouterProvider} from '@tanstack/react-router';
-import {useAuth} from '@/parcels/auth/AuthContext.tsx';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {routeTree} from '@/routeTree.gen.ts';
 
 const router = createRouter({
@@ -23,7 +22,7 @@ declare module '@tanstack/react-router' {
 }
 
 export function AppRouter() {
-  const loggedInUser = useAuth();
+  const auth = useAuth();
 
-  return <RouterProvider router={router} context={{ auth: loggedInUser }} />;
+  return <RouterProvider router={router} context={{ auth: auth }} />;
 }
