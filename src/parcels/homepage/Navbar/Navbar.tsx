@@ -3,9 +3,10 @@ import {useDisclosure, useMediaQuery} from '@mantine/hooks';
 import {IconMenu2, IconSearch, IconUser} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useRef} from 'react';
-import {LanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector.tsx';
-import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector.tsx';
-import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay.tsx';
+import {LanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
+import {MobileUserDisplay} from '@/parcels/homepage/Navbar/MobileUserDisplay/MobileUserDisplay.tsx';
+import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
+import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplay.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
 import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
@@ -18,22 +19,38 @@ interface NavbarProps {
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
 
-  const [mobileSearchOpened, { open, close }] = useDisclosure(false);
+  const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const [mobileProfileOpened, { open: openProfile, close: closeProfile }] = useDisclosure(false);
 
   return (
     <>
       <Drawer
+        position={'left'}
         classNames={{
           content: styles.searchBarDrawer,
         }}
         ref={containerRef}
         size="100%"
         opened={mobileSearchOpened}
-        onClose={close}
+        onClose={openSearch}
         withCloseButton={false}
       >
-        <MobileSearchbar close={close} containerRef={containerRef} />
+        <MobileSearchbar close={closeSearch} containerRef={containerRef} />
+      </Drawer>
+
+      <Drawer
+        position={'right'}
+        classNames={{
+          content: styles.profileDrawer,
+        }}
+        size="100%"
+        opened={mobileProfileOpened}
+        onClose={closeProfile}
+        withCloseButton={false}
+      >
+        <MobileUserDisplay close={closeProfile} />
       </Drawer>
 
       {!smallScreen && (
@@ -61,7 +78,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
             >
               <IconMenu2 size={18} color={'var(--gourmet-neutral-8)'} />
             </button>
-            <button type="button" onClick={open}>
+            <button type="button" onClick={openSearch}>
               <IconSearch size={18} color={'var(--gourmet-neutral-8)'} />
             </button>
           </div>
@@ -71,7 +88,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
             </Link>
           </div>
           <div style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <button type="button">
+            <button type="button" onClick={openProfile}>
               <IconUser size={18} color={'var(--gourmet-neutral-8)'} />
             </button>
           </div>

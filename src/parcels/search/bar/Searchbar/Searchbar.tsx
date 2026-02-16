@@ -1,21 +1,21 @@
-import { useClickOutside, useDebouncedValue, useMergedRef } from '@mantine/hooks';
-import { IconCaretDownFilled, IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
-import { Link, useNavigate, useRouter } from '@tanstack/react-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {useClickOutside, useDebouncedValue, useMergedRef} from '@mantine/hooks';
+import {IconCaretDownFilled, IconDeviceVisionPro, IconQuestionMark, IconX} from '@tabler/icons-react';
+import {Link, useNavigate, useRouter} from '@tanstack/react-router';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
-import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
+import {handleKeydown} from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
-import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
+import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
-import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
-import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
-import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
-import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
-import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
+import {useSearchQuery} from '@/parcels/search/useSearchQuery.ts';
+import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
+import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
+import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
+import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
@@ -158,7 +158,7 @@ export default function Searchbar() {
         <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
           <div className={styles.content}>
             <div className={styles.advancedSearch}>
-              <Link to={`/${tcg as Tcg}/advanced`}>
+              <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
                 <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
                 Advanced Search
               </Link>

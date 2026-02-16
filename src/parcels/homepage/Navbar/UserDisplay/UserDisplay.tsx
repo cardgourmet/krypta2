@@ -10,9 +10,7 @@ export function UserDisplay() {
   return (
     <>
       {user && (
-        <Group gap={'0.5rem'} ml={'0.5rem'}>
-          <Text ff={'var(--cgm-content-font-family)'}>{user.displayName}</Text>
-
+        <Group ml={'0.5rem'}>
           <Menu position="bottom-end" shadow="md" width={220} classNames={{ dropdown: styles.menuDropdown }}>
             <Menu.Target>
               <button type={'button'} className={styles.avatarIcon}>

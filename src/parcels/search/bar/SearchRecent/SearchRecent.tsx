@@ -3,9 +3,7 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { type RefObject, useEffect, useMemo } from 'react';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
-import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgSearchParams } from '@/parcels/tcg/mtg/types.ts';
-import type { PcgSearchParams } from '@/parcels/tcg/pcg/types.ts';
+import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchRecent.module.css';
 
@@ -93,31 +91,14 @@ export default function SearchRecent({
               tabIndex={0}
               className={index + 1 === historyIndex ? styles.suggestionHighlighted : ''}
               onClick={() => {
-                if (tcg === 'dlc') {
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/dlc/cards',
-                    search: (prev) => {
-                      return { ...prev, query: query } as Required<DlcSearchParams>;
-                    },
-                  });
-                } else if (tcg === 'pcg') {
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/pcg/cards',
-                    search: (prev) => {
-                      return { ...prev, query: query } as Required<PcgSearchParams>;
-                    },
-                  });
-                } else if (tcg === 'mtg') {
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/mtg/cards',
-                    search: (prev) => {
-                      return { ...prev, query: query } as Required<MtgSearchParams>;
-                    },
-                  });
-                }
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  to: '/$tcg/cards',
+                  params: { tcg: tcg },
+                  search: (prev) => {
+                    return { ...prev, query: query } as Required<TcgSearchParams>;
+                  },
+                });
                 close();
               }}
             >

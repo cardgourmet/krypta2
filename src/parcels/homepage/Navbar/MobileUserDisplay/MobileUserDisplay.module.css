@@ -1,0 +1,52 @@
+.avatarIcon {
+  height: 38px;
+  width: 38px;
+  padding: 0;
+
+  border: none;
+  background-color: transparent;
+
+  position: relative;
+
+  > img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+
+  > div {
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.itemButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+
+  &[data-disabled="true"] {
+    background-color: var(--gourmet-neutral-1);
+    color: var(--gourmet-neutral-4);
+
+    p {
+      color: var(--gourmet-neutral-4);
+    }
+  }
+}

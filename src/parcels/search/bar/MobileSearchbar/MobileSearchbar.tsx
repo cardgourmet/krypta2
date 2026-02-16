@@ -9,8 +9,7 @@ import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/Se
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
-import {useTcg} from "@/parcels/tcg/TcgProvider.tsx";
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './MobileSearchbar.module.css';
 
 type MobileSearchbarProps = {
@@ -65,7 +64,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           <Text>Help</Text>
         </div>
         <div className={styles.advancedSearch}>
-          <Link to={`/${tcg as Tcg}/advanced`}>
+          <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
             <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
             Advanced Search
           </Link>
