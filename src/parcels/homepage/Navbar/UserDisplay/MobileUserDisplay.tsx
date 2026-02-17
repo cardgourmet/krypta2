@@ -1,19 +1,11 @@
-import { Button, type ButtonProps, Divider, Group, Stack, Text } from '@mantine/core';
-import {
-  IconBookmark,
-  IconHistory,
-  IconList,
-  IconLogin,
-  IconLogout,
-  IconQuestionMark,
-  IconSettings,
-  IconStar,
-  IconX,
-} from '@tabler/icons-react';
-import type { ReactElement } from 'react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import {Button, type ButtonProps, Divider, Group, Stack, Text} from '@mantine/core';
+import {IconBookmark, IconHistory, IconList, IconLogin, IconLogout, IconQuestionMark, IconSettings, IconStar, IconX,} from '@tabler/icons-react';
+import {useNavigate} from '@tanstack/react-router';
+import {forwardRef, type ReactElement} from 'react';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {MobileLanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
+import {MobileThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
 import styles from './MobileUserDisplay.module.css';
-import { useNavigate } from '@tanstack/react-router';
 
 export function MobileUserDisplay({ close }: { close: () => void }) {
   const { user, logout } = useAuth();
@@ -30,7 +22,9 @@ export function MobileUserDisplay({ close }: { close: () => void }) {
         </Button>
       </Group>
       {!user && (
-        <Stack>
+        <Stack gap={'0.5rem'}>
+          <MobileThemeSelector />
+          <MobileLanguageSelector />
           <ItemButton
             title={'Anmelden'}
             icon={<IconLogin size={18} />}
@@ -45,7 +39,7 @@ export function MobileUserDisplay({ close }: { close: () => void }) {
         </Stack>
       )}
       {user && (
-        <Stack>
+        <Stack gap={'0.5rem'}>
           <Group gap={'0.25rem'}>
             <div className={styles.avatarIcon}>
               {user.avatarUrl && <img src={user.avatarUrl} alt={user.displayName} />}
@@ -76,17 +70,31 @@ export function MobileUserDisplay({ close }: { close: () => void }) {
 
           <Divider />
 
-          <ItemButton title={'Suchhistorie'} icon={<IconHistory size={18} />} disabled />
-          <ItemButton title={'Favoriten'} icon={<IconStar size={18} />} disabled />
-          <ItemButton title={'Lesezeichen'} icon={<IconBookmark size={18} />} disabled />
-          <ItemButton title={'Listen'} icon={<IconList size={18} />} disabled />
+          <ItemButton
+            title={'Suchhistorie'}
+            icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />}
+            disabled
+          />
+          <ItemButton title={'Favoriten'} icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />} disabled />
+          <ItemButton
+            title={'Lesezeichen'}
+            icon={<IconBookmark size={18} color={'var(--gourmet-neutral-8)'} />}
+            disabled
+          />
+          <ItemButton title={'Listen'} icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />} disabled />
 
           <Divider />
 
-          <ItemButton title={'Einstellungen'} icon={<IconSettings size={18} />} />
+          <ItemButton
+            title={'Einstellungen'}
+            icon={<IconSettings size={18} color={'var(--gourmet-neutral-8)'} />}
+            disabled
+          />
+          <MobileThemeSelector />
+          <MobileLanguageSelector />
           <ItemButton
             title={'Abmelden'}
-            icon={<IconLogout size={18} />}
+            icon={<IconLogout size={18} color="var(--gourmet-red-01)" />}
             color="var(--gourmet-red-01)"
             onClick={() => {
               logout();
@@ -99,14 +107,20 @@ export function MobileUserDisplay({ close }: { close: () => void }) {
   );
 }
 
-function ItemButton(props: { title: string; icon: ReactElement; onClick?: () => void } & ButtonProps) {
+export const ItemButton = forwardRef<
+  HTMLButtonElement,
+  { title: string; icon: ReactElement; onClick?: () => void } & ButtonProps
+>((props, ref) => {
   return (
     <Button
+      ref={ref}
       justify="space-between"
       leftSection={
         <Group>
           {props.icon}
-          <Text ff={'var(--cgm-content-font-family)'}>{props.title}</Text>
+          <Text ff={'var(--cgm-content-font-family)'} c={props.color}>
+            {props.title}
+          </Text>
         </Group>
       }
       disabled={props.disabled}
@@ -114,4 +128,4 @@ function ItemButton(props: { title: string; icon: ReactElement; onClick?: () => 
       onClick={props.onClick}
     />
   );
-}
+});

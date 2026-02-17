@@ -1,9 +1,9 @@
-import {Button, Group, PasswordInput, Stack, Text, TextInput} from '@mantine/core';
-import {IconArrowRight} from '@tabler/icons-react';
-import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {registerUsingBasicAuth} from '@/parcels/auth/api.ts';
+import { Button, Group, PasswordInput, Stack, Text, TextInput } from '@mantine/core';
+import { IconArrowRight } from '@tabler/icons-react';
+import { createFileRoute, Link, redirect, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { registerUsingBasicAuth } from '@/parcels/auth/api.ts';
 
 export const Route = createFileRoute('/register/')({
   component: RouteComponent,
@@ -35,92 +35,44 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   return (
-    <Stack gap={'xl'} m={'6rem 20rem'}>
-      <Stack gap={'0.25rem'}>
-        <Text fz={'h2'}>Willkommen bei Cardgourmet</Text>
-        <Group gap={'0.25rem'}>
-          <Text fz={'md'} c={'var(--gourmet-neutral-6)'}>
-            Schon mal hier gewesen?
-          </Text>
-          <Link to={'/login'} style={{ textDecoration: 'none' }}>
-            <Group gap={'0.25rem'}>
-              <Text c={'var(--gourmet-blue-5)'}>Anmelden</Text>
-              <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />
-            </Group>
-          </Link>
-        </Group>
-      </Stack>
-
-      <Stack>
-        <Stack gap={'0.1rem'}>
-          <Text>E-Mail-Adresse</Text>
-          <TextInput value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
+    <Group justify={'center'}>
+      <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
+        <Stack gap={'0.25rem'}>
+          <Text fz={'h2'}>Registrieren</Text>
+          <Group gap={'0.25rem'}>
+            <Text fz={'md'} c={'var(--gourmet-neutral-6)'}>
+              Schon mal hier gewesen?
+            </Text>
+            <Link to={'/login'} style={{ textDecoration: 'none' }}>
+              <Group gap={'0.25rem'}>
+                <Text c={'var(--gourmet-blue-5)'}>Anmelden</Text>
+                <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />
+              </Group>
+            </Link>
+          </Group>
         </Stack>
-        <Stack gap={'0.1rem'}>
-          <Text>Benutzername</Text>
-          <TextInput value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} />
-        </Stack>
-        <Stack gap={'0.1rem'}>
-          <Text>Passwort</Text>
-          <PasswordInput value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} w={'100%'} />
-        </Stack>
-        <Stack gap={'0.1rem'}>
-          <Text>Passwort wiederholen</Text>
-          <PasswordInput value={registerPassword2} onChange={(e) => setRegisterPassword2(e.target.value)} w={'100%'} />
-        </Stack>
-        <Button
-          onClick={() => {
-            if (registerEmail.length <= 1) return;
-            if (registerUsername.length <= 1) return;
-            if (registerPassword.length <= 1) return;
 
-            registerUsingBasicAuth(
-              {
-                email: registerEmail,
-                username: registerUsername,
-                password: registerPassword,
-              },
-              token,
-            ).then((r) => {
-              if (r.error) {
-                console.log('Error during register:', r.error);
-                return;
-              }
-              if (r.session && r.data?.session) {
-                login({
-                  token: r.session,
-                  expiresAt: r.data?.session.expiresAt,
-                });
-              }
-
-              console.log('Successfully registered', JSON.stringify(r.data));
-
-              // noinspection JSIgnoredPromiseFromCall
-              navigate({
-                to: '/',
-                replace: true,
-              });
-            });
-          }}
-        >
-          Registrieren
-        </Button>
-      </Stack>
-    </Stack>
-    /*<Stack style={{ margin: '1rem 4rem' }}>
-      <Text>Session: {JSON.stringify(session)}</Text>
-      <Text>User: {JSON.stringify(loggedInUser)}</Text>
-      <Activity mode={loggedInUser ? 'hidden' : 'visible'}>
-        <Group>
-          <Text>Register</Text>
-          <TextInput label="Email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
-          <TextInput label="Username" value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} />
-          <PasswordInput
-            label="Password"
-            value={registerPassword}
-            onChange={(e) => setRegisterPassword(e.target.value)}
-            w={'12rem'}
-          />
+        <Stack>
+          <Stack gap={'0.1rem'}>
+            <Text>E-Mail-Adresse</Text>
+            <TextInput value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
+          </Stack>
+          <Stack gap={'0.1rem'}>
+            <Text>Benutzername</Text>
+            <TextInput value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} />
+          </Stack>
+          <Stack gap={'0.1rem'}>
+            <Text>Passwort</Text>
+            <PasswordInput value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} w={'100%'} />
+          </Stack>
+          <Stack gap={'0.1rem'}>
+            <Text>Passwort wiederholen</Text>
+            <PasswordInput
+              value={registerPassword2}
+              onChange={(e) => setRegisterPassword2(e.target.value)}
+              w={'100%'}
+            />
+          </Stack>
           <Button
             onClick={() => {
               if (registerEmail.length <= 1) return;
@@ -133,74 +85,33 @@ function RouteComponent() {
                   username: registerUsername,
                   password: registerPassword,
                 },
-                session?.sessionToken,
+                token,
               ).then((r) => {
                 if (r.error) {
                   console.log('Error during register:', r.error);
                   return;
                 }
                 if (r.session && r.data?.session) {
-                  setSession({
-                    sessionToken: r.session,
+                  login({
+                    token: r.session,
                     expiresAt: r.data?.session.expiresAt,
                   });
                 }
 
                 console.log('Successfully registered', JSON.stringify(r.data));
+
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  to: '/',
+                  replace: true,
+                });
               });
             }}
           >
-            Register
+            Registrieren
           </Button>
-        </Group>
-        <Group>
-          <Text>Resend Confirmation</Text>
-          <TextInput label="Email" value={resendEmail} onChange={(e) => setResendEmail(e.target.value)} />
-          <Button
-            onClick={() => {
-              if (session?.sessionToken) return;
-
-              resendConfirmationMail({ email: resendEmail }, session?.sessionToken).then((r) => {
-                if (r.error) {
-                  if (r.statusCode === 409) {
-                    // already verified
-                    console.log("Already verified, don't need to resend mail");
-                    return;
-                  }
-
-                  console.log('Error during resend email:', r.error);
-                  return;
-                }
-
-                console.log('Successfully resend email', JSON.stringify(r.data));
-              });
-            }}
-          >
-            Resend
-          </Button>
-        </Group>
-      </Activity>
-      <Activity mode={loggedInUser ? 'visible' : 'hidden'}>
-        <Group>
-          <Button
-            color={'red'}
-            onClick={() => {
-              logout(session?.sessionToken).then((r) => {
-                setSession(undefined);
-
-                if (r.error) {
-                  console.log('Error during logout', r.error);
-                  return;
-                }
-
-                console.log('Successfully logoutted', JSON.stringify(r.data));
-              });
-            }}
-          >
-            Logout
-          </Button>
-        </Group>
-      </Activity>
-    </Stack>*/
+        </Stack>
+      </Stack>
+    </Group>
   );
 }

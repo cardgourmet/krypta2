@@ -25,72 +25,74 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   return (
-    <Stack gap={'xl'} m={'6rem 20rem'}>
-      <Stack gap={'0.25rem'}>
-        <Text fz={'h2'}>Willkommen zurück bei Cardgourmet</Text>
-        <Group gap={'0.25rem'}>
-          <Text fz={'md'} c={'var(--gourmet-neutral-6)'}>
-            Zum ersten Mal hier?
-          </Text>
-          <Link to={'/register'} style={{ textDecoration: 'none' }}>
-            <Group gap={'0.25rem'}>
-              <Text c={'var(--gourmet-blue-5)'}>Registrieren</Text>
-              <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />
-            </Group>
-          </Link>
-        </Group>
-      </Stack>
-
-      <Stack>
-        <Stack gap={'0.1rem'}>
-          <Text>E-Mail-Adresse oder Benutzername</Text>
-          <TextInput value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} />
-        </Stack>
-        <Stack gap={'0.1rem'}>
-          <Group justify={'space-between'}>
-            <Text>Passwort</Text>
-            <Link to={'/'} style={{ textDecoration: 'none' }}>
-              <Text c={'var(--gourmet-blue-5)'}>Passwort vergessen?</Text>
+    <Group justify={'center'}>
+      <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
+        <Stack gap={'0.25rem'}>
+          <Text fz={'h2'}>Einloggen</Text>
+          <Group gap={'0.25rem'}>
+            <Text fz={'md'} c={'var(--gourmet-neutral-6)'}>
+              Zum ersten Mal hier?
+            </Text>
+            <Link to={'/register'} style={{ textDecoration: 'none' }}>
+              <Group gap={'0.25rem'}>
+                <Text c={'var(--gourmet-blue-5)'}>Registrieren</Text>
+                <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />
+              </Group>
             </Link>
           </Group>
-          <PasswordInput value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} w={'100%'} />
         </Stack>
-        <Button
-          onClick={() => {
-            if (loginUsername.length <= 1) return;
-            if (loginPassword.length <= 1) return;
 
-            loginUsingBasicAuth(
-              {
-                usernameOrEmail: loginUsername,
-                password: loginPassword,
-              },
-              token,
-            ).then((r) => {
-              if (r.error) {
-                console.log('Error during login', r.error);
-                return;
-              }
-              if (r.session && r.data?.session) {
-                login({
-                  token: r.session,
-                  expiresAt: r.data?.session.expiresAt,
+        <Stack>
+          <Stack gap={'0.1rem'}>
+            <Text>E-Mail-Adresse oder Benutzername</Text>
+            <TextInput value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} />
+          </Stack>
+          <Stack gap={'0.1rem'}>
+            <Group justify={'space-between'}>
+              <Text>Passwort</Text>
+              <Link to={'/'} style={{ textDecoration: 'none' }}>
+                <Text c={'var(--gourmet-blue-5)'}>Passwort vergessen?</Text>
+              </Link>
+            </Group>
+            <PasswordInput value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} w={'100%'} />
+          </Stack>
+          <Button
+            onClick={() => {
+              if (loginUsername.length <= 1) return;
+              if (loginPassword.length <= 1) return;
+
+              loginUsingBasicAuth(
+                {
+                  usernameOrEmail: loginUsername,
+                  password: loginPassword,
+                },
+                token,
+              ).then((r) => {
+                if (r.error) {
+                  console.log('Error during login', r.error);
+                  return;
+                }
+                if (r.session && r.data?.session) {
+                  login({
+                    token: r.session,
+                    expiresAt: r.data?.session.expiresAt,
+                  });
+                }
+
+                console.log('Successfully loginned', JSON.stringify(r.data));
+
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  to: '/',
+                  replace: true,
                 });
-              }
-
-              console.log('Successfully loginned', JSON.stringify(r.data));
-
-              // noinspection JSIgnoredPromiseFromCall
-              navigate({
-                to: '/',
-                replace: true,
               });
-            });
-          }}
-        >
-          Anmelden
-        </Button>
+            }}
+          >
+            Anmelden
+          </Button>
+        </Stack>
       </Stack>
-    </Stack>
+    </Group>
   );
 }
