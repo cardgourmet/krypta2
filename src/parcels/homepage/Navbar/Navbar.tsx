@@ -9,6 +9,7 @@ import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelect
 import {UnverifiedBanner} from '@/parcels/homepage/Navbar/UnverifiedBanner/UnverifiedBanner.tsx';
 import {MobileUserMenu} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.tsx';
 import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplay.tsx';
+import {VerifiedBanner} from '@/parcels/homepage/Navbar/VerifiedBanner/VerifiedBanner.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
 import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
@@ -20,7 +21,7 @@ interface NavbarProps {
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
-  const { user } = useAuth();
+  const { user, wasVerified } = useAuth();
 
   const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -58,7 +59,8 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
 
       {!smallScreen && (
         <>
-          {user?.state === 'unverified' && <UnverifiedBanner user={user} />}
+          {wasVerified && <VerifiedBanner />}
+          {!wasVerified && user?.state === 'unverified' && <UnverifiedBanner user={user} />}
           <nav className={styles.navbar}>
             <div className={styles.navbarSearch}>
               <Searchbar />

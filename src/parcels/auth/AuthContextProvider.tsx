@@ -1,7 +1,7 @@
 import {useLocalStorage} from '@mantine/hooks';
 import {type PropsWithChildren, useCallback, useEffect, useMemo} from 'react';
 import {AuthContext, type UserSession} from '@/parcels/auth/AuthContext.ts';
-import {type DataAuthUser, getCurrentLoggedInUser} from '@/parcels/auth/api.ts';
+import {type DataAuthUser, getCurrentLoggedInUser, logout as doLogout} from '@/parcels/auth/api.ts';
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
   const [session, setSession, removeSession] = useLocalStorage<UserSession | null>({
@@ -11,6 +11,9 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
   const [user, setUser, removeUser] = useLocalStorage<DataAuthUser | null>({
     key: 'cgm-user',
     getInitialValueInEffect: false,
+  });
+  const [wasVerified, setWasVerified, removeWasVerified] = useLocalStorage<boolean | null>({
+    key: 'cgm-was-verified',
   });
 
   const login = useCallback(
@@ -32,7 +35,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       }
       if (expiresAt) {
         const expiresAtTimestamp = Date.parse(expiresAt);
-        if (expiresAtTimestamp > Date.now()) {
+        if (expiresAtTimestamp < Date.now()) {
           // already expired
           removeSession();
           removeUser();
@@ -54,16 +57,23 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         }
         if (!res.data) return;
 
+        removeWasVerified();
         setSession({ token: token, expiresAt: expiresAt });
         setUser(res.data);
       });
     },
-    [removeSession, setSession, removeUser, setUser],
+    [removeSession, setSession, removeUser, setUser, removeWasVerified],
   );
   const logout = useCallback(() => {
+    // noinspection JSIgnoredPromiseFromCall
+    doLogout(session?.token);
+
     removeSession();
     removeUser();
-  }, [removeSession, removeUser]);
+  }, [removeSession, removeUser, session]);
+  const verify = useCallback(() => {
+    setWasVerified(true);
+  }, [setWasVerified]);
 
   const authData = useMemo(() => {
     return {
@@ -71,8 +81,11 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       token: session?.token,
       login: login,
       logout: logout,
+      wasVerified: wasVerified ?? false,
+      verify: verify,
+      removeVerified: removeWasVerified,
     };
-  }, [user, session, login, logout]);
+  }, [user, session, login, logout, verify, wasVerified, removeWasVerified]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {

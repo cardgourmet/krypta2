@@ -83,7 +83,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         <nav className={styles.sidebar}>
           <Group classNames={{ root: styles.sidebarLogo }} justify={'center'} align={'center'} w={'100%'}>
             <Link to="/">
-              <Logo height={42} width={42} style={{ color: 'var(--gourmet-blue-1)' }} />
+              <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
             </Link>
           </Group>
 

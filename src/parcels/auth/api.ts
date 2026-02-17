@@ -57,7 +57,7 @@ export async function resendConfirmationMail(
   },
   sessionToken?: string,
   abort?: AbortController,
-): Promise<{ data?: AuthApiRegisterResponse; error?: Error; statusCode?: number }> {
+): Promise<{ error?: Error; statusCode?: number }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/confirm`, {
       headers: {
@@ -66,6 +66,43 @@ export async function resendConfirmationMail(
       body: {
         username: data.email,
       },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      return { error: new Error(res.response.statusText) };
+    }
+    if (!res.data) {
+      return { error: new Error('Received invalid data') };
+    }
+    return { statusCode: res.data.statusCode };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
+
+    if (error.name === 'AbortError') {
+      console.log('Just aborted the call, no biggies.');
+    } else {
+      console.log(`Error: ${error}`);
+    }
+    return { error: error };
+  }
+}
+
+// /v1/auth/confirm/token
+export async function confirmEmailAddress(
+  data: {
+    token: string;
+  },
+  abort?: AbortController,
+): Promise<{ error?: Error; statusCode?: number }> {
+  try {
+    const res = await umoriClient.POST(`/v1/auth/confirm/{token}`, {
+      params: {
+        path: {
+          token: data.token,
+        },
+      },
+      body: undefined,
       signal: abort?.signal,
     });
 

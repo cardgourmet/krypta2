@@ -15,6 +15,7 @@ import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
+import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
 import { Route as TcgSetsSetCodeIndexRouteImport } from './routes/$tcg/sets/$setCode/index'
 import { Route as TcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/$tcg/sets/$setCode/$collectorNumber/{-$any}'
 
@@ -48,6 +49,11 @@ const TcgAdvancedIndexRoute = TcgAdvancedIndexRouteImport.update({
   path: '/$tcg/advanced/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthConfirmTokenRoute = AuthConfirmTokenRouteImport.update({
+  id: '/auth/confirm/$token',
+  path: '/auth/confirm/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TcgSetsSetCodeIndexRoute = TcgSetsSetCodeIndexRouteImport.update({
   id: '/$tcg/sets/$setCode/',
   path: '/$tcg/sets/$setCode/',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/$tcg': typeof TcgIndexRoute
   '/login': typeof LoginIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/$tcg': typeof TcgIndexRoute
   '/login': typeof LoginIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/$tcg/': typeof TcgIndexRoute
   '/login/': typeof LoginIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/$tcg'
     | '/login'
     | '/register'
+    | '/auth/confirm/$token'
     | '/$tcg/advanced'
     | '/$tcg/cards'
     | '/$tcg/sets/$setCode'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/$tcg'
     | '/login'
     | '/register'
+    | '/auth/confirm/$token'
     | '/$tcg/advanced'
     | '/$tcg/cards'
     | '/$tcg/sets/$setCode'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/$tcg/'
     | '/login/'
     | '/register/'
+    | '/auth/confirm/$token'
     | '/$tcg/advanced/'
     | '/$tcg/cards/'
     | '/$tcg/sets/$setCode/'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   TcgIndexRoute: typeof TcgIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
+  AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
   TcgSetsSetCodeIndexRoute: typeof TcgSetsSetCodeIndexRoute
@@ -179,6 +192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TcgAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/confirm/$token': {
+      id: '/auth/confirm/$token'
+      path: '/auth/confirm/$token'
+      fullPath: '/auth/confirm/$token'
+      preLoaderRoute: typeof AuthConfirmTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$tcg/sets/$setCode/': {
       id: '/$tcg/sets/$setCode/'
       path: '/$tcg/sets/$setCode'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   TcgIndexRoute: TcgIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
+  AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
   TcgSetsSetCodeIndexRoute: TcgSetsSetCodeIndexRoute,

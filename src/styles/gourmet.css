@@ -20,9 +20,11 @@
 
   --gourmet-teal-1: rgba(34, 139, 230, 0.15);
 
-  --gourmet-orange-1: #cf8636;
+  --gourmet-orange-1: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));
   --gourmet-orange-2: #443121;
   --gourmet-orange-3: #a66a29;
+
+  --gourmet-green-1: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
 
   --gourmet-white-1: #f9f6ee;
   --gourmet-black-1: #0b0c0c;

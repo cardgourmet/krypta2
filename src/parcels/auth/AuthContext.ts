@@ -9,6 +9,9 @@ export type AuthData = {
   token?: string;
   login: (data: Partial<UserSession> & { user?: DataAuthUser }) => void;
   logout: () => void;
+  wasVerified: boolean;
+  verify: () => void;
+  removeVerified: () => void;
 };
 
 export function useAuth(): AuthData {
