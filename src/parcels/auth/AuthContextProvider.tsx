@@ -14,11 +14,30 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
   });
 
   const login = useCallback(
-    ({ token, expiresAt }: UserSession) => {
-      // TODO: check if expiresAt <= now
+    ({ token, expiresAt, user }: Partial<UserSession> & { user?: DataAuthUser }) => {
       if (!token) {
+        // user can't be verified without a token.
+        if (user?.state === 'unverified') {
+          console.log('Log in with unverified!');
+
+          // we log him in with the data given (no data fetching)
+          removeSession();
+          setUser(user);
+          return;
+        }
+
+        removeSession();
         removeUser();
         return;
+      }
+      if (expiresAt) {
+        const expiresAtTimestamp = Date.parse(expiresAt);
+        if (expiresAtTimestamp > Date.now()) {
+          // already expired
+          removeSession();
+          removeUser();
+          return;
+        }
       }
 
       getCurrentLoggedInUser(token).then((res) => {

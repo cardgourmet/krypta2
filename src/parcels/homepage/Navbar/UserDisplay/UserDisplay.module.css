@@ -4,9 +4,14 @@
   padding: 0;
 
   border: none;
+  border-radius: 50%;
   background-color: transparent;
 
   position: relative;
+
+  &[data-unverified="true"] {
+    outline: 2px solid var(--gourmet-orange-1);
+  }
 
   > img {
     border-radius: 50%;

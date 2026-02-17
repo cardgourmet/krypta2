@@ -12,12 +12,14 @@ export function constructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
       Number: <>{card.print.collectorNumber}</>,
       Name: (
         <Link
-          to={`/dlc/sets/$setCode/$collectorNumber/{-$any}`}
+          to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
           params={{
+            tcg: 'dlc',
             setCode: card.print.setCode?.toLowerCase() as string,
             collectorNumber: card.print.collectorNumber?.toLowerCase() as string,
             any: slugify(card.name ?? ''),
           }}
+          preload={false}
         >
           {card.name}
         </Link>

@@ -110,12 +110,14 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
         </div>
       )}
       <Link
-        to={`/${tcg}/sets/$setCode/$collectorNumber/{-$any}`}
+        to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
         params={{
+          tcg: tcg,
           setCode: prop.setCode?.toLowerCase() as string,
           collectorNumber: prop.collectorNumber?.toLowerCase() as string,
           any: slugify(prop.name ?? ''),
         }}
+        preload={false}
       >
         {(!imageLoaded || !backfaceImageLoaded) && (
           <Skeleton

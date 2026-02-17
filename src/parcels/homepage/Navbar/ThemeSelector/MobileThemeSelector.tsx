@@ -1,6 +1,6 @@
 import {Combobox, Group, useCombobox, useMantineColorScheme} from '@mantine/core';
 import {IconCheck, IconMoon, IconSun, IconSunMoon} from '@tabler/icons-react';
-import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserDisplay.tsx';
+import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.tsx';
 
 export function MobileThemeSelector() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();

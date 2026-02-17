@@ -5,9 +5,9 @@ import {forwardRef, type ReactElement} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {MobileLanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
 import {MobileThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
-import styles from './MobileUserDisplay.module.css';
+import styles from './MobileUserMenu.module.css';
 
-export function MobileUserDisplay({ close }: { close: () => void }) {
+export function MobileUserMenu({ close }: { close: () => void }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 

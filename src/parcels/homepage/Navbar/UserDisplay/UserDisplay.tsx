@@ -1,5 +1,5 @@
 import {Group, Menu, Stack, Text} from '@mantine/core';
-import {IconBookmark, IconHistory, IconList, IconLogout, IconQuestionMark, IconSettings, IconStar,} from '@tabler/icons-react';
+import {IconAlertHexagon, IconBookmark, IconHistory, IconList, IconLogout, IconQuestionMark, IconSettings, IconStar,} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import styles from './UserDisplay.module.css';
@@ -10,10 +10,18 @@ export function UserDisplay() {
   return (
     <>
       {user && (
-        <Group ml={'0.5rem'}>
-          <Menu position="bottom-end" shadow="md" width={220} classNames={{ dropdown: styles.menuDropdown }}>
+        <Group ml={'0.5rem'} gap={'0.25rem'}>
+          {user.state === 'unverified' && <IconAlertHexagon color={'var(--gourmet-orange-1)'} size={20} />}
+          <Menu
+            position="bottom-end"
+            shadow="md"
+            width={240}
+            openDelay={0}
+            closeDelay={0}
+            classNames={{ dropdown: styles.menuDropdown }}
+          >
             <Menu.Target>
-              <button type={'button'} className={styles.avatarIcon}>
+              <button type={'button'} className={styles.avatarIcon} data-unverified={user.state === 'unverified'}>
                 {user.avatarUrl && <img src={user.avatarUrl} alt={user.displayName} />}
                 {!user.avatarUrl && (
                   <Group
@@ -40,6 +48,15 @@ export function UserDisplay() {
                 <Text ff={'var(--cgm-content-font-family)'} c={'var(--gourmet-neutral-6)'}>
                   @{user.username}
                 </Text>
+
+                {user.state === 'unverified' && (
+                  <div>
+                    <Text mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
+                      Du bist noch nicht verifiziert. <br />
+                      Damit bist du immernoch ein Gast.
+                    </Text>
+                  </div>
+                )}
               </Stack>
 
               <Menu.Divider />

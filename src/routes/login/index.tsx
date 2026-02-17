@@ -72,10 +72,11 @@ function RouteComponent() {
                   console.log('Error during login', r.error);
                   return;
                 }
-                if (r.session && r.data?.session) {
+                if ((r.session && r.data?.session) || r.data?.user?.state === 'unverified') {
                   login({
                     token: r.session,
                     expiresAt: r.data?.session.expiresAt,
+                    user: r.data.user,
                   });
                 }
 

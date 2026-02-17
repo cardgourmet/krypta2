@@ -3,9 +3,11 @@ import {useDisclosure, useMediaQuery} from '@mantine/hooks';
 import {IconMenu2, IconSearch, IconUser} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useRef} from 'react';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {LanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
 import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
-import {MobileUserDisplay} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserDisplay.tsx';
+import {UnverifiedBanner} from '@/parcels/homepage/Navbar/UnverifiedBanner/UnverifiedBanner.tsx';
+import {MobileUserMenu} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.tsx';
 import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplay.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
 import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
@@ -18,6 +20,7 @@ interface NavbarProps {
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 720px)');
+  const { user } = useAuth();
 
   const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -50,22 +53,25 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
         onClose={closeProfile}
         withCloseButton={false}
       >
-        <MobileUserDisplay close={closeProfile} />
+        <MobileUserMenu close={closeProfile} />
       </Drawer>
 
       {!smallScreen && (
-        <nav className={styles.navbar}>
-          <div className={styles.navbarSearch}>
-            <Searchbar />
-          </div>
+        <>
+          {user?.state === 'unverified' && <UnverifiedBanner user={user} />}
+          <nav className={styles.navbar}>
+            <div className={styles.navbarSearch}>
+              <Searchbar />
+            </div>
 
-          <div className={styles.navbarRight}>
-            <LanguageSelector />
-            <ThemeSelector />
+            <div className={styles.navbarRight}>
+              <LanguageSelector />
+              <ThemeSelector />
 
-            <UserDisplay />
-          </div>
-        </nav>
+              <UserDisplay />
+            </div>
+          </nav>
+        </>
       )}
       {smallScreen && (
         <nav className={styles.mobileNavbar}>
