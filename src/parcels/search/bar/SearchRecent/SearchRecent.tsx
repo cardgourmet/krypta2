@@ -1,10 +1,10 @@
-import { IconArrowNarrowRight, IconClockHour8, IconStar, IconX } from '@tabler/icons-react';
-import { Link, useNavigate } from '@tanstack/react-router';
-import { type RefObject, useEffect, useMemo } from 'react';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
-import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {IconArrowNarrowRight, IconClockHour8, IconStar, IconX} from '@tabler/icons-react';
+import {Link, useNavigate} from '@tanstack/react-router';
+import {type RefObject, useEffect, useMemo} from 'react';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
+import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
@@ -131,7 +131,7 @@ export default function SearchRecent({
       </ul>
       <div className={styles.moreRecents}>
         <Link to={'/'}>
-          Zur gesamten Chronik
+          Zur gesamten Historie
           <IconArrowNarrowRight size={20} />
         </Link>
       </div>

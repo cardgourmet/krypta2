@@ -71,7 +71,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               <LanguageSelector />
               <ThemeSelector />
 
-              <UserDisplay />
+              <UserDisplay style={{ marginLeft: '0.5rem' }} />
             </div>
           </nav>
         </>

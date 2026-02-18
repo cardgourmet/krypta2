@@ -1,9 +1,10 @@
-import { Button, Group, PasswordInput, Stack, Text, TextInput } from '@mantine/core';
-import { IconArrowRight } from '@tabler/icons-react';
-import { createFileRoute, Link, redirect, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { registerUsingBasicAuth } from '@/parcels/auth/api.ts';
+import {Button, Group, PasswordInput, Stack, TextInput} from '@mantine/core';
+import {IconArrowRight} from '@tabler/icons-react';
+import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {registerUsingBasicAuth} from '@/parcels/auth/api.ts';
+import {GourmetText} from "@/parcels/mantine/GourmetText.tsx";
 
 export const Route = createFileRoute('/register/')({
   component: RouteComponent,
@@ -38,14 +39,16 @@ function RouteComponent() {
     <Group justify={'center'}>
       <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
         <Stack gap={'0.25rem'}>
-          <Text fz={'h2'}>Registrieren</Text>
+          <GourmetText fz={'h2'} cgmff={'title'}>
+            Registrieren
+          </GourmetText>
           <Group gap={'0.25rem'}>
-            <Text fz={'md'} c={'var(--gourmet-neutral-6)'}>
+            <GourmetText fz={'md'} cgmc={'neutral-6'}>
               Schon mal hier gewesen?
-            </Text>
+            </GourmetText>
             <Link to={'/login'} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
-                <Text c={'var(--gourmet-blue-5)'}>Anmelden</Text>
+                <GourmetText c={'var(--gourmet-blue-1)'}>Anmelden</GourmetText>
                 <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />
               </Group>
             </Link>
@@ -54,19 +57,19 @@ function RouteComponent() {
 
         <Stack>
           <Stack gap={'0.1rem'}>
-            <Text>E-Mail-Adresse</Text>
+            <GourmetText>E-Mail-Adresse</GourmetText>
             <TextInput value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <Text>Benutzername</Text>
+            <GourmetText>Benutzername</GourmetText>
             <TextInput value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <Text>Passwort</Text>
+            <GourmetText>Passwort</GourmetText>
             <PasswordInput value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} w={'100%'} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <Text>Passwort wiederholen</Text>
+            <GourmetText>Passwort wiederholen</GourmetText>
             <PasswordInput
               value={registerPassword2}
               onChange={(e) => setRegisterPassword2(e.target.value)}
@@ -74,6 +77,7 @@ function RouteComponent() {
             />
           </Stack>
           <Button
+            color={'var(--gourmet-blue-1)'}
             onClick={() => {
               if (registerEmail.length <= 1) return;
               if (registerUsername.length <= 1) return;
@@ -108,7 +112,7 @@ function RouteComponent() {
               });
             }}
           >
-            Registrieren
+            <GourmetText cgmc={'neutral-0'}>Registrieren</GourmetText>
           </Button>
         </Stack>
       </Stack>

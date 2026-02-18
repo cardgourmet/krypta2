@@ -1,0 +1,11 @@
+.userButton {
+  display: flex;
+  flex-direction: row;
+
+  border-radius: 8px;
+  border: 1px solid var(--gourmet-neutral-2);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+}

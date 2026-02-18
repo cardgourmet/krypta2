@@ -23,3 +23,19 @@
     background-color: color-mix(in srgb, var(--gourmet-blue-2), black 10%);
   }
 }
+
+.menuItem {
+  background-color: var(--gourmet-neutral-3);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-4);
+  }
+}
+
+.menuLoginButton {
+  background-color: var(--gourmet-blue-1);
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--gourmet-blue-1), white 10%);
+  }
+}
