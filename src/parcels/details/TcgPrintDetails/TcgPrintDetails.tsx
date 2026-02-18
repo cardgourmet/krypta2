@@ -1,4 +1,4 @@
-import {Divider, Flex, Group, Stack, Text} from '@mantine/core';
+import {Divider, Flex, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {getRouteApi, useNavigate} from '@tanstack/react-router';
 import {type ReactElement, useCallback} from 'react';
@@ -60,24 +60,22 @@ export function TcgPrintDetails({
   return (
     <div>
       {constructPageTitle(cardWithPrints, set, printLanguage)}
-      <Stack gap={'xs'}>
-        <Breadcrumbs
-          subpage={''}
-          moreSubpages={[
-            {
-              label: 'Sets',
-              href: `/${tcg}/sets`,
-            },
-            {
-              label: set.translations.en.name,
-              href: `/${tcg}/sets/${set.code.toLowerCase()}`,
-            },
-          ]}
-        />
-        <Text ff={'var(--cgm-title-font-family)'} fz={'1.5rem'} fw={'bold'}>
-          {cardWithPrints.name}
-        </Text>
-      </Stack>
+      <Breadcrumbs
+        subpage={''}
+        moreSubpages={[
+          {
+            label: 'Sets',
+            href: `/${tcg}/sets`,
+          },
+          {
+            label: set.translations.en.name,
+            href: `/${tcg}/sets/${set.code.toLowerCase()}`,
+          },
+          {
+            label: cardWithPrints.name,
+          },
+        ]}
+      />
 
       <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
       <Group justify={smallScreen ? 'center' : 'start'}>
