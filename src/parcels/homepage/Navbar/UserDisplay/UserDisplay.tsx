@@ -1,7 +1,8 @@
 import {Group, Menu, Stack, Text} from '@mantine/core';
-import {IconAlertHexagon, IconBookmark, IconHistory, IconList, IconLogout, IconQuestionMark, IconSettings, IconStar,} from '@tabler/icons-react';
+import {IconAlertHexagon, IconBookmark, IconHistory, IconList, IconLogout, IconSettings, IconStar,} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {UserIcon} from '@/parcels/homepage/Navbar/UserDisplay/UserIcon.tsx';
 import styles from './UserDisplay.module.css';
 
 export function UserDisplay() {
@@ -21,23 +22,7 @@ export function UserDisplay() {
             classNames={{ dropdown: styles.menuDropdown }}
           >
             <Menu.Target>
-              <button type={'button'} className={styles.avatarIcon} data-unverified={user.state === 'unverified'}>
-                {user.avatarUrl && <img src={user.avatarUrl} alt={user.displayName} />}
-                {!user.avatarUrl && (
-                  <Group
-                    justify={'center'}
-                    align={'center'}
-                    style={{
-                      backgroundColor: 'var(--gourmet-neutral-3)',
-                      borderRadius: '50%',
-                      width: '100%',
-                      height: '100%',
-                    }}
-                  >
-                    <IconQuestionMark color={'var(--gourmet-neutral-8)'} />
-                  </Group>
-                )}
-              </button>
+              <UserIcon onClick={() => {}} />
             </Menu.Target>
 
             <Menu.Dropdown>

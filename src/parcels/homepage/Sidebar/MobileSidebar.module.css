@@ -1,0 +1,55 @@
+.mobileSidebarTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem;
+
+  height: var(--navbar-height);
+
+  border-bottom: 0.1rem solid var(--gourmet-neutral-1);
+}
+
+.mobileSidebarTop > button {
+  border: none;
+  background-color: transparent;
+}
+
+.mobileSidebarBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0 0 0;
+}
+
+.mobileSidebarLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  text-decoration: none;
+  padding: 0 1rem 0 1rem;
+  gap: 1rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+
+  &.active {
+    background-color: var(--cgm-sidebar-button-bg);
+
+    p {
+      color: var(--gourmet-neutral-0);
+    }
+
+    svg {
+      color: var(--gourmet-neutral-0);
+    }
+  }
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}

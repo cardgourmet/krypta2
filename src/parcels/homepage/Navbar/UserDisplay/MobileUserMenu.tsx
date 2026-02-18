@@ -67,6 +67,14 @@ export function MobileUserMenu({ close }: { close: () => void }) {
               </Text>
             </Stack>
           </Group>
+          {user.state === 'unverified' && (
+            <div>
+              <Text mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
+                Du bist noch nicht verifiziert. <br />
+                Damit bist du immernoch ein Gast.
+              </Text>
+            </div>
+          )}
 
           <Divider />
 

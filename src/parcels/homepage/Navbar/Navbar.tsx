@@ -9,6 +9,7 @@ import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelect
 import {UnverifiedBanner} from '@/parcels/homepage/Navbar/UnverifiedBanner/UnverifiedBanner.tsx';
 import {MobileUserMenu} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.tsx';
 import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplay.tsx';
+import {UserIcon} from '@/parcels/homepage/Navbar/UserDisplay/UserIcon.tsx';
 import {VerifiedBanner} from '@/parcels/homepage/Navbar/VerifiedBanner/VerifiedBanner.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
 import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
@@ -76,31 +77,38 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
         </>
       )}
       {smallScreen && (
-        <nav className={styles.mobileNavbar}>
-          <div style={{ flex: 1 }}>
-            <button
-              type="button"
-              onClick={() => {
-                setSidebarOpen(true);
-              }}
-            >
-              <IconMenu2 size={18} color={'var(--gourmet-neutral-8)'} />
-            </button>
-            <button type="button" onClick={openSearch}>
-              <IconSearch size={18} color={'var(--gourmet-neutral-8)'} />
-            </button>
-          </div>
-          <div>
-            <Link to="/" style={{ margin: 'auto' }}>
-              <Logo height={30} width={30} style={{ color: 'var(--gourmet-neutral-9)' }} />
-            </Link>
-          </div>
-          <div style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <button type="button" onClick={openProfile}>
-              <IconUser size={18} color={'var(--gourmet-neutral-8)'} />
-            </button>
-          </div>
-        </nav>
+        <>
+          {wasVerified && <VerifiedBanner />}
+          {!wasVerified && user?.state === 'unverified' && <UnverifiedBanner user={user} />}
+          <nav className={styles.mobileNavbar}>
+            <div style={{ flex: 1 }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setSidebarOpen(true);
+                }}
+              >
+                <IconMenu2 size={18} color={'var(--gourmet-neutral-8)'} />
+              </button>
+              <button type="button" onClick={openSearch}>
+                <IconSearch size={18} color={'var(--gourmet-neutral-8)'} />
+              </button>
+            </div>
+            <div>
+              <Link to="/" style={{ margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
+              </Link>
+            </div>
+            <div style={{ flex: 1, justifyContent: 'flex-end' }}>
+              {user && <UserIcon onClick={openProfile} />}
+              {!user && (
+                <button type="button" onClick={openProfile}>
+                  <IconUser size={18} color={'var(--gourmet-neutral-8)'} />
+                </button>
+              )}
+            </div>
+          </nav>
+        </>
       )}
     </>
   );

@@ -1,8 +1,8 @@
-import {Group} from '@mantine/core';
+import {Drawer, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
-import {IconX} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useEffect, useRef} from 'react';
+import {MobileSidebar} from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
 import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
 import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
@@ -36,48 +36,18 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   return (
     <>
-      <nav className={`${styles.mobileSidebar} ${sidebarOpen ? styles.shown : ''}`} ref={sidebarRef}>
-        <div className={styles.mobileSidebarTop}>
-          <button
-            type="button"
-            onClick={() => {
-              setSidebarOpen(false);
-            }}
-          >
-            <IconX size={20} />
-          </button>
-        </div>
-
-        <div className={styles.mobileSidebarBottom}>
-          <Link
-            to="/$tcg"
-            params={{ tcg: 'mtg' }}
-            className={`${styles.mobileSidebarLink} ${tcg === 'mtg' ? styles.active : ''}`}
-            onClick={() => setSidebarOpen(false)}
-          >
-            <MTGIcon height={24} width={24} color={'var(--gourmet-neutral-9)'} />
-            <p>Magic: The Gathering</p>
-          </Link>
-          <Link
-            to="/$tcg"
-            params={{ tcg: 'pcg' }}
-            className={`${styles.mobileSidebarLink} ${tcg === 'pcg' ? styles.active : ''}`}
-            onClick={() => setSidebarOpen(false)}
-          >
-            <PCGIcon height={24} width={24} color={'var(--gourmet-neutral-9)'} />
-            <p>Pokémon Card Game</p>
-          </Link>
-          <Link
-            to="/$tcg"
-            params={{ tcg: 'dlc' }}
-            className={`${styles.mobileSidebarLink} ${tcg === 'dlc' ? styles.active : ''}`}
-            onClick={() => setSidebarOpen(false)}
-          >
-            <DLCIcon height={24} width={24} color={'var(--gourmet-neutral-9)'} />
-            <p>Disney Lorcana</p>
-          </Link>
-        </div>
-      </nav>
+      <Drawer
+        position={'left'}
+        classNames={{
+          content: styles.mobileSidebar,
+        }}
+        size="100%"
+        opened={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        withCloseButton={false}
+      >
+        <MobileSidebar close={() => setSidebarOpen(false)} />
+      </Drawer>
 
       {!smallScreen && (
         <nav className={styles.sidebar}>
