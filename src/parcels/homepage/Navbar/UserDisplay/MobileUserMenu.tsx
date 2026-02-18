@@ -76,27 +76,31 @@ export function MobileUserMenu({ close }: { close: () => void }) {
             </div>
           )}
 
-          <Divider />
+          <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
+          <ItemButton title={'Suchhistorie'} icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />} />
           <ItemButton
-            title={'Suchhistorie'}
-            icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled
+            title={'Favoriten'}
+            icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />}
+            disabled={user.state === 'unverified'}
           />
-          <ItemButton title={'Favoriten'} icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />} disabled />
           <ItemButton
             title={'Lesezeichen'}
             icon={<IconBookmark size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled
+            disabled={user.state === 'unverified'}
           />
-          <ItemButton title={'Listen'} icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />} disabled />
+          <ItemButton
+            title={'Listen'}
+            icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />}
+            disabled={user.state === 'unverified'}
+          />
 
-          <Divider />
+          <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
           <ItemButton
             title={'Einstellungen'}
             icon={<IconSettings size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled
+            disabled={user.state === 'unverified'}
           />
           <MobileThemeSelector />
           <MobileLanguageSelector />

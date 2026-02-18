@@ -1,6 +1,11 @@
 import type {TextProps} from '@mantine/core';
 import type {PropsWithChildren} from 'react';
 
+export type GourmetTextProps = PropsWithChildren<TextProps> & {
+  cgmc?: GourmetColor;
+  cgmff?: GourmetFontFamily;
+};
+
 export type GourmetColor =
   | 'neutral-0'
   | 'neutral-1'
@@ -14,8 +19,3 @@ export type GourmetColor =
   | 'neutral-9';
 
 export type GourmetFontFamily = 'content' | 'title' | 'ui' | 'monospace';
-
-export type GourmetTextProps = PropsWithChildren<TextProps> & {
-  cgmc?: GourmetColor;
-  cgmff?: GourmetFontFamily;
-};

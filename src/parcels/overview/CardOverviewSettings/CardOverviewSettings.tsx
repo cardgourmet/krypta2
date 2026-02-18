@@ -173,7 +173,6 @@ export default function CardOverviewSettings({
           </div>
           <button type="button" className={styles.iconButton} onClick={() => setIsSidebarOpen(true)}>
             <IconAdjustmentsHorizontal />
-            <p>Einstellungen</p>
           </button>
         </div>
       )}

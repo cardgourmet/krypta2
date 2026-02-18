@@ -27,8 +27,10 @@
 .menuItem {
   background-color: var(--gourmet-neutral-3);
 
-  &:hover {
-    background-color: var(--gourmet-neutral-4);
+  &:not([data-disabled="true"]) {
+    &:hover {
+      background-color: var(--gourmet-neutral-4);
+    }
   }
 }
 
