@@ -6,7 +6,8 @@
     "common": {
       "sortby": "Sort by",
       "show": "Show",
-      "as": "As"
+      "as": "As",
+      "settings": "Settings"
     },
     "sortby": {
       "strength": "Strength",
@@ -35,7 +36,8 @@
     "common": {
       "sortby": "Sort by",
       "show": "Show",
-      "as": "As"
+      "as": "As",
+      "settings": "Settings"
     },
     "sortby": {
       "name": "Name",
@@ -63,7 +65,8 @@
     "common": {
       "sortby": "Sort by",
       "show": "Show",
-      "as": "As"
+      "as": "As",
+      "settings": "Settings"
     },
     "sortby": {
       "cmc": "Mana Value",

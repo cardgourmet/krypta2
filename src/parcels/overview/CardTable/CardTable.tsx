@@ -73,8 +73,11 @@ export function CardTable({ tcg, cards, isLoading }: CardTableProps) {
               && (tableData?.rows?.length ?? 0) > 0
               && tableData?.rows.map(({ card, data }) => (
                 <>
-                  {tableData?.columns.map((column) => (
-                    <tr key={`${card.print.id}_${column}`}>
+                  {tableData?.columns.map((column, index) => (
+                    <tr
+                      key={`${card.print.id}_${column}`}
+                      data-cell={index === tableData?.columns.length - 1 ? 'last' : 'not-last'}
+                    >
                       <th>{column}</th>
                       <td>{data[column]}</td>
                     </tr>
