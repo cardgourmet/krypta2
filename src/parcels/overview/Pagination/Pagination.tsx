@@ -40,7 +40,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
           <Skeleton
             baseColor={'var(--gourmet-neutral-4)'}
             highlightColor={'var(--gourmet-neutral-5)'}
-            height={'2.25rem'}
+            height={'2.5rem'}
             width={'20rem'}
           />
         )}

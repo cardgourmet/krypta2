@@ -26,7 +26,7 @@ body {
   margin-left: var(--sidebar-width);
   min-height: calc(100vh - var(--navbar-height));
 
-  @media (max-width: 720px) {
+  @media (max-width: 800px) {
     margin-left: 0;
   }
 }
@@ -44,7 +44,7 @@ body {
 .footer {
   margin-left: var(--sidebar-width);
 
-  @media (max-width: 720px) {
+  @media (max-width: 800px) {
     margin-left: 0;
   }
 }

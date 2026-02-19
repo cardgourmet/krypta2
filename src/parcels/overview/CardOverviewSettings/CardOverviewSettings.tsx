@@ -1,5 +1,6 @@
-import {Group} from '@mantine/core';
+import {Center, Group, SegmentedControl, UnstyledButton} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
+import {IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off} from '@tabler/icons-react';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -31,7 +32,7 @@ import {
   type PcgUniqueBy,
   pcgUniqueBys,
 } from '@/parcels/tcg/pcg/types.ts';
-import {type DisplayMode, displayModes, type SortDirection, sortDirections, type TcgSortBy, type TcgUniqueBy,} from '@/parcels/tcg/types.ts';
+import {type DisplayMode, type SortDirection, sortDirections, type TcgSortBy, type TcgUniqueBy,} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import styles from './CardOverviewSettings.module.css';
@@ -58,7 +59,7 @@ export default function CardOverviewSettings({
     return items;
   }
 
-  const smallScreen = useMediaQuery('(max-width: 720px)');
+  const smallScreen = useMediaQuery('(max-width: 800px)');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   useEffect(() => {
@@ -112,53 +113,116 @@ export default function CardOverviewSettings({
   const sortByItems = fillTranslation('sortby', sortBys as string[]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
   const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
-  const displayModeItems = fillTranslation('displaymode', displayModes as readonly DisplayMode[] as string[]);
+
+  const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
 
   return (
     <div className={styles.settings}>
       {!smallScreen && (
-        <Group gap={'1rem'}>
-          <Group gap={'0.5rem'}>
-            <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
-              {t('common.sortby')}
-            </GourmetText>
-            <TextDropdown
-              items={sortByItems}
-              t={t}
-              transPrefix={'sortby'}
-              defaultSelected={querySettings.sortBy}
-              onSelect={(sel) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortBy: sel as TcgSortBy };
-                });
-              }}
-            />
-            <TextDropdown
-              items={sortDirItems}
-              t={t}
-              transPrefix={'sortdir'}
-              defaultSelected={querySettings.sortDirection}
-              onSelect={(sel) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortDirection: sel as SortDirection };
-                });
-              }}
-            />
+        <Group justify={'space-between'}>
+          <Group gap={'1rem'}>
+            <Group gap={'0.25rem'}>
+              <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
+                {t('common.sortby')}
+              </GourmetText>
+              <TextDropdown
+                items={sortByItems}
+                t={t}
+                transPrefix={'sortby'}
+                defaultSelected={querySettings.sortBy}
+                onSelect={(sel) => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, sortBy: sel as TcgSortBy };
+                  });
+                }}
+              />
+              <TextDropdown
+                items={sortDirItems}
+                t={t}
+                transPrefix={'sortdir'}
+                defaultSelected={querySettings.sortDirection}
+                onSelect={(sel) => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, sortDirection: sel as SortDirection };
+                  });
+                }}
+              />
+            </Group>
+            <Group gap={'0.25rem'}>
+              <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
+                {t('common.show')}
+              </GourmetText>
+              <TextDropdown
+                items={uniqueByItems}
+                t={t}
+                transPrefix={'uniqueby'}
+                defaultSelected={querySettings.uniqueBy}
+                onSelect={(sel) => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, uniqueBy: sel as TcgUniqueBy };
+                  });
+                }}
+              />
+            </Group>
           </Group>
-          <Group gap={'0.5rem'}>
-            <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
-              {t('common.show')}
-            </GourmetText>
-            <TextDropdown
-              items={uniqueByItems}
-              t={t}
-              transPrefix={'uniqueby'}
-              defaultSelected={querySettings.uniqueBy}
-              onSelect={(sel) => {
+          <Group>
+            <UnstyledButton
+              style={{
+                backgroundColor: toolsEnabled ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-2)',
+                borderRadius: '4px',
+                border: toolsEnabled
+                  ? '1px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%)'
+                  : '1px solid var(--gourmet-neutral-3)',
+                height: '1.625rem',
+              }}
+              p={'0 0.5rem'}
+              onClick={() => setToolsEnabled(!toolsEnabled)}
+            >
+              <Group justify={'center'} align={'center'} w={'100%'} h={'100%'} gap={'0.25rem'}>
+                {toolsEnabled && <IconToolsKitchen2 size={16} color={'var(--gourmet-neutral-0)'} />}
+                {!toolsEnabled && <IconToolsKitchen2Off size={16} color={'var(--gourmet-neutral-5)'} />}
+
+                <GourmetText
+                  cgmff={'ui'}
+                  fz="0.9rem"
+                  fw={'500'}
+                  c={toolsEnabled ? 'var(--gourmet-neutral-0)' : 'var(--gourmet-neutral-5)'}
+                >
+                  Tools
+                </GourmetText>
+              </Group>
+            </UnstyledButton>
+            <SegmentedControl
+              classNames={{ root: styles.displayModeControl }}
+              color={'var(--gourmet-blue-1)'}
+              transitionDuration={100}
+              transitionTimingFunction={'linear'}
+              value={displaySettings.display}
+              onChange={(sel) => {
                 setSettingsWrapper((prev) => {
-                  return { ...prev, uniqueBy: sel as TcgUniqueBy };
+                  return { ...prev, display: sel as DisplayMode };
                 });
               }}
+              data={[
+                {
+                  value: 'grid',
+                  label: (
+                    <Center style={{ gap: 10 }}>
+                      <IconLayoutGrid size={16} />
+                      <span>{t('displaymode.grid')}</span>
+                    </Center>
+                  ),
+                },
+                {
+                  value: 'table',
+                  label: (
+                    <Center style={{ gap: 10 }}>
+                      <IconColumns3 size={16} />
+                      <span>{t('displaymode.table')}</span>
+                    </Center>
+                  ),
+                },
+              ]}
             />
           </Group>
         </Group>

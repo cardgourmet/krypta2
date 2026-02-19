@@ -5,7 +5,7 @@ import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import styles from './VerifiedBanner.module.css';
 
 export function VerifiedBanner() {
-  const smallScreen = useMediaQuery('(max-width: 720px)');
+  const smallScreen = useMediaQuery('(max-width: 800px)');
   const { removeVerified } = useAuth();
   const [opened, { open, close }] = useDisclosure(false);
 

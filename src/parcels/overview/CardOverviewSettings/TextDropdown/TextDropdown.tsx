@@ -21,9 +21,15 @@ export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect 
     <Combobox.Option value={key} key={key}>
       <Group justify={'space-between'}>
         <Group>
-          <GourmetText cgmff={'ui'}>{value}</GourmetText>
+          <GourmetText
+            cgmff={'ui'}
+            fw={key === selectedValue ? '600' : 'inherit'}
+            cgmc={key === selectedValue ? 'neutral-9' : 'neutral-7'}
+          >
+            {value}
+          </GourmetText>
         </Group>
-        {key === selectedValue && <IconCheck size={18} color={'var(--gourmet-neutral-8)'} />}
+        {key === selectedValue && <IconCheck size={18} color={'var(--gourmet-neutral-9)'} />}
       </Group>
     </Combobox.Option>
   ));

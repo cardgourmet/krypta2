@@ -7,7 +7,7 @@ import {type DataAuthUser, resendConfirmationMail} from '@/parcels/auth/api.ts';
 import styles from './UnverifiedBanner.module.css';
 
 export function UnverifiedBanner({ user }: { user: DataAuthUser }) {
-  const smallScreen = useMediaQuery('(max-width: 720px)');
+  const smallScreen = useMediaQuery('(max-width: 800px)');
   const timer = useTimer({ expiryTimestamp: new Date(), autoStart: false });
   const [opened, { open, close }] = useDisclosure(false);
 

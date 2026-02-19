@@ -8,7 +8,7 @@
     font-size: 1.05rem;
     font-family: var(--cgm-ui-font-family), ui-sans-serif;
 
-    @media (max-width: 720px) {
+    @media (max-width: 800px) {
       width: 100%;
     }
   }

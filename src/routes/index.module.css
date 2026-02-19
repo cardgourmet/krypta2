@@ -89,7 +89,7 @@
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 800px) {
   .homepage {
     left: 0;
     width: 100dvw;

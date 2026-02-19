@@ -16,7 +16,7 @@ type CardTableProps = {
 };
 
 export function CardTable({ tcg, cards, isLoading }: CardTableProps) {
-  const smallScreen = useMediaQuery('(max-width: 720px)');
+  const smallScreen = useMediaQuery('(max-width: 800px)');
   const cardItems: MtgSearchDataCard[] | DlcSearchDataCard[] | PcgSearchDataCard[] | null = useMemo(() => {
     if (!cards) return null;
 

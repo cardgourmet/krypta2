@@ -40,7 +40,7 @@
     background-color: var(--gourmet-neutral-3);
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 800px) {
     th {
       position: inherit;
       border-bottom: none;

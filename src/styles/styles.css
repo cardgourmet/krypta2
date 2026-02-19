@@ -84,6 +84,8 @@ html[data-mantine-color-scheme="auto"] {
   --navbar-height: 3.5rem;
   --sidebar-width: 3.5rem;
 
+  --cgm-screen-cutoff-small: 720px;
+
   --cgm-sidebar-bg: var(--gourmet-neutral-1);
   --cgm-sidebar-border: var(--gourmet-neutral-3);
   --cgm-sidebar-button-bg: var(--gourmet-blue-1);

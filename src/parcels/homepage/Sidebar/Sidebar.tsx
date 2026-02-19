@@ -17,7 +17,7 @@ interface SidebarProps {
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const tcg = useTcgByLocation();
-  const smallScreen = useMediaQuery('(max-width: 720px)');
+  const smallScreen = useMediaQuery('(max-width: 800px)');
 
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {

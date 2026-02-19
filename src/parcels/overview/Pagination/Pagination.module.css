@@ -3,6 +3,8 @@
   justify-content: center;
   flex-direction: column;
 
+  height: 2.5rem;
+
   border: 0;
   background-color: var(--gourmet-neutral-0);
 }

@@ -21,7 +21,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
-  const smallScreen = useMediaQuery('(max-width: 720px)');
+  const smallScreen = useMediaQuery('(max-width: 800px)');
   const { user, wasVerified } = useAuth();
 
   const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
