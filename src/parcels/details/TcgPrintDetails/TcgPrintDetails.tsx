@@ -1,11 +1,12 @@
-import {Divider, Flex, Group} from '@mantine/core';
+import {Divider, Flex, Group, Stack} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {getRouteApi, useNavigate} from '@tanstack/react-router';
 import {type ReactElement, useCallback} from 'react';
 import type {CardDetailsSearch} from '@/parcels/details/CardDetailsSearch.ts';
 import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
 import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
-import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
+import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {DlcDataCard, DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgDataCard, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
 import type {PcgDataCard, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
@@ -55,29 +56,48 @@ export function TcgPrintDetails({
     [navigate, cardWithPrints, tcg, findParamsByLanguage],
   );
 
+  const { component, title } = useBreadcrumbs({
+    subpage: '',
+    moreSubpages: [
+      {
+        label: 'Sets',
+        href: `/${tcg}/sets`,
+      },
+      {
+        label: set.translations.en.name,
+        href: `/${tcg}/sets/${set.code.toLowerCase()}`,
+      },
+      {
+        label: cardWithPrints.name,
+      },
+    ],
+  });
+
   const smallerScreen = useMediaQuery('(max-width: 1110px)');
   const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
     <div>
       {constructPageTitle(cardWithPrints, set, printLanguage)}
-      <Breadcrumbs
-        subpage={''}
-        moreSubpages={[
-          {
-            label: 'Sets',
-            href: `/${tcg}/sets`,
-          },
-          {
-            label: set.translations.en.name,
-            href: `/${tcg}/sets/${set.code.toLowerCase()}`,
-          },
-          {
-            label: cardWithPrints.name,
-          },
-        ]}
-      />
+      {component}
 
-      <Divider my="lg" color={'var(--gourmet-neutral-3)'} />
+      <Stack
+        gap={'0'}
+        style={{
+          position: 'sticky',
+          top: 'var(--navbar-height)',
+          zIndex: 'var(--sticky-layer)',
+          backgroundColor: 'var(--gourmet-neutral-0)',
+        }}
+        mb={'1rem'}
+      >
+        <Group justify={'space-between'} p={'0.5rem 0'}>
+          <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
+            {title?.label}
+          </GourmetText>
+        </Group>
+        <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
+      </Stack>
+
       <Group justify={smallScreen ? 'center' : 'start'}>
         <Flex
           align={'start'}

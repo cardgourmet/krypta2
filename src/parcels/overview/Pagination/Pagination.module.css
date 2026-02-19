@@ -3,14 +3,7 @@
   justify-content: center;
   flex-direction: column;
 
-  position: sticky;
-  top: var(--navbar-height);
-  z-index: var(--sticky-layer);
-
-  height: var(--navbar-height);
-
   border: 0;
-  border-bottom: var(--gourmet-neutral-3) solid 1px;
   background-color: var(--gourmet-neutral-0);
 }
 
@@ -42,12 +35,14 @@
     }
 
     &.currentPage {
-      border: 2px solid var(--gourmet-blue-3);
-      background-color: var(--gourmet-blue-2);
+      border: 2px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%);
+      background-color: var(--gourmet-blue-1);
+
+      color: var(--gourmet-neutral-1);
     }
 
     &:hover.currentPage {
-      background-color: var(--gourmet-blue-4);
+      background-color: color-mix(in srgb, var(--gourmet-blue-1), white 10%);
     }
 
     &:disabled {
@@ -60,11 +55,6 @@
   }
 }
 
-.buttonsMiddle {
-  display: flex;
-  gap: 0.25rem;
-}
-
 .middle {
   display: flex;
   align-items: center;
@@ -74,18 +64,4 @@
   color: var(--cgm-text-color);
   margin: 0;
   font-family: var(--cgm-ui-font-family), ui-sans-serif;
-}
-
-.arrowsLeft,
-.arrowsRight {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }

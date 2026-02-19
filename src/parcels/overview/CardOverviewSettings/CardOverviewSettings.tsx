@@ -1,7 +1,9 @@
+import {Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
-import {IconAdjustmentsHorizontal, IconX} from '@tabler/icons-react';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
 import {
   type DlcSearchDisplaySettings,
   type DlcSearchParams,
@@ -29,10 +31,9 @@ import {
   type PcgUniqueBy,
   pcgUniqueBys,
 } from '@/parcels/tcg/pcg/types.ts';
-import {type DisplayMode, displayModes, type SortDirection, sortDirections} from '@/parcels/tcg/types.ts';
+import {type DisplayMode, displayModes, type SortDirection, sortDirections, type TcgSortBy, type TcgUniqueBy,} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
-import Dropdown from '../Dropdown/Dropdown.tsx';
 import styles from './CardOverviewSettings.module.css';
 
 type CardOverviewSettingsProps = {
@@ -109,13 +110,61 @@ export default function CardOverviewSettings({
     }
   }, [tcg]);
   const sortByItems = fillTranslation('sortby', sortBys as string[]);
-  const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
+  const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
   const displayModeItems = fillTranslation('displaymode', displayModes as readonly DisplayMode[] as string[]);
 
   return (
     <div className={styles.settings}>
-      {smallScreen && (
+      {!smallScreen && (
+        <Group gap={'1rem'}>
+          <Group gap={'0.5rem'}>
+            <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
+              {t('common.sortby')}
+            </GourmetText>
+            <TextDropdown
+              items={sortByItems}
+              t={t}
+              transPrefix={'sortby'}
+              defaultSelected={querySettings.sortBy}
+              onSelect={(sel) => {
+                setSettingsWrapper((prev) => {
+                  return { ...prev, sortBy: sel as TcgSortBy };
+                });
+              }}
+            />
+            <TextDropdown
+              items={sortDirItems}
+              t={t}
+              transPrefix={'sortdir'}
+              defaultSelected={querySettings.sortDirection}
+              onSelect={(sel) => {
+                setSettingsWrapper((prev) => {
+                  return { ...prev, sortDirection: sel as SortDirection };
+                });
+              }}
+            />
+          </Group>
+          <Group gap={'0.5rem'}>
+            <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
+              {t('common.show')}
+            </GourmetText>
+            <TextDropdown
+              items={uniqueByItems}
+              t={t}
+              transPrefix={'uniqueby'}
+              defaultSelected={querySettings.uniqueBy}
+              onSelect={(sel) => {
+                setSettingsWrapper((prev) => {
+                  return { ...prev, uniqueBy: sel as TcgUniqueBy };
+                });
+              }}
+            />
+          </Group>
+        </Group>
+      )}
+
+      {/*{smallScreen && (
         <div>
           <div className={`${styles.settingsSidebar} ${isSidebarOpen ? styles.shown : ''}`} ref={sidebarRef}>
             <div className={styles.settingsSidebarHeader}>
@@ -175,54 +224,7 @@ export default function CardOverviewSettings({
             <IconAdjustmentsHorizontal />
           </button>
         </div>
-      )}
-      {!smallScreen && (
-        <>
-          <div>
-            <p>{t('common.sortby')}</p>
-            <Dropdown
-              items={sortByItems}
-              defaultSelected={querySettings.sortBy}
-              onSelect={(selected: string) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortBy: selected as DlcSortBy | PcgSortBy };
-                });
-              }}
-            />
-            <Dropdown
-              items={sortDirItems}
-              defaultSelected={querySettings.sortDirection}
-              onSelect={(selected: string) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortDirection: selected as SortDirection };
-                });
-              }}
-            />
-          </div>
-          <div>
-            <p>{t('common.show')}</p>
-            <Dropdown
-              items={uniqueByItems}
-              defaultSelected={querySettings.uniqueBy}
-              onSelect={(selected) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, pageSize: selected as DlcUniqueBy | PcgUniqueBy | MtgUniqueBy };
-                });
-              }}
-            />
-            <p>{t('common.as')}</p>
-            <Dropdown
-              items={displayModeItems}
-              defaultSelected={displaySettings.display}
-              onSelect={(selected: string) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, display: selected as DisplayMode };
-                });
-              }}
-            />
-          </div>
-        </>
-      )}
+      )}*/}
     </div>
   );
 }

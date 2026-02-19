@@ -8,9 +8,10 @@ import styles from './Breadcrumbs.module.css';
 export type BreadcrumbProps = {
   subpage: string;
   moreSubpages?: { label: string; href?: string }[];
+  withoutTitle?: boolean;
 };
 
-export default function Breadcrumbs({ subpage, moreSubpages }: BreadcrumbProps) {
+export default function Breadcrumbs({ subpage, moreSubpages, withoutTitle }: BreadcrumbProps) {
   const tcg = useTcgByLocation() as Tcg;
   const subpages = [...(moreSubpages ?? [])];
   if (subpage.length > 0) {
@@ -54,9 +55,11 @@ export default function Breadcrumbs({ subpage, moreSubpages }: BreadcrumbProps) 
           );
         })}
       </Group>
-      <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'h2'} fw={'500'} lh={'1.25'}>
-        {currentPage?.label}
-      </GourmetText>
+      {withoutTitle !== true && (
+        <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'h2'} fw={'500'} lh={'1.25'}>
+          {currentPage?.label}
+        </GourmetText>
+      )}
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 :root {
   --gourmet-blue-1: light-dark(#0055cc, #579dff);
-  --gourmet-blue-2: #0055cc;
+  --gourmet-blue-2: light-dark(oklch(60.35% 0.2112 258.65), oklch(64.69% 0.1902 257.72));
   --gourmet-blue-2-lighten: #0763e4;
   --gourmet-blue-2-soft: #66a6ff;
   --gourmet-blue-3: #388bff;

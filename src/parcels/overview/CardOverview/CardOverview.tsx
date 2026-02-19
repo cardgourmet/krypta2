@@ -1,7 +1,8 @@
-import {Accordion, Text} from '@mantine/core';
+import {Accordion, Divider, Group, Stack, Text} from '@mantine/core';
 import {IconAlertCircleFilled} from '@tabler/icons-react';
 import type {RefObject} from 'react';
-import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
+import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
 import CardOverviewSettings from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.tsx';
 import {CardTable} from '@/parcels/overview/CardTable/CardTable.tsx';
@@ -40,18 +41,38 @@ export function CardOverview({
   searchQuerySettings,
   searchDisplaySettings,
 }: CardOverviewProps) {
+  const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
+
   return (
     <div ref={scrollbackRef}>
       <div className={styles.mainContent}>
-        <Breadcrumbs subpage={'Kartendatenbank'} />
+        {component}
+
+        <Stack
+          gap={'0'}
+          style={{
+            position: 'sticky',
+            top: 'var(--navbar-height)',
+            zIndex: 'var(--sticky-layer)',
+            backgroundColor: 'var(--gourmet-neutral-0)',
+          }}
+          mb={'1rem'}
+        >
+          <Group justify={'space-between'} p={'0.5rem 0'}>
+            <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
+              {title?.label}
+            </GourmetText>
+            <Pagination
+              currentPage={cards?.data?.currentPage}
+              lastPage={cards?.data?.pageCount}
+              isQueryLoading={isQueryLoading}
+              setSettings={setSettings}
+            />
+          </Group>
+          <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
+        </Stack>
 
         {/*{isSetSpecific && <Text>SetSpecific JOONGE</Text>}*/}
-        <Pagination
-          currentPage={cards?.data?.currentPage}
-          lastPage={cards?.data?.pageCount}
-          isQueryLoading={isQueryLoading}
-          setSettings={setSettings}
-        />
 
         <CardOverviewSettings
           tcg={tcg}

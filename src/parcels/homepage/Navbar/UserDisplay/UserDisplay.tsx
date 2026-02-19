@@ -45,28 +45,28 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
             <Menu.Item leftSection={<IconHistory size={18} />} className={styles.menuItem}>
-              <GourmetText>Suchhistorie</GourmetText>
+              <GourmetText cgmff="ui">Suchhistorie</GourmetText>
             </Menu.Item>
             <Menu.Item
               leftSection={<IconStar size={18} />}
               className={styles.menuItem}
               disabled={user.state === 'unverified'}
             >
-              <GourmetText>Favoriten</GourmetText>
+              <GourmetText cgmff="ui">Favoriten</GourmetText>
             </Menu.Item>
             <Menu.Item
               leftSection={<IconBookmark size={18} />}
               className={styles.menuItem}
               disabled={user.state === 'unverified'}
             >
-              <GourmetText>Lesezeichen</GourmetText>
+              <GourmetText cgmff="ui">Lesezeichen</GourmetText>
             </Menu.Item>
             <Menu.Item
               leftSection={<IconList size={18} />}
               className={styles.menuItem}
               disabled={user.state === 'unverified'}
             >
-              <GourmetText>Listen</GourmetText>
+              <GourmetText cgmff="ui">Listen</GourmetText>
             </Menu.Item>
 
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
@@ -76,7 +76,7 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
               className={styles.menuItem}
               disabled={user.state === 'unverified'}
             >
-              <GourmetText>Einstellungen</GourmetText>
+              <GourmetText cgmff="ui">Einstellungen</GourmetText>
             </Menu.Item>
             <Menu.Item
               color="var(--gourmet-red-01)"
@@ -84,7 +84,9 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
               onClick={logout}
               className={styles.menuItem}
             >
-              <GourmetText c={'var(--gourmet-red-01)'}>Abmelden</GourmetText>
+              <GourmetText c={'var(--gourmet-red-01)'} cgmff="ui">
+                Abmelden
+              </GourmetText>
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

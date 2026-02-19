@@ -1,3 +1,4 @@
+import {Group} from '@mantine/core';
 import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRightPipe, IconDots,} from '@tabler/icons-react';
 import Skeleton from 'react-loading-skeleton';
 import {useWindowSize} from '@/parcels/overview/useWindowSize.ts';
@@ -39,22 +40,22 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
           <Skeleton
             baseColor={'var(--gourmet-neutral-4)'}
             highlightColor={'var(--gourmet-neutral-5)'}
-            height={'2.5rem'}
+            height={'2.25rem'}
             width={'20rem'}
           />
         )}
 
         {!isQueryLoading && lastPage && (
-          <>
-            <div className={styles.arrowsLeft}>
+          <Group>
+            <Group gap={'0.25rem'}>
               <button type="button" disabled={currentPage === 1} onClick={() => switchPage(1)}>
                 <IconChevronLeftPipe size={18} />
               </button>
               <button type="button" disabled={currentPage === 1} onClick={() => switchPage(mustCurrentPage - 1)}>
                 <IconChevronLeft size={18} />
               </button>
-            </div>
-            <div className={styles.buttonsMiddle}>
+            </Group>
+            <Group gap={'0.25rem'}>
               {width <= MIN_DESKTOP_SIZE_PX && (
                 <div className={styles.middle}>
                   <button type="button" className={styles.currentPage} onClick={() => switchPage(mustCurrentPage)}>
@@ -77,16 +78,16 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
                     )}
                   </div>
                 ))}
-            </div>
-            <div className={styles.arrowsRight}>
+            </Group>
+            <Group gap={'0.25rem'}>
               <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(mustCurrentPage + 1)}>
                 <IconChevronRight size={18} />
               </button>
               <button type="button" disabled={currentPage === lastPage} onClick={() => switchPage(lastPage)}>
                 <IconChevronRightPipe size={18} />
               </button>
-            </div>
-          </>
+            </Group>
+          </Group>
         )}
       </div>
     </div>
