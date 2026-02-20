@@ -2,9 +2,10 @@ import {Button, Group, PasswordInput, Stack, TextInput} from '@mantine/core';
 import {IconArrowRight} from '@tabler/icons-react';
 import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {registerUsingBasicAuth} from '@/parcels/auth/api.ts';
-import {GourmetText} from "@/parcels/mantine/GourmetText.tsx";
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 
 export const Route = createFileRoute('/register/')({
   component: RouteComponent,
@@ -26,6 +27,7 @@ export const EMAIL_REGEX =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
 function RouteComponent() {
+  const { t } = useTranslation('auth', { keyPrefix: 'register' });
   const { token, login } = useAuth();
 
   const [registerEmail, setRegisterEmail] = useState('');
@@ -40,11 +42,11 @@ function RouteComponent() {
       <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
         <Stack gap={'0.25rem'}>
           <GourmetText fz={'h2'} cgmff={'title'}>
-            Registrieren
+            {t('register-title')}
           </GourmetText>
           <Group gap={'0.25rem'}>
             <GourmetText fz={'md'} cgmc={'neutral-6'}>
-              Schon mal hier gewesen?
+              {t('first-time')}
             </GourmetText>
             <Link to={'/login'} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
@@ -57,19 +59,19 @@ function RouteComponent() {
 
         <Stack>
           <Stack gap={'0.1rem'}>
-            <GourmetText>E-Mail-Adresse</GourmetText>
+            <GourmetText>{t('email')}</GourmetText>
             <TextInput value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <GourmetText>Benutzername</GourmetText>
+            <GourmetText>{t('username')}</GourmetText>
             <TextInput value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <GourmetText>Passwort</GourmetText>
+            <GourmetText>{t('password')}</GourmetText>
             <PasswordInput value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} w={'100%'} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <GourmetText>Passwort wiederholen</GourmetText>
+            <GourmetText>{t('password-repeat')}</GourmetText>
             <PasswordInput
               value={registerPassword2}
               onChange={(e) => setRegisterPassword2(e.target.value)}
@@ -112,7 +114,7 @@ function RouteComponent() {
               });
             }}
           >
-            <GourmetText cgmc={'neutral-0'}>Registrieren</GourmetText>
+            <GourmetText cgmc={'neutral-0'}>{t('register-button')}</GourmetText>
           </Button>
         </Stack>
       </Stack>

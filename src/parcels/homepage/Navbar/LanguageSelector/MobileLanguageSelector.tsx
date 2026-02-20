@@ -6,6 +6,7 @@ import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.t
 
 export function MobileLanguageSelector() {
   const { i18n } = useTranslation();
+  const { t } = useTranslation('nav', { keyPrefix: 'language' });
   const [language, setLanguage] = useState<string>('en');
   const switchLanguage = useEffectEvent((language: string) => {
     // noinspection JSIgnoredPromiseFromCall
@@ -19,8 +20,8 @@ export function MobileLanguageSelector() {
 
   const combobox = useCombobox();
   const items = {
-    de: 'Deutsch',
-    en: 'English',
+    de: t('de'),
+    en: t('en'),
   };
   const options = Object.entries(items).map(([key, value]) => (
     <Combobox.Option value={key} key={key}>
@@ -43,7 +44,7 @@ export function MobileLanguageSelector() {
     >
       <Combobox.Target>
         <ItemButton
-          title={'Sprache'}
+          title={t('language')}
           icon={<IconLanguage size={18} color={'var(--gourmet-neutral-8)'} />}
           onClick={() => {
             if (combobox.dropdownOpened) combobox.closeDropdown();

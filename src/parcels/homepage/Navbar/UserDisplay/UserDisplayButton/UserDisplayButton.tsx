@@ -1,11 +1,13 @@
 import {Group, Stack, Text, UnstyledButton} from '@mantine/core';
 import {IconAlertHexagonFilled, IconUser} from '@tabler/icons-react';
 import {forwardRef} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from './UserDisplayButton.module.css';
 
 export const UserDisplayButton = forwardRef<HTMLButtonElement, { toggle: () => void }>(({ toggle }, ref) => {
+  const { t } = useTranslation('nav', { keyPrefix: 'user' });
   const { user } = useAuth();
 
   return (
@@ -74,7 +76,7 @@ export const UserDisplayButton = forwardRef<HTMLButtonElement, { toggle: () => v
                 lh={'1.25'}
                 style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
               >
-                Gast
+                {t('guest')}
               </Text>
               <Text
                 ff={'var(--cgm-content-font-family)'}
@@ -83,7 +85,7 @@ export const UserDisplayButton = forwardRef<HTMLButtonElement, { toggle: () => v
                 lh={'1.25'}
                 style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
               >
-                Nicht eingeloggt
+                {t('not-logged-in-short')}
               </Text>
             </>
           )}

@@ -1,15 +1,17 @@
 import {Combobox, Group, useCombobox, useMantineColorScheme} from '@mantine/core';
 import {IconCheck, IconMoon, IconSun, IconSunMoon} from '@tabler/icons-react';
+import {useTranslation} from 'react-i18next';
 import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.tsx';
 
 export function MobileThemeSelector() {
+  const { t } = useTranslation('nav', { keyPrefix: 'theme' });
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   const combobox = useCombobox();
   const items = {
-    dark: 'Dark Mode',
-    light: 'Light Mode',
-    auto: 'Auto',
+    dark: t('dark'),
+    light: t('light'),
+    auto: t('auto'),
   };
   const options = Object.entries(items).map(([key, value]) => (
     <Combobox.Option value={key} key={key}>
@@ -38,7 +40,7 @@ export function MobileThemeSelector() {
     >
       <Combobox.Target>
         <ItemButton
-          title={'Farbschema'}
+          title={t('theme')}
           icon={<IconMoon size={18} color={'var(--gourmet-neutral-8)'} />}
           onClick={() => {
             if (combobox.dropdownOpened) combobox.closeDropdown();

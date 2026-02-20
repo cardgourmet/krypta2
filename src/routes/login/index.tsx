@@ -2,9 +2,10 @@ import {Button, Group, PasswordInput, Stack, TextInput} from '@mantine/core';
 import {IconArrowRight} from '@tabler/icons-react';
 import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
-import {GourmetText} from "@/parcels/mantine/GourmetText.tsx";
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 
 export const Route = createFileRoute('/login/')({
   component: RouteComponent,
@@ -19,6 +20,7 @@ export const Route = createFileRoute('/login/')({
 });
 
 function RouteComponent() {
+  const { t } = useTranslation('auth', { keyPrefix: 'login' });
   const { token, login } = useAuth();
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -30,15 +32,15 @@ function RouteComponent() {
       <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
         <Stack gap={'0.25rem'}>
           <GourmetText fz={'h2'} cgmff={'title'} cgmc={'neutral-9'}>
-            Einloggen
+            {t('login-title')}
           </GourmetText>
           <Group gap={'0.25rem'}>
             <GourmetText fz={'md'} cgmc={'neutral-6'}>
-              Zum ersten Mal hier?
+              {t('first-time')}
             </GourmetText>
             <Link to={'/register'} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
-                <GourmetText c={'var(--gourmet-blue-1)'}>Registrieren</GourmetText>
+                <GourmetText c={'var(--gourmet-blue-1)'}>{t('register')}</GourmetText>
                 <IconArrowRight size={16} color={'var(--gourmet-blue-1)'} />
               </Group>
             </Link>
@@ -47,14 +49,14 @@ function RouteComponent() {
 
         <Stack>
           <Stack gap={'0.1rem'}>
-            <GourmetText>E-Mail-Adresse oder Benutzername</GourmetText>
+            <GourmetText>{t('email-or-name')}</GourmetText>
             <TextInput value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} />
           </Stack>
           <Stack gap={'0.1rem'}>
             <Group justify={'space-between'}>
-              <GourmetText>Passwort</GourmetText>
+              <GourmetText>{t('password')}</GourmetText>
               <Link to={'/'} style={{ textDecoration: 'none' }}>
-                <GourmetText c={'var(--gourmet-blue-1)'}>Passwort vergessen?</GourmetText>
+                <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgot-password')}</GourmetText>
               </Link>
             </Group>
             <PasswordInput value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} w={'100%'} />
@@ -94,7 +96,7 @@ function RouteComponent() {
               });
             }}
           >
-            <GourmetText cgmc={'neutral-0'}>Anmelden</GourmetText>
+            <GourmetText cgmc={'neutral-0'}>{t('login-button')}</GourmetText>
           </Button>
         </Stack>
       </Stack>

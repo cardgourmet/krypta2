@@ -1,6 +1,7 @@
 import {IconArrowNarrowRight, IconClockHour8, IconStar, IconX} from '@tabler/icons-react';
 import {Link, useNavigate} from '@tanstack/react-router';
 import {type RefObject, useEffect, useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
 import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
@@ -26,6 +27,7 @@ export default function SearchRecent({
   searchContainerRef,
   searchInputRef,
 }: SearchRecentItemProps) {
+  const { t } = useTranslation('search');
   const history = useSearchHistory(tcg);
   const recentQueries = history.pastQueries ?? [];
   const navigate = useNavigate();
@@ -82,7 +84,7 @@ export default function SearchRecent({
 
   return (
     <div className={styles.recent}>
-      <p>ZULETZT</p>
+      <p style={{ textTransform: 'uppercase' }}>{t('recent')}</p>
       <ul>
         {reversedRecentQueries.map((query, index) => (
           <li key={index}>
@@ -131,7 +133,7 @@ export default function SearchRecent({
       </ul>
       <div className={styles.moreRecents}>
         <Link to={'/'}>
-          Zur gesamten Historie
+          {t('to-history')}
           <IconArrowNarrowRight size={20} />
         </Link>
       </div>

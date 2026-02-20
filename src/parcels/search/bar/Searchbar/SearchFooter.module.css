@@ -10,7 +10,7 @@
     gap: 1rem;
 
     background-color: var(--gourmet-blue-6);
-    border-top: 1px solid var(--gourmet-blue-7);
+    border-top: 2px solid color-mix(in srgb, var(--gourmet-blue-6), black 25%);
     padding: 0.75rem;
     border-radius: 0 0 1rem 1rem;
 
@@ -31,7 +31,7 @@
       min-height: 1.5rem;
       min-width: 1.5rem;
 
-      background-color: var(--gourmet-neutral-dark-21);
+      background-color: var(--gourmet-neutral-3);
       border: 1px solid var(--gourmet-neutral-5);
       border-bottom-width: 2px;
     }

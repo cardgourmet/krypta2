@@ -1,8 +1,9 @@
 import {useClickOutside, useDebouncedValue, useMergedRef} from '@mantine/hooks';
-import {IconCaretDownFilled, IconDeviceVisionPro, IconQuestionMark, IconX} from '@tabler/icons-react';
+import {IconDeviceVisionPro, IconQuestionMark, IconX} from '@tabler/icons-react';
 import {Link, useNavigate, useRouter} from '@tanstack/react-router';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import Dropdown from '@/parcels/overview/Dropdown/Dropdown.tsx';
+import {useTranslation} from 'react-i18next';
+import {TcgSelector} from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import {handleKeydown} from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
 import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
@@ -11,15 +12,12 @@ import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/Searc
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
 import {useSearchQuery} from '@/parcels/search/useSearchQuery.ts';
-import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
-import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
-import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {
   const { tcg, setTcg } = useTcg();
+  const { t } = useTranslation('search');
 
   const navigate = useNavigate();
   const [isOpened, setIsOpened] = useState(false);
@@ -95,32 +93,14 @@ export default function Searchbar() {
 
       <div className={styles.searchbar} ref={mergedSearchRef}>
         <div className={styles.searchIcon}>
-          <Dropdown
-            items={{
-              dlc: 'Disney Lorcana',
-              mtg: 'Magic: The Gathering',
-              pcg: 'Pokémon Card Game',
-            }}
-            selected={tcg}
-            renderButtonContent={(selected) => (
-              <>
-                {selected === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-                {selected === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-                {selected === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-                <IconCaretDownFilled size={12} color={'var(--gourmet-neutral-8)'} />
-              </>
-            )}
-            onSelect={(selected) => {
-              setTcg(selected as Tcg);
-            }}
-          />
+          <TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />
         </div>
         <input
           className={styles.searchInput}
           type="text"
           ref={searchInputRef}
           value={currentQuery.query}
-          placeholder={'Suche nach Karten..'}
+          placeholder={t('search-placeholder')}
           onFocus={() => setIsOpened(true)}
           onClick={() => setIsOpened(true)}
           onChange={(event) => {
@@ -160,7 +140,7 @@ export default function Searchbar() {
             <div className={styles.advancedSearch}>
               <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
                 <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
-                Advanced Search
+                {t('advanced')}
               </Link>
             </div>
 

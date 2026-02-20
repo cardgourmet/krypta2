@@ -2,12 +2,14 @@ import {Button, type ButtonProps, Divider, Group, Stack, Text} from '@mantine/co
 import {IconBookmark, IconHistory, IconList, IconLogin, IconLogout, IconQuestionMark, IconSettings, IconStar, IconX,} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {forwardRef, type ReactElement} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {MobileLanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
 import {MobileThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
 import styles from './MobileUserMenu.module.css';
 
 export function MobileUserMenu({ close }: { close: () => void }) {
+  const { t } = useTranslation('nav', { keyPrefix: 'user' });
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -15,7 +17,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
     <>
       <Group justify={'space-between'}>
         <Text ff={'var(--cgm-content-font-family)'} tt={'uppercase'} fw={'bold'}>
-          Benutzer
+          {t('user')}
         </Text>
         <Button onClick={close} classNames={{ root: styles.closeButton }}>
           <IconX size={18} color={'var(--gourmet-neutral-8)'} />
@@ -26,8 +28,8 @@ export function MobileUserMenu({ close }: { close: () => void }) {
           <MobileThemeSelector />
           <MobileLanguageSelector />
           <ItemButton
-            title={'Anmelden'}
-            icon={<IconLogin size={18} />}
+            title={t('login')}
+            icon={<IconLogin size={18} color={'var(--gourmet-neutral-8)'} />}
             onClick={() => {
               // noinspection JSIgnoredPromiseFromCall
               navigate({
@@ -70,27 +72,33 @@ export function MobileUserMenu({ close }: { close: () => void }) {
           {user.state === 'unverified' && (
             <div>
               <Text mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
-                Du bist noch nicht verifiziert. <br />
-                Damit bist du immernoch ein Gast.
+                {t('not-verified')
+                  .split('\n')
+                  .map((item, key) => (
+                    <span key={key}>
+                      {item}
+                      <br />
+                    </span>
+                  ))}
               </Text>
             </div>
           )}
 
           <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-          <ItemButton title={'Suchhistorie'} icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />} />
+          <ItemButton title={t('history')} icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />} />
           <ItemButton
-            title={'Favoriten'}
+            title={t('favorites')}
             icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />}
             disabled={user.state === 'unverified'}
           />
           <ItemButton
-            title={'Lesezeichen'}
+            title={t('bookmarks')}
             icon={<IconBookmark size={18} color={'var(--gourmet-neutral-8)'} />}
             disabled={user.state === 'unverified'}
           />
           <ItemButton
-            title={'Listen'}
+            title={t('lists')}
             icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />}
             disabled={user.state === 'unverified'}
           />
@@ -98,14 +106,14 @@ export function MobileUserMenu({ close }: { close: () => void }) {
           <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
           <ItemButton
-            title={'Einstellungen'}
+            title={t('settings')}
             icon={<IconSettings size={18} color={'var(--gourmet-neutral-8)'} />}
             disabled={user.state === 'unverified'}
           />
           <MobileThemeSelector />
           <MobileLanguageSelector />
           <ItemButton
-            title={'Abmelden'}
+            title={t('logout')}
             icon={<IconLogout size={18} color="var(--gourmet-red-01)" />}
             color="var(--gourmet-red-01)"
             onClick={() => {

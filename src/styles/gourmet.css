@@ -6,7 +6,7 @@
   --gourmet-blue-3: #388bff;
   --gourmet-blue-4: #0949a3;
   --gourmet-blue-5: #339af0;
-  --gourmet-blue-6: #1c2b41;
+  --gourmet-blue-6: light-dark(#b1c3de, #1c2b41);
   --gourmet-blue-7: #09326c;
 
   --gourmet-blue-01: oklch(0.486 0.198 259.929);

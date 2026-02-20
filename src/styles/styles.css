@@ -108,4 +108,8 @@ html[data-mantine-color-scheme="auto"] {
   --cgm-serif-font-family: "Recia", serif;
   --cgm-ui-font-family: "Supreme", ui-sans-serif;
   --cgm-title-font-family: "Livvic", Arial, sans-serif;
+
+  --gourmet-dropdown-hover-bg: light-dark(var(--gourmet-neutral-1), var(--gourmet-neutral-2));
+  --gourmet-dropdown-bg: light-dark(var(--gourmet-neutral-0), var(--gourmet-neutral-3));
+  --gourmet-dropdown-bd: light-dark(var(--gourmet-neutral-3), var(--gourmet-neutral-5));
 }

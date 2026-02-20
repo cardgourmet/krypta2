@@ -1,4 +1,4 @@
-import {Drawer} from '@mantine/core';
+import {Drawer, Group} from '@mantine/core';
 import {useDisclosure, useMediaQuery} from '@mantine/hooks';
 import {IconMenu2, IconSearch, IconUser} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
@@ -68,8 +68,10 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
             </div>
 
             <div className={styles.navbarRight}>
-              <LanguageSelector />
-              <ThemeSelector />
+              <Group gap={'0.25rem'}>
+                <LanguageSelector />
+                <ThemeSelector />
+              </Group>
 
               <UserDisplay style={{ marginLeft: '0.5rem' }} />
             </div>

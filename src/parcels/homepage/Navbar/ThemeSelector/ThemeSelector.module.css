@@ -1,10 +1,6 @@
 .iconButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: none;
-  background-color: transparent;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 
   &:hover {
     background-color: var(--cgm-button-border);

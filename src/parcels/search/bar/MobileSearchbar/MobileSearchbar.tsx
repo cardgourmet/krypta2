@@ -1,15 +1,16 @@
-import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
-import { useDebouncedValue } from '@mantine/hooks';
-import { IconDeviceVisionPro, IconHelpHexagon, IconX } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-import type { RefObject } from 'react';
-import { MobileTcgSelector } from '@/parcels/search/bar/MobileSearchbar/MobileTcgSelector.tsx';
-import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {Button, Divider, Group, Stack, Text, TextInput} from '@mantine/core';
+import {useDebouncedValue} from '@mantine/hooks';
+import {IconDeviceVisionPro, IconHelpHexagon, IconX} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
+import type {RefObject} from 'react';
+import {useTranslation} from 'react-i18next';
+import {TcgSelector} from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
+import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
+import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
-import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
-import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import {useSearchQueryV2} from '@/parcels/search/useSearchQueryV2.ts';
+import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './MobileSearchbar.module.css';
 
 type MobileSearchbarProps = {
@@ -18,6 +19,7 @@ type MobileSearchbarProps = {
 };
 
 export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
+  const { t } = useTranslation('search');
   const { tcg, setTcg } = useTcg();
   const {
     currentQuery,
@@ -46,8 +48,8 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           }}
           ref={inputRef}
           value={currentQuery.query}
-          placeholder={'Suche nach Karten..'}
-          leftSection={<MobileTcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />}
+          placeholder={t('search-placeholder')}
+          leftSection={<TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />}
           onChange={(event) => {
             const newQuery = event.target.value;
             setCurrentQuery(newQuery);
@@ -61,12 +63,12 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
       <Group ml={'xs'}>
         <div className={styles.help}>
           <IconHelpHexagon size={16} color={'var(--cgm-sidebar-button-bg)'} />
-          <Text>Help</Text>
+          <Text>{t('help')}</Text>
         </div>
         <div className={styles.advancedSearch}>
           <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
             <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
-            Advanced Search
+            {t('advanced')}
           </Link>
         </div>
       </Group>
@@ -74,7 +76,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
       <Stack gap={'sm'}>
         {currentQuery.query.length === 0 && (
           <div className={`${styles.typingInfo}`}>
-            <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
+            <p>{t('start-typing')}</p>
           </div>
         )}
         {currentQuery.query.length > 0 && (
@@ -84,8 +86,13 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
         )}
 
         <Stack>
-          <Button fz={'0.85rem'} color={'blue'} onClick={startSearch} disabled={currentQuery.query.length === 0}>
-            Suche starten
+          <Button
+            fz={'0.85rem'}
+            color={'var(--gourmet-blue-1)'}
+            onClick={startSearch}
+            disabled={currentQuery.query.length === 0}
+          >
+            {t('start')}
           </Button>
           <Divider my="xs" />
         </Stack>

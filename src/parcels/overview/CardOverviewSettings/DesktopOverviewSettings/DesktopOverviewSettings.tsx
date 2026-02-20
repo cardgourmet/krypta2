@@ -4,11 +4,11 @@ import type {TFunction} from 'i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.module.css';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
+import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
+import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
+import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';
 import type {DisplayMode, SortDirection, TcgSortBy, TcgUniqueBy} from '@/parcels/tcg/types.ts';
-import type {ApplyFn} from "@/parcels/types.ts";
-import type {MtgSearchParams} from "@/parcels/tcg/mtg/types.ts";
-import type {DlcSearchParams} from "@/parcels/tcg/dlc/types.ts";
-import type {PcgSearchParams} from "@/parcels/tcg/pcg/types.ts";
+import type {ApplyFn} from '@/parcels/types.ts';
 
 export function DesktopOverviewSettings({
   t,
@@ -90,7 +90,7 @@ export function DesktopOverviewSettings({
             border: toolsEnabled
               ? '1px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%)'
               : '1px solid var(--gourmet-neutral-3)',
-            height: '1.625rem',
+            height: '1.6875rem',
           }}
           p={'0 0.5rem'}
           onClick={() => setToolsEnabled(!toolsEnabled)}

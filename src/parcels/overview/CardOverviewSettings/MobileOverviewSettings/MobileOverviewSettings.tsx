@@ -102,7 +102,7 @@ export function MobileOverviewSettings({
               border: toolsEnabled
                 ? '1px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%)'
                 : '1px solid var(--gourmet-neutral-3)',
-              height: '1.625rem',
+              height: '1.6875rem',
             }}
             p={'0 0.5rem'}
             onClick={() => setToolsEnabled(!toolsEnabled)}

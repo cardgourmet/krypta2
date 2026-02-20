@@ -6,7 +6,8 @@
     "common": {
       "sortby": "Sortieren nach",
       "show": "Zeige",
-      "as": "Als"
+      "as": "Als",
+      "settings": "Einstellungen"
     },
     "sortby": {
       "strength": "Stärke",
@@ -29,6 +30,74 @@
     "displaymode": {
       "grid": "Gitter",
       "table": "Tisch"
+    }
+  },
+  "pcg": {
+    "common": {
+      "sortby": "Sortieren nach",
+      "show": "Zeige",
+      "as": "Als",
+      "settings": "Einstellungen"
+    },
+    "sortby": {
+      "name": "Name",
+      "rarity": "Rarity",
+      "set": "Set",
+      "type": "Type",
+      "health": "Health",
+      "released": "Released"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints"
+    },
+    "displaymode": {
+      "grid": "Grid",
+      "table": "Table"
+    }
+  },
+  "mtg": {
+    "common": {
+      "sortby": "Sortieren nach",
+      "show": "Zeige",
+      "as": "Als",
+      "settings": "Einstellungen"
+    },
+    "sortby": {
+      "cmc": "Manawert",
+      "power": "Stärke",
+      "toughness": "Widerstandskraft",
+      "defense": "Verteidigung",
+      "loyalty": "Loyalität",
+      "name": "Name",
+      "rarity": "Seltenheit",
+      "set": "Set",
+      "usd": "Preis (USD)",
+      "tix": "Preis (TIX)",
+      "eur": "Preis (EUR)",
+      "color": "Manafarbe",
+      "edhrec": "EDHREC Rang",
+      "released": "Veröffentlicht"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "uniqueby": {
+      "cards": "Karten",
+      "prints": "Prints",
+      "faces": "Kartenseiten",
+      "printfaces": "Printseiten"
+    },
+    "displaymode": {
+      "grid": "Raster",
+      "table": "Tabelle"
     }
   }
 }

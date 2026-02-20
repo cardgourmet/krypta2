@@ -1,5 +1,5 @@
 .menuDropdown {
-  border: 2px solid var(--gourmet-neutral-4);
+  border: 1px solid var(--gourmet-neutral-4);
   border-radius: 0.5rem;
 }
 
@@ -25,11 +25,11 @@
 }
 
 .menuItem {
-  background-color: var(--gourmet-neutral-3);
+  background-color: var(--gourmet-dropdown-bg);
 
   &:not([data-disabled="true"]) {
     &:hover {
-      background-color: var(--gourmet-neutral-4);
+      background-color: var(--gourmet-dropdown-hover-bg);
     }
   }
 }

@@ -1,0 +1,28 @@
+{
+  "theme":{
+    "theme": "Color Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "auto": "Auto"
+  },
+  "language": {
+    "language": "Language",
+    "de": "German",
+    "en": "English"
+  },
+  "user": {
+    "user": "User",
+    "not-verified": "You are not verified.\nYou are still a guest.",
+    "not-logged-in": "You are not logged in.",
+    "not-logged-in-short": "Not logged in",
+    "more-features": "To use more features please log in.",
+    "history": "Search History",
+    "favorites": "Favorites",
+    "bookmarks": "Bookmarks",
+    "lists": "Lists",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "guest": "Guest"
+  }
+}
