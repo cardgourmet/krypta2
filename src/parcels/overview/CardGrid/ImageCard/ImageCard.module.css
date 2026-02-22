@@ -130,3 +130,9 @@
     visibility: visible !important;
   }
 }
+
+.menuDropdown {
+  button:hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+}

@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
+import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import ImageCard from '@/parcels/overview/ImageCard/ImageCard.tsx';
-import type { DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
-import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import ImageCard from '@/parcels/overview/CardGrid/ImageCard/ImageCard.tsx';
+import type {DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
+import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGrid.module.css';
 
 type CardGridProps = {
