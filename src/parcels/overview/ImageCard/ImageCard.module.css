@@ -83,12 +83,12 @@
   }
 }
 
-.card:focus-within .overlayCheckbox,
+.card:has(:focus-visible) .overlayCheckbox,
 .card:hover .overlayCheckbox {
   visibility: visible;
 }
 
-.card:focus-within .overlayMenuButton,
+.card:has(:focus-visible) .overlayMenuButton,
 .card:hover .overlayMenuButton {
   visibility: visible;
 }
@@ -116,7 +116,7 @@
   visibility: hidden;
 
   &:hover,
-  &:focus-within {
+  &:has(:focus-visible) {
     cursor: pointer;
     opacity: 1;
   }
