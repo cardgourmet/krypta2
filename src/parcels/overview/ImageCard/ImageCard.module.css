@@ -1,53 +1,39 @@
 .card {
   position: relative;
   word-break: break-all;
-  overflow: hidden;
 
   border-radius: 15px;
   object-fit: contain;
   aspect-ratio: 672 / 936;
   max-width: 252px;
   max-height: 351px;
+
+  img {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
 }
 
-.card img {
-  border-radius: 15px;
+.cardLink {
+  position: relative;
+  display: block;
   width: 100%;
   height: 100%;
-}
+  overflow: hidden;
+  border-radius: inherit;
 
-.card img:hover {
-  filter: brightness(1.1);
-}
+  &:focus-visible {
+    outline: 3px solid var(--gourmet-blue-1);
+  }
 
-.contentOverlay {
-  position: absolute;
-  z-index: var(--overlay-layer);
-
-  top: 20%;
-  right: 8%;
-}
-
-.contentOverlay button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0.25rem;
-  color: rgba(0, 0, 0, 0.7);
-  background-color: rgba(255, 255, 255, 0.7);
-  border: solid 1px var(--gourmet-neutral-3);
-  border-radius: 100%;
-}
-
-.contentOverlay button > svg {
-  color: inherit;
-}
-
-.contentOverlay button:hover {
-  color: rgba(0, 0, 0, 1);
-  background-color: rgba(255, 255, 255, 1);
-  cursor: pointer;
+  &[data-selected="true"] {
+    border: 1px solid var(--gourmet-orange-1);
+  }
 }
 
 .flippableContent {
@@ -64,5 +50,81 @@
   div {
     position: absolute;
     backface-visibility: hidden;
+  }
+}
+
+.refreshButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.25rem;
+  color: var(--gourmet-neutral-dark-1);
+  background-color: var(--gourmet-neutral-light-1);
+  border: solid 1px var(--gourmet-neutral-3);
+  border-radius: 100%;
+
+  opacity: 0.5;
+
+  z-index: -1;
+
+  svg {
+    color: inherit;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--gourmet-blue-1);
+    opacity: 1;
+  }
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+
+.card:focus-within .overlayCheckbox,
+.card:hover .overlayCheckbox {
+  visibility: visible;
+}
+
+.card:focus-within .overlayMenuButton,
+.card:hover .overlayMenuButton {
+  visibility: visible;
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: <> */
+.overlayMenuButton {
+  opacity: 0.5;
+  visibility: hidden;
+
+  &:hover,
+  &:focus-visible {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &[data-menu-opened="true"] {
+    opacity: 1;
+    visibility: visible !important;
+  }
+}
+
+.overlayCheckbox {
+  opacity: 0.5;
+  visibility: hidden;
+
+  &:hover,
+  &:focus-visible {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &[data-checked="true"] {
+    opacity: 1;
+  }
+
+  &[data-menu-opened="true"] {
+    visibility: visible !important;
   }
 }

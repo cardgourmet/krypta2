@@ -1,6 +1,7 @@
-import {IconRefresh} from '@tabler/icons-react';
+import {ActionIcon, Checkbox, Container, Group, Menu, Overlay} from '@mantine/core';
+import {IconDotsVertical, IconRefresh} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {type RefObject, useEffect, useMemo, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
@@ -92,23 +93,11 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div key={prop.id} className={styles.card}>
-      {prop.backfaceThumbnailUrl && imageLoaded && backfaceImageLoaded && (
-        <div key={`${prop.id}-overlay`} className={styles.contentOverlay}>
-          <button
-            type="button"
-            onClick={() => {
-              const newFlipped = !flipped;
+  const [selected, setSelected] = useState<boolean>(false);
+  const [menuOpened, setMenuOpened] = useState(false);
 
-              flipRef.current?.setAttribute('flipped', `${newFlipped}`);
-              setFlipped(newFlipped);
-            }}
-          >
-            <IconRefresh />
-          </button>
-        </div>
-      )}
+  return (
+    <div className={styles.card}>
       <Link
         to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
         params={{
@@ -118,61 +107,178 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
           any: slugify(prop.name ?? ''),
         }}
         preload={false}
+        data-selected={selected}
+        className={styles.cardLink}
       >
-        {(!imageLoaded || !backfaceImageLoaded) && (
-          <Skeleton
-            style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: 1,
-              aspectRatio: 672 / 936,
-              borderRadius: '15px',
-            }}
-            baseColor={'var(--gourmet-neutral-4)'}
-            highlightColor={'var(--gourmet-neutral-5)'}
-            height={'100%'}
-            width={'100%'}
-          />
-        )}
-
-        <div className={styles.flippableContent} ref={flipRef}>
-          <div>
-            <img
-              ref={imageRef}
-              alt={prop.name}
-              src={prop.thumbnailUrl === '' ? prop.backupImageUrl : (prop.thumbnailUrl ?? prop.backupImageUrl)}
-              loading={'lazy'}
-              onError={(error) => {
-                console.log(`Could not load image because: ${error}`);
-
-                if (!imageRef.current) return;
-                imageRef.current.src = prop.backupImageUrl;
+        <div>
+          {(!imageLoaded || !backfaceImageLoaded) && (
+            <Skeleton
+              style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 1,
+                aspectRatio: 672 / 936,
+                borderRadius: '15px',
               }}
-              onLoad={() => {
-                setImageLoaded(true);
-              }}
+              baseColor={'var(--gourmet-neutral-4)'}
+              highlightColor={'var(--gourmet-neutral-5)'}
+              height={'100%'}
+              width={'100%'}
             />
-          </div>
-          {prop.backfaceThumbnailUrl && (
-            <div style={{ transform: 'rotateY(180deg)', height: '100%' }}>
-              <img
-                ref={backfaceImageRef}
-                alt={prop.name}
-                src={prop.backfaceThumbnailUrl}
-                onError={(error) => {
-                  console.log(`Could not load backface image because: ${error}`);
-
-                  if (!backfaceImageRef.current) return;
-                  backfaceImageRef.current.src = prop.backupImageUrl;
-                }}
-                onLoad={() => {
-                  setBackfaceImageLoaded(true);
-                }}
-              />
-            </div>
           )}
+
+          <FlipImage
+            frontFace={{
+              imageRef: imageRef,
+              name: prop.name,
+              thumbnailUrl: prop.thumbnailUrl ?? prop.backupImageUrl,
+              backupImageUrl: prop.backupImageUrl,
+              setImageLoaded,
+            }}
+            backFace={{
+              imageRef: backfaceImageRef,
+              name: prop.name,
+              thumbnailUrl: prop.backfaceThumbnailUrl ?? prop.backupImageUrl,
+              backupImageUrl: prop.backupImageUrl,
+              setImageLoaded,
+            }}
+            flipRef={flipRef}
+          />
         </div>
       </Link>
+
+      <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }}>
+        <Group p={'1rem'} justify={'space-between'}>
+          <Checkbox
+            style={{ pointerEvents: 'auto' }}
+            onChange={(event) => setSelected(event.currentTarget.checked)}
+            color={'var(--gourmet-orange-1)'}
+            checked={selected}
+            classNames={{ input: styles.overlayCheckbox }}
+            data-menu-opened={menuOpened}
+          />
+          <Menu width={200} position="top-start" opened={menuOpened} onChange={setMenuOpened} withArrow>
+            <Menu.Target>
+              <ActionIcon
+                style={{ pointerEvents: 'auto' }}
+                onClick={() => setMenuOpened((v) => !v)}
+                color="var(--gourmet-neutral-dark-3)"
+                size={'1.25rem'}
+                classNames={{ root: styles.overlayMenuButton }}
+                data-menu-opened={menuOpened}
+              >
+                <IconDotsVertical size={16} />
+              </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Item>Add to list</Menu.Item>
+              <Menu.Item>Copy print link</Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </Group>
+      </Overlay>
+
+      {prop.backfaceThumbnailUrl && imageLoaded && backfaceImageLoaded && (
+        <FlipButton flipped={flipped} setFlipped={setFlipped} flipRef={flipRef} />
+      )}
     </div>
+  );
+}
+
+function FlipImage({
+  flipRef,
+  frontFace,
+  backFace,
+}: {
+  frontFace: {
+    imageRef: RefObject<HTMLImageElement | null>;
+    name?: string;
+    thumbnailUrl: string;
+    backupImageUrl: string;
+    setImageLoaded: (loaded: boolean) => void;
+  };
+  backFace: {
+    imageRef: RefObject<HTMLImageElement | null>;
+    name?: string;
+    thumbnailUrl: string;
+    backupImageUrl: string;
+    setImageLoaded: (loaded: boolean) => void;
+  };
+  flipRef: RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <div className={styles.flippableContent} ref={flipRef}>
+      <div>
+        <img
+          ref={frontFace.imageRef}
+          alt={frontFace.name}
+          src={
+            frontFace.thumbnailUrl === ''
+              ? frontFace.backupImageUrl
+              : (frontFace.thumbnailUrl ?? frontFace.backupImageUrl)
+          }
+          loading={'lazy'}
+          onError={(error) => {
+            console.log(`Could not load image because: ${error}`);
+
+            if (!frontFace.imageRef.current) return;
+            frontFace.imageRef.current.src = backupImageUrl;
+          }}
+          onLoad={() => {
+            backFace.setImageLoaded(true);
+          }}
+        />
+      </div>
+      {backFace.thumbnailUrl && (
+        <div style={{ transform: 'rotateY(180deg)', height: '100%' }}>
+          <img
+            ref={backFace.imageRef}
+            alt={backFace.name}
+            src={backFace.thumbnailUrl}
+            onError={(error) => {
+              console.log(`Could not load backface image because: ${error}`);
+
+              if (!backFace.imageRef.current) return;
+              backFace.imageRef.current.src = backFace.backupImageUrl;
+            }}
+            onLoad={() => {
+              backFace.setImageLoaded(true);
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FlipButton({
+  flipped,
+  setFlipped,
+  flipRef,
+}: {
+  flipped: boolean;
+  setFlipped: (flipped: boolean) => void;
+  flipRef: RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <Container top={'20%'} right={'8%'} pos={'absolute'} p={0}>
+      <button
+        type="button"
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const newFlipped = !flipped;
+
+          flipRef.current?.setAttribute('flipped', `${newFlipped}`);
+          setFlipped(newFlipped);
+        }}
+        className={styles.refreshButton}
+        style={{ pointerEvents: 'auto' }}
+      >
+        <IconRefresh />
+      </button>
+    </Container>
   );
 }

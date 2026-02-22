@@ -24,7 +24,9 @@ export default function Breadcrumbs({ subpage, moreSubpages, withoutTitle }: Bre
     <Stack gap={'0'}>
       <Group className={styles.breadcrumb} gap={'0'}>
         <Link to="/">
-          <IconChefHat color="var(--gourmet-neutral-6)" size={22} className={styles.homeButton} />
+          <Group>
+            <IconChefHat color="var(--gourmet-neutral-6)" size={22} className={styles.homeButton} />
+          </Group>
         </Link>
         <Group gap={'0'}>
           <IconSlash color="var(--gourmet-neutral-6)" size={18} style={{ margin: '0 0.25rem' }} />
