@@ -110,18 +110,20 @@
   }
 }
 
+/* biome-ignore lint/style/noDescendingSpecificity: <> */
 .overlayCheckbox {
   opacity: 0.5;
   visibility: hidden;
 
   &:hover,
-  &:focus-visible {
+  &:focus-within {
     cursor: pointer;
     opacity: 1;
   }
 
   &[data-checked="true"] {
     opacity: 1;
+    visibility: visible !important;
   }
 
   &[data-menu-opened="true"] {

@@ -154,8 +154,10 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
             onChange={(event) => setSelected(event.currentTarget.checked)}
             color={'var(--gourmet-orange-1)'}
             checked={selected}
-            classNames={{ input: styles.overlayCheckbox }}
-            data-menu-opened={menuOpened}
+            classNames={{ root: styles.overlayCheckbox }}
+            wrapperProps={{
+              'data-menu-opened': menuOpened,
+            }}
           />
           <Menu width={200} position="top-start" opened={menuOpened} onChange={setMenuOpened} withArrow>
             <Menu.Target>
