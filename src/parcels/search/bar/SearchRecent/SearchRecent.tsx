@@ -98,7 +98,7 @@ export default function SearchRecent({
                   to: '/$tcg/cards',
                   params: { tcg: tcg },
                   search: (prev) => {
-                    return { ...prev, query: query } as Required<TcgSearchParams>;
+                    return { ...prev, query: query, page: 1 } as Required<TcgSearchParams>;
                   },
                 });
                 close();

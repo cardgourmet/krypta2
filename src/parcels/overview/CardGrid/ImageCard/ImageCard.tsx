@@ -1,11 +1,12 @@
 import {ActionIcon, Checkbox, Group, Overlay} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {Activity, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
 import {MoreActionsMenu} from '@/parcels/overview/CardGrid/ImageCard/MoreActionsMenu/MoreActionsMenu.tsx';
+import {type MtgOverviewWorkAmbient, useMtgOverviewWorkContext} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
@@ -16,6 +17,7 @@ import styles from './ImageCard.module.css';
 interface ImageCardProps {
   tcg: Tcg;
   card: MtgSearchDataCard | DlcSearchDataCard | PcgSearchDataCard;
+  index: number;
 }
 
 type CardProperties = {
@@ -31,9 +33,12 @@ type CardProperties = {
 
 const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
-export default function ImageCard({ tcg, card }: ImageCardProps) {
+export default function ImageCard({ tcg, card, index }: ImageCardProps) {
+  const workContext = useMtgOverviewWorkContext();
+  const isSelectionMode = (workContext?.data?.selection?.elementIds?.length ?? 0) > 0;
+
   const prop: CardProperties = useMemo(() => {
-    return tcgMemo(tcg, card) as CardProperties;
+    return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
 
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -57,7 +62,49 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [selected, setSelected] = useState<boolean>(false);
+  const isSelected = useMemo(() => {
+    if (!workContext?.data?.selection) return;
+    const selectedElements = workContext.data.selection.elementIds;
+    if (selectedElements.length === 0) {
+      return false;
+    }
+
+    return selectedElements.includes(prop.id);
+  }, [workContext?.data?.selection, prop.id]);
+  const [checked, setChecked] = useState<boolean>(isSelected ?? false);
+  const setSelection = useCallback(
+    (select: boolean) => {
+      setChecked(select);
+
+      if (select) workContext?.addSelection([prop.id], index, prop.id);
+      else workContext?.removeSelection([prop.id]);
+    },
+    [index, prop.id, workContext?.addSelection, workContext?.removeSelection],
+  );
+  const setMultiSelection = useCallback(
+    (ids: string[]) => {
+      setChecked(true);
+
+      workContext?.addSelection([...ids], index, prop.id);
+    },
+    [index, prop.id, workContext?.addSelection],
+  );
+
+  useEffect(() => {
+    if (!workContext?.data?.selection?.elementIds) {
+      setChecked(false);
+      return;
+    }
+    if (!checked && workContext.data.selection.elementIds.includes(prop.id)) {
+      setChecked(true);
+      return;
+    }
+    if (checked && !workContext.data.selection.elementIds.includes(prop.id)) {
+      setChecked(false);
+      return;
+    }
+  }, [workContext?.data?.selection?.elementIds, checked, prop.id]);
+
   const [menuOpened, setMenuOpened] = useState(false);
 
   return (
@@ -71,8 +118,24 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
           any: slugify(prop.name ?? ''),
         }}
         preload={false}
-        data-selected={selected}
-        className={styles.cardLink}
+        data-selected={checked}
+        disabled={isSelectionMode}
+        data-disabled={isSelectionMode}
+        onClick={(event) => {
+          if (!isSelectionMode) return;
+          event.preventDefault();
+
+          // if shift key, calculate range of cards to add (never remove!)
+          const anchorIndex = workContext?.data?.selection?.anchorIndex;
+          if (event.shiftKey && anchorIndex !== undefined && anchorIndex > -1) {
+            const ids = getIdsInRange(anchorIndex, index, workContext!);
+            setMultiSelection(ids);
+            return;
+          }
+
+          setSelection(!checked);
+        }}
+        className={`${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`}
       >
         <div>
           {(!imageLoaded || !backfaceImageLoaded) && (
@@ -91,55 +154,61 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
             />
           )}
 
-          <FlipImage
-            frontFace={{
-              imageRef: imageRef,
-              name: prop.name,
-              thumbnailUrl: prop.thumbnailUrl ?? prop.backupImageUrl,
-              backupImageUrl: prop.backupImageUrl,
-              setImageLoaded,
-            }}
-            backFace={{
-              imageRef: backfaceImageRef,
-              name: prop.name,
-              thumbnailUrl: prop.backfaceThumbnailUrl ?? prop.backupImageUrl,
-              backupImageUrl: prop.backupImageUrl,
-              setImageLoaded: setBackfaceImageLoaded,
-            }}
-            flipRef={flipRef}
-          />
+          <div className={isSelectionMode ? styles.cardSelectionOverlay : ''} data-selected={isSelected}>
+            <FlipImage
+              frontFace={{
+                imageRef: imageRef,
+                name: prop.name,
+                thumbnailUrl: prop.thumbnailUrl ?? prop.backupImageUrl,
+                backupImageUrl: prop.backupImageUrl,
+                setImageLoaded: setImageLoaded,
+              }}
+              backFace={{
+                imageRef: backfaceImageRef,
+                name: prop.name,
+                thumbnailUrl: prop.backfaceThumbnailUrl ?? prop.backupImageUrl,
+                backupImageUrl: prop.backupImageUrl,
+                setImageLoaded: setBackfaceImageLoaded,
+              }}
+              flipRef={flipRef}
+            />
+          </div>
         </div>
       </Link>
 
       {imageLoaded && backfaceImageLoaded && (
-        <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }}>
+        <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
           <Group p={'1rem'} justify={'space-between'}>
-            <Checkbox
-              style={{ pointerEvents: 'auto' }}
-              onChange={(event) => setSelected(event.currentTarget.checked)}
-              color={'var(--gourmet-orange-1)'}
-              checked={selected}
-              classNames={{ root: styles.overlayCheckbox }}
-              wrapperProps={{
-                'data-menu-opened': menuOpened,
-              }}
-            />
-            <MoreActionsMenu
-              menuOpened={menuOpened}
-              setMenuOpened={setMenuOpened}
-              target={
-                <ActionIcon
-                  style={{ pointerEvents: 'auto' }}
-                  onClick={() => setMenuOpened((v) => !v)}
-                  color="var(--gourmet-neutral-dark-3)"
-                  size={'1.25rem'}
-                  classNames={{ root: styles.overlayMenuButton }}
-                  data-menu-opened={menuOpened}
-                >
-                  <IconDotsVertical size={16} />
-                </ActionIcon>
-              }
-            />
+            <Activity mode={!isSelectionMode || checked ? 'visible' : 'hidden'}>
+              <Checkbox
+                style={{ pointerEvents: 'auto' }}
+                onChange={(event) => setSelection(event.currentTarget.checked)}
+                color={'var(--gourmet-orange-1)'}
+                checked={checked}
+                classNames={{ root: styles.overlayCheckbox }}
+                wrapperProps={{
+                  'data-menu-opened': menuOpened,
+                }}
+              />
+            </Activity>
+            <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
+              <MoreActionsMenu
+                menuOpened={menuOpened}
+                setMenuOpened={setMenuOpened}
+                target={
+                  <ActionIcon
+                    style={{ pointerEvents: 'auto' }}
+                    onClick={() => setMenuOpened((v) => !v)}
+                    color="var(--gourmet-neutral-dark-3)"
+                    size={'1.25rem'}
+                    classNames={{ root: styles.overlayMenuButton }}
+                    data-menu-opened={menuOpened}
+                  >
+                    <IconDotsVertical size={16} />
+                  </ActionIcon>
+                }
+              />
+            </Activity>
           </Group>
         </Overlay>
       )}
@@ -151,7 +220,7 @@ export default function ImageCard({ tcg, card }: ImageCardProps) {
   );
 }
 
-const tcgMemo = (tcg: Tcg, card: unknown) => {
+const createProps = (tcg: Tcg, card: unknown) => {
   if (tcg === 'dlc') {
     const dlcCard = card as DlcSearchDataCard;
 
@@ -193,3 +262,17 @@ const tcgMemo = (tcg: Tcg, card: unknown) => {
   }
   return {} as CardProperties;
 };
+
+function getIdsInRange(anchorIndex: number, currentIndex: number, workContext: MtgOverviewWorkAmbient): string[] {
+  const fromIndex = anchorIndex < currentIndex ? anchorIndex : currentIndex;
+  const toIndex = anchorIndex < currentIndex ? currentIndex : anchorIndex;
+
+  const ids = [] as string[];
+  workContext.data.search.result.data.items.forEach((item, index) => {
+    if (index >= fromIndex && index <= toIndex) {
+      ids.push(item.card.id);
+    }
+  });
+
+  return ids;
+}

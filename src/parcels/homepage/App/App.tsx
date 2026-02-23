@@ -4,6 +4,7 @@ import {useState} from 'react';
 import {Footer} from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
+import {MtgOverviewWorkContextProvider} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
 import SearchCacheProvider from '@/parcels/search/bar/SearchCacheProvider/SearchCacheProvider.tsx';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
@@ -26,18 +27,20 @@ function App() {
     <TcgProvider>
       <SearchCacheProvider>
         <SearchHistoryProvider>
-          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <Navbar setSidebarOpen={setSidebarOpen} />
-          <NavigationProgress />
+          <MtgOverviewWorkContextProvider>
+            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <Navbar setSidebarOpen={setSidebarOpen} />
+            <NavigationProgress />
 
-          <div className={styles.mainContent}>
-            <div className={styles.content}>
-              <Outlet />
+            <div className={styles.mainContent}>
+              <div className={styles.content}>
+                <Outlet />
+              </div>
             </div>
-          </div>
-          <div className={styles.footer}>
-            <Footer />
-          </div>
+            <div className={styles.footer}>
+              <Footer />
+            </div>
+          </MtgOverviewWorkContextProvider>
         </SearchHistoryProvider>
       </SearchCacheProvider>
     </TcgProvider>

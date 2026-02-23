@@ -1,7 +1,7 @@
-import { useLocation, useNavigate } from '@tanstack/react-router';
-import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
-import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {useLocation, useNavigate} from '@tanstack/react-router';
+import {type RefObject, useCallback, useEffect, useRef, useState} from 'react';
+import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type SearchQuery = { query: string; isByUser: boolean };
 export type SearchQueryController = {
@@ -30,7 +30,7 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
     navigate({
       to: `/${tcg}/cards`,
       search: (prev) => {
-        return { ...prev, query: currentQuery.query } as Required<DlcSearchParams>;
+        return { ...prev, query: currentQuery.query, page: 1 } as Required<TcgSearchParams>;
       },
     });
   }, [

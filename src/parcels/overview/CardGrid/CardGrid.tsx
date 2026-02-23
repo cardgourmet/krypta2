@@ -42,7 +42,11 @@ export function CardGrid({ tcg, cards, isLoading }: CardGridProps) {
               />
             </div>
           ))}
-      {!isLoading && cardItems && cardItems.map((card, index) => <ImageCard key={index} tcg={tcg} card={card} />)}
+      {!isLoading
+        && cardItems
+        && cardItems.map((card, index) => {
+          return <ImageCard key={index} tcg={tcg} card={card} index={index} />;
+        })}
     </div>
   );
 }

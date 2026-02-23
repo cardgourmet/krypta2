@@ -16,7 +16,8 @@
   --gourmet-blue-05: #99c3ff;
   --gourmet-blue-06: #cce1ff;
 
-  --gourmet-red-01: light-dark(oklch(49.99% 0.1663 28.93), oklch(78.26% 0.1224 24.48));
+  --gourmet-red-01: light-dark(oklch(49.99% 0.1663 28.93), oklch(0.64 0.199 28.932));
+  --gourmet-red-02: oklch(49.99% 0.1663 28.93);
 
   --gourmet-teal-1: rgba(34, 139, 230, 0.15);
 

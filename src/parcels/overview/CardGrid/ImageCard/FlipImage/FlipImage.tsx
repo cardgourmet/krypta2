@@ -41,7 +41,7 @@ export function FlipImage({
             frontFace.imageRef.current.src = frontFace.backupImageUrl;
           }}
           onLoad={() => {
-            backFace.setImageLoaded(true);
+            frontFace.setImageLoaded(true);
           }}
         />
       </div>

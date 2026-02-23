@@ -1,7 +1,7 @@
-import type { UseNavigateResult } from '@tanstack/react-router';
-import type { RefObject } from 'react';
-import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type {UseNavigateResult} from '@tanstack/react-router';
+import type {RefObject} from 'react';
+import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function handleKeydown({
   tcg,
@@ -61,7 +61,7 @@ export function handleKeydown({
         navigate({
           to: `/${tcg}/cards`,
           search: (prev) => {
-            return { ...prev, query: currentQuery } as Required<DlcSearchParams>;
+            return { ...prev, query: currentQuery, page: 1 } as Required<TcgSearchParams>;
           },
         });
       }
