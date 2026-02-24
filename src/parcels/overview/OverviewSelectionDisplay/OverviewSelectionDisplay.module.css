@@ -1,0 +1,17 @@
+.selectionButton:hover {
+  background-color: color-mix(var(--gourmet-orange-1), black 5%);
+}
+
+.selectionInfoButton {
+  padding: 0.1rem;
+  border-radius: 8px;
+  background: none;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+
+  svg {
+    color: var(--gourmet-neutral-9);
+  }
+}

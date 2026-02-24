@@ -1,10 +1,17 @@
 import {ActionIcon, Button, Group, Progress, Stack, Tooltip} from '@mantine/core';
 import {IconAlertSquareRounded, IconX} from '@tabler/icons-react';
+import {useNavigate} from '@tanstack/react-router';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import styles from '@/parcels/overview/CardOverview/CardOverview.module.css';
 import type {MtgOverviewWorkAmbient} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
+import {MorePagesDropdown} from '@/parcels/overview/OverviewSelectionDisplay/MorePagesDropdown.tsx';
+import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './OverviewSelectionDisplay.module.css';
 
 export function OverviewSelectionDisplay({ context: workContext }: { context: MtgOverviewWorkAmbient }) {
+  const tcg = useTcgByLocation() as Tcg;
+  const navigate = useNavigate();
+
   return (
     <Group
       style={{
@@ -33,17 +40,37 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Mt
         <Group wrap={'nowrap'} justify={'space-between'}>
           <Stack gap={'0'}>
             <Group gap={'0.5rem'}>
-              <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-8'}>
+              <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
                 Auswahl:
               </GourmetText>
               <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
                 {workContext.data.selection.elementIds.length} Karten
               </GourmetText>
             </Group>
-            <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
-              Aktuelle Seite:{' '}
-              {Object.keys(workContext.data.selection.elementsByPage[workContext.data.search.page] ?? []).length} Karten
-            </GourmetText>
+            <Group gap={'0.1rem'}>
+              <MorePagesDropdown
+                text={'Aktuelle Seite'}
+                currentPage={workContext.data.search.page}
+                onSelect={(sel) => {
+                  // noinspection JSIgnoredPromiseFromCall
+                  navigate({
+                    to: `/$tcg/cards`,
+                    search: (prev) => {
+                      return { ...prev, page: Number(sel) } as Required<DlcSearchParams>;
+                    },
+                    params: {
+                      tcg: tcg,
+                    },
+                    replace: true,
+                  });
+                }}
+              />
+              <GourmetText>:</GourmetText>
+              <GourmetText pl={'0.5rem'}>
+                {Object.keys(workContext.data.selection.elementsByPage[workContext.data.search.page] ?? []).length}{' '}
+                Karten
+              </GourmetText>
+            </Group>
           </Stack>
           <Group wrap={'nowrap'}>
             <Button color={'var(--gourmet-orange-1'} className={styles.selectionButton}>

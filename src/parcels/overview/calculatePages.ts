@@ -2,10 +2,15 @@ export default function calculatePages(
   currentPage: number,
   lastPage: number,
   displayAround: number,
+  displayEndstation?: number,
 ): Array<number | null> {
   const arr: Array<number | null> = [];
   if (displayAround < 0) return arr;
   if (currentPage < 1 || currentPage > lastPage) return arr;
+
+  if (displayEndstation !== undefined && (currentPage === 1 || currentPage === lastPage)) {
+    return calculatePages(currentPage, lastPage, displayEndstation);
+  }
 
   // +3 = first, last and current always shown
   if (lastPage <= displayAround * 2 + 3) {

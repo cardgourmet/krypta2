@@ -27,6 +27,14 @@
   }
 }
 
+.cardSkeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  aspect-ratio: 672 / 936;
+  border-radius: 15px;
+}
+
 .cardLink {
   position: relative;
   display: block;
@@ -52,6 +60,7 @@
 .cardLinkSelectable {
   &:hover {
     outline: 1px dashed var(--gourmet-orange-1);
+    outline-offset: 2px;
   }
 }
 
