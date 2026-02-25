@@ -8,7 +8,6 @@ export function handleKeydown({
   searchInputRef,
   isOpened,
   setIsOpened,
-  focusableElements,
   currentQuery,
   navigate,
   hasActiveSuggestion,
@@ -17,7 +16,6 @@ export function handleKeydown({
   searchInputRef: RefObject<HTMLInputElement | null>;
   isOpened: boolean;
   setIsOpened: (isOpened: boolean) => void;
-  focusableElements: Array<HTMLElement | null>;
   currentQuery: string;
   navigate: UseNavigateResult<string>;
   hasActiveSuggestion: boolean;
@@ -27,24 +25,6 @@ export function handleKeydown({
       searchInputRef.current?.focus();
       setIsOpened(false);
       return;
-    }
-
-    if (event.key === 'Tab') {
-      const total = focusableElements.length;
-      const shift = event.shiftKey;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[total - 1];
-      if (firstElement === null || lastElement === null) return;
-
-      if (shift && document.activeElement === firstElement) {
-        lastElement.focus();
-        return event.preventDefault();
-      }
-      if (!shift && document.activeElement === lastElement) {
-        firstElement.focus();
-        return event.preventDefault();
-      }
     }
 
     if (event.key === 'Enter') {

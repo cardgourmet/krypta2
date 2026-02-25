@@ -1,4 +1,4 @@
-import {useClickOutside, useDebouncedValue, useMergedRef} from '@mantine/hooks';
+import {useClickOutside, useDebouncedValue, useFocusTrap, useMergedRef} from '@mantine/hooks';
 import {IconDeviceVisionPro, IconQuestionMark, IconX} from '@tabler/icons-react';
 import {Link, useNavigate, useRouter} from '@tanstack/react-router';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -10,7 +10,6 @@ import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchComp
 import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
-import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
 import {useSearchQuery} from '@/parcels/search/useSearchQuery.ts';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './Searchbar.module.css';
@@ -57,14 +56,12 @@ export default function Searchbar() {
 
   useEffect(() => {
     if (!searchContainerRef.current) return;
-    const focusableElements = getFocusableElements(searchContainerRef.current);
 
     const handle = handleKeydown({
       tcg: tcg,
       searchInputRef: searchInputRef,
       isOpened: isOpened,
       setIsOpened: setIsOpened,
-      focusableElements: focusableElements,
       currentQuery: currentQuery.query,
       navigate: navigate,
       hasActiveSuggestion: hasActiveSuggestion,
@@ -77,8 +74,9 @@ export default function Searchbar() {
     };
   }, [tcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
 
+  const focusTrapRef = useFocusTrap(isOpened);
   const clickOutsideRef = useClickOutside(() => setIsOpened(false));
-  const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef);
+  const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef, focusTrapRef);
 
   const router = useRouter();
   router.subscribe('onLoad', () => {
@@ -119,6 +117,7 @@ export default function Searchbar() {
               setCurrentQuery({ query: event.target.value, isByUser: true });
             }
           }}
+          data-autofocus
         />
         <button
           className={`${styles.deleteSearchIcon} ${currentQuery.query.length === 0 ? styles.hidden : ''}`}
