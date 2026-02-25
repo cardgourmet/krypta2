@@ -1,6 +1,7 @@
-import {ActionIcon, Button, Group, Progress, Stack, Tooltip} from '@mantine/core';
-import {IconAlertSquareRounded, IconX} from '@tabler/icons-react';
+import {ActionIcon, Button, Group, Menu, Popover, Progress, Stack, Tooltip} from '@mantine/core';
+import {IconAlertSquareRounded, IconBookmark, IconEyeSearch, IconList, IconPlus, IconStar, IconX,} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {MtgOverviewWorkAmbient} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
 import {MorePagesDropdown} from '@/parcels/overview/OverviewSelectionDisplay/MorePagesDropdown.tsx';
@@ -11,6 +12,8 @@ import styles from './OverviewSelectionDisplay.module.css';
 export function OverviewSelectionDisplay({ context: workContext }: { context: MtgOverviewWorkAmbient }) {
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
+
+  const [menuOpened, setMenuOpened] = useState(false);
 
   return (
     <Group
@@ -46,6 +49,11 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Mt
               <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
                 {workContext.data.selection.elementIds.length} Karten
               </GourmetText>
+              <Tooltip label={'Auswahl anzeigen'} openDelay={500}>
+                <ActionIcon className={styles.selectionShowButton}>
+                  <IconEyeSearch size={20} color={'var(--gourmet-neutral-7'} />
+                </ActionIcon>
+              </Tooltip>
             </Group>
             <Group gap={'0.1rem'}>
               <MorePagesDropdown
@@ -73,11 +81,85 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Mt
             </Group>
           </Stack>
           <Group wrap={'nowrap'}>
-            <Button color={'var(--gourmet-orange-1'} className={styles.selectionButton}>
-              <GourmetText cgmff={'ui'} cgmc={'neutral-1'} fw={'500'}>
-                Auswahl verwenden für ...
-              </GourmetText>
-            </Button>
+            <Menu
+              width={300}
+              position="top"
+              opened={menuOpened}
+              onChange={setMenuOpened}
+              withArrow
+              classNames={{ dropdown: styles.menuDropdown }}
+            >
+              <Menu.Target>
+                <Button color={'var(--gourmet-orange-1'} className={styles.selectionButton}>
+                  <GourmetText cgmff={'ui'} cgmc={'neutral-1'} fw={'500'}>
+                    Auswahl verwenden für ...
+                  </GourmetText>
+                </Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item>
+                  <Group gap={'0.5rem'}>
+                    <IconStar size={18} />
+                    <GourmetText cgmff={'ui'}>Als Favoriten markieren</GourmetText>
+                  </Group>
+                </Menu.Item>
+                <Menu.Item>
+                  <Group gap={'0.5rem'}>
+                    <IconBookmark size={18} />
+                    <GourmetText cgmff={'ui'}>Zu Lesezeichen hinzufügen</GourmetText>
+                  </Group>
+                </Menu.Item>
+
+                <Menu.Sub openDelay={120} closeDelay={150}>
+                  <Menu.Sub.Target>
+                    <Menu.Sub.Item>
+                      <Group gap={'0.5rem'}>
+                        <IconList size={18} />
+                        <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                      </Group>
+                    </Menu.Sub.Item>
+                  </Menu.Sub.Target>
+
+                  <Menu.Sub.Dropdown>
+                    <Menu.Item>
+                      <Group gap={'0.5rem'}>
+                        <GourmetText cgmff={'ui'}>My MTG list 1</GourmetText>
+                      </Group>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Group gap={'0.5rem'}>
+                        <GourmetText cgmff={'ui'}>second List</GourmetText>
+                      </Group>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Group gap={'0.5rem'}>
+                        <GourmetText cgmff={'ui'}>dritte Liste</GourmetText>
+                      </Group>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Group gap={'0.5rem'}>
+                        <GourmetText cgmff={'ui'}>oh my goddness</GourmetText>
+                      </Group>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Group gap={'0.5rem'}>
+                        <GourmetText cgmff={'ui'}>oh my damn</GourmetText>
+                      </Group>
+                    </Menu.Item>
+
+                    <Menu.Divider />
+
+                    <Menu.Item>
+                      <Group gap={'0.5rem'}>
+                        <IconPlus size={18} />
+                        <GourmetText cgmff={'ui'}>Neue Erstellen</GourmetText>
+                      </Group>
+                    </Menu.Item>
+                  </Menu.Sub.Dropdown>
+                </Menu.Sub>
+              </Menu.Dropdown>
+            </Menu>
             <Tooltip label={'Auswahl aufheben'} openDelay={500}>
               <ActionIcon
                 color={'var(--gourmet-neutral-3)'}
@@ -120,9 +202,26 @@ function generateProgress(sections: number, current: number, max: number) {
             </GourmetText>
             <GourmetText cgmff={'ui'}>/60</GourmetText>
           </Group>
-          <ActionIcon className={styles.selectionInfoButton}>
-            <IconAlertSquareRounded size={20} />
-          </ActionIcon>
+
+          <Popover width={300} position="bottom" withArrow shadow="md">
+            <Popover.Target>
+              <ActionIcon className={styles.selectionInfoButton}>
+                <IconAlertSquareRounded size={20} />
+              </ActionIcon>
+            </Popover.Target>
+
+            <Popover.Dropdown>
+              <Stack>
+                <GourmetText>
+                  Du darfst nur maximal <b>60</b> Karten gleichzeitig auswählen.
+                </GourmetText>
+                <GourmetText>
+                  Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber{' '}
+                  <u>die gesamte Suche abspeichern</u> willst.
+                </GourmetText>
+              </Stack>
+            </Popover.Dropdown>
+          </Popover>
         </Group>
       </Group>
       <Group grow gap={'0.25rem'}>

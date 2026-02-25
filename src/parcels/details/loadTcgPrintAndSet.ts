@@ -29,8 +29,9 @@ export const loadTcgPrintAndSet = async (tcg: Tcg, params: TcgDetailParams) => {
   const slug = slugify(cardWithPrints.name);
   if (params.any !== slug) {
     throw redirect({
-      to: `/${tcg}/sets/$setCode/$collectorNumber/{-$any}`,
+      to: `/$tcg/sets/$setCode/$collectorNumber/{-$any}`,
       params: {
+        tcg: tcg,
         setCode: params.setCode.toLowerCase(),
         collectorNumber: params.collectorNumber.toLowerCase(),
         any: slug,
