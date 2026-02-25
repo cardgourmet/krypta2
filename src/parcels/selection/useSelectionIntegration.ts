@@ -1,8 +1,8 @@
 import {useCallback, useEffect, useMemo, useState} from "react";
-import {SELECTION_LIMIT, useMtgOverviewWorkContext} from "@/parcels/selection/MtgOverviewWorkContext.tsx";
+import {SELECTION_LIMIT, useTcgOverviewWorkContext} from "@/parcels/selection/TcgOverviewWorkContext.tsx";
 
 export function useSelectionIntegration({ id, index }: { id: string; index: number }) {
-  const workContext = useMtgOverviewWorkContext();
+  const workContext = useTcgOverviewWorkContext();
   const isSelectionMode = (workContext?.data?.selection?.elementIds?.length ?? 0) > 0;
 
   const isSelected = useMemo(() => {

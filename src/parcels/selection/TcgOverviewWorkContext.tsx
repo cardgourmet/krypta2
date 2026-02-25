@@ -1,13 +1,13 @@
 import {createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState} from 'react';
-import type {MtgSearchCardsResult} from '@/parcels/tcg/mtg/api.ts';
+import type {TcgSearchCardsResult} from "@/parcels/tcg/types.ts";
 
-export const MtgOverviewWorkContext = createContext<MtgOverviewWorkAmbient | null>(null);
+export const TcgOverviewWorkContext = createContext<TcgOverviewWorkAmbient | null>(null);
 
-export type MtgOverviewWorkData = {
+export type TcgOverviewWorkData = {
   search: {
     query: string;
     page: number;
-    result: MtgSearchCardsResult;
+    result: TcgSearchCardsResult;
   };
   selection: {
     elementIds: string[];
@@ -16,22 +16,22 @@ export type MtgOverviewWorkData = {
     anchorId?: string;
   };
 };
-export type MtgOverviewWorkAmbient = {
-  data: MtgOverviewWorkData;
-  setSearchResult: (query: string, result: MtgSearchCardsResult) => void;
+export type TcgOverviewWorkAmbient = {
+  data: TcgOverviewWorkData;
+  setSearchResult: (query: string, result: TcgSearchCardsResult) => void;
   addSelection: (ids: string[], anchorIndex?: number, anchorId?: string) => void;
   removeSelection: (ids: string[], anchorIndex?: number, anchorId?: string) => void;
   clearSelection: () => void;
 };
 export const SELECTION_LIMIT = 60;
 
-export const useMtgOverviewWorkContext = () => useContext(MtgOverviewWorkContext);
+export const useTcgOverviewWorkContext = () => useContext(TcgOverviewWorkContext);
 
-export function MtgOverviewWorkContextProvider({ children }: PropsWithChildren) {
-  const [workData, setWorkData] = useState<MtgOverviewWorkData | null>(null);
+export function TcgOverviewWorkContextProvider({ children }: PropsWithChildren) {
+  const [workData, setWorkData] = useState<TcgOverviewWorkData | null>(null);
 
   const setSearchResult = useCallback(
-    (query: string, result: MtgSearchCardsResult) => {
+    (query: string, result: TcgSearchCardsResult) => {
       if (!workData?.search || workData.search.query !== query) {
         setWorkData(initializeWorkData(query, result));
         return;
@@ -116,15 +116,15 @@ export function MtgOverviewWorkContextProvider({ children }: PropsWithChildren) 
       addSelection,
       removeSelection,
       clearSelection,
-    } as MtgOverviewWorkAmbient;
+    } as TcgOverviewWorkAmbient;
   }, [workData, setSearchResult, addSelection, removeSelection, clearSelection]);
 
-  return <MtgOverviewWorkContext.Provider value={ambient}>{children}</MtgOverviewWorkContext.Provider>;
+  return <TcgOverviewWorkContext.Provider value={ambient}>{children}</TcgOverviewWorkContext.Provider>;
 }
 
-const initializeWorkData = (query: string, result: MtgSearchCardsResult) => {
+const initializeWorkData = (query: string, result: TcgSearchCardsResult) => {
   return {
     search: { query: query, page: result.data.currentPage, result: result },
     selection: { elementIds: [], elementsByPage: {} },
-  } as MtgOverviewWorkData;
+  } as TcgOverviewWorkData;
 };

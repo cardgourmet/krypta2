@@ -6,16 +6,11 @@ import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
 import CardOverviewSettings from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.tsx';
 import {CardTable} from '@/parcels/overview/CardTable/CardTable.tsx';
-import {useMtgOverviewWorkContext} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
-import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
-import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
-import type {DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
-import type {MtgSearchCardsResult} from '@/parcels/tcg/mtg/api.ts';
-import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
-import type {PcgSearchCardsResult} from '@/parcels/tcg/pcg/api.ts';
-import type {PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
+import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import type {TcgSearchCardsResult, TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings,} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import styles from './CardOverview.module.css';
@@ -27,10 +22,10 @@ type CardOverviewProps = {
   isQueryLoading: boolean;
   isSetSpecific?: boolean;
 
-  cards: MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult | null;
-  setSettings: (apply: ApplyFn<MtgSearchParams | PcgSearchParams | DlcSearchParams>) => void;
-  searchQuerySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
-  searchDisplaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
+  cards: TcgSearchCardsResult | null;
+  setSettings: (apply: ApplyFn<TcgSearchParams>) => void;
+  searchQuerySettings: TcgSearchQuerySettings;
+  searchDisplaySettings: TcgSearchDisplaySettings;
 };
 
 export function CardOverview({
@@ -45,14 +40,12 @@ export function CardOverview({
 }: CardOverviewProps) {
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
 
-  const workContext = useMtgOverviewWorkContext();
+  const workContext = useTcgOverviewWorkContext();
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
-    if (!cards) return;
+    if (!cards || !cards.data.details) return;
     const query = cards?.data.details?.originalQuery;
-    if (!query) return;
-
-    workContext?.setSearchResult(query, cards as MtgSearchCardsResult);
+    workContext?.setSearchResult(query, cards as TcgSearchCardsResult);
   }, [cards]);
 
   return (

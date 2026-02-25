@@ -3,7 +3,7 @@ import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRight
 import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {useMtgOverviewWorkContext} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import {useWindowSize} from '@/parcels/overview/useWindowSize.ts';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
@@ -36,7 +36,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
     });
   };
 
-  const workContext = useMtgOverviewWorkContext();
+  const workContext = useTcgOverviewWorkContext();
   const selectedCardsPerPage = useMemo(() => {
     const map: Record<number, number> = {};
 

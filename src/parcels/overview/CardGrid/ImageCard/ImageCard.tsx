@@ -5,7 +5,7 @@ import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/Imag
 import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ImageCard/ToolsOverlay/ToolsOverlay.tsx';
-import {type MtgOverviewWorkAmbient, useMtgOverviewWorkContext} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
+import {type TcgOverviewWorkAmbient, useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
@@ -21,7 +21,7 @@ interface ImageCardProps {
 }
 
 export default function ImageCard({ tcg, card, index }: ImageCardProps) {
-  const workContext = useMtgOverviewWorkContext();
+  const workContext = useTcgOverviewWorkContext();
 
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
@@ -135,7 +135,7 @@ export default function ImageCard({ tcg, card, index }: ImageCardProps) {
   );
 }
 
-function getIdsInRange(anchorIndex: number, currentIndex: number, workContext: MtgOverviewWorkAmbient): string[] {
+function getIdsInRange(anchorIndex: number, currentIndex: number, workContext: TcgOverviewWorkAmbient): string[] {
   const fromIndex = anchorIndex < currentIndex ? anchorIndex : currentIndex;
   const toIndex = anchorIndex < currentIndex ? currentIndex : anchorIndex;
 

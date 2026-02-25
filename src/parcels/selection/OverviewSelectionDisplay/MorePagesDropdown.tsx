@@ -1,7 +1,7 @@
 import {Combobox, Group, UnstyledButton, useCombobox} from '@mantine/core';
 import {IconCaretDownFilled, IconCheck} from '@tabler/icons-react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {useMtgOverviewWorkContext} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import styles from './MorePagesDropdown.module.css';
 
 export function MorePagesDropdown({
@@ -13,7 +13,7 @@ export function MorePagesDropdown({
   currentPage: number;
   onSelect?: (selected: string) => void;
 }) {
-  const work = useMtgOverviewWorkContext();
+  const work = useTcgOverviewWorkContext();
 
   const combobox = useCombobox();
   const options = Object.entries(work?.data?.selection?.elementsByPage ?? {}).map(([page, elements]) => (
