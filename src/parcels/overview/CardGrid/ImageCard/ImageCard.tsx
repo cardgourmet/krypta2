@@ -82,6 +82,7 @@ export default function ImageCard({ tcg, card, index, toolsEnabled }: ImageCardP
 
           setSelection(!checked);
         }}
+        tabIndex={isSelectionMode ? 0 : undefined}
         className={`${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`}
       >
         <div>

@@ -43,13 +43,12 @@
   overflow: hidden;
   border-radius: inherit;
 
-  &:focus-visible {
-    outline: 3px solid var(--gourmet-blue-1);
+  &[data-selected="true"] {
+    outline: 2px solid var(--gourmet-orange-1);
   }
 
-  &[data-selected="true"] {
-    border-radius: 15px;
-    outline: 2px solid var(--gourmet-orange-1);
+  &:focus-visible {
+    outline: 3px solid var(--gourmet-blue-1);
   }
 
   &[data-disabled="true"]:hover {
