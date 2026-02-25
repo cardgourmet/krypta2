@@ -3,7 +3,7 @@ import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRight
 import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {useMtgOverviewWorkContext} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
+import {useMtgOverviewWorkContext} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
 import {useWindowSize} from '@/parcels/overview/useWindowSize.ts';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';

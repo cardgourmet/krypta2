@@ -23,6 +23,7 @@ export type MtgOverviewWorkAmbient = {
   removeSelection: (ids: string[], anchorIndex?: number, anchorId?: string) => void;
   clearSelection: () => void;
 };
+export const SELECTION_LIMIT = 60;
 
 export const useMtgOverviewWorkContext = () => useContext(MtgOverviewWorkContext);
 

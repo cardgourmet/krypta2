@@ -3,8 +3,8 @@ import {IconAlertSquareRounded, IconBookmark, IconEyeSearch, IconList, IconPlus,
 import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import type {MtgOverviewWorkAmbient} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
-import {MorePagesDropdown} from '@/parcels/overview/OverviewSelectionDisplay/MorePagesDropdown.tsx';
+import type {MtgOverviewWorkAmbient} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
+import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown.tsx';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';

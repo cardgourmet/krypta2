@@ -1,11 +1,12 @@
 import {Link} from '@tanstack/react-router';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCard/createProps.ts';
 import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ImageCard/ToolsOverlay/ToolsOverlay.tsx';
-import {type MtgOverviewWorkAmbient, useMtgOverviewWorkContext} from '@/parcels/overview/MtgOverviewWorkContext.tsx';
+import {type MtgOverviewWorkAmbient, useMtgOverviewWorkContext} from '@/parcels/selection/MtgOverviewWorkContext.tsx';
+import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
@@ -21,7 +22,6 @@ interface ImageCardProps {
 
 export default function ImageCard({ tcg, card, index }: ImageCardProps) {
   const workContext = useMtgOverviewWorkContext();
-  const isSelectionMode = (workContext?.data?.selection?.elementIds?.length ?? 0) > 0;
 
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
@@ -48,52 +48,10 @@ export default function ImageCard({ tcg, card, index }: ImageCardProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isSelected = useMemo(() => {
-    if (!workContext?.data?.selection) return;
-    const selectedElements = workContext.data.selection.elementIds;
-    if (selectedElements.length === 0) {
-      return false;
-    }
-
-    return selectedElements.includes(prop.id);
-  }, [workContext?.data?.selection, prop.id]);
-  const [checked, setChecked] = useState<boolean>(isSelected ?? false);
-  const setSelection = useCallback(
-    (select: boolean) => {
-      setChecked(select);
-
-      if (select) workContext?.addSelection([prop.id], index, prop.id);
-      else workContext?.removeSelection([prop.id], index, prop.id);
-    },
-    [index, prop.id, workContext?.addSelection, workContext?.removeSelection],
-  );
-  const setMultiSelection = useCallback(
-    (ids: string[], checked: boolean) => {
-      setChecked(checked);
-
-      if (checked) {
-        workContext?.addSelection([...ids], index, prop.id);
-      } else {
-        workContext?.removeSelection([...ids], index, prop.id);
-      }
-    },
-    [index, prop.id, workContext?.addSelection, workContext?.removeSelection],
-  );
-
-  useEffect(() => {
-    if (!workContext?.data?.selection?.elementIds) {
-      setChecked(false);
-      return;
-    }
-    if (!checked && workContext.data.selection.elementIds.includes(prop.id)) {
-      setChecked(true);
-      return;
-    }
-    if (checked && !workContext.data.selection.elementIds.includes(prop.id)) {
-      setChecked(false);
-      return;
-    }
-  }, [workContext?.data?.selection?.elementIds, checked, prop.id]);
+  const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
+    id: prop.id,
+    index,
+  });
 
   const [menuOpened, setMenuOpened] = useState(false);
 
