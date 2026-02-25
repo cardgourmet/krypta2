@@ -1,3 +1,8 @@
+.selectionDisplay {
+  @media (max-width: 580px) {
+  }
+}
+
 .selectionButton:hover {
   background-color: color-mix(var(--gourmet-orange-1), black 5%);
 }

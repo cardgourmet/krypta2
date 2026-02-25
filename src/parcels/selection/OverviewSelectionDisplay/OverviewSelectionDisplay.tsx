@@ -1,5 +1,6 @@
-import {ActionIcon, Button, Group, Menu, Popover, Progress, Stack, Tooltip} from '@mantine/core';
-import {IconAlertSquareRounded, IconBookmark, IconEyeSearch, IconList, IconPlus, IconStar, IconX,} from '@tabler/icons-react';
+import {ActionIcon, Button, Flex, Group, Menu, Popover, Progress, Stack, Tooltip} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
+import {IconAlertSquareRounded, IconBookmark, IconEyeSearch, IconList, IconStar, IconX,} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -10,10 +11,13 @@ import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
 
 export function OverviewSelectionDisplay({ context: workContext }: { context: TcgOverviewWorkAmbient }) {
+  const smallScreen = useMediaQuery('(max-width: 580px)');
+
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
 
   const [menuOpened, setMenuOpened] = useState(false);
+  const [submenuOpened, setSubmenuOpened] = useState(false);
 
   return (
     <Group
@@ -38,9 +42,14 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
         }}
         w={'36rem'}
         maw={'36rem'}
-        gap={'0.1rem'}
+        gap={smallScreen ? '0.5rem' : '0.1rem'}
       >
-        <Group wrap={'nowrap'} justify={'space-between'}>
+        <Flex
+          wrap={'nowrap'}
+          justify={'space-between'}
+          direction={smallScreen ? 'column' : 'row'}
+          gap={smallScreen ? 'lg' : ''}
+        >
           <Stack gap={'0'}>
             <Group gap={'0.5rem'}>
               <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
@@ -111,7 +120,31 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                   </Group>
                 </Menu.Item>
 
-                <Menu.Sub openDelay={120} closeDelay={150}>
+                <Menu
+                  width={200}
+                  opened={submenuOpened}
+                  onChange={setSubmenuOpened}
+                  position="right-start"
+                  withinPortal={false}
+                >
+                  <Menu.Target>
+                    <Menu.Item
+                      onClick={() => {
+                        console.log('hello!', submenuOpened);
+                        setSubmenuOpened((prev) => !prev);
+                      }}
+                    >
+                      <Group gap={'0.5rem'}>
+                        <IconList size={18} />
+                        <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                      </Group>
+                    </Menu.Item>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>Hello</Menu.Dropdown>
+                </Menu>
+
+                {/*<Menu.Sub openDelay={120} closeDelay={150}>
                   <Menu.Sub.Target>
                     <Menu.Sub.Item>
                       <Group gap={'0.5rem'}>
@@ -157,7 +190,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                       </Group>
                     </Menu.Item>
                   </Menu.Sub.Dropdown>
-                </Menu.Sub>
+                </Menu.Sub>*/}
               </Menu.Dropdown>
             </Menu>
             <Tooltip label={'Auswahl aufheben'} openDelay={500}>
@@ -171,7 +204,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
               </ActionIcon>
             </Tooltip>
           </Group>
-        </Group>
+        </Flex>
         <Stack gap={'0.25rem'}>{generateProgress(12, workContext.data.selection.elementIds.length, 60)}</Stack>
       </Stack>
     </Group>
