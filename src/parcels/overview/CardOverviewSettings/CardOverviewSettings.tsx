@@ -19,6 +19,8 @@ export type CardOverviewSettingsProps = {
   querySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
   displaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
   setSettings: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
+  toolsEnabled: boolean;
+  setToolsEnabled: (tools: boolean) => void;
 };
 
 export default function CardOverviewSettings({
@@ -26,6 +28,8 @@ export default function CardOverviewSettings({
   querySettings,
   displaySettings,
   setSettings,
+  toolsEnabled,
+  setToolsEnabled,
 }: CardOverviewSettingsProps) {
   const { t } = useTranslation('cards', { keyPrefix: `${tcg}` });
   function fillTranslation(prefix: string, elements: string[]) {
@@ -66,8 +70,6 @@ export default function CardOverviewSettings({
   const sortByItems = fillTranslation('sortby', sortBys as string[]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
   const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
-
-  const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
 
   return (
     <div className={styles.settings}>

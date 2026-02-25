@@ -1,6 +1,6 @@
 import {Accordion, Divider, Group, Stack, Text} from '@mantine/core';
 import {IconAlertCircleFilled} from '@tabler/icons-react';
-import {type RefObject, useEffect} from 'react';
+import {type RefObject, useEffect, useState} from 'react';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
@@ -40,7 +40,9 @@ export function CardOverview({
 }: CardOverviewProps) {
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
 
+  const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
   const workContext = useTcgOverviewWorkContext();
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     if (!cards || !cards.data.details) return;
@@ -84,6 +86,8 @@ export function CardOverview({
           querySettings={searchQuerySettings}
           displaySettings={searchDisplaySettings}
           setSettings={setSettings}
+          toolsEnabled={toolsEnabled}
+          setToolsEnabled={setToolsEnabled}
         />
 
         <QueryExplanation
@@ -112,7 +116,9 @@ export function CardOverview({
         )}
 
         <div style={{ padding: '0.5rem' }}>
-          {searchDisplaySettings.display === 'grid' && <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} />}
+          {searchDisplaySettings.display === 'grid' && (
+            <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={toolsEnabled} />
+          )}
           {searchDisplaySettings.display === 'table' && <CardTable tcg={tcg} cards={cards} isLoading={isLoading} />}
         </div>
 

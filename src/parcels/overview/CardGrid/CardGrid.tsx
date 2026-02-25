@@ -1,9 +1,10 @@
 import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import ImageCard from '@/parcels/overview/CardGrid/ImageCard/ImageCard.tsx';
-import type {DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
+import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
 import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGrid.module.css';
 
@@ -11,10 +12,11 @@ type CardGridProps = {
   tcg: Tcg;
   cards: MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult | null | undefined;
   isLoading: boolean;
+  toolsEnabled: boolean;
 };
 
-export function CardGrid({ tcg, cards, isLoading }: CardGridProps) {
-  const cardItems: MtgSearchDataCard[] | DlcSearchDataCard[] | PcgSearchDataCard[] | null = useMemo(() => {
+export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps) {
+  const cardItems: TcgSearchDataCard[] | null = useMemo(() => {
     if (!cards) return null;
 
     if (tcg === 'dlc') {
@@ -45,7 +47,7 @@ export function CardGrid({ tcg, cards, isLoading }: CardGridProps) {
       {!isLoading
         && cardItems
         && cardItems.map((card, index) => {
-          return <ImageCard key={index} tcg={tcg} card={card} index={index} />;
+          return <ImageCard key={index} tcg={tcg} card={card} index={index} toolsEnabled={toolsEnabled} />;
         })}
     </div>
   );

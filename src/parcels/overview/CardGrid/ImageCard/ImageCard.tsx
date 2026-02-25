@@ -8,19 +8,18 @@ import {ToolsOverlay} from '@/parcels/overview/CardGrid/ImageCard/ToolsOverlay/T
 import {type TcgOverviewWorkAmbient, useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {slugify} from '@/parcels/slugify.ts';
-import type {DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
 
 interface ImageCardProps {
   tcg: Tcg;
-  card: MtgSearchDataCard | DlcSearchDataCard | PcgSearchDataCard;
+  card: TcgSearchDataCard;
   index: number;
+  toolsEnabled: boolean;
 }
 
-export default function ImageCard({ tcg, card, index }: ImageCardProps) {
+export default function ImageCard({ tcg, card, index, toolsEnabled }: ImageCardProps) {
   const workContext = useTcgOverviewWorkContext();
 
   const prop: CardProperties = useMemo(() => {
@@ -118,7 +117,7 @@ export default function ImageCard({ tcg, card, index }: ImageCardProps) {
         </div>
       </Link>
 
-      {imageLoaded && backfaceImageLoaded && (
+      {toolsEnabled && imageLoaded && backfaceImageLoaded && (
         <ToolsOverlay
           checked={checked}
           isSelectionMode={isSelectionMode}
