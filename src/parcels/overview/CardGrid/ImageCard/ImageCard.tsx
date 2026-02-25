@@ -63,17 +63,21 @@ export default function ImageCard({ tcg, card, index }: ImageCardProps) {
       setChecked(select);
 
       if (select) workContext?.addSelection([prop.id], index, prop.id);
-      else workContext?.removeSelection([prop.id]);
+      else workContext?.removeSelection([prop.id], index, prop.id);
     },
     [index, prop.id, workContext?.addSelection, workContext?.removeSelection],
   );
   const setMultiSelection = useCallback(
-    (ids: string[]) => {
-      setChecked(true);
+    (ids: string[], checked: boolean) => {
+      setChecked(checked);
 
-      workContext?.addSelection([...ids], index, prop.id);
+      if (checked) {
+        workContext?.addSelection([...ids], index, prop.id);
+      } else {
+        workContext?.removeSelection([...ids], index, prop.id);
+      }
     },
-    [index, prop.id, workContext?.addSelection],
+    [index, prop.id, workContext?.addSelection, workContext?.removeSelection],
   );
 
   useEffect(() => {
@@ -111,11 +115,11 @@ export default function ImageCard({ tcg, card, index }: ImageCardProps) {
           if (!isSelectionMode) return;
           event.preventDefault();
 
-          // if shift key, calculate range of cards to add (never remove!)
+          // if shift key, calculate range of cards to add or remove
           const anchorIndex = workContext?.data?.selection?.anchorIndex;
           if (event.shiftKey && anchorIndex !== undefined && anchorIndex > -1) {
             const ids = getIdsInRange(anchorIndex, index, workContext!);
-            setMultiSelection(ids);
+            setMultiSelection(ids, !checked);
             return;
           }
 

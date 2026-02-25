@@ -20,7 +20,7 @@ export type MtgOverviewWorkAmbient = {
   data: MtgOverviewWorkData;
   setSearchResult: (query: string, result: MtgSearchCardsResult) => void;
   addSelection: (ids: string[], anchorIndex?: number, anchorId?: string) => void;
-  removeSelection: (ids: string[]) => void;
+  removeSelection: (ids: string[], anchorIndex?: number, anchorId?: string) => void;
   clearSelection: () => void;
 };
 
@@ -66,19 +66,14 @@ export function MtgOverviewWorkContextProvider({ children }: PropsWithChildren) 
     [workData],
   );
   const removeSelection = useCallback(
-    (ids: string[]) => {
+    (ids: string[], anchorIndex?: number, anchorId?: string) => {
       if (!workData?.selection) return;
 
-      let newAnchorIndex = workData.selection.anchorIndex;
       const elementIds = [...(workData.selection.elementsByPage[workData.search.page] ?? [])];
       ids.forEach((id: string) => {
         const index = elementIds.indexOf(id);
 
         if (index > -1) {
-          if (workData.selection.anchorId === id) {
-            newAnchorIndex = -1;
-          }
-
           elementIds.splice(index, 1);
         }
       });
@@ -94,8 +89,8 @@ export function MtgOverviewWorkContextProvider({ children }: PropsWithChildren) 
       const newSelection = {
         elementsByPage: newElementsByPage,
         elementIds: Object.values(newElementsByPage).flat(),
-        anchorIndex: newAnchorIndex,
-        anchorId: newAnchorIndex === -1 ? undefined : workData.selection.anchorId,
+        anchorIndex: anchorIndex ?? workData.selection.anchorIndex,
+        anchorId: anchorId ?? workData.selection.anchorId,
       };
       setWorkData({ ...workData, selection: newSelection });
     },
