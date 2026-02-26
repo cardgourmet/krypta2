@@ -9,10 +9,11 @@ export const useRemoveSelection = ({
   setWorkData: Dispatch<SetStateAction<TcgOverviewWorkData | null>>;
 }) => {
   return useCallback(
-    (ids: string[], anchorIndex?: number, anchorId?: string) => {
+    (ids: string[], page?: number, anchorIndex?: number, anchorId?: string) => {
       if (!workData?.selection) return;
+      const mustPage = page ?? workData.search.page;
 
-      const elementIds = [...(workData.selection.elementsByPage[workData.search.page] ?? [])];
+      const elementIds = [...(workData.selection.elementsByPage[mustPage] ?? [])];
       ids.forEach((id: string) => {
         const index = elementIds.indexOf(id);
 
@@ -21,12 +22,12 @@ export const useRemoveSelection = ({
         }
       });
 
-      const newElementsByPage = { ...workData.selection.elementsByPage, [workData.search.page]: elementIds } as Record<
+      const newElementsByPage = { ...workData.selection.elementsByPage, [mustPage]: elementIds } as Record<
         number,
         string[]
       >;
       if (elementIds.length === 0) {
-        delete newElementsByPage[workData.search.page];
+        delete newElementsByPage[mustPage];
       }
 
       const newElementDataById = { ...workData.selection.elementDataById };

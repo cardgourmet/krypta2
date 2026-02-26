@@ -1,9 +1,9 @@
-import styles from "@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.module.css";
 import {Button, Group, Menu} from "@mantine/core";
-import {GourmetText} from "@/parcels/mantine/GourmetText.tsx";
+import {useMediaQuery} from "@mantine/hooks";
 import {IconBookmark, IconChevronRight, IconList, IconPlus, IconStar} from "@tabler/icons-react";
 import {useState} from "react";
-import {useMediaQuery} from "@mantine/hooks";
+import {GourmetText} from "@/parcels/mantine/GourmetText.tsx";
+import styles from "@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.module.css";
 
 export function UseSelectionButton() {
   const smallestScreen = useMediaQuery('(max-width: 500px)');

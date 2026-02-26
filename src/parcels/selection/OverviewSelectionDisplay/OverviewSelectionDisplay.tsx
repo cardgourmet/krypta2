@@ -11,6 +11,7 @@ import {generateProgress} from '@/parcels/selection/OverviewSelectionDisplay/gen
 import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown.tsx';
 import {UseSelectionButton} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton.tsx';
 import type {TcgOverviewWorkData, TcgOverviewWorkSpace} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
@@ -18,6 +19,7 @@ import styles from './OverviewSelectionDisplay.module.css';
 
 export function OverviewSelectionDisplay({ context: workContext }: { context: TcgOverviewWorkSpace }) {
   const smallScreen = useMediaQuery('(max-width: 580px)');
+  const context = useTcgOverviewWorkContext();
 
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
@@ -154,7 +156,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
               scrollbarSize={'0.25rem'}
               pr={'0.2rem'}
             >
-              <Stack gap={'2.5rem'}>
+              <Stack gap={'2.5rem'} p={'0.25rem 0.25rem'}>
                 {dataEntriesByPage(workContext.data).map(({ page, entries }) => {
                   return (
                     <Stack key={page}>
@@ -169,7 +171,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                         <Button
                           classNames={{ root: styles.clearFromPageButton }}
                           onClick={() => {
-                            // TODO: remove all elements from this page from the selection
+                            workContext?.removeSelection([...entries.map((e) => e.card.id)], Number(page));
                           }}
                         >
                           <Group>
@@ -181,7 +183,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
 
                       <SimpleGrid cols={4} spacing={'xs'}>
                         {entries.map((entry, index) => {
-                          return <EntryImage key={index} tcg={tcg} entry={entry} index={index} />;
+                          return <EntryImage key={index} tcg={tcg} entry={entry} page={Number(page)} work={context} />;
                         })}
                       </SimpleGrid>
                     </Stack>
@@ -196,7 +198,17 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
   );
 }
 
-function EntryImage({ tcg, entry }: { tcg: Tcg; entry: TcgSearchDataCard; index: number }) {
+function EntryImage({
+  tcg,
+  entry,
+  page,
+  work,
+}: {
+  tcg: Tcg;
+  entry: TcgSearchDataCard;
+  page: number;
+  work: TcgOverviewWorkSpace | null;
+}) {
   const [flipped, setFlipped] = useState(false);
   const flipRef = useRef<HTMLDivElement>(null);
   const prop = createProps(tcg, entry) as CardProperties;
@@ -208,9 +220,9 @@ function EntryImage({ tcg, entry }: { tcg: Tcg; entry: TcgSearchDataCard; index:
     <div className={styles.card}>
       <div style={{ width: '100%', height: '100%' }}>
         <UnstyledButton
-          style={{ display: 'block' }}
+          style={{ display: 'flex', width: '100%', height: '100%' }}
           onClick={() => {
-            // TODO: remove this from the selection
+            work?.removeSelection([entry.card.id], page);
           }}
         >
           <FlipImage
