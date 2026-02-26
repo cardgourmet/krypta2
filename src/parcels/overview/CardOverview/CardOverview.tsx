@@ -9,7 +9,7 @@ import {CardTable} from '@/parcels/overview/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import type {TcgSearchCardsResult, TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings,} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';

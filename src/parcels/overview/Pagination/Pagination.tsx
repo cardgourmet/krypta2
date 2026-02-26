@@ -4,13 +4,13 @@ import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRight
 import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
 import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
+import {useTcgOverviewWorkContext} from "@/parcels/selection/useTcgOverviewWorkContext.ts";
 
 type CardPaginationProps = {
   currentPage?: number;

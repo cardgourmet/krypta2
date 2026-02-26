@@ -1,5 +1,7 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
-import {SELECTION_LIMIT, useTcgOverviewWorkContext} from "@/parcels/selection/TcgOverviewWorkContext.tsx";
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import {SELECTION_LIMIT} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 
 export function useSelectionIntegration({ id, index }: { id: string; index: number }) {
   const workContext = useTcgOverviewWorkContext();
@@ -21,10 +23,10 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
       if (select && current === SELECTION_LIMIT) {
         return;
       }
+      const data = workContext?.data?.search?.result?.data?.items?.[index] as TcgSearchDataCard;
 
       setChecked(select);
-
-      if (select) workContext?.addSelection([id], index, id);
+      if (select) workContext?.addSelection([id], { [id]: data }, index, id);
       else workContext?.removeSelection([id], index, id);
     },
     [
@@ -33,6 +35,7 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
       workContext?.addSelection,
       workContext?.removeSelection,
       workContext?.data?.selection?.elementIds.length,
+      workContext?.data?.search?.result?.data,
     ],
   );
   const setMultiSelection = useCallback(
@@ -41,11 +44,14 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
       if (select && current + ids.length >= SELECTION_LIMIT) {
         return;
       }
+      const dataEntries = (workContext?.data?.search?.result?.data?.items as TcgSearchDataCard[]).filter((c) =>
+        ids.includes(c.card.id),
+      );
+      const data = Object.fromEntries(dataEntries.map((c) => [c.card.id, c] as const));
 
       setChecked(select);
-
       if (select) {
-        workContext?.addSelection([...ids], index, id);
+        workContext?.addSelection([...ids], data, index, id);
       } else {
         workContext?.removeSelection([...ids], index, id);
       }
@@ -56,6 +62,7 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
       workContext?.addSelection,
       workContext?.removeSelection,
       workContext?.data?.selection?.elementIds.length,
+      workContext?.data?.search?.result?.data,
     ],
   );
 

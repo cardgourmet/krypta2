@@ -1,24 +1,31 @@
-import {ActionIcon, Button, Flex, Group, Menu, Popover, Progress, Stack, Tooltip} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {IconAlertSquareRounded, IconBookmark, IconChevronRight, IconEyeSearch, IconList, IconPlus, IconStar, IconX,} from '@tabler/icons-react';
+import {ActionIcon, Button, Flex, Group, Menu, ScrollArea, SimpleGrid, Stack, Tooltip, UnstyledButton,} from '@mantine/core';
+import {useClickOutside, useMediaQuery} from '@mantine/hooks';
+import {IconEyeSearch, IconX} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCard/createProps.ts';
+import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipButton.tsx';
+import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
+import {generateProgress} from '@/parcels/selection/OverviewSelectionDisplay/generateProgress.tsx';
 import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown.tsx';
-import type {TcgOverviewWorkAmbient} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import {UseSelectionButton} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton.tsx';
+import type {TcgOverviewWorkData, TcgOverviewWorkSpace} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
 
-export function OverviewSelectionDisplay({ context: workContext }: { context: TcgOverviewWorkAmbient }) {
+export function OverviewSelectionDisplay({ context: workContext }: { context: TcgOverviewWorkSpace }) {
   const smallScreen = useMediaQuery('(max-width: 580px)');
-  const smallestScreen = useMediaQuery('(max-width: 500px)');
 
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
 
   const [menuOpened, setMenuOpened] = useState(false);
-  const [submenuOpened, setSubmenuOpened] = useState(false);
+  const [eyeButton, setEyeButton] = useState<HTMLButtonElement | null>(null);
+  const [dropdown, setDropdown] = useState<HTMLDivElement | null>(null);
+  useClickOutside(() => setMenuOpened(false), null, [eyeButton, dropdown]);
 
   return (
     <Group
@@ -32,208 +39,207 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
       justify={'center'}
       align={'center'}
     >
-      <Stack
-        style={{
-          border: '2px solid var(--cgm-navbar-border)',
-          borderRadius: '4px',
-          backgroundColor: 'var(--cgm-navbar-bg)',
-          padding: '1rem',
-          boxShadow: '2px 4px 8px #000000',
-          pointerEvents: 'auto',
-        }}
-        w={'36rem'}
-        maw={'36rem'}
-        gap={smallScreen ? '0.5rem' : '0.1rem'}
+      <Menu
+        shadow="md"
+        width={'42rem'}
+        position={'top'}
+        opened={menuOpened}
+        transitionProps={{ transition: 'fade-up', duration: 150 }}
+        floatingStrategy={'fixed'}
       >
-        <Flex
-          wrap={'nowrap'}
-          justify={'space-between'}
-          direction={smallScreen ? 'column' : 'row'}
-          gap={smallScreen ? 'lg' : ''}
-        >
-          <Stack gap={'0'}>
-            <Group gap={'0.5rem'}>
-              <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
-                Auswahl:
-              </GourmetText>
-              <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
-                {workContext.data.selection.elementIds.length} Karten
-              </GourmetText>
-              <Tooltip label={'Auswahl anzeigen'} openDelay={500}>
-                <ActionIcon className={styles.selectionShowButton}>
-                  <IconEyeSearch size={20} color={'var(--gourmet-neutral-7'} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
-            <Group gap={'0.1rem'}>
-              <MorePagesDropdown
-                text={'Aktuelle Seite'}
-                currentPage={workContext.data.search.page}
-                onSelect={(sel) => {
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: `/$tcg/cards`,
-                    search: (prev) => {
-                      return { ...prev, page: Number(sel) } as Required<DlcSearchParams>;
-                    },
-                    params: {
-                      tcg: tcg,
-                    },
-                    replace: true,
-                  });
-                }}
-              />
-              <GourmetText>:</GourmetText>
-              <GourmetText pl={'0.5rem'}>
-                {Object.keys(workContext.data.selection.elementsByPage[workContext.data.search.page] ?? []).length}{' '}
-                Karten
-              </GourmetText>
-            </Group>
-          </Stack>
-          <Group wrap={'nowrap'}>
-            <Menu
-              width={260}
-              position="top"
-              opened={menuOpened}
-              onChange={setMenuOpened}
-              withArrow
-              classNames={{ dropdown: styles.menuDropdown }}
+        <Menu.Target>
+          <Stack
+            style={{
+              border: '2px solid var(--cgm-navbar-border)',
+              borderRadius: '4px',
+              backgroundColor: 'var(--cgm-navbar-bg)',
+              padding: '1rem',
+              boxShadow: '2px 4px 8px #000000',
+              pointerEvents: 'auto',
+            }}
+            w={'36rem'}
+            maw={'36rem'}
+            gap={smallScreen ? '0.5rem' : '0.1rem'}
+          >
+            <Flex
+              wrap={'nowrap'}
+              justify={'space-between'}
+              direction={smallScreen ? 'column' : 'row'}
+              gap={smallScreen ? 'lg' : ''}
             >
-              <Menu.Target>
-                <Button color={'var(--gourmet-orange-1'} className={styles.selectionButton}>
-                  <GourmetText cgmff={'ui'} cgmc={'neutral-1'} fw={'500'}>
-                    Auswahl verwenden für ...
+              <Stack gap={'0'}>
+                <Group gap={'0.5rem'}>
+                  <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
+                    Auswahl:
                   </GourmetText>
+                  <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
+                    {workContext.data.selection.elementIds.length} Karten
+                  </GourmetText>
+
+                  <Tooltip label={'Auswahl anzeigen'} openDelay={1000}>
+                    <ActionIcon
+                      className={styles.selectionShowButton}
+                      onClick={() => setMenuOpened((prev) => !prev)}
+                      ref={setEyeButton}
+                    >
+                      <IconEyeSearch size={20} color={'var(--gourmet-neutral-7'} />
+                    </ActionIcon>
+                  </Tooltip>
+                </Group>
+                <Group gap={'0.1rem'}>
+                  <MorePagesDropdown
+                    text={'Aktuelle Seite'}
+                    currentPage={workContext.data.search.page}
+                    onSelect={(sel) => {
+                      // noinspection JSIgnoredPromiseFromCall
+                      navigate({
+                        to: `/$tcg/cards`,
+                        search: (prev) => {
+                          return { ...prev, page: Number(sel) } as Required<DlcSearchParams>;
+                        },
+                        params: {
+                          tcg: tcg,
+                        },
+                        replace: true,
+                      });
+                    }}
+                  />
+                  <GourmetText>:</GourmetText>
+                  <GourmetText pl={'0.5rem'}>
+                    {Object.keys(workContext.data.selection.elementsByPage[workContext.data.search.page] ?? []).length}{' '}
+                    Karten
+                  </GourmetText>
+                </Group>
+              </Stack>
+              <Group wrap={'nowrap'}>
+                <UseSelectionButton />
+                <Tooltip label={'Auswahl aufheben'} openDelay={500}>
+                  <ActionIcon
+                    color={'var(--gourmet-neutral-3)'}
+                    onClick={() => {
+                      workContext.clearSelection();
+                    }}
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            </Flex>
+            <Stack gap={'0.25rem'}>{generateProgress(12, workContext.data.selection.elementIds.length, 60)}</Stack>
+          </Stack>
+        </Menu.Target>
+
+        <Menu.Dropdown className={styles.menuDropdown} ref={setDropdown}>
+          <Stack>
+            <Stack gap={'0.25rem'}>
+              <Group justify={'space-between'}>
+                <Group gap={'0.5rem'}>
+                  <IconEyeSearch color={'var(--gourmet-neutral-9'} />
+                  <GourmetText cgmff={'ui'} cgmc={'neutral-9'} fz={'1.15rem'} fw={'500'}>
+                    View Selection
+                  </GourmetText>
+                </Group>
+                <Button onClick={() => setMenuOpened(false)} classNames={{ root: styles.closeButton }}>
+                  <IconX size={18} color={'var(--gourmet-neutral-8)'} />
                 </Button>
-              </Menu.Target>
+              </Group>
 
-              <Menu.Dropdown>
-                <Menu.Item>
-                  <Group gap={'0.5rem'}>
-                    <IconStar size={18} />
-                    <GourmetText cgmff={'ui'}>Als Favoriten markieren</GourmetText>
-                  </Group>
-                </Menu.Item>
-                <Menu.Item>
-                  <Group gap={'0.5rem'}>
-                    <IconBookmark size={18} />
-                    <GourmetText cgmff={'ui'}>Zu Lesezeichen hinzufügen</GourmetText>
-                  </Group>
-                </Menu.Item>
+              <GourmetText cgmff={'ui'}>Click any element to remove it from the selection.</GourmetText>
+            </Stack>
 
-                <Menu
-                  opened={submenuOpened}
-                  onChange={setSubmenuOpened}
-                  width={200}
-                  trigger={'click-hover'}
-                  position={smallestScreen ? 'top' : 'right-start'}
-                  openDelay={120}
-                  closeDelay={150}
-                >
-                  <Menu.Target>
-                    <Menu.Item closeMenuOnClick={false} onClick={() => setSubmenuOpened((prev) => !prev)}>
+            <ScrollArea
+              h={'50dvh'}
+              classNames={{ viewport: styles.scrollAreaViewport }}
+              offsetScrollbars={'y'}
+              scrollbarSize={'0.25rem'}
+              pr={'0.2rem'}
+            >
+              <Stack gap={'2.5rem'}>
+                {dataEntriesByPage(workContext.data).map(({ page, entries }) => {
+                  return (
+                    <Stack key={page}>
                       <Group justify={'space-between'}>
                         <Group gap={'0.5rem'}>
-                          <IconList size={18} />
-                          <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                          <GourmetText cgmff={'ui'} fz={'1.15rem'}>
+                            Page {page}
+                          </GourmetText>
+                          <span className={styles.badge}>{entries.length}</span>
                         </Group>
-                        <IconChevronRight size={18} />
-                      </Group>
-                    </Menu.Item>
-                  </Menu.Target>
 
-                  <Menu.Dropdown>
-                    {['My MTG list 1', 'second List', 'dritte Liste', 'oh my goddness', 'oh my damn'].map(
-                      (item, index) => (
-                        <Menu.Item key={index}>
-                          <Group gap={'0.5rem'}>
-                            <GourmetText cgmff={'ui'}>{item}</GourmetText>
+                        <Button
+                          classNames={{ root: styles.clearFromPageButton }}
+                          onClick={() => {
+                            // TODO: remove all elements from this page from the selection
+                          }}
+                        >
+                          <Group>
+                            <IconX size={16} color={'var(--gourmet-neutral-8)'} />
+                            <GourmetText cgmff={'ui'}>Clear page</GourmetText>
                           </Group>
-                        </Menu.Item>
-                      ),
-                    )}
-
-                    <Menu.Divider />
-
-                    <Menu.Item>
-                      <Group gap={'0.5rem'}>
-                        <IconPlus size={18} />
-                        <GourmetText cgmff={'ui'}>Neue Erstellen</GourmetText>
+                        </Button>
                       </Group>
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </Menu.Dropdown>
-            </Menu>
-            <Tooltip label={'Auswahl aufheben'} openDelay={500}>
-              <ActionIcon
-                color={'var(--gourmet-neutral-3)'}
-                onClick={() => {
-                  workContext.clearSelection();
-                }}
-              >
-                <IconX size={16} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-        </Flex>
-        <Stack gap={'0.25rem'}>{generateProgress(12, workContext.data.selection.elementIds.length, 60)}</Stack>
-      </Stack>
+
+                      <SimpleGrid cols={4} spacing={'xs'}>
+                        {entries.map((entry, index) => {
+                          return <EntryImage key={index} tcg={tcg} entry={entry} index={index} />;
+                        })}
+                      </SimpleGrid>
+                    </Stack>
+                  );
+                })}
+              </Stack>
+            </ScrollArea>
+          </Stack>
+        </Menu.Dropdown>
+      </Menu>
     </Group>
   );
 }
 
-function generateProgress(sections: number, current: number, max: number) {
-  const ratio = max > 0 ? current / max : 0;
-  const toPaintCount = Math.max(0, Math.min(sections, Math.ceil(ratio * sections)));
-  const toPaintIndex = toPaintCount - 1;
+function EntryImage({ tcg, entry }: { tcg: Tcg; entry: TcgSearchDataCard; index: number }) {
+  const [flipped, setFlipped] = useState(false);
+  const flipRef = useRef<HTMLDivElement>(null);
+  const prop = createProps(tcg, entry) as CardProperties;
 
-  let color = 'var(--gourmet-green-1)';
-  if (ratio <= 0.5) {
-    color = 'var(--gourmet-green-1)';
-  } else if (ratio <= 0.75) {
-    color = 'var(--gourmet-orange-1)';
-  } else {
-    color = 'var(--gourmet-red-01)';
-  }
+  const imageRef = useRef<HTMLImageElement>(null);
+  const backfaceImageRef = useRef<HTMLImageElement>(null);
 
   return (
-    <>
-      <Group justify={'end'}>
-        <Group gap={'0.25rem'}>
-          <Group gap={'0.1rem'}>
-            <GourmetText cgmff={'ui'} fw={'500'} c={color}>
-              {current}
-            </GourmetText>
-            <GourmetText cgmff={'ui'}>/60</GourmetText>
-          </Group>
+    <div className={styles.card}>
+      <div style={{ width: '100%', height: '100%' }}>
+        <UnstyledButton
+          style={{ display: 'block' }}
+          onClick={() => {
+            // TODO: remove this from the selection
+          }}
+        >
+          <FlipImage
+            frontFace={{
+              imageRef: imageRef,
+              name: prop.name,
+              thumbnailUrl: prop.thumbnailUrl ?? prop.backupImageUrl,
+              backupImageUrl: prop.backupImageUrl,
+              setImageLoaded: () => {},
+            }}
+            backFace={{
+              imageRef: backfaceImageRef,
+              name: prop.name,
+              thumbnailUrl: prop.backfaceThumbnailUrl ?? prop.backupImageUrl,
+              backupImageUrl: prop.backupImageUrl,
+              setImageLoaded: () => {},
+            }}
+            flipRef={flipRef}
+          />
+        </UnstyledButton>
+      </div>
 
-          <Popover width={300} position="bottom" withArrow shadow="md">
-            <Popover.Target>
-              <ActionIcon className={styles.selectionInfoButton}>
-                <IconAlertSquareRounded size={20} />
-              </ActionIcon>
-            </Popover.Target>
-
-            <Popover.Dropdown>
-              <Stack>
-                <GourmetText>
-                  Du darfst nur maximal <b>60</b> Karten gleichzeitig auswählen.
-                </GourmetText>
-                <GourmetText>
-                  Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber{' '}
-                  <u>die gesamte Suche abspeichern</u> willst.
-                </GourmetText>
-              </Stack>
-            </Popover.Dropdown>
-          </Popover>
-        </Group>
-      </Group>
-      <Group grow gap={'0.25rem'}>
-        {Array.from(Array(sections).keys()).map((_, index) => {
-          return <Progress key={index} color={color} size="xs" value={index <= toPaintIndex ? 100 : 0} />;
-        })}
-      </Group>
-    </>
+      {prop.backfaceThumbnailUrl && <FlipButton flipped={flipped} setFlipped={setFlipped} flipRef={flipRef} />}
+    </div>
   );
+}
+
+function dataEntriesByPage(workData: TcgOverviewWorkData) {
+  return Object.entries(workData.selection.elementsByPage).map(([page, entryIds]) => {
+    return { page: page, entries: entryIds.map((id) => workData.selection.elementDataById[id]) };
+  });
 }
