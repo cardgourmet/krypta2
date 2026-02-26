@@ -1,6 +1,6 @@
 import {ActionIcon, Button, Flex, Group, Menu, Popover, Progress, Stack, Tooltip} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
-import {IconAlertSquareRounded, IconBookmark, IconEyeSearch, IconList, IconStar, IconX,} from '@tabler/icons-react';
+import {IconAlertSquareRounded, IconBookmark, IconChevronRight, IconEyeSearch, IconList, IconPlus, IconStar, IconX,} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -12,6 +12,7 @@ import styles from './OverviewSelectionDisplay.module.css';
 
 export function OverviewSelectionDisplay({ context: workContext }: { context: TcgOverviewWorkAmbient }) {
   const smallScreen = useMediaQuery('(max-width: 580px)');
+  const smallestScreen = useMediaQuery('(max-width: 500px)');
 
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
@@ -121,65 +122,36 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                 </Menu.Item>
 
                 <Menu
-                  width={200}
                   opened={submenuOpened}
                   onChange={setSubmenuOpened}
-                  position="right-start"
-                  withinPortal={false}
+                  width={200}
+                  trigger={'click-hover'}
+                  position={smallestScreen ? 'top' : 'right-start'}
+                  openDelay={120}
+                  closeDelay={150}
                 >
                   <Menu.Target>
-                    <Menu.Item
-                      onClick={() => {
-                        console.log('hello!', submenuOpened);
-                        setSubmenuOpened((prev) => !prev);
-                      }}
-                    >
-                      <Group gap={'0.5rem'}>
-                        <IconList size={18} />
-                        <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                    <Menu.Item closeMenuOnClick={false} onClick={() => setSubmenuOpened((prev) => !prev)}>
+                      <Group justify={'space-between'}>
+                        <Group gap={'0.5rem'}>
+                          <IconList size={18} />
+                          <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                        </Group>
+                        <IconChevronRight size={18} />
                       </Group>
                     </Menu.Item>
                   </Menu.Target>
 
-                  <Menu.Dropdown>Hello</Menu.Dropdown>
-                </Menu>
-
-                {/*<Menu.Sub openDelay={120} closeDelay={150}>
-                  <Menu.Sub.Target>
-                    <Menu.Sub.Item>
-                      <Group gap={'0.5rem'}>
-                        <IconList size={18} />
-                        <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
-                      </Group>
-                    </Menu.Sub.Item>
-                  </Menu.Sub.Target>
-
-                  <Menu.Sub.Dropdown>
-                    <Menu.Item>
-                      <Group gap={'0.5rem'}>
-                        <GourmetText cgmff={'ui'}>My MTG list 1</GourmetText>
-                      </Group>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Group gap={'0.5rem'}>
-                        <GourmetText cgmff={'ui'}>second List</GourmetText>
-                      </Group>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Group gap={'0.5rem'}>
-                        <GourmetText cgmff={'ui'}>dritte Liste</GourmetText>
-                      </Group>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Group gap={'0.5rem'}>
-                        <GourmetText cgmff={'ui'}>oh my goddness</GourmetText>
-                      </Group>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Group gap={'0.5rem'}>
-                        <GourmetText cgmff={'ui'}>oh my damn</GourmetText>
-                      </Group>
-                    </Menu.Item>
+                  <Menu.Dropdown>
+                    {['My MTG list 1', 'second List', 'dritte Liste', 'oh my goddness', 'oh my damn'].map(
+                      (item, index) => (
+                        <Menu.Item key={index}>
+                          <Group gap={'0.5rem'}>
+                            <GourmetText cgmff={'ui'}>{item}</GourmetText>
+                          </Group>
+                        </Menu.Item>
+                      ),
+                    )}
 
                     <Menu.Divider />
 
@@ -189,8 +161,8 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                         <GourmetText cgmff={'ui'}>Neue Erstellen</GourmetText>
                       </Group>
                     </Menu.Item>
-                  </Menu.Sub.Dropdown>
-                </Menu.Sub>*/}
+                  </Menu.Dropdown>
+                </Menu>
               </Menu.Dropdown>
             </Menu>
             <Tooltip label={'Auswahl aufheben'} openDelay={500}>

@@ -10,12 +10,16 @@ export function ToolsOverlay({
   setSelection,
   menuOpened,
   setMenuOpened,
+  submenuOpened,
+  setSubmenuOpened,
 }: {
   checked: boolean;
   isSelectionMode: boolean;
   setSelection: (s: boolean) => void;
   menuOpened: boolean;
   setMenuOpened: Dispatch<SetStateAction<boolean>>;
+  submenuOpened: boolean;
+  setSubmenuOpened: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
@@ -36,6 +40,8 @@ export function ToolsOverlay({
           <MoreActionsMenu
             menuOpened={menuOpened}
             setMenuOpened={setMenuOpened}
+            submenuOpened={submenuOpened}
+            setSubmenuOpened={setSubmenuOpened}
             target={
               <ActionIcon
                 style={{ pointerEvents: 'auto' }}

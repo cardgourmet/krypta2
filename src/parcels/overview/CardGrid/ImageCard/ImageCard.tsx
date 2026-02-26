@@ -1,9 +1,13 @@
+import {ActionIcon, Checkbox, Group} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
+import {IconDotsVertical} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {Activity, useEffect, useMemo, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCard/createProps.ts';
 import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
+import {MoreActionsMenu} from '@/parcels/overview/CardGrid/ImageCard/MoreActionsMenu/MoreActionsMenu.tsx';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ImageCard/ToolsOverlay/ToolsOverlay.tsx';
 import {type TcgOverviewWorkAmbient, useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
@@ -20,6 +24,7 @@ interface ImageCardProps {
 }
 
 export default function ImageCard({ tcg, card, index, toolsEnabled }: ImageCardProps) {
+  const isTouchDevice = useMediaQuery('(hover: none)');
   const workContext = useTcgOverviewWorkContext();
 
   const prop: CardProperties = useMemo(() => {
@@ -53,6 +58,7 @@ export default function ImageCard({ tcg, card, index, toolsEnabled }: ImageCardP
   });
 
   const [menuOpened, setMenuOpened] = useState(false);
+  const [submenuOpened, setSubmenuOpened] = useState(false);
 
   return (
     <div className={styles.card}>
@@ -118,13 +124,48 @@ export default function ImageCard({ tcg, card, index, toolsEnabled }: ImageCardP
         </div>
       </Link>
 
-      {toolsEnabled && imageLoaded && backfaceImageLoaded && (
+      {toolsEnabled && isTouchDevice && imageLoaded && backfaceImageLoaded && (
+        <Group p={'0.5rem'} justify={'space-between'}>
+          <Checkbox
+            style={{ pointerEvents: 'auto' }}
+            onChange={(event) => setSelection(event.currentTarget.checked)}
+            color={'var(--gourmet-orange-1)'}
+            checked={checked}
+            wrapperProps={{
+              'data-menu-opened': menuOpened,
+            }}
+          />
+          <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
+            <MoreActionsMenu
+              menuOpened={menuOpened}
+              setMenuOpened={setMenuOpened}
+              submenuOpened={submenuOpened}
+              setSubmenuOpened={setSubmenuOpened}
+              target={
+                <ActionIcon
+                  style={{ pointerEvents: 'auto' }}
+                  onClick={() => setMenuOpened((v) => !v)}
+                  color="var(--gourmet-neutral-dark-4)"
+                  size={'1.25rem'}
+                  data-menu-opened={menuOpened}
+                >
+                  <IconDotsVertical size={16} />
+                </ActionIcon>
+              }
+            />
+          </Activity>
+        </Group>
+      )}
+
+      {toolsEnabled && !isTouchDevice && imageLoaded && backfaceImageLoaded && (
         <ToolsOverlay
           checked={checked}
           isSelectionMode={isSelectionMode}
           setSelection={setSelection}
           menuOpened={menuOpened}
           setMenuOpened={setMenuOpened}
+          submenuOpened={submenuOpened}
+          setSubmenuOpened={setSubmenuOpened}
         />
       )}
 

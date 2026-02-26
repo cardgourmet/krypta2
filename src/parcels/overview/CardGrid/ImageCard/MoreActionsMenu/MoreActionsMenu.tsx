@@ -1,21 +1,28 @@
 import {Group, Menu} from '@mantine/core';
-import {IconBookmark, IconLink, IconList, IconPlus, IconStar} from '@tabler/icons-react';
-import type {ReactElement} from 'react';
+import {useMediaQuery} from '@mantine/hooks';
+import {IconBookmark, IconChevronRight, IconLink, IconList, IconPlus, IconStar} from '@tabler/icons-react';
+import type {Dispatch, ReactElement, SetStateAction} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from '@/parcels/overview/CardGrid/ImageCard/ImageCard.module.css';
 
 export function MoreActionsMenu({
   menuOpened,
   setMenuOpened,
+  submenuOpened,
+  setSubmenuOpened,
   target,
 }: {
   menuOpened: boolean;
-  setMenuOpened: (opened: boolean) => void;
+  setMenuOpened: Dispatch<SetStateAction<boolean>>;
+  submenuOpened: boolean;
+  setSubmenuOpened: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
 }) {
+  const smallestScreen = useMediaQuery('(max-width: 500px)');
+
   return (
     <Menu
-      width={220}
+      width={260}
       position="top-start"
       opened={menuOpened}
       onChange={setMenuOpened}
@@ -38,38 +45,46 @@ export function MoreActionsMenu({
           </Group>
         </Menu.Item>
 
-        <Menu.Sub openDelay={120} closeDelay={150}>
-          <Menu.Sub.Target>
-            <Menu.Sub.Item>
-              <Group gap={'0.5rem'}>
-                <IconList size={18} />
-                <GourmetText cgmff={'ui'}>Add to other list ..</GourmetText>
+        <Menu
+          opened={submenuOpened}
+          onChange={setSubmenuOpened}
+          width={200}
+          trigger={'click-hover'}
+          position={smallestScreen ? 'top' : 'right-start'}
+          openDelay={120}
+          closeDelay={150}
+        >
+          <Menu.Target>
+            <Menu.Item closeMenuOnClick={false} onClick={() => setSubmenuOpened((prev) => !prev)}>
+              <Group justify={'space-between'}>
+                <Group gap={'0.5rem'}>
+                  <IconList size={18} />
+                  <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                </Group>
+                <IconChevronRight size={18} />
               </Group>
-            </Menu.Sub.Item>
-          </Menu.Sub.Target>
+            </Menu.Item>
+          </Menu.Target>
 
-          <Menu.Sub.Dropdown>
-            <Menu.Item>
-              <Group gap={'0.5rem'}>
-                <GourmetText cgmff={'ui'}>My MTG list 1</GourmetText>
-              </Group>
-            </Menu.Item>
-            <Menu.Item>
-              <Group gap={'0.5rem'}>
-                <GourmetText cgmff={'ui'}>second List</GourmetText>
-              </Group>
-            </Menu.Item>
+          <Menu.Dropdown>
+            {['My MTG list 1', 'second List', 'dritte Liste', 'oh my goddness', 'oh my damn'].map((item, index) => (
+              <Menu.Item key={index}>
+                <Group gap={'0.5rem'}>
+                  <GourmetText cgmff={'ui'}>{item}</GourmetText>
+                </Group>
+              </Menu.Item>
+            ))}
 
             <Menu.Divider />
 
             <Menu.Item>
               <Group gap={'0.5rem'}>
                 <IconPlus size={18} />
-                <GourmetText cgmff={'ui'}>Create a new one</GourmetText>
+                <GourmetText cgmff={'ui'}>Neue Erstellen</GourmetText>
               </Group>
             </Menu.Item>
-          </Menu.Sub.Dropdown>
-        </Menu.Sub>
+          </Menu.Dropdown>
+        </Menu>
 
         <Menu.Divider />
 

@@ -34,11 +34,15 @@ body {
 .content {
   display: flex;
   flex-direction: column;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
   padding: 1.5rem;
   max-width: 1280px;
 
   overflow: visible;
+
+  @media (max-width: 500px) {
+    padding: 1.5rem 0.75rem;
+  }
 }
 
 .footer {
