@@ -1,10 +1,10 @@
 import {Button, Center, Group, Menu, NumberInput, Stack, UnstyledButton} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
 import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRightPipe, IconDots,} from '@tabler/icons-react';
 import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
-import {useWindowSize} from '@/parcels/overview/useWindowSize.ts';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
 import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';
@@ -20,10 +20,8 @@ type CardPaginationProps = {
   setSettings: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
 };
 
-const MIN_DESKTOP_SIZE_PX = 720;
-
 export default function Pagination({ currentPage, lastPage, isQueryLoading, setSettings }: CardPaginationProps) {
-  const [width] = useWindowSize();
+  const smallScreen = useMediaQuery('(max-width: 720px)');
   const mustCurrentPage = currentPage ?? 1;
 
   const switchPage = (nextPage: number) => {
@@ -46,8 +44,6 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
 
     return map;
   }, [workContext?.data?.selection?.elementsByPage]);
-
-  const [switchPageNumber, setSwitchPageNumber] = useState<number | string>('');
 
   return (
     <div className={styles.contentNav}>
@@ -82,63 +78,44 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
               </button>
             </Group>
             <Group gap={'0.25rem'}>
-              {width <= MIN_DESKTOP_SIZE_PX && (
+              {smallScreen && (
                 <div className={styles.middle}>
-                  <button
-                    type="button"
-                    className={`${styles.pageButton} ${styles.currentPage}`}
-                    onClick={() => switchPage(mustCurrentPage)}
-                  >
-                    {currentPage}
-                  </button>
+                  {currentPage === lastPage && (
+                    <button
+                      type="button"
+                      className={`${styles.pageButton} ${styles.currentPage}`}
+                      onClick={() => switchPage(mustCurrentPage)}
+                    >
+                      {currentPage}
+                    </button>
+                  )}
+                  {currentPage !== lastPage && (
+                    <Group gap={'0.25rem'}>
+                      <button
+                        type="button"
+                        className={`${styles.pageButton} ${styles.currentPage}`}
+                        onClick={() => switchPage(mustCurrentPage)}
+                      >
+                        {currentPage}
+                      </button>
+                      {lastPage - (currentPage ?? 1) > 1 && (
+                        <JumpToPageButton lastPage={lastPage} currentPage={currentPage} switchPage={switchPage} />
+                      )}
+                      <button type="button" className={`${styles.pageButton}`} onClick={() => switchPage(lastPage)}>
+                        {lastPage}
+                      </button>
+                    </Group>
+                  )}
                 </div>
               )}
-              {width > MIN_DESKTOP_SIZE_PX
+              {!smallScreen
                 && calculatePages(mustCurrentPage, lastPage, 1, 2).map((page, index) => {
                   const selectedHere = selectedCardsPerPage[page ?? -1] ?? 0;
 
                   return (
                     <div key={index} className={styles.middle}>
                       {page === null && (
-                        <Menu shadow="md" position={'bottom'} withArrow>
-                          <Menu.Target>
-                            <UnstyledButton className={styles.dotsButton}>
-                              <Center>
-                                <IconDots size={20} color={'var(--gourmet-neutral-5)'} />
-                              </Center>
-                            </UnstyledButton>
-                          </Menu.Target>
-
-                          <Menu.Dropdown>
-                            <Stack gap={'0.5rem'}>
-                              <Group gap={'0.5rem'} p={'0.25rem'}>
-                                <GourmetText cgmff={'ui'}>Gib eine Zahl ein</GourmetText>
-                                <NumberInput
-                                  size={'xs'}
-                                  min={1}
-                                  max={lastPage}
-                                  maw={'6rem'}
-                                  value={switchPageNumber}
-                                  onChange={setSwitchPageNumber}
-                                  classNames={{ input: styles.switchPageInput }}
-                                />
-                              </Group>
-                              <Button
-                                color={'var(--gourmet-blue-1)'}
-                                onClick={() => {
-                                  setSwitchPageNumber('');
-                                  switchPage(switchPageNumber as number);
-                                }}
-                                disabled={switchPageNumber === '' || switchPageNumber === currentPage}
-                                classNames={{ root: styles.switchPageButton }}
-                              >
-                                <GourmetText cgmff={'ui'} cgmc={'neutral-1'}>
-                                  Zur Seite wechseln
-                                </GourmetText>
-                              </Button>
-                            </Stack>
-                          </Menu.Dropdown>
-                        </Menu>
+                        <JumpToPageButton lastPage={lastPage} currentPage={currentPage} switchPage={switchPage} />
                       )}
                       {page !== null && (
                         <button
@@ -176,5 +153,59 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
         )}
       </div>
     </div>
+  );
+}
+
+function JumpToPageButton({
+  lastPage,
+  currentPage,
+  switchPage,
+}: {
+  lastPage: number;
+  currentPage?: number;
+  switchPage: (n: number) => void;
+}) {
+  const [switchPageNumber, setSwitchPageNumber] = useState<number | string>('');
+
+  return (
+    <Menu shadow="md" position={'bottom'} withArrow>
+      <Menu.Target>
+        <UnstyledButton className={styles.dotsButton}>
+          <Center>
+            <IconDots size={20} color={'var(--gourmet-neutral-5)'} />
+          </Center>
+        </UnstyledButton>
+      </Menu.Target>
+
+      <Menu.Dropdown>
+        <Stack gap={'0.5rem'}>
+          <Group gap={'0.5rem'} p={'0.25rem'}>
+            <GourmetText cgmff={'ui'}>Gib eine Zahl ein</GourmetText>
+            <NumberInput
+              size={'xs'}
+              min={1}
+              max={lastPage}
+              maw={'6rem'}
+              value={switchPageNumber}
+              onChange={setSwitchPageNumber}
+              classNames={{ input: styles.switchPageInput }}
+            />
+          </Group>
+          <Button
+            color={'var(--gourmet-blue-1)'}
+            onClick={() => {
+              setSwitchPageNumber('');
+              switchPage(switchPageNumber as number);
+            }}
+            disabled={switchPageNumber === '' || switchPageNumber === currentPage}
+            classNames={{ root: styles.switchPageButton }}
+          >
+            <GourmetText cgmff={'ui'} cgmc={'neutral-1'}>
+              Zur Seite wechseln
+            </GourmetText>
+          </Button>
+        </Stack>
+      </Menu.Dropdown>
+    </Menu>
   );
 }
