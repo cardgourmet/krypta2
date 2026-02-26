@@ -43,7 +43,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
     >
       <Menu
         shadow="md"
-        width={'42rem'}
+        width={'min(42rem, 95dvw)'}
         position={'top'}
         opened={menuOpened}
         transitionProps={{ transition: 'fade-up', duration: 150 }}
