@@ -9,6 +9,8 @@ import navDE from '@/../locales/nav/de.json';
 import navEN from '@/../locales/nav/en.json';
 import searchDE from '@/../locales/search/de.json';
 import searchEN from '@/../locales/search/en.json';
+import selectionDE from '@/../locales/selection/de.json';
+import selectionEN from '@/../locales/selection/en.json';
 
 const resources = {
   en: {
@@ -16,12 +18,14 @@ const resources = {
     cards: cardsEN,
     nav: navEN,
     search: searchEN,
+    selection: selectionEN,
   },
   de: {
     auth: authDE,
     cards: cardsDE,
     nav: navDE,
     search: searchDE,
+    selection: selectionDE,
   },
 };
 
@@ -29,7 +33,7 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: 'en',
-  ns: ['cards', 'search', 'nav', 'auth'],
+  ns: ['cards', 'search', 'nav', 'auth', 'selection'],
   defaultNS: 'cards',
   interpolation: {
     escapeValue: false,

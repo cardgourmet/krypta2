@@ -1,5 +1,6 @@
 import {Button, Group, ScrollArea, SimpleGrid, Stack} from '@mantine/core';
 import {IconEyeSearch, IconX} from '@tabler/icons-react';
+import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {EntryImage} from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
 import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
@@ -8,6 +9,8 @@ import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ViewSelectionPages.module.css';
 
 export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: boolean) => void }) {
+  const { t } = useTranslation('selection');
+
   const tcg = useTcgByLocation() as Tcg;
   const workContext = useTcgOverviewWorkContext();
 
@@ -18,7 +21,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
           <Group gap={'0.5rem'}>
             <IconEyeSearch color={'var(--gourmet-neutral-9'} />
             <GourmetText cgmff={'ui'} cgmc={'neutral-9'} fz={'1.15rem'} fw={'500'}>
-              View Selection
+              {t('view-selection')}
             </GourmetText>
           </Group>
           <Button onClick={() => setMenuOpened(false)} classNames={{ root: styles.closeButton }}>
@@ -26,7 +29,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
           </Button>
         </Group>
 
-        <GourmetText cgmff={'ui'}>Click any element to remove it from the selection.</GourmetText>
+        <GourmetText cgmff={'ui'}>{t('selectio-menu-info')}</GourmetText>
       </Stack>
 
       <ScrollArea
@@ -44,7 +47,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
                   <Group justify={'space-between'}>
                     <Group gap={'0.5rem'}>
                       <GourmetText cgmff={'ui'} fz={'1.15rem'}>
-                        Page {page}
+                        {t('page')} {page}
                       </GourmetText>
                       <span className={styles.badge}>{entries.length}</span>
                     </Group>
@@ -57,7 +60,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
                     >
                       <Group>
                         <IconX size={16} color={'var(--gourmet-neutral-8)'} />
-                        <GourmetText cgmff={'ui'}>Clear page</GourmetText>
+                        <GourmetText cgmff={'ui'}>{t('clear-page')}</GourmetText>
                       </Group>
                     </Button>
                   </Group>

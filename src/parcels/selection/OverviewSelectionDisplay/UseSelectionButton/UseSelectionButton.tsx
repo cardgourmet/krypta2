@@ -2,10 +2,12 @@ import {Button, Group, Menu} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconBookmark, IconChevronRight, IconList, IconPlus, IconStar} from '@tabler/icons-react';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from './UseSelectionButton.module.css';
 
 export function UseSelectionButton() {
+  const { t } = useTranslation('selection');
   const smallestScreen = useMediaQuery('(max-width: 500px)');
 
   const [menuOpened, setMenuOpened] = useState(false);
@@ -16,7 +18,7 @@ export function UseSelectionButton() {
       <Menu.Target>
         <Button color={'var(--gourmet-orange-1'} className={styles.selectionButton}>
           <GourmetText cgmff={'ui'} cgmc={'neutral-1'} fw={'500'}>
-            Auswahl verwenden für ...
+            {t('use-selection')}
           </GourmetText>
         </Button>
       </Menu.Target>
@@ -25,13 +27,13 @@ export function UseSelectionButton() {
         <Menu.Item>
           <Group gap={'0.5rem'}>
             <IconStar size={18} />
-            <GourmetText cgmff={'ui'}>Als Favoriten markieren</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('mark-as-favorite')}</GourmetText>
           </Group>
         </Menu.Item>
         <Menu.Item>
           <Group gap={'0.5rem'}>
             <IconBookmark size={18} />
-            <GourmetText cgmff={'ui'}>Zu Lesezeichen hinzufügen</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('add-to-bookmarks')}</GourmetText>
           </Group>
         </Menu.Item>
 
@@ -49,7 +51,7 @@ export function UseSelectionButton() {
               <Group justify={'space-between'}>
                 <Group gap={'0.5rem'}>
                   <IconList size={18} />
-                  <GourmetText cgmff={'ui'}>Zur Liste hinzufügen ..</GourmetText>
+                  <GourmetText cgmff={'ui'}>{t('add-to-lists')}</GourmetText>
                 </Group>
                 <IconChevronRight size={18} />
               </Group>
@@ -70,7 +72,7 @@ export function UseSelectionButton() {
             <Menu.Item>
               <Group gap={'0.5rem'}>
                 <IconPlus size={18} />
-                <GourmetText cgmff={'ui'}>Neue Erstellen</GourmetText>
+                <GourmetText cgmff={'ui'}>{t('create-new-list')}</GourmetText>
               </Group>
             </Menu.Item>
           </Menu.Dropdown>

@@ -3,6 +3,7 @@ import {useClickOutside, useMediaQuery} from '@mantine/hooks';
 import {IconEyeSearch, IconX} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown/MorePagesDropdown.tsx';
 import {SelectionProgress} from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
@@ -14,6 +15,7 @@ import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
 
 export function OverviewSelectionDisplay({ context: workContext }: { context: TcgOverviewWorkSpace }) {
+  const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
   const tcg = useTcgByLocation() as Tcg;
@@ -23,6 +25,11 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
   const [eyeButton, setEyeButton] = useState<HTMLButtonElement | null>(null);
   const [dropdown, setDropdown] = useState<HTMLDivElement | null>(null);
   useClickOutside(() => setMenuOpened(false), null, [eyeButton, dropdown]);
+
+  const cardAmount = workContext.data.selection.elementIds.length;
+  const pageCardAmount = Object.keys(
+    workContext.data.selection.elementsByPage[workContext.data.search.page] ?? [],
+  ).length;
 
   return (
     <Group
@@ -59,13 +66,13 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
             <Stack gap={'0'}>
               <Group gap={'0.5rem'}>
                 <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
-                  Auswahl:
+                  {t('selection')}:
                 </GourmetText>
                 <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
-                  {workContext.data.selection.elementIds.length} Karten
+                  {t('cards', { count: cardAmount })}
                 </GourmetText>
 
-                <Tooltip label={'Auswahl anzeigen'} openDelay={1000}>
+                <Tooltip label={t('display-selection')} openDelay={1000}>
                   <ActionIcon
                     className={styles.selectionShowButton}
                     onClick={() => setMenuOpened((prev) => !prev)}
@@ -77,7 +84,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
               </Group>
               <Group gap={'0.1rem'}>
                 <MorePagesDropdown
-                  text={'Aktuelle Seite'}
+                  text={t('current-page')}
                   currentPage={workContext.data.search.page}
                   onSelect={(sel) => {
                     // noinspection JSIgnoredPromiseFromCall
@@ -94,15 +101,12 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                   }}
                 />
                 <GourmetText>:</GourmetText>
-                <GourmetText pl={'0.5rem'}>
-                  {Object.keys(workContext.data.selection.elementsByPage[workContext.data.search.page] ?? []).length}{' '}
-                  Karten
-                </GourmetText>
+                <GourmetText pl={'0.5rem'}>{t('cards', { count: pageCardAmount })}</GourmetText>
               </Group>
             </Stack>
             <Group wrap={'nowrap'}>
               <UseSelectionButton />
-              <Tooltip label={'Auswahl aufheben'} openDelay={500}>
+              <Tooltip label={t('clear-selection')} openDelay={500}>
                 <ActionIcon
                   color={'var(--gourmet-neutral-3)'}
                   onClick={() => {
@@ -115,7 +119,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
             </Group>
           </Flex>
           <Stack gap={'0.25rem'}>
-            <SelectionProgress sections={12} current={workContext.data.selection.elementIds.length} max={60} />
+            <SelectionProgress sections={12} current={cardAmount} max={60} />
           </Stack>
         </Stack>
       </ViewSelectionMenu>

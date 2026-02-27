@@ -1,9 +1,12 @@
 import {ActionIcon, Group, Popover, Progress, Stack} from '@mantine/core';
 import {IconAlertSquareRounded} from '@tabler/icons-react';
+import {Trans, useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from './SelectionProgress.module.css';
 
 export function SelectionProgress({ sections, current, max }: { sections: number; current: number; max: number }) {
+  const { t } = useTranslation('selection');
+
   const ratio = max > 0 ? current / max : 0;
   const toPaintCount = Math.max(0, Math.min(sections, Math.ceil(ratio * sections)));
   const toPaintIndex = toPaintCount - 1;
@@ -38,11 +41,10 @@ export function SelectionProgress({ sections, current, max }: { sections: number
             <Popover.Dropdown>
               <Stack>
                 <GourmetText>
-                  Du darfst nur maximal <b>60</b> Karten gleichzeitig auswählen.
+                  <Trans t={t} i18nKey={'maximum-cards'} />
                 </GourmetText>
                 <GourmetText>
-                  Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber{' '}
-                  <u>die gesamte Suche abspeichern</u> willst.
+                  <Trans t={t} i18nKey={'maximum-cards-2'} components={{ u: <u /> }} />
                 </GourmetText>
               </Stack>
             </Popover.Dropdown>
