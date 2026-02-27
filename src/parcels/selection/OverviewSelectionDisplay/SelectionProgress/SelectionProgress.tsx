@@ -1,9 +1,9 @@
 import {ActionIcon, Group, Popover, Progress, Stack} from '@mantine/core';
 import {IconAlertSquareRounded} from '@tabler/icons-react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import styles from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.module.css';
+import styles from './SelectionProgress.module.css';
 
-export function generateProgress(sections: number, current: number, max: number) {
+export function SelectionProgress({ sections, current, max }: { sections: number; current: number; max: number }) {
   const ratio = max > 0 ? current / max : 0;
   const toPaintCount = Math.max(0, Math.min(sections, Math.ceil(ratio * sections)));
   const toPaintIndex = toPaintCount - 1;

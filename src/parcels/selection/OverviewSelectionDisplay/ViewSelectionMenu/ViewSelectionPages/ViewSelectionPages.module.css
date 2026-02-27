@@ -1,0 +1,39 @@
+.scrollAreaViewport {
+  overscroll-behavior: contain; /* prevents scroll from propagating to the page */
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.badge {
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.25rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  background-color: var(--gourmet-orange-1);
+  color: var(--gourmet-neutral-0);
+
+  font-family: var(--cgm-ui-font-family), ui-sans-serif;
+  font-size: 0.75rem;
+  line-height: 1;
+  font-weight: 500;
+
+  pointer-events: none;
+}
+
+.clearFromPageButton {
+  background-color: var(--gourmet-neutral-3);
+  height: 2rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-4);
+  }
+}
