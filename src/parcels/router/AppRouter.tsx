@@ -4,7 +4,6 @@ import {routeTree} from '@/routeTree.gen.ts';
 
 const router = createRouter({
   context: {
-    // biome-ignore lint/style/noNonNullAssertion: dont worry
     auth: undefined!,
   },
   defaultPreload: 'intent',

@@ -1,6 +1,6 @@
 import {Menu, Stack} from '@mantine/core';
 import {IconBookmark, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar,} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
+import {Link, useRouter} from '@tanstack/react-router';
 import {type CSSProperties, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
@@ -13,6 +13,8 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
   const { user, logout } = useAuth();
 
   const [opened, setOpened] = useState(false);
+
+  const router = useRouter();
 
   return (
     <div style={style}>
@@ -55,27 +57,33 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             <Menu.Item leftSection={<IconHistory size={18} />} className={styles.menuItem}>
               <GourmetText cgmff="ui">{t('history')}</GourmetText>
             </Menu.Item>
-            <Menu.Item
-              leftSection={<IconStar size={18} />}
-              className={styles.menuItem}
-              disabled={user.state === 'unverified'}
-            >
-              <GourmetText cgmff="ui">{t('favorites')}</GourmetText>
-            </Menu.Item>
-            <Menu.Item
-              leftSection={<IconBookmark size={18} />}
-              className={styles.menuItem}
-              disabled={user.state === 'unverified'}
-            >
-              <GourmetText cgmff="ui">{t('bookmarks')}</GourmetText>
-            </Menu.Item>
-            <Menu.Item
-              leftSection={<IconList size={18} />}
-              className={styles.menuItem}
-              disabled={user.state === 'unverified'}
-            >
-              <GourmetText cgmff="ui">{t('lists')}</GourmetText>
-            </Menu.Item>
+            <Link to={'/me/favorites'} style={{ textDecoration: 'none' }}>
+              <Menu.Item
+                leftSection={<IconStar size={18} />}
+                className={styles.menuItem}
+                disabled={user.state === 'unverified'}
+              >
+                <GourmetText cgmff="ui">{t('favorites')}</GourmetText>
+              </Menu.Item>
+            </Link>
+            <Link to={'/me/bookmarks'} style={{ textDecoration: 'none' }}>
+              <Menu.Item
+                leftSection={<IconBookmark size={18} />}
+                className={styles.menuItem}
+                disabled={user.state === 'unverified'}
+              >
+                <GourmetText cgmff="ui">{t('bookmarks')}</GourmetText>
+              </Menu.Item>
+            </Link>
+            <Link to={'/me/lists'} style={{ textDecoration: 'none' }}>
+              <Menu.Item
+                leftSection={<IconList size={18} />}
+                className={styles.menuItem}
+                disabled={user.state === 'unverified'}
+              >
+                <GourmetText cgmff="ui">{t('lists')}</GourmetText>
+              </Menu.Item>
+            </Link>
 
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
@@ -89,7 +97,13 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             <Menu.Item
               color="var(--gourmet-red-01)"
               leftSection={<IconLogout size={18} />}
-              onClick={logout}
+              onClick={() => {
+                logout();
+
+                // need this: https://github.com/TanStack/router/issues/2072#issuecomment-3152903491
+                router.invalidate();
+                router.navigate({ reloadDocument: true });
+              }}
               className={styles.menuItem}
             >
               <GourmetText c={'var(--gourmet-red-01)'} cgmff="ui">

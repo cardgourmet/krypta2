@@ -2,7 +2,7 @@ import {Combobox, Group, useCombobox} from '@mantine/core';
 import {IconCheck, IconLanguage} from '@tabler/icons-react';
 import {useEffect, useEffectEvent, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu.tsx';
+import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu/MobileUserMenu.tsx';
 
 export function MobileLanguageSelector() {
   const { i18n } = useTranslation();

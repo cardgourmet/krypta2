@@ -13,6 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
+import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
+import { Route as MeFavoritesIndexRouteImport } from './routes/me/favorites/index'
+import { Route as MeBookmarksIndexRouteImport } from './routes/me/bookmarks/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
@@ -38,6 +41,21 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 const TcgIndexRoute = TcgIndexRouteImport.update({
   id: '/$tcg/',
   path: '/$tcg/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeListsIndexRoute = MeListsIndexRouteImport.update({
+  id: '/me/lists/',
+  path: '/me/lists/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeFavoritesIndexRoute = MeFavoritesIndexRouteImport.update({
+  id: '/me/favorites/',
+  path: '/me/favorites/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeBookmarksIndexRoute = MeBookmarksIndexRouteImport.update({
+  id: '/me/bookmarks/',
+  path: '/me/bookmarks/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
@@ -81,6 +99,9 @@ export interface FileRoutesByFullPath {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
+  '/me/bookmarks': typeof MeBookmarksIndexRoute
+  '/me/favorites': typeof MeFavoritesIndexRoute
+  '/me/lists': typeof MeListsIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -93,6 +114,9 @@ export interface FileRoutesByTo {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
+  '/me/bookmarks': typeof MeBookmarksIndexRoute
+  '/me/favorites': typeof MeFavoritesIndexRoute
+  '/me/lists': typeof MeListsIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -106,6 +130,9 @@ export interface FileRoutesById {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/me/bookmarks/': typeof MeBookmarksIndexRoute
+  '/me/favorites/': typeof MeFavoritesIndexRoute
+  '/me/lists/': typeof MeListsIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -120,6 +147,9 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/$tcg/advanced'
     | '/$tcg/cards'
+    | '/me/bookmarks'
+    | '/me/favorites'
+    | '/me/lists'
     | '/$tcg/sets/$setCode'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
@@ -132,6 +162,9 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/$tcg/advanced'
     | '/$tcg/cards'
+    | '/me/bookmarks'
+    | '/me/favorites'
+    | '/me/lists'
     | '/$tcg/sets/$setCode'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   id:
@@ -144,6 +177,9 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/$tcg/advanced/'
     | '/$tcg/cards/'
+    | '/me/bookmarks/'
+    | '/me/favorites/'
+    | '/me/lists/'
     | '/$tcg/sets/$setCode/'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesById: FileRoutesById
@@ -157,6 +193,9 @@ export interface RootRouteChildren {
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
+  MeBookmarksIndexRoute: typeof MeBookmarksIndexRoute
+  MeFavoritesIndexRoute: typeof MeFavoritesIndexRoute
+  MeListsIndexRoute: typeof MeListsIndexRoute
   TcgSetsSetCodeIndexRoute: typeof TcgSetsSetCodeIndexRoute
   TcgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -189,6 +228,27 @@ declare module '@tanstack/react-router' {
       path: '/$tcg'
       fullPath: '/$tcg'
       preLoaderRoute: typeof TcgIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/lists/': {
+      id: '/me/lists/'
+      path: '/me/lists'
+      fullPath: '/me/lists'
+      preLoaderRoute: typeof MeListsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/favorites/': {
+      id: '/me/favorites/'
+      path: '/me/favorites'
+      fullPath: '/me/favorites'
+      preLoaderRoute: typeof MeFavoritesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/bookmarks/': {
+      id: '/me/bookmarks/'
+      path: '/me/bookmarks'
+      fullPath: '/me/bookmarks'
+      preLoaderRoute: typeof MeBookmarksIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/cards/': {
@@ -245,6 +305,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
+  MeBookmarksIndexRoute: MeBookmarksIndexRoute,
+  MeFavoritesIndexRoute: MeFavoritesIndexRoute,
+  MeListsIndexRoute: MeListsIndexRoute,
   TcgSetsSetCodeIndexRoute: TcgSetsSetCodeIndexRoute,
   TcgSetsSetCodeCollectorNumberChar123AnyChar125Route:
     TcgSetsSetCodeCollectorNumberChar123AnyChar125Route,
