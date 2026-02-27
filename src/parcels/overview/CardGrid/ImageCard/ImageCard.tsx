@@ -4,18 +4,18 @@ import {IconDotsVertical} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {Activity, useEffect, useMemo, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
+import {FlipButton} from '@/parcels/overview/CardGrid/FlipButton/FlipButton.tsx';
+import {FlipImage} from '@/parcels/overview/CardGrid/FlipImage/FlipImage.tsx';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCard/createProps.ts';
-import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipButton.tsx';
-import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
-import {MoreActionsMenu} from '@/parcels/overview/CardGrid/ImageCard/MoreActionsMenu/MoreActionsMenu.tsx';
-import {ToolsOverlay} from '@/parcels/overview/CardGrid/ImageCard/ToolsOverlay/ToolsOverlay.tsx';
+import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
+import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
+import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
-import {getIdsInRange} from "@/parcels/selection/getIdsInRange.ts";
 
 interface ImageCardProps {
   tcg: Tcg;

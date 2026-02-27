@@ -1,21 +1,16 @@
-import {ActionIcon, Checkbox, Group} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, type ReactElement, useMemo, useState} from 'react';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {MoreActionsMenu} from '@/parcels/overview/CardGrid/ImageCard/MoreActionsMenu/MoreActionsMenu.tsx';
-import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
-import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
-import type {DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import {constructDlcCardTableData} from '@/parcels/tcg/dlc/overview/constructDlcCardTableData.tsx';
-import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import {constructMtgCardTableData} from '@/parcels/tcg/mtg/overview/constructMtgCardTableData.tsx';
-import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
-import {constructPcgCardTableData} from '@/parcels/tcg/pcg/overview/constructPcgCardTableData.tsx';
-import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useMediaQuery } from '@mantine/hooks';
+import { useMemo } from 'react';
+import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { TableRowHorizontal } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
+import { TableRowVertical } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
+import type { DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import { constructDlcCardTableData } from '@/parcels/tcg/dlc/overview/constructDlcCardTableData.tsx';
+import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import { constructMtgCardTableData } from '@/parcels/tcg/mtg/overview/constructMtgCardTableData.tsx';
+import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import { constructPcgCardTableData } from '@/parcels/tcg/pcg/overview/constructPcgCardTableData.tsx';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardTable.module.css';
 
 type CardTableProps = {
@@ -108,167 +103,5 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
         </table>
       )}
     </div>
-  );
-}
-
-function TableRowVertical({
-  card,
-  index,
-  data,
-  columns,
-  toolsEnabled,
-}: {
-  card: TcgDataCard;
-  index: number;
-  data: Record<string, ReactElement>;
-  columns: string[];
-  toolsEnabled: boolean;
-}) {
-  const [menuOpened, setMenuOpened] = useState(false);
-  const [submenuOpened, setSubmenuOpened] = useState(false);
-
-  const workContext = useTcgOverviewWorkContext();
-  const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
-    id: card.id,
-    index,
-  });
-
-  return (
-    <>
-      {columns.map((column) => (
-        <tr key={`${card.print.id}_${column}`} data-cell={'not-last'}>
-          <th style={{ width: '5.25rem' }}>{column}</th>
-          <td data-selected={isSelected}>{data[column]}</td>
-        </tr>
-      ))}
-      <tr data-selected={isSelected} data-cell={'last'}>
-        <th>
-          <GourmetText cgmc={'neutral-5'}>Tools</GourmetText>
-        </th>
-        <td data-selected={isSelected}>
-          <Group justify={'space-between'}>
-            <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
-              <Checkbox
-                style={{ pointerEvents: 'auto' }}
-                onClick={(event) => {
-                  // if shift key, calculate range of cards to add or remove
-                  const anchorIndex = workContext?.data?.selection?.anchorIndex;
-                  if (event.shiftKey && anchorIndex !== undefined && anchorIndex > -1) {
-                    window.getSelection()?.removeAllRanges();
-
-                    const ids = getIdsInRange(anchorIndex, index, workContext!);
-                    setMultiSelection(ids, !checked);
-                    return;
-                  }
-
-                  setSelection(!checked);
-                }}
-                color={'var(--gourmet-orange-1)'}
-                checked={checked}
-                classNames={{ root: styles.overlayCheckbox }}
-              />
-            </Activity>
-            <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
-              <Group justify={'end'}>
-                <MoreActionsMenu
-                  menuOpened={menuOpened}
-                  setMenuOpened={setMenuOpened}
-                  submenuOpened={submenuOpened}
-                  setSubmenuOpened={setSubmenuOpened}
-                  target={
-                    <ActionIcon
-                      style={{ pointerEvents: 'auto' }}
-                      onClick={() => setMenuOpened((v) => !v)}
-                      color="var(--gourmet-neutral-dark-4)"
-                      size={'1.25rem'}
-                      data-menu-opened={menuOpened}
-                    >
-                      <IconDotsVertical size={16} />
-                    </ActionIcon>
-                  }
-                />
-              </Group>
-            </Activity>
-          </Group>
-        </td>
-      </tr>
-    </>
-  );
-}
-
-function TableRowHorizontal({
-  card,
-  index,
-  data,
-  columns,
-  toolsEnabled,
-}: {
-  card: TcgDataCard;
-  index: number;
-  data: Record<string, ReactElement>;
-  columns: string[];
-  toolsEnabled: boolean;
-}) {
-  const [menuOpened, setMenuOpened] = useState(false);
-  const [submenuOpened, setSubmenuOpened] = useState(false);
-
-  const workContext = useTcgOverviewWorkContext();
-  const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
-    id: card.id,
-    index,
-  });
-
-  return (
-    <tr key={card.print.id} data-selected={isSelected}>
-      <td>
-        <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
-          <Checkbox
-            style={{ pointerEvents: 'auto' }}
-            onClick={(event) => {
-              // if shift key, calculate range of cards to add or remove
-              const anchorIndex = workContext?.data?.selection?.anchorIndex;
-              if (event.shiftKey && anchorIndex !== undefined && anchorIndex > -1) {
-                window.getSelection()?.removeAllRanges();
-
-                const ids = getIdsInRange(anchorIndex, index, workContext!);
-                setMultiSelection(ids, !checked);
-                return;
-              }
-
-              setSelection(!checked);
-            }}
-            color={'var(--gourmet-orange-1)'}
-            checked={checked}
-            classNames={{ root: styles.overlayCheckbox }}
-          />
-        </Activity>
-      </td>
-      {columns.map((column) => (
-        <td key={column}>{data[column]}</td>
-      ))}
-      <td>
-        <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
-          <Group justify={'end'}>
-            <MoreActionsMenu
-              menuOpened={menuOpened}
-              setMenuOpened={setMenuOpened}
-              submenuOpened={submenuOpened}
-              setSubmenuOpened={setSubmenuOpened}
-              target={
-                <ActionIcon
-                  style={{ pointerEvents: 'auto' }}
-                  onClick={() => setMenuOpened((v) => !v)}
-                  color="var(--gourmet-neutral-dark-4)"
-                  size={'1.25rem'}
-                  data-menu-opened={menuOpened}
-                >
-                  <IconDotsVertical size={16} />
-                </ActionIcon>
-              }
-            />
-          </Group>
-        </Activity>
-      </td>
-    </tr>
   );
 }

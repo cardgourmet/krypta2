@@ -2,7 +2,7 @@ import {ActionIcon, Checkbox, Group, Overlay} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, type Dispatch, type SetStateAction} from 'react';
 import styles from '@/parcels/overview/CardGrid/ImageCard/ImageCard.module.css';
-import {MoreActionsMenu} from '@/parcels/overview/CardGrid/ImageCard/MoreActionsMenu/MoreActionsMenu.tsx';
+import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
 
 export function ToolsOverlay({
   checked,
