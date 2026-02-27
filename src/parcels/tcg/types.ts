@@ -41,6 +41,7 @@ export type TcgFilterOperator = (typeof filterOperators)[number];
 
 export type TcgCardTableData = {
   columns: string[];
+  colSizes?: string[];
   rows: {
     card: MtgDataCard | DlcDataCard | PcgDataCard;
     data: Record<string, ReactElement>;

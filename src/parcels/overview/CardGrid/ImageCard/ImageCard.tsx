@@ -9,13 +9,13 @@ import {FlipButton} from '@/parcels/overview/CardGrid/ImageCard/FlipButton/FlipB
 import {FlipImage} from '@/parcels/overview/CardGrid/ImageCard/FlipImage/FlipImage.tsx';
 import {MoreActionsMenu} from '@/parcels/overview/CardGrid/ImageCard/MoreActionsMenu/MoreActionsMenu.tsx';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ImageCard/ToolsOverlay/ToolsOverlay.tsx';
-import type {TcgOverviewWorkSpace} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
+import {getIdsInRange} from "@/parcels/selection/getIdsInRange.ts";
 
 interface ImageCardProps {
   tcg: Tcg;
@@ -175,18 +175,4 @@ export default function ImageCard({ tcg, card, index, toolsEnabled }: ImageCardP
       )}
     </div>
   );
-}
-
-function getIdsInRange(anchorIndex: number, currentIndex: number, workContext: TcgOverviewWorkSpace): string[] {
-  const fromIndex = anchorIndex < currentIndex ? anchorIndex : currentIndex;
-  const toIndex = anchorIndex < currentIndex ? currentIndex : anchorIndex;
-
-  const ids = [] as string[];
-  workContext.data.search.result.data.items.forEach((item, index) => {
-    if (index >= fromIndex && index <= toIndex) {
-      ids.push(item.card.id);
-    }
-  });
-
-  return ids;
 }

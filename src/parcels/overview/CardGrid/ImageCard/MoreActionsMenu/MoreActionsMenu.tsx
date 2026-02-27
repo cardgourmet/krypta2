@@ -23,7 +23,7 @@ export function MoreActionsMenu({
   return (
     <Menu
       width={260}
-      position="top-start"
+      position="top"
       opened={menuOpened}
       onChange={setMenuOpened}
       withArrow

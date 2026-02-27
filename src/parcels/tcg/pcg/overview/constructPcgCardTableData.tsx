@@ -39,6 +39,7 @@ export function constructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
   const pcgTableData = useMemo(() => {
     return {
       columns: ['Set', 'Number', 'Name', 'Energy', 'Rarity', 'Artist'],
+      colSizes: ['3.5', '5', 'auto', '6', '18', 'auto'],
       rows:
         cardItems?.map((card, _) => {
           if (!('superType' in card.card)) return { card: card.card, data: [] };

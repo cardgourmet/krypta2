@@ -24,10 +24,11 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
         return;
       }
       const data = workContext?.data?.search?.result?.data?.items?.[index] as TcgSearchDataCard;
+      const currentPage = workContext?.data?.search?.page;
 
       setChecked(select);
       if (select) workContext?.addSelection([id], { [id]: data }, index, id);
-      else workContext?.removeSelection([id], index, id);
+      else workContext?.removeSelection([id], currentPage, index, id);
     },
     [
       index,
@@ -36,24 +37,26 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
       workContext?.removeSelection,
       workContext?.data?.selection?.elementIds.length,
       workContext?.data?.search?.result?.data,
+      workContext?.data?.search?.page,
     ],
   );
   const setMultiSelection = useCallback(
     (ids: string[], select: boolean) => {
       const current = workContext?.data?.selection?.elementIds.length ?? 0;
-      if (select && current + ids.length >= SELECTION_LIMIT) {
+      if (select && current + ids.length > SELECTION_LIMIT) {
         return;
       }
       const dataEntries = (workContext?.data?.search?.result?.data?.items as TcgSearchDataCard[]).filter((c) =>
         ids.includes(c.card.id),
       );
       const data = Object.fromEntries(dataEntries.map((c) => [c.card.id, c] as const));
+      const currentPage = workContext?.data?.search?.page;
 
       setChecked(select);
       if (select) {
         workContext?.addSelection([...ids], data, index, id);
       } else {
-        workContext?.removeSelection([...ids], index, id);
+        workContext?.removeSelection([...ids], currentPage, index, id);
       }
     },
     [
@@ -63,6 +66,7 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
       workContext?.removeSelection,
       workContext?.data?.selection?.elementIds.length,
       workContext?.data?.search?.result?.data,
+      workContext?.data?.search?.page,
     ],
   );
 

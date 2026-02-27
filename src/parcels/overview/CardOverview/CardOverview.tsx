@@ -119,7 +119,9 @@ export function CardOverview({
           {searchDisplaySettings.display === 'grid' && (
             <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={toolsEnabled} />
           )}
-          {searchDisplaySettings.display === 'table' && <CardTable tcg={tcg} cards={cards} isLoading={isLoading} />}
+          {searchDisplaySettings.display === 'table' && (
+            <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={toolsEnabled} />
+          )}
         </div>
 
         {workContext?.data && workContext.data.selection.elementIds.length > 0 && (
