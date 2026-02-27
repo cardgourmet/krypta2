@@ -13,6 +13,9 @@ export async function fetchLists(
         'x-user-session': sessionToken ?? undefined,
       },
       params: {
+        query: {
+          createSystem: 'true',
+        },
         path: {
           id: userId,
         },

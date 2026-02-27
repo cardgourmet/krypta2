@@ -97,12 +97,13 @@ function RouteComponent() {
                   console.log('Error during register:', r.error);
                   return;
                 }
-                if (r.session && r.data?.session) {
-                  login({
-                    token: r.session,
-                    expiresAt: r.data?.session.expiresAt,
-                  });
-                }
+
+                // login potentially without session token
+                login({
+                  token: r.session,
+                  expiresAt: r.data?.session?.expiresAt,
+                  user: r.data?.user,
+                });
 
                 console.log('Successfully registered', JSON.stringify(r.data));
 
