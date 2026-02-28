@@ -15,6 +15,7 @@ export async function fetchLists(
       params: {
         query: {
           createSystem: 'true',
+          withSize: 'true',
         },
         path: {
           id: userId,

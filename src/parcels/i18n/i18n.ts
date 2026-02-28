@@ -5,6 +5,8 @@ import authDE from '@/../locales/auth/de.json';
 import authEN from '@/../locales/auth/en.json';
 import cardsDE from '@/../locales/cards/de.json';
 import cardsEN from '@/../locales/cards/en.json';
+import listsDE from '@/../locales/lists/de.json';
+import listsEN from '@/../locales/lists/en.json';
 import navDE from '@/../locales/nav/de.json';
 import navEN from '@/../locales/nav/en.json';
 import searchDE from '@/../locales/search/de.json';
@@ -19,6 +21,7 @@ const resources = {
     nav: navEN,
     search: searchEN,
     selection: selectionEN,
+    lists: listsEN,
   },
   de: {
     auth: authDE,
@@ -26,6 +29,7 @@ const resources = {
     nav: navDE,
     search: searchDE,
     selection: selectionDE,
+    lists: listsDE,
   },
 };
 

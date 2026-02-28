@@ -1,7 +1,6 @@
 import {createFileRoute, redirect} from '@tanstack/react-router';
 import {fetchLists} from '@/parcels/lists/api.ts';
-import type {UserListWithSize} from "@/parcels/lists/types.ts";
-import {GourmetText} from "@/parcels/mantine/GourmetText.tsx";
+import {ListsOverview} from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
 
 export const Route = createFileRoute('/me/lists/')({
   component: RouteComponent,
@@ -17,14 +16,7 @@ export const Route = createFileRoute('/me/lists/')({
 });
 
 function RouteComponent() {
-  const { data } = Route.useLoaderData();
-  const userLists = data?.items as UserListWithSize[];
+  const res = Route.useLoaderData();
 
-  return (
-    <div>
-      {userLists.map((list) => {
-        return <GourmetText key={list.list.id}>{JSON.stringify(list)}</GourmetText>;
-      })}
-    </div>
-  );
+  return <ListsOverview res={res} />;
 }

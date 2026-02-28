@@ -1,0 +1,25 @@
+{
+  "common": {
+    "sortby": "Sort by"
+  },
+  "sortby": {
+    "name": "Name",
+    "updatedAt": "Last Updated"
+  },
+  "sortdir": {
+    "auto": "Auto",
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+  "displaymode": {
+    "grid": "Grid",
+    "table": "Table"
+  },
+  "system": {
+    "bookmarks": "Bookmarks",
+    "bookmarks-desc": "All things that you might want to revisit.",
+    "favorites": "Favorites",
+    "favorites-desc": "All of your favorite things, possibly showing them off in your profile."
+  },
+  "last-updated": "Last updated"
+}

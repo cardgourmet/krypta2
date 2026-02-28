@@ -2,7 +2,7 @@ import {Group, Stack} from '@mantine/core';
 import {IconChefHat, IconSlash} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import {useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
@@ -12,7 +12,7 @@ export type BreadcrumbProps = {
 };
 
 export default function Breadcrumbs({ subpage, moreSubpages, withoutTitle }: BreadcrumbProps) {
-  const tcg = useTcgByLocation() as Tcg;
+  const tcg = useTcgByLocation();
   const subpages = [...(moreSubpages ?? [])];
   if (subpage.length > 0) {
     subpages.unshift({ label: subpage });
@@ -28,14 +28,16 @@ export default function Breadcrumbs({ subpage, moreSubpages, withoutTitle }: Bre
             <IconChefHat color="var(--gourmet-neutral-6)" size={22} className={styles.homeButton} />
           </Group>
         </Link>
-        <Group gap={'0'}>
-          <IconSlash color="var(--gourmet-neutral-6)" size={18} style={{ margin: '0 0.25rem' }} />
-          <p>
-            {tcg === 'dlc' && 'Disney Lorcana'}
-            {tcg === 'pcg' && 'Pokémon Card Game'}
-            {tcg === 'mtg' && 'Magic: The Gathering'}
-          </p>
-        </Group>
+        {tcg && (
+          <Group gap={'0'}>
+            <IconSlash color="var(--gourmet-neutral-6)" size={18} style={{ margin: '0 0.25rem' }} />
+            <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+              {tcg === 'dlc' && 'Disney Lorcana'}
+              {tcg === 'pcg' && 'Pokémon Card Game'}
+              {tcg === 'mtg' && 'Magic: The Gathering'}
+            </GourmetText>
+          </Group>
+        )}
         {subpages.slice(0, subpages.length - 1).map(({ label, href }) => {
           return (
             <div key={label}>
@@ -43,14 +45,18 @@ export default function Breadcrumbs({ subpage, moreSubpages, withoutTitle }: Bre
                 <Group gap={'0'}>
                   <IconSlash color="var(--gourmet-neutral-6)" size={18} style={{ margin: '0 0.25rem' }} />
                   <Link to={href}>
-                    <p>{label}</p>
+                    <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+                      {label}
+                    </GourmetText>
                   </Link>
                 </Group>
               )}
               {!href && (
                 <Group gap={'0'}>
                   <IconSlash color="var(--gourmet-neutral-6)" size={18} style={{ margin: '0 0.25rem' }} />
-                  <p>{label}</p>
+                  <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+                    {label}
+                  </GourmetText>
                 </Group>
               )}
             </div>

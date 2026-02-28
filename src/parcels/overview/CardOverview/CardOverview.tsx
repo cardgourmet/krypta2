@@ -52,7 +52,7 @@ export function CardOverview({
 
   return (
     <div ref={scrollbackRef}>
-      <div className={styles.mainContent}>
+      <div>
         {component}
 
         <Stack
@@ -65,7 +65,7 @@ export function CardOverview({
           }}
           mb={'1rem'}
         >
-          <Group justify={'space-between'} p={'0.5rem 0'}>
+          <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
             <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
               {title?.label}
             </GourmetText>
