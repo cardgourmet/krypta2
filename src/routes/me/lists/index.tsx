@@ -1,6 +1,6 @@
 import {createFileRoute, redirect} from '@tanstack/react-router';
 import {fetchLists} from '@/parcels/lists/api.ts';
-import {ListsOverview} from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
+import ListsOverview from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
 
 export const Route = createFileRoute('/me/lists/')({
   component: RouteComponent,

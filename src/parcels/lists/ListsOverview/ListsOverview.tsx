@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import type {fetchLists} from '@/parcels/lists/api.ts';
+import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings.tsx';
 import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListElementHeader.tsx';
 import type {UserListWithSize} from '@/parcels/lists/types.ts';
@@ -20,7 +21,7 @@ function formatRelativeTimestamp(dateString: string, locale: string): string {
   });
 }
 
-export function ListsOverview({ res }: { res: Awaited<ReturnType<typeof fetchLists>> }) {
+export default function ListsOverview({ res }: { res: Awaited<ReturnType<typeof fetchLists>> }) {
   const { t, i18n } = useTranslation('lists');
 
   const { data } = res;
@@ -55,6 +56,8 @@ export function ListsOverview({ res }: { res: Awaited<ReturnType<typeof fetchLis
           <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
             {title?.label}
           </GourmetText>
+
+          <CreateListButton />
         </Group>
         <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
       </Stack>
