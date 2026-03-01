@@ -1,6 +1,8 @@
-import {ActionIcon, Divider, Group, Stack, Tooltip} from '@mantine/core';
-import {IconBookmark, IconEdit, IconGlobe, IconLink, IconLock, IconStar, IconTrash, IconTrashOff,} from '@tabler/icons-react';
+import {Divider, Group, Stack} from '@mantine/core';
+import {IconBookmark, IconGlobe, IconLink, IconLock, IconStar} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
+import {DeleteListButton} from '@/parcels/lists/ListsOverview/DeleteListButton/DeleteListButton.tsx';
+import {EditListButton} from '@/parcels/lists/ListsOverview/EditListButton/EditListButton.tsx';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from './ListElementHeader.module.css';
@@ -36,20 +38,8 @@ export function ListElementHeader({ list }: { list: UserList }) {
           </Group>
 
           <Group gap={'0.25rem'}>
-            <Tooltip label={'Edit List'} openDelay={500}>
-              <ActionIcon className={styles.editButton}>
-                <IconEdit color={'var(--gourmet-neutral-7'} size={20} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip
-              label={list.systemListType ? `This is a system list and can't be deleted` : 'Delete List'}
-              openDelay={500}
-            >
-              <ActionIcon className={styles.editButton} disabled={list.systemListType !== undefined}>
-                {list.systemListType && <IconTrashOff color={'var(--gourmet-neutral-5'} size={20} />}
-                {!list.systemListType && <IconTrash color={'var(--gourmet-neutral-7'} size={20} />}
-              </ActionIcon>
-            </Tooltip>
+            <EditListButton />
+            <DeleteListButton list={list} />
           </Group>
         </Group>
         {list.systemListType && <GourmetText cgmc={'neutral-6'}>{t(`system.${list.systemListType}-desc`)}</GourmetText>}

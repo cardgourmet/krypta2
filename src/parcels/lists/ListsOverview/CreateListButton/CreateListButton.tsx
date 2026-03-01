@@ -2,7 +2,12 @@ import {Button, Grid, Group, Modal, Stack} from '@mantine/core';
 import {useForm} from '@mantine/form';
 import {useDisclosure} from '@mantine/hooks';
 import {IconList, IconPlus} from '@tabler/icons-react';
+import {useRouter} from '@tanstack/react-router';
+import {validate} from 'uuid';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {createList} from '@/parcels/lists/api.ts';
 import {ColorSelect} from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
+import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetMultiSelect} from '@/parcels/mantine/GourmetMultiSelect/GourmetMultiSelect.tsx';
 import {GourmetSelect} from '@/parcels/mantine/GourmetSelect/GourmetSelect.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -11,6 +16,7 @@ import styles from './CreateListButton.module.css';
 
 export default function CreateListButton() {
   const [opened, { open, close }] = useDisclosure(false);
+  const auth = useAuth();
 
   const visibilityData = [
     { value: 'private', label: 'Private' },
@@ -33,11 +39,20 @@ export default function CreateListButton() {
       color: undefined as string | undefined,
     },
     validate: {
-      name: () => {
-        return 'Invalid name';
+      name: (val) => {
+        if (val === '') return 'Name cannot be empty';
+        if (val.length > 100) return 'Name cannot be longer than 100 characters';
+        if (validate(val)) return 'Name cannot be a UUID';
+        return null;
+      },
+      description: (val) => {
+        if (val.length > 1000) return 'Description cannot be longer than 1000 characters';
+        return null;
       },
     },
   });
+
+  const router = useRouter();
 
   return (
     <>
@@ -58,10 +73,33 @@ export default function CreateListButton() {
             e.preventDefault();
             e.stopPropagation();
 
+            if (!auth.user) return;
+
             const res = form.validate();
             if (res.hasErrors) return;
 
+            const formValues = form.getValues();
+            const list = {
+              name: formValues.name,
+              description: formValues.description,
+              visibility: formValues.visibility,
+              allowedTcgs: formValues.allowedTcgs,
+              color: formValues.color,
+            } as Partial<UserList> & { name: string };
+
             console.log(form.getValues());
+            createList(auth.user.id, list, auth.token).then(({ data, error }) => {
+              if (error) {
+                console.log('error when creating list :(', error);
+                return;
+              }
+
+              console.log('success!', data);
+              // cleanup and close
+              close();
+              form.reset();
+              router.invalidate();
+            });
           }}
         >
           <Stack>

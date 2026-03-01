@@ -1,25 +1,14 @@
 import {Divider, Group, SimpleGrid, Stack} from '@mantine/core';
-import {formatDistanceToNow} from 'date-fns';
-import {de, enUS} from 'date-fns/locale';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import type {fetchLists} from '@/parcels/lists/api.ts';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
-import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings.tsx';
-import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListElementHeader.tsx';
+import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
+import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
+import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListElementHeader/ListElementHeader.tsx';
 import type {UserListWithSize} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-
-function formatRelativeTimestamp(dateString: string, locale: string): string {
-  const date = new Date(dateString);
-  const dateFnsLocale = locale === 'de' ? de : enUS;
-
-  return formatDistanceToNow(date, {
-    addSuffix: true,
-    locale: dateFnsLocale,
-  });
-}
 
 export default function ListsOverview({ res }: { res: Awaited<ReturnType<typeof fetchLists>> }) {
   const { t, i18n } = useTranslation('lists');
@@ -65,7 +54,7 @@ export default function ListsOverview({ res }: { res: Awaited<ReturnType<typeof 
       <DesktopListOverviewSettings />
 
       <Stack mt={'xl'}>
-        <SimpleGrid cols={2} spacing={'3.5rem'}>
+        <SimpleGrid cols={2} spacing={'2.5rem'}>
           {userLists.map(({ list }) => {
             return (
               <Stack key={list.id} gap={'0.5rem'}>
