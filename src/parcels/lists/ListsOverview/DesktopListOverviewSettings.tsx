@@ -1,9 +1,9 @@
 import {Center, Group, SegmentedControl} from '@mantine/core';
 import {IconColumns3, IconLayoutGrid} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
-import styles from '@/parcels/lists/ListsOverview/ListsOverview.module.css';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
+import styles from './DesktopListOverviewSettings.module.css';
 
 export function DesktopListOverviewSettings() {
   const { t } = useTranslation('lists');

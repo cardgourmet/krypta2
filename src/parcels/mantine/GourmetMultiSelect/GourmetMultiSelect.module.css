@@ -1,0 +1,18 @@
+.multiSelect {
+  > div > div {
+    &:focus-within {
+      border-color: var(--gourmet-blue-1);
+    }
+  }
+
+  input {
+    font-family: var(--cgm-content-font-family), sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+}
+
+.multiSelectPill {
+  font-family: var(--cgm-ui-font-family), sans-serif;
+  border-radius: 4px;
+}

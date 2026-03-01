@@ -1,9 +1,9 @@
 import {ActionIcon, Divider, Group, Stack, Tooltip} from '@mantine/core';
 import {IconBookmark, IconEdit, IconGlobe, IconLink, IconLock, IconStar, IconTrash, IconTrashOff,} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
-import styles from '@/parcels/lists/ListsOverview/ListsOverview.module.css';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import styles from './ListElementHeader.module.css';
 
 export function ListElementHeader({ list }: { list: UserList }) {
   const { t } = useTranslation('lists');

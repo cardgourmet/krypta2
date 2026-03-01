@@ -1,25 +1,43 @@
-import {
-  Button,
-  Grid,
-  Group,
-  Modal,
-  MultiSelect,
-  type MultiSelectProps,
-  Select,
-  type SelectProps,
-  Stack,
-  TextInput,
-  type TextInputProps,
-  UnstyledButton,
-} from '@mantine/core';
+import {Button, Grid, Group, Modal, Stack} from '@mantine/core';
+import {useForm} from '@mantine/form';
 import {useDisclosure} from '@mantine/hooks';
-import {IconCheck, IconChevronDown, IconList, IconPlus} from '@tabler/icons-react';
-import {useState} from 'react';
+import {IconList, IconPlus} from '@tabler/icons-react';
+import {ColorSelect} from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
+import {GourmetMultiSelect} from '@/parcels/mantine/GourmetMultiSelect/GourmetMultiSelect.tsx';
+import {GourmetSelect} from '@/parcels/mantine/GourmetSelect/GourmetSelect.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/mantine/GourmetTextInput/GourmetTextInput.tsx';
 import styles from './CreateListButton.module.css';
 
 export default function CreateListButton() {
   const [opened, { open, close }] = useDisclosure(false);
+
+  const visibilityData = [
+    { value: 'private', label: 'Private' },
+    { value: 'unlisted', label: 'Unlisted' },
+    { value: 'public', label: 'Public' },
+  ];
+  const allowedTcgsData = [
+    { value: 'mtg', label: 'MTG' },
+    { value: 'pcg', label: 'PCG' },
+    { value: 'dlc', label: 'DLC' },
+  ];
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      name: '',
+      description: '',
+      visibility: 'private',
+      allowedTcgs: [] as string[],
+      color: undefined as string | undefined,
+    },
+    validate: {
+      name: () => {
+        return 'Invalid name';
+      },
+    },
+  });
 
   return (
     <>
@@ -35,93 +53,115 @@ export default function CreateListButton() {
           </Group>
         }
       >
-        <Stack>
-          <Grid>
-            <Grid.Col span={4}>
-              <Group h={'100%'} w={'100%'}>
-                <GourmetText cgmff={'ui'}>
-                  Name <span className={styles.requiredAsterisk}>*</span>
-                </GourmetText>
-              </Group>
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <GourmetTextInput placeholder={'e.g. "New deck ideas"'} />
-            </Grid.Col>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-            <Grid.Col span={4}>
-              <Group h={'100%'} w={'100%'}>
-                <GourmetText cgmff={'ui'}>Description</GourmetText>
-              </Group>
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <GourmetTextInput placeholder={'Describe your list'} />
-            </Grid.Col>
+            const res = form.validate();
+            if (res.hasErrors) return;
 
-            <Grid.Col span={4}>
-              <Group h={'100%'} w={'100%'}>
-                <GourmetText cgmff={'ui'}>Visibility</GourmetText>
-              </Group>
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <GourmetSelect
-                placeholder={'Visibility'}
-                defaultValue={'private'}
-                data={[
-                  { value: 'private', label: 'Private' },
-                  { value: 'unlisted', label: 'Unlisted' },
-                  { value: 'public', label: 'Public' },
-                ]}
-              />
-            </Grid.Col>
-
-            <Grid.Col span={4}>
-              <Group h={'2.25rem'} w={'100%'}>
-                <GourmetText cgmff={'ui'}>Allowed TCGs</GourmetText>
-              </Group>
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <Stack gap={'0.5rem'}>
-                <GourmetMultiSelect
-                  placeholder={'Choose'}
-                  w={'100%'}
-                  maw={'100%'}
-                  data={[
-                    { value: 'mtg', label: 'MTG' },
-                    { value: 'pcg', label: 'PCG' },
-                    { value: 'dlc', label: 'DLC' },
-                  ]}
+            console.log(form.getValues());
+          }}
+        >
+          <Stack>
+            <Grid>
+              <Grid.Col span={4}>
+                <Group h={'2.25rem'} w={'100%'}>
+                  <GourmetText cgmff={'ui'}>
+                    Name <span className={styles.requiredAsterisk}>*</span>
+                  </GourmetText>
+                </Group>
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <GourmetTextInput
+                  placeholder={'e.g. "New deck ideas"'}
+                  key={form.key('name')}
+                  {...form.getInputProps('name')}
                 />
-                <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
-                  If empty, all TCGs are allowed.
-                </GourmetText>
-              </Stack>
-            </Grid.Col>
+              </Grid.Col>
 
-            <Grid.Col span={4}>
-              <Group h={'100%'} w={'100%'}>
-                <GourmetText cgmff={'ui'}>Color</GourmetText>
-              </Group>
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <ColorSelect />
-            </Grid.Col>
-          </Grid>
+              <Grid.Col span={4}>
+                <Group h={'2.25rem'} w={'100%'}>
+                  <GourmetText cgmff={'ui'}>Description</GourmetText>
+                </Group>
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <GourmetTextInput
+                  placeholder={'Describe your list'}
+                  key={form.key('description')}
+                  {...form.getInputProps('description')}
+                />
+              </Grid.Col>
 
-          <Group mt={'0.5rem'}>
-            <GourmetText cgmff={'ui'} aria-hidden="true">
-              <span className={styles.requiredAsterisk}>*</span> Required Field
-            </GourmetText>
-          </Group>
+              <Grid.Col span={4}>
+                <Group h={'2.25rem'} w={'100%'}>
+                  <GourmetText cgmff={'ui'}>Visibility</GourmetText>
+                </Group>
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <GourmetSelect
+                  placeholder={'Visibility'}
+                  data={visibilityData}
+                  defaultValue={'private'}
+                  onChange={(val) => {
+                    form.setFieldValue('visibility', val ?? '');
+                  }}
+                  allowDeselect={false}
+                />
+              </Grid.Col>
 
-          <Group justify={'end'}>
-            <Button color={'var(--gourmet-neutral-5)'} onClick={close}>
-              <GourmetText cgmc={'neutral-9'}>Cancel</GourmetText>
-            </Button>
-            <Button color={'var(--gourmet-blue-1)'}>
-              <GourmetText cgmc={'neutral-1'}>Create</GourmetText>
-            </Button>
-          </Group>
-        </Stack>
+              <Grid.Col span={4}>
+                <Group h={'2.25rem'} w={'100%'}>
+                  <GourmetText cgmff={'ui'}>Allowed TCGs</GourmetText>
+                </Group>
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <Stack gap={'0.25rem'}>
+                  <GourmetMultiSelect
+                    placeholder={'Choose'}
+                    w={'100%'}
+                    maw={'100%'}
+                    data={allowedTcgsData}
+                    key={form.key('allowedTcgs')}
+                    {...form.getInputProps('allowedTcgs')}
+                  />
+                  <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
+                    If empty, all TCGs are allowed.
+                  </GourmetText>
+                </Stack>
+              </Grid.Col>
+
+              <Grid.Col span={4}>
+                <Group h={'100%'} w={'100%'}>
+                  <GourmetText cgmff={'ui'}>Color</GourmetText>
+                </Group>
+              </Grid.Col>
+              <Grid.Col span={8}>
+                <ColorSelect
+                  onChange={(val) => {
+                    form.setFieldValue('color', val);
+                  }}
+                />
+              </Grid.Col>
+            </Grid>
+
+            <Group mt={'0.5rem'}>
+              <GourmetText cgmff={'ui'} aria-hidden="true">
+                <span className={styles.requiredAsterisk}>*</span> Required Field
+              </GourmetText>
+            </Group>
+
+            <Group justify={'end'}>
+              <Button color={'var(--gourmet-neutral-5)'} onClick={close}>
+                <GourmetText cgmc={'neutral-9'}>Cancel</GourmetText>
+              </Button>
+              <Button type="submit" color={'var(--gourmet-blue-1)'}>
+                <GourmetText cgmc={'neutral-1'}>Create</GourmetText>
+              </Button>
+            </Group>
+          </Stack>
+        </form>
       </Modal>
 
       <Button
@@ -137,64 +177,4 @@ export default function CreateListButton() {
       </Button>
     </>
   );
-}
-
-function ColorSelect() {
-  //const colors = ['FFADAD', 'FFD6A5', 'FDFFB6', 'CAFFBF', '9BF6FF', 'A0C4FF', 'BDB2FF', 'FFC6FF'];
-  const colors = ['#e6261f', '#eb7532', '#f7d038', '#a3e048', '#49da9a', '#34bbe6', '#4355db', '#d23be7'];
-  const [currentSelected, setCurrentSelected] = useState<string | undefined>(undefined);
-
-  return (
-    <Group gap={'0.5rem'}>
-      {colors.map((color, i) => {
-        const isSelected = currentSelected === color;
-
-        return (
-          <UnstyledButton
-            onClick={() => {
-              if (isSelected) {
-                setCurrentSelected(undefined);
-              } else {
-                setCurrentSelected(color);
-              }
-            }}
-            key={i}
-            style={{ color: `${color}` }}
-            className={styles.colorSelectButton}
-            data-selected={isSelected}
-          />
-        );
-      })}
-    </Group>
-  );
-}
-
-function GourmetMultiSelect(props: MultiSelectProps) {
-  return (
-    <MultiSelect {...props} classNames={{ root: styles.multiSelect }} rightSection={<IconChevronDown size={18} />} />
-  );
-}
-
-function GourmetSelect(props: SelectProps) {
-  return (
-    <Select
-      {...props}
-      classNames={{ root: styles.select }}
-      renderOption={({ option, checked }) => {
-        return (
-          <Group justify={'space-between'} w={'100%'}>
-            <GourmetText cgmc={checked ? 'neutral-9' : 'neutral-7'} cgmff={'ui'} fw={checked ? '500' : ''}>
-              {option.label}
-            </GourmetText>
-            {checked && <IconCheck size={20} />}
-          </Group>
-        );
-      }}
-      rightSection={<IconChevronDown size={18} />}
-    />
-  );
-}
-
-function GourmetTextInput(props: TextInputProps) {
-  return <TextInput {...props} classNames={{ root: styles.textInput }} />;
 }

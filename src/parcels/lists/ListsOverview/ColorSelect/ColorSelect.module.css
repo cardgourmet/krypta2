@@ -1,0 +1,25 @@
+.colorSelectButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+  border-radius: 4px;
+  background: currentColor;
+
+  &:focus-within {
+    box-shadow: currentColor 0 0 4px;
+  }
+
+  &[data-selected="true"] {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0.375rem;
+      height: 0.375rem;
+      background-color: white;
+      border-radius: 50%;
+    }
+  }
+}
