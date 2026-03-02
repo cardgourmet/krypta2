@@ -1,5 +1,5 @@
 import {Divider, Group, Stack} from '@mantine/core';
-import {IconBookmark, IconGlobe, IconLink, IconLock, IconStar} from '@tabler/icons-react';
+import {IconBookmark, IconLink, IconLock, IconStar, IconWorld} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
 import {DeleteListButton} from '@/parcels/lists/ListsOverview/DeleteListButton/DeleteListButton.tsx';
 import {EditListButton} from '@/parcels/lists/ListsOverview/EditListButton/EditListButton.tsx';
@@ -38,7 +38,7 @@ export function ListElementHeader({ list }: { list: UserList }) {
           </Group>
 
           <Group gap={'0.25rem'}>
-            <EditListButton />
+            <EditListButton list={list} />
             <DeleteListButton list={list} />
           </Group>
         </Group>
@@ -56,7 +56,7 @@ function VisibilityBadge({ visibility }: { visibility: 'private' | 'public' | un
   return (
     <Group gap={'0.2rem'} className={styles.visibilityBadge} wrap={'nowrap'}>
       {visibility === 'private' && <IconLock size={18} color={'var(--gourmet-neutral-7'} />}
-      {visibility === 'public' && <IconGlobe size={18} color={'var(--gourmet-neutral-7'} />}
+      {visibility === 'public' && <IconWorld size={18} color={'var(--gourmet-neutral-7'} />}
       {visibility === undefined && <IconLink size={18} color={'var(--gourmet-neutral-7'} />}
 
       <GourmetText fz={'0.9rem'} c={'var(--gourmet-neutral-7'}>

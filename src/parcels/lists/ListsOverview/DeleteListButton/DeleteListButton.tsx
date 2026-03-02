@@ -1,12 +1,17 @@
 import {ActionIcon, Button, Group, Modal, Stack, Tooltip} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import {IconTrash, IconTrashOff} from '@tabler/icons-react';
+import {useRouter} from '@tanstack/react-router';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {deleteLists} from '@/parcels/lists/api.ts';
 import styles from '@/parcels/lists/ListsOverview/ListElementHeader/ListElementHeader.module.css';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 
 export function DeleteListButton({ list }: { list: UserList }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const auth = useAuth();
+  const router = useRouter();
 
   return (
     <>
@@ -26,8 +31,30 @@ export function DeleteListButton({ list }: { list: UserList }) {
           <GourmetText>This will delete the list {list.name} permanently.</GourmetText>
 
           <Group justify={'end'}>
-            <Button>Cancel</Button>
-            <Button>Confirm delete</Button>
+            <Button color={'var(--gourmet-neutral-5)'} onClick={close}>
+              <GourmetText cgmc={'neutral-9'}>Cancel</GourmetText>
+            </Button>
+            <Button
+              color={'var(--gourmet-red-01)'}
+              onClick={() => {
+                if (!auth.user) return;
+
+                deleteLists(auth.user.id, [list.id], auth.token).then(({ error }) => {
+                  if (error) {
+                    console.log('error when deleting list :(', error);
+                    return;
+                  }
+
+                  console.log('success!');
+
+                  // cleanup and close
+                  close();
+                  router.invalidate();
+                });
+              }}
+            >
+              <GourmetText cgmc={'neutral-0'}>Confirm delete</GourmetText>
+            </Button>
           </Group>
         </Stack>
       </Modal>
