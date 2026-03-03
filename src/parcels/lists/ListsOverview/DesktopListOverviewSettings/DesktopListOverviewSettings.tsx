@@ -1,28 +1,28 @@
 import {Center, Group, SegmentedControl} from '@mantine/core';
 import {IconColumns3, IconLayoutGrid} from '@tabler/icons-react';
+import {useNavigate} from '@tanstack/react-router';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
+import {Route} from '@/routes/me/lists';
 import styles from './DesktopListOverviewSettings.module.css';
 
 export function DesktopListOverviewSettings() {
   const { t } = useTranslation('lists');
+  const search = Route.useSearch();
+  const navigate = useNavigate();
 
   const sortByItems = {
     name: 'Name',
     updatedAt: 'Last Updated',
     size: 'Size',
   };
-  const defaultSortBy = 'name';
 
   const sortDirItems = {
     asc: 'Ascending',
     desc: 'Descending',
     auto: 'Auto',
   };
-  const defaultSortDirection = 'auto';
-
-  const defaultDisplayMode = 'grid';
 
   return (
     <Group justify={'space-between'}>
@@ -35,22 +35,28 @@ export function DesktopListOverviewSettings() {
             items={sortByItems}
             t={t}
             transPrefix={'sortby'}
-            defaultSelected={defaultSortBy}
-            onSelect={() => {
-              /*setSettingsWrapper((prev) => {
-                return { ...prev, sortBy: sel as TcgSortBy };
-              });*/
+            defaultSelected={search.sortBy}
+            onSelect={(sel) => {
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                from: '/me/lists',
+                search: (prev) => ({ ...prev, sortBy: sel as 'name' | 'updatedAt' | 'size' }),
+                replace: true,
+              });
             }}
           />
           <TextDropdown
             items={sortDirItems}
             t={t}
             transPrefix={'sortdir'}
-            defaultSelected={defaultSortDirection}
-            onSelect={() => {
-              /*setSettingsWrapper((prev) => {
-                return { ...prev, sortDirection: sel as SortDirection };
-              });*/
+            defaultSelected={search.sortDir}
+            onSelect={(sel) => {
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                from: '/me/lists',
+                search: (prev) => ({ ...prev, sortDir: sel as 'auto' | 'asc' | 'desc' }),
+                replace: true,
+              });
             }}
           />
         </Group>
@@ -61,11 +67,14 @@ export function DesktopListOverviewSettings() {
           color={'var(--gourmet-blue-1)'}
           transitionDuration={100}
           transitionTimingFunction={'linear'}
-          value={defaultDisplayMode}
-          onChange={() => {
-            /*setSettingsWrapper((prev) => {
-              return { ...prev, display: sel as DisplayMode };
-            });*/
+          value={search.display}
+          onChange={(sel) => {
+            // noinspection JSIgnoredPromiseFromCall
+            navigate({
+              from: '/me/lists',
+              search: (prev) => ({ ...prev, display: sel as 'grid' | 'table' }),
+              replace: true,
+            });
           }}
           data={[
             {

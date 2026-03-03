@@ -43,7 +43,18 @@ export function ListElementHeader({ list }: { list: UserList }) {
           </Group>
         </Group>
         {list.systemListType && <GourmetText cgmc={'neutral-6'}>{t(`system.${list.systemListType}-desc`)}</GourmetText>}
-        {list.description && <GourmetText cgmc={'neutral-7'}>{list.description}</GourmetText>}
+        {list.description && (
+          <GourmetText
+            cgmc={'neutral-7'}
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              textWrap: 'nowrap',
+            }}
+          >
+            {list.description}
+          </GourmetText>
+        )}
         {!list.systemListType && !list.description && <GourmetText cgmc={'neutral-4'}>No description set.</GourmetText>}
       </Stack>
 

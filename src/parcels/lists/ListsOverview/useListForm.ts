@@ -1,9 +1,10 @@
 import {useForm} from '@mantine/form';
+import {useEffect} from 'react';
 import {validate} from 'uuid';
 import type {UserList} from '@/parcels/lists/types.ts';
 
 export function useListForm(props?: { list?: Partial<UserList> }) {
-  return useForm({
+  const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
       name: props?.list?.name || '',
@@ -25,4 +26,18 @@ export function useListForm(props?: { list?: Partial<UserList> }) {
       },
     },
   });
+
+  useEffect(() => {
+    const values = {
+      name: props?.list?.name || '',
+      description: props?.list?.description || '',
+      visibility: props?.list?.visibility || ('private' as string | undefined),
+      allowedTcgs: props?.list?.allowedTcgs || ([] as string[]),
+      color: props?.list?.color || (undefined as string | undefined),
+    };
+
+    form.setValues(values);
+  }, [props?.list, form.setValues]);
+
+  return form;
 }

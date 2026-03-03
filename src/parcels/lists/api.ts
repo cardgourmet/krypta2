@@ -4,6 +4,8 @@ import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
 // /v1/users/{id}/lists
 export async function fetchLists(
   userId: string,
+  sortBy?: 'name' | 'updatedAt' | 'size',
+  sortOrder?: 'asc' | 'desc',
   sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ data?: UserListResponse; error?: Error }> {
@@ -16,6 +18,8 @@ export async function fetchLists(
         query: {
           createSystem: 'true',
           withSize: 'true',
+          sortBy: sortBy ?? 'name',
+          sortOrder: sortOrder ?? undefined,
         },
         path: {
           id: userId,

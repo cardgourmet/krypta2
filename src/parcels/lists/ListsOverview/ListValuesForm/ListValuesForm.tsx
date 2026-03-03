@@ -104,6 +104,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
         </Grid.Col>
         <Grid.Col span={8}>
           <ColorSelect
+            value={form.getValues().color}
             onChange={(val) => {
               form.setFieldValue('color', val);
             }}
