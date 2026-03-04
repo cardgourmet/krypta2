@@ -1,11 +1,13 @@
-import {Grid, Group, Stack} from '@mantine/core';
+import {ActionIcon, Grid, Group, Popover, Stack} from '@mantine/core';
+import {IconInfoCircle} from '@tabler/icons-react';
+import {useState} from 'react';
 import {ColorSelect} from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
-import styles from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.module.css';
 import type {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
 import {GourmetMultiSelect} from '@/parcels/mantine/GourmetMultiSelect/GourmetMultiSelect.tsx';
 import {GourmetSelect} from '@/parcels/mantine/GourmetSelect/GourmetSelect.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {GourmetTextInput} from '@/parcels/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import styles from './ListValuesForm.module.css';
 
 export type ListValues = {
   name: string;
@@ -26,6 +28,8 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
     { value: 'pcg', label: 'PCG' },
     { value: 'dlc', label: 'DLC' },
   ];
+
+  const [opened, setOpened] = useState(false);
 
   return (
     <Stack>
@@ -59,8 +63,26 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Group h={'2.25rem'} w={'100%'}>
+          <Group h={'2.25rem'} w={'100%'} gap={'0.2rem'}>
             <GourmetText cgmff={'ui'}>Visibility</GourmetText>
+
+            <Popover width={200} position="bottom" withArrow shadow="md" opened={opened} onChange={setOpened}>
+              <Popover.Target>
+                <ActionIcon className={styles.infoButton} onClick={() => setOpened((o) => !o)}>
+                  <IconInfoCircle size={20} color={'var(--gourmet-neutral-8)'} />
+                </ActionIcon>
+              </Popover.Target>
+
+              <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+                <GourmetText size="sm">
+                  <b>Private</b> lists can only be seen by you. <br />
+                  <br />
+                  <b>Unlisted</b> can be seen by everybody who has the link to your list. <br />
+                  <br />
+                  <b>Public</b> can be seen by everybody.
+                </GourmetText>
+              </Popover.Dropdown>
+            </Popover>
           </Group>
         </Grid.Col>
         <Grid.Col span={8}>

@@ -1,0 +1,12 @@
+.requiredAsterisk {
+  color: var(--gourmet-red-01);
+}
+
+.infoButton {
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-4);
+  }
+}
