@@ -1,11 +1,13 @@
 import type {UserList, UserListResponse} from '@/parcels/lists/types.ts';
-import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
+import umoriClient from '@/schema/umoriClient.ts';
 
 // /v1/users/{id}/lists
 export async function fetchLists(
   userId: string,
   sortBy?: 'name' | 'updatedAt' | 'size',
   sortOrder?: 'asc' | 'desc',
+  game?: Tcg,
   sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ data?: UserListResponse; error?: Error }> {
@@ -16,10 +18,13 @@ export async function fetchLists(
       },
       params: {
         query: {
+          game: game,
           createSystem: 'true',
           withSize: 'true',
           sortBy: sortBy ?? 'name',
           sortOrder: sortOrder ?? undefined,
+          withResources: 'true',
+          resourcesPerType: 5,
         },
         path: {
           id: userId,

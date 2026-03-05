@@ -1,5 +1,5 @@
 import {Divider, Group, Stack} from '@mantine/core';
-import {IconBookmark, IconLink, IconLock, IconStar, IconWorld} from '@tabler/icons-react';
+import {IconBookmark, IconLabelFilled, IconLink, IconLock, IconStar, IconWorld} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
 import {DeleteListButton} from '@/parcels/lists/ListsOverview/DeleteListButton/DeleteListButton.tsx';
 import {EditListButton} from '@/parcels/lists/ListsOverview/EditListButton/EditListButton.tsx';
@@ -35,6 +35,8 @@ export function ListElementHeader({ list }: { list: UserList }) {
             </GourmetText>
 
             <VisibilityBadge visibility={list.visibility} />
+
+            <IconLabelFilled size={22} color={list.color ?? 'var(--gourmet-neutral-9'} />
           </Group>
 
           <Group gap={'0.25rem'}>

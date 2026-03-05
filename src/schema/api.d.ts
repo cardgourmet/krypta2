@@ -1409,6 +1409,52 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/mtg/cards/search/filters/values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get MTG Search Filter Values (Multiple)
+         * @description Returns a subset of values available for use in the given filters used for auto-completion.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The filters to return available values for. Comma separated. */
+                    filters: string;
+                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+                    lang?: string;
+                    /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
+                    amount?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-Map-String-SearchQueryExecutorFilterValues"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/mtg/cards/search/filters/types": {
         parameters: {
             query?: never;
@@ -1717,6 +1763,54 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["DataApiResponse-MtgDataSet"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/mtg/sets/{setId}/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The id or code of the set to return. */
+                setId: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * Get MTG Set Categories
+         * @description Return all categories related to a Magic: The Gathering set.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+                    withSubsets?: string;
+                };
+                header?: never;
+                path: {
+                    /** @description The id or code of the set to return. */
+                    setId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-List-DataSetCategoryQuery"];
                     };
                 };
             };
@@ -2207,6 +2301,52 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dlc/cards/search/filters/values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get DLC Search Filter Values (Multiple)
+         * @description Returns a subset of values available for use in the given filters used for auto-completion.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The filters to return available values for. Comma separated. */
+                    filters: string;
+                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+                    lang?: string;
+                    /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
+                    amount?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-Map-String-SearchQueryExecutorFilterValues"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dlc/cards/search/filters/types": {
         parameters: {
             query?: never;
@@ -2520,6 +2660,51 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dlc/sets/{setId}/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The id or code of the set to return. */
+                setId: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * Get DLC Set Categories
+         * @description Return all categories related to a Disney Lorcana set.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id or code of the set to return. */
+                    setId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-List-DataSetCategoryQuery"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/pcg/cards/search": {
         parameters: {
             query?: never;
@@ -2788,6 +2973,52 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["DataApiResponse-SearchQueryExecutorFilterValues"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/pcg/cards/search/filters/values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get PCG Search Filter Values (Multiple)
+         * @description Returns a subset of values available for use in the given filters used for auto-completion.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The filters to return available values for. Comma separated. */
+                    filters: string;
+                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+                    lang?: string;
+                    /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
+                    amount?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-Map-String-SearchQueryExecutorFilterValues"];
                     };
                 };
             };
@@ -3103,6 +3334,51 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["DataApiResponse-PcgDataSet"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/pcg/sets/{setId}/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The id or code of the set to return. */
+                setId: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * Get PCG Set Categories
+         * @description Return all categories related to a Pokémon Trading Card Game set.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id or code of the set to return. */
+                    setId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-List-DataSetCategoryQuery"];
                     };
                 };
             };
@@ -3716,6 +3992,10 @@ export interface paths {
                     createSystem?: string;
                     /** @description If true, will resolve the size of each list before returning. */
                     withSize?: string;
+                    /** @description If true, will also resolve some listed resources based on the TCG */
+                    withResources?: string;
+                    /** @description Only used if withResources is set. */
+                    resourcesPerType?: number;
                     /** @description The id of the page to return. Defaults to `0`. */
                     page?: number;
                     /** @description The amount of items to return per page. Defaults to `10`. */
@@ -3736,7 +4016,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserListWithSize"];
+                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserListWithResources"];
                     };
                 };
             };
@@ -3886,7 +4166,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/users/{id}/lists/{listId}/card": {
+    "/v1/users/{id}/lists/{listId}/resources/card": {
         parameters: {
             query?: never;
             header?: never;
@@ -4009,745 +4289,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/users/{id}/lists/{listId}/deck": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get deck Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add deck Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove deck Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/cube": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get cube Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add cube Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove cube Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/USER_CARD": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get USER_CARD Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add USER_CARD Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove USER_CARD Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/USER_DECK": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get USER_DECK Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add USER_DECK Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove USER_DECK Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/USER_CUBE": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get USER_CUBE Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add USER_CUBE Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove USER_CUBE Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/USER_BINDER": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get USER_BINDER Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add USER_BINDER Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove USER_BINDER Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/user_search": {
+    "/v1/users/{id}/lists/{listId}/resources/search": {
         parameters: {
             query?: never;
             header?: never;
@@ -4991,7 +4533,7 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Get Listed Resources
+         * Get Listed card Resources
          * @description User listing information for a subset of resources.
          */
         post: {
@@ -5028,7 +4570,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/users/{id}/listed-resources/deck": {
+    "/v1/users/{id}/listed-resources/search": {
         parameters: {
             query?: never;
             header?: never;
@@ -5041,307 +4583,7 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Get Listed Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/cube": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/USER_CARD": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/USER_DECK": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/USER_CUBE": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/USER_BINDER": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/user_search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed Resources
+         * Get Listed user_search Resources
          * @description User listing information for a subset of resources.
          */
         post: {
@@ -7056,6 +6298,7 @@ export interface components {
         };
         SearchQueryExecutorFilterValue: {
             aliases?: string[] | null;
+            displayValue: string;
             language?: string | null;
             resolvesTo?: string | null;
             resolvesToOperator?: components["schemas"]["SearchQueryOperator"] | null;
@@ -7071,6 +6314,13 @@ export interface components {
         };
         "DataApiResponse-SearchQueryExecutorFilterValues": {
             data: components["schemas"]["SearchQueryExecutorFilterValues"];
+            /** Format: int32 */
+            statusCode: number;
+        };
+        "DataApiResponse-Map-String-SearchQueryExecutorFilterValues": {
+            data: {
+                [key: string]: components["schemas"]["SearchQueryExecutorFilterValues"];
+            };
             /** Format: int32 */
             statusCode: number;
         };
@@ -7137,6 +6387,18 @@ export interface components {
         };
         "DataApiResponse-MtgDataSet": {
             data: components["schemas"]["MtgDataSet"];
+            /** Format: int32 */
+            statusCode: number;
+        };
+        DataSetCategoryQuery: {
+            game: components["schemas"]["GameType"];
+            id?: string | null;
+            name: string;
+            printIds: string[];
+            query: string;
+        };
+        "DataApiResponse-List-DataSetCategoryQuery": {
+            data: components["schemas"]["DataSetCategoryQuery"][];
             /** Format: int32 */
             statusCode: number;
         };
@@ -7691,6 +6953,8 @@ export interface components {
         UserSystemListType: "favorites" | "bookmarks";
         /** @enum {string} */
         UserListVisibility: "private" | "public";
+        /** @enum {string} */
+        ListResourceType: "card" | "deck" | "cube" | "USER_CARD" | "USER_DECK" | "USER_CUBE" | "USER_BINDER" | "user_search";
         UserList: {
             allowedTcgs?: ("mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab")[] | null;
             color?: string | null;
@@ -7708,22 +6972,44 @@ export interface components {
             userId: string;
             visibility?: components["schemas"]["UserListVisibility"];
         };
-        UserListWithSize: {
+        UserListResource: {
+            /** Format: date-time */
+            createdAt: string;
+            game?: components["schemas"]["GameType"] | null;
+            /** Format: uuid */
+            listId: string;
+            /** Format: uuid */
+            resourceId: string;
+            resourceMeta?: components["schemas"]["JsonObject"] | null;
+            resourceType: components["schemas"]["ListResourceType"];
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: uuid */
+            userId: string;
+        };
+        ResolvedUserListResource: {
+            listResource: components["schemas"]["UserListResource"];
+            resourceData: components["schemas"]["JsonObject"];
+        };
+        UserListWithResources: {
             list: components["schemas"]["UserList"];
+            resources?: null | {
+                [key: string]: components["schemas"]["ResolvedUserListResource"][];
+            };
             size?: number | null;
         };
-        "SimplePage-UserListWithSize": {
+        "SimplePage-UserListWithResources": {
             /** Format: int32 */
             currentPage: number;
             hasNextPage: boolean;
-            items: components["schemas"]["UserListWithSize"][];
+            items: components["schemas"]["UserListWithResources"][];
             /** Format: int32 */
             lastPage: number;
             /** Format: int32 */
             nextPage: number;
         };
-        "DataApiResponse-SimplePage-UserListWithSize": {
-            data: components["schemas"]["SimplePage-UserListWithSize"];
+        "DataApiResponse-SimplePage-UserListWithResources": {
+            data: components["schemas"]["SimplePage-UserListWithResources"];
             /** Format: int32 */
             statusCode: number;
         };
@@ -7754,27 +7040,6 @@ export interface components {
         };
         DeleteUserListsRequest: {
             listIds: string[];
-        };
-        /** @enum {string} */
-        ListResourceType: "card" | "deck" | "cube" | "USER_CARD" | "USER_DECK" | "USER_CUBE" | "USER_BINDER" | "user_search";
-        UserListResource: {
-            /** Format: date-time */
-            createdAt: string;
-            game?: components["schemas"]["GameType"] | null;
-            /** Format: uuid */
-            listId: string;
-            /** Format: uuid */
-            resourceId: string;
-            resourceMeta?: components["schemas"]["JsonObject"] | null;
-            resourceType: components["schemas"]["ListResourceType"];
-            /** Format: date-time */
-            updatedAt: string;
-            /** Format: uuid */
-            userId: string;
-        };
-        ResolvedUserListResource: {
-            listResource: components["schemas"]["UserListResource"];
-            resourceData: components["schemas"]["JsonObject"];
         };
         "SimplePage-ResolvedUserListResource": {
             /** Format: int32 */

@@ -1,6 +1,7 @@
 {
   "common": {
-    "sortby": "Sort by"
+    "sortby": "Sort by",
+    "filterBy": "Filter by"
   },
   "sortby": {
     "name": "Name",
@@ -21,5 +22,8 @@
     "favorites": "Favorites",
     "favorites-desc": "All of your favorite things, possibly showing them off in your profile."
   },
-  "last-updated": "Last updated"
+  "last-updated": "Last updated",
+  "mtg": "Magic: The Gathering",
+  "pcg": "Pokémon Card Game",
+  "dlc": "Disney Lorcana"
 }

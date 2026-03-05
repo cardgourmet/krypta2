@@ -4,6 +4,7 @@ import {useNavigate} from '@tanstack/react-router';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {Route} from '@/routes/me/lists';
 import styles from './DesktopListOverviewSettings.module.css';
 
@@ -58,6 +59,29 @@ export function DesktopListOverviewSettings() {
                 replace: true,
               });
             }}
+          />
+        </Group>
+        <Group gap={'0.25rem'}>
+          <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
+            {t('common.filterBy')}
+          </GourmetText>
+          <TextDropdown
+            items={{
+              mtg: t('mtg'),
+              pcg: t('pcg'),
+              dlc: t('dlc'),
+            }}
+            t={t}
+            defaultSelected={'mtg'}
+            onSelect={(sel) => {
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                from: '/me/lists',
+                search: (prev) => ({ ...prev, tcg: sel as Tcg }),
+                replace: true,
+              });
+            }}
+            miw={'14rem'}
           />
         </Group>
       </Group>

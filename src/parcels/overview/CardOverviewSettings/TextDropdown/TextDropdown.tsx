@@ -1,5 +1,6 @@
-import {Combobox, Group, UnstyledButton, useCombobox} from '@mantine/core';
+import {Combobox, Group, type StyleProp, UnstyledButton, useCombobox} from '@mantine/core';
 import {IconCaretDownFilled, IconCheck} from '@tabler/icons-react';
+import type {Property} from 'csstype';
 import type {TFunction} from 'i18next';
 import {useState} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -12,9 +13,11 @@ export type TextDropdownProps = {
 
   defaultSelected?: string;
   onSelect?: (selected: string) => void;
+
+  miw?: StyleProp<Property.MinWidth<string | number> | undefined>;
 };
 
-export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect }: TextDropdownProps) {
+export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect, miw }: TextDropdownProps) {
   const combobox = useCombobox();
   const [selectedValue, setSelectedValue] = useState<string | undefined>(defaultSelected);
   const options = Object.entries(items).map(([key, value]) => (
@@ -62,7 +65,7 @@ export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect 
         </UnstyledButton>
       </Combobox.Target>
 
-      <Combobox.Dropdown miw={'12rem'}>
+      <Combobox.Dropdown miw={miw ?? '12rem'}>
         <Combobox.Options mah={'24rem'} style={{ overflowY: 'auto' }}>
           {options}
         </Combobox.Options>
