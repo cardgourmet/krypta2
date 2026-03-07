@@ -4,11 +4,11 @@ import {IconPencil, IconPencilOff} from '@tabler/icons-react';
 import {useRouter} from '@tanstack/react-router';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {updateList} from '@/parcels/lists/api.ts';
-import styles from '@/parcels/lists/ListsOverview/ListElementHeader/ListElementHeader.module.css';
 import {ListValuesForm} from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
 import {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import styles from './EditListButton.module.css';
 
 export function EditListButton({ list }: { list: UserList }) {
   const [opened, { open, close }] = useDisclosure(false);

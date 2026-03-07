@@ -1,8 +1,9 @@
 import {Divider, Group, Stack} from '@mantine/core';
 import {IconBookmark, IconLabelFilled, IconLink, IconLock, IconStar, IconWorld} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
 import {useTranslation} from 'react-i18next';
-import {DeleteListButton} from '@/parcels/lists/ListsOverview/DeleteListButton/DeleteListButton.tsx';
-import {EditListButton} from '@/parcels/lists/ListsOverview/EditListButton/EditListButton.tsx';
+import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
+import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from './ListElementHeader.module.css';
@@ -18,21 +19,23 @@ export function ListElementHeader({ list }: { list: UserList }) {
             {list.systemListType === 'bookmarks' && <IconBookmark size={22} color={'var(--gourmet-neutral-9'} />}
             {list.systemListType === 'favorites' && <IconStar size={22} color={'var(--gourmet-neutral-9'} />}
 
-            <GourmetText
-              cgmff={'ui'}
-              cgmc={'neutral-9'}
-              fw={400}
-              fz={'1.5rem'}
-              maw={'22rem'}
-              style={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                textWrap: 'nowrap',
-              }}
-            >
-              {list.systemListType && t(`system.${list.name}`)}
-              {!list.systemListType && <>{list.name}</>}
-            </GourmetText>
+            <Link to={'/me/lists/$listId'} params={{ listId: list.slug }} className={styles.link}>
+              <GourmetText
+                cgmff={'ui'}
+                cgmc={'neutral-9'}
+                fw={400}
+                fz={'1.5rem'}
+                maw={'22rem'}
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  textWrap: 'nowrap',
+                }}
+              >
+                {list.systemListType && t(`system.${list.name}`)}
+                {!list.systemListType && <>{list.name}</>}
+              </GourmetText>
+            </Link>
 
             <VisibilityBadge visibility={list.visibility} />
 

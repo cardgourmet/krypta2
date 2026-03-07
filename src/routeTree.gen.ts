@@ -18,6 +18,7 @@ import { Route as MeFavoritesIndexRouteImport } from './routes/me/favorites/inde
 import { Route as MeBookmarksIndexRouteImport } from './routes/me/bookmarks/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
+import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
 import { Route as TcgCardsPrintIdRouteImport } from './routes/$tcg/cards/$printId'
 import { Route as TcgSetsSetCodeIndexRouteImport } from './routes/$tcg/sets/$setCode/index'
@@ -68,6 +69,11 @@ const TcgAdvancedIndexRoute = TcgAdvancedIndexRouteImport.update({
   path: '/$tcg/advanced/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MeListsListIdRoute = MeListsListIdRouteImport.update({
+  id: '/me/lists/$listId',
+  path: '/me/lists/$listId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthConfirmTokenRoute = AuthConfirmTokenRouteImport.update({
   id: '/auth/confirm/$token',
   path: '/auth/confirm/$token',
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/me/bookmarks': typeof MeBookmarksIndexRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/me/bookmarks': typeof MeBookmarksIndexRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/me/bookmarks/': typeof MeBookmarksIndexRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
+    | '/me/lists/$listId'
     | '/$tcg/advanced'
     | '/$tcg/cards'
     | '/me/bookmarks'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
+    | '/me/lists/$listId'
     | '/$tcg/advanced'
     | '/$tcg/cards'
     | '/me/bookmarks'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/register/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
+    | '/me/lists/$listId'
     | '/$tcg/advanced/'
     | '/$tcg/cards/'
     | '/me/bookmarks/'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   RegisterIndexRoute: typeof RegisterIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
+  MeListsListIdRoute: typeof MeListsListIdRoute
   TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
   MeBookmarksIndexRoute: typeof MeBookmarksIndexRoute
@@ -265,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TcgAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/me/lists/$listId': {
+      id: '/me/lists/$listId'
+      path: '/me/lists/$listId'
+      fullPath: '/me/lists/$listId'
+      preLoaderRoute: typeof MeListsListIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/confirm/$token': {
       id: '/auth/confirm/$token'
       path: '/auth/confirm/$token'
@@ -303,6 +323,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterIndexRoute: RegisterIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
+  MeListsListIdRoute: MeListsListIdRoute,
   TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
   MeBookmarksIndexRoute: MeBookmarksIndexRoute,

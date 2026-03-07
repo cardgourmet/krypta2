@@ -44,6 +44,7 @@ export const Route = createFileRoute('/me/lists/')({
 
 function RouteComponent() {
   const res = Route.useLoaderData();
+  const search = Route.useSearch();
 
-  return <ListsOverview res={res} />;
+  return <ListsOverview tcg={search.tcg} res={res} />;
 }

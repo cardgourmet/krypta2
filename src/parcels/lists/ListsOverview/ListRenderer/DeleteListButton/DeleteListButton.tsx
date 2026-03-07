@@ -4,9 +4,9 @@ import {IconTrash, IconTrashOff} from '@tabler/icons-react';
 import {useRouter} from '@tanstack/react-router';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {deleteLists} from '@/parcels/lists/api.ts';
-import styles from '@/parcels/lists/ListsOverview/ListElementHeader/ListElementHeader.module.css';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import styles from './DeleteListButton.module.css';
 
 export function DeleteListButton({ list }: { list: UserList }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -28,7 +28,9 @@ export function DeleteListButton({ list }: { list: UserList }) {
         }
       >
         <Stack>
-          <GourmetText>This will delete the list {list.name} permanently.</GourmetText>
+          <GourmetText>
+            This will delete the list <code>{list.name}</code> permanently.
+          </GourmetText>
 
           <Group justify={'end'}>
             <Button color={'var(--gourmet-neutral-5)'} onClick={close}>
