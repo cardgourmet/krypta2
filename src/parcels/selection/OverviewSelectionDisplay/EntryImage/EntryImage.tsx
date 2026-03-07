@@ -2,7 +2,7 @@ import {UnstyledButton} from '@mantine/core';
 import {useRef, useState} from 'react';
 import {FlipButton} from '@/parcels/overview/CardGrid/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/FlipImage/FlipImage.tsx';
-import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCard/createProps.ts';
+import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
 import type {TcgOverviewWorkSpace} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';

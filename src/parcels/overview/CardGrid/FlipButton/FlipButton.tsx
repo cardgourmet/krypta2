@@ -1,7 +1,7 @@
 import {Container} from '@mantine/core';
 import {IconRefresh} from '@tabler/icons-react';
 import type {RefObject} from 'react';
-import styles from '@/parcels/overview/CardGrid/ImageCard/ImageCard.module.css';
+import styles from './FlipButton.module.css';
 
 export function FlipButton({
   flipped,

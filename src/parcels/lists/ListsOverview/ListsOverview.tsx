@@ -2,14 +2,18 @@ import {Center, Divider, Group, SimpleGrid, Stack} from '@mantine/core';
 import {IconCards, IconSearch} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import type {fetchLists} from '@/parcels/lists/api.ts';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
 import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListElementHeader/ListElementHeader.tsx';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import type {ResolvedUserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {createProps} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
+import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import {Route} from '@/routes/me/lists';
 import styles from './ListsOverview.module.css';
 
@@ -119,14 +123,37 @@ function ListRenderer({ listWithResources }: { listWithResources: UserListWithRe
                     <IconCards size={22} />
                   </Center>
                 </div>
-                <div style={{ wordBreak: 'break-all', height: '100%', overflowY: 'hidden' }}>
-                  <GourmetText>{JSON.stringify(cardResources)}</GourmetText>
-                </div>
+                <CardResourcesRenderer resources={cardResources} />
               </Group>
             )}
           </Stack>
         )}
       </Stack>
     </Stack>
+  );
+}
+
+function CardResourcesRenderer({ resources }: { resources: ResolvedUserListResource[] }) {
+  return (
+    <>
+      {resources.map((resource) => {
+        const data = resource.resourceData as unknown as TcgDataCard;
+        const prop = createProps('mtg', {
+          card: data,
+          preferredDisplayLanguage: 'en',
+          preferredDisplayFaceIndex: 0,
+        } as TcgSearchDataCard);
+
+        return (
+          <div
+            key={resource.listResource.resourceId}
+            style={{ wordBreak: 'break-all', height: '100%', overflowY: 'hidden' }}
+          >
+            <ImageCard tcg={'mtg'} prop={prop} style={{ height: '100%' }} />
+            <GourmetText>{JSON.stringify(data)}</GourmetText>
+          </div>
+        );
+      })}
+    </>
   );
 }

@@ -1,11 +1,11 @@
 import type {ReactElement} from 'react';
 import z from 'zod';
 import type {CardSearchParams} from '@/parcels/overview/types.ts';
-import type {DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
+import type {DlcDataCard, DlcDataPrint, DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
 import {type DlcSearchDisplaySettings, type DlcSearchQuerySettings, dlcSortBys, dlcUniqueBys,} from '@/parcels/tcg/dlc/types.ts';
-import type {MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
+import type {MtgDataCard, MtgDataPrint, MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
 import {type MtgSearchDisplaySettings, type MtgSearchQuerySettings, mtgSortBys, mtgUniqueBys,} from '@/parcels/tcg/mtg/types.ts';
-import type {PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import type {PcgDataCard, PcgDataPrint, PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
 import {type PcgSearchDisplaySettings, type PcgSearchQuerySettings, pcgSortBys, pcgUniqueBys,} from '@/parcels/tcg/pcg/types.ts';
 
 export type TcgSearchCardsResult = MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult;
@@ -13,6 +13,8 @@ export type TcgSearchDataCard = MtgSearchDataCard | DlcSearchDataCard | PcgSearc
 
 export type TcgSearchQuerySettings = MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
 export type TcgSearchDisplaySettings = MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
+
+export type TcgDataPrint = MtgDataPrint | DlcDataPrint | PcgDataPrint;
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];

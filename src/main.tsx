@@ -12,6 +12,16 @@ import 'keyrune/css/keyrune.min.css';
 import {AuthContextProvider} from '@/parcels/auth/AuthContextProvider.tsx';
 import {AppRouter} from '@/parcels/router/AppRouter.tsx'; // Render the app
 
+//Extend attributes of attributes
+//Definition start
+type DataAttributeKey = `data-${string}`;
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    [dataAttribute: DataAttributeKey]: unknown;
+  }
+}
+//Definition end
+
 // Render the app
 const rootElement = document.getElementById('app');
 if (rootElement && !rootElement.innerHTML) {

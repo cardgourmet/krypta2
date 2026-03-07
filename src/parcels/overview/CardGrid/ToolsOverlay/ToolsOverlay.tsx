@@ -1,8 +1,8 @@
 import {ActionIcon, Checkbox, Group, Overlay} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, type Dispatch, type SetStateAction} from 'react';
-import styles from '@/parcels/overview/CardGrid/ImageCard/ImageCard.module.css';
 import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
+import styles from './ToolsOverlay.module.css';
 
 export function ToolsOverlay({
   checked,
@@ -34,6 +34,7 @@ export function ToolsOverlay({
             wrapperProps={{
               'data-menu-opened': menuOpened,
             }}
+            data-toggle-visibility={true}
           />
         </Activity>
         <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
@@ -50,6 +51,7 @@ export function ToolsOverlay({
                 size={'1.25rem'}
                 classNames={{ root: styles.overlayMenuButton }}
                 data-menu-opened={menuOpened}
+                data-toggle-visibility={true}
               >
                 <IconDotsVertical size={16} />
               </ActionIcon>

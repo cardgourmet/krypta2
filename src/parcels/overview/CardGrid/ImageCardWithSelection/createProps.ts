@@ -1,6 +1,7 @@
 import type {DlcSearchDataCard} from "@/parcels/tcg/dlc/api.ts";
 import type {MtgSearchDataCard} from "@/parcels/tcg/mtg/api.ts";
 import type {PcgSearchDataCard} from "@/parcels/tcg/pcg/api.ts";
+import type {TcgSearchDataCard} from "@/parcels/tcg/types.ts";
 import type {Tcg} from "@/parcels/tcg/useTcgByLocation.ts";
 
 export type CardProperties = {
@@ -16,7 +17,7 @@ export type CardProperties = {
 
 const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
-export const createProps = (tcg: Tcg, card: unknown) => {
+export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
   if (tcg === 'dlc') {
     const dlcCard = card as DlcSearchDataCard;
 

@@ -1,0 +1,5 @@
+.menuDropdown {
+  button:hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+}

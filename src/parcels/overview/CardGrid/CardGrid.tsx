@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import ImageCard from '@/parcels/overview/CardGrid/ImageCard/ImageCard.tsx';
+import ImageCardWithSelection from '@/parcels/overview/CardGrid/ImageCardWithSelection/ImageCardWithSelection.tsx';
 import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
 import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
@@ -47,7 +47,7 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
       {!isLoading
         && cardItems
         && cardItems.map((card, index) => {
-          return <ImageCard key={index} tcg={tcg} card={card} index={index} toolsEnabled={toolsEnabled} />;
+          return <ImageCardWithSelection key={index} tcg={tcg} card={card} index={index} toolsEnabled={toolsEnabled} />;
         })}
     </div>
   );

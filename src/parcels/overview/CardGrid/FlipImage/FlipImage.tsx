@@ -1,5 +1,5 @@
 import type {RefObject} from 'react';
-import styles from '@/parcels/overview/CardGrid/ImageCard/ImageCard.module.css';
+import styles from './FlipImage.module.css';
 
 export function FlipImage({
   flipRef,

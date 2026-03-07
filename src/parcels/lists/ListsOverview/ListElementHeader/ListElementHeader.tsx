@@ -60,7 +60,7 @@ export function ListElementHeader({ list }: { list: UserList }) {
         {!list.systemListType && !list.description && <GourmetText cgmc={'neutral-4'}>No description set.</GourmetText>}
       </Stack>
 
-      <Divider w={'100%'} color={'var(--gourmet-neutral-5)'} size={2} />
+      <Divider w={'100%'} color={'var(--gourmet-neutral-4)'} size={2} />
     </Stack>
   );
 }

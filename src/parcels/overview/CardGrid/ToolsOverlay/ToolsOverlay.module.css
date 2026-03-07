@@ -1,0 +1,40 @@
+.overlayMenuButton {
+  opacity: 0.5;
+  visibility: hidden;
+
+  &:hover,
+  &:focus-visible {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &[data-menu-opened="true"] {
+    opacity: 1;
+    visibility: visible !important;
+  }
+}
+
+.overlayCheckbox {
+  opacity: 0.5;
+  visibility: hidden;
+
+  input:not(:checked) {
+    background-color: var(--gourmet-neutral-dark-3);
+    border-color: var(--gourmet-neutral-dark-4);
+  }
+
+  &:hover,
+  &:has(:focus-visible) {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &[data-checked="true"] {
+    opacity: 1;
+    visibility: visible !important;
+  }
+
+  &[data-menu-opened="true"] {
+    visibility: visible !important;
+  }
+}

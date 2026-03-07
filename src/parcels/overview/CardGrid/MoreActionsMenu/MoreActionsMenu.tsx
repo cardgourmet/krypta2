@@ -3,7 +3,7 @@ import {useMediaQuery} from '@mantine/hooks';
 import {IconBookmark, IconChevronRight, IconLink, IconList, IconPlus, IconStar} from '@tabler/icons-react';
 import type {Dispatch, ReactElement, SetStateAction} from 'react';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import styles from '@/parcels/overview/CardGrid/ImageCard/ImageCard.module.css';
+import styles from './MoreActionsMenu.module.css';
 
 export function MoreActionsMenu({
   menuOpened,
