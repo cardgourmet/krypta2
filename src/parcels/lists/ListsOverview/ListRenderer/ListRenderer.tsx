@@ -9,14 +9,14 @@ import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {createProps} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import styles from './ListRenderer.module.css';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './ListRenderer.module.css';
 
 export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithResources: UserListWithResources }) {
   const { t, i18n } = useTranslation('lists');
   const { list, size, resources: allResources } = listWithResources;
 
-  const searchResources = allResources?.search ?? [];
+  const searchResources = allResources?.user_search ?? [];
   const cardResources = allResources?.card ?? [];
 
   return (
@@ -44,22 +44,20 @@ export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithRes
         {(size ?? 0) > 0 && (
           <Stack>
             {searchResources.length > 0 && (
-              <Group wrap={'nowrap'} h={'5rem'}>
+              <Group wrap={'nowrap'}>
                 <div style={{ justifySelf: 'start', height: '100%', flexShrink: 0, color: list.color ?? '' }}>
                   <Center className={styles.resourceIcon}>
-                    <IconSearch size={22} />
+                    <IconSearch size={20} />
                   </Center>
                 </div>
-                <div style={{ wordBreak: 'break-all', height: '100%', overflowY: 'hidden' }}>
-                  <GourmetText>{JSON.stringify(searchResources)}</GourmetText>
-                </div>
+                <SearchResourcesRenderer tcg={tcg} resources={searchResources} />
               </Group>
             )}
             {cardResources.length > 0 && (
               <Group wrap={'nowrap'} h={'5rem'}>
                 <div style={{ justifySelf: 'start', height: '100%', flexShrink: 0, color: list.color ?? '' }}>
                   <Center className={styles.resourceIcon}>
-                    <IconCards size={22} />
+                    <IconCards size={20} />
                   </Center>
                 </div>
                 <CardResourcesRenderer tcg={tcg} resources={cardResources} />
@@ -68,6 +66,18 @@ export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithRes
           </Stack>
         )}
       </Stack>
+    </Stack>
+  );
+}
+
+function SearchResourcesRenderer({ resources }: { tcg: Tcg; resources: ResolvedUserListResource[] }) {
+  return (
+    <Stack style={{ wordBreak: 'break-all', height: '100%', overflowY: 'hidden' }}>
+      {resources.map((resource) => (
+        <Group key={resource.listResource.resourceId} h={'1.5rem'}>
+          <div>{JSON.stringify(resource)}</div>
+        </Group>
+      ))}
     </Stack>
   );
 }

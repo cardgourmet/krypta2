@@ -28,7 +28,7 @@ export const EMAIL_REGEX =
 
 function RouteComponent() {
   const { t } = useTranslation('auth', { keyPrefix: 'register' });
-  const { token, login } = useAuth();
+  const { login } = useAuth();
 
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerUsername, setRegisterUsername] = useState('');
@@ -85,14 +85,11 @@ function RouteComponent() {
               if (registerUsername.length <= 1) return;
               if (registerPassword.length <= 1) return;
 
-              registerUsingBasicAuth(
-                {
-                  email: registerEmail,
-                  username: registerUsername,
-                  password: registerPassword,
-                },
-                token,
-              ).then((r) => {
+              registerUsingBasicAuth({
+                email: registerEmail,
+                username: registerUsername,
+                password: registerPassword,
+              }).then((r) => {
                 if (r.error) {
                   console.log('Error during register:', r.error);
                   return;

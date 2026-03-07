@@ -8,14 +8,10 @@ export async function fetchLists(
   sortBy?: 'name' | 'updatedAt' | 'size',
   sortOrder?: 'asc' | 'desc',
   game?: Tcg,
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ data?: UserListResponse; error?: Error }> {
   try {
     const res = await umoriClient.GET(`/v1/users/{id}/lists`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       params: {
         query: {
           game: game,
@@ -56,14 +52,10 @@ export async function fetchLists(
 export async function createList(
   userId: string,
   list: Partial<UserList> & { name: string },
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ data?: UserList; error?: Error }> {
   try {
     const res = await umoriClient.POST(`/v1/users/{id}/lists`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       params: {
         path: {
           id: userId,
@@ -102,14 +94,10 @@ export async function createList(
 export async function updateList(
   userId: string,
   list: Partial<UserList> & { name: string },
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ error?: Error }> {
   try {
     const res = await umoriClient.PUT(`/v1/users/{id}/lists`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       params: {
         path: {
           id: userId,
@@ -154,14 +142,10 @@ export async function updateList(
 export async function deleteLists(
   userId: string,
   listIds: string[],
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ error?: Error }> {
   try {
     const res = await umoriClient.DELETE(`/v1/users/{id}/lists`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       params: {
         path: {
           id: userId,

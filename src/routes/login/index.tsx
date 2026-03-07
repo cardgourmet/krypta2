@@ -21,7 +21,7 @@ export const Route = createFileRoute('/login/')({
 
 function RouteComponent() {
   const { t } = useTranslation('auth', { keyPrefix: 'login' });
-  const { token, login } = useAuth();
+  const { login } = useAuth();
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
@@ -67,13 +67,10 @@ function RouteComponent() {
               if (loginUsername.length <= 1) return;
               if (loginPassword.length <= 1) return;
 
-              loginUsingBasicAuth(
-                {
-                  usernameOrEmail: loginUsername,
-                  password: loginPassword,
-                },
-                token,
-              ).then((r) => {
+              loginUsingBasicAuth({
+                usernameOrEmail: loginUsername,
+                password: loginPassword,
+              }).then((r) => {
                 if (r.error) {
                   console.log('Error during login', r.error);
                   return;

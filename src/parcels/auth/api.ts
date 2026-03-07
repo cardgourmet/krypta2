@@ -14,14 +14,10 @@ export async function registerUsingBasicAuth(
     password: string;
     preferredGlobalLanguage?: 'en' | 'de';
   },
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ data?: AuthApiRegisterResponse; session?: string; error?: Error }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/basic/register`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       body: {
         email: data.email,
         username: data.username,
@@ -55,14 +51,10 @@ export async function resendConfirmationMail(
   data: {
     email: string;
   },
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ error?: Error; statusCode?: number }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/confirm`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       body: {
         username: data.email,
       },
@@ -131,14 +123,10 @@ export async function loginUsingBasicAuth(
     usernameOrEmail: string;
     password: string;
   },
-  sessionToken?: string,
   abort?: AbortController,
 ): Promise<{ data?: AuthApiUserResponse; session?: string; error?: Error }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/basic/login`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       body: {
         username: data.usernameOrEmail,
         password: data.password,
@@ -166,15 +154,9 @@ export async function loginUsingBasicAuth(
 }
 
 // /v1/auth/logout
-export async function logout(
-  sessionToken?: string,
-  abort?: AbortController,
-): Promise<{ data?: number; error?: Error; statusCode?: number }> {
+export async function logout(abort?: AbortController): Promise<{ data?: number; error?: Error; statusCode?: number }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/logout`, {
-      headers: {
-        'x-user-session': sessionToken ?? undefined,
-      },
       body: undefined,
       signal: abort?.signal,
     });
@@ -200,13 +182,13 @@ export async function logout(
 
 // /v1/auth/user
 export async function getCurrentLoggedInUser(
-  sessionToken?: string,
+  token?: string,
   abort?: AbortController,
 ): Promise<{ data?: DataAuthUser; error?: Error; statusCode?: number }> {
   try {
     const res = await umoriClient.GET(`/v1/auth/user`, {
       headers: {
-        'x-user-session': sessionToken ?? undefined,
+        'x-user-session': token,
       },
       signal: abort?.signal,
     });

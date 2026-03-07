@@ -41,7 +41,7 @@ export function DeleteListButton({ list }: { list: UserList }) {
               onClick={() => {
                 if (!auth.user) return;
 
-                deleteLists(auth.user.id, [list.id], auth.token).then(({ error }) => {
+                deleteLists(auth.user.id, [list.id]).then(({ error }) => {
                   if (error) {
                     console.log('error when deleting list :(', error);
                     return;

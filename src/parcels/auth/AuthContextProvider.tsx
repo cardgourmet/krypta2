@@ -3,17 +3,21 @@ import {type PropsWithChildren, useCallback, useEffect, useMemo} from 'react';
 import {AuthContext, type UserSession} from '@/parcels/auth/AuthContext.ts';
 import {type DataAuthUser, getCurrentLoggedInUser, logout as doLogout} from '@/parcels/auth/api.ts';
 
+export const CGM_USER_SESSION = 'cgm-user-session';
+export const CGM_USER = 'cgm-user';
+export const CGM_WAS_VERIFIED = 'cgm-was-verified';
+
 export function AuthContextProvider({ children }: PropsWithChildren) {
   const [session, setSession, removeSession] = useLocalStorage<UserSession | null>({
-    key: 'cgm-user-session',
+    key: CGM_USER_SESSION,
     getInitialValueInEffect: false,
   });
   const [user, setUser, removeUser] = useLocalStorage<DataAuthUser | null>({
-    key: 'cgm-user',
+    key: CGM_USER,
     getInitialValueInEffect: false,
   });
   const [wasVerified, setWasVerified, removeWasVerified] = useLocalStorage<boolean | null>({
-    key: 'cgm-was-verified',
+    key: CGM_WAS_VERIFIED,
   });
 
   const login = useCallback(
@@ -66,11 +70,11 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
   );
   const logout = useCallback(() => {
     // noinspection JSIgnoredPromiseFromCall
-    doLogout(session?.token);
+    doLogout();
 
     removeSession();
     removeUser();
-  }, [removeSession, removeUser, session]);
+  }, [removeSession, removeUser]);
   const verify = useCallback(() => {
     setWasVerified(true);
   }, [setWasVerified]);
