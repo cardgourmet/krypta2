@@ -3779,7 +3779,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-SearchQueryStatistics"];
+                        "application/json": components["schemas"]["DataApiResponse-List-UserSearchQueryStatistics"];
                     };
                 };
             };
@@ -3871,7 +3871,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserSavedSearch"];
+                        "application/json": components["schemas"]["DataApiResponse-List-ResolvedUserSavedSearch"];
                     };
                 };
             };
@@ -3994,6 +3994,8 @@ export interface paths {
                     withSize?: string;
                     /** @description If true, will also resolve some listed resources based on the TCG */
                     withResources?: string;
+                    /** @description If true, will not resolve the resources data. */
+                    reduced?: string;
                     /** @description Only used if withResources is set. */
                     resourcesPerType?: number;
                     /** @description The id of the page to return. Defaults to `0`. */
@@ -6898,8 +6900,12 @@ export interface components {
             strippedQuery: string;
             userAgent?: string | null;
         };
-        "DataApiResponse-List-SearchQueryStatistics": {
-            data: components["schemas"]["SearchQueryStatistics"][];
+        UserSearchQueryStatistics: {
+            search: components["schemas"]["SearchQueryStatistics"];
+            totalCount?: number | null;
+        };
+        "DataApiResponse-List-UserSearchQueryStatistics": {
+            data: components["schemas"]["UserSearchQueryStatistics"][];
             /** Format: int32 */
             statusCode: number;
         };
@@ -6936,8 +6942,8 @@ export interface components {
         SaveSearchesRequest: {
             searchStatisticIds: string[];
         };
-        "DataApiResponse-List-UserSavedSearch": {
-            data: components["schemas"]["UserSavedSearch"][];
+        "DataApiResponse-List-ResolvedUserSavedSearch": {
+            data: components["schemas"]["ResolvedUserSavedSearch"][];
             /** Format: int32 */
             statusCode: number;
         };

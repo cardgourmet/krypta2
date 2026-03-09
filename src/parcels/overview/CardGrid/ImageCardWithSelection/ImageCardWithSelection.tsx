@@ -77,6 +77,7 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
           />
           <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
             <MoreActionsMenu
+              card={card.card}
               menuOpened={menuOpened}
               setMenuOpened={setMenuOpened}
               submenuOpened={submenuOpened}
@@ -99,6 +100,7 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
 
       {toolsEnabled && !isTouchDevice && (
         <ToolsOverlay
+          card={card.card}
           checked={checked}
           isSelectionMode={isSelectionMode}
           setSelection={setSelection}

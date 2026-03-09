@@ -22,6 +22,13 @@
     "favorites": "Favorites",
     "favorites-desc": "All of your favorite things, possibly showing them off in your profile."
   },
+  "actionmenu": {
+    "favorite": "Add to Favorites",
+    "bookmark": "Add to Bookmarks",
+    "add-to-list": "Add to other list ...",
+    "create-new": "Create new",
+    "copy-print": "Copy print link"
+  },
   "last-updated": "Last updated",
   "mtg": "Magic: The Gathering",
   "pcg": "Pokémon Card Game",

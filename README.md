@@ -25,7 +25,6 @@ Make sure to have dependencies installed before running the following commands.
 
 ```shell
 npx openapi-typescript https://api.cardgourmet.dev/openapi.json -o ./src/schema/api.d.ts
-npx openapi-typescript http://api.admin.cardgourmet.local:8081/openapi.json -o ./src/schema/admin-api.d.ts
 ```
 
 

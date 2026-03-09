@@ -10,7 +10,8 @@ import '@mantine/core/styles.layer.css';
 import '@mantine/nprogress/styles.css';
 import 'keyrune/css/keyrune.min.css';
 import {AuthContextProvider} from '@/parcels/auth/AuthContextProvider.tsx';
-import {AppRouter} from '@/parcels/router/AppRouter.tsx'; // Render the app
+import {ListsContextProvider} from '@/parcels/lists/ListsContextProvider.tsx'; // Render the app
+import {AppRouter} from '@/parcels/router/AppRouter.tsx';
 
 //Extend attributes of attributes
 //Definition start
@@ -30,7 +31,9 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <AuthContextProvider>
-        <AppRouter />
+        <ListsContextProvider>
+          <AppRouter />
+        </ListsContextProvider>
       </AuthContextProvider>
     </StrictMode>,
   );

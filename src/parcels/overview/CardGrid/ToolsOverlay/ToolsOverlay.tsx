@@ -1,10 +1,12 @@
 import {ActionIcon, Checkbox, Group, Overlay} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, type Dispatch, type SetStateAction} from 'react';
+import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
 import styles from './ToolsOverlay.module.css';
 
 export function ToolsOverlay({
+  card,
   checked,
   isSelectionMode,
   setSelection,
@@ -13,6 +15,7 @@ export function ToolsOverlay({
   submenuOpened,
   setSubmenuOpened,
 }: {
+  card: TcgDataCard;
   checked: boolean;
   isSelectionMode: boolean;
   setSelection: (s: boolean) => void;
@@ -39,6 +42,7 @@ export function ToolsOverlay({
         </Activity>
         <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
           <MoreActionsMenu
+            card={card}
             menuOpened={menuOpened}
             setMenuOpened={setMenuOpened}
             submenuOpened={submenuOpened}
