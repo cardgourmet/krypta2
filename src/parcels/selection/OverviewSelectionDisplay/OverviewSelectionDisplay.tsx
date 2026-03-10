@@ -68,7 +68,7 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                 <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
                   {t('selection')}:
                 </GourmetText>
-                <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
+                <GourmetText cgmff={'monospace'} c={'var(--gourmet-orange-1)'} fw={'500'} fz={'1.25rem'}>
                   {t('cards', { count: cardAmount })}
                 </GourmetText>
 
@@ -101,7 +101,9 @@ export function OverviewSelectionDisplay({ context: workContext }: { context: Tc
                   }}
                 />
                 <GourmetText>:</GourmetText>
-                <GourmetText pl={'0.5rem'}>{t('cards', { count: pageCardAmount })}</GourmetText>
+                <GourmetText pl={'0.5rem'} cgmff={'monospace'}>
+                  {t('cards', { count: pageCardAmount })}
+                </GourmetText>
               </Group>
             </Stack>
             <Group wrap={'nowrap'}>

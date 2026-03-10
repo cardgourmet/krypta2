@@ -22,7 +22,7 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
     const dlcCard = card as DlcSearchDataCard;
 
     return {
-      id: dlcCard.card.id,
+      id: dlcCard.card.print.id,
       name: dlcCard.card.name,
       thumbnailUrl: dlcCard.card.print.translations?.en?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
@@ -34,7 +34,7 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
     const pcgCard = card as PcgSearchDataCard;
 
     return {
-      id: pcgCard.card.id,
+      id: pcgCard.card.print.id,
       name: pcgCard.card.name,
       thumbnailUrl: pcgCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
@@ -44,11 +44,11 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
     };
   } else if (tcg === 'mtg') {
     const mtgCard = card as MtgSearchDataCard;
-    const frontFace = mtgCard.card.print.faces?.[0]?.translations?.en;
-    const backFace = mtgCard.card.print.faces?.[1]?.translations?.en;
+    const frontFace = mtgCard?.card?.print?.faces?.[0]?.translations?.en;
+    const backFace = mtgCard?.card?.print?.faces?.[1]?.translations?.en;
 
     return {
-      id: mtgCard.card.id,
+      id: mtgCard.card.print.id,
       name: mtgCard.card.name,
       thumbnailUrl: frontFace?.imageUrls?.thumbnail ?? frontFace?.imageUrls?.full ?? '',
       backfaceThumbnailUrl: backFace?.imageUrls?.thumbnail ?? backFace?.imageUrls?.full ?? undefined,

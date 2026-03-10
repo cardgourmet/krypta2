@@ -47,9 +47,9 @@ export function useSelectionIntegration({ id, index }: { id: string; index: numb
         return;
       }
       const dataEntries = (workContext?.data?.search?.result?.data?.items as TcgSearchDataCard[]).filter((c) =>
-        ids.includes(c.card.id),
+        ids.includes(c.card.print.id),
       );
-      const data = Object.fromEntries(dataEntries.map((c) => [c.card.id, c] as const));
+      const data = Object.fromEntries(dataEntries.map((c) => [c.card.print.id, c] as const));
       const currentPage = workContext?.data?.search?.page;
 
       setChecked(select);
