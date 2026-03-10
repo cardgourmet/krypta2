@@ -1,4 +1,4 @@
-import {createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState} from 'react';
+import {createContext, type PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {fetchLists} from '@/parcels/lists/api.ts';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
@@ -7,7 +7,7 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
   const auth = useAuth();
   const [lists, setLists] = useState<UserListWithResources[]>([]);
 
-  useEffect(() => {
+  const refetchLists = useCallback(() => {
     const id = auth.user?.id;
     if (!id) {
       setLists([]);
@@ -24,16 +24,22 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
     });
   }, [auth.user?.id]);
 
+  useEffect(() => {
+    refetchLists();
+  }, [refetchLists]);
+
   const listsData = useMemo(() => {
     return {
       lists: lists,
+      refetchLists,
     } as ListsData;
-  }, [lists]);
+  }, [lists, refetchLists]);
   return <ListsContext.Provider value={listsData}>{children}</ListsContext.Provider>;
 }
 
 export type ListsData = {
   lists: UserListWithResources[];
+  refetchLists: () => void;
 };
 
 export const ListsContext = createContext<ListsData | null>(null);

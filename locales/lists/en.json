@@ -24,8 +24,11 @@
   },
   "actionmenu": {
     "favorite": "Add to Favorites",
+    "favorite-remove": "Remove from Favorites",
     "bookmark": "Add to Bookmarks",
-    "add-to-list": "Add to other list ...",
+    "bookmark-remove": "Remove from Bookmarks",
+    "add-to-list": "Add to list ...",
+    "remove-from-list": "Remove from list ...",
     "create-new": "Create new",
     "copy-print": "Copy print link"
   },

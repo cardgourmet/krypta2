@@ -23,7 +23,6 @@ export function TableRowVertical({
   toolsEnabled: boolean;
 }) {
   const [menuOpened, setMenuOpened] = useState(false);
-  const [submenuOpened, setSubmenuOpened] = useState(false);
 
   const workContext = useTcgOverviewWorkContext();
   const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
@@ -69,10 +68,9 @@ export function TableRowVertical({
             <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
               <Group justify={'end'}>
                 <MoreActionsMenu
+                  card={card}
                   menuOpened={menuOpened}
                   setMenuOpened={setMenuOpened}
-                  submenuOpened={submenuOpened}
-                  setSubmenuOpened={setSubmenuOpened}
                   target={
                     <ActionIcon
                       style={{ pointerEvents: 'auto' }}

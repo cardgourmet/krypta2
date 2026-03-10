@@ -32,7 +32,6 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
     index,
   });
   const [menuOpened, setMenuOpened] = useState(false);
-  const [submenuOpened, setSubmenuOpened] = useState(false);
 
   return (
     <ImageCard
@@ -80,8 +79,6 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
               card={card.card}
               menuOpened={menuOpened}
               setMenuOpened={setMenuOpened}
-              submenuOpened={submenuOpened}
-              setSubmenuOpened={setSubmenuOpened}
               target={
                 <ActionIcon
                   style={{ pointerEvents: 'auto' }}
@@ -106,8 +103,6 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
           setSelection={setSelection}
           menuOpened={menuOpened}
           setMenuOpened={setMenuOpened}
-          submenuOpened={submenuOpened}
-          setSubmenuOpened={setSubmenuOpened}
         />
       )}
     </ImageCard>

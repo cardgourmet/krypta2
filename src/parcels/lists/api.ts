@@ -223,7 +223,7 @@ export async function addCardResourcesToList(
 }
 
 // /v1/users/{id}/lists/{listId}/resources/card
-export async function removeCardResourcesToList(
+export async function removeCardResourcesFromList(
   userId: string,
   listId: string,
   game: Tcg,

@@ -1,7 +1,8 @@
 import {Center, Group, Stack, Tooltip, UnstyledButton} from '@mantine/core';
-import {IconAlertTriangleFilled, IconCards, IconCircleCheckFilled, IconGauge, IconSearch,} from '@tabler/icons-react';
+import {IconAlertTriangleFilled, IconCards, IconCircleCheckFilled, IconGauge, IconSearch} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type {ResolvedUserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
@@ -133,21 +134,18 @@ function SpeedGauge({ execTime }: { execTime: number }) {
 
   return (
     <Tooltip label={`Query took ${execTime}ms server-side`} openDelay={1000}>
-      <div
-        style={{
-          position: 'relative',
-          width: 20,
-          height: 20,
-          display: 'inline-block',
-        }}
-      >
-        <IconGauge color={color} size={20} />
-        {execTime <= 100 && <IconCircleCheckFilled size={12} color={color} className={styles.speedIcon} />}
-        {execTime > 100 && execTime <= 1000 && (
-          <IconCircleCheckFilled size={12} color={color} className={styles.speedIcon} />
-        )}
-        {execTime > 1000 && <IconAlertTriangleFilled size={12} color={color} className={styles.speedIcon} />}
-      </div>
+      <IconWithOverlayIcon
+        icon={<IconGauge color={color} size={20} />}
+        overlayIcon={
+          <>
+            {execTime <= 100 && <IconCircleCheckFilled size={12} color={color} className={styles.speedIcon} />}
+            {execTime > 100 && execTime <= 1000 && (
+              <IconCircleCheckFilled size={12} color={color} className={styles.speedIcon} />
+            )}
+            {execTime > 1000 && <IconAlertTriangleFilled size={12} color={color} className={styles.speedIcon} />}
+          </>
+        }
+      />
     </Tooltip>
   );
 }

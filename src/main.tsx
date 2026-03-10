@@ -15,10 +15,15 @@ import {AppRouter} from '@/parcels/router/AppRouter.tsx';
 
 //Extend attributes of attributes
 //Definition start
+type CSSVariable = `--${string}`;
 type DataAttributeKey = `data-${string}`;
 declare module 'react' {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
     [dataAttribute: DataAttributeKey]: unknown;
+  }
+
+  interface CSSProperties {
+    [key: CSSVariable]: string | number | undefined;
   }
 }
 //Definition end

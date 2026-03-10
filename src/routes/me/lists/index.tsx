@@ -33,7 +33,8 @@ export const Route = createFileRoute('/me/lists/')({
       deps.sortBy,
       deps.sortDir === 'auto' ? undefined : deps.sortDir,
       deps.tcg,
-      context.auth.token,
+      undefined,
+      undefined,
     );
   },
   validateSearch: paramsSchema,
