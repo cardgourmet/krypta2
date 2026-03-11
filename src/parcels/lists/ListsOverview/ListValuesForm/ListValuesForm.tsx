@@ -1,5 +1,5 @@
 import {ActionIcon, Grid, Group, Popover, Stack} from '@mantine/core';
-import {IconInfoCircle} from '@tabler/icons-react';
+import {IconInfoCircle, IconLabelFilled} from '@tabler/icons-react';
 import {useState} from 'react';
 import {ColorSelect} from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
 import type {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
@@ -120,8 +120,9 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
         </Grid.Col>
 
         <Grid.Col span={4}>
-          <Group h={'100%'} w={'100%'}>
+          <Group h={'0'} w={'100%'} gap={'0.25rem'}>
             <GourmetText cgmff={'ui'}>Color</GourmetText>
+            <IconLabelFilled size={20} color={form.getValues().color ?? 'var(--gourmet-neutral-8)'} />
           </Group>
         </Grid.Col>
         <Grid.Col span={8}>

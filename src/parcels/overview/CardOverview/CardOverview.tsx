@@ -1,5 +1,5 @@
 import {Accordion, Divider, Group, Stack, Text} from '@mantine/core';
-import {IconAlertCircleFilled} from '@tabler/icons-react';
+import {IconAlertCircleFilled, IconCheck} from '@tabler/icons-react';
 import {type RefObject, useEffect, useState} from 'react';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -66,9 +66,12 @@ export function CardOverview({
           mb={'1rem'}
         >
           <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
-            <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
-              {title?.label}
-            </GourmetText>
+            <Group>
+              <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
+                {title?.label}
+              </GourmetText>
+              <IconCheck />
+            </Group>
             <Pagination
               currentPage={cards?.data?.currentPage}
               lastPage={cards?.data?.pageCount}
