@@ -1,5 +1,5 @@
-import {Accordion, Divider, Group, Stack, Text} from '@mantine/core';
-import {IconAlertCircleFilled, IconCheck} from '@tabler/icons-react';
+import {Accordion, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
+import {IconAlertCircleFilled, IconClock} from '@tabler/icons-react';
 import {type RefObject, useEffect, useState} from 'react';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
@@ -66,11 +66,16 @@ export function CardOverview({
           mb={'1rem'}
         >
           <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
-            <Group>
+            <Group gap={'0.1rem'}>
               <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
                 {title?.label}
               </GourmetText>
-              <IconCheck />
+              {/*<IconCircleCheckFilled size={22} color={'var(--gourmet-green-1)'} />*/}
+              <Stack h={'2rem'} justify={'start'}>
+                <Tooltip label={'Card database might not be up to date.'} openDelay={500}>
+                  <IconClock size={18} color={'var(--gourmet-orange-1)'} />
+                </Tooltip>
+              </Stack>
             </Group>
             <Pagination
               currentPage={cards?.data?.currentPage}
