@@ -59,7 +59,13 @@ export function AddToListMenu({ card, disclosure }: { card: TcgDataCard; disclos
         </Menu.Item>
       </Menu.Target>
 
-      <Menu.Dropdown>
+      <Menu.Dropdown
+        style={{
+          width: 'max-content',
+          minWidth: 200,
+          maxWidth: 320,
+        }}
+      >
         {nonSystemLists.map((list) => {
           return (
             <ListMenuItem

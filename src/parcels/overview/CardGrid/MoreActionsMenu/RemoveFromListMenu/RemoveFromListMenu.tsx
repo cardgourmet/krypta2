@@ -62,7 +62,13 @@ export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
             </Menu.Item>
           </Menu.Target>
 
-          <Menu.Dropdown>
+          <Menu.Dropdown
+            style={{
+              width: 'max-content',
+              minWidth: 200,
+              maxWidth: 320,
+            }}
+          >
             {removableLists.map((list) => {
               return <ListMenuItem key={list.list.id} card={card} listWithResources={list} action={'remove'} />;
             })}
