@@ -32,7 +32,7 @@ export function EntryImage({
         <UnstyledButton
           style={{ display: 'flex', width: '100%', height: '100%' }}
           onClick={() => {
-            work?.removeSelection([entry.card.id], page);
+            work?.removeSelection([entry.card.print.id], page);
           }}
         >
           <FlipImage

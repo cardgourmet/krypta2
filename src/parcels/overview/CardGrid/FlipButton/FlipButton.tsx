@@ -13,7 +13,7 @@ export function FlipButton({
   flipRef: RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <Container top={'20%'} right={'8%'} pos={'absolute'} p={0}>
+    <Container top={'20%'} right={'16%'} pos={'absolute'} p={0}>
       <button
         type="button"
         onClick={(event) => {

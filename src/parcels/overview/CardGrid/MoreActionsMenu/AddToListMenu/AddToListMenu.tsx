@@ -36,6 +36,7 @@ export function AddToListMenu({ card }: { card: TcgDataCard }) {
       position={smallestScreen ? 'top' : 'right-start'}
       openDelay={120}
       closeDelay={150}
+      classNames={{ dropdown: styles.menuDropdown }}
     >
       <Menu.Target>
         <Menu.Item

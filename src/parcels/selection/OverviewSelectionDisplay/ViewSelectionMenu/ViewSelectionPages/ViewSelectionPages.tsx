@@ -55,7 +55,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
                     <Button
                       classNames={{ root: styles.clearFromPageButton }}
                       onClick={() => {
-                        workContext?.removeSelection([...entries.map((e) => e.card.id)], Number(page));
+                        workContext?.removeSelection([...entries.map((e) => e.card.print.id)], Number(page));
                       }}
                     >
                       <Group>

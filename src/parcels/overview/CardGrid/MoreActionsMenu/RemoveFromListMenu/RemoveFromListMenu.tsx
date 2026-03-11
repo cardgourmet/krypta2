@@ -7,8 +7,8 @@ import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetail
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import {ListMenuItem} from "@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx";
 
 export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
@@ -41,6 +41,7 @@ export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
           position={smallestScreen ? 'top' : 'right-start'}
           openDelay={120}
           closeDelay={150}
+          classNames={{ dropdown: styles.menuDropdown }}
         >
           <Menu.Target>
             <Menu.Item

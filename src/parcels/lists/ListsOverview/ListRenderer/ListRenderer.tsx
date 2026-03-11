@@ -46,8 +46,16 @@ export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithRes
         {(size ?? 0) > 0 && (
           <Stack>
             {searchResources.length > 0 && (
-              <Group wrap={'nowrap'}>
-                <div style={{ justifySelf: 'start', height: '100%', flexShrink: 0, color: list.color ?? '' }}>
+              <Group wrap={'nowrap'} gap={'0'}>
+                <div
+                  style={{
+                    justifySelf: 'start',
+                    height: '100%',
+                    flexShrink: 0,
+                    color: list.color ?? '',
+                    marginRight: '1rem',
+                  }}
+                >
                   <Center className={styles.resourceIcon}>
                     <IconSearch size={20} />
                   </Center>
@@ -56,13 +64,23 @@ export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithRes
               </Group>
             )}
             {cardResources.length > 0 && (
-              <Group wrap={'nowrap'} h={'7.5rem'}>
-                <div style={{ justifySelf: 'start', height: '100%', flexShrink: 0, color: list.color ?? '' }}>
+              <Group wrap={'nowrap'} h={'8rem'} gap={'0'}>
+                <div
+                  style={{
+                    justifySelf: 'start',
+                    height: '100%',
+                    flexShrink: 0,
+                    color: list.color ?? '',
+                    marginRight: '1rem',
+                  }}
+                >
                   <Center className={styles.resourceIcon}>
                     <IconCards size={20} />
                   </Center>
                 </div>
-                <CardResourcesRenderer tcg={tcg} resources={cardResources} />
+                <Group wrap={'nowrap'} h={'100%'} gap={'0.25rem'}>
+                  <CardResourcesRenderer tcg={tcg} resources={cardResources} />
+                </Group>
               </Group>
             )}
           </Stack>

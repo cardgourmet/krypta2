@@ -38,3 +38,23 @@
     visibility: visible !important;
   }
 }
+
+.listLink:focus {
+  border: none;
+  outline: none;
+
+  --stroke-color: var(--gourmet-blue-1);
+  --stroke-width: 2px;
+  --opacity: 1;
+}
+
+.listLabel {
+  opacity: var(--opacity, 0.75);
+  stroke: var(--stroke-color, var(--gourmet-neutral-0));
+  stroke-width: var(--stroke-width, 1px);
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
