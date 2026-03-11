@@ -1,4 +1,4 @@
-import {Group, Menu} from '@mantine/core';
+import {Group, Menu, Tooltip} from '@mantine/core';
 import {IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -92,18 +92,29 @@ export function ListMenuItem2({
         )}
 
         {list.systemListType === undefined && (
-          <Group justify={'space-between'} w={'100%'}>
-            <Group gap={'0.25rem'}>
-              <GourmetText cgmff={'ui'}>{list.name}</GourmetText>
+          <Group justify={'space-between'} w={'100%'} wrap={'nowrap'}>
+            <Group gap={'0.25rem'} wrap={'nowrap'}>
+              <Tooltip label={list.name} openDelay={500}>
+                <GourmetText
+                  cgmff={'ui'}
+                  maw={'10rem'}
+                  style={{
+                    textWrap: 'nowrap',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {list.name}
+                </GourmetText>
+              </Tooltip>
               {list.color && <IconLabelFilled size={18} color={list.color ?? 'var(--gourmet-neutral-9'} />}
             </Group>
 
-            <Group gap={'0.5rem'}>
-              <GourmetText cgmff={'ui'} c={'var(--gourmet-green-1)'}>
+            <Group gap={'0.5rem'} wrap={'nowrap'}>
+              <GourmetText cgmff={'monospace'} c={'var(--gourmet-green-1)'} fz={'0.9rem'}>
                 +{addToListCount}
               </GourmetText>
 
-              <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-5)'}>
+              <GourmetText cgmff={'monospace'} c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
                 {size ?? '?'}/100
               </GourmetText>
             </Group>

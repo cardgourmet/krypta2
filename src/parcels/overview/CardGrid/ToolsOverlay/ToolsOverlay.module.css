@@ -49,7 +49,7 @@
 }
 
 .listLabel {
-  opacity: var(--opacity, 0.75);
+  opacity: var(--opacity, 0.5);
   stroke: var(--stroke-color, var(--gourmet-neutral-0));
   stroke-width: var(--stroke-width, 1px);
 

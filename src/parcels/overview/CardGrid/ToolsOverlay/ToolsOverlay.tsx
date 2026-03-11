@@ -82,7 +82,7 @@ export function ToolsOverlay({
                           transform: `rotate(180deg) translate(-5px, ${index * 16}px)`,
                         }}
                         className={styles.listLabel}
-                        size={32}
+                        size={28}
                       />
                     </Tooltip>
                   </Link>

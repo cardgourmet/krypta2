@@ -1,5 +1,5 @@
 import {Group, Menu} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
+import {type UseDisclosureReturnValue, useMediaQuery} from '@mantine/hooks';
 import {IconChevronRight, IconList, IconPlus} from '@tabler/icons-react';
 import {useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -10,7 +10,7 @@ import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
 
-export function AddToListMenu({ card }: { card: TcgDataCard }) {
+export function AddToListMenu({ card, disclosure }: { card: TcgDataCard; disclosure: UseDisclosureReturnValue }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
@@ -26,6 +26,8 @@ export function AddToListMenu({ card }: { card: TcgDataCard }) {
 
     return { nonSystemLists, existsInLists };
   }, [lists, card.print.id]);
+
+  const [_, { open }] = disclosure;
 
   return (
     <Menu
@@ -79,7 +81,8 @@ export function AddToListMenu({ card }: { card: TcgDataCard }) {
 
         <Menu.Item
           onClick={() => {
-            // TODO: open modal to create new list (if we didn't hit the limit yet
+            if (lists.length >= 10) return;
+            open();
           }}
         >
           <Group gap={'0.5rem'}>
