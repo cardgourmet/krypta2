@@ -8,7 +8,7 @@ import {handleKeydown} from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
 import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
 import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import {useSearchQuery} from '@/parcels/search/useSearchQuery.ts';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';

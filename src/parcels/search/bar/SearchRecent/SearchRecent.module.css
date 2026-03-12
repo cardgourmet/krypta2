@@ -71,6 +71,7 @@
       text-overflow: ellipsis;
       font-size: 0.8rem;
       font-weight: 400;
+      color: var(--gourmet-neutral-9);
       font-family: var(--cgm-monospace-font-family), monospace;
     }
   }
@@ -90,7 +91,7 @@
       border: none;
       background: none;
       padding: 0;
-      border-radius: 0;
+      border-radius: 0.25rem;
       min-width: 1.5rem;
       height: 1.5rem;
 

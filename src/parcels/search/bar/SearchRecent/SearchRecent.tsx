@@ -1,8 +1,10 @@
-import {IconArrowNarrowRight, IconClockHour8, IconStar, IconX} from '@tabler/icons-react';
+import {ActionIcon, Group, Tooltip} from '@mantine/core';
+import {IconArrowNarrowRight, IconClockHour8, IconDotsVertical, IconStar} from '@tabler/icons-react';
 import {Link, useNavigate} from '@tanstack/react-router';
 import {type RefObject, useEffect, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import type {HistoryEntry} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
 import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
@@ -34,7 +36,7 @@ export default function SearchRecent({
 
   const suggestions = useMemo(() => {
     const suggs = [...recentQueries].reverse().slice(0, 5);
-    suggs.unshift('');
+    suggs.unshift({} as HistoryEntry);
     return suggs;
   }, [recentQueries]);
   const reversedRecentQueries = useMemo(() => {
@@ -75,11 +77,11 @@ export default function SearchRecent({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
-    let currentSugg = '';
+    let currentSugg = { rawQuery: '' } as HistoryEntry;
     if (historyIndex > 0) {
       currentSugg = suggestions[historyIndex];
     }
-    setQuery(currentSugg, false);
+    setQuery(currentSugg.rawQuery, false);
   }, [historyIndex]);
 
   return (
@@ -98,7 +100,7 @@ export default function SearchRecent({
                   to: '/$tcg/cards',
                   params: { tcg: tcg },
                   search: (prev) => {
-                    return { ...prev, query: query, page: 1 } as Required<TcgSearchParams>;
+                    return { ...prev, query: query.rawQuery, page: 1 } as Required<TcgSearchParams>;
                   },
                 });
                 close();
@@ -106,27 +108,30 @@ export default function SearchRecent({
             >
               <div className={styles.recentItemLeft}>
                 <IconClockHour8 size={22} color={'var(--gourmet-neutral-8)'} />
-                <p>{query}</p>
+                <Tooltip label={query.rawQuery} openDelay={500}>
+                  <p>{query.rawQuery}</p>
+                </Tooltip>
               </div>
             </button>
             <div className={styles.recentItemRight}>
-              <button
-                type={'button'}
-                onClick={() => {
-                  // TODO: add history entry to favorites
-                }}
-              >
-                <IconStar size={16} color={'var(--gourmet-neutral-8)'} />
-              </button>
-              <button
-                type={'button'}
-                onClick={() => {
-                  const reverseIndex = recentQueries.length - 1 - index;
-                  history?.removeQuery(reverseIndex);
-                }}
-              >
-                <IconX size={16} color={'var(--gourmet-neutral-8)'} />
-              </button>
+              <Group gap={'0.2rem'}>
+                <ActionIcon
+                  onClick={() => {
+                    // TODO: add history entry to saved searches and favorites
+                  }}
+                  className={styles.actionIcon}
+                >
+                  <IconStar size={16} color={'var(--gourmet-neutral-7)'} />
+                </ActionIcon>
+                <ActionIcon
+                  onClick={() => {
+                    // TODO: more actions for search history entry
+                  }}
+                  className={styles.actionIcon}
+                >
+                  <IconDotsVertical size={16} color={'var(--gourmet-neutral-7)'} />
+                </ActionIcon>
+              </Group>
             </div>
           </li>
         ))}

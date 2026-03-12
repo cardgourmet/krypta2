@@ -7,7 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {TcgSelector} from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
 import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import {useSearchQueryV2} from '@/parcels/search/useSearchQueryV2.ts';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';

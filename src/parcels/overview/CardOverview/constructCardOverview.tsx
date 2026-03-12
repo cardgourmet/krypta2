@@ -1,7 +1,8 @@
 import type {UseNavigateResult} from '@tanstack/react-router';
 import {useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
 import {CardOverview} from '@/parcels/overview/CardOverview/CardOverview.tsx';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import type {ExplainSearchQuery} from '@/parcels/search/types.ts';
 import {type DlcCardQuery, type DlcSearchCardsResult, fetchDlcCards} from '@/parcels/tcg/dlc/api.ts';
 import type {DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
 import {fetchMtgCards, type MtgCardQuery, type MtgSearchCardsResult} from '@/parcels/tcg/mtg/api.ts';
@@ -40,7 +41,7 @@ export function constructCardOverview(
     });
   };
 
-  const onQueryChange = useEffectEvent((query: string) => {
+  const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
     history?.addQuery(query);
   });
 
@@ -58,7 +59,6 @@ export function constructCardOverview(
 
     const controller = new AbortController();
     const onCallback = ({
-      query,
       data,
       error,
     }: {
@@ -72,8 +72,9 @@ export function constructCardOverview(
       }
 
       // write to history
-      if (query.query !== undefined) {
-        onQueryChange(query.query);
+      const explainedQuery = data?.data?.details as ExplainSearchQuery | undefined;
+      if (explainedQuery !== undefined) {
+        onQueryChange(explainedQuery);
       }
       setCards(data as MtgSearchCardsResult);
 

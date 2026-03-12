@@ -25,6 +25,7 @@ export function TcgSelector({ selectedTcg, setSelectedTcg }: TcgSelectorProps) {
         setSelectedTcg(val as Tcg);
         combobox.closeDropdown();
       }}
+      withinPortal={false}
     >
       <Combobox.Target>
         <Button
