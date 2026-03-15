@@ -1,8 +1,10 @@
 import {ActionIcon, Group, Tooltip} from '@mantine/core';
-import {IconArrowNarrowRight, IconClockHour8, IconDotsVertical, IconStar} from '@tabler/icons-react';
+import {IconArrowNarrowRight, IconClockHour8, IconDotsVertical, IconPin, IconPinnedFilled} from '@tabler/icons-react';
 import {Link, useNavigate} from '@tanstack/react-router';
 import {type RefObject, useEffect, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {deleteSavedSearches, saveSearches} from '@/parcels/search/api.ts';
 import type {HistoryEntry} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
@@ -33,6 +35,7 @@ export default function SearchRecent({
   const history = useSearchHistory(tcg);
   const recentQueries = history.pastQueries ?? [];
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const suggestions = useMemo(() => {
     const suggs = [...recentQueries].reverse().slice(0, 5);
@@ -117,19 +120,41 @@ export default function SearchRecent({
               <Group gap={'0.2rem'}>
                 <ActionIcon
                   onClick={() => {
-                    // TODO: add history entry to saved searches and favorites
+                    if (!user?.id) return;
+
+                    if (query.saved) {
+                      deleteSavedSearches(user?.id, tcg, [query.saved]).then(({ error }) => {
+                        if (!error) {
+                          console.error('error', error);
+                          return;
+                        }
+
+                        console.log('success!');
+                      });
+                      return;
+                    }
+
+                    saveSearches(user?.id, tcg, [query.id as string]).then(({ error }) => {
+                      if (!error) {
+                        console.error('error', error);
+                        return;
+                      }
+
+                      console.log('success!');
+                    });
                   }}
                   className={styles.actionIcon}
                 >
-                  <IconStar size={16} color={'var(--gourmet-neutral-7)'} />
+                  {query.saved && <IconPinnedFilled size={18} color={'var(--gourmet-blue-1)'} />}
+                  {!query.saved && <IconPin size={18} color={'var(--gourmet-neutral-7)'} />}
                 </ActionIcon>
                 <ActionIcon
                   onClick={() => {
-                    // TODO: more actions for search history entry
+                    // TODO: more actions for search history entry (i.e. adding them to a list)
                   }}
                   className={styles.actionIcon}
                 >
-                  <IconDotsVertical size={16} color={'var(--gourmet-neutral-7)'} />
+                  <IconDotsVertical size={16} color={'var(--gourmet-neutral-6)'} />
                 </ActionIcon>
               </Group>
             </div>

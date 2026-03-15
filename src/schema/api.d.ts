@@ -5785,6 +5785,8 @@ export interface components {
             statusCode: number;
         };
         /** @enum {string} */
+        DlcLanguage: "en" | "de" | "fr" | "it";
+        /** @enum {string} */
         UserLanguage: "en" | "de";
         /** @enum {string} */
         MtgLanguage: "en" | "de" | "fr" | "it" | "es" | "pt" | "el" | "ar" | "zhs" | "zht" | "he" | "jp" | "ko" | "la" | "ph" | "ru" | "sa" | "qy";
@@ -5807,7 +5809,7 @@ export interface components {
             updatedAt: string;
         };
         PreferredLanguageSettings: {
-            dlc?: string;
+            dlc?: components["schemas"]["DlcLanguage"];
             global?: components["schemas"]["UserLanguage"];
             mtg?: components["schemas"]["MtgLanguage"];
             pcg?: components["schemas"]["PcgLanguage"];
@@ -6245,6 +6247,8 @@ export interface components {
             originalQuery: string;
             sortBy: string;
             sortOrder: components["schemas"]["Order"];
+            /** @description If available the id of the query statistics */
+            statisticsId?: string | null;
             structure?: components["schemas"]["QueryExplanationPart"] | null;
         };
         "CardSearchResult-MtgDataCard": {
@@ -6873,6 +6877,17 @@ export interface components {
         };
         /** @enum {string} */
         AuthType: "anonymous" | "user" | "token";
+        UserSavedSearch: {
+            game: components["schemas"]["GameType"];
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            queryId: string;
+            /** Format: date-time */
+            savedAt: string;
+            /** Format: uuid */
+            userId: string;
+        };
         SearchQueryStatistics: {
             /** Format: int32 */
             attempt: number;
@@ -6901,6 +6916,7 @@ export interface components {
             userAgent?: string | null;
         };
         UserSearchQueryStatistics: {
+            savedSearch?: components["schemas"]["UserSavedSearch"] | null;
             search: components["schemas"]["SearchQueryStatistics"];
             totalCount?: number | null;
         };
@@ -6909,18 +6925,8 @@ export interface components {
             /** Format: int32 */
             statusCode: number;
         };
-        UserSavedSearch: {
-            game: components["schemas"]["GameType"];
-            /** Format: uuid */
-            id: string;
-            /** Format: date-time */
-            savedAt: string;
-            /** Format: uuid */
-            searchQueryStatisticsId: string;
-            /** Format: uuid */
-            userId: string;
-        };
         ResolvedUserSavedSearch: {
+            lastSearch?: components["schemas"]["SearchQueryStatistics"] | null;
             savedSearch: components["schemas"]["UserSavedSearch"];
             search: components["schemas"]["SearchQueryStatistics"];
         };
@@ -6940,7 +6946,7 @@ export interface components {
             statusCode: number;
         };
         SaveSearchesRequest: {
-            searchStatisticIds: string[];
+            queryStatisticIds: string[];
         };
         "DataApiResponse-List-ResolvedUserSavedSearch": {
             data: components["schemas"]["ResolvedUserSavedSearch"][];
@@ -7068,6 +7074,7 @@ export interface components {
         };
         UserListResourcesRequest: {
             game?: components["schemas"]["GameType"] | null;
+            isRaw?: boolean | null;
             resourceIds: components["schemas"]["UserListResourcesRequestResource"][];
         };
         "DataApiResponse-List-UserListResource": {

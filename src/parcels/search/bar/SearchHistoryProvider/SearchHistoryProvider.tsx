@@ -10,7 +10,7 @@ const MAX_HISTORY_SIZE = 10;
 const HISTORY_STORAGE_KEY = 'cgm-search-history';
 
 type HistoryByTcg = Record<Tcg, HistoryEntry[]>;
-export type HistoryEntry = { id?: string; rawQuery: string; count: number };
+export type HistoryEntry = { id?: string; rawQuery: string; count: number; saved?: string };
 
 export type SearchHistory = {
   pastQueries: HistoryByTcg;
@@ -46,7 +46,12 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
 
         const entries = [] as HistoryEntry[];
         for (const entry of data?.reverse() ?? []) {
-          entries.push({ id: entry.search.id, rawQuery: entry.search.rawQuery, count: entry.totalCount ?? -1 });
+          entries.push({
+            id: entry.search.id,
+            rawQuery: entry.search.rawQuery,
+            count: entry.totalCount ?? -1,
+            saved: entry.savedSearch?.id,
+          });
         }
 
         setQueriesWrapper({ ...queriesByTcg, [tcg]: entries });

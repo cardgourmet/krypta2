@@ -44,7 +44,7 @@ export async function fetchSearchHistory(
 // /v1/users/:id/searches
 export async function fetchSavedSearches(
   userId: string,
-  game: Tcg,
+  game?: Tcg,
   abort?: AbortController,
 ): Promise<{ data?: PagedUserSavedSearch; error?: Error }> {
   try {
@@ -98,7 +98,7 @@ export async function saveSearches(
         },
       },
       body: {
-        searchStatisticIds: searchStatisticIds,
+        queryStatisticIds: searchStatisticIds,
       },
       signal: abort?.signal,
     });
