@@ -1,5 +1,5 @@
 import {ActionIcon, Group, Tooltip} from '@mantine/core';
-import {IconArrowNarrowRight, IconClockHour8, IconDotsVertical, IconPin, IconPinnedFilled} from '@tabler/icons-react';
+import {IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical,} from '@tabler/icons-react';
 import {Link, useNavigate} from '@tanstack/react-router';
 import {type RefObject, useEffect, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -110,7 +110,7 @@ export default function SearchRecent({
               }}
             >
               <div className={styles.recentItemLeft}>
-                <IconClockHour8 size={22} color={'var(--gourmet-neutral-8)'} />
+                <IconClockHour8 size={20} color={'var(--gourmet-neutral-7)'} />
                 <Tooltip label={query.rawQuery} openDelay={500}>
                   <p>{query.rawQuery}</p>
                 </Tooltip>
@@ -145,8 +145,8 @@ export default function SearchRecent({
                   }}
                   className={styles.actionIcon}
                 >
-                  {query.saved && <IconPinnedFilled size={18} color={'var(--gourmet-blue-1)'} />}
-                  {!query.saved && <IconPin size={18} color={'var(--gourmet-neutral-7)'} />}
+                  {query.saved && <IconBook2 size={18} color={'var(--gourmet-blue-1)'} />}
+                  {!query.saved && <IconBook size={18} color={'var(--gourmet-neutral-7)'} />}
                 </ActionIcon>
                 <ActionIcon
                   onClick={() => {
