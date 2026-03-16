@@ -16,8 +16,11 @@ export function useSearchHistory(tcg: Tcg) {
       removeQuery: (index: number) => {
         searchHistory?.removeQuery(tcg, index);
       },
+      markQueries: (queryId: string, saved: string | undefined) => {
+        searchHistory?.markQueries(tcg, queryId, saved);
+      },
     };
-  }, [tcg, history, searchHistory?.addQuery, searchHistory?.removeQuery]);
+  }, [tcg, history, searchHistory?.addQuery, searchHistory?.removeQuery, searchHistory?.markQueries]);
 
   return tcgSpecificSearchHistory;
 }

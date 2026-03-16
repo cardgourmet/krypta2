@@ -3779,7 +3779,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserSearchQueryStatistics"];
+                        "application/json": components["schemas"]["DataApiResponse-List-UserSearchHistoryEntry"];
                     };
                 };
             };
@@ -6915,13 +6915,14 @@ export interface components {
             strippedQuery: string;
             userAgent?: string | null;
         };
-        UserSearchQueryStatistics: {
+        UserSearchHistoryEntry: {
+            clusterSize?: number | null;
             savedSearch?: components["schemas"]["UserSavedSearch"] | null;
             search: components["schemas"]["SearchQueryStatistics"];
             totalCount?: number | null;
         };
-        "DataApiResponse-List-UserSearchQueryStatistics": {
-            data: components["schemas"]["UserSearchQueryStatistics"][];
+        "DataApiResponse-List-UserSearchHistoryEntry": {
+            data: components["schemas"]["UserSearchHistoryEntry"][];
             /** Format: int32 */
             statusCode: number;
         };

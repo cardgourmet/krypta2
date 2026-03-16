@@ -7,4 +7,4 @@ export type UserSavedSearch = c['schemas']['UserSavedSearch'];
 export type UserResolvedSavedSearch = c['schemas']['ResolvedUserSavedSearch'];
 
 export type PagedUserSavedSearch = c['schemas']['SimplePage-ResolvedUserSavedSearch'];
-export type UserSearchQueryStatistics = c['schemas']['UserSearchQueryStatistics'];
+export type UserSearchHistoryEntry = c['schemas']['UserSearchHistoryEntry'];

@@ -1,5 +1,5 @@
 import {ActionIcon, Group, Tooltip} from '@mantine/core';
-import {IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical,} from '@tabler/icons-react';
+import {IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical} from '@tabler/icons-react';
 import {Link, useNavigate} from '@tanstack/react-router';
 import {type RefObject, useEffect, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -124,23 +124,25 @@ export default function SearchRecent({
 
                     if (query.saved) {
                       deleteSavedSearches(user?.id, tcg, [query.saved]).then(({ error }) => {
-                        if (!error) {
+                        if (error) {
                           console.error('error', error);
                           return;
                         }
 
-                        console.log('success!');
+                        // adjust local storage and remove all with that queryId
+                        history.markQueries(query.id as string, undefined);
                       });
                       return;
                     }
 
-                    saveSearches(user?.id, tcg, [query.id as string]).then(({ error }) => {
-                      if (!error) {
+                    saveSearches(user?.id, tcg, [query.id as string]).then(({ data, error }) => {
+                      if (error || !data?.length) {
                         console.error('error', error);
                         return;
                       }
 
-                      console.log('success!');
+                      // adjust local storage and add all with that queryId
+                      history.markQueries(query.id as string, data[0].savedSearch.id);
                     });
                   }}
                   className={styles.actionIcon}

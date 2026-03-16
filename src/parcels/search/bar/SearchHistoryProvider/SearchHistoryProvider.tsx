@@ -16,12 +16,14 @@ export type SearchHistory = {
   pastQueries: HistoryByTcg;
   addQuery: (tcg: Tcg, query: ExplainSearchQuery) => void;
   removeQuery: (tcg: Tcg, index: number) => void;
+  markQueries: (tcg: Tcg, queryId: string, saved: string | undefined) => void;
 };
 
 export type TcgSpecificSearchHistory = {
   pastQueries: HistoryEntry[];
   addQuery: (query: ExplainSearchQuery) => void;
   removeQuery: (index: number) => void;
+  markQueries: (queryId: string, saved: string | undefined) => void;
 };
 
 export default function SearchHistoryProvider({ children }: { children: ReactNode }) {
@@ -69,7 +71,11 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
       if (lastQuery !== null && lastQuery.rawQuery === query.originalQuery) return;
 
       const newQueries = [...queries];
-      newQueries.push({ rawQuery: query.originalQuery, count: query.count ?? query.estimatedCount ?? -1 });
+      newQueries.push({
+        id: query.statisticsId ?? undefined,
+        rawQuery: query.originalQuery,
+        count: query.count ?? query.estimatedCount ?? -1,
+      });
       if (newQueries.length > MAX_HISTORY_SIZE) {
         newQueries.shift();
       }
@@ -96,14 +102,32 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     },
     [queriesByTcg, setQueriesWrapper],
   );
+  const markQueries = useCallback(
+    (tcg: Tcg, queryId: string, saved: string | undefined) => {
+      const queries = queriesByTcg[tcg] ?? [];
+
+      const newQueries = [...queries];
+      for (const query of newQueries) {
+        if (query.id === queryId) {
+          query.saved = saved;
+        }
+      }
+
+      const newQueriesByTcg = { ...queriesByTcg };
+      newQueriesByTcg[tcg] = newQueries;
+      setQueriesWrapper(newQueriesByTcg);
+    },
+    [queriesByTcg, setQueriesWrapper],
+  );
 
   const contextValue: SearchHistory = useMemo(() => {
     return {
       pastQueries: queriesByTcg,
-      addQuery: addQuery,
-      removeQuery: removeQuery,
+      addQuery,
+      removeQuery,
+      markQueries,
     };
-  }, [queriesByTcg, addQuery, removeQuery]);
+  }, [queriesByTcg, addQuery, removeQuery, markQueries]);
 
   return <SearchHistoryContext.Provider value={contextValue}>{children}</SearchHistoryContext.Provider>;
 }
