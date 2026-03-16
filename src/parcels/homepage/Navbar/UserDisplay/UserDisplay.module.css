@@ -25,11 +25,11 @@
 }
 
 .menuItem {
-  background-color: var(--gourmet-dropdown-bg);
+  background-color: var(--cgm-sidebar-bg);
 
   &:not([data-disabled="true"]) {
     &:hover {
-      background-color: var(--gourmet-dropdown-hover-bg);
+      background-color: var(--cgm-sidebar-border);
     }
   }
 }
@@ -39,5 +39,17 @@
 
   &:hover {
     background-color: color-mix(in srgb, var(--gourmet-blue-1), white 10%);
+  }
+}
+
+.userIcon {
+  height: 100%;
+  width: 100%;
+
+  > img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 }

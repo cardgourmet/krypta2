@@ -164,7 +164,7 @@ export default function SearchRecent({
         ))}
       </ul>
       <div className={styles.moreRecents}>
-        <Link to={'/'}>
+        <Link to={'/me/history'}>
           {t('to-history')}
           <IconArrowNarrowRight size={20} />
         </Link>
