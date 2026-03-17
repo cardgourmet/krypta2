@@ -3763,6 +3763,14 @@ export interface paths {
                 query: {
                     /** @description Game as filter for these resources */
                     game: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
+                    /** @description Optional string to search the query by. */
+                    search?: string;
+                    /** @description The order of sorting, either ascending or descending. */
+                    sortOrder?: "asc" | "desc";
+                    /** @description The id of the page to return. Defaults to `0`. */
+                    page?: number;
+                    /** @description The amount of items to return per page. Defaults to `10`. */
+                    pageSize?: number;
                 };
                 header?: never;
                 path: {
@@ -3779,7 +3787,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserSearchHistoryEntry"];
+                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserSearchHistoryEntry"];
                     };
                 };
             };
@@ -3811,6 +3819,8 @@ export interface paths {
                 query?: {
                     /** @description Game as filter for these resources */
                     game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
+                    /** @description Optional string to search the query by. */
+                    search?: string;
                     /** @description Field to sort the returned resources by. */
                     sortBy?: "savedAt";
                     /** @description The order of sorting, either ascending or descending. */
@@ -6921,8 +6931,18 @@ export interface components {
             search: components["schemas"]["SearchQueryStatistics"];
             totalCount?: number | null;
         };
-        "DataApiResponse-List-UserSearchHistoryEntry": {
-            data: components["schemas"]["UserSearchHistoryEntry"][];
+        "SimplePage-UserSearchHistoryEntry": {
+            /** Format: int32 */
+            currentPage: number;
+            hasNextPage: boolean;
+            items: components["schemas"]["UserSearchHistoryEntry"][];
+            /** Format: int32 */
+            lastPage: number;
+            /** Format: int32 */
+            nextPage: number;
+        };
+        "DataApiResponse-SimplePage-UserSearchHistoryEntry": {
+            data: components["schemas"]["SimplePage-UserSearchHistoryEntry"];
             /** Format: int32 */
             statusCode: number;
         };

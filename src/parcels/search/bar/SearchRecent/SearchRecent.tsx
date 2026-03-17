@@ -10,6 +10,7 @@ import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSe
 import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
 import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import {historyParamDefaults} from '@/routes/me/history';
 import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
@@ -164,7 +165,7 @@ export default function SearchRecent({
         ))}
       </ul>
       <div className={styles.moreRecents}>
-        <Link to={'/me/history'}>
+        <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }}>
           {t('to-history')}
           <IconArrowNarrowRight size={20} />
         </Link>

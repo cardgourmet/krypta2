@@ -80,7 +80,7 @@ export function CardOverview({
             <Pagination
               currentPage={cards?.data?.currentPage}
               lastPage={cards?.data?.pageCount}
-              isQueryLoading={isQueryLoading}
+              isLoading={isQueryLoading}
               setSettings={setSettings}
             />
           </Group>

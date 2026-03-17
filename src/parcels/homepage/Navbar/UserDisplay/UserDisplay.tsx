@@ -1,5 +1,5 @@
 import {Group, Menu, Stack} from '@mantine/core';
-import {IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar,} from '@tabler/icons-react';
+import {IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar} from '@tabler/icons-react';
 import {Link, useRouter} from '@tanstack/react-router';
 import {type CSSProperties, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -7,6 +7,7 @@ import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {UserDisplayButton} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplayButton/UserDisplayButton.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
+import {historyParamDefaults} from '@/routes/me/history';
 import {paramDefaults} from '@/routes/me/lists';
 import styles from './UserDisplay.module.css';
 
@@ -69,9 +70,11 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
 
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-            <Menu.Item leftSection={<IconHistory size={18} />} className={styles.menuItem}>
-              <GourmetText cgmff="ui">{t('history')}</GourmetText>
-            </Menu.Item>
+            <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }} style={{ textDecoration: 'none' }}>
+              <Menu.Item leftSection={<IconHistory size={18} />} className={styles.menuItem}>
+                <GourmetText cgmff="ui">{t('history')}</GourmetText>
+              </Menu.Item>
+            </Link>
             <Menu.Item leftSection={<IconBook2 size={18} />} className={styles.menuItem}>
               <GourmetText cgmff="ui">{t('savedSearches')}</GourmetText>
             </Menu.Item>

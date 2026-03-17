@@ -13,6 +13,8 @@ import searchDE from '@/../locales/search/de.json';
 import searchEN from '@/../locales/search/en.json';
 import selectionDE from '@/../locales/selection/de.json';
 import selectionEN from '@/../locales/selection/en.json';
+import historyDE from '@/../locales/history/de.json';
+import historyEN from '@/../locales/history/en.json';
 
 const resources = {
   en: {
@@ -22,6 +24,7 @@ const resources = {
     search: searchEN,
     selection: selectionEN,
     lists: listsEN,
+    history: historyEN,
   },
   de: {
     auth: authDE,
@@ -30,6 +33,7 @@ const resources = {
     search: searchDE,
     selection: selectionDE,
     lists: listsDE,
+    history: historyDE,
   },
 };
 

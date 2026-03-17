@@ -19,7 +19,8 @@ export function PcgPrintContentTypeline({ card }: { card: PcgDataCard }) {
             <Text ff={'var(--cgm-content-font-family)'}>
               Evolves from{' '}
               <Link
-                to={'/pcg/cards'}
+                to={'/$tcg/cards'}
+                params={{ tcg: 'pcg' }}
                 search={{
                   ...pcgSearchParamsDefaults,
                   query: `name:"${card.evolvesFrom}"`,

@@ -1,4 +1,4 @@
-import type {PagedUserSavedSearch, UserResolvedSavedSearch, UserSearchHistoryEntry} from '@/parcels/search/types.ts';
+import type {PagedUserSavedSearch, PagedUserSearchHistoryEntry, UserResolvedSavedSearch,} from '@/parcels/search/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/:id/searches/history
 
@@ -6,13 +6,21 @@ import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/:id/searches/his
 export async function fetchSearchHistory(
   userId: string,
   game: Tcg,
+  search?: string,
+  sortOrder?: 'asc' | 'desc',
+  page?: number,
+  pageSize?: number,
   abort?: AbortController,
-): Promise<{ data?: UserSearchHistoryEntry[]; error?: Error }> {
+): Promise<{ data?: PagedUserSearchHistoryEntry; error?: Error }> {
   try {
     const res = await umoriClient.GET(`/v1/users/{id}/searches/history`, {
       params: {
         query: {
           game: game,
+          search: search,
+          sortOrder: sortOrder,
+          page: page,
+          pageSize: pageSize,
         },
         path: {
           id: userId,

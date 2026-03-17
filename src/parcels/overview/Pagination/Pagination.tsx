@@ -5,34 +5,36 @@ import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
-import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
-import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
-import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
 
-type CardPaginationProps = {
+type PaginationProps = {
   currentPage?: number;
   lastPage?: number;
   isLoading?: boolean;
-  isQueryLoading?: boolean;
-  setSettings: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
+  setSettings: (update: ApplyFn<{ page?: number }>) => void;
 };
 
-export default function Pagination({ currentPage, lastPage, isQueryLoading, setSettings }: CardPaginationProps) {
+export default function Pagination({ currentPage, lastPage, isLoading, setSettings }: PaginationProps) {
   const smallScreen = useMediaQuery('(max-width: 830px)');
   const mustCurrentPage = currentPage ?? 1;
+  const [actualCurrentPage, setActualCurrentPage] = useState(mustCurrentPage);
 
   const switchPage = (nextPage: number) => {
     if (nextPage < 1) return;
     if (nextPage > (lastPage ?? 0)) return;
     if (nextPage === mustCurrentPage) return;
 
+    setActualCurrentPage(nextPage);
+
     setSettings((params) => {
       return { ...params, page: nextPage };
     });
   };
+  const pages = useMemo(() => {
+    return calculatePages(mustCurrentPage, lastPage ?? 1, 1, 2);
+  }, [mustCurrentPage, lastPage]);
 
   const workContext = useTcgOverviewWorkContext();
   const selectedCardsPerPage = useMemo(() => {
@@ -48,7 +50,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
   return (
     <div className={styles.contentNav}>
       <div className={styles.pagination}>
-        {(isQueryLoading || !lastPage) && (
+        {(isLoading || !lastPage) && (
           <Skeleton
             baseColor={'var(--gourmet-neutral-4)'}
             highlightColor={'var(--gourmet-neutral-5)'}
@@ -57,12 +59,12 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
           />
         )}
 
-        {!isQueryLoading && lastPage && (
+        {!isLoading && lastPage && (
           <Group>
             <Group gap={'0.25rem'}>
               <button
                 type="button"
-                disabled={currentPage === 1}
+                disabled={actualCurrentPage === 1}
                 onClick={() => switchPage(1)}
                 className={styles.pageButton}
               >
@@ -70,7 +72,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
               </button>
               <button
                 type="button"
-                disabled={currentPage === 1}
+                disabled={actualCurrentPage === 1}
                 onClick={() => switchPage(mustCurrentPage - 1)}
                 className={styles.pageButton}
               >
@@ -80,26 +82,26 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
             <Group gap={'0.25rem'}>
               {smallScreen && (
                 <div className={styles.middle}>
-                  {currentPage === lastPage && (
+                  {actualCurrentPage === lastPage && (
                     <button
                       type="button"
                       className={`${styles.pageButton} ${styles.currentPage}`}
                       onClick={() => switchPage(mustCurrentPage)}
                     >
-                      {currentPage}
+                      {actualCurrentPage}
                     </button>
                   )}
-                  {currentPage !== lastPage && (
+                  {actualCurrentPage !== lastPage && (
                     <Group gap={'0.25rem'}>
                       <button
                         type="button"
                         className={`${styles.pageButton} ${styles.currentPage}`}
                         onClick={() => switchPage(mustCurrentPage)}
                       >
-                        {currentPage}
+                        {actualCurrentPage}
                       </button>
-                      {lastPage - (currentPage ?? 1) > 1 && (
-                        <JumpToPageButton lastPage={lastPage} currentPage={currentPage} switchPage={switchPage} />
+                      {lastPage - (actualCurrentPage ?? 1) > 1 && (
+                        <JumpToPageButton lastPage={lastPage} currentPage={actualCurrentPage} switchPage={switchPage} />
                       )}
                       <button type="button" className={`${styles.pageButton}`} onClick={() => switchPage(lastPage)}>
                         {lastPage}
@@ -109,18 +111,18 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
                 </div>
               )}
               {!smallScreen
-                && calculatePages(mustCurrentPage, lastPage, 1, 2).map((page, index) => {
+                && pages.map((page, index) => {
                   const selectedHere = selectedCardsPerPage[page ?? -1] ?? 0;
 
                   return (
                     <div key={index} className={styles.middle}>
                       {page === null && (
-                        <JumpToPageButton lastPage={lastPage} currentPage={currentPage} switchPage={switchPage} />
+                        <JumpToPageButton lastPage={lastPage} currentPage={actualCurrentPage} switchPage={switchPage} />
                       )}
                       {page !== null && (
                         <button
                           type="button"
-                          className={`${styles.pageButton} ${page === currentPage ? styles.currentPage : ''}`}
+                          className={`${styles.pageButton} ${page === actualCurrentPage ? styles.currentPage : ''}`}
                           onClick={() => switchPage(page)}
                         >
                           {page}
@@ -134,7 +136,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
             <Group gap={'0.25rem'}>
               <button
                 type="button"
-                disabled={currentPage === lastPage}
+                disabled={actualCurrentPage === lastPage}
                 onClick={() => switchPage(mustCurrentPage + 1)}
                 className={styles.pageButton}
               >
@@ -142,7 +144,7 @@ export default function Pagination({ currentPage, lastPage, isQueryLoading, setS
               </button>
               <button
                 type="button"
-                disabled={currentPage === lastPage}
+                disabled={actualCurrentPage === lastPage}
                 onClick={() => switchPage(lastPage)}
                 className={styles.pageButton}
               >

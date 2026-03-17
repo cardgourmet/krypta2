@@ -8,3 +8,4 @@ export type UserResolvedSavedSearch = c['schemas']['ResolvedUserSavedSearch'];
 
 export type PagedUserSavedSearch = c['schemas']['SimplePage-ResolvedUserSavedSearch'];
 export type UserSearchHistoryEntry = c['schemas']['UserSearchHistoryEntry'];
+export type PagedUserSearchHistoryEntry = c['schemas']['SimplePage-UserSearchHistoryEntry'];

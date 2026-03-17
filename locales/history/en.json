@@ -1,0 +1,13 @@
+{
+  "common": {
+    "sortby": "Sort by date",
+    "filterBy": "Filter by"
+  },
+  "sortdir": {
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+  "mtg": "Magic: The Gathering",
+  "pcg": "Pokémon Card Game",
+  "dlc": "Disney Lorcana"
+}
