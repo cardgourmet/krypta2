@@ -71,10 +71,22 @@ export function SearchHistoryOverview() {
 
   const tableData: GourmetTableData<UserSearchHistoryEntry> = useMemo(() => {
     return {
-      columns: ['Query'],
-      rows: [],
+      columns: ['Time', 'Query', 'Cards', 'Speed'],
+      colSizes: ['12', '48', '6', '6'],
+      rows:
+        remoteHistoryData?.items?.map((i) => {
+          return {
+            entry: i,
+            data: {
+              Time: <GourmetText>{i.search.createdAt}</GourmetText>,
+              Query: <GourmetText cgmff={'monospace'}>{i.search.rawQuery}</GourmetText>,
+              Cards: <GourmetText>{i.totalCount}</GourmetText>,
+              Speed: <GourmetText>{i.search.executionTime}ms</GourmetText>,
+            },
+          };
+        }) ?? [],
     };
-  }, []);
+  }, [remoteHistoryData?.items?.map]);
 
   return (
     <div>
@@ -119,21 +131,27 @@ export function SearchHistoryOverview() {
             tcg={'mtg'}
             isLoading={isLoading}
             tableData={tableData}
-            constructHorTableRow={() => (
+            constructHorTableRow={({ data }) => (
               <tr key={''} data-selected={false}>
+                <td>{''}</td>
                 {tableData.columns.map((column) => (
-                  <td key={column}>{'some data'}</td>
+                  <td key={column}>{data[column]}</td>
                 ))}
+                <td>{''}</td>
               </tr>
             )}
-            constructVerTableRow={() => (
+            constructVerTableRow={({ data }) => (
               <>
                 {tableData.columns.map((column) => (
                   <tr key={`${column}`} data-cell={'not-last'}>
                     <th style={{ width: '5.25rem' }}>{column}</th>
-                    <td data-selected={false}>{'some data'}</td>
+                    <td data-selected={false}>{data[column]}</td>
                   </tr>
                 ))}
+                <tr key={`tools-1`} data-cell={'not-last'}>
+                  <th style={{ width: '5.25rem' }}>{''}</th>
+                  <td data-selected={false}>{''}</td>
+                </tr>
               </>
             )}
           />
