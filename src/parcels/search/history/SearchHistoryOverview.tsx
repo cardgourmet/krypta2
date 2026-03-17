@@ -1,13 +1,14 @@
 import {Divider, Group, Stack} from '@mantine/core';
 import {useNavigate} from '@tanstack/react-router';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {fetchSearchHistory} from '@/parcels/search/api.ts';
 import {SearchHistoryOverviewSettings} from '@/parcels/search/history/SearchHistoryOverviewSettings.tsx';
-import type {PagedUserSearchHistoryEntry} from '@/parcels/search/types.ts';
+import type {PagedUserSearchHistoryEntry, UserSearchHistoryEntry} from '@/parcels/search/types.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import {Route} from '@/routes/me/history';
 
@@ -68,6 +69,13 @@ export function SearchHistoryOverview() {
     });
   };
 
+  const tableData: GourmetTableData<UserSearchHistoryEntry> = useMemo(() => {
+    return {
+      columns: ['Query'],
+      rows: [],
+    };
+  }, []);
+
   return (
     <div>
       <title>{`Your Search History – Cardgourmet`}</title>
@@ -105,6 +113,30 @@ export function SearchHistoryOverview() {
       <Stack mt={'xl'}>
         {!isLoading && (
           <GourmetText style={{ wordBreak: 'break-all' }}>{JSON.stringify(remoteHistoryData)}</GourmetText>
+        )}
+        {!isLoading && (
+          <GourmetTable
+            tcg={'mtg'}
+            isLoading={isLoading}
+            tableData={tableData}
+            constructHorTableRow={() => (
+              <tr key={''} data-selected={false}>
+                {tableData.columns.map((column) => (
+                  <td key={column}>{'some data'}</td>
+                ))}
+              </tr>
+            )}
+            constructVerTableRow={() => (
+              <>
+                {tableData.columns.map((column) => (
+                  <tr key={`${column}`} data-cell={'not-last'}>
+                    <th style={{ width: '5.25rem' }}>{column}</th>
+                    <td data-selected={false}>{'some data'}</td>
+                  </tr>
+                ))}
+              </>
+            )}
+          />
         )}
       </Stack>
     </div>

@@ -1,17 +1,16 @@
-import { useMediaQuery } from '@mantine/hooks';
-import { useMemo } from 'react';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import { TableRowHorizontal } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
-import { TableRowVertical } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
-import type { DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
-import { constructDlcCardTableData } from '@/parcels/tcg/dlc/overview/constructDlcCardTableData.tsx';
-import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import { constructMtgCardTableData } from '@/parcels/tcg/mtg/overview/constructMtgCardTableData.tsx';
-import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
-import { constructPcgCardTableData } from '@/parcels/tcg/pcg/overview/constructPcgCardTableData.tsx';
-import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './CardTable.module.css';
+import {useMemo} from 'react';
+import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {TableRowHorizontal} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
+import {TableRowVertical} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
+import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
+import type {DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
+import {constructDlcCardTableData} from '@/parcels/tcg/dlc/overview/constructDlcCardTableData.tsx';
+import type {MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
+import {constructMtgCardTableData} from '@/parcels/tcg/mtg/overview/constructMtgCardTableData.tsx';
+import type {PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import {constructPcgCardTableData} from '@/parcels/tcg/pcg/overview/constructPcgCardTableData.tsx';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 type CardTableProps = {
   tcg: Tcg;
@@ -21,7 +20,6 @@ type CardTableProps = {
 };
 
 export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProps) {
-  const smallScreen = useMediaQuery('(max-width: 800px)');
   const cardItems: TcgSearchDataCard[] | null = useMemo(() => {
     if (!cards) return null;
 
@@ -34,12 +32,11 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
     }
     return null;
   }, [tcg, cards]);
-
   const mtgData = constructMtgCardTableData((cardItems ?? []) as MtgSearchDataCard[]);
   const dlcData = constructDlcCardTableData((cardItems ?? []) as DlcSearchDataCard[]);
   const pcgData = constructPcgCardTableData((cardItems ?? []) as PcgSearchDataCard[]);
   const tableData = useMemo(() => {
-    if (tcg === 'mtg') return mtgData;
+    if (tcg === 'mtg') return mtgData as GourmetTableData<MtgDataCard | DlcDataCard | PcgDataCard>;
     else if (tcg === 'dlc') return dlcData;
     else if (tcg === 'pcg') return pcgData;
     return null;
@@ -47,7 +44,39 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
 
   return (
     <div>
-      {!smallScreen && (
+      {tableData && (
+        <GourmetTable
+          tcg={tcg}
+          isLoading={isLoading}
+          tableData={tableData}
+          constructHorTableRow={({ entry, data }, index) => {
+            return (
+              <TableRowHorizontal
+                key={entry.id}
+                card={entry as TcgDataCard}
+                index={index}
+                data={data}
+                columns={tableData?.columns ?? []}
+                toolsEnabled={toolsEnabled}
+              />
+            );
+          }}
+          constructVerTableRow={({ entry, data }, index) => {
+            return (
+              <TableRowVertical
+                key={entry.id}
+                card={entry}
+                data={data}
+                columns={tableData?.columns ?? []}
+                index={index}
+                toolsEnabled={toolsEnabled}
+              />
+            );
+          }}
+        />
+      )}
+
+      {/*{!smallScreen && (
         <table className={styles.table} style={{ tableLayout: 'fixed' }}>
           <thead style={{ position: 'sticky', zIndex: 'var(--sticky-layer)' }}>
             <tr>
@@ -101,7 +130,7 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
               ))}
           </tbody>
         </table>
-      )}
+      )}*/}
     </div>
   );
 }

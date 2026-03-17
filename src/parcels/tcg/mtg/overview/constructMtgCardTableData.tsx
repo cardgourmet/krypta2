@@ -45,7 +45,7 @@ export function constructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
         cardItems?.map((card, _) => {
           if (!('colorIdentity' in card.card)) return { card: card.card, data: [] };
           return {
-            card: card.card,
+            entry: card.card,
             data: constructMtgTableData(card.card as MtgDataCard),
           };
         }) ?? [],

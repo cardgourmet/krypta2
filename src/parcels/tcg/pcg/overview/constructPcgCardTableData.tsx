@@ -45,7 +45,7 @@ export function constructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
           if (!('superType' in card.card)) return { card: card.card, data: [] };
 
           return {
-            card: card.card,
+            entry: card.card,
             data: constructPcgTableData(card.card as PcgDataCard),
           };
         }) ?? [],

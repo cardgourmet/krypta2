@@ -47,7 +47,7 @@ export function constructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
           if (!('inkTypes' in card.card)) return { card: card.card, data: [] };
 
           return {
-            card: card.card,
+            entry: card.card,
             data: constructDlcTableData(card.card as DlcDataCard),
           };
         }) ?? [],
