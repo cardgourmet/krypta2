@@ -1,18 +1,24 @@
-import {Divider, Group, Stack} from '@mantine/core';
-import {useNavigate} from '@tanstack/react-router';
+import {ActionIcon, Divider, Group, Stack, Tooltip} from '@mantine/core';
+import {IconDotsVertical, IconPlayerPlayFilled} from '@tabler/icons-react';
+import {Link, useNavigate} from '@tanstack/react-router';
 import {useEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {fetchSearchHistory} from '@/parcels/search/api.ts';
 import {SearchHistoryOverviewSettings} from '@/parcels/search/history/SearchHistoryOverviewSettings.tsx';
 import type {PagedUserSearchHistoryEntry, UserSearchHistoryEntry} from '@/parcels/search/types.ts';
+import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import {Route} from '@/routes/me/history';
+import styles from './SearchHistoryOverview.module.css';
 
 export function SearchHistoryOverview() {
+  const { i18n } = useTranslation();
   const search = Route.useSearch();
 
   const { user } = useAuth();
@@ -71,22 +77,26 @@ export function SearchHistoryOverview() {
 
   const tableData: GourmetTableData<UserSearchHistoryEntry> = useMemo(() => {
     return {
-      columns: ['Time', 'Query', 'Cards', 'Speed'],
-      colSizes: ['12', '48', '6', '6'],
+      columns: ['Query', 'Cards', 'Time', 'Speed'],
+      colSizes: ['36', '6', '8', '6'],
       rows:
         remoteHistoryData?.items?.map((i) => {
           return {
             entry: i,
             data: {
-              Time: <GourmetText>{i.search.createdAt}</GourmetText>,
+              Time: (
+                <Tooltip label={new Date(i.search.createdAt).toLocaleString()} openDelay={500}>
+                  <GourmetText cgmff={'ui'}>{formatRelativeTimestamp(i.search.createdAt, i18n.language)}</GourmetText>
+                </Tooltip>
+              ),
               Query: <GourmetText cgmff={'monospace'}>{i.search.rawQuery}</GourmetText>,
-              Cards: <GourmetText>{i.totalCount}</GourmetText>,
-              Speed: <GourmetText>{i.search.executionTime}ms</GourmetText>,
+              Cards: <GourmetText cgmff={'monospace'}>{i.totalCount}</GourmetText>,
+              Speed: <GourmetText cgmff={'ui'}>{i.search.executionTime}ms</GourmetText>,
             },
           };
         }) ?? [],
     };
-  }, [remoteHistoryData?.items?.map]);
+  }, [remoteHistoryData?.items, i18n.language]);
 
   return (
     <div>
@@ -123,39 +133,64 @@ export function SearchHistoryOverview() {
       <SearchHistoryOverviewSettings />
 
       <Stack mt={'xl'}>
-        {!isLoading && (
-          <GourmetText style={{ wordBreak: 'break-all' }}>{JSON.stringify(remoteHistoryData)}</GourmetText>
-        )}
-        {!isLoading && (
-          <GourmetTable
-            tcg={'mtg'}
-            isLoading={isLoading}
-            tableData={tableData}
-            constructHorTableRow={({ data }) => (
-              <tr key={''} data-selected={false}>
-                <td>{''}</td>
-                {tableData.columns.map((column) => (
-                  <td key={column}>{data[column]}</td>
-                ))}
-                <td>{''}</td>
-              </tr>
-            )}
-            constructVerTableRow={({ data }) => (
-              <>
-                {tableData.columns.map((column) => (
-                  <tr key={`${column}`} data-cell={'not-last'}>
-                    <th style={{ width: '5.25rem' }}>{column}</th>
-                    <td data-selected={false}>{data[column]}</td>
-                  </tr>
-                ))}
-                <tr key={`tools-1`} data-cell={'not-last'}>
-                  <th style={{ width: '5.25rem' }}>{''}</th>
-                  <td data-selected={false}>{''}</td>
+        <GourmetTable
+          tcg={'mtg'}
+          isLoading={isLoading}
+          tableData={tableData}
+          constructHorTableRow={({ entry, data }) => (
+            <tr key={''} data-selected={false}>
+              <td>{''}</td>
+              {tableData.columns.map((column) => (
+                <td key={column}>{data[column]}</td>
+              ))}
+              <td>
+                <Group wrap={'nowrap'} gap={'0.25rem'} justify={'start'}>
+                  <Link
+                    to={'/$tcg/cards'}
+                    params={{ tcg: search.tcg }}
+                    search={{
+                      ...tcgSearchParamsDefaults,
+                      query: entry.search.rawQuery,
+                    }}
+                  >
+                    <Tooltip label={'Re-execute query'} openDelay={500}>
+                      <ActionIcon
+                        style={{ pointerEvents: 'auto', backgroundColor: 'transparent' }}
+                        className={styles.playButton}
+                      >
+                        <IconPlayerPlayFilled size={18} color={'var(--gourmet-green-1)'} style={{ flexShrink: 0 }} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Link>
+
+                  <Tooltip label={'More options'} openDelay={500}>
+                    <ActionIcon
+                      style={{ pointerEvents: 'auto' }}
+                      color="var(--gourmet-neutral-dark-4)"
+                      size={'1.25rem'}
+                    >
+                      <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
+                    </ActionIcon>
+                  </Tooltip>
+                </Group>
+              </td>
+            </tr>
+          )}
+          constructVerTableRow={({ data }) => (
+            <>
+              {tableData.columns.map((column) => (
+                <tr key={`${column}`} data-cell={'not-last'}>
+                  <th style={{ width: '5.25rem' }}>{column}</th>
+                  <td data-selected={false}>{data[column]}</td>
                 </tr>
-              </>
-            )}
-          />
-        )}
+              ))}
+              <tr key={`tools-1`} data-cell={'not-last'}>
+                <th style={{ width: '5.25rem' }}>{''}</th>
+                <td data-selected={false}>{''}</td>
+              </tr>
+            </>
+          )}
+        />
       </Stack>
     </div>
   );

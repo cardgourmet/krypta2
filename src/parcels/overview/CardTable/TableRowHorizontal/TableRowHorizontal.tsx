@@ -72,7 +72,7 @@ export function TableRowHorizontal({
                   size={'1.25rem'}
                   data-menu-opened={menuOpened}
                 >
-                  <IconDotsVertical size={16} />
+                  <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} />
                 </ActionIcon>
               }
             />

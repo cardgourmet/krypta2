@@ -75,62 +75,6 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           }}
         />
       )}
-
-      {/*{!smallScreen && (
-        <table className={styles.table} style={{ tableLayout: 'fixed' }}>
-          <thead style={{ position: 'sticky', zIndex: 'var(--sticky-layer)' }}>
-            <tr>
-              <th>{''}</th>
-              {tableData?.columns.map((column, index) => {
-                const size = tableData?.colSizes?.[index];
-                const sizeRem = size ? (size === 'auto' ? 'auto' : `${size}rem`) : '';
-
-                return (
-                  <th key={column} style={{ width: sizeRem }}>
-                    {column}
-                  </th>
-                );
-              })}
-              <th>{''}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!isLoading
-              && (tableData?.rows?.length ?? 0) > 0
-              && tableData?.rows.map(({ card, data }, index) => {
-                return (
-                  <TableRowHorizontal
-                    key={card.id}
-                    card={card as TcgDataCard}
-                    index={index}
-                    data={data}
-                    columns={tableData?.columns ?? []}
-                    toolsEnabled={toolsEnabled}
-                  />
-                );
-              })}
-          </tbody>
-        </table>
-      )}
-      {smallScreen && (
-        <table className={styles.table}>
-          <tbody>
-            {!isLoading
-              && (tableData?.rows?.length ?? 0) > 0
-              && tableData?.rows.map(({ card, data }, index) => (
-                <>
-                  <TableRowVertical
-                    card={card}
-                    data={data}
-                    columns={tableData?.columns ?? []}
-                    index={index}
-                    toolsEnabled={toolsEnabled}
-                  />
-                </>
-              ))}
-          </tbody>
-        </table>
-      )}*/}
     </div>
   );
 }

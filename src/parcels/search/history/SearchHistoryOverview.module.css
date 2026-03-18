@@ -1,0 +1,7 @@
+.playButton {
+  &:hover {
+    svg {
+      fill: color-mix(var(--gourmet-green-1), black 15%);
+    }
+  }
+}
