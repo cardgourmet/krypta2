@@ -1,7 +1,15 @@
 .playButton {
+  background-color: transparent;
+
   &:hover {
-    svg {
-      fill: color-mix(var(--gourmet-green-1), black 15%);
-    }
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.moreButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
   }
 }

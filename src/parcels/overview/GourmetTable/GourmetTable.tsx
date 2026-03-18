@@ -56,7 +56,7 @@ export function GourmetTable<T>({
                   </th>
                 );
               })}
-              <th style={{ width: '4rem' }}>{''}</th>
+              <th style={{ width: '6rem' }}>{''}</th>
             </tr>
           </thead>
           <tbody>{!isLoading && (tableData?.rows?.length ?? 0) > 0 && rowElements}</tbody>

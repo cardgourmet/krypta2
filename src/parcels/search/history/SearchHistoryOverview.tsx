@@ -33,7 +33,6 @@ export function SearchHistoryOverview() {
 
   // TODO: if not logged in: only show what is in local storage
   // (with warning that not all are shown because not logged in)
-  // TODO: if logged in: fetch new paginated
 
   // const history = useSearchHistory(search.tcg);
   const [remoteHistoryData, setRemoteHistoryData] = useState<PagedUserSearchHistoryEntry | undefined>(undefined);
@@ -78,7 +77,7 @@ export function SearchHistoryOverview() {
   const tableData: GourmetTableData<UserSearchHistoryEntry> = useMemo(() => {
     return {
       columns: ['Query', 'Cards', 'Time', 'Speed'],
-      colSizes: ['36', '6', '8', '6'],
+      colSizes: ['', '6', '8', '6'],
       rows:
         remoteHistoryData?.items?.map((i) => {
           return {
@@ -122,7 +121,7 @@ export function SearchHistoryOverview() {
             <Pagination
               currentPage={search.page}
               lastPage={remoteHistoryData?.lastPage ?? search.page}
-              isLoading={isLoading}
+              isLoading={false}
               setSettings={setSettings}
             />
           )}
@@ -132,19 +131,19 @@ export function SearchHistoryOverview() {
 
       <SearchHistoryOverviewSettings />
 
-      <Stack mt={'xl'}>
+      <Stack mt={'xl'} style={{ padding: '0.5rem' }}>
         <GourmetTable
           tcg={'mtg'}
           isLoading={isLoading}
           tableData={tableData}
           constructHorTableRow={({ entry, data }) => (
-            <tr key={''} data-selected={false}>
-              <td>{''}</td>
+            <tr key={entry.search.id} data-selected={false} style={{ padding: '0 1rem' }}>
+              <td style={{ height: '2.5rem' }}>{''}</td>
               {tableData.columns.map((column) => (
                 <td key={column}>{data[column]}</td>
               ))}
               <td>
-                <Group wrap={'nowrap'} gap={'0.25rem'} justify={'start'}>
+                <Group wrap={'nowrap'} gap={'0.25rem'} justify={'end'} p={'0 0.25rem 0 0'}>
                   <Link
                     to={'/$tcg/cards'}
                     params={{ tcg: search.tcg }}
@@ -152,13 +151,13 @@ export function SearchHistoryOverview() {
                       ...tcgSearchParamsDefaults,
                       query: entry.search.rawQuery,
                     }}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ padding: 0 }}
                   >
                     <Tooltip label={'Re-execute query'} openDelay={500}>
-                      <ActionIcon
-                        style={{ pointerEvents: 'auto', backgroundColor: 'transparent' }}
-                        className={styles.playButton}
-                      >
-                        <IconPlayerPlayFilled size={18} color={'var(--gourmet-green-1)'} style={{ flexShrink: 0 }} />
+                      <ActionIcon style={{ pointerEvents: 'auto' }} className={styles.playButton}>
+                        <IconPlayerPlayFilled size={18} color={'var(--gourmet-blue-1)'} style={{ flexShrink: 0 }} />
                       </ActionIcon>
                     </Tooltip>
                   </Link>
@@ -167,7 +166,7 @@ export function SearchHistoryOverview() {
                     <ActionIcon
                       style={{ pointerEvents: 'auto' }}
                       color="var(--gourmet-neutral-dark-4)"
-                      size={'1.25rem'}
+                      className={styles.moreButton}
                     >
                       <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
                     </ActionIcon>
@@ -176,7 +175,7 @@ export function SearchHistoryOverview() {
               </td>
             </tr>
           )}
-          constructVerTableRow={({ data }) => (
+          constructVerTableRow={({ entry, data }) => (
             <>
               {tableData.columns.map((column) => (
                 <tr key={`${column}`} data-cell={'not-last'}>
@@ -184,9 +183,39 @@ export function SearchHistoryOverview() {
                   <td data-selected={false}>{data[column]}</td>
                 </tr>
               ))}
-              <tr key={`tools-1`} data-cell={'not-last'}>
-                <th style={{ width: '5.25rem' }}>{''}</th>
-                <td data-selected={false}>{''}</td>
+              <tr key={`tools-1`} data-cell={'last'}>
+                <th style={{ width: '5.25rem' }}>
+                  <GourmetText cgmc={'neutral-5'}>Tools</GourmetText>
+                </th>
+                <td data-selected={false}>
+                  <Group wrap={'nowrap'} gap={'0.25rem'} justify={'space-between'} p={'0 0.25rem 0 0'}>
+                    <Link
+                      to={'/$tcg/cards'}
+                      params={{ tcg: search.tcg }}
+                      search={{
+                        ...tcgSearchParamsDefaults,
+                        query: entry.search.rawQuery,
+                      }}
+                      style={{ padding: 0 }}
+                    >
+                      <Tooltip label={'Re-execute query'} openDelay={500}>
+                        <ActionIcon style={{ pointerEvents: 'auto' }} className={styles.playButton}>
+                          <IconPlayerPlayFilled size={18} color={'var(--gourmet-blue-1)'} style={{ flexShrink: 0 }} />
+                        </ActionIcon>
+                      </Tooltip>
+                    </Link>
+
+                    <Tooltip label={'More options'} openDelay={500}>
+                      <ActionIcon
+                        style={{ pointerEvents: 'auto' }}
+                        color="var(--gourmet-neutral-dark-4)"
+                        className={styles.moreButton}
+                      >
+                        <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Group>
+                </td>
               </tr>
             </>
           )}
