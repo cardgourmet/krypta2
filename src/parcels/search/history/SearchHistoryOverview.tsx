@@ -89,6 +89,21 @@ export function SearchHistoryOverview() {
     },
     [remoteHistoryData],
   );
+  const onSearchUnsaved = useCallback(
+    (queryId: string) => {
+      if (!remoteHistoryData) return;
+      const dataCopyItems = [...remoteHistoryData.items];
+      for (let i = 0; i < dataCopyItems.length; i++) {
+        const copyItem = { ...dataCopyItems[i] };
+        if (copyItem.search.queryId === queryId && !copyItem.savedSearch) {
+          copyItem.savedSearch = undefined;
+        }
+        dataCopyItems[i] = copyItem;
+      }
+      setRemoteHistoryData({ ...remoteHistoryData, items: dataCopyItems });
+    },
+    [remoteHistoryData],
+  );
 
   const tableData: GourmetTableData<UserSearchHistoryEntry> = useMemo(() => {
     return {
@@ -120,7 +135,7 @@ export function SearchHistoryOverview() {
                         }
 
                         // adjust local storage
-                        onSearchSaved(i.search.queryId, undefined);
+                        onSearchUnsaved(i.search.queryId);
                         history.markQueries(i.search.queryId as string, undefined);
                       });
                       return;
@@ -147,7 +162,15 @@ export function SearchHistoryOverview() {
           };
         }) ?? [],
     };
-  }, [remoteHistoryData?.items, i18n.language, search.tcg, user?.id, history.markQueries, onSearchSaved]);
+  }, [
+    remoteHistoryData?.items,
+    i18n.language,
+    search.tcg,
+    user?.id,
+    history.markQueries,
+    onSearchSaved,
+    onSearchUnsaved,
+  ]);
 
   return (
     <div>
