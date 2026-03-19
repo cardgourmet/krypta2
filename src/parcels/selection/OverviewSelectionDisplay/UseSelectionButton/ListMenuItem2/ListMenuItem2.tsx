@@ -3,7 +3,7 @@ import {IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tab
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {addCardResourcesToList} from '@/parcels/lists/api.ts';
+import {addResourcesToList} from '@/parcels/lists/api.ts';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
@@ -41,7 +41,7 @@ export function ListMenuItem2({
         if (!user?.id) return;
         if ((size ?? 0) + addToListCount > 100) return;
 
-        addCardResourcesToList(user?.id, list.id, tcg, [
+        addResourcesToList(user?.id, list.id, tcg, [
           ...selectedPrintIds.map((id) => {
             return { id: id };
           }),

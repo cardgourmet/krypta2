@@ -13,3 +13,11 @@
     background-color: var(--gourmet-neutral-3);
   }
 }
+
+.actionIcon {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}

@@ -3,8 +3,7 @@ import {IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tab
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {addCardResourcesToList, removeCardResourcesFromList} from '@/parcels/lists/api.ts';
+import {addResourcesToList, removeResourcesFromList} from '@/parcels/lists/api.ts';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
@@ -13,28 +12,34 @@ import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function ListMenuItem({
-  card,
+  ressourceId,
   listWithResources,
   disabled,
   action,
+  type,
+  tcg,
 }: {
-  card: TcgDataCard;
+  ressourceId: string;
   listWithResources: UserListWithResources;
   action: 'add' | 'remove';
   disabled?: boolean;
+  type?: 'card' | 'search';
+  tcg?: Tcg;
 }) {
-  const tcg = useTcgByLocation() as Tcg;
+  const locationTcg = useTcgByLocation();
+  const mustTcg = tcg ?? (locationTcg as Tcg);
   const { user } = useAuth();
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
 
   const { refetchLists } = useUserLists();
   const { list, resources, size } = listWithResources;
   const listResourceIds = useMemo(() => {
-    return resources?.card?.map((r) => r.listResource.resourceId) ?? [];
-  }, [resources]);
+    if (type === 'card') return resources?.card?.map((r) => r.listResource.resourceId) ?? [];
+    return resources?.user_search?.map((r) => r.listResource.resourceId) ?? [];
+  }, [resources, type]);
   const addToListCount = useMemo(() => {
-    return !listResourceIds.includes(card.print.id) ? 1 : 0;
-  }, [listResourceIds, card.print.id]);
+    return !listResourceIds.includes(ressourceId) ? 1 : 0;
+  }, [listResourceIds, ressourceId]);
 
   return (
     <Menu.Item
@@ -42,7 +47,7 @@ export function ListMenuItem({
         if (!user?.id) return;
 
         if (action === 'add') {
-          addCardResourcesToList(user?.id, list.id, tcg, [{ id: card.print.id }]).then((res) => {
+          addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type).then((res) => {
             if (res.error) {
               console.error('error while adding resource to list', res.error);
               return;
@@ -54,7 +59,7 @@ export function ListMenuItem({
           return;
         }
         if (action === 'remove') {
-          removeCardResourcesFromList(user?.id, list.id, tcg, [card.print.id]).then((res) => {
+          removeResourcesFromList(user?.id, list.id, mustTcg, [ressourceId], type).then((res) => {
             if (res.error) {
               console.error('error while removing resource to list', res.error);
               return;

@@ -51,7 +51,7 @@ export function GourmetTable<T>({
                 const sizeRem = size ? (size === 'auto' ? 'auto' : `${size}rem`) : '';
 
                 return (
-                  <th key={column} style={{ width: sizeRem }}>
+                  <th key={column + index} style={{ width: sizeRem }}>
                     {column}
                   </th>
                 );

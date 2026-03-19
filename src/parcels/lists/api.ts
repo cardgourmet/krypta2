@@ -181,15 +181,18 @@ export async function deleteLists(
 }
 
 // /v1/users/{id}/lists/{listId}/resources/card
-export async function addCardResourcesToList(
+export async function addResourcesToList(
   userId: string,
   listId: string,
   game: Tcg,
   resources: { id: string }[],
+  type?: 'card' | 'search',
   abort?: AbortController,
 ): Promise<{ data?: UserListResource[]; error?: Error }> {
+  const mustType = type ?? 'card';
+
   try {
-    const res = await umoriClient.POST(`/v1/users/{id}/lists/{listId}/resources/card`, {
+    const res = await umoriClient.POST(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
       params: {
         path: {
           id: userId,
@@ -209,7 +212,7 @@ export async function addCardResourcesToList(
     if (!res.data) {
       return { error: new Error('Received invalid data') };
     }
-    return { data: res.data.data };
+    return { data: res.data?.data as UserListResource[] };
   } catch (error) {
     if (!(error instanceof Error)) throw error;
 
@@ -223,15 +226,18 @@ export async function addCardResourcesToList(
 }
 
 // /v1/users/{id}/lists/{listId}/resources/card
-export async function removeCardResourcesFromList(
+export async function removeResourcesFromList(
   userId: string,
   listId: string,
   game: Tcg,
   resourceIds: string[],
+  type?: 'card' | 'search',
   abort?: AbortController,
 ): Promise<{ error?: Error }> {
+  const mustType = type ?? 'card';
+
   try {
-    const res = await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources/card`, {
+    const res = await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
       params: {
         path: {
           id: userId,

@@ -3,14 +3,22 @@ import {useMediaQuery} from '@mantine/hooks';
 import {IconChevronRight, IconList, IconMinus} from '@tabler/icons-react';
 import {useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
+export function RemoveFromListMenu({
+  ressourceId,
+  type,
+  tcg,
+}: {
+  ressourceId: string;
+  type?: 'card' | 'search';
+  tcg: Tcg;
+}) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
@@ -20,7 +28,8 @@ export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
     const nonSystemLists = lists.filter((l) => l.list.systemListType === undefined);
     const existsInLists = nonSystemLists
       .filter((list) => {
-        return list.resources?.card?.find((res) => res.listResource.resourceId === card.print.id);
+        if (type === 'card') return list.resources?.card?.find((res) => res.listResource.resourceId === ressourceId);
+        return list.resources?.user_search?.find((res) => res.listResource.resourceId === ressourceId);
       })
       .map((l) => l.list.id);
     const removableLists = nonSystemLists.filter((list) => {
@@ -28,7 +37,7 @@ export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
     });
 
     return { removableLists };
-  }, [lists, card.print.id]);
+  }, [lists, ressourceId, type]);
 
   return (
     <>
@@ -70,7 +79,16 @@ export function RemoveFromListMenu({ card }: { card: TcgDataCard }) {
             }}
           >
             {removableLists.map((list) => {
-              return <ListMenuItem key={list.list.id} card={card} listWithResources={list} action={'remove'} />;
+              return (
+                <ListMenuItem
+                  key={list.list.id}
+                  ressourceId={ressourceId}
+                  listWithResources={list}
+                  action={'remove'}
+                  type={type}
+                  tcg={tcg}
+                />
+              );
             })}
           </Menu.Dropdown>
         </Menu>

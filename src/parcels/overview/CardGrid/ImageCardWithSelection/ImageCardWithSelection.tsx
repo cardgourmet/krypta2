@@ -38,6 +38,7 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
       tcg={tcg}
       prop={prop}
       linkProps={{
+        /* @ts-expect-error */
         'data-selected': checked,
         disabled: isSelectionMode,
         'data-disabled': isSelectionMode,
@@ -60,6 +61,7 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
       }}
       imageDivProps={{
         className: isSelectionMode ? styles.cardSelectionOverlay : '',
+        /* @ts-expect-error */
         'data-selected': isSelected,
       }}
     >
