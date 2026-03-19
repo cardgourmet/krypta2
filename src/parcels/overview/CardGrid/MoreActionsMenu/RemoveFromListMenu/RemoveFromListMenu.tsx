@@ -6,19 +6,13 @@ import {useTranslation} from 'react-i18next';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
+import {ListMenuItem, type ListMenuItemRessourceProps,} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
 
-export function RemoveFromListMenu({
-  ressourceId,
-  type,
-  tcg,
-}: {
-  ressourceId: string;
-  type?: 'card' | 'search';
-  tcg: Tcg;
-}) {
+export function RemoveFromListMenu(props: ListMenuItemRessourceProps & TcgProps) {
+  const { ressourceId, type } = props;
+
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
@@ -79,16 +73,7 @@ export function RemoveFromListMenu({
             }}
           >
             {removableLists.map((list) => {
-              return (
-                <ListMenuItem
-                  key={list.list.id}
-                  ressourceId={ressourceId}
-                  listWithResources={list}
-                  action={'remove'}
-                  type={type}
-                  tcg={tcg}
-                />
-              );
+              return <ListMenuItem key={list.list.id} listWithResources={list} action={'remove'} {...props} />;
             })}
           </Menu.Dropdown>
         </Menu>

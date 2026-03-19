@@ -1,15 +1,23 @@
-import {Group, Menu, Tooltip} from '@mantine/core';
-import {IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {addResourcesToList, removeResourcesFromList} from '@/parcels/lists/api.ts';
-import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import { Group, Menu, Tooltip } from '@mantine/core';
+import { IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar } from '@tabler/icons-react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
+import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import { GourmetText } from '@/parcels/mantine/GourmetText.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+
+export type ListMenuItemRessourceProps = {
+  ressourceId: string;
+  type?: 'card' | 'search';
+  raw?: boolean;
+  onSuccess?: (res?: UserListResource) => void;
+};
 
 export function ListMenuItem({
   ressourceId,
@@ -18,14 +26,14 @@ export function ListMenuItem({
   action,
   type,
   tcg,
+  raw,
+  onSuccess,
 }: {
-  ressourceId: string;
   listWithResources: UserListWithResources;
   action: 'add' | 'remove';
   disabled?: boolean;
-  type?: 'card' | 'search';
-  tcg?: Tcg;
-}) {
+} & ListMenuItemRessourceProps &
+  OptionalTcgProps) {
   const locationTcg = useTcgByLocation();
   const mustTcg = tcg ?? (locationTcg as Tcg);
   const { user } = useAuth();
@@ -47,7 +55,7 @@ export function ListMenuItem({
         if (!user?.id) return;
 
         if (action === 'add') {
-          addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type).then((res) => {
+          addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type, raw).then((res) => {
             if (res.error) {
               console.error('error while adding resource to list', res.error);
               return;
@@ -55,6 +63,9 @@ export function ListMenuItem({
 
             console.log('success! added to list');
             refetchLists();
+
+            const data = res?.data;
+            if (onSuccess && data) onSuccess(data[0]);
           });
           return;
         }
@@ -67,6 +78,8 @@ export function ListMenuItem({
 
             console.log('success! removed to list');
             refetchLists();
+
+            if (onSuccess) onSuccess(undefined);
           });
           return;
         }

@@ -187,6 +187,7 @@ export async function addResourcesToList(
   game: Tcg,
   resources: { id: string }[],
   type?: 'card' | 'search',
+  raw?: boolean,
   abort?: AbortController,
 ): Promise<{ data?: UserListResource[]; error?: Error }> {
   const mustType = type ?? 'card';
@@ -202,6 +203,7 @@ export async function addResourcesToList(
       body: {
         game: game,
         resourceIds: resources,
+        isRaw: raw,
       },
       signal: abort?.signal,
     });

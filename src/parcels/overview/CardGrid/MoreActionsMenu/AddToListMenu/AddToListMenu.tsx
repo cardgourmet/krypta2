@@ -6,21 +6,20 @@ import { useTranslation } from 'react-i18next';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { GourmetText } from '@/parcels/mantine/GourmetText.tsx';
-import { ListMenuItem } from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
+import {
+  ListMenuItem,
+  type ListMenuItemRessourceProps,
+} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 
-export function AddToListMenu({
-  tcg,
-  ressourceId,
-  disclosure,
-  type,
-}: {
-  tcg: Tcg;
-  ressourceId: string;
-  disclosure: UseDisclosureReturnValue;
-  type?: 'card' | 'search';
-}) {
+export function AddToListMenu(
+  props: {
+    disclosure: UseDisclosureReturnValue;
+  } & ListMenuItemRessourceProps &
+    TcgProps,
+) {
+  const { ressourceId, disclosure, type } = props;
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
@@ -81,12 +80,10 @@ export function AddToListMenu({
           return (
             <ListMenuItem
               key={list.list.id}
-              ressourceId={ressourceId}
               listWithResources={list}
               action={'add'}
               disabled={existsInLists.includes(list.list.id)}
-              type={type}
-              tcg={tcg}
+              {...props}
             />
           );
         })}
