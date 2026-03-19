@@ -9,7 +9,8 @@ import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelat
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
-import {fetchSearchHistory} from '@/parcels/search/api.ts';
+import {deleteSavedSearches, fetchSearchHistory, saveSearches} from '@/parcels/search/api.ts';
+import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import {SearchHistoryMoreMenu} from '@/parcels/search/history/SearchHistoryMoreMenu.tsx';
 import {SearchHistoryOverviewSettings} from '@/parcels/search/history/SearchHistoryOverviewSettings.tsx';
 import type {PagedUserSearchHistoryEntry, UserSavedSearch, UserSearchHistoryEntry} from '@/parcels/search/types.ts';
@@ -22,6 +23,7 @@ import styles from './SearchHistoryOverview.module.css';
 export function SearchHistoryOverview() {
   const { i18n } = useTranslation();
   const search = Route.useSearch();
+  const history = useSearchHistory(search.tcg);
 
   const { user } = useAuth();
   const { component, title } = useBreadcrumbs({
@@ -32,9 +34,6 @@ export function SearchHistoryOverview() {
       },
     ],
   });
-
-  // TODO: if not logged in: only show what is in local storage
-  // (with warning that not all are shown because not logged in)
 
   // const history = useSearchHistory(search.tcg);
   const [remoteHistoryData, setRemoteHistoryData] = useState<PagedUserSearchHistoryEntry | undefined>(undefined);
@@ -75,6 +74,21 @@ export function SearchHistoryOverview() {
       replace: true,
     });
   };
+  const onSearchSaved = useCallback(
+    (queryId: string, id: string) => {
+      if (!remoteHistoryData) return;
+      const dataCopyItems = [...remoteHistoryData.items];
+      for (let i = 0; i < dataCopyItems.length; i++) {
+        const copyItem = { ...dataCopyItems[i] };
+        if (copyItem.search.queryId === queryId && !copyItem.savedSearch) {
+          copyItem.savedSearch = { id: id } as UserSavedSearch;
+        }
+        dataCopyItems[i] = copyItem;
+      }
+      setRemoteHistoryData({ ...remoteHistoryData, items: dataCopyItems });
+    },
+    [remoteHistoryData],
+  );
 
   const tableData: GourmetTableData<UserSearchHistoryEntry> = useMemo(() => {
     return {
@@ -96,7 +110,32 @@ export function SearchHistoryOverview() {
               Saved: (
                 <ActionIcon
                   onClick={() => {
-                    // save search
+                    if (!user?.id) return;
+
+                    if (i.savedSearch) {
+                      deleteSavedSearches(user?.id, search.tcg, [i.savedSearch.id]).then(({ error }) => {
+                        if (error) {
+                          console.error('error', error);
+                          return;
+                        }
+
+                        // adjust local storage
+                        onSearchSaved(i.search.queryId, undefined);
+                        history.markQueries(i.search.queryId as string, undefined);
+                      });
+                      return;
+                    }
+
+                    saveSearches(user?.id, search.tcg, [i.search.queryId as string]).then(({ data, error }) => {
+                      if (error || !data?.length) {
+                        console.error('error', error);
+                        return;
+                      }
+
+                      // adjust local storage
+                      onSearchSaved(i.search.queryId, data[0].savedSearch.id);
+                      history.markQueries(i.search.queryId as string, data[0].savedSearch.id);
+                    });
                   }}
                   className={styles.actionIcon}
                 >
@@ -108,23 +147,7 @@ export function SearchHistoryOverview() {
           };
         }) ?? [],
     };
-  }, [remoteHistoryData?.items, i18n.language]);
-
-  const onSearchSaved = useCallback(
-    (queryId: string, id: string) => {
-      if (!remoteHistoryData) return;
-      const dataCopyItems = [...remoteHistoryData.items];
-      for (let i = 0; i < dataCopyItems.length; i++) {
-        const copyItem = { ...dataCopyItems[i] };
-        if (copyItem.search.queryId === queryId && !copyItem.savedSearch) {
-          copyItem.savedSearch = { id: id } as UserSavedSearch;
-        }
-        dataCopyItems[i] = copyItem;
-      }
-      setRemoteHistoryData({ ...remoteHistoryData, items: dataCopyItems });
-    },
-    [remoteHistoryData],
-  );
+  }, [remoteHistoryData?.items, i18n.language, search.tcg, user?.id, history.markQueries, onSearchSaved]);
 
   return (
     <div>
