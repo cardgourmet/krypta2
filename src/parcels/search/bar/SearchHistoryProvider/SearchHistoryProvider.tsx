@@ -16,7 +16,7 @@ export type SearchHistory = {
   pastQueries: HistoryByTcg;
   addQuery: (tcg: Tcg, query: ExplainSearchQuery) => void;
   removeQuery: (tcg: Tcg, index: number) => void;
-  markQueries: (tcg: Tcg, queryId: string, saved: string | undefined) => void;
+  markQueries: (tcg: Tcg, rawQuery: string, saved: string | undefined) => void;
 };
 
 export type TcgSpecificSearchHistory = {
@@ -41,13 +41,13 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     for (const tcg of ['mtg', 'dlc', 'pcg'] as Tcg[]) {
       fetchSearchHistory(user.id, tcg).then(({ data, error }) => {
         if (error) return console.error('error while fetching search history', error);
-        if ((data?.length ?? 0) === 0) {
+        if ((data?.items?.length ?? 0) === 0) {
           // we ignore it, maybe the user first created the account now.
           return;
         }
 
         const entries = [] as HistoryEntry[];
-        for (const entry of data?.reverse() ?? []) {
+        for (const entry of data?.items?.reverse() ?? []) {
           entries.push({
             id: entry.search.id,
             rawQuery: entry.search.rawQuery,
@@ -103,12 +103,12 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     [queriesByTcg, setQueriesWrapper],
   );
   const markQueries = useCallback(
-    (tcg: Tcg, queryId: string, saved: string | undefined) => {
+    (tcg: Tcg, rawQuery: string, saved: string | undefined) => {
       const queries = queriesByTcg[tcg] ?? [];
 
       const newQueries = [...queries];
       for (const query of newQueries) {
-        if (query.id === queryId) {
+        if (query.rawQuery === rawQuery) {
           query.saved = saved;
         }
       }

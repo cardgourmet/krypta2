@@ -95,7 +95,7 @@ export function SearchHistoryOverview() {
       const dataCopyItems = [...remoteHistoryData.items];
       for (let i = 0; i < dataCopyItems.length; i++) {
         const copyItem = { ...dataCopyItems[i] };
-        if (copyItem.search.queryId === queryId && !copyItem.savedSearch) {
+        if (copyItem.search.queryId === queryId && copyItem.savedSearch) {
           copyItem.savedSearch = undefined;
         }
         dataCopyItems[i] = copyItem;
@@ -127,7 +127,7 @@ export function SearchHistoryOverview() {
                   onClick={() => {
                     if (!user?.id) return;
 
-                    if (i.savedSearch) {
+                    if (i.savedSearch?.id) {
                       deleteSavedSearches(user?.id, search.tcg, [i.savedSearch.id]).then(({ error }) => {
                         if (error) {
                           console.error('error', error);
@@ -136,12 +136,12 @@ export function SearchHistoryOverview() {
 
                         // adjust local storage
                         onSearchUnsaved(i.search.queryId);
-                        history.markQueries(i.search.queryId as string, undefined);
+                        history.markQueries(i.search.rawQuery as string, undefined);
                       });
                       return;
                     }
 
-                    saveSearches(user?.id, search.tcg, [i.search.queryId as string]).then(({ data, error }) => {
+                    saveSearches(user?.id, search.tcg, [i.search.id as string]).then(({ data, error }) => {
                       if (error || !data?.length) {
                         console.error('error', error);
                         return;
@@ -149,7 +149,7 @@ export function SearchHistoryOverview() {
 
                       // adjust local storage
                       onSearchSaved(i.search.queryId, data[0].savedSearch.id);
-                      history.markQueries(i.search.queryId as string, data[0].savedSearch.id);
+                      history.markQueries(i.search.rawQuery as string, data[0].savedSearch.id);
                     });
                   }}
                   className={styles.actionIcon}

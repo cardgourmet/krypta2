@@ -131,7 +131,7 @@ export default function SearchRecent({
                         }
 
                         // adjust local storage and remove all with that queryId
-                        history.markQueries(query.id as string, undefined);
+                        history.markQueries(query.rawQuery as string, undefined);
                       });
                       return;
                     }
@@ -143,7 +143,7 @@ export default function SearchRecent({
                       }
 
                       // adjust local storage and add all with that queryId
-                      history.markQueries(query.id as string, data[0].savedSearch.id);
+                      history.markQueries(query.rawQuery as string, data[0].savedSearch.id);
                     });
                   }}
                   className={styles.actionIcon}
