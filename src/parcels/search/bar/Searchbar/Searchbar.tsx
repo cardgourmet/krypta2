@@ -1,4 +1,4 @@
-import {useClickOutside, useDebouncedValue, useFocusTrap, useMergedRef} from '@mantine/hooks';
+import {useDebouncedValue, useFocusTrap, useMergedRef} from '@mantine/hooks';
 import {IconDeviceVisionPro, IconQuestionMark, IconX} from '@tabler/icons-react';
 import {Link, useNavigate, useRouter} from '@tanstack/react-router';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -10,6 +10,7 @@ import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchComp
 import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
+import {useClickOutsideWithRegistry} from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
 import {useSearchQuery} from '@/parcels/search/useSearchQuery.ts';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './Searchbar.module.css';
@@ -74,9 +75,10 @@ export default function Searchbar() {
     };
   }, [tcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
 
+  const registerRef = useClickOutsideWithRegistry(() => setIsOpened(false), isOpened);
+
   const focusTrapRef = useFocusTrap(isOpened);
-  const clickOutsideRef = useClickOutside(() => setIsOpened(false));
-  const mergedSearchRef = useMergedRef(searchContainerRef, clickOutsideRef, focusTrapRef);
+  const mergedSearchRef = useMergedRef(searchContainerRef, focusTrapRef, registerRef);
 
   const router = useRouter();
   router.subscribe('onLoad', () => {
@@ -149,6 +151,7 @@ export default function Searchbar() {
 
             {!isCaptainOfTheShip && recentQueries.length > 0 && (
               <SearchRecent
+                submenuRef={registerRef}
                 tcg={tcg}
                 close={() => {
                   setIsOpened(false);

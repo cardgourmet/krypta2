@@ -1,23 +1,20 @@
-import { Group, Menu } from '@mantine/core';
-import { type UseDisclosureReturnValue, useMediaQuery } from '@mantine/hooks';
-import { IconChevronRight, IconList, IconPlus } from '@tabler/icons-react';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
-import { GourmetText } from '@/parcels/mantine/GourmetText.tsx';
-import {
-  ListMenuItem,
-  type ListMenuItemRessourceProps,
-} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
+import {Group, Menu} from '@mantine/core';
+import {type UseDisclosureReturnValue, useMediaQuery} from '@mantine/hooks';
+import {IconChevronRight, IconList, IconPlus} from '@tabler/icons-react';
+import {type Ref, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
+import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {ListMenuItem, type ListMenuItemRessourceProps,} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
+import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
 
 export function AddToListMenu(
   props: {
     disclosure: UseDisclosureReturnValue;
   } & ListMenuItemRessourceProps &
-    TcgProps,
+    TcgProps & { ref?: Ref<HTMLDivElement> },
 ) {
   const { ressourceId, disclosure, type } = props;
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
@@ -70,6 +67,7 @@ export function AddToListMenu(
       </Menu.Target>
 
       <Menu.Dropdown
+        ref={props.ref}
         style={{
           width: 'max-content',
           minWidth: 200,

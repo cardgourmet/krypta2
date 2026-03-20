@@ -4,7 +4,7 @@ import {Link} from '@tanstack/react-router';
 import {Activity, type Dispatch, type SetStateAction, useMemo} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
+import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import styles from './ToolsOverlay.module.css';
 
 export function ToolsOverlay({
@@ -47,7 +47,7 @@ export function ToolsOverlay({
             />
           </Activity>
           <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
-            <MoreActionsMenu
+            <CardMoreActionsMenu
               card={card}
               menuOpened={menuOpened}
               setMenuOpened={setMenuOpened}

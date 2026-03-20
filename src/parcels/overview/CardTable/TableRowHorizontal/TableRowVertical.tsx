@@ -3,7 +3,7 @@ import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, type ReactElement, useState} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
+import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import styles from '@/parcels/overview/CardTable/CardTable.module.css';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
@@ -67,7 +67,7 @@ export function TableRowVertical({
             </Activity>
             <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
               <Group justify={'end'}>
-                <MoreActionsMenu
+                <CardMoreActionsMenu
                   card={card}
                   menuOpened={menuOpened}
                   setMenuOpened={setMenuOpened}

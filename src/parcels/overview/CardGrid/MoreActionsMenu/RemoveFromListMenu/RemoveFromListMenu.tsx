@@ -1,7 +1,7 @@
 import {Group, Menu} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconChevronRight, IconList, IconMinus} from '@tabler/icons-react';
-import {useMemo, useState} from 'react';
+import {type Ref, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
@@ -10,7 +10,7 @@ import {ListMenuItem, type ListMenuItemRessourceProps,} from '@/parcels/overview
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
 import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
 
-export function RemoveFromListMenu(props: ListMenuItemRessourceProps & TcgProps) {
+export function RemoveFromListMenu(props: ListMenuItemRessourceProps & TcgProps & { ref?: Ref<HTMLDivElement> }) {
   const { ressourceId, type } = props;
 
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
@@ -66,6 +66,7 @@ export function RemoveFromListMenu(props: ListMenuItemRessourceProps & TcgProps)
           </Menu.Target>
 
           <Menu.Dropdown
+            ref={props.ref}
             style={{
               width: 'max-content',
               minWidth: 200,

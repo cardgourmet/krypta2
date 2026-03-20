@@ -11,7 +11,7 @@ import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTab
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {deleteSavedSearches, fetchSearchHistory, saveSearches} from '@/parcels/search/api.ts';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import {SearchHistoryMoreMenu} from '@/parcels/search/history/SearchHistoryMoreMenu.tsx';
+import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
 import {SearchHistoryOverviewSettings} from '@/parcels/search/history/SearchHistoryOverviewSettings.tsx';
 import type {PagedUserSearchHistoryEntry, UserSavedSearch, UserSearchHistoryEntry} from '@/parcels/search/types.ts';
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
@@ -279,9 +279,11 @@ function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryP
           </Link>
 
           <Tooltip label={'More options'} openDelay={500}>
-            <SearchHistoryMoreMenu
+            <MoreActionsMenu
+              type={'user_search'}
               tcg={tcg}
-              search={entry}
+              resourceId={entry.savedSearch?.id}
+              rawResourceId={entry.search.id}
               target={
                 <ActionIcon
                   style={{ pointerEvents: 'auto' }}
@@ -338,9 +340,11 @@ function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryP
             </Link>
 
             <Tooltip label={'More options'} openDelay={500}>
-              <SearchHistoryMoreMenu
+              <MoreActionsMenu
+                type={'user_search'}
                 tcg={tcg}
-                search={entry}
+                resourceId={entry.savedSearch?.id}
+                rawResourceId={entry.search.id}
                 target={
                   <ActionIcon
                     style={{ pointerEvents: 'auto' }}

@@ -3,7 +3,7 @@ import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, useMemo, useState} from 'react';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
-import {MoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.tsx';
+import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
@@ -77,7 +77,7 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
             }}
           />
           <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
-            <MoreActionsMenu
+            <CardMoreActionsMenu
               card={card.card}
               menuOpened={menuOpened}
               setMenuOpened={setMenuOpened}

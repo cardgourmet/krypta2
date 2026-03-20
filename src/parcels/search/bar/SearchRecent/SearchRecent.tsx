@@ -1,13 +1,15 @@
 import {ActionIcon, Group, Tooltip} from '@mantine/core';
 import {IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical} from '@tabler/icons-react';
 import {Link, useNavigate} from '@tanstack/react-router';
-import {type RefObject, useEffect, useMemo} from 'react';
+import {type Ref, type RefObject, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {deleteSavedSearches, saveSearches} from '@/parcels/search/api.ts';
 import type {HistoryEntry} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
+import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
+import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
 import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {historyParamDefaults} from '@/routes/me/history';
@@ -24,6 +26,7 @@ type SearchRecentItemProps = {
 };
 
 export default function SearchRecent({
+  submenuRef,
   tcg,
   close,
   setQuery,
@@ -31,12 +34,11 @@ export default function SearchRecent({
   setHistoryIndex,
   searchContainerRef,
   searchInputRef,
-}: SearchRecentItemProps) {
+}: { submenuRef?: Ref<HTMLDivElement> } & SearchRecentItemProps) {
   const { t } = useTranslation('search');
   const history = useSearchHistory(tcg);
   const recentQueries = history.pastQueries ?? [];
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const suggestions = useMemo(() => {
     const suggs = [...recentQueries].reverse().slice(0, 5);
@@ -118,48 +120,7 @@ export default function SearchRecent({
               </div>
             </button>
             <div className={styles.recentItemRight}>
-              <Group gap={'0.2rem'}>
-                <ActionIcon
-                  onClick={() => {
-                    if (!user?.id) return;
-
-                    if (query.saved) {
-                      deleteSavedSearches(user?.id, tcg, [query.saved]).then(({ error }) => {
-                        if (error) {
-                          console.error('error', error);
-                          return;
-                        }
-
-                        // adjust local storage and remove all with that queryId
-                        history.markQueries(query.rawQuery as string, undefined);
-                      });
-                      return;
-                    }
-
-                    saveSearches(user?.id, tcg, [query.id as string]).then(({ data, error }) => {
-                      if (error || !data?.length) {
-                        console.error('error', error);
-                        return;
-                      }
-
-                      // adjust local storage and add all with that queryId
-                      history.markQueries(query.rawQuery as string, data[0].savedSearch.id);
-                    });
-                  }}
-                  className={styles.actionIcon}
-                >
-                  {query.saved && <IconBook2 size={18} color={'var(--gourmet-blue-1)'} />}
-                  {!query.saved && <IconBook size={18} color={'var(--gourmet-neutral-7)'} />}
-                </ActionIcon>
-                <ActionIcon
-                  onClick={() => {
-                    // TODO: more actions for search history entry (i.e. adding them to a list)
-                  }}
-                  className={styles.actionIcon}
-                >
-                  <IconDotsVertical size={16} color={'var(--gourmet-neutral-6)'} />
-                </ActionIcon>
-              </Group>
+              <RecentItemTools query={query} tcg={tcg} submenuRef={submenuRef} />
             </div>
           </li>
         ))}
@@ -171,5 +132,73 @@ export default function SearchRecent({
         </Link>
       </div>
     </div>
+  );
+}
+
+function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivElement> | undefined } & TcgProps) {
+  const { query, tcg, submenuRef } = props;
+  const { user } = useAuth();
+  const history = useSearchHistory(tcg);
+
+  const [menuOpened, setMenuOpened] = useState(false);
+
+  return (
+    <Group gap={'0.2rem'}>
+      <ActionIcon
+        onClick={() => {
+          if (!user?.id) return;
+
+          if (query.saved) {
+            deleteSavedSearches(user?.id, tcg, [query.saved]).then(({ error }) => {
+              if (error) {
+                console.error('error', error);
+                return;
+              }
+
+              // adjust local storage and remove all with that queryId
+              history.markQueries(query.rawQuery as string, undefined);
+            });
+            return;
+          }
+
+          saveSearches(user?.id, tcg, [query.id as string]).then(({ data, error }) => {
+            if (error || !data?.length) {
+              console.error('error', error);
+              return;
+            }
+
+            // adjust local storage and add all with that queryId
+            history.markQueries(query.rawQuery as string, data[0].savedSearch.id);
+          });
+        }}
+        className={styles.actionIcon}
+      >
+        {query.saved && <IconBook2 size={18} color={'var(--gourmet-blue-1)'} />}
+        {!query.saved && <IconBook size={18} color={'var(--gourmet-neutral-7)'} />}
+      </ActionIcon>
+
+      <MoreActionsMenu
+        ref={submenuRef}
+        type={'user_search'}
+        tcg={tcg}
+        resourceId={query.saved}
+        rawResourceId={query.id as string}
+        menuOpened={menuOpened}
+        setMenuOpened={setMenuOpened}
+        target={
+          <ActionIcon
+            style={{ pointerEvents: 'auto' }}
+            color="var(--gourmet-neutral-dark-4)"
+            className={styles.moreButton}
+          >
+            <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
+          </ActionIcon>
+        }
+        onSearchSaved={(id) => {
+          // adjust local storage and add all with that queryId
+          history.markQueries(query.rawQuery as string, id);
+        }}
+      />
+    </Group>
   );
 }
