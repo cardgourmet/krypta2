@@ -34,8 +34,6 @@ export function SearchHistoryOverview() {
       },
     ],
   });
-
-  // const history = useSearchHistory(search.tcg);
   const [remoteHistoryData, setRemoteHistoryData] = useState<PagedUserSearchHistoryEntry | undefined>(undefined);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
