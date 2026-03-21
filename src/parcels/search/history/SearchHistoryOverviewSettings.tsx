@@ -1,6 +1,7 @@
 import {Button, Center, Group, TextInput} from '@mantine/core';
 import {IconSearch} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
@@ -17,6 +18,7 @@ export function SearchHistoryOverviewSettings() {
     asc: t('sortdir.asc'),
     desc: t('sortdir.desc'),
   };
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <Group justify={'space-between'}>
@@ -67,8 +69,31 @@ export function SearchHistoryOverviewSettings() {
 
       {/* TODO: search input */}
       <Group gap={0} className={styles.searchBarWrapper}>
-        <TextInput className={styles.searchBarInput} placeholder={'Search...'} />
-        <Button className={styles.searchBarButton} color={'var(--gourmet-blue-1)'}>
+        <TextInput
+          className={styles.searchBarInput}
+          placeholder={'Search...'}
+          onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              if (!searchQuery) return;
+
+              // TODO: do search (by forwarding with &search=... param)
+              // also always to page 1
+              console.log('do search');
+            }
+          }}
+        />
+        <Button
+          className={styles.searchBarButton}
+          color={'var(--gourmet-blue-1)'}
+          onClick={() => {
+            if (!searchQuery) return;
+
+            // TODO: do search (by forwarding with &search=... param)
+            // also always to page 1
+            console.log('do search');
+          }}
+        >
           <Center>
             <IconSearch size={16} color={'var(--gourmet-neutral-1)'} />
           </Center>
