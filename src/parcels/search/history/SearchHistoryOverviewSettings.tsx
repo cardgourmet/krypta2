@@ -67,7 +67,6 @@ export function SearchHistoryOverviewSettings() {
         </Group>
       </Group>
 
-      {/* TODO: search input */}
       <Group gap={0} className={styles.searchBarWrapper}>
         <TextInput
           className={styles.searchBarInput}
@@ -75,11 +74,11 @@ export function SearchHistoryOverviewSettings() {
           onChange={(event) => setSearchQuery(event.currentTarget.value)}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
-              if (!searchQuery) return;
-
-              // TODO: do search (by forwarding with &search=... param)
-              // also always to page 1
-              console.log('do search');
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                to: '/me/history',
+                search: { ...search, page: 1, search: searchQuery },
+              });
             }
           }}
         />
@@ -87,11 +86,11 @@ export function SearchHistoryOverviewSettings() {
           className={styles.searchBarButton}
           color={'var(--gourmet-blue-1)'}
           onClick={() => {
-            if (!searchQuery) return;
-
-            // TODO: do search (by forwarding with &search=... param)
-            // also always to page 1
-            console.log('do search');
+            // noinspection JSIgnoredPromiseFromCall
+            navigate({
+              to: '/me/history',
+              search: { ...search, page: 1, search: searchQuery },
+            });
           }}
         >
           <Center>

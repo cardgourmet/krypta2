@@ -42,7 +42,7 @@ export function SearchHistoryOverview() {
 
     setIsLoading(true);
     const abort = new AbortController();
-    fetchSearchHistory(user.id, search.tcg, undefined, search.sortDir, search.page - 1, search.size, abort).then(
+    fetchSearchHistory(user.id, search.tcg, search.search, search.sortDir, search.page - 1, search.size, abort).then(
       ({ data, error }) => {
         setIsLoading(false);
 
@@ -59,7 +59,7 @@ export function SearchHistoryOverview() {
       // abort.abort();
       setIsLoading(false);
     };
-  }, [search.page, search.size, search.sortDir, search.tcg, user?.id]);
+  }, [search.page, search.size, search.sortDir, search.tcg, user?.id, search.search]);
 
   const navigate = useNavigate();
   const setSettings = (apply: ApplyFn<{ page?: number }>) => {
