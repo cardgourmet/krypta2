@@ -73,6 +73,10 @@
       font-weight: 400;
       color: var(--gourmet-neutral-9);
       font-family: var(--cgm-monospace-font-family), monospace;
+
+      &[data-extended="true"] {
+        padding-right: 1rem;
+      }
     }
   }
 

@@ -45,7 +45,7 @@ export function GourmetTable<T>({
         <table className={styles.table} style={{ tableLayout: 'fixed' }}>
           <thead style={{ position: 'sticky', zIndex: 'var(--sticky-layer)' }}>
             <tr>
-              <th>{''}</th>
+              <th key={'-1'}>{''}</th>
               {tableData?.columns.map((column, index) => {
                 const size = tableData?.colSizes?.[index];
                 const sizeRem = size ? (size === 'auto' ? 'auto' : `${size}rem`) : '';
@@ -56,7 +56,9 @@ export function GourmetTable<T>({
                   </th>
                 );
               })}
-              <th style={{ width: '6rem' }}>{''}</th>
+              <th key={'-2'} style={{ width: '6rem' }}>
+                {''}
+              </th>
             </tr>
           </thead>
           <tbody>{!isLoading && (tableData?.rows?.length ?? 0) > 0 && rowElements}</tbody>

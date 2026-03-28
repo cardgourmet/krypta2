@@ -7,7 +7,7 @@ import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {Route} from '@/routes/me/history';
-import styles from './SearchHistoryOverview.module.css';
+import styles from './SearchHistoryOverviewSettings.module.css';
 
 export function SearchHistoryOverviewSettings() {
   const { t } = useTranslation('history');

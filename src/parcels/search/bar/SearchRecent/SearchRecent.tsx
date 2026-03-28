@@ -40,6 +40,8 @@ export default function SearchRecent({
   const recentQueries = history.pastQueries ?? [];
   const navigate = useNavigate();
 
+  const { user } = useAuth();
+
   const suggestions = useMemo(() => {
     const suggs = [...recentQueries].reverse().slice(0, 5);
     suggs.unshift({} as HistoryEntry);
@@ -115,13 +117,15 @@ export default function SearchRecent({
               <div className={styles.recentItemLeft}>
                 <IconClockHour8 size={20} color={'var(--gourmet-neutral-7)'} />
                 <Tooltip label={query.rawQuery} openDelay={500}>
-                  <p>{query.rawQuery}</p>
+                  <p data-extended={!user?.id}>{query.rawQuery}</p>
                 </Tooltip>
               </div>
             </button>
-            <div className={styles.recentItemRight}>
-              <RecentItemTools query={query} tcg={tcg} submenuRef={submenuRef} />
-            </div>
+            {user?.id && (
+              <div className={styles.recentItemRight}>
+                <RecentItemTools query={query} tcg={tcg} submenuRef={submenuRef} />
+              </div>
+            )}
           </li>
         ))}
       </ul>

@@ -1,6 +1,6 @@
 import {createFileRoute, stripSearchParams} from '@tanstack/react-router';
 import z from 'zod';
-import {SearchHistoryOverview} from '@/parcels/search/history/SearchHistoryOverview.tsx';
+import {SearchHistoryOverview} from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.tsx';
 
 export const historyParamDefaults = {
   sortDir: 'desc' as 'asc' | 'desc',

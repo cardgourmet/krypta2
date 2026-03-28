@@ -10,7 +10,14 @@ const MAX_HISTORY_SIZE = 10;
 const HISTORY_STORAGE_KEY = 'cgm-search-history';
 
 type HistoryByTcg = Record<Tcg, HistoryEntry[]>;
-export type HistoryEntry = { id?: string; rawQuery: string; count: number; saved?: string };
+export type HistoryEntry = {
+  id?: string;
+  rawQuery: string;
+  count: number;
+  saved?: string;
+  at: string;
+  executionTime: number;
+};
 
 export type SearchHistory = {
   pastQueries: HistoryByTcg;
@@ -53,6 +60,8 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
             rawQuery: entry.search.rawQuery,
             count: entry.totalCount ?? -1,
             saved: entry.savedSearch?.id,
+            at: entry.search.createdAt,
+            executionTime: entry.search.executionTime,
           });
         }
 
@@ -75,6 +84,8 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
         id: query.statisticsId ?? undefined,
         rawQuery: query.originalQuery,
         count: query.count ?? query.estimatedCount ?? -1,
+        at: new Date().toString(),
+        executionTime: 1,
       });
       if (newQueries.length > MAX_HISTORY_SIZE) {
         newQueries.shift();

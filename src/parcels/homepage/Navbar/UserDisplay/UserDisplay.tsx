@@ -159,9 +159,15 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
             <Stack gap={'0.25rem'}>
-              <Menu.Item leftSection={<IconHistory size={18} />} className={styles.menuItem}>
-                <GourmetText>{t('history')}</GourmetText>
-              </Menu.Item>
+              <Link
+                to={'/me/history'}
+                search={{ ...historyParamDefaults, tcg: tcg }}
+                style={{ textDecoration: 'none' }}
+              >
+                <Menu.Item leftSection={<IconHistory size={18} />} className={styles.menuItem}>
+                  <GourmetText cgmff="ui">{t('history')}</GourmetText>
+                </Menu.Item>
+              </Link>
 
               <Menu.Item
                 component={Link}
