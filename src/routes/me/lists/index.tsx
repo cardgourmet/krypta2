@@ -6,13 +6,11 @@ import ListsOverview from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
 export const paramDefaults = {
   sortBy: 'name' as 'name' | 'updatedAt' | 'size',
   sortDir: 'auto' as 'auto' | 'asc' | 'desc',
-  display: 'grid' as 'grid' | 'table',
 };
 
 export const paramsSchema = z.object({
   sortBy: z.enum(['name', 'updatedAt', 'size']).catch(paramDefaults.sortBy),
   sortDir: z.enum(['asc', 'desc', 'auto']).catch(paramDefaults.sortDir),
-  display: z.enum(['grid', 'table']).catch(paramDefaults.display),
   tcg: z.enum(['mtg', 'dlc', 'pcg']).catch('mtg'),
 });
 

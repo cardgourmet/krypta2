@@ -8,11 +8,8 @@ import {ListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/ListRende
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from '@/routes/me/lists';
 
 export default function ListsOverview({ tcg, res }: { tcg: Tcg; res: Awaited<ReturnType<typeof fetchLists>> }) {
-  const search = Route.useSearch();
-
   const { data } = res;
   const { user } = useAuth();
   const userLists = data?.items as UserListWithResources[];
@@ -54,13 +51,11 @@ export default function ListsOverview({ tcg, res }: { tcg: Tcg; res: Awaited<Ret
       <DesktopListOverviewSettings />
 
       <Stack mt={'xl'}>
-        {search.display === 'grid' && (
-          <SimpleGrid cols={2} spacing={'2.5rem'}>
-            {userLists.map((list) => {
-              return <ListRenderer key={list.list.id} tcg={tcg} listWithResources={list} />;
-            })}
-          </SimpleGrid>
-        )}
+        <SimpleGrid cols={2} spacing={'2.5rem'}>
+          {userLists.map((list) => {
+            return <ListRenderer key={list.list.id} tcg={tcg} listWithResources={list} />;
+          })}
+        </SimpleGrid>
       </Stack>
     </div>
   );

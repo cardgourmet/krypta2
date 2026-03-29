@@ -1,12 +1,10 @@
-import {Center, Group, SegmentedControl} from '@mantine/core';
-import {IconColumns3, IconLayoutGrid} from '@tabler/icons-react';
+import {Group} from '@mantine/core';
 import {useNavigate} from '@tanstack/react-router';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {Route} from '@/routes/me/lists';
-import styles from './DesktopListOverviewSettings.module.css';
 
 export function DesktopListOverviewSettings() {
   const { t } = useTranslation('lists');
@@ -84,43 +82,6 @@ export function DesktopListOverviewSettings() {
             miw={'14rem'}
           />
         </Group>
-      </Group>
-      <Group>
-        <SegmentedControl
-          classNames={{ root: styles.displayModeControl }}
-          color={'var(--gourmet-blue-1)'}
-          transitionDuration={100}
-          transitionTimingFunction={'linear'}
-          value={search.display}
-          onChange={(sel) => {
-            // noinspection JSIgnoredPromiseFromCall
-            navigate({
-              from: '/me/lists',
-              search: (prev) => ({ ...prev, display: sel as 'grid' | 'table' }),
-              replace: true,
-            });
-          }}
-          data={[
-            {
-              value: 'grid',
-              label: (
-                <Center style={{ gap: 10 }}>
-                  <IconLayoutGrid size={16} />
-                  <span>{t('displaymode.grid')}</span>
-                </Center>
-              ),
-            },
-            {
-              value: 'table',
-              label: (
-                <Center style={{ gap: 10 }}>
-                  <IconColumns3 size={16} />
-                  <span>{t('displaymode.table')}</span>
-                </Center>
-              ),
-            },
-          ]}
-        />
       </Group>
     </Group>
   );

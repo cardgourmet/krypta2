@@ -4185,7 +4185,7 @@ export interface paths {
             path: {
                 /** @description The id or username of the user to search the listed resources for. */
                 id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
+                /** @description The id of the collection tag or a key like `favorite`. */
                 listId: string;
             };
             cookie?: never;
@@ -4214,7 +4214,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the listed resources for. */
                     id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
+                    /** @description The id of the collection tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4244,7 +4244,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the listed resources for. */
                     id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
+                    /** @description The id of the collection tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4278,7 +4278,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the listed resources for. */
                     id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
+                    /** @description The id of the collection tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4308,7 +4308,7 @@ export interface paths {
             path: {
                 /** @description The id or username of the user to search the listed resources for. */
                 id: string;
-                /** @description The id of the collection tag or a key like `bookmark`. */
+                /** @description The id of the collection tag or a key like `favorite`. */
                 listId: string;
             };
             cookie?: never;
@@ -4337,7 +4337,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the listed resources for. */
                     id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
+                    /** @description The id of the collection tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4367,7 +4367,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the listed resources for. */
                     id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
+                    /** @description The id of the collection tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4401,7 +4401,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the listed resources for. */
                     id: string;
-                    /** @description The id of the collection tag or a key like `bookmark`. */
+                    /** @description The id of the collection tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4431,7 +4431,7 @@ export interface paths {
             path: {
                 /** @description The id or username of the user to search the list for. */
                 id: string;
-                /** @description The id of the tag or a key like `bookmark`. */
+                /** @description The id of the tag or a key like `favorite`. */
                 listId: string;
             };
             cookie?: never;
@@ -4452,7 +4452,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the list for. */
                     id: string;
-                    /** @description The id of the tag or a key like `bookmark`. */
+                    /** @description The id of the tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -4485,7 +4485,7 @@ export interface paths {
             path: {
                 /** @description The id or username of the user to search the list for. */
                 id: string;
-                /** @description The id of the tag or a key like `bookmark`. */
+                /** @description The id of the tag or a key like `favorite`. */
                 listId: string;
             };
             cookie?: never;
@@ -4503,7 +4503,7 @@ export interface paths {
                 path: {
                     /** @description The id or username of the user to search the list for. */
                     id: string;
-                    /** @description The id of the tag or a key like `bookmark`. */
+                    /** @description The id of the tag or a key like `favorite`. */
                     listId: string;
                 };
                 cookie?: never;
@@ -6246,6 +6246,8 @@ export interface components {
             /** @description The total count of items estimated to match the query. */
             estimatedCount?: number | null;
             executedQuery?: string | null;
+            /** @description If available the time it took to execute the query */
+            executionTime?: number | null;
             /** @description A human-readable description of the query. */
             explanation: string;
             /** @description The list of filters that were applied to the query in the order they are explained. */
@@ -6947,9 +6949,10 @@ export interface components {
             statusCode: number;
         };
         ResolvedUserSavedSearch: {
+            firstSearch: components["schemas"]["SearchQueryStatistics"];
             lastSearch?: components["schemas"]["SearchQueryStatistics"] | null;
+            lastTotalCount?: number | null;
             savedSearch: components["schemas"]["UserSavedSearch"];
-            search: components["schemas"]["SearchQueryStatistics"];
         };
         "SimplePage-ResolvedUserSavedSearch": {
             /** Format: int32 */
@@ -6983,7 +6986,7 @@ export interface components {
             statusCode: number;
         };
         /** @enum {string} */
-        UserSystemListType: "favorites" | "bookmarks";
+        UserSystemListType: "favorites";
         /** @enum {string} */
         UserListVisibility: "private" | "public";
         /** @enum {string} */
