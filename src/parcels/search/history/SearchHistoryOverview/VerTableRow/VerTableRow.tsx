@@ -2,6 +2,7 @@ import {ActionIcon, Group, Tooltip} from '@mantine/core';
 import {IconDotsVertical, IconPlayerPlayFilled} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
@@ -9,6 +10,7 @@ import type {TableEntryProps} from '@/parcels/search/history/SearchHistoryOvervi
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
 
 export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryProps) {
+  const { t } = useTranslation('history');
   const [menuOpened, setMenuOpened] = useState(false);
 
   return (
@@ -34,14 +36,14 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
               }}
               style={{ padding: 0 }}
             >
-              <Tooltip label={'Re-execute query'} openDelay={500}>
+              <Tooltip label={t('table.reExecute')} openDelay={500}>
                 <ActionIcon style={{ pointerEvents: 'auto' }} className={styles.playButton}>
                   <IconPlayerPlayFilled size={18} color={'var(--gourmet-blue-1)'} style={{ flexShrink: 0 }} />
                 </ActionIcon>
               </Tooltip>
             </Link>
 
-            <Tooltip label={'More options'} openDelay={500}>
+            <Tooltip label={t('table.moreOptions')} openDelay={500}>
               <MoreActionsMenu
                 type={'user_search'}
                 tcg={tcg}

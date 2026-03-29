@@ -21,6 +21,7 @@ export function useTableData({
   onSearchUnsaved: (queryId: string) => void;
   onSearchSaved: (queryId: string, savedSearchId: string) => void;
 }) {
+  const { t } = useTranslation('history', { keyPrefix: 'table.cols' });
   const search = Route.useSearch();
   const localHistory = useSearchHistory(search.tcg);
 
@@ -29,8 +30,8 @@ export function useTableData({
 
   return useMemo(() => {
     const columns = user?.id
-      ? ['Query', 'Cards', 'Time', 'Speed', 'Saved', 'In List']
-      : ['Query', 'Cards', 'Time', 'Speed'];
+      ? [t('query'), t('cards'), t('time'), t('speed'), t('saved'), t('inList')]
+      : [t('query'), t('cards'), t('time'), t('speed')];
     const colSizes = user?.id ? ['', '6', '8', '6', '4', '4'] : ['', '6', '8', '6'];
 
     return {
@@ -108,5 +109,6 @@ export function useTableData({
     localHistory.markQueries,
     onSearchSaved,
     onSearchUnsaved,
+    t,
   ]);
 }

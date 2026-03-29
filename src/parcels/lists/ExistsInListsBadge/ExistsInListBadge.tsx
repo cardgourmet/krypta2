@@ -28,7 +28,7 @@ export function ExistsInListsBadge({
           <Menu.Target>
             <Button className={styles.inListButton}>
               <Group wrap={'nowrap'} gap={'0.2rem'}>
-                <IconLabelFilled size={18} color={firstList?.list?.color ?? ''} />
+                <IconLabelFilled size={18} color={firstList?.list?.color ?? 'var(--gourmet-neutral-9)'} />
                 {existsInLists?.length > 1 && (
                   <GourmetText cgmff={'monospace'} fz={'0.8rem'}>
                     +{existsInLists.length - 1}
@@ -49,7 +49,11 @@ export function ExistsInListsBadge({
                     style={{ textDecoration: 'none' }}
                   >
                     <Group wrap={'nowrap'} gap={'0.25rem'}>
-                      <IconLabelFilled size={18} color={l.list.color ?? ''} style={{ flexShrink: 0 }} />
+                      <IconLabelFilled
+                        size={18}
+                        color={l.list.color ?? 'var(--gourmet-neutral-1)'}
+                        style={{ flexShrink: 0 }}
+                      />
                       <Tooltip label={l.list.name} openDelay={500}>
                         <GourmetText
                           cgmff={'ui'}

@@ -1,34 +1,36 @@
-import {Divider, Group, Stack} from '@mantine/core';
-import {IconAlertSquareRoundedFilled} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {type ReactElement, useCallback, useEffect, useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
+import { Divider, Group, Stack } from '@mantine/core';
+import { IconAlertSquareRoundedFilled } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { type ReactElement, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { GourmetText } from '@/parcels/mantine/GourmetText.tsx';
+import { GourmetTable, type GourmetTableData } from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
-import {fetchSearchHistory} from '@/parcels/search/api.ts';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import {HorTableRow} from '@/parcels/search/history/SearchHistoryOverview/HorTableRow/HorTableRow.tsx';
-import {SearchHistoryOverviewSettings} from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverviewSettings.tsx';
-import {useTableData} from '@/parcels/search/history/SearchHistoryOverview/useTableData.tsx';
-import {VerTableRow} from '@/parcels/search/history/SearchHistoryOverview/VerTableRow/VerTableRow.tsx';
-import type {PagedUserSearchHistoryEntry, UserSavedSearch, UserSearchHistoryEntry} from '@/parcels/search/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import type {ApplyFn} from '@/parcels/types.ts';
-import {Route} from '@/routes/me/history';
+import { fetchSearchHistory } from '@/parcels/search/api.ts';
+import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import { HorTableRow } from '@/parcels/search/history/SearchHistoryOverview/HorTableRow/HorTableRow.tsx';
+import { SearchHistoryOverviewSettings } from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverviewSettings.tsx';
+import { useTableData } from '@/parcels/search/history/SearchHistoryOverview/useTableData.tsx';
+import { VerTableRow } from '@/parcels/search/history/SearchHistoryOverview/VerTableRow/VerTableRow.tsx';
+import type { PagedUserSearchHistoryEntry, UserSavedSearch, UserSearchHistoryEntry } from '@/parcels/search/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
+import { Route } from '@/routes/me/history';
 import styles from './SearchHistoryOverview.module.css';
 
 export function SearchHistoryOverview() {
+  const { t } = useTranslation('history');
   const search = Route.useSearch();
   const localHistory = useSearchHistory(search.tcg);
 
   const { user } = useAuth();
   const { component, title } = useBreadcrumbs({
-    subpage: !user ? `Guest` : `@${user?.username}`,
+    subpage: !user ? t('guest') : `@${user?.username}`,
     moreSubpages: [
       {
-        label: 'Suchhistorie',
+        label: t('header'),
       },
     ],
   });
@@ -68,7 +70,6 @@ export function SearchHistoryOverview() {
         nextPage: 1,
         items: localHistoryData,
       } as PagedUserSearchHistoryEntry;
-      console.log('localHistory', paged);
 
       setHistoryData(paged);
       setIsLoading(false);
@@ -146,7 +147,7 @@ export function SearchHistoryOverview() {
 
   return (
     <div>
-      <title>{`Your Search History – Cardgourmet`}</title>
+      <title>{`${t('title')} – Cardgourmet`}</title>
       {component}
 
       <Stack
@@ -180,10 +181,7 @@ export function SearchHistoryOverview() {
         <Stack className={styles.infoBanner}>
           <Group wrap={'nowrap'}>
             <IconAlertSquareRoundedFilled />
-            <GourmetText cgmff={'ui'}>
-              You are not logged in. This means your offline history disappears when switching browsers or logging into
-              an account.
-            </GourmetText>
+            <GourmetText cgmff={'ui'}>{t('notLoggedIn')}</GourmetText>
           </Group>
         </Stack>
       )}
@@ -193,7 +191,7 @@ export function SearchHistoryOverview() {
       <Stack mt={'xl'} style={{ padding: '0.5rem' }}>
         {!isLoading && tableData.rows.length === 0 && (
           <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-            You don't have any searches yet. Use the searchbar at the top to start!
+            {t('noSearches')}
           </GourmetText>
         )}
         {tableData.rows.length > 0 && (

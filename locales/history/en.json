@@ -1,4 +1,6 @@
 {
+  "header": "Suchhistorie",
+  "guest": "Guest",
   "common": {
     "sortby": "Sort by date",
     "filterBy": "Filter by"
@@ -9,5 +11,21 @@
   },
   "mtg": "Magic: The Gathering",
   "pcg": "Pokémon Card Game",
-  "dlc": "Disney Lorcana"
+  "dlc": "Disney Lorcana",
+  "title": "Your Search History",
+  "notLoggedIn": "You are not logged in. This means your offline history disappears when switching browsers or logging into an account.",
+  "noSearches": "You don't have any searches yet. Use the searchbar at the top to start!",
+  "searchbarPlaceholder": "Search...",
+  "table": {
+    "reExecute": "Re-execute query",
+    "moreOptions": "More options",
+    "cols": {
+      "query": "Query",
+      "cards": "Cards",
+      "time": "Time",
+      "speed": "Speed",
+      "saved": "Saved",
+      "inList": "In List"
+    }
+  }
 }

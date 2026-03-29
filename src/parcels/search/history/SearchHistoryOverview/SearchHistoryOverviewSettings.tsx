@@ -70,7 +70,7 @@ export function SearchHistoryOverviewSettings() {
       <Group gap={0} className={styles.searchBarWrapper}>
         <TextInput
           className={styles.searchBarInput}
-          placeholder={'Search...'}
+          placeholder={t('searchbarPlaceholder')}
           onChange={(event) => setSearchQuery(event.currentTarget.value)}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
