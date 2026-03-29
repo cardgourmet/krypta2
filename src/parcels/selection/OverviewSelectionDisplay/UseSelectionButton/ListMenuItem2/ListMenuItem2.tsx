@@ -1,5 +1,5 @@
 import {Group, Menu, Tooltip} from '@mantine/core';
-import {IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
+import {IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
@@ -73,21 +73,6 @@ export function ListMenuItem2({
               }
             />
             <GourmetText cgmff={'ui'}>{t(`favorite`, { count: addToListCount })}</GourmetText>
-          </>
-        )}
-        {list.systemListType === 'bookmarks' && (
-          <>
-            <IconWithOverlayIcon
-              icon={<IconBookmark size={18} />}
-              overlayIcon={
-                action === 'add' ? (
-                  <IconPlus size={14} color={'var(--gourmet-green-1)'} />
-                ) : (
-                  <IconMinus size={14} color={'var(--gourmet-red-01)'} />
-                )
-              }
-            />
-            <GourmetText cgmff={'ui'}>{t(`bookmark`, { count: addToListCount })}</GourmetText>
           </>
         )}
 

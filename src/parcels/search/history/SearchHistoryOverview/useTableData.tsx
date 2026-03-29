@@ -21,7 +21,6 @@ export function useTableData({
   onSearchUnsaved: (queryId: string) => void;
   onSearchSaved: (queryId: string, savedSearchId: string) => void;
 }) {
-  const { t } = useTranslation('history', { keyPrefix: 'table.cols' });
   const search = Route.useSearch();
   const localHistory = useSearchHistory(search.tcg);
 
@@ -30,8 +29,8 @@ export function useTableData({
 
   return useMemo(() => {
     const columns = user?.id
-      ? [t('query'), t('cards'), t('time'), t('speed'), t('saved'), t('inList')]
-      : [t('query'), t('cards'), t('time'), t('speed')];
+      ? ['query', 'cards', 'time', 'speed', 'saved', 'inList']
+      : ['query', 'cards', 'time', 'speed'];
     const colSizes = user?.id ? ['', '6', '8', '6', '4', '4'] : ['', '6', '8', '6'];
 
     return {
@@ -42,21 +41,21 @@ export function useTableData({
           return {
             entry: i,
             data: {
-              Time: (
+              time: (
                 <Tooltip label={new Date(i.search.createdAt).toLocaleString()} openDelay={500}>
                   <GourmetText cgmff={'ui'} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {formatRelativeTimestamp(i.search.createdAt, i18n.language)}
                   </GourmetText>
                 </Tooltip>
               ),
-              Query: (
+              query: (
                 <GourmetText cgmff={'monospace'} fz={'0.95rem'}>
                   {i.search.rawQuery}
                 </GourmetText>
               ),
-              Cards: <GourmetText cgmff={'monospace'}>{i.totalCount}</GourmetText>,
-              Speed: <GourmetText cgmff={'ui'}>{i.search.executionTime}ms</GourmetText>,
-              Saved: (
+              cards: <GourmetText cgmff={'monospace'}>{i.totalCount}</GourmetText>,
+              speed: <GourmetText cgmff={'ui'}>{i.search.executionTime}ms</GourmetText>,
+              saved: (
                 <ActionIcon
                   onClick={() => {
                     if (!user?.id) return;
@@ -92,7 +91,7 @@ export function useTableData({
                   {!i.savedSearch && <IconBook size={18} color={'var(--gourmet-neutral-7)'} />}
                 </ActionIcon>
               ),
-              'In List': (
+              inList: (
                 <>
                   <ExistsInListsBadge type={'user_search'} resourceId={i.savedSearch?.id} />
                 </>
@@ -109,6 +108,5 @@ export function useTableData({
     localHistory.markQueries,
     onSearchSaved,
     onSearchUnsaved,
-    t,
   ]);
 }

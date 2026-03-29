@@ -2,6 +2,17 @@
   "search": {
     "aliasFor": "alias for"
   },
+  "table": {
+    "cols": {
+      "Set": "Set",
+      "Name": "Name",
+      "Number": "Number",
+      "Cost": "Cost",
+      "Type": "Type",
+      "Rarity": "Rarity",
+      "Artist": "Artist"
+    }
+  },
   "dlc": {
     "common": {
       "sortby": "Sort by",

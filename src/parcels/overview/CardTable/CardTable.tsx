@@ -1,4 +1,5 @@
 import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {TableRowHorizontal} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
 import {TableRowVertical} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
@@ -20,6 +21,7 @@ type CardTableProps = {
 };
 
 export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProps) {
+  const { t } = useTranslation('cards', { keyPrefix: 'table.cols' });
   const cardItems: TcgSearchDataCard[] | null = useMemo(() => {
     if (!cards) return null;
 
@@ -49,6 +51,7 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
     <div>
       {tableData && (
         <GourmetTable
+          t={t}
           tcg={tcg}
           isLoading={isLoading}
           tableData={tableData}

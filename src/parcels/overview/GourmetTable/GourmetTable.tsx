@@ -1,9 +1,11 @@
 import {useMediaQuery} from '@mantine/hooks';
+import type {TFunction} from 'i18next';
 import {type ReactElement, useMemo} from 'react';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './GourmetTable.module.css';
 
 type SearchHistoryTableProps<T> = {
+  t?: TFunction<string>;
   tcg: Tcg;
   isLoading: boolean;
   tableData: GourmetTableData<T>;
@@ -22,6 +24,7 @@ export type GourmetTableData<T> = {
 };
 
 export function GourmetTable<T>({
+  t,
   tableData,
   isLoading,
   constructVerTableRow,
@@ -52,7 +55,7 @@ export function GourmetTable<T>({
 
                 return (
                   <th key={column + index} style={{ width: sizeRem }}>
-                    {column}
+                    {t ? t(column) : column}
                   </th>
                 );
               })}
