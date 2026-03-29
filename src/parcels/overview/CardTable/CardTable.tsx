@@ -36,10 +36,13 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
   const dlcData = constructDlcCardTableData((cardItems ?? []) as DlcSearchDataCard[]);
   const pcgData = constructPcgCardTableData((cardItems ?? []) as PcgSearchDataCard[]);
   const tableData = useMemo(() => {
-    if (tcg === 'mtg') return mtgData as GourmetTableData<MtgDataCard | DlcDataCard | PcgDataCard>;
-    else if (tcg === 'dlc') return dlcData;
-    else if (tcg === 'pcg') return pcgData;
-    return null;
+    let data: GourmetTableData<MtgDataCard | DlcDataCard | PcgDataCard> | null = null;
+    if (tcg === 'mtg') data = mtgData as GourmetTableData<MtgDataCard | DlcDataCard | PcgDataCard>;
+    else if (tcg === 'dlc') data = dlcData;
+    else if (tcg === 'pcg') data = pcgData;
+
+    if (!data) return null;
+    return data;
   }, [mtgData, dlcData, pcgData, tcg]);
 
   return (

@@ -2,6 +2,7 @@ import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, type ReactElement, useState} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import styles from '@/parcels/overview/CardTable/CardTable.module.css';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
@@ -59,7 +60,9 @@ export function TableRowHorizontal({
       ))}
       <td>
         <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
-          <Group justify={'end'}>
+          <Group justify={'end'} wrap={'nowrap'} gap={'0.2rem'}>
+            <ExistsInListsBadge type={'card'} resourceId={card.print.id} />
+
             <CardMoreActionsMenu
               card={card}
               menuOpened={menuOpened}

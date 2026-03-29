@@ -132,6 +132,13 @@ export function CardOverview({
           )}
         </div>
 
+        <Pagination
+          currentPage={cards?.data?.currentPage}
+          lastPage={cards?.data?.pageCount}
+          isLoading={isQueryLoading}
+          setSettings={setSettings}
+        />
+
         {workContext?.data && workContext.data.selection.elementIds.length > 0 && (
           <OverviewSelectionDisplay context={workContext} />
         )}

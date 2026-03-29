@@ -2,6 +2,7 @@ import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, type ReactElement, useState} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import styles from '@/parcels/overview/CardTable/CardTable.module.css';
@@ -66,7 +67,9 @@ export function TableRowVertical({
               />
             </Activity>
             <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
-              <Group justify={'end'}>
+              <Group justify={'end'} wrap={'nowrap'} gap={'0.2rem'}>
+                <ExistsInListsBadge type={'card'} resourceId={card.print.id} />
+
                 <CardMoreActionsMenu
                   card={card}
                   menuOpened={menuOpened}
@@ -79,7 +82,7 @@ export function TableRowVertical({
                       size={'1.25rem'}
                       data-menu-opened={menuOpened}
                     >
-                      <IconDotsVertical size={16} />
+                      <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} />
                     </ActionIcon>
                   }
                 />
