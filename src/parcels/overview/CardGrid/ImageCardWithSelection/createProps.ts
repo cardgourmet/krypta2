@@ -36,7 +36,7 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
     return {
       id: pcgCard.card.print.id,
       name: pcgCard.card.name,
-      thumbnailUrl: pcgCard.card.print.translations.en?.imageUrls?.thumbnail ?? '',
+      thumbnailUrl: pcgCard.card.print.translations?.en?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
       backupImageUrl: backupImageUrl,
       setCode: pcgCard.card.print.setCode ?? undefined,

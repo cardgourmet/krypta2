@@ -51,7 +51,7 @@ export function ExistsInListsBadge({
                     <Group wrap={'nowrap'} gap={'0.25rem'}>
                       <IconLabelFilled
                         size={18}
-                        color={l.list.color ?? 'var(--gourmet-neutral-1)'}
+                        color={l.list.color ?? 'var(--gourmet-neutral-9)'}
                         style={{ flexShrink: 0 }}
                       />
                       <Tooltip label={l.list.name} openDelay={500}>

@@ -1,4 +1,4 @@
-import {Center, Group, Stack} from '@mantine/core';
+import {Center, Group, Loader, Stack} from '@mantine/core';
 import {IconCards, IconSearch} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
 import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
@@ -10,7 +10,15 @@ import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListRenderer.module.css';
 
-export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithResources: UserListWithResources }) {
+export function ListRenderer({
+  tcg,
+  listWithResources,
+  isLoading,
+}: {
+  tcg: Tcg;
+  listWithResources: UserListWithResources;
+  isLoading: boolean;
+}) {
   const { t, i18n } = useTranslation('lists');
   const { list, size, resources: allResources } = listWithResources;
 
@@ -41,43 +49,53 @@ export function ListRenderer({ tcg, listWithResources }: { tcg: Tcg; listWithRes
         )}
         {(size ?? 0) > 0 && (
           <Stack>
-            {searchResources.length > 0 && (
-              <Group wrap={'nowrap'} gap={'0'} align={'start'}>
-                <div
-                  style={{
-                    justifySelf: 'start',
-                    height: '100%',
-                    flexShrink: 0,
-                    color: list.color ?? '',
-                    marginRight: '1rem',
-                  }}
-                >
-                  <Center className={styles.resourceIcon}>
-                    <IconSearch size={20} />
-                  </Center>
-                </div>
-                <RendererSearchResources tcg={tcg} resources={searchResources} />
-              </Group>
+            {isLoading && (
+              <Center>
+                <Loader color="var(--gourmet-blue-1)" size={'sm'} />
+              </Center>
             )}
-            {cardResources.length > 0 && (
-              <Group wrap={'nowrap'} h={'8rem'} gap={'0'} align={'start'}>
-                <div
-                  style={{
-                    justifySelf: 'start',
-                    height: '100%',
-                    flexShrink: 0,
-                    color: list.color ?? '',
-                    marginRight: '1rem',
-                  }}
-                >
-                  <Center className={styles.resourceIcon}>
-                    <IconCards size={20} />
-                  </Center>
-                </div>
-                <Group wrap={'nowrap'} h={'100%'} gap={'0.25rem'}>
-                  <RendererCardResources tcg={tcg} resources={cardResources} />
-                </Group>
-              </Group>
+
+            {!isLoading && (
+              <>
+                {searchResources.length > 0 && (
+                  <Group wrap={'nowrap'} gap={'0'} align={'start'}>
+                    <div
+                      style={{
+                        justifySelf: 'start',
+                        height: '100%',
+                        flexShrink: 0,
+                        color: list.color ?? '',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      <Center className={styles.resourceIcon}>
+                        <IconSearch size={20} />
+                      </Center>
+                    </div>
+                    <RendererSearchResources tcg={tcg} resources={searchResources} />
+                  </Group>
+                )}
+                {cardResources.length > 0 && (
+                  <Group wrap={'nowrap'} h={'8rem'} gap={'0'} align={'start'}>
+                    <div
+                      style={{
+                        justifySelf: 'start',
+                        height: '100%',
+                        flexShrink: 0,
+                        color: list.color ?? '',
+                        marginRight: '1rem',
+                      }}
+                    >
+                      <Center className={styles.resourceIcon}>
+                        <IconCards size={20} />
+                      </Center>
+                    </div>
+                    <Group wrap={'nowrap'} h={'100%'} gap={'0.25rem'}>
+                      <RendererCardResources tcg={tcg} resources={cardResources} />
+                    </Group>
+                  </Group>
+                )}
+              </>
             )}
           </Stack>
         )}

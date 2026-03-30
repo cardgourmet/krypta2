@@ -70,7 +70,7 @@ export function DesktopListOverviewSettings() {
               dlc: t('dlc'),
             }}
             t={t}
-            defaultSelected={'mtg'}
+            defaultSelected={search.tcg}
             onSelect={(sel) => {
               // noinspection JSIgnoredPromiseFromCall
               navigate({

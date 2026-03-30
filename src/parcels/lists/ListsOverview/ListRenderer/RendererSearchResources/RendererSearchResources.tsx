@@ -1,13 +1,15 @@
 import {Group, Stack, Tooltip, UnstyledButton} from '@mantine/core';
 import {IconAlertTriangleFilled, IconCircleCheckFilled, IconGauge} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListRenderer.module.css';
 import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {UserResolvedSavedSearch} from '@/parcels/search/types.ts';
+import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function RendererSearchResources({ resources }: { tcg: Tcg; resources: ResolvedUserListResource[] }) {
+export function RendererSearchResources({ tcg, resources }: { tcg: Tcg; resources: ResolvedUserListResource[] }) {
   return (
     <Stack
       gap={'0.5rem'}
@@ -21,37 +23,40 @@ export function RendererSearchResources({ resources }: { tcg: Tcg; resources: Re
         const search = resource.resourceData as unknown as UserResolvedSavedSearch;
 
         return (
-          <UnstyledButton
+          <Link
             key={resource.listResource.resourceId}
-            h={'2rem'}
-            w={'100%'}
-            className={styles.searchButton}
-            onClick={() => {
-              // TODO: execute query (maybe we can use Link as well for that)
+            to={'/$tcg/cards'}
+            params={{ tcg: tcg }}
+            rel="noreferrer noopener"
+            search={{
+              ...tcgSearchParamsDefaults,
+              query: search.firstSearch.rawQuery,
             }}
           >
-            <Group h={'100%'} w={'100%'} justify={'space-between'}>
-              <Tooltip label={search.firstSearch.rawQuery} openDelay={1000}>
-                <GourmetText
-                  cgmff={'monospace'}
-                  fz={'0.9rem'}
-                  maw={'24rem'}
-                  style={{
-                    textWrap: 'nowrap',
-                    overflowX: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {search.firstSearch.rawQuery}
-                </GourmetText>
-              </Tooltip>
+            <UnstyledButton h={'2rem'} w={'100%'} className={styles.searchButton}>
+              <Group h={'100%'} w={'100%'} justify={'space-between'}>
+                <Tooltip label={search.firstSearch.rawQuery} openDelay={1000}>
+                  <GourmetText
+                    cgmff={'monospace'}
+                    fz={'0.9rem'}
+                    maw={'24rem'}
+                    style={{
+                      textWrap: 'nowrap',
+                      overflowX: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {search.firstSearch.rawQuery}
+                  </GourmetText>
+                </Tooltip>
 
-              <Group h={'100%'} gap={'0.5rem'}>
-                <GourmetText cgmff={'ui'}>{search.lastTotalCount} cards</GourmetText>
-                <SpeedGauge execTime={search.lastSearch?.executionTime ?? search.firstSearch.executionTime} />
+                <Group h={'100%'} gap={'0.5rem'}>
+                  <GourmetText cgmff={'ui'}>{search.lastTotalCount} cards</GourmetText>
+                  <SpeedGauge execTime={search.lastSearch?.executionTime ?? search.firstSearch.executionTime} />
+                </Group>
               </Group>
-            </Group>
-          </UnstyledButton>
+            </UnstyledButton>
+          </Link>
         );
       })}
     </Stack>

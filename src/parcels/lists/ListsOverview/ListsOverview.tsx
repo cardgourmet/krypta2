@@ -1,18 +1,17 @@
-import {Divider, Group, SimpleGrid, Stack} from '@mantine/core';
+import {Divider, Group, Loader, SimpleGrid, Stack} from '@mantine/core';
+import {useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import type {fetchLists} from '@/parcels/lists/api.ts';
+import {fetchLists} from '@/parcels/lists/api.ts';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
 import {ListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/ListRenderer.tsx';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import {Route} from '@/routes/me/lists';
 
-export default function ListsOverview({ tcg, res }: { tcg: Tcg; res: Awaited<ReturnType<typeof fetchLists>> }) {
-  const { data } = res;
+export default function ListsOverview() {
   const { user } = useAuth();
-  const userLists = data?.items as UserListWithResources[];
 
   const { component, title } = useBreadcrumbs({
     subpage: `@${user?.username}`,
@@ -22,6 +21,35 @@ export default function ListsOverview({ tcg, res }: { tcg: Tcg; res: Awaited<Ret
       },
     ],
   });
+
+  const search = Route.useSearch();
+  const { tcg } = search;
+  const [listsData, setListsData] = useState<UserListResponse | undefined>(undefined);
+  const userLists = (listsData?.items ?? []) as UserListWithResources[];
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    setIsLoading(true);
+    fetchLists(
+      user.id,
+      search.sortBy,
+      search.sortDir === 'auto' ? undefined : search.sortDir,
+      search.tcg,
+      undefined,
+      undefined,
+    ).then((res) => {
+      setIsLoading(false);
+
+      if (res.error) {
+        console.error(res.error);
+        return;
+      }
+
+      setListsData(res.data);
+    });
+  }, [user?.id, search.sortBy, search.sortDir, search.tcg]);
 
   return (
     <div>
@@ -52,8 +80,9 @@ export default function ListsOverview({ tcg, res }: { tcg: Tcg; res: Awaited<Ret
 
       <Stack mt={'xl'}>
         <SimpleGrid cols={2} spacing={'2.5rem'}>
+          {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
           {userLists.map((list) => {
-            return <ListRenderer key={list.list.id} tcg={tcg} listWithResources={list} />;
+            return <ListRenderer key={list.list.id} tcg={tcg} listWithResources={list} isLoading={isLoading} />;
           })}
         </SimpleGrid>
       </Stack>

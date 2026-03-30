@@ -1,6 +1,5 @@
 import {createFileRoute, redirect, stripSearchParams} from '@tanstack/react-router';
 import z from 'zod';
-import {fetchLists} from '@/parcels/lists/api.ts';
 import ListsOverview from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
 
 export const paramDefaults = {
@@ -16,24 +15,12 @@ export const paramsSchema = z.object({
 
 export const Route = createFileRoute('/me/lists/')({
   component: RouteComponent,
-  loaderDeps: ({ search }) => search,
-  loader: async ({ deps, context }) => {
+  loader: async ({ context }) => {
     if (context.auth?.user?.state !== 'verified') {
       throw redirect({
         to: '/',
       });
     }
-
-    // TODO: get default tcg based on last tcg if not set
-
-    return await fetchLists(
-      context.auth.user.id,
-      deps.sortBy,
-      deps.sortDir === 'auto' ? undefined : deps.sortDir,
-      deps.tcg,
-      undefined,
-      undefined,
-    );
   },
   validateSearch: paramsSchema,
   search: {
@@ -42,8 +29,5 @@ export const Route = createFileRoute('/me/lists/')({
 });
 
 function RouteComponent() {
-  const res = Route.useLoaderData();
-  const search = Route.useSearch();
-
-  return <ListsOverview tcg={search.tcg} res={res} />;
+  return <ListsOverview />;
 }
