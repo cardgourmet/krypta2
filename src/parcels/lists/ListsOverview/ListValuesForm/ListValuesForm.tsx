@@ -1,6 +1,7 @@
 import {ActionIcon, Grid, Group, Popover, Stack} from '@mantine/core';
 import {IconInfoCircle, IconLabelFilled} from '@tabler/icons-react';
 import {useState} from 'react';
+import {Trans, useTranslation} from 'react-i18next';
 import {ColorSelect} from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
 import type {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
 import {GourmetMultiSelect} from '@/parcels/mantine/GourmetMultiSelect/GourmetMultiSelect.tsx';
@@ -18,6 +19,7 @@ export type ListValues = {
 };
 
 export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> }) {
+  const { t } = useTranslation('lists', { keyPrefix: 'form' });
   const visibilityData = [
     { value: 'private', label: 'Private' },
     { value: 'unlisted', label: 'Unlisted' },
@@ -37,7 +39,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
         <Grid.Col span={4}>
           <Group h={'2.25rem'} w={'100%'}>
             <GourmetText cgmff={'ui'}>
-              Name <span className={styles.requiredAsterisk}>*</span>
+              {t('fields.name')} <span className={styles.requiredAsterisk}>*</span>
             </GourmetText>
           </Group>
         </Grid.Col>
@@ -51,7 +53,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
 
         <Grid.Col span={4}>
           <Group h={'2.25rem'} w={'100%'}>
-            <GourmetText cgmff={'ui'}>Description</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('fields.description')}</GourmetText>
           </Group>
         </Grid.Col>
         <Grid.Col span={8}>
@@ -64,7 +66,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
 
         <Grid.Col span={4}>
           <Group h={'2.25rem'} w={'100%'} gap={'0.2rem'}>
-            <GourmetText cgmff={'ui'}>Visibility</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('fields.visibility')}</GourmetText>
 
             <Popover width={200} position="bottom" withArrow shadow="md" opened={opened} onChange={setOpened}>
               <Popover.Target>
@@ -75,11 +77,11 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
 
               <Popover.Dropdown style={{ pointerEvents: 'none' }}>
                 <GourmetText size="sm">
-                  <b>Private</b> lists can only be seen by you. <br />
+                  <Trans t={t} i18nKey={'visibilityExplain.private'} /> <br />
                   <br />
-                  <b>Unlisted</b> can be seen by everybody who has the link to your list. <br />
+                  <Trans t={t} i18nKey={'visibilityExplain.unlisted'} /> <br />
                   <br />
-                  <b>Public</b> can be seen by everybody.
+                  <Trans t={t} i18nKey={'visibilityExplain.public'} />
                 </GourmetText>
               </Popover.Dropdown>
             </Popover>
@@ -91,7 +93,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
             data={visibilityData}
             defaultValue={form.values.visibility}
             onChange={(val) => {
-              form.setFieldValue('visibility', val ?? '');
+              form.setFieldValue('fields.visibility', val ?? '');
             }}
             allowDeselect={false}
           />
@@ -99,13 +101,13 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
 
         <Grid.Col span={4}>
           <Group h={'2.25rem'} w={'100%'}>
-            <GourmetText cgmff={'ui'}>Allowed TCGs</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('fields.allowedTcgs')}</GourmetText>
           </Group>
         </Grid.Col>
         <Grid.Col span={8}>
           <Stack gap={'0.25rem'}>
             <GourmetMultiSelect
-              placeholder={'Choose'}
+              placeholder={t('allowedTcgsPlaceholder')}
               w={'100%'}
               maw={'100%'}
               data={allowedTcgsData}
@@ -114,14 +116,14 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
               {...form.getInputProps('allowedTcgs')}
             />
             <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
-              If empty, all TCGs are allowed.
+              {t('allowedTcgsExplain')}
             </GourmetText>
           </Stack>
         </Grid.Col>
 
         <Grid.Col span={4}>
           <Group h={'0'} w={'100%'} gap={'0.25rem'}>
-            <GourmetText cgmff={'ui'}>Color</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('fields.color')}</GourmetText>
             <IconLabelFilled size={20} color={form.getValues().color ?? 'var(--gourmet-neutral-8)'} />
           </Group>
         </Grid.Col>
@@ -137,7 +139,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
 
       <Group mt={'0.5rem'}>
         <GourmetText cgmff={'ui'} aria-hidden="true">
-          <span className={styles.requiredAsterisk}>*</span> Required Field
+          <span className={styles.requiredAsterisk}>*</span> {t('required')}
         </GourmetText>
       </Group>
     </Stack>

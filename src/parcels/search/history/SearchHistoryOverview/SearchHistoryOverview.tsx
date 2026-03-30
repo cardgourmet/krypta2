@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {GourmetTable, type GourmetTableData} from '@/parcels/overview/GourmetTable/GourmetTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {fetchSearchHistory} from '@/parcels/search/api.ts';
@@ -38,6 +39,7 @@ export function SearchHistoryOverview() {
   });
   const [historyData, setHistoryData] = useState<PagedUserSearchHistoryEntry | undefined>(undefined);
 
+  const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     if (!user?.id) {
@@ -85,7 +87,7 @@ export function SearchHistoryOverview() {
         setIsLoading(false);
 
         if (error) {
-          console.error('error while fetching search history', error);
+          noti.show('Unknown error', `${error}`, 'error');
           return;
         }
 
@@ -97,7 +99,16 @@ export function SearchHistoryOverview() {
       // abort.abort();
       setIsLoading(false);
     };
-  }, [search.page, search.size, search.sortDir, search.tcg, user?.id, search.search, localHistory.pastQueries]);
+  }, [
+    search.page,
+    search.size,
+    search.sortDir,
+    search.tcg,
+    user?.id,
+    search.search,
+    localHistory.pastQueries,
+    noti.show,
+  ]);
 
   const navigate = useNavigate();
   const setSettings = (apply: ApplyFn<{ page?: number }>) => {

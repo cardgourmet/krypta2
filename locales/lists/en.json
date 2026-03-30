@@ -32,7 +32,48 @@
     "create-new": "Create new",
     "copy-print": "Copy print link"
   },
+  "create": {
+    "title": "Create New List"
+  },
+  "delete": {
+    "warning": "This will delete the list permanently.",
+    "system": "This is a system list and can't be deleted",
+    "tooltip": "Delete List",
+    "youSure": "Are you sure?",
+    "cancel": "Cancel",
+    "confirm": "Confirm delete"
+  },
+  "edit": {
+    "title": "Edit List",
+    "cancel": "Cancel",
+    "update": "Update",
+    "system": "This is a system list and can't be edited"
+  },
   "last-updated": "Last updated",
+  "noDescription": "No description set.",
+  "visibility": {
+    "public": "Public",
+    "private": "Private",
+    "unlisted": "Unlisted"
+  },
+  "form": {
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "visibility": "Visibility",
+      "allowedTcgs": "Allowed TCGs",
+      "color": "Color"
+    },
+    "visibilityExplain": {
+      "private": "<strong>Private</strong> lists can only be seen by you.",
+      "unlisted": "<strong>Unlisted</strong> can be seen by everybody who has the link to your list.",
+      "public": "<strong>Public</strong> can be seen by everybody."
+    },
+    "allowedTcgsExplain": "If empty, all TCGs are allowed.",
+    "allowedTcgsPlaceholder": "Choose",
+    "required": "Required Field"
+  },
+  "noResources": "No resources found.",
   "mtg": "Magic: The Gathering",
   "pcg": "Pokémon Card Game",
   "dlc": "Disney Lorcana"

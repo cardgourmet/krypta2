@@ -2,6 +2,7 @@ import {useLocalStorage} from '@mantine/hooks';
 import {type PropsWithChildren, useCallback, useEffect, useMemo} from 'react';
 import {AuthContext, type UserSession} from '@/parcels/auth/AuthContext.ts';
 import {type DataAuthUser, getCurrentLoggedInUser, logout as doLogout} from '@/parcels/auth/api.ts';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 
 export const CGM_USER_SESSION = 'cgm-user-session';
 export const CGM_USER = 'cgm-user';
@@ -19,14 +20,13 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
   const [wasVerified, setWasVerified, removeWasVerified] = useLocalStorage<boolean | null>({
     key: CGM_WAS_VERIFIED,
   });
+  const noti = useGourmetNotification();
 
   const login = useCallback(
     ({ token, expiresAt, user }: Partial<UserSession> & { user?: DataAuthUser }) => {
       if (!token) {
         // user can't be verified without a token.
         if (user?.state === 'unverified') {
-          console.log('Log in with unverified!');
-
           // we log him in with the data given (no data fetching)
           removeSession();
           setUser(user);
@@ -56,7 +56,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
             return;
           }
 
-          console.error('Could not find logged in user', res.error);
+          noti.show('Unknown error', `${res.error}`, 'error');
           return;
         }
         if (!res.data) return;
@@ -66,7 +66,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         setUser(res.data);
       });
     },
-    [removeSession, setSession, removeUser, setUser, removeWasVerified],
+    [removeSession, setSession, removeUser, setUser, removeWasVerified, noti.show],
   );
   const logout = useCallback(() => {
     // noinspection JSIgnoredPromiseFromCall

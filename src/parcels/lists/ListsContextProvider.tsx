@@ -2,10 +2,12 @@ import {createContext, type PropsWithChildren, useCallback, useContext, useEffec
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {fetchLists} from '@/parcels/lists/api.ts';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import {useGourmetNotification} from "@/parcels/notification/useGourmetNotification.ts";
 
 export function ListsContextProvider({ children }: PropsWithChildren) {
   const auth = useAuth();
   const [lists, setLists] = useState<UserListWithResources[]>([]);
+  const noti = useGourmetNotification();
 
   const refetchLists = useCallback(() => {
     const id = auth.user?.id;
@@ -16,13 +18,13 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
 
     fetchLists(id, undefined, undefined, undefined, 10_000, true).then((res) => {
       if (res.error) {
-        console.error('Error while fetching user lists', res.error);
+        noti.show('Unknown error', `${res.error}`, 'error');
         return;
       }
 
       setLists(res.data?.items ?? []);
     });
-  }, [auth.user?.id]);
+  }, [auth.user?.id, noti.show]);
 
   useEffect(() => {
     refetchLists();

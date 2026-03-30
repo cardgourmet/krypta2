@@ -5,6 +5,7 @@ import {TanStackRouterDevtoolsPanel} from '@tanstack/react-router-devtools';
 import type {useAuth} from "@/parcels/auth/AuthContext.ts";
 import App from '@/parcels/homepage/App/App.tsx';
 import {theme} from '../theme';
+import {Notifications} from "@mantine/notifications";
 
 type RouterContext = {
   auth: ReturnType<typeof useAuth>;
@@ -14,6 +15,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <MantineProvider defaultColorScheme="auto" theme={theme}>
+        <Notifications />
         <App />
 
         <TanStackDevtools

@@ -6,6 +6,7 @@ import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {deleteSavedSearches, saveSearches} from '@/parcels/search/api.ts';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
@@ -26,6 +27,7 @@ export function useTableData({
 
   const { i18n } = useTranslation();
   const { user } = useAuth();
+  const noti = useGourmetNotification();
 
   return useMemo(() => {
     const columns = user?.id
@@ -63,7 +65,7 @@ export function useTableData({
                     if (i.savedSearch?.id) {
                       deleteSavedSearches(user?.id, search.tcg, [i.savedSearch.id]).then(({ error }) => {
                         if (error) {
-                          console.error('error', error);
+                          noti.show('Unknown error', `${error}`, 'error');
                           return;
                         }
 
@@ -76,7 +78,7 @@ export function useTableData({
 
                     saveSearches(user?.id, search.tcg, [i.search.id as string]).then(({ data, error }) => {
                       if (error || !data?.length) {
-                        console.error('error', error);
+                        noti.show('Unknown error', `${error}`, 'error');
                         return;
                       }
 
@@ -108,5 +110,6 @@ export function useTableData({
     localHistory.markQueries,
     onSearchSaved,
     onSearchUnsaved,
+    noti.show,
   ]);
 }

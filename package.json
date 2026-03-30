@@ -15,6 +15,7 @@
     "@mantine/core": "8.3.11",
     "@mantine/form": "^8.3.14",
     "@mantine/hooks": "8.3.11",
+    "@mantine/notifications": "^8.3.18",
     "@mantine/nprogress": "^8.3.13",
     "@tabler/icons-react": "^3.36.1",
     "@tanstack/react-devtools": "^0.7.0",

@@ -1,5 +1,5 @@
 import {Divider, Group, Loader, SimpleGrid, Stack} from '@mantine/core';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {fetchLists} from '@/parcels/lists/api.ts';
@@ -8,6 +8,7 @@ import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/Desktop
 import {ListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/ListRenderer.tsx';
 import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {Route} from '@/routes/me/lists';
 
 export default function ListsOverview() {
@@ -28,9 +29,10 @@ export default function ListsOverview() {
   const userLists = (listsData?.items ?? []) as UserListWithResources[];
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!user?.id) return;
+  const noti = useGourmetNotification();
 
+  const refetchLists = useCallback(() => {
+    if (!user?.id) return;
     setIsLoading(true);
     fetchLists(
       user.id,
@@ -43,13 +45,17 @@ export default function ListsOverview() {
       setIsLoading(false);
 
       if (res.error) {
-        console.error(res.error);
+        noti.show('Unknown error', `${res.error}`, 'error');
         return;
       }
 
       setListsData(res.data);
     });
-  }, [user?.id, search.sortBy, search.sortDir, search.tcg]);
+  }, [user?.id, search.sortBy, search.sortDir, search.tcg, noti.show]);
+
+  useEffect(() => {
+    refetchLists();
+  }, [refetchLists]);
 
   return (
     <div>
@@ -71,7 +77,11 @@ export default function ListsOverview() {
             {title?.label}
           </GourmetText>
 
-          <CreateListButton />
+          <CreateListButton
+            onSuccess={() => {
+              refetchLists();
+            }}
+          />
         </Group>
         <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
       </Stack>
@@ -82,7 +92,20 @@ export default function ListsOverview() {
         <SimpleGrid cols={2} spacing={'2.5rem'}>
           {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
           {userLists.map((list) => {
-            return <ListRenderer key={list.list.id} tcg={tcg} listWithResources={list} isLoading={isLoading} />;
+            return (
+              <ListRenderer
+                key={list.list.id}
+                tcg={tcg}
+                listWithResources={list}
+                isLoading={isLoading}
+                onCreate={() => {
+                  refetchLists();
+                }}
+                onDelete={() => {
+                  refetchLists();
+                }}
+              />
+            );
           })}
         </SimpleGrid>
       </Stack>

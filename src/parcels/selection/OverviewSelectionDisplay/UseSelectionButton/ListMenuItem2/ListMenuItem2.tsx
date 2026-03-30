@@ -8,6 +8,7 @@ import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithO
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListMenuItem2.module.css';
@@ -34,6 +35,7 @@ export function ListMenuItem2({
   const addToListCount = useMemo(() => {
     return selectedPrintIds.filter((id) => !listResourceIds.includes(id)).length;
   }, [listResourceIds, selectedPrintIds]);
+  const noti = useGourmetNotification();
 
   return (
     <Menu.Item
@@ -47,7 +49,7 @@ export function ListMenuItem2({
           }),
         ]).then((res) => {
           if (res.error) {
-            console.error('error while adding resource to list', res.error);
+            noti.show('Unknown error', `${res.error}`, 'error');
             return;
           }
 

@@ -8,6 +8,7 @@ import './parcels/i18n/i18n';
 import 'react-loading-skeleton/dist/skeleton.css';
 import '@mantine/core/styles.layer.css';
 import '@mantine/nprogress/styles.css';
+import '@mantine/notifications/styles.css';
 import 'keyrune/css/keyrune.min.css';
 import {AuthContextProvider} from '@/parcels/auth/AuthContextProvider.tsx';
 import {ListsContextProvider} from '@/parcels/lists/ListsContextProvider.tsx'; // Render the app

@@ -1,16 +1,17 @@
-import { Group, Menu, Tooltip } from '@mantine/core';
-import { IconBookmark, IconLabelFilled, IconMinus, IconPlus, IconStar } from '@tabler/icons-react';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
-import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
-import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
-import { GourmetText } from '@/parcels/mantine/GourmetText.tsx';
+import {Group, Menu, Tooltip} from '@mantine/core';
+import {IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
+import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {addResourcesToList, removeResourcesFromList} from '@/parcels/lists/api.ts';
+import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
+import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
+import type {UserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
+import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import type {OptionalTcgProps} from '@/parcels/tcg/TcgProps.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type ListMenuItemRessourceProps = {
   ressourceId: string;
@@ -48,6 +49,7 @@ export function ListMenuItem({
   const addToListCount = useMemo(() => {
     return !listResourceIds.includes(ressourceId) ? 1 : 0;
   }, [listResourceIds, ressourceId]);
+  const noti = useGourmetNotification();
 
   return (
     <Menu.Item
@@ -57,11 +59,9 @@ export function ListMenuItem({
         if (action === 'add') {
           addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type, raw).then((res) => {
             if (res.error) {
-              console.error('error while adding resource to list', res.error);
+              noti.show('Unknown error', `${res.error}`, 'error');
               return;
             }
-
-            console.log('success! added to list');
             refetchLists();
 
             const data = res?.data;
@@ -72,13 +72,11 @@ export function ListMenuItem({
         if (action === 'remove') {
           removeResourcesFromList(user?.id, list.id, mustTcg, [ressourceId], type).then((res) => {
             if (res.error) {
-              console.error('error while removing resource to list', res.error);
+              noti.show('Unknown error', `${res.error}`, 'error');
               return;
             }
 
-            console.log('success! removed to list');
             refetchLists();
-
             if (onSuccess) onSuccess(undefined);
           });
           return;
@@ -101,21 +99,6 @@ export function ListMenuItem({
               }
             />
             <GourmetText cgmff={'ui'}>{t(`favorite${action === 'remove' ? '-remove' : ''}`)}</GourmetText>
-          </>
-        )}
-        {list.systemListType === 'bookmarks' && (
-          <>
-            <IconWithOverlayIcon
-              icon={<IconBookmark size={18} />}
-              overlayIcon={
-                action === 'add' ? (
-                  <IconPlus size={14} color={'var(--gourmet-green-1)'} />
-                ) : (
-                  <IconMinus size={14} color={'var(--gourmet-red-01)'} />
-                )
-              }
-            />
-            <GourmetText cgmff={'ui'}>{t(`bookmark${action === 'remove' ? '-remove' : ''}`)}</GourmetText>
           </>
         )}
 

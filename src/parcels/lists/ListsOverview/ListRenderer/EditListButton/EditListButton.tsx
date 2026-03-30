@@ -1,21 +1,23 @@
 import {ActionIcon, Button, Group, Modal, Tooltip} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import {IconPencil, IconPencilOff} from '@tabler/icons-react';
-import {useRouter} from '@tanstack/react-router';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {updateList} from '@/parcels/lists/api.ts';
 import {ListValuesForm} from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
 import {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import styles from './EditListButton.module.css';
 
-export function EditListButton({ list }: { list: UserList }) {
+export function EditListButton({ list, onSuccess }: { list: UserList; onSuccess?: (list: UserList) => void }) {
+  const { t } = useTranslation('lists', { keyPrefix: 'edit' });
   const [opened, { open, close }] = useDisclosure(false);
   const auth = useAuth();
 
   const form = useListForm({ list: list });
-  const router = useRouter();
+  const noti = useGourmetNotification();
 
   return (
     <>
@@ -26,7 +28,7 @@ export function EditListButton({ list }: { list: UserList }) {
           <Group gap={'0.5rem'}>
             <IconPencil size={20} color={'var(--gourmet-neutral-9)'} />
             <GourmetText cgmff={'ui'} fw={500} fz={'1.15rem'}>
-              Edit List
+              {t('title')}
             </GourmetText>
           </Group>
         }
@@ -51,17 +53,18 @@ export function EditListButton({ list }: { list: UserList }) {
               color: formValues.color,
             } as Partial<UserList> & { name: string };
 
-            updateList(auth.user.id, newList, auth.token).then(({ error }) => {
+            updateList(auth.user.id, newList).then(({ error }) => {
               if (error) {
-                console.log('error when updating list :(', error);
+                noti.show('Unknown error', `${error}`, 'error');
                 return;
               }
 
-              console.log('success!');
+              noti.show('List Edited', `\`${list.name}\` has been edited`, 'success');
+
               // cleanup and close
               close();
               form.reset();
-              router.invalidate();
+              if (onSuccess) onSuccess(newList as UserList);
             });
           }}
         >
@@ -69,16 +72,16 @@ export function EditListButton({ list }: { list: UserList }) {
 
           <Group justify={'end'}>
             <Button color={'var(--gourmet-neutral-5)'} onClick={close}>
-              <GourmetText cgmc={'neutral-9'}>Cancel</GourmetText>
+              <GourmetText cgmc={'neutral-9'}>{t('cancel')}</GourmetText>
             </Button>
             <Button type="submit" color={'var(--gourmet-blue-1)'}>
-              <GourmetText cgmc={'neutral-1'}>Update</GourmetText>
+              <GourmetText cgmc={'neutral-1'}>{t('update')}</GourmetText>
             </Button>
           </Group>
         </form>
       </Modal>
 
-      <Tooltip label={list.systemListType ? `This is a system list and can't be edited` : 'Edit List'} openDelay={500}>
+      <Tooltip label={list.systemListType ? t('system') : t('title')} openDelay={500}>
         <ActionIcon className={styles.editButton} disabled={list.systemListType !== undefined} onClick={open}>
           {list.systemListType && <IconPencilOff color={'var(--gourmet-neutral-5'} size={20} />}
           {!list.systemListType && <IconPencil color={'var(--gourmet-neutral-7'} size={20} />}

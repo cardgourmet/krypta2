@@ -5,7 +5,7 @@ import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelat
 import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import {RendererCardResources} from '@/parcels/lists/ListsOverview/ListRenderer/RendererCardResources/RendererCardResources.tsx';
 import {RendererSearchResources} from '@/parcels/lists/ListsOverview/ListRenderer/RendererSearchResources/RendererSearchResources.tsx';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListRenderer.module.css';
@@ -14,10 +14,14 @@ export function ListRenderer({
   tcg,
   listWithResources,
   isLoading,
+  onCreate,
+  onDelete,
 }: {
   tcg: Tcg;
   listWithResources: UserListWithResources;
   isLoading: boolean;
+  onCreate?: (list: UserList) => void;
+  onDelete?: (id: string) => void;
 }) {
   const { t, i18n } = useTranslation('lists');
   const { list, size, resources: allResources } = listWithResources;
@@ -27,7 +31,7 @@ export function ListRenderer({
 
   return (
     <Stack key={list.id} gap={'0.5rem'}>
-      <ListElementHeader list={list} />
+      <ListElementHeader list={list} onCreate={onCreate} onDelete={onDelete} />
 
       <Group justify={'space-between'}>
         <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
@@ -57,6 +61,13 @@ export function ListRenderer({
 
             {!isLoading && (
               <>
+                {searchResources.length === 0 && cardResources.length === 0 && (
+                  <Center>
+                    <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
+                      {t('noResources')}
+                    </GourmetText>
+                  </Center>
+                )}
                 {searchResources.length > 0 && (
                   <Group wrap={'nowrap'} gap={'0'} align={'start'}>
                     <div

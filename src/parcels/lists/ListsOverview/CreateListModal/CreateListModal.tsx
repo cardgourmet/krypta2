@@ -1,20 +1,22 @@
 import {Button, Group, Modal} from '@mantine/core';
 import type {UseDisclosureReturnValue} from '@mantine/hooks';
 import {IconList} from '@tabler/icons-react';
-import {useRouter} from '@tanstack/react-router';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {createList} from '@/parcels/lists/api.ts';
 import {ListValuesForm} from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
 import {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
 import type {UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 
-export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; onSuccess?: () => void }) {
+export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; onSuccess?: (list: UserList) => void }) {
+  const { t } = useTranslation('lists', { keyPrefix: 'create' });
   const [opened, { close }] = props.disclosure;
   const auth = useAuth();
 
   const form = useListForm();
-  const router = useRouter();
+  const noti = useGourmetNotification();
 
   return (
     <Modal
@@ -24,7 +26,7 @@ export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; o
         <Group gap={'0.5rem'}>
           <IconList size={20} color={'var(--gourmet-neutral-9)'} />
           <GourmetText cgmff={'ui'} fw={500} fz={'1.15rem'}>
-            Create New List
+            {t('title')}
           </GourmetText>
         </Group>
       }
@@ -50,18 +52,18 @@ export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; o
 
           createList(auth.user.id, list).then(({ data, error }) => {
             if (error) {
-              console.log('error when creating list :(', error);
+              noti.show('Unknown error', `${error}`, 'error');
               return;
             }
 
-            console.log('success!', data);
+            noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
+
             // cleanup and close
             close();
             form.reset();
-            router.invalidate();
 
             if (props.onSuccess) {
-              props.onSuccess();
+              props.onSuccess(data as UserList);
             }
           });
         }}

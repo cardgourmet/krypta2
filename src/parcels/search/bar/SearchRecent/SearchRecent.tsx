@@ -4,6 +4,7 @@ import {Link, useNavigate} from '@tanstack/react-router';
 import {type Ref, type RefObject, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {deleteSavedSearches, saveSearches} from '@/parcels/search/api.ts';
 import type {HistoryEntry} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -145,6 +146,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
   const history = useSearchHistory(tcg);
 
   const [menuOpened, setMenuOpened] = useState(false);
+  const noti = useGourmetNotification();
 
   return (
     <Group gap={'0.2rem'}>
@@ -155,7 +157,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
           if (query.saved) {
             deleteSavedSearches(user?.id, tcg, [query.saved]).then(({ error }) => {
               if (error) {
-                console.error('error', error);
+                noti.show('Unknown error', `${error}`, 'error');
                 return;
               }
 
@@ -167,7 +169,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
 
           saveSearches(user?.id, tcg, [query.id as string]).then(({ data, error }) => {
             if (error || !data?.length) {
-              console.error('error', error);
+              noti.show('Unknown error', `${error}`, 'error');
               return;
             }
 

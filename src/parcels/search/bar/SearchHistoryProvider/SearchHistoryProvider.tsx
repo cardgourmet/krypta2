@@ -1,5 +1,6 @@
 import {createContext, type ReactNode, useCallback, useEffect, useMemo, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {fetchSearchHistory} from '@/parcels/search/api.ts';
 import type {ExplainSearchQuery} from '@/parcels/search/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
@@ -41,13 +42,18 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(queries));
     setQueriesByTcg(queries);
   }, []);
+  const noti = useGourmetNotification();
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     if (!user?.id) return; // e.g., on logout or no user account
 
     for (const tcg of ['mtg', 'dlc', 'pcg'] as Tcg[]) {
       fetchSearchHistory(user.id, tcg).then(({ data, error }) => {
-        if (error) return console.error('error while fetching search history', error);
+        if (error) {
+          noti.show('Unknown error', `${error}`, 'error');
+          return;
+        }
         if ((data?.items?.length ?? 0) === 0) {
           // we ignore it, maybe the user first created the account now.
           return;
@@ -85,7 +91,7 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
         rawQuery: query.originalQuery,
         count: query.count ?? query.estimatedCount ?? -1,
         at: new Date().toString(),
-        executionTime: 1,
+        executionTime: query.executionTime ?? -1,
       });
       if (newQueries.length > MAX_HISTORY_SIZE) {
         newQueries.shift();
