@@ -2,13 +2,12 @@ import {Divider, Group, Loader, SimpleGrid, Stack} from '@mantine/core';
 import {useCallback, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import {fetchLists} from '@/parcels/lists/api.ts';
+import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
 import {ListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/ListRenderer.tsx';
 import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {Route} from '@/routes/me/lists';
 
 export default function ListsOverview() {
@@ -25,15 +24,34 @@ export default function ListsOverview() {
 
   const search = Route.useSearch();
   const { tcg } = search;
+
   const [listsData, setListsData] = useState<UserListResponse | undefined>(undefined);
   const userLists = (listsData?.items ?? []) as UserListWithResources[];
-  const [isLoading, setIsLoading] = useState(false);
 
-  const noti = useGourmetNotification();
+  const [isLoading] = useState(false);
+
+  const { lists: localUserLists, setLists } = useUserLists();
+  useEffect(() => {
+    const lists: UserListWithResources[] = localUserLists.map((list) => {
+      return {
+        ...list,
+        resources: {},
+      };
+    });
+    sortLists(lists, search.sortBy, search.sortDir);
+
+    setListsData({
+      currentPage: 1,
+      nextPage: 1,
+      hasNextPage: false,
+      lastPage: 1,
+      items: lists,
+    });
+  }, [localUserLists, search.sortBy, search.sortDir]);
 
   const refetchLists = useCallback(() => {
     if (!user?.id) return;
-    setIsLoading(true);
+    /*setIsLoading(true);
     fetchLists(
       user.id,
       search.sortBy,
@@ -50,12 +68,26 @@ export default function ListsOverview() {
       }
 
       setListsData(res.data);
-    });
-  }, [user?.id, search.sortBy, search.sortDir, search.tcg, noti.show]);
+    });*/
+  }, [user?.id]);
 
   useEffect(() => {
     refetchLists();
   }, [refetchLists]);
+
+  const [scrollToListId, setScrollToListId] = useState<string | null>(null);
+  useEffect(() => {
+    if (!scrollToListId) return;
+
+    requestAnimationFrame(() => {
+      document.getElementById(`list-${scrollToListId}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+
+    setScrollToListId(null);
+  }, [scrollToListId]);
 
   return (
     <div>
@@ -78,8 +110,12 @@ export default function ListsOverview() {
           </GourmetText>
 
           <CreateListButton
-            onSuccess={() => {
-              refetchLists();
+            onSuccess={(list) => {
+              const newList = { list: list, resources: {}, size: 0 };
+              const newLists = [...localUserLists, newList];
+              setLists(newLists);
+
+              setScrollToListId(list.id);
             }}
           />
         </Group>
@@ -89,26 +125,55 @@ export default function ListsOverview() {
       <DesktopListOverviewSettings />
 
       <Stack mt={'xl'}>
-        <SimpleGrid cols={2} spacing={'2.5rem'}>
-          {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
-          {userLists.map((list) => {
-            return (
-              <ListRenderer
-                key={list.list.id}
-                tcg={tcg}
-                listWithResources={list}
-                isLoading={isLoading}
-                onCreate={() => {
-                  refetchLists();
-                }}
-                onDelete={() => {
-                  refetchLists();
-                }}
-              />
-            );
-          })}
-        </SimpleGrid>
+        {search.display === 'grid' && (
+          <SimpleGrid cols={2} spacing={'2.5rem'}>
+            {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
+            {userLists.map((list) => {
+              return (
+                <ListRenderer
+                  key={list.list.id}
+                  tcg={tcg}
+                  listWithResources={list}
+                  isLoading={isLoading}
+                  onCreate={(list) => {
+                    const newList = { list: list, resources: {}, size: 0 };
+                    const newLists = [...localUserLists, newList];
+                    setLists(newLists);
+                  }}
+                  onDelete={(id) => {
+                    const list = localUserLists.find((l) => l.list.id === id);
+                    if (!list) return;
+
+                    const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
+                    setLists(newLists);
+                  }}
+                />
+              );
+            })}
+          </SimpleGrid>
+        )}
       </Stack>
     </div>
   );
+}
+
+function sortLists(lists: UserListWithResources[], searchSortBy?: string, searchSortDir?: string) {
+  const sortBy = searchSortBy ?? 'name';
+  const sortDir = searchSortDir === 'auto' ? 'asc' : (searchSortDir ?? 'asc');
+
+  lists.sort((a, b) => {
+    let comparison = 0;
+    if (sortBy === 'name') {
+      comparison = a.list.name.localeCompare(b.list.name);
+    } else if (sortBy === 'updatedAt') {
+      const dateA = a.list.updatedAt ? new Date(a.list.updatedAt).getTime() : 0;
+      const dateB = b.list.updatedAt ? new Date(b.list.updatedAt).getTime() : 0;
+      comparison = dateA - dateB;
+    } else if (sortBy === 'size') {
+      const sizeA = a.size ?? 0;
+      const sizeB = b.size ?? 0;
+      comparison = sizeA - sizeB;
+    }
+    return sortDir === 'desc' ? -comparison : comparison;
+  });
 }

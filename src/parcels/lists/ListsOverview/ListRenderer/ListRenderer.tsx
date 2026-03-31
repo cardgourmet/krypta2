@@ -30,7 +30,7 @@ export function ListRenderer({
   const cardResources = allResources?.card ?? [];
 
   return (
-    <Stack key={list.id} gap={'0.5rem'}>
+    <Stack key={list.id} id={`list-${list.id}`} gap={'0.5rem'}>
       <ListElementHeader list={list} onCreate={onCreate} onDelete={onDelete} />
 
       <Group justify={'space-between'}>

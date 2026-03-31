@@ -24,6 +24,7 @@ export async function fetchLists(
           withResources: 'true',
           resourcesPerType: resources ?? 5,
           reduced: `${reduced ?? false}`,
+          pageSize: 1_000,
         },
         path: {
           id: userId,
@@ -75,6 +76,9 @@ export async function createList(
     });
 
     if (!res.response.ok) {
+      // TODO: parse body to error body and try it that way ...
+
+      console.log(res.response);
       return { error: new Error(res.response.statusText) };
     }
     if (!res.data) {
