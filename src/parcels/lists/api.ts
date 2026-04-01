@@ -1,5 +1,6 @@
-import type {UserList, UserListResource, UserListResponse} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import type { UserList, UserListResource, UserListResponse } from '@/parcels/lists/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
 import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
 
 // /v1/users/{id}/lists
@@ -11,9 +12,9 @@ export async function fetchLists(
   resources?: number,
   reduced?: boolean,
   abort?: AbortController,
-): Promise<{ data?: UserListResponse; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/users/{id}/lists`, {
+): Promise<GourmetApiResponse<UserListResponse>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/users/{id}/lists`, {
       params: {
         query: {
           game: game,
@@ -32,24 +33,7 @@ export async function fetchLists(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/{id}/lists
@@ -57,9 +41,9 @@ export async function createList(
   userId: string,
   list: Partial<UserList> & { name: string },
   abort?: AbortController,
-): Promise<{ data?: UserList; error?: Error }> {
-  try {
-    const res = await umoriClient.POST(`/v1/users/{id}/lists`, {
+): Promise<GourmetApiResponse<UserList>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/users/{id}/lists`, {
       params: {
         path: {
           id: userId,
@@ -74,27 +58,7 @@ export async function createList(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      // TODO: parse body to error body and try it that way ...
-
-      console.log(res.response);
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/{id}/lists
@@ -102,9 +66,9 @@ export async function updateList(
   userId: string,
   list: Partial<UserList> & { name: string },
   abort?: AbortController,
-): Promise<{ error?: Error }> {
-  try {
-    const res = await umoriClient.PUT(`/v1/users/{id}/lists`, {
+): Promise<GourmetApiResponse<unknown>> {
+  return handleApiCall(async () => {
+    return await umoriClient.PUT(`/v1/users/{id}/lists`, {
       params: {
         path: {
           id: userId,
@@ -125,24 +89,7 @@ export async function updateList(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return {};
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/{id}/lists
@@ -150,9 +97,9 @@ export async function deleteLists(
   userId: string,
   listIds: string[],
   abort?: AbortController,
-): Promise<{ error?: Error }> {
-  try {
-    const res = await umoriClient.DELETE(`/v1/users/{id}/lists`, {
+): Promise<GourmetApiResponse<unknown>> {
+  return handleApiCall(async () => {
+    return await umoriClient.DELETE(`/v1/users/{id}/lists`, {
       params: {
         path: {
           id: userId,
@@ -164,24 +111,7 @@ export async function deleteLists(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return {};
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/{id}/lists/{listId}/resources/card
@@ -193,11 +123,11 @@ export async function addResourcesToList(
   type?: 'card' | 'search',
   raw?: boolean,
   abort?: AbortController,
-): Promise<{ data?: UserListResource[]; error?: Error }> {
+): Promise<GourmetApiResponse<UserListResource[]>> {
   const mustType = type ?? 'card';
 
-  try {
-    const res = await umoriClient.POST(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
+  return handleApiCall<UserListResource[]>(async () => {
+    return await umoriClient.POST(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
       params: {
         path: {
           id: userId,
@@ -211,24 +141,7 @@ export async function addResourcesToList(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data?.data as UserListResource[] };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/{id}/lists/{listId}/resources/card
@@ -239,11 +152,11 @@ export async function removeResourcesFromList(
   resourceIds: string[],
   type?: 'card' | 'search',
   abort?: AbortController,
-): Promise<{ error?: Error }> {
+): Promise<GourmetApiResponse<unknown>> {
   const mustType = type ?? 'card';
 
-  try {
-    const res = await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
+  return handleApiCall(async () => {
+    return await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
       params: {
         path: {
           id: userId,
@@ -257,22 +170,5 @@ export async function removeResourcesFromList(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return {};
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }

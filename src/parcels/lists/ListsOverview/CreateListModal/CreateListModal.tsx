@@ -52,8 +52,8 @@ export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; o
 
           createList(auth.user.id, list).then(({ data, error }) => {
             if (error) {
-              console.error('Error creating list', error.message);
-              noti.show('Unknown error', `${error.message}`, 'error');
+              console.error('Error creating list', error.error?.message);
+              noti.show('Unknown error', `${error.error?.message}`, 'error');
               return;
             }
 
