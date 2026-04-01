@@ -73,8 +73,19 @@
     "allowedTcgsPlaceholder": "Choose",
     "required": "Required Field"
   },
+  "listEmpty": "This list is empty.",
   "noResources": "No resources found.",
   "mtg": "Magic: The Gathering",
   "pcg": "Pokémon Card Game",
-  "dlc": "Disney Lorcana"
+  "dlc": "Disney Lorcana",
+  "table": {
+    "cols": {
+      "name": "Name",
+      "description": "Description",
+      "lastUpdated": "Last Updated",
+      "visibility": "Visibility",
+      "size": "Size",
+      "color": "Color"
+    }
+  }
 }

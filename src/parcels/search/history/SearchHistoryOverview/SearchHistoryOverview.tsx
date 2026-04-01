@@ -210,7 +210,7 @@ export function SearchHistoryOverview() {
         {tableData.rows.length > 0 && (
           <GourmetTable
             t={t2}
-            tcg={'mtg'}
+            tcg={search.tcg}
             isLoading={isLoading}
             tableData={tableData}
             constructHorTableRow={({ entry, data }) => (

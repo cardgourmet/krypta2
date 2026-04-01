@@ -1,11 +1,12 @@
-import {Divider, Group, Loader, SimpleGrid, Stack} from '@mantine/core';
+import {Divider, Group, Stack} from '@mantine/core';
 import {useCallback, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
-import {ListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/ListRenderer.tsx';
+import {ListsOverviewGrid} from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
+import {ListsOverviewTable} from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {Route} from '@/routes/me/lists';
@@ -82,7 +83,7 @@ export default function ListsOverview() {
     requestAnimationFrame(() => {
       document.getElementById(`list-${scrollToListId}`)?.scrollIntoView({
         behavior: 'smooth',
-        block: 'start',
+        block: 'center',
       });
     });
 
@@ -125,33 +126,8 @@ export default function ListsOverview() {
       <DesktopListOverviewSettings />
 
       <Stack mt={'xl'}>
-        {search.display === 'grid' && (
-          <SimpleGrid cols={2} spacing={'2.5rem'}>
-            {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
-            {userLists.map((list) => {
-              return (
-                <ListRenderer
-                  key={list.list.id}
-                  tcg={tcg}
-                  listWithResources={list}
-                  isLoading={isLoading}
-                  onCreate={(list) => {
-                    const newList = { list: list, resources: {}, size: 0 };
-                    const newLists = [...localUserLists, newList];
-                    setLists(newLists);
-                  }}
-                  onDelete={(id) => {
-                    const list = localUserLists.find((l) => l.list.id === id);
-                    if (!list) return;
-
-                    const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
-                    setLists(newLists);
-                  }}
-                />
-              );
-            })}
-          </SimpleGrid>
-        )}
+        {search.display === 'grid' && <ListsOverviewGrid tcg={tcg} isLoading={isLoading} userLists={userLists} />}
+        {search.display === 'table' && <ListsOverviewTable tcg={tcg} isLoading={isLoading} userLists={userLists} />}
       </Stack>
     </div>
   );

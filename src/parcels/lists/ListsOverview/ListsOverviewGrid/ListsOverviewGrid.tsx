@@ -1,0 +1,45 @@
+import {Loader, SimpleGrid} from '@mantine/core';
+import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
+import {GridListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
+import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+
+export function ListsOverviewGrid({
+  tcg,
+  isLoading,
+  userLists,
+}: {
+  tcg: Tcg;
+  isLoading: boolean;
+  userLists: UserListWithResources[];
+}) {
+  const { lists: localUserLists, setLists } = useUserLists();
+
+  return (
+    <SimpleGrid cols={2} spacing={'2.5rem'}>
+      {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
+      {userLists.map((list) => {
+        return (
+          <GridListRenderer
+            key={list.list.id}
+            tcg={tcg}
+            listWithResources={list}
+            isLoading={isLoading}
+            onUpdate={(list) => {
+              const newList = { list: list, resources: {}, size: 0 };
+              const newLists = [...localUserLists, newList];
+              setLists(newLists);
+            }}
+            onDelete={(id) => {
+              const list = localUserLists.find((l) => l.list.id === id);
+              if (!list) return;
+
+              const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
+              setLists(newLists);
+            }}
+          />
+        );
+      })}
+    </SimpleGrid>
+  );
+}

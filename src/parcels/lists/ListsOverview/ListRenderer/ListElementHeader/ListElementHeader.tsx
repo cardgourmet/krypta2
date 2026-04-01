@@ -20,7 +20,7 @@ export function ListElementHeader({
   const { t } = useTranslation('lists');
 
   return (
-    <Stack gap={'0.5rem'}>
+    <Stack id={`list-${list.id}`} gap={'0.5rem'}>
       <Stack gap={'0.1rem'}>
         <Group justify={'space-between'} wrap={'nowrap'}>
           <Group gap={'0.5rem'} wrap={'nowrap'}>

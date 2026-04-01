@@ -8,19 +8,19 @@ import {RendererSearchResources} from '@/parcels/lists/ListsOverview/ListRendere
 import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './ListRenderer.module.css';
+import styles from './GridListRenderer.module.css';
 
-export function ListRenderer({
+export function GridListRenderer({
   tcg,
   listWithResources,
   isLoading,
-  onCreate,
+  onUpdate,
   onDelete,
 }: {
   tcg: Tcg;
   listWithResources: UserListWithResources;
   isLoading: boolean;
-  onCreate?: (list: UserList) => void;
+  onUpdate?: (list: UserList) => void;
   onDelete?: (id: string) => void;
 }) {
   const { t, i18n } = useTranslation('lists');
@@ -30,8 +30,8 @@ export function ListRenderer({
   const cardResources = allResources?.card ?? [];
 
   return (
-    <Stack key={list.id} id={`list-${list.id}`} gap={'0.5rem'}>
-      <ListElementHeader list={list} onCreate={onCreate} onDelete={onDelete} />
+    <Stack key={list.id} gap={'0.5rem'}>
+      <ListElementHeader list={list} onCreate={onUpdate} onDelete={onDelete} />
 
       <Group justify={'space-between'}>
         <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
@@ -47,9 +47,11 @@ export function ListRenderer({
 
       <Stack mt={'0.75rem'}>
         {(size ?? 0) === 0 && (
-          <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-            This list is empty.
-          </GourmetText>
+          <Center>
+            <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
+              {t('listEmpty')}
+            </GourmetText>
+          </Center>
         )}
         {(size ?? 0) > 0 && (
           <Stack>
