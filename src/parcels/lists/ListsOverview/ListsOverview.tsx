@@ -127,7 +127,25 @@ export default function ListsOverview() {
 
       <Stack mt={'xl'}>
         {search.display === 'grid' && <ListsOverviewGrid tcg={tcg} isLoading={isLoading} userLists={userLists} />}
-        {search.display === 'table' && <ListsOverviewTable tcg={tcg} isLoading={isLoading} userLists={userLists} />}
+        {search.display === 'table' && (
+          <ListsOverviewTable
+            tcg={tcg}
+            isLoading={isLoading}
+            userLists={userLists}
+            onUpdate={(list) => {
+              const newList = { list: list, resources: {}, size: 0 };
+              const newLists = [...localUserLists, newList];
+              setLists(newLists);
+            }}
+            onDelete={(id) => {
+              const list = localUserLists.find((l) => l.list.id === id);
+              if (!list) return;
+
+              const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
+              setLists(newLists);
+            }}
+          />
+        )}
       </Stack>
     </div>
   );

@@ -77,7 +77,7 @@ export function ListElementHeader({
   );
 }
 
-function VisibilityBadge({ visibility }: { visibility: 'private' | 'public' | undefined }) {
+export function VisibilityBadge({ visibility }: { visibility: 'private' | 'public' | undefined }) {
   const { t } = useTranslation('lists');
 
   return (
