@@ -87,5 +87,6 @@
       "size": "Size",
       "color": "Color"
     }
-  }
+  },
+  "searchbarPlaceholder": "Search..."
 }

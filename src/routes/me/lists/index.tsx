@@ -6,6 +6,7 @@ export const paramDefaults = {
   sortBy: 'name' as 'name' | 'updatedAt' | 'size',
   sortDir: 'auto' as 'auto' | 'asc' | 'desc',
   display: 'grid' as 'grid' | 'table',
+  search: '',
 };
 
 export const paramsSchema = z.object({
@@ -13,6 +14,7 @@ export const paramsSchema = z.object({
   sortDir: z.enum(['asc', 'desc', 'auto']).catch(paramDefaults.sortDir),
   tcg: z.enum(['mtg', 'dlc', 'pcg']).catch('mtg'),
   display: z.enum(['grid', 'table']).catch(paramDefaults.display),
+  search: z.string().catch(paramDefaults.search),
 });
 
 export const Route = createFileRoute('/me/lists/')({

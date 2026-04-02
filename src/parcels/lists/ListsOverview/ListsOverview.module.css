@@ -8,3 +8,48 @@
     }
   }
 }
+
+.searchBarWrapper {
+  display: flex;
+  gap: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 2.25rem;
+
+  &:focus-within {
+    border: 1px solid var(--gourmet-blue-1);
+  }
+}
+
+.searchBarInput {
+  flex: 1;
+  height: 100%;
+
+  > div {
+    height: 100%;
+  }
+
+  input {
+    font-family: var(--cgm-content-font-family), sans-serif;
+
+    height: 100%;
+    min-height: 0;
+    background-color: var(--gourmet-neutral-2);
+
+    border: none;
+    border-radius: 0;
+  }
+}
+
+.searchBarButton {
+  height: 100%;
+  border-radius: 0;
+  transform: none;
+  width: 2.25rem;
+  padding: 0.1rem;
+
+  &:active {
+    background-color: color-mix(in srgb, var(--gourmet-blue-1), white 10%);
+  }
+}

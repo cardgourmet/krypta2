@@ -33,12 +33,15 @@ export default function ListsOverview() {
 
   const { lists: localUserLists, setLists } = useUserLists();
   useEffect(() => {
-    const lists: UserListWithResources[] = localUserLists.map((list) => {
+    let lists: UserListWithResources[] = localUserLists.map((list) => {
       return {
         ...list,
         resources: {},
       };
     });
+    if (search.search.trim().length > 0) {
+      lists = lists.filter((l) => l.list.name.toLowerCase().includes(search.search.toLowerCase()));
+    }
     sortLists(lists, search.sortBy, search.sortDir);
 
     setListsData({
@@ -48,7 +51,7 @@ export default function ListsOverview() {
       lastPage: 1,
       items: lists,
     });
-  }, [localUserLists, search.sortBy, search.sortDir]);
+  }, [localUserLists, search.sortBy, search.sortDir, search.search]);
 
   const refetchLists = useCallback(() => {
     if (!user?.id) return;
