@@ -2,6 +2,7 @@ import {Divider, Group, Stack} from '@mantine/core';
 import {useCallback, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import {fetchListsPreview} from '@/parcels/lists/api.ts';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
@@ -9,6 +10,7 @@ import {ListsOverviewGrid} from '@/parcels/lists/ListsOverview/ListsOverviewGrid
 import {ListsOverviewTable} from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {Route} from '@/routes/me/lists';
 
 export default function ListsOverview() {
@@ -30,6 +32,7 @@ export default function ListsOverview() {
   const userLists = (listsData?.items ?? []) as UserListWithResources[];
 
   const [isLoading] = useState(false);
+  const [isPreviewsLoading, setIsPreviewsLoading] = useState(false);
 
   const { lists: localUserLists, setLists } = useUserLists();
   useEffect(() => {
@@ -53,31 +56,39 @@ export default function ListsOverview() {
     });
   }, [localUserLists, search.sortBy, search.sortDir, search.search]);
 
-  const refetchLists = useCallback(() => {
+  const noti = useGourmetNotification();
+  const refetchListsContent = useCallback(() => {
     if (!user?.id) return;
-    /*setIsLoading(true);
-    fetchLists(
-      user.id,
-      search.sortBy,
-      search.sortDir === 'auto' ? undefined : search.sortDir,
-      search.tcg,
-      undefined,
-      undefined,
-    ).then((res) => {
-      setIsLoading(false);
+
+    const listIds = userLists.map((list) => {
+      return list.list.id;
+    });
+    if (listIds.length === 0) return;
+
+    setIsPreviewsLoading(true);
+    fetchListsPreview(user.id, listIds, undefined, undefined).then((res) => {
+      setIsPreviewsLoading(false);
 
       if (res.error) {
         noti.show('Unknown error', `${res.error}`, 'error');
         return;
       }
+      if (!res.data) return;
 
-      setListsData(res.data);
-    });*/
-  }, [user?.id]);
+      const appliedLists: UserListWithResources[] =
+        listsData?.items.map((listWithRes) => {
+          const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
+          if (!newList) return listWithRes as UserListWithResources;
+
+          return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
+        }) ?? [];
+      setListsData(listsData ? { ...listsData, items: appliedLists } : listsData);
+    });
+  }, [user?.id, userLists, noti.show, listsData]);
 
   useEffect(() => {
-    refetchLists();
-  }, [refetchLists]);
+    refetchListsContent();
+  }, [refetchListsContent]);
 
   const [scrollToListId, setScrollToListId] = useState<string | null>(null);
   useEffect(() => {

@@ -1,12 +1,12 @@
 import {Group, Menu} from '@mantine/core';
 import {IconLink} from '@tabler/icons-react';
-import {type Dispatch, type ReactElement, type SetStateAction} from 'react';
+import type {Dispatch, ReactElement, SetStateAction} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
 import {slugify} from '@/parcels/slugify.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
-import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
 
 export function CardMoreActionsMenu({
   card,
@@ -23,8 +23,7 @@ export function CardMoreActionsMenu({
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
 
   return (
-    <>
-      <MoreActionsMenu
+    <MoreActionsMenu
         tcg={tcg}
         rawResourceId={card.print.id}
         resourceId={card.print.id}
@@ -54,56 +53,5 @@ export function CardMoreActionsMenu({
           </Group>
         </Menu.Item>
       </MoreActionsMenu>
-
-      {/*<CreateListModal disclosure={disclosure} onSuccess={() => refetchLists()} />
-
-      <Menu
-        width={260}
-        position="top"
-        opened={menuOpened}
-        onChange={setMenuOpened}
-        withArrow
-        classNames={{ dropdown: styles.menuDropdown }}
-      >
-        <Menu.Target>{target}</Menu.Target>
-
-        <Menu.Dropdown>
-          {systemLists.map((list) => {
-            return (
-              <ListMenuItem
-                key={list.list.id}
-                ressourceId={card.print.id}
-                listWithResources={list}
-                action={existsInLists.includes(list.list.id) ? 'remove' : 'add'}
-              />
-            );
-          })}
-
-          <AddToListMenu tcg={tcg} ressourceId={card.print.id} disclosure={disclosure} />
-          <RemoveFromListMenu tcg={tcg} ressourceId={card.print.id} />
-
-          <Menu.Divider />
-
-          <Menu.Item
-            onClick={() => {
-              const set = card.print.setCode?.toLowerCase() as string;
-              const cn = card.print.collectorNumber.toLowerCase();
-
-              // noinspection JSIgnoredPromiseFromCall
-              navigator.clipboard
-                .writeText(`${window.location.origin}/${tcg as Tcg}/sets/${set}/${cn}/${slugify(card.name)}`)
-                .then(() => {
-                  // TODO: event handler to show popup on card that it was successful
-                });
-            }}
-          >
-            <Group gap={'0.5rem'}>
-              <IconLink size={18} />
-              <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
-            </Group>
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>*/}
-    </>
   );
 }

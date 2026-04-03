@@ -1,6 +1,6 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
-import type { UserList, UserListResource, UserListResponse } from '@/parcels/lists/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
+import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
+import type {UserList, UserListResource, UserListResponse} from '@/parcels/lists/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
 import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
 
 // /v1/users/{id}/lists
@@ -25,6 +25,35 @@ export async function fetchLists(
           withResources: 'true',
           resourcesPerType: resources ?? 5,
           reduced: `${reduced ?? false}`,
+          pageSize: 1_000,
+        },
+        path: {
+          id: userId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/users/{id}/lists
+export async function fetchListsPreview(
+  userId: string,
+  listIds: string[],
+  game?: Tcg,
+  amount?: number,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<UserListResponse>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/users/{id}/lists`, {
+      params: {
+        query: {
+          game: game,
+          listIds: listIds.join(','),
+          createSystem: 'true',
+          withSize: 'true',
+          withResources: 'true',
+          resourcesPerType: amount ?? 5,
           pageSize: 1_000,
         },
         path: {
