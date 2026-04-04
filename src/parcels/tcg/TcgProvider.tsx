@@ -1,6 +1,8 @@
-import { usePrevious } from '@mantine/hooks';
-import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import {useLocalStorage, usePrevious} from '@mantine/hooks';
+import {createContext, type ReactNode, useContext, useEffect, useState} from 'react';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+
+export const CGM_LAST_TCG = 'cgm-last-tcg';
 
 type CurrentTcg = {
   tcg: Tcg;
@@ -9,26 +11,42 @@ type CurrentTcg = {
 export const TcgContext = createContext<CurrentTcg | null>(null);
 
 export default function TcgProvider({ children }: { children: ReactNode }) {
+  const [tcgInStorage, setTcgInStorage] = useLocalStorage<Tcg | null>({
+    key: CGM_LAST_TCG,
+    getInitialValueInEffect: true,
+  });
   const tcgByLocation = useTcgByLocation();
   const previousTcgByLocation = usePrevious(tcgByLocation);
 
-  const [tcg, setTcg] = useState<Tcg>(tcgByLocation ?? 'dlc'); // later mtg or the last used tcg
+  // mtg is default if you first enter the homepage.
+  const [tcg, setTcg] = useState<Tcg>('mtg');
 
   const [currentTcg, setCurrentTcg] = useState<CurrentTcg>({
-    tcg: tcg, // later mtg or the last used tcg
+    tcg: tcg,
     setTcg: (tcg) => {
       setTcg(tcg);
       setCurrentTcg({ ...currentTcg, tcg });
+      setTcgInStorage(tcg);
     },
   });
 
+  // as soon as data from storage is ready, update current tcg.
+  useEffect(() => {
+    if (tcgInStorage !== null) {
+      setCurrentTcg((prev) => ({
+        ...prev,
+        tcg: tcgInStorage,
+      }));
+    }
+  }, [tcgInStorage]);
+
+  // as soon as location changes, check if we're in tcg context
   useEffect(() => {
     if (tcgByLocation !== undefined && previousTcgByLocation !== tcgByLocation) {
       setCurrentTcg((prev) => ({
         ...prev,
         tcg: tcgByLocation,
       }));
-      return;
     }
   }, [tcgByLocation, previousTcgByLocation]);
 
