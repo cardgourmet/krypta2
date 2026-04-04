@@ -101,7 +101,7 @@ export default function ListsOverview() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     refetchListsContent();
-  }, [localUserLists]);
+  }, [userLists]);
 
   const [scrollToListId, setScrollToListId] = useState<string | null>(null);
   useEffect(() => {
