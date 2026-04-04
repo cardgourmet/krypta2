@@ -7,10 +7,12 @@ import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 export function ListsOverviewGrid({
   tcg,
   isLoading,
+  isPreviewsLoading,
   userLists,
 }: {
   tcg: Tcg;
   isLoading: boolean;
+  isPreviewsLoading: boolean;
   userLists: UserListWithResources[];
 }) {
   const { lists: localUserLists, setLists } = useUserLists();
@@ -24,7 +26,7 @@ export function ListsOverviewGrid({
             key={list.list.id}
             tcg={tcg}
             listWithResources={list}
-            isLoading={isLoading}
+            isLoading={isLoading || isPreviewsLoading}
             onUpdate={(list) => {
               const newList = { list: list, resources: {}, size: 0 };
               const newLists = [...localUserLists, newList];

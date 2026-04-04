@@ -28,33 +28,38 @@ export default function ListsOverview() {
   const search = Route.useSearch();
   const { tcg } = search;
 
-  const [listsData, setListsData] = useState<UserListResponse | undefined>(undefined);
-  const userLists = (listsData?.items ?? []) as UserListWithResources[];
+  const [userListsData, setUserListsData] = useState<UserListResponse | undefined>(undefined);
+  const userLists = (userListsData?.items ?? []) as UserListWithResources[];
+  const [userListsResources, setUserListsResources] = useState<Record<string, UserListWithResources>>({});
 
   const [isLoading] = useState(false);
   const [isPreviewsLoading, setIsPreviewsLoading] = useState(false);
 
   const { lists: localUserLists, setLists } = useUserLists();
-  useEffect(() => {
+  const sortOrFilterLists = useCallback(() => {
     let lists: UserListWithResources[] = localUserLists.map((list) => {
       return {
         ...list,
-        resources: {},
+        resources: userListsResources[list.list.id]?.resources ?? {},
       };
     });
+
     if (search.search.trim().length > 0) {
       lists = lists.filter((l) => l.list.name.toLowerCase().includes(search.search.toLowerCase()));
     }
     sortLists(lists, search.sortBy, search.sortDir);
 
-    setListsData({
+    setUserListsData({
       currentPage: 1,
       nextPage: 1,
       hasNextPage: false,
       lastPage: 1,
       items: lists,
     });
-  }, [localUserLists, search.sortBy, search.sortDir, search.search]);
+  }, [localUserLists, search.search, search.sortBy, search.sortDir, userListsResources]);
+  useEffect(() => {
+    sortOrFilterLists();
+  }, [sortOrFilterLists]);
 
   const noti = useGourmetNotification();
   const refetchListsContent = useCallback(() => {
@@ -76,19 +81,26 @@ export default function ListsOverview() {
       if (!res.data) return;
 
       const appliedLists: UserListWithResources[] =
-        listsData?.items.map((listWithRes) => {
+        userListsData?.items.map((listWithRes) => {
           const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
           if (!newList) return listWithRes as UserListWithResources;
 
           return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
         }) ?? [];
-      setListsData(listsData ? { ...listsData, items: appliedLists } : listsData);
-    });
-  }, [user?.id, userLists, noti.show, listsData]);
 
+      const newUserListsResources: Record<string, UserListWithResources> = {};
+      appliedLists.forEach((appliedList) => {
+        newUserListsResources[appliedList.list.id] = appliedList;
+      });
+
+      setUserListsResources(newUserListsResources);
+    });
+  }, [user?.id, userLists, noti.show, userListsData]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     refetchListsContent();
-  }, [refetchListsContent]);
+  }, [localUserLists]);
 
   const [scrollToListId, setScrollToListId] = useState<string | null>(null);
   useEffect(() => {
@@ -140,7 +152,14 @@ export default function ListsOverview() {
       <DesktopListOverviewSettings />
 
       <Stack mt={'xl'}>
-        {search.display === 'grid' && <ListsOverviewGrid tcg={tcg} isLoading={isLoading} userLists={userLists} />}
+        {search.display === 'grid' && (
+          <ListsOverviewGrid
+            tcg={tcg}
+            isLoading={isLoading}
+            isPreviewsLoading={isPreviewsLoading}
+            userLists={userLists}
+          />
+        )}
         {search.display === 'table' && (
           <ListsOverviewTable
             tcg={tcg}
