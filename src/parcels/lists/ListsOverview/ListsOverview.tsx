@@ -64,6 +64,7 @@ export default function ListsOverview() {
   const noti = useGourmetNotification();
   const refetchListsContent = useCallback(() => {
     if (!user?.id) return;
+    if (Object.keys(userListsResources).length > 0) return;
 
     const listIds = userLists.map((list) => {
       return list.list.id;
@@ -95,7 +96,7 @@ export default function ListsOverview() {
 
       setUserListsResources(newUserListsResources);
     });
-  }, [user?.id, userLists, noti.show, userListsData]);
+  }, [user?.id, userLists, noti.show, userListsData, userListsResources]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
