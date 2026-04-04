@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
+import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
 import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
 import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
 import { Route as MeFavoritesIndexRouteImport } from './routes/me/favorites/index'
@@ -42,6 +43,11 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 const TcgIndexRoute = TcgIndexRouteImport.update({
   id: '/$tcg/',
   path: '/$tcg/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeSavedSearchesIndexRoute = MeSavedSearchesIndexRouteImport.update({
+  id: '/me/saved-searches/',
+  path: '/me/saved-searches/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeListsIndexRoute = MeListsIndexRouteImport.update({
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/me/favorites': typeof MeFavoritesIndexRoute
   '/me/history': typeof MeHistoryIndexRoute
   '/me/lists': typeof MeListsIndexRoute
+  '/me/saved-searches': typeof MeSavedSearchesIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/me/favorites': typeof MeFavoritesIndexRoute
   '/me/history': typeof MeHistoryIndexRoute
   '/me/lists': typeof MeListsIndexRoute
+  '/me/saved-searches': typeof MeSavedSearchesIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/me/favorites/': typeof MeFavoritesIndexRoute
   '/me/history/': typeof MeHistoryIndexRoute
   '/me/lists/': typeof MeListsIndexRoute
+  '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/me/favorites'
     | '/me/history'
     | '/me/lists'
+    | '/me/saved-searches'
     | '/$tcg/sets/$setCode'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/me/favorites'
     | '/me/history'
     | '/me/lists'
+    | '/me/saved-searches'
     | '/$tcg/sets/$setCode'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   id:
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/me/favorites/'
     | '/me/history/'
     | '/me/lists/'
+    | '/me/saved-searches/'
     | '/$tcg/sets/$setCode/'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesById: FileRoutesById
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   MeFavoritesIndexRoute: typeof MeFavoritesIndexRoute
   MeHistoryIndexRoute: typeof MeHistoryIndexRoute
   MeListsIndexRoute: typeof MeListsIndexRoute
+  MeSavedSearchesIndexRoute: typeof MeSavedSearchesIndexRoute
   TcgSetsSetCodeIndexRoute: typeof TcgSetsSetCodeIndexRoute
   TcgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -241,6 +254,13 @@ declare module '@tanstack/react-router' {
       path: '/$tcg'
       fullPath: '/$tcg'
       preLoaderRoute: typeof TcgIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/saved-searches/': {
+      id: '/me/saved-searches/'
+      path: '/me/saved-searches'
+      fullPath: '/me/saved-searches'
+      preLoaderRoute: typeof MeSavedSearchesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/lists/': {
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   MeFavoritesIndexRoute: MeFavoritesIndexRoute,
   MeHistoryIndexRoute: MeHistoryIndexRoute,
   MeListsIndexRoute: MeListsIndexRoute,
+  MeSavedSearchesIndexRoute: MeSavedSearchesIndexRoute,
   TcgSetsSetCodeIndexRoute: TcgSetsSetCodeIndexRoute,
   TcgSetsSetCodeCollectorNumberChar123AnyChar125Route:
     TcgSetsSetCodeCollectorNumberChar123AnyChar125Route,

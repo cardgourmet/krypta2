@@ -53,6 +53,8 @@ export async function fetchSearchHistory(
 export async function fetchSavedSearches(
   userId: string,
   game?: Tcg,
+  search?: string,
+  sortOrder?: 'asc' | 'desc',
   abort?: AbortController,
 ): Promise<{ data?: PagedUserSavedSearch; error?: Error }> {
   try {
@@ -60,6 +62,9 @@ export async function fetchSavedSearches(
       params: {
         query: {
           game: game,
+          search: search,
+          sortOrder: sortOrder,
+          pageSize: 10_000,
         },
         path: {
           id: userId,

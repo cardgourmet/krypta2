@@ -5,16 +5,18 @@ import authDE from '@/../locales/auth/de.json';
 import authEN from '@/../locales/auth/en.json';
 import cardsDE from '@/../locales/cards/de.json';
 import cardsEN from '@/../locales/cards/en.json';
+import historyDE from '@/../locales/history/de.json';
+import historyEN from '@/../locales/history/en.json';
 import listsDE from '@/../locales/lists/de.json';
 import listsEN from '@/../locales/lists/en.json';
 import navDE from '@/../locales/nav/de.json';
 import navEN from '@/../locales/nav/en.json';
+import savedDE from '@/../locales/saved/de.json';
+import savedEN from '@/../locales/saved/en.json';
 import searchDE from '@/../locales/search/de.json';
 import searchEN from '@/../locales/search/en.json';
 import selectionDE from '@/../locales/selection/de.json';
 import selectionEN from '@/../locales/selection/en.json';
-import historyDE from '@/../locales/history/de.json';
-import historyEN from '@/../locales/history/en.json';
 
 const resources = {
   en: {
@@ -25,6 +27,7 @@ const resources = {
     selection: selectionEN,
     lists: listsEN,
     history: historyEN,
+    saved: savedEN,
   },
   de: {
     auth: authDE,
@@ -34,6 +37,7 @@ const resources = {
     selection: selectionDE,
     lists: listsDE,
     history: historyDE,
+    saved: savedDE,
   },
 };
 

@@ -9,6 +9,7 @@ import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
 import {historyParamDefaults} from '@/routes/me/history';
 import {paramDefaults} from '@/routes/me/lists';
+import {savedSearchesParamDefaults} from '@/routes/me/saved-searches';
 import styles from './UserDisplay.module.css';
 
 export function UserDisplay({ style }: { style?: CSSProperties }) {
@@ -75,9 +76,15 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
                 <GourmetText cgmff="ui">{t('history')}</GourmetText>
               </Menu.Item>
             </Link>
-            <Menu.Item leftSection={<IconBook2 size={18} />} className={styles.menuItem}>
-              <GourmetText cgmff="ui">{t('savedSearches')}</GourmetText>
-            </Menu.Item>
+            <Link
+              to={'/me/saved-searches'}
+              search={{ ...savedSearchesParamDefaults, tcg: tcg }}
+              style={{ textDecoration: 'none' }}
+            >
+              <Menu.Item leftSection={<IconBook2 size={18} />} className={styles.menuItem}>
+                <GourmetText cgmff="ui">{t('savedSearches')}</GourmetText>
+              </Menu.Item>
+            </Link>
 
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
