@@ -28,8 +28,14 @@ export function ListsOverviewGrid({
             listWithResources={list}
             isLoading={isLoading || isPreviewsLoading}
             onUpdate={(list) => {
-              const newList = { list: list, resources: {}, size: 0 };
-              const newLists = [...localUserLists, newList];
+              const newLists: UserListWithResources[] = [];
+              localUserLists.forEach((l) => {
+                if (l.list.id === list.id) {
+                  newLists.push({ list: list, resources: l.resources, size: l.size });
+                } else {
+                  newLists.push(l);
+                }
+              });
               setLists(newLists);
             }}
             onDelete={(id) => {

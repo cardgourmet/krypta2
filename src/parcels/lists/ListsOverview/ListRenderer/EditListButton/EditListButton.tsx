@@ -45,6 +45,7 @@ export function EditListButton({ list, onSuccess }: { list: UserList; onSuccess?
 
             const formValues = form.getValues();
             const newList = {
+              ...list,
               id: list.id,
               name: formValues.name,
               description: formValues.description,

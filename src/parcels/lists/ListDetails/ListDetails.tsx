@@ -12,7 +12,7 @@ import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelat
 import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
 import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
-import type {ResolvedUserListResource, UserList} from '@/parcels/lists/types.ts';
+import type {ResolvedUserListResource, UserList, UserListWithResources} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
@@ -24,8 +24,8 @@ export function ListDetails() {
   const { t, i18n } = useTranslation('lists');
   const search = Route.useSearch();
   const { list: listRes, listResources: listResourcesRes } = Route.useLoaderData();
-  let { data: list } = listRes;
-  list = list as UserList;
+
+  const [list, setList] = useState<UserList>(listRes.data as UserList);
 
   const [searchResources, setSearchResources] = useState<ResolvedUserListResource[]>(
     listResourcesRes?.data?.user_search ?? [],
@@ -103,7 +103,22 @@ export function ListDetails() {
               </GourmetText>
 
               <Group gap={'0.25rem'}>
-                <EditListButton list={list} onSuccess={() => {}} />
+                <EditListButton
+                  list={list}
+                  onSuccess={(list) => {
+                    const newLists: UserListWithResources[] = [];
+                    localUserLists.forEach((l) => {
+                      if (l.list.id === list.id) {
+                        newLists.push({ list: list, resources: l.resources, size: l.size });
+                      } else {
+                        newLists.push(l);
+                      }
+                    });
+                    setLists(newLists);
+
+                    setList(list);
+                  }}
+                />
                 <DeleteListButton
                   list={list}
                   onSuccess={(id) => {
