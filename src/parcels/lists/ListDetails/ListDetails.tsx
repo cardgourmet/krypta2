@@ -188,6 +188,7 @@ export function ListDetails() {
                 <GourmetText cgmff={'title'} fz={'h3'} c={list.color ?? 'var(--gourmet-neutral-9)'}>
                   {t('details.savedSearches')}
                 </GourmetText>
+                <GourmetText cgmff={'ui'}>({searchResources.length})</GourmetText>
               </Group>
 
               <Stack gap={'0.5rem'}>
@@ -231,6 +232,7 @@ export function ListDetails() {
                 <GourmetText cgmff={'title'} c={list.color ?? 'var(--gourmet-neutral-9)'} fz={'h3'}>
                   {t('details.cards')}
                 </GourmetText>
+                <GourmetText cgmff={'ui'}>({cardResources.length})</GourmetText>
               </Group>
 
               <SimpleGrid cols={6}>
