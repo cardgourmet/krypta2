@@ -1,6 +1,7 @@
 import {Divider, Group, SimpleGrid, Stack} from '@mantine/core';
 import {IconCards, IconLabelFilled, IconSearch, IconStar} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -11,7 +12,7 @@ import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelat
 import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
 import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
-import type {UserList} from '@/parcels/lists/types.ts';
+import type {ResolvedUserListResource, UserList} from '@/parcels/lists/types.ts';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
@@ -26,8 +27,10 @@ export function ListDetails() {
   let { data: list } = listRes;
   list = list as UserList;
 
-  const searchResources = listResourcesRes?.data?.user_search ?? [];
-  const cardResources = listResourcesRes?.data?.card ?? [];
+  const [searchResources, setSearchResources] = useState<ResolvedUserListResource[]>(
+    listResourcesRes?.data?.user_search ?? [],
+  );
+  const [cardResources, setCardResources] = useState<ResolvedUserListResource[]>(listResourcesRes?.data?.card ?? []);
 
   const { user } = useAuth();
   const { component, title } = useBreadcrumbs({
@@ -166,16 +169,42 @@ export function ListDetails() {
           {searchResources.length > 0 && (
             <Stack>
               <Group gap={'0.5rem'}>
-                <IconSearch size={26} color={list.color ?? 'var(--gourmet-neutral-9)'} />
-                <GourmetText cgmff={'ui'} fz={'h2'} c={list.color ?? 'var(--gourmet-neutral-9)'}>
+                <IconSearch size={22} color={list.color ?? 'var(--gourmet-neutral-9)'} />
+                <GourmetText cgmff={'title'} fz={'h3'} c={list.color ?? 'var(--gourmet-neutral-9)'}>
                   {t('details.savedSearches')}
                 </GourmetText>
               </Group>
 
               <Stack gap={'0.5rem'}>
-                {searchResources.map((data) => {
-                  return <SearchRenderer key={data.listResource.resourceId} data={data} tcg={search.tcg ?? tcg} />;
-                })}
+                {searchResources
+                  .sort((a, b) => {
+                    const dateA = a.listResource.updatedAt ? new Date(a.listResource.updatedAt).getTime() : 0;
+                    const dateB = b.listResource.updatedAt ? new Date(b.listResource.updatedAt).getTime() : 0;
+                    return (dateA - dateB) * -1;
+                  })
+                  .map((data) => {
+                    return (
+                      <SearchRenderer
+                        key={data.listResource.resourceId}
+                        data={data}
+                        tcg={search.tcg ?? tcg}
+                        onRemoveFromList={(listId) => {
+                          console.log('removed from list', listId);
+                          if (listId !== list.id) return;
+
+                          const newSearchResources = [...searchResources];
+                          for (let i = 0; i < newSearchResources.length; i++) {
+                            if (newSearchResources[i].listResource.resourceId === data.listResource.resourceId) {
+                              newSearchResources.splice(i, 1);
+                              break;
+                            }
+                          }
+
+                          setSearchResources(newSearchResources);
+                        }}
+                      />
+                    );
+                  })}
               </Stack>
             </Stack>
           )}
@@ -183,16 +212,41 @@ export function ListDetails() {
           {cardResources.length > 0 && (
             <Stack>
               <Group gap={'0.5rem'}>
-                <IconCards size={26} color={list.color ?? 'var(--gourmet-neutral-9)'} />
-                <GourmetText cgmff={'ui'} c={list.color ?? 'var(--gourmet-neutral-9)'} fz={'h2'}>
+                <IconCards size={22} color={list.color ?? 'var(--gourmet-neutral-9)'} />
+                <GourmetText cgmff={'title'} c={list.color ?? 'var(--gourmet-neutral-9)'} fz={'h3'}>
                   {t('details.cards')}
                 </GourmetText>
               </Group>
 
               <SimpleGrid cols={6}>
-                {cardResources.map((data) => {
-                  return <CardRenderer key={data.listResource.resourceId} tcg={search.tcg ?? tcg} data={data} />;
-                })}
+                {cardResources
+                  .sort((a, b) => {
+                    const dateA = a.listResource.updatedAt ? new Date(a.listResource.updatedAt).getTime() : 0;
+                    const dateB = b.listResource.updatedAt ? new Date(b.listResource.updatedAt).getTime() : 0;
+                    return (dateA - dateB) * -1;
+                  })
+                  .map((data) => {
+                    return (
+                      <CardRenderer
+                        key={data.listResource.resourceId}
+                        tcg={search.tcg ?? tcg}
+                        data={data}
+                        onRemoveFromList={(listId) => {
+                          if (listId !== list.id) return;
+
+                          const newCardResources = [...cardResources];
+                          for (let i = 0; i < newCardResources.length; i++) {
+                            if (newCardResources[i].listResource.resourceId === data.listResource.resourceId) {
+                              newCardResources.splice(i, 1);
+                              break;
+                            }
+                          }
+
+                          setCardResources(newCardResources);
+                        }}
+                      />
+                    );
+                  })}
               </SimpleGrid>
             </Stack>
           )}

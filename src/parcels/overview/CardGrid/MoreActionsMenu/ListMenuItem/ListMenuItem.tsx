@@ -77,7 +77,7 @@ export function ListMenuItem({
             }
 
             refetchLists();
-            if (onSuccess) onSuccess(undefined);
+            if (onSuccess) onSuccess({ listId: list.id } as UserListResource);
           });
           return;
         }

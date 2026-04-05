@@ -17,6 +17,7 @@ export function MoreActionsMenu({
   setMenuOpened,
   target,
   onSearchSaved,
+  onRemoveFromList,
   type,
   children,
   ref,
@@ -29,6 +30,7 @@ export function MoreActionsMenu({
     setMenuOpened?: Dispatch<SetStateAction<boolean>>;
     target: ReactElement;
     onSearchSaved?: (id: string) => void;
+    onRemoveFromList?: (listId: string) => void;
     type: 'card' | 'user_search';
   } & { ref?: Ref<HTMLDivElement> }
 >) {
@@ -100,6 +102,11 @@ export function MoreActionsMenu({
             raw={resourceId === undefined}
             type={type === 'card' ? 'card' : 'search'}
             tcg={tcg}
+            onSuccess={(res) => {
+              if (res) {
+                if (onRemoveFromList) onRemoveFromList(res.listId);
+              }
+            }}
           />
 
           {children}

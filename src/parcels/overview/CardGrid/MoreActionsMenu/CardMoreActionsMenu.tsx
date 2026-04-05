@@ -13,45 +13,51 @@ export function CardMoreActionsMenu({
   menuOpened,
   setMenuOpened,
   target,
+  overwriteTcg,
+  onRemoveFromList,
 }: {
   card: TcgDataCard;
   menuOpened: boolean;
   setMenuOpened: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
+  overwriteTcg?: Tcg;
+  onRemoveFromList?: (listId: string) => void;
 }) {
-  const tcg = useTcgByLocation() as Tcg;
+  const locationTcg = useTcgByLocation() as Tcg;
+  const tcg = overwriteTcg ?? locationTcg;
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
 
   return (
     <MoreActionsMenu
-        tcg={tcg}
-        rawResourceId={card.print.id}
-        resourceId={card.print.id}
-        menuOpened={menuOpened}
-        setMenuOpened={setMenuOpened}
-        target={target}
-        type={'card'}
+      tcg={tcg}
+      rawResourceId={card.print.id}
+      resourceId={card.print.id}
+      menuOpened={menuOpened}
+      setMenuOpened={setMenuOpened}
+      target={target}
+      type={'card'}
+      onRemoveFromList={onRemoveFromList}
+    >
+      <Menu.Divider />
+
+      <Menu.Item
+        onClick={() => {
+          const set = card.print.setCode?.toLowerCase() as string;
+          const cn = card.print.collectorNumber.toLowerCase();
+
+          // noinspection JSIgnoredPromiseFromCall
+          navigator.clipboard
+            .writeText(`${window.location.origin}/${tcg as Tcg}/sets/${set}/${cn}/${slugify(card.name)}`)
+            .then(() => {
+              // TODO: event handler to show popup on card that it was successful
+            });
+        }}
       >
-        <Menu.Divider />
-
-        <Menu.Item
-          onClick={() => {
-            const set = card.print.setCode?.toLowerCase() as string;
-            const cn = card.print.collectorNumber.toLowerCase();
-
-            // noinspection JSIgnoredPromiseFromCall
-            navigator.clipboard
-              .writeText(`${window.location.origin}/${tcg as Tcg}/sets/${set}/${cn}/${slugify(card.name)}`)
-              .then(() => {
-                // TODO: event handler to show popup on card that it was successful
-              });
-          }}
-        >
-          <Group gap={'0.5rem'}>
-            <IconLink size={18} />
-            <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
-          </Group>
-        </Menu.Item>
-      </MoreActionsMenu>
+        <Group gap={'0.5rem'}>
+          <IconLink size={18} />
+          <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
+        </Group>
+      </Menu.Item>
+    </MoreActionsMenu>
   );
 }

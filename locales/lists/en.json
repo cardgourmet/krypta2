@@ -91,6 +91,8 @@
   "searchbarPlaceholder": "Search...",
   "details": {
     "savedSearches": "Saved Searches",
-    "cards": "Cards"
+    "cards": "Cards",
+    "searchCards_one": "{{count}} card",
+    "searchCards_other": "{{count}} cards"
   }
 }
