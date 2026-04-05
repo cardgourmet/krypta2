@@ -1,5 +1,5 @@
 import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
-import type {UserList, UserListResource, UserListResponse} from '@/parcels/lists/types.ts';
+import type {ResolvedUserListResource, UserList, UserListResource, UserListResponse} from '@/parcels/lists/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
 import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
 
@@ -58,6 +58,24 @@ export async function fetchListsPreview(
         },
         path: {
           id: userId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+export async function getList(
+  userId: string,
+  listId: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<UserList>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/users/{id}/lists/{listId}`, {
+      params: {
+        path: {
+          id: userId,
+          listId: listId,
         },
       },
       signal: abort?.signal,
@@ -196,6 +214,31 @@ export async function removeResourcesFromList(
       body: {
         game: game,
         resourceIds: resourceIds,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/users/{id}/lists/{listId}/all
+export async function getAllResourcesFromList(
+  userId: string,
+  listId: string,
+  game?: Tcg,
+  size?: number,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<Record<string, ResolvedUserListResource[]>>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/users/{id}/lists/{listId}/all`, {
+      params: {
+        path: {
+          id: userId,
+          listId: listId,
+        },
+        query: {
+          game: game,
+          size,
+        },
       },
       signal: abort?.signal,
     });

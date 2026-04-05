@@ -18,7 +18,7 @@
   --shadow-depth-color: light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.45));
   box-shadow:
     0 1px 0 var(--shadow-highlight-color),
-    0 8px 24px var(--shadow-depth-color);
+    0 2px 8px var(--shadow-depth-color);
 
   p {
     font-family: var(--cgm-ui-font-family), ui-sans-serif;

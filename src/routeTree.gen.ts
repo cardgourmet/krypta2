@@ -16,7 +16,6 @@ import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
 import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
 import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
-import { Route as MeFavoritesIndexRouteImport } from './routes/me/favorites/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
 import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
@@ -58,11 +57,6 @@ const MeListsIndexRoute = MeListsIndexRouteImport.update({
 const MeHistoryIndexRoute = MeHistoryIndexRouteImport.update({
   id: '/me/history/',
   path: '/me/history/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MeFavoritesIndexRoute = MeFavoritesIndexRouteImport.update({
-  id: '/me/favorites/',
-  path: '/me/favorites/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
@@ -112,7 +106,6 @@ export interface FileRoutesByFullPath {
   '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
-  '/me/favorites': typeof MeFavoritesIndexRoute
   '/me/history': typeof MeHistoryIndexRoute
   '/me/lists': typeof MeListsIndexRoute
   '/me/saved-searches': typeof MeSavedSearchesIndexRoute
@@ -129,7 +122,6 @@ export interface FileRoutesByTo {
   '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
-  '/me/favorites': typeof MeFavoritesIndexRoute
   '/me/history': typeof MeHistoryIndexRoute
   '/me/lists': typeof MeListsIndexRoute
   '/me/saved-searches': typeof MeSavedSearchesIndexRoute
@@ -147,7 +139,6 @@ export interface FileRoutesById {
   '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
-  '/me/favorites/': typeof MeFavoritesIndexRoute
   '/me/history/': typeof MeHistoryIndexRoute
   '/me/lists/': typeof MeListsIndexRoute
   '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
@@ -166,7 +157,6 @@ export interface FileRouteTypes {
     | '/me/lists/$listId'
     | '/$tcg/advanced'
     | '/$tcg/cards'
-    | '/me/favorites'
     | '/me/history'
     | '/me/lists'
     | '/me/saved-searches'
@@ -183,7 +173,6 @@ export interface FileRouteTypes {
     | '/me/lists/$listId'
     | '/$tcg/advanced'
     | '/$tcg/cards'
-    | '/me/favorites'
     | '/me/history'
     | '/me/lists'
     | '/me/saved-searches'
@@ -200,7 +189,6 @@ export interface FileRouteTypes {
     | '/me/lists/$listId'
     | '/$tcg/advanced/'
     | '/$tcg/cards/'
-    | '/me/favorites/'
     | '/me/history/'
     | '/me/lists/'
     | '/me/saved-searches/'
@@ -218,7 +206,6 @@ export interface RootRouteChildren {
   MeListsListIdRoute: typeof MeListsListIdRoute
   TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
-  MeFavoritesIndexRoute: typeof MeFavoritesIndexRoute
   MeHistoryIndexRoute: typeof MeHistoryIndexRoute
   MeListsIndexRoute: typeof MeListsIndexRoute
   MeSavedSearchesIndexRoute: typeof MeSavedSearchesIndexRoute
@@ -275,13 +262,6 @@ declare module '@tanstack/react-router' {
       path: '/me/history'
       fullPath: '/me/history'
       preLoaderRoute: typeof MeHistoryIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/me/favorites/': {
-      id: '/me/favorites/'
-      path: '/me/favorites'
-      fullPath: '/me/favorites'
-      preLoaderRoute: typeof MeFavoritesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/cards/': {
@@ -346,7 +326,6 @@ const rootRouteChildren: RootRouteChildren = {
   MeListsListIdRoute: MeListsListIdRoute,
   TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
-  MeFavoritesIndexRoute: MeFavoritesIndexRoute,
   MeHistoryIndexRoute: MeHistoryIndexRoute,
   MeListsIndexRoute: MeListsIndexRoute,
   MeSavedSearchesIndexRoute: MeSavedSearchesIndexRoute,

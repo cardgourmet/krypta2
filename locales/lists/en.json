@@ -17,8 +17,6 @@
     "table": "Table"
   },
   "system": {
-    "bookmarks": "Bookmarks",
-    "bookmarks-desc": "All things that you might want to revisit.",
     "favorites": "Favorites",
     "favorites-desc": "All of your favorite things, possibly showing them off in your profile."
   },
@@ -86,7 +84,13 @@
       "visibility": "Visibility",
       "size": "Size",
       "color": "Color"
-    }
+    },
+    "reExecute": "Re-execute query",
+    "moreOptions": "More options"
   },
-  "searchbarPlaceholder": "Search..."
+  "searchbarPlaceholder": "Search...",
+  "details": {
+    "savedSearches": "Saved Searches",
+    "cards": "Cards"
+  }
 }

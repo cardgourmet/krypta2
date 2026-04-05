@@ -88,7 +88,7 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
 
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-            <Link to={'/me/favorites'} style={{ textDecoration: 'none' }}>
+            <Link to={'/me/lists/$listId'} params={{ listId: 'favorites' }} style={{ textDecoration: 'none' }}>
               <Menu.Item
                 leftSection={<IconStar size={18} />}
                 className={styles.menuItem}
