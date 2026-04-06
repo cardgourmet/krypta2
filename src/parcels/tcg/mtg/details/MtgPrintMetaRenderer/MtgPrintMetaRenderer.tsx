@@ -63,7 +63,11 @@ export function MtgPrintMetaRenderer({
 
   return (
     <Stack gap={'xs'} w={'100%'}>
-      <Link to={'/mtg/sets/$setCode'} params={{ setCode: set.code.toLowerCase() }} className={styles.setLink}>
+      <Link
+        to={'/$tcg/sets/$setCode'}
+        params={{ tcg: 'mtg', setCode: set.code.toLowerCase() }}
+        className={styles.setLink}
+      >
         <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
           <MtgSetIcon setCode={set.code.toLowerCase()} />
           <Stack gap={'0.25rem'}>
@@ -127,7 +131,8 @@ export function MtgPrintMetaRenderer({
           </Group>
           <Group gap={'xs'}>
             <Link
-              to={'/mtg/cards'}
+              to={'/$tcg/cards'}
+              params={{ tcg: 'mtg' }}
               search={{
                 ...mtgSearchParamsDefaults,
                 query: `rarity:"${print.rarity}"`,
@@ -164,7 +169,10 @@ export function MtgPrintMetaRenderer({
           </Group>
           <Group gap={'xs'}>
             <Link
-              to={'/mtg/cards'}
+              to={'/$tcg/cards'}
+              params={{
+                tcg: 'mtg',
+              }}
               search={{
                 ...mtgSearchParamsDefaults,
                 query: `artist="${print.artist}"`,
@@ -184,11 +192,11 @@ export function MtgPrintMetaRenderer({
   );
 }
 
-export const MtgSetIcon = ({ setCode }: { setCode: string }) => {
+export const MtgSetIcon = ({ setCode, fontSize, color }: { setCode: string; fontSize?: string; color?: string }) => {
   return (
     <i
       className={`ss ss-${setCode.toLowerCase()}`}
-      style={{ color: 'var(--gourmet-neutral-9)', fontSize: '1.75rem' }}
+      style={{ color: color ?? 'var(--gourmet-neutral-9)', fontSize: fontSize ?? '1.75rem' }}
     />
   );
 };

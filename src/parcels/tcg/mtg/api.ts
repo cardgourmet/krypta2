@@ -1,3 +1,4 @@
+import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
 import type {MtgSearchQuerySettings, MtgSortBy} from '@/parcels/tcg/mtg/types.ts';
 import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api';
@@ -5,6 +6,8 @@ import umoriClient from '@/schema/umoriClient.ts';
 
 export type MtgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+export type MtgSearchCards = c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+
 export type MtgSearchDataCard = c['schemas']['CardSearchResult-MtgDataCard'];
 export type MtgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
 export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
@@ -19,12 +22,9 @@ export type MtgCardQuery = TcgCardQuery & {
 };
 
 // v1/mtg/sets/{setId}
-export async function fetchMtgSet(
-  setId: string,
-  abort?: AbortController,
-): Promise<{ data?: MtgDataSet; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/mtg/sets/{setId}`, {
+export async function fetchMtgSet(setId: string, abort?: AbortController): Promise<GourmetApiResponse<MtgDataSet>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/sets/{setId}`, {
       params: {
         path: {
           setId: setId,
@@ -32,24 +32,7 @@ export async function fetchMtgSet(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/mtg/prints/{setCode}/{collectorNumber}
@@ -92,7 +75,7 @@ export async function fetchMtgPrint(
 export async function fetchMtgCards(
   settings: MtgSearchQuerySettings,
   abort: AbortController,
-): Promise<{ query: MtgCardQuery; data?: MtgSearchCardsResult; error?: Error }> {
+): Promise<GourmetApiResponse<MtgSearchCards>> {
   const query: MtgCardQuery = {
     query: settings.query,
     page: settings.page,
@@ -104,32 +87,14 @@ export async function fetchMtgCards(
     query.sortDirection = settings.sortDirection;
   }
 
-  try {
-    const res = await umoriClient.GET(`/v1/mtg/cards/search`, {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/search`, {
       params: {
         query: query,
       },
       signal: abort.signal,
     });
-
-    if (!res.response.ok) {
-      return { query: query, error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { query: query, error: new Error('Received invalid data') };
-    }
-
-    return { query: query, data: res.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { query: query, error: error };
-  }
+  });
 }
 
 // /v1/mtg/cards/search/filters

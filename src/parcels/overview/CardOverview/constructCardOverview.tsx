@@ -1,14 +1,17 @@
 import type {UseNavigateResult} from '@tanstack/react-router';
-import {useEffect, useEffectEvent, useMemo, useRef, useState} from 'react';
+import {useEffect, useEffectEvent, useRef, useState} from 'react';
+import type {GourmetError} from '@/parcels/api/handleApiCall.ts';
+import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {CardOverview} from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type {ExplainSearchQuery} from '@/parcels/search/types.ts';
-import {type DlcCardQuery, type DlcSearchCardsResult, fetchDlcCards} from '@/parcels/tcg/dlc/api.ts';
+import {fetchDlcCards, fetchDlcSet} from '@/parcels/tcg/dlc/api.ts';
 import type {DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
-import {fetchMtgCards, type MtgCardQuery, type MtgSearchCardsResult} from '@/parcels/tcg/mtg/api.ts';
+import {fetchMtgCards, fetchMtgSet} from '@/parcels/tcg/mtg/api.ts';
 import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
-import {fetchPcgCards, type PcgCardQuery, type PcgSearchCardsResult} from '@/parcels/tcg/pcg/api.ts';
+import {fetchPcgCards, fetchPcgSet} from '@/parcels/tcg/pcg/api.ts';
 import type {PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
+import type {TcgSearchCards, TcgSearchCardsResult} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import {usePrevious} from '@/parcels/usePrevious.ts';
@@ -21,7 +24,8 @@ export function constructCardOverview(
 ) {
   const tcg = useTcgByLocation() as Tcg;
   const prevSearchQuerySettings = usePrevious(searchQuerySettings);
-  const [cards, setCards] = useState<null | MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult>(null);
+  const [cards, setCards] = useState<null | TcgSearchCardsResult>(null);
+  const [set, setSet] = useState<null | TcgDataSet>(null);
 
   const history = useSearchHistory(tcg);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,11 +49,6 @@ export function constructCardOverview(
     history?.addQuery(query);
   });
 
-  const isSetSpecific = useMemo(() => {
-    const setCodeOrName = getSetSpecificQuery(searchQuerySettings.query);
-    return setCodeOrName !== null;
-  }, [searchQuerySettings.query]);
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: it's only prevQuerySettings
   useEffect(() => {
     if (searchQuerySettings.query !== prevSearchQuerySettings?.query) {
@@ -58,29 +57,45 @@ export function constructCardOverview(
     setIsLoading(true);
 
     const controller = new AbortController();
-    const onCallback = ({
-      data,
-      error,
-    }: {
-      query: MtgCardQuery | PcgCardQuery | DlcCardQuery;
-      data?: MtgSearchCardsResult | PcgSearchCardsResult | DlcSearchCardsResult;
-      error?: Error;
-    }) => {
+    const onSetCallback = ({ data, error }: { data?: TcgDataSet; error?: GourmetError }) => {
       if (error !== undefined) {
-        // non 200 status basically
         return;
       }
 
+      setSet(data ?? null);
+    };
+
+    const onCallback = ({ data, error }: { data?: TcgSearchCards; error?: GourmetError }) => {
+      if (error !== undefined) {
+        return;
+      }
+
+      const isSetSpecific = getSetSpecificQuery(searchQuerySettings.query) !== null;
+      if (isSetSpecific) {
+        const setId = data?.items[0]?.card?.print?.setId;
+
+        if (setId) {
+          if (tcg === 'mtg') {
+            fetchMtgSet(setId, controller).then(onSetCallback);
+          } else if (tcg === 'pcg') {
+            fetchPcgSet(setId, controller).then(onSetCallback);
+          } else if (tcg === 'dlc') {
+            fetchDlcSet(setId, controller).then(onSetCallback);
+          }
+        }
+      }
+
       // write to history
-      const explainedQuery = data?.data?.details as ExplainSearchQuery | undefined;
+      const explainedQuery = data?.details as ExplainSearchQuery | undefined;
       if (explainedQuery !== undefined) {
         onQueryChange(explainedQuery);
       }
-      setCards(data as MtgSearchCardsResult);
+      setCards({ data: data } as TcgSearchCardsResult);
 
       setIsLoading(false);
       setIsQueryLoading(false);
     };
+
     if (tcg === 'mtg') {
       fetchMtgCards(searchQuerySettings as MtgSearchQuerySettings, controller).then(onCallback);
     } else if (tcg === 'pcg') {
@@ -103,7 +118,7 @@ export function constructCardOverview(
         scrollbackRef={scrollBackRef}
         isLoading={isLoading}
         isQueryLoading={isQueryLoading}
-        isSetSpecific={isSetSpecific}
+        set={set}
         cards={cards}
         setSettings={setSettings}
         searchQuerySettings={searchQuerySettings}
@@ -113,7 +128,7 @@ export function constructCardOverview(
   );
 }
 
-function getSetSpecificQuery(query: string): string | null {
+export function getSetSpecificQuery(query: string): string | null {
   const allowedFilters = ['set', 'setcode', 'setname'];
   let allowed = false;
   for (const allowedFilter of allowedFilters) {

@@ -11,6 +11,9 @@ import {tcgSearchParamsDefaults, tcgSearchParamsSchema} from '@/parcels/tcg/type
 
 export const Route = createFileRoute('/$tcg/cards/')({
   component: RouteComponent,
+  loaderDeps: ({ search }) => {
+    return { query: search.query };
+  },
   beforeLoad: ({ params }) => {
     const allowed = ['mtg', 'dlc', 'pcg'];
     if (!allowed.includes(params.tcg)) throw notFound();

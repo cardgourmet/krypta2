@@ -1,3 +1,4 @@
+import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
 import type {DlcSearchQuerySettings, DlcSortBy} from '@/parcels/tcg/dlc/types.ts';
 import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api.d.ts';
@@ -9,6 +10,7 @@ export type DlcCardQuery = TcgCardQuery & {
 
 export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+export type DlcSearchCards = c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
 export type DlcSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
@@ -18,12 +20,9 @@ export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 
 // v1/mtg/sets/{setId}
-export async function fetchDlcSet(
-  setId: string,
-  abort?: AbortController,
-): Promise<{ data?: DlcDataSet; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/dlc/sets/{setId}`, {
+export async function fetchDlcSet(setId: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/sets/{setId}`, {
       params: {
         path: {
           setId: setId,
@@ -31,24 +30,7 @@ export async function fetchDlcSet(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/mtg/prints/{setCode}/{collectorNumber}
@@ -90,7 +72,7 @@ export async function fetchDlcPrint(
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,
   abort: AbortController,
-): Promise<{ query: DlcCardQuery; data?: DlcSearchCardsResult; error?: Error }> {
+): Promise<GourmetApiResponse<DlcSearchCards>> {
   const query: DlcCardQuery = {
     query: settings.query,
     page: settings.page,
@@ -102,32 +84,14 @@ export async function fetchDlcCards(
     query.sortDirection = settings.sortDirection;
   }
 
-  try {
-    const res = await umoriClient.GET(`/v1/dlc/cards/search`, {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/search`, {
       params: {
         query: query,
       },
       signal: abort.signal,
     });
-
-    if (!res.response.ok) {
-      return { query: query, error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { query: query, error: new Error('Received invalid data') };
-    }
-
-    return { query: query, data: res.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { query: query, error: error };
-  }
+  });
 }
 
 // /v1/dlc/cards/search/filters

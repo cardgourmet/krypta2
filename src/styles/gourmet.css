@@ -13,7 +13,7 @@
   --gourmet-blue-02: light-dark(#006aff, #006aff);
   --gourmet-blue-03: #3388ff;
   --gourmet-blue-04: light-dark(#66a6ff, #66a6ff);
-  --gourmet-blue-05: #99c3ff;
+  --gourmet-blue-05: light-dark(#3388ff, #99c3ff);
   --gourmet-blue-06: #cce1ff;
 
   --gourmet-red-01: light-dark(oklch(49.99% 0.1663 28.93), oklch(0.64 0.199 28.932));

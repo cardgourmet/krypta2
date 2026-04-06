@@ -1,6 +1,7 @@
 import {Accordion, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
 import {IconAlertCircleFilled, IconClock} from '@tabler/icons-react';
 import {type RefObject, useEffect, useState} from 'react';
+import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
@@ -10,6 +11,7 @@ import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import {MtgSetIcon} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 import type {TcgSearchCardsResult, TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings,} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
@@ -20,7 +22,7 @@ type CardOverviewProps = {
   scrollbackRef: RefObject<HTMLDivElement | null>;
   isLoading: boolean;
   isQueryLoading: boolean;
-  isSetSpecific?: boolean;
+  set: TcgDataSet | null;
 
   cards: TcgSearchCardsResult | null;
   setSettings: (apply: ApplyFn<TcgSearchParams>) => void;
@@ -37,6 +39,7 @@ export function CardOverview({
   setSettings,
   searchQuerySettings,
   searchDisplaySettings,
+  set,
 }: CardOverviewProps) {
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
 
@@ -73,7 +76,7 @@ export function CardOverview({
               {/*<IconCircleCheckFilled size={22} color={'var(--gourmet-green-1)'} />*/}
               <Stack h={'2rem'} justify={'start'}>
                 <Tooltip label={'Card database might not be up to date.'} openDelay={500}>
-                  <IconClock size={18} color={'var(--gourmet-orange-1)'} />
+                  <IconClock size={18} color={'var(--gourmet-neutral-7)'} />
                 </Tooltip>
               </Stack>
             </Group>
@@ -87,7 +90,34 @@ export function CardOverview({
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
 
-        {/*{isSetSpecific && <Text>SetSpecific JOONGE</Text>}*/}
+        {set !== null && (
+          <Stack
+            p={'0.75rem 2rem'}
+            style={{
+              borderRadius: '0.5rem',
+              backgroundColor: 'var(--gourmet-blue-05)',
+            }}
+            mb={'0.5rem'}
+          >
+            <Group>
+              <MtgSetIcon setCode={set.code!.toLowerCase()} fontSize={'2.5rem'} color={'var(--gourmet-neutral-0)'} />
+
+              <Stack gap={'0rem'}>
+                <Group gap={'0.5rem'}>
+                  <GourmetText fz={'1.5rem'} cgmff={'ui'} cgmc={'neutral-0'} fw={500}>
+                    {set.translations.en.name}
+                  </GourmetText>
+                  <GourmetText fz={'1.15rem'} cgmff={'ui'} cgmc={'neutral-0'}>
+                    ({set.code})
+                  </GourmetText>
+                </Group>
+                <GourmetText fz={'1.15rem'} cgmff={'ui'} cgmc={'neutral-1'}>
+                  {set.printsAvailable} cards
+                </GourmetText>
+              </Stack>
+            </Group>
+          </Stack>
+        )}
 
         <CardOverviewSettings
           tcg={tcg}

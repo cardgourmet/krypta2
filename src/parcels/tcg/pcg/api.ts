@@ -1,3 +1,4 @@
+import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
 import type {PcgSearchQuerySettings, PcgSortBy} from '@/parcels/tcg/pcg/types.ts';
 import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api';
@@ -5,6 +6,7 @@ import umoriClient from '@/schema/umoriClient.ts';
 
 export type PcgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+export type PcgSearchCards = c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
 export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
 export type PcgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
 export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
@@ -18,12 +20,9 @@ export type PcgDataPrint = c['schemas']['PcgDataPrint'];
 export type PcgDataSet = c['schemas']['PcgDataSet'];
 
 // v1/mtg/sets/{setId}
-export async function fetchPcgSet(
-  setId: string,
-  abort?: AbortController,
-): Promise<{ data?: PcgDataSet; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/pcg/sets/{setId}`, {
+export async function fetchPcgSet(setId: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/sets/{setId}`, {
       params: {
         path: {
           setId: setId,
@@ -31,24 +30,7 @@ export async function fetchPcgSet(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/mtg/prints/{setCode}/{collectorNumber}
@@ -91,7 +73,7 @@ export async function fetchPcgPrint(
 export async function fetchPcgCards(
   settings: PcgSearchQuerySettings,
   abort: AbortController,
-): Promise<{ query: PcgCardQuery; data?: PcgSearchCardsResult; error?: Error }> {
+): Promise<GourmetApiResponse<PcgSearchCards>> {
   const query: PcgCardQuery = {
     query: settings.query,
     page: settings.page,
@@ -103,32 +85,14 @@ export async function fetchPcgCards(
     query.sortDirection = settings.sortDirection;
   }
 
-  try {
-    const res = await umoriClient.GET(`/v1/pcg/cards/search`, {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/search`, {
       params: {
         query: query,
       },
       signal: abort.signal,
     });
-
-    if (!res.response.ok) {
-      return { query: query, error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { query: query, error: new Error('Received invalid data') };
-    }
-
-    return { query: query, data: res.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { query: query, error: error };
-  }
+  });
 }
 
 // /v1/pcg/cards/search/filters
