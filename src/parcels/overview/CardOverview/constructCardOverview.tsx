@@ -6,20 +6,20 @@ import {CardOverview} from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type {ExplainSearchQuery} from '@/parcels/search/types.ts';
 import {fetchDlcCards, fetchDlcSet} from '@/parcels/tcg/dlc/api.ts';
-import type {DlcSearchDisplaySettings, DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
+import type {DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
 import {fetchMtgCards, fetchMtgSet} from '@/parcels/tcg/mtg/api.ts';
-import type {MtgSearchDisplaySettings, MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
+import type {MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
 import {fetchPcgCards, fetchPcgSet} from '@/parcels/tcg/pcg/api.ts';
-import type {PcgSearchDisplaySettings, PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
-import type {TcgSearchCards, TcgSearchCardsResult} from '@/parcels/tcg/types.ts';
+import type {PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
+import type {TcgSearchCards, TcgSearchCardsResult, TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings,} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import {usePrevious} from '@/parcels/usePrevious.ts';
 
 export function constructCardOverview(
-  searchParams: MtgSearchParams | DlcSearchParams | PcgSearchParams,
-  searchQuerySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings,
-  searchDisplaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings,
+  searchParams: TcgSearchParams,
+  searchQuerySettings: TcgSearchQuerySettings,
+  searchDisplaySettings: TcgSearchDisplaySettings,
   navigate: UseNavigateResult<'/$tcg/cards'>,
 ) {
   const tcg = useTcgByLocation() as Tcg;
@@ -83,6 +83,8 @@ export function constructCardOverview(
             fetchDlcSet(setId, controller).then(onSetCallback);
           }
         }
+      } else {
+        setSet(null);
       }
 
       // write to history
@@ -129,17 +131,21 @@ export function constructCardOverview(
 }
 
 export function getSetSpecificQuery(query: string): string | null {
+  if (!query) return null;
+  const lowerQuery = query.toLowerCase();
+  if (lowerQuery.includes(' or ')) return null;
+
   const allowedFilters = ['set', 'setcode', 'setname'];
   let allowed = false;
   for (const allowedFilter of allowedFilters) {
-    if (query.startsWith(allowedFilter)) {
+    if (lowerQuery.startsWith(allowedFilter)) {
       allowed = true;
       break;
     }
   }
   if (!allowed) return null;
 
-  const spl = query.split(/[:=]/);
+  const spl = lowerQuery.split(/[:=]/);
   if (spl.length !== 2) return null;
 
   let value = spl[1];

@@ -21,6 +21,7 @@
     "@tanstack/react-devtools": "^0.7.0",
     "@tanstack/react-router": "^1.132.0",
     "@tanstack/react-router-devtools": "^1.132.0",
+    "@tanstack/router-core": "^1.168.9",
     "@tanstack/router-plugin": "^1.132.0",
     "csstype": "^3.2.3",
     "date-fns": "^4.1.0",

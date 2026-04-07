@@ -28,7 +28,10 @@ export function useSearchQueryV2(triggerEnabled: boolean, tcg: Tcg, close: () =>
 
     // noinspection JSIgnoredPromiseFromCall
     navigate({
-      to: `/${tcg}/cards`,
+      to: `/$tcg/cards`,
+      params: {
+        tcg: tcg,
+      },
       search: (prev) => {
         return { ...prev, query: currentQuery.query, page: 1 } as Required<TcgSearchParams>;
       },

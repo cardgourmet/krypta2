@@ -1,13 +1,13 @@
 import {createFileRoute, notFound, stripSearchParams, useNavigate} from '@tanstack/react-router';
 import {useMemo} from 'react';
-import {constructCardOverview} from '@/parcels/overview/CardOverview/constructCardOverview.tsx';
+import {constructCardOverview, getSetSpecificQuery} from '@/parcels/overview/CardOverview/constructCardOverview.tsx';
 import {useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings} from '@/parcels/tcg/dlc/query.ts';
 import type {DlcSearchParams, DlcSearchQuerySettings} from '@/parcels/tcg/dlc/types.ts';
 import {useMtgMemoizedDisplaySettings, useMtgMemoizedQuerySettings} from '@/parcels/tcg/mtg/query.ts';
 import type {MtgSearchParams, MtgSearchQuerySettings} from '@/parcels/tcg/mtg/types.ts';
 import {usePcgMemoizedDisplaySettings, usePcgMemoizedQuerySettings} from '@/parcels/tcg/pcg/query.ts';
 import type {PcgSearchParams, PcgSearchQuerySettings} from '@/parcels/tcg/pcg/types.ts';
-import {tcgSearchParamsDefaults, tcgSearchParamsSchema} from '@/parcels/tcg/types.ts';
+import {tcgSearchParamsDefaults, tcgSearchParamsSchema, tcgSetSearchParamsSchema} from '@/parcels/tcg/types.ts';
 
 export const Route = createFileRoute('/$tcg/cards/')({
   component: RouteComponent,
@@ -18,7 +18,18 @@ export const Route = createFileRoute('/$tcg/cards/')({
     const allowed = ['mtg', 'dlc', 'pcg'];
     if (!allowed.includes(params.tcg)) throw notFound();
   },
-  validateSearch: tcgSearchParamsSchema,
+  loader: ({ deps }) => {
+    const setFilter = getSetSpecificQuery(deps.query);
+    if (!setFilter) return null;
+
+    // TODO: also switch to default "show prints" and "sort by set"
+    // TODO: endpoint to get set by any identifier (anything that goes with `set=`)
+  },
+  validateSearch: (search: Record<string, unknown>) => {
+    const isSetSpecific = Boolean(search.query && getSetSpecificQuery(search.query as string));
+    const schema = isSetSpecific ? tcgSetSearchParamsSchema : tcgSearchParamsSchema;
+    return schema.parse(search);
+  },
   search: {
     middlewares: [stripSearchParams(tcgSearchParamsDefaults)],
   },

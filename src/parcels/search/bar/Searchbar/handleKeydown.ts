@@ -39,7 +39,10 @@ export function handleKeydown({
 
         // noinspection JSIgnoredPromiseFromCall
         navigate({
-          to: `/${tcg}/cards`,
+          to: `/$tcg/cards`,
+          params: {
+            tcg: tcg,
+          },
           search: (prev) => {
             return { ...prev, query: currentQuery, page: 1 } as Required<TcgSearchParams>;
           },
