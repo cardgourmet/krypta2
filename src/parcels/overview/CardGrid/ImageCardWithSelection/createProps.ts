@@ -15,7 +15,9 @@ export type CardProperties = {
   collectorNumber?: string;
 };
 
-const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
+// const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
+export const backupImageUrl = 'https://f.2by.es/gMQJc';
+export const errorBackupImageUrl = 'https://f.2by.es/FqV7Z';
 
 export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
   if (tcg === 'dlc') {

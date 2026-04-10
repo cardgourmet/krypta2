@@ -1,5 +1,5 @@
 import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
-import type {MtgSearchQuerySettings, MtgSortBy} from '@/parcels/tcg/mtg/types.ts';
+import type {MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy} from '@/parcels/tcg/mtg/types.ts';
 import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -16,10 +16,38 @@ export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
 export type MtgDataPrint = c['schemas']['MtgDataPrint'];
 export type MtgDataPrintReference = c['schemas']['MtgDataPrintReference'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
+export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
 
 export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
+
+// v1/mtg/sets/{setId}/summary
+export async function fetchMtgSetSummary(
+  setId: string,
+  query: string,
+  mode?: MtgUniqueBy,
+  sortBy?: MtgSortBy,
+  sortDirection?: 'asc' | 'desc',
+  abort?: AbortController,
+): Promise<GourmetApiResponse<MtgDataSetSummary>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/sets/{setId}/summary`, {
+      params: {
+        query: {
+          query: query,
+          mode: `unique:${mode}`,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+        },
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
 
 // v1/mtg/sets/{setId}
 export async function fetchMtgSet(setId: string, abort?: AbortController): Promise<GourmetApiResponse<MtgDataSet>> {
@@ -74,12 +102,13 @@ export async function fetchMtgPrint(
 // /v1/mtg/cards/search
 export async function fetchMtgCards(
   settings: MtgSearchQuerySettings,
-  abort: AbortController,
+  abort?: AbortController,
+  pageSize?: number,
 ): Promise<GourmetApiResponse<MtgSearchCards>> {
   const query: MtgCardQuery = {
     query: settings.query,
     page: settings.page,
-    pageSize: 60,
+    pageSize: pageSize ?? 60,
     sortBy: settings.sortBy,
     mode: `unique:${settings.uniqueBy}`,
   };
@@ -92,7 +121,7 @@ export async function fetchMtgCards(
       params: {
         query: query,
       },
-      signal: abort.signal,
+      signal: abort?.signal,
     });
   });
 }

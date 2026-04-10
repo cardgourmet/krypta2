@@ -1,5 +1,5 @@
 import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
-import type {DlcSearchQuerySettings, DlcSortBy} from '@/parcels/tcg/dlc/types.ts';
+import type {DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy} from '@/parcels/tcg/dlc/types.ts';
 import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -14,12 +14,40 @@ export type DlcSearchCards = c['schemas']['DetailedPage-CardSearchResult-DlcData
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
 export type DlcSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
+export type DlcDataSetSummary = c['schemas']['DlcDataSetSummary'];
 
 export type DlcDataCard = c['schemas']['DlcDataCard'];
 export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 
-// v1/mtg/sets/{setId}
+// v1/dlc/sets/{setId}/summary
+export async function fetchDlcSetSummary(
+  setId: string,
+  query: string,
+  mode?: DlcUniqueBy,
+  sortBy?: DlcSortBy,
+  sortDirection?: 'asc' | 'desc',
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DlcDataSetSummary>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/sets/{setId}/summary`, {
+      params: {
+        query: {
+          query: query,
+          mode: `unique:${mode}`,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+        },
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/dlc/sets/{setId}
 export async function fetchDlcSet(setId: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/sets/{setId}`, {
@@ -33,7 +61,7 @@ export async function fetchDlcSet(setId: string, abort?: AbortController): Promi
   });
 }
 
-// /v1/mtg/prints/{setCode}/{collectorNumber}
+// /v1/dlc/prints/{setCode}/{collectorNumber}
 export async function fetchDlcPrint(
   setCode: string,
   collectorNumber: string,
@@ -71,12 +99,13 @@ export async function fetchDlcPrint(
 
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,
-  abort: AbortController,
+  abort?: AbortController,
+  pageSize?: number,
 ): Promise<GourmetApiResponse<DlcSearchCards>> {
   const query: DlcCardQuery = {
     query: settings.query,
     page: settings.page,
-    pageSize: 60,
+    pageSize: pageSize ?? 60,
     mode: `unique:${settings.uniqueBy}`,
     sortBy: settings.sortBy,
   };
@@ -89,7 +118,7 @@ export async function fetchDlcCards(
       params: {
         query: query,
       },
-      signal: abort.signal,
+      signal: abort?.signal,
     });
   });
 }

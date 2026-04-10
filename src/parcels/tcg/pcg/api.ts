@@ -1,5 +1,5 @@
 import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
-import type {PcgSearchQuerySettings, PcgSortBy} from '@/parcels/tcg/pcg/types.ts';
+import type {PcgSearchQuerySettings, PcgSortBy, PcgUniqueBy} from '@/parcels/tcg/pcg/types.ts';
 import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -10,6 +10,7 @@ export type PcgSearchCards = c['schemas']['DetailedPage-CardSearchResult-PcgData
 export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
 export type PcgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
 export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
+export type PcgDataSetSummary = c['schemas']['PcgDataSetSummary'];
 
 export type PcgCardQuery = TcgCardQuery & {
   sortBy?: PcgSortBy;
@@ -19,7 +20,34 @@ export type PcgDataCard = c['schemas']['PcgDataCard'];
 export type PcgDataPrint = c['schemas']['PcgDataPrint'];
 export type PcgDataSet = c['schemas']['PcgDataSet'];
 
-// v1/mtg/sets/{setId}
+// v1/pcg/sets/{setId}/summary
+export async function fetchPcgSetSummary(
+  setId: string,
+  query: string,
+  mode?: PcgUniqueBy,
+  sortBy?: PcgSortBy,
+  sortDirection?: 'asc' | 'desc',
+  abort?: AbortController,
+): Promise<GourmetApiResponse<PcgDataSetSummary>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/sets/{setId}/summary`, {
+      params: {
+        query: {
+          query: query,
+          mode: `unique:${mode}`,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+        },
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/pcg/sets/{setId}
 export async function fetchPcgSet(setId: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/sets/{setId}`, {
@@ -33,7 +61,7 @@ export async function fetchPcgSet(setId: string, abort?: AbortController): Promi
   });
 }
 
-// /v1/mtg/prints/{setCode}/{collectorNumber}
+// /v1/pcg/prints/{setCode}/{collectorNumber}
 export async function fetchPcgPrint(
   setCode: string,
   collectorNumber: string,
@@ -72,12 +100,13 @@ export async function fetchPcgPrint(
 // /v1/pcg/cards/search
 export async function fetchPcgCards(
   settings: PcgSearchQuerySettings,
-  abort: AbortController,
+  abort?: AbortController,
+  pageSize?: number,
 ): Promise<GourmetApiResponse<PcgSearchCards>> {
   const query: PcgCardQuery = {
     query: settings.query,
     page: settings.page,
-    pageSize: 60,
+    pageSize: pageSize ?? 60,
     mode: `unique:${settings.uniqueBy}`,
     sortBy: settings.sortBy,
   };
@@ -90,7 +119,7 @@ export async function fetchPcgCards(
       params: {
         query: query,
       },
-      signal: abort.signal,
+      signal: abort?.signal,
     });
   });
 }

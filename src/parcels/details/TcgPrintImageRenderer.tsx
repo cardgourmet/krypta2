@@ -3,6 +3,7 @@ import {IconArrowRight, IconRefresh} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useMemo, useRef, useState} from 'react';
 import {FlippableCard} from '@/parcels/details/FlippableCard/FlippableCard.tsx';
+import {backupImageUrl} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcDataCard, DlcDataPrint} from '@/parcels/tcg/dlc/api.ts';
 import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
@@ -11,8 +12,6 @@ import {mtgSearchParamsDefaults} from '@/parcels/tcg/mtg/types.ts';
 import type {PcgDataCard, PcgDataPrint} from '@/parcels/tcg/pcg/api.ts';
 import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-
-const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
 
 export function TcgPrintImageRenderer({
   tcg,

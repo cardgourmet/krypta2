@@ -7,13 +7,14 @@ import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
 import {TcgPrintImageRenderer} from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import type {DlcDataCard, DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgDataCard, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgDataCard, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
+import type {DlcDataCard, DlcDataSet, DlcDataSetSummary} from '@/parcels/tcg/dlc/api.ts';
+import type {MtgDataCard, MtgDataSet, MtgDataSetSummary} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgDataCard, PcgDataSet, PcgDataSetSummary} from '@/parcels/tcg/pcg/api.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
+export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
 
 type TcgPrintDetailsPage = {
   findParamsByLanguage: (card: TcgDataCard, lang: string) => TcgDetailParams;
