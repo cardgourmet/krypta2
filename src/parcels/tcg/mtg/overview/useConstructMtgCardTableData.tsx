@@ -6,7 +6,7 @@ import type {MtgDataCard, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
 import {renderRichText} from '@/parcels/tcg/mtg/renderRichText.tsx';
 import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
 
-export function constructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
+export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
   const constructMtgTableData = useCallback((card: MtgDataCard) => {
     return {
       Set: <>{card.print.setCode}</>,

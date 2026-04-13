@@ -28,6 +28,18 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     }
     return null;
   }, [tcg, cards]);
+  const cardElements =
+    cardItems?.map((card, index) => {
+      return (
+        <ImageCardWithSelection
+          key={`grid_${index}_${card.card.print.id}`}
+          tcg={tcg}
+          card={card}
+          index={index}
+          toolsEnabled={toolsEnabled}
+        />
+      );
+    }) ?? [];
 
   return (
     <div className={styles.cardsOverview}>
@@ -44,11 +56,7 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
               />
             </div>
           ))}
-      {!isLoading
-        && cardItems
-        && cardItems.map((card, index) => {
-          return <ImageCardWithSelection key={index} tcg={tcg} card={card} index={index} toolsEnabled={toolsEnabled} />;
-        })}
+      {!isLoading && cardElements}
     </div>
   );
 }

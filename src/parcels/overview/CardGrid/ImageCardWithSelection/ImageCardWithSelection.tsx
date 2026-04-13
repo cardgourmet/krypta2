@@ -97,15 +97,17 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
         </Group>
       )}
 
-      {toolsEnabled && !isTouchDevice && (
-        <ToolsOverlay
-          card={card.card}
-          checked={checked}
-          isSelectionMode={isSelectionMode}
-          setSelection={setSelection}
-          menuOpened={menuOpened}
-          setMenuOpened={setMenuOpened}
-        />
+      {!isTouchDevice && (
+        <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
+          <ToolsOverlay
+            card={card.card}
+            checked={checked}
+            isSelectionMode={isSelectionMode}
+            setSelection={setSelection}
+            menuOpened={menuOpened}
+            setMenuOpened={setMenuOpened}
+          />
+        </Activity>
       )}
     </ImageCard>
   );

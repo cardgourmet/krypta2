@@ -1,6 +1,7 @@
 import {Center, Group, SegmentedControl, UnstyledButton} from '@mantine/core';
 import {IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off} from '@tabler/icons-react';
 import type {TFunction} from 'i18next';
+import {startTransition, useState} from "react";
 import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.module.css';
 import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
@@ -35,6 +36,8 @@ export function DesktopOverviewSettings({
   setToolsEnabled: (enabled: boolean) => void;
   setSettingsWrapper: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
 }) {
+  const [toolsButtonEnabled, setToolsButtonEnabled] = useState(toolsEnabled ?? true);
+
   return (
     <Group justify={'space-between'}>
       <Group gap={'1rem'}>
@@ -85,25 +88,31 @@ export function DesktopOverviewSettings({
       <Group>
         <UnstyledButton
           style={{
-            backgroundColor: toolsEnabled ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-2)',
+            backgroundColor: toolsButtonEnabled ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-2)',
             borderRadius: '4px',
-            border: toolsEnabled
+            border: toolsButtonEnabled
               ? '1px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%)'
               : '1px solid var(--gourmet-neutral-3)',
             height: '1.6875rem',
           }}
           p={'0 0.5rem'}
-          onClick={() => setToolsEnabled(!toolsEnabled)}
+          onClick={() => {
+            setToolsButtonEnabled(!toolsButtonEnabled);
+
+            startTransition(() => {
+              setToolsEnabled(!toolsButtonEnabled);
+            });
+          }}
         >
           <Group justify={'center'} align={'center'} w={'100%'} h={'100%'} gap={'0.25rem'}>
-            {toolsEnabled && <IconToolsKitchen2 size={16} color={'var(--gourmet-neutral-0)'} />}
-            {!toolsEnabled && <IconToolsKitchen2Off size={16} color={'var(--gourmet-neutral-5)'} />}
+            {toolsButtonEnabled && <IconToolsKitchen2 size={16} color={'var(--gourmet-neutral-0)'} />}
+            {!toolsButtonEnabled && <IconToolsKitchen2Off size={16} color={'var(--gourmet-neutral-5)'} />}
 
             <GourmetText
               cgmff={'ui'}
               fz="0.9rem"
               fw={'500'}
-              c={toolsEnabled ? 'var(--gourmet-neutral-0)' : 'var(--gourmet-neutral-5)'}
+              c={toolsButtonEnabled ? 'var(--gourmet-neutral-0)' : 'var(--gourmet-neutral-5)'}
             >
               Tools
             </GourmetText>

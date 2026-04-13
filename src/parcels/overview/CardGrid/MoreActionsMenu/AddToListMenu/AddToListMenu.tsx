@@ -45,6 +45,7 @@ export function AddToListMenu(
       position={smallestScreen ? 'top' : 'right-start'}
       openDelay={120}
       closeDelay={150}
+      withinPortal={false}
       classNames={{ dropdown: styles.menuDropdown }}
     >
       <Menu.Target>

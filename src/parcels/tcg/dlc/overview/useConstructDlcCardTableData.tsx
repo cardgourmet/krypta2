@@ -6,7 +6,7 @@ import type {DlcDataCard, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
 import {DlcInkSymbolSVG} from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
 import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
 
-export function constructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
+export function useConstructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
   const constructDlcTableData = useCallback((card: DlcDataCard) => {
     return {
       Set: <>{card.print.setCode}</>,

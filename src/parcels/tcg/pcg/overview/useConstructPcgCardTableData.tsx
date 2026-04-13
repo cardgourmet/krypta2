@@ -6,7 +6,7 @@ import type {PcgDataCard, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
 import {PcgSymbolSVG} from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
 import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
 
-export function constructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
+export function useConstructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
   const constructPcgTableData = useCallback((card: PcgDataCard) => {
     return {
       Set: <>{card.print.setCode}</>,
