@@ -4,9 +4,9 @@ import {IconLink} from '@tabler/icons-react';
 import {type Ref, useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {AddToListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/AddToListMenu/AddToListMenu.tsx';
 import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import {RemoveFromListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/RemoveFromListMenu/RemoveFromListMenu.tsx';
@@ -118,6 +118,8 @@ export function TcgCardMenu({
         </Menu.Target>
 
         <Menu.Dropdown ref={ref}>
+          {`Name: ${activeCard?.name}`}
+
           {systemLists.map((list) => {
             return (
               <ListMenuItem

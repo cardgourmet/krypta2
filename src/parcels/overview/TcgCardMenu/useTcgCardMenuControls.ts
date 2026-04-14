@@ -18,7 +18,7 @@ export type MenuControls<T> = {
 };
 
 export function useMenuControls<T>(compare?: (a: T, b: T) => boolean) {
-  const [opened, setOpened] = useState(false);
+  const [data, setData] = useState<T | null>(null);
 
   const menuRef = useRef<{
     data: T | null;
@@ -35,7 +35,7 @@ export function useMenuControls<T>(compare?: (a: T, b: T) => boolean) {
       opened: false,
       target: null,
     };
-    setOpened(false);
+    setData(null);
   }, []);
   const openMenu = useCallback(
     (data: T, target: HTMLButtonElement) => {
@@ -57,18 +57,18 @@ export function useMenuControls<T>(compare?: (a: T, b: T) => boolean) {
         target: target,
         opened: true,
       };
-      setOpened(true);
+      setData(data);
     },
     [closeMenu, compare],
   );
 
   return useMemo(() => {
     return {
-      opened,
-      data: menuRef.current.data,
+      opened: menuRef.current.opened,
+      data: data,
       target: menuRef.current.target,
       openMenu,
       closeMenu,
     } as MenuControls<T>;
-  }, [opened, openMenu, closeMenu]);
+  }, [openMenu, closeMenu, data]);
 }
