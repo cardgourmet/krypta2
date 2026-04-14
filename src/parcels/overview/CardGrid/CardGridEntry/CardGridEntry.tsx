@@ -1,11 +1,13 @@
 import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, useMemo, useState} from 'react';
+import {Activity, useMemo} from 'react';
+import {create} from 'zustand/react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
+import type {MenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
@@ -18,10 +20,30 @@ interface ImageCardProps {
   card: TcgSearchDataCard;
   index: number;
   toolsEnabled: boolean;
-  onOpenMenu: (card: TcgDataCard, target: HTMLButtonElement) => void;
+  openMenu: (card: TcgDataCard, target: HTMLButtonElement) => void;
 }
 
-export default function CardGridEntry({ tcg, card, index, toolsEnabled, onOpenMenu }: ImageCardProps) {
+export const useCardMenuStore = create<MenuControls<TcgDataCard>>((set) => ({
+  opened: false,
+  data: null,
+  target: null,
+
+  openMenu: (data, target) =>
+    set({
+      opened: true,
+      data,
+      target,
+    }),
+
+  closeMenu: () =>
+    set({
+      opened: false,
+      data: null,
+      target: null,
+    }),
+}));
+
+export default function CardGridEntry({ tcg, card, index, toolsEnabled, openMenu }: ImageCardProps) {
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
@@ -32,27 +54,26 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, onOpenMe
     id: prop.id,
     index,
   });
-  const [menuOpened, setMenuOpened] = useState(false);
+
+  const isOpen = useCardMenuStore((state) => state.opened && state.data?.print?.id === card.card.print.id);
   const actionIcon = useMemo(() => {
     return (
       <ActionIcon
         style={{ pointerEvents: 'auto' }}
         onMouseDown={(event) => event.stopPropagation()}
         onClick={(event) => {
-          setMenuOpened(!menuOpened);
-
-          onOpenMenu(card?.card, event.currentTarget);
+          openMenu(card?.card, event.currentTarget);
         }}
         color="var(--gourmet-neutral-dark-3)"
         size={'1.25rem'}
         classNames={{ root: styles.overlayMenuButton }}
-        /*data-menu-opened={menuOpened}*/
+        data-menu-opened={isOpen}
         data-toggle-visibility={true}
       >
         <IconDotsVertical size={16} />
       </ActionIcon>
     );
-  }, [card, onOpenMenu, menuOpened]);
+  }, [card, openMenu, isOpen]);
 
   return (
     <ImageCard

@@ -7,6 +7,7 @@ import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetail
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
+import {useCardMenuStore} from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
 import {AddToListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/AddToListMenu/AddToListMenu.tsx';
 import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import {RemoveFromListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/RemoveFromListMenu/RemoveFromListMenu.tsx';
@@ -16,7 +17,6 @@ import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function TcgCardMenu({
   tcg,
-  controls,
   onSearchSaved,
   onRemoveFromList,
   ref,
@@ -28,7 +28,9 @@ export function TcgCardMenu({
   onRemoveFromList?: (listId: string) => void;
 } & { ref?: Ref<HTMLDivElement> }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
-  const { data: activeCard, opened, target: activeTargetRef, closeMenu } = controls;
+  //const { data: activeCard, opened, target: activeTargetRef, closeMenu } = controls;
+
+  const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
 
   const resourceId = activeCard?.print?.id;
   const { lists, refetchLists } = useUserLists();

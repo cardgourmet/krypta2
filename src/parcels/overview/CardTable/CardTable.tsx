@@ -2,6 +2,7 @@ import {useCallback, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetTable, type GourmetTableData, type GourmetTableDataRow,} from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
+import {useCardMenuStore} from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
 import {TableRowHorizontal} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
 import {TableRowVertical} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
 import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
@@ -50,6 +51,8 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
   }, [mtgData, dlcData, pcgData, tcg]);
 
   const menuControls = useTcgCardMenuControls();
+
+  const openMenu = useCardMenuStore((state) => state.openMenu);
   const constructHorTableRow = useCallback(
     (row: GourmetTableDataRow<TcgDataCard>, index: number) => {
       return (
@@ -60,11 +63,11 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           data={row.data}
           columns={tableData?.columns ?? []}
           toolsEnabled={toolsEnabled}
-          onOpenMenu={menuControls.openMenu}
+          onOpenMenu={openMenu}
         />
       );
     },
-    [menuControls.openMenu, tableData?.columns, toolsEnabled],
+    [openMenu, tableData?.columns, toolsEnabled],
   );
   const constructVerTableRow = useCallback(
     (row: GourmetTableDataRow<TcgDataCard>, index: number) => {
@@ -76,11 +79,11 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           data={row.data}
           columns={tableData?.columns ?? []}
           toolsEnabled={toolsEnabled}
-          onOpenMenu={menuControls.openMenu}
+          onOpenMenu={openMenu}
         />
       );
     },
-    [menuControls.openMenu, tableData?.columns, toolsEnabled],
+    [openMenu, tableData?.columns, toolsEnabled],
   );
 
   return (

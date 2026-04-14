@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import CardGridEntry from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
+import CardGridEntry, {useCardMenuStore} from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
 import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
 import {useTcgCardMenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
 import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
@@ -32,6 +32,7 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
   }, [tcg, cards]);
 
   const menuControls = useTcgCardMenuControls();
+  const openMenu = useCardMenuStore((state) => state.openMenu);
   const cardElements = useMemo(() => {
     return (
       cardItems?.map((card, index) => {
@@ -42,12 +43,12 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
             card={card}
             index={index}
             toolsEnabled={toolsEnabled}
-            onOpenMenu={menuControls.openMenu}
+            openMenu={openMenu}
           />
         );
       }) ?? []
     );
-  }, [menuControls.openMenu, cardItems, tcg, toolsEnabled]);
+  }, [openMenu, cardItems, tcg, toolsEnabled]);
 
   return (
     <div className={styles.cardsOverview}>
