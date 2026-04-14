@@ -2,8 +2,8 @@ import {Center, Combobox, Group, UnstyledButton, useCombobox} from '@mantine/cor
 import {IconCheck, IconLanguage} from '@tabler/icons-react';
 import {useEffect, useEffectEvent, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import styles from './LanguageSelector.module.css'
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import styles from './LanguageSelector.module.css';
 
 export function LanguageSelector() {
   const { i18n } = useTranslation();

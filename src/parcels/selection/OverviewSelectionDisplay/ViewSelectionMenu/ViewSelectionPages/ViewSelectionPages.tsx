@@ -1,7 +1,7 @@
 import {Button, Group, ScrollArea, SimpleGrid, Stack} from '@mantine/core';
 import {IconEyeSearch, IconX} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {EntryImage} from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
 import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';

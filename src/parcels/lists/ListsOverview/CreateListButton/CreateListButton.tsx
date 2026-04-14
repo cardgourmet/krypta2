@@ -2,9 +2,9 @@ import {Button} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import {IconPlus} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import type {UserList} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 
 export default function CreateListButton({ onSuccess }: { onSuccess?: (list: UserList) => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'create' });

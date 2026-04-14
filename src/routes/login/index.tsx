@@ -5,7 +5,7 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export const Route = createFileRoute('/login/')({
   component: RouteComponent,

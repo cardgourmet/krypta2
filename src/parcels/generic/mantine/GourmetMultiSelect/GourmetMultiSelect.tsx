@@ -1,6 +1,6 @@
 import {Group, MultiSelect, type MultiSelectProps} from '@mantine/core';
 import {IconCheck, IconChevronDown} from '@tabler/icons-react';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './GourmetMultiSelect.module.css';
 
 export function GourmetMultiSelect(props: MultiSelectProps) {

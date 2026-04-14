@@ -1,9 +1,9 @@
 import {Button, Center, Group, SegmentedControl, Stack, Text, UnstyledButton} from '@mantine/core';
 import {IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off, IconX} from '@tabler/icons-react';
 import type {TFunction} from 'i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import styles from '@/parcels/overview/CardOverviewSettings/CardOverviewSettings.module.css';
-import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import styles from '@/parcels/overview/CardOverview/CardOverviewSettings/CardOverviewSettings.module.css';
 import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
 import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';

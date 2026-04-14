@@ -3,7 +3,7 @@ import {IconCaretDownFilled, IconCheck} from '@tabler/icons-react';
 import type {Property} from 'csstype';
 import type {TFunction} from 'i18next';
 import {useState} from 'react';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './TextDropdown.module.css';
 
 export type TextDropdownProps = {

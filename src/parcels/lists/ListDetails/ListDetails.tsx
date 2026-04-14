@@ -4,6 +4,8 @@ import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {CardRenderer} from '@/parcels/lists/ListDetails/CardRenderer.tsx';
 import {SearchRenderer} from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
@@ -13,8 +15,6 @@ import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/Delet
 import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type {ResolvedUserListResource, UserList, UserListWithResources} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
-import {TextDropdown} from '@/parcels/overview/CardOverviewSettings/TextDropdown/TextDropdown.tsx';
 import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {paramDefaults} from '@/routes/me/lists';

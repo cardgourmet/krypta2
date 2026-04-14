@@ -1,7 +1,7 @@
 import {Combobox, Group, UnstyledButton, useCombobox} from '@mantine/core';
 import {IconCaretDownFilled, IconCheck} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import styles from './MorePagesDropdown.module.css';
 

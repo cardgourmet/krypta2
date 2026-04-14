@@ -1,7 +1,7 @@
 import {Center, Combobox, Group, UnstyledButton, useCombobox, useMantineColorScheme} from '@mantine/core';
 import {IconCheck, IconMoon, IconSun, IconSunMoon} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './ThemeSelector.module.css';
 
 export function ThemeSelector() {

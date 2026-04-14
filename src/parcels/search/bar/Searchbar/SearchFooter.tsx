@@ -1,6 +1,6 @@
 import {IconArrowBack, IconArrowDown, IconArrowUp} from '@tabler/icons-react';
-import {useTranslation} from "react-i18next";
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {useTranslation} from 'react-i18next';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './SearchFooter.module.css';
 
 export default function SearchFooter() {

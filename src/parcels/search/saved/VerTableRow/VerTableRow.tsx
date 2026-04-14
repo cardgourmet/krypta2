@@ -3,7 +3,7 @@ import {IconDotsVertical, IconPlayerPlayFilled} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type {TableEntryProps} from '@/parcels/search/saved/SavedSearchesOverview.tsx';

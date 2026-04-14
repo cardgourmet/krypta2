@@ -7,7 +7,7 @@ import {addResourcesToList, removeResourcesFromList} from '@/parcels/lists/api.t
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import type {UserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
 import type {OptionalTcgProps} from '@/parcels/tcg/TcgProps.ts';

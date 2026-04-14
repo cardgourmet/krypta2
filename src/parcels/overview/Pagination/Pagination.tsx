@@ -3,7 +3,7 @@ import {useMediaQuery} from '@mantine/hooks';
 import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRightPipe, IconDots,} from '@tabler/icons-react';
 import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';

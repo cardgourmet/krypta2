@@ -2,10 +2,10 @@ import {Divider, Group, Stack} from '@mantine/core';
 import {IconLabelFilled, IconLink, IconLock, IconStar, IconWorld} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useTranslation} from 'react-i18next';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
 import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import type {UserList} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import styles from './ListElementHeader.module.css';
 
 export function ListElementHeader({

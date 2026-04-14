@@ -4,7 +4,7 @@ import {IconEyeSearch, IconX} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown/MorePagesDropdown.tsx';
 import {SelectionProgress} from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import {UseSelectionButton} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/UseSelectionButton.tsx';

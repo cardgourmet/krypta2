@@ -1,6 +1,6 @@
 import {Button, Combobox, Group, useCombobox} from '@mantine/core';
 import {IconCaretDownFilled, IconCheck} from '@tabler/icons-react';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.module.css';
 import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
 import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';

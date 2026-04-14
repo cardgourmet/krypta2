@@ -3,12 +3,12 @@ import {useDisclosure, useMediaQuery} from '@mantine/hooks';
 import {IconChevronRight, IconList, IconPlus} from '@tabler/icons-react';
 import {useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
+import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import {ListMenuItem2} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/ListMenuItem2/ListMenuItem2.tsx';
 import styles from './UseSelectionButton.module.css';
-import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 
 export function UseSelectionButton() {
   const { t } = useTranslation('selection', { keyPrefix: 'useSelectionMenu' });

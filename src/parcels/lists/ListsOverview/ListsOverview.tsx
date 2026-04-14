@@ -1,6 +1,7 @@
 import {Divider, Group, Stack} from '@mantine/core';
 import {useCallback, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {fetchListsPreview} from '@/parcels/lists/api.ts';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
@@ -9,7 +10,6 @@ import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/Desktop
 import {ListsOverviewGrid} from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import {ListsOverviewTable} from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/mantine/GourmetText.tsx';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import {Route} from '@/routes/me/lists';
 
