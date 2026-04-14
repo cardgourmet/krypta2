@@ -1,20 +1,22 @@
-import {useCallback, useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {GourmetTable, type GourmetTableData, type GourmetTableDataRow,} from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
-import {useCardMenuStore} from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
-import {TableRowHorizontal} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
-import {TableRowVertical} from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
-import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
-import {useTcgCardMenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
-import type {DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import {useConstructDlcCardTableData} from '@/parcels/tcg/dlc/overview/useConstructDlcCardTableData.tsx';
-import type {MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import {useConstructMtgCardTableData} from '@/parcels/tcg/mtg/overview/useConstructMtgCardTableData.tsx';
-import type {PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
-import {useConstructPcgCardTableData} from '@/parcels/tcg/pcg/overview/useConstructPcgCardTableData.tsx';
-import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {
+  GourmetTable,
+  type GourmetTableData,
+  type GourmetTableDataRow,
+} from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
+import { TableRowHorizontal } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
+import { TableRowVertical } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
+import { TcgCardMenu } from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
+import type { DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import { useConstructDlcCardTableData } from '@/parcels/tcg/dlc/overview/useConstructDlcCardTableData.tsx';
+import type { MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import { useConstructMtgCardTableData } from '@/parcels/tcg/mtg/overview/useConstructMtgCardTableData.tsx';
+import type { PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import { useConstructPcgCardTableData } from '@/parcels/tcg/pcg/overview/useConstructPcgCardTableData.tsx';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type CardTableProps = {
   tcg: Tcg;
@@ -50,9 +52,6 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
     return data;
   }, [mtgData, dlcData, pcgData, tcg]);
 
-  const menuControls = useTcgCardMenuControls();
-
-  const openMenu = useCardMenuStore((state) => state.openMenu);
   const constructHorTableRow = useCallback(
     (row: GourmetTableDataRow<TcgDataCard>, index: number) => {
       return (
@@ -63,11 +62,10 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           data={row.data}
           columns={tableData?.columns ?? []}
           toolsEnabled={toolsEnabled}
-          onOpenMenu={openMenu}
         />
       );
     },
-    [openMenu, tableData?.columns, toolsEnabled],
+    [tableData?.columns, toolsEnabled],
   );
   const constructVerTableRow = useCallback(
     (row: GourmetTableDataRow<TcgDataCard>, index: number) => {
@@ -79,11 +77,10 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           data={row.data}
           columns={tableData?.columns ?? []}
           toolsEnabled={toolsEnabled}
-          onOpenMenu={openMenu}
         />
       );
     },
-    [openMenu, tableData?.columns, toolsEnabled],
+    [tableData?.columns, toolsEnabled],
   );
 
   return (
@@ -99,7 +96,7 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
         />
       )}
 
-      <TcgCardMenu tcg={tcg} controls={menuControls} />
+      <TcgCardMenu tcg={tcg} />
     </div>
   );
 }

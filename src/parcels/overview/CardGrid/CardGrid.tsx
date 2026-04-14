@@ -1,13 +1,12 @@
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import CardGridEntry, {useCardMenuStore} from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
-import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
-import {useTcgCardMenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
-import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
-import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import CardGridEntry from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
+import { TcgCardMenu } from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
+import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGrid.module.css';
 
 type CardGridProps = {
@@ -31,8 +30,6 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     return null;
   }, [tcg, cards]);
 
-  const menuControls = useTcgCardMenuControls();
-  const openMenu = useCardMenuStore((state) => state.openMenu);
   const cardElements = useMemo(() => {
     return (
       cardItems?.map((card, index) => {
@@ -43,12 +40,11 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
             card={card}
             index={index}
             toolsEnabled={toolsEnabled}
-            openMenu={openMenu}
           />
         );
       }) ?? []
     );
-  }, [openMenu, cardItems, tcg, toolsEnabled]);
+  }, [cardItems, tcg, toolsEnabled]);
 
   return (
     <div className={styles.cardsOverview}>
@@ -67,7 +63,7 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
           ))}
       {!isLoading && cardElements}
 
-      <TcgCardMenu tcg={tcg} controls={menuControls} />
+      <TcgCardMenu tcg={tcg} />
     </div>
   );
 }

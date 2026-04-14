@@ -3,15 +3,13 @@ import {useDisclosure} from '@mantine/hooks';
 import {IconLink} from '@tabler/icons-react';
 import {type Ref, useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import {useCardMenuStore} from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
 import {AddToListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/AddToListMenu/AddToListMenu.tsx';
 import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
 import {RemoveFromListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/RemoveFromListMenu/RemoveFromListMenu.tsx';
-import type {MenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
+import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -22,13 +20,10 @@ export function TcgCardMenu({
   ref,
 }: {
   tcg: Tcg;
-  controls: MenuControls<TcgDataCard>;
-
   onSearchSaved?: (id: string) => void;
   onRemoveFromList?: (listId: string) => void;
 } & { ref?: Ref<HTMLDivElement> }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
-  //const { data: activeCard, opened, target: activeTargetRef, closeMenu } = controls;
 
   const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
 

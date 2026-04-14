@@ -2,12 +2,10 @@ import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, useMemo} from 'react';
-import {create} from 'zustand/react';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
-import type {MenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
+import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
@@ -20,30 +18,9 @@ interface ImageCardProps {
   card: TcgSearchDataCard;
   index: number;
   toolsEnabled: boolean;
-  openMenu: (card: TcgDataCard, target: HTMLButtonElement) => void;
 }
 
-export const useCardMenuStore = create<MenuControls<TcgDataCard>>((set) => ({
-  opened: false,
-  data: null,
-  target: null,
-
-  openMenu: (data, target) =>
-    set({
-      opened: true,
-      data,
-      target,
-    }),
-
-  closeMenu: () =>
-    set({
-      opened: false,
-      data: null,
-      target: null,
-    }),
-}));
-
-export default function CardGridEntry({ tcg, card, index, toolsEnabled, openMenu }: ImageCardProps) {
+export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageCardProps) {
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
@@ -55,6 +32,7 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, openMenu
     index,
   });
 
+  const openMenu = useCardMenuStore((state) => state.openMenu);
   const isOpen = useCardMenuStore((state) => state.opened && state.data?.print?.id === card.card.print.id);
   const actionIcon = useMemo(() => {
     return (

@@ -4,6 +4,7 @@ import {Activity, type ReactElement, useMemo} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import styles from '@/parcels/overview/CardTable/CardTable.module.css';
+import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
@@ -14,14 +15,12 @@ export function TableRowHorizontal({
   data,
   columns,
   toolsEnabled,
-  onOpenMenu,
 }: {
   card: TcgDataCard;
   index: number;
   data: Record<string, ReactElement>;
   columns: string[];
   toolsEnabled: boolean;
-  onOpenMenu: (card: TcgDataCard, target: HTMLButtonElement) => void;
 }) {
   const workContext = useTcgOverviewWorkContext();
   const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
@@ -55,19 +54,21 @@ export function TableRowHorizontal({
       />
     );
   }, [checked, index, setMultiSelection, setSelection, workContext]);
+
+  const openMenu = useCardMenuStore((state) => state.openMenu);
   const actionIcon = useMemo(() => {
     return (
       <ActionIcon
         style={{ pointerEvents: 'auto' }}
         onMouseDown={(event) => event.stopPropagation()}
-        onClick={(event) => onOpenMenu(card, event.currentTarget)}
+        onClick={(event) => openMenu(card, event.currentTarget)}
         color="var(--gourmet-neutral-dark-4)"
         size={'1.25rem'}
       >
         <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} />
       </ActionIcon>
     );
-  }, [card, onOpenMenu]);
+  }, [card, openMenu]);
 
   return (
     <tr key={card.print.id} data-selected={isSelected}>
