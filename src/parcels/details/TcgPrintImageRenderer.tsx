@@ -3,7 +3,7 @@ import {IconArrowRight, IconRefresh} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useMemo, useRef, useState} from 'react';
 import {FlippableCard} from '@/parcels/details/FlippableCard/FlippableCard.tsx';
-import {backupImageUrl} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
+import {backupImageUrl} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {DlcDataCard, DlcDataPrint} from '@/parcels/tcg/dlc/api.ts';
 import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';

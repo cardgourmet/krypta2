@@ -81,12 +81,6 @@ export function TableRowHorizontal({
             <ExistsInListsBadge type={'card'} resourceId={card.print.id} />
 
             {actionIcon}
-            {/*<CardMoreActionsMenu
-              card={card}
-              menuOpened={menuOpened}
-              setMenuOpened={setMenuOpened}
-              target={actionIcon}
-            />*/}
           </Group>
         </Activity>
       </td>

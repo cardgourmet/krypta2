@@ -1,10 +1,9 @@
 import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, type ReactElement, useState} from 'react';
+import {Activity, type ReactElement, useMemo} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
-import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import styles from '@/parcels/overview/CardTable/CardTable.module.css';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
@@ -16,20 +15,33 @@ export function TableRowVertical({
   data,
   columns,
   toolsEnabled,
+  onOpenMenu,
 }: {
   card: TcgDataCard;
   index: number;
   data: Record<string, ReactElement>;
   columns: string[];
   toolsEnabled: boolean;
+  onOpenMenu: (card: TcgDataCard, target: HTMLButtonElement) => void;
 }) {
-  const [menuOpened, setMenuOpened] = useState(false);
-
   const workContext = useTcgOverviewWorkContext();
   const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
     id: card.id,
     index,
   });
+  const actionIcon = useMemo(() => {
+    return (
+      <ActionIcon
+        style={{ pointerEvents: 'auto' }}
+        onMouseDown={(event) => event.stopPropagation()}
+        onClick={(event) => onOpenMenu(card, event.currentTarget)}
+        color="var(--gourmet-neutral-dark-4)"
+        size={'1.25rem'}
+      >
+        <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} />
+      </ActionIcon>
+    );
+  }, [card, onOpenMenu]);
 
   return (
     <>
@@ -70,22 +82,7 @@ export function TableRowVertical({
               <Group justify={'end'} wrap={'nowrap'} gap={'0.2rem'}>
                 <ExistsInListsBadge type={'card'} resourceId={card.print.id} />
 
-                <CardMoreActionsMenu
-                  card={card}
-                  menuOpened={menuOpened}
-                  setMenuOpened={setMenuOpened}
-                  target={
-                    <ActionIcon
-                      style={{ pointerEvents: 'auto' }}
-                      onClick={() => setMenuOpened((v) => !v)}
-                      color="var(--gourmet-neutral-dark-4)"
-                      size={'1.25rem'}
-                      data-menu-opened={menuOpened}
-                    >
-                      <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} />
-                    </ActionIcon>
-                  }
-                />
+                {actionIcon}
               </Group>
             </Activity>
           </Group>

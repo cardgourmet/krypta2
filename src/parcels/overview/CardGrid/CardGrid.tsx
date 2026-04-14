@@ -1,6 +1,8 @@
 import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import ImageCardWithSelection from '@/parcels/overview/CardGrid/ImageCardWithSelection/ImageCardWithSelection.tsx';
+import CardGridEntry from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
+import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
+import {useTcgCardMenuControls} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuControls.ts';
 import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
 import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
@@ -28,18 +30,24 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     }
     return null;
   }, [tcg, cards]);
-  const cardElements =
-    cardItems?.map((card, index) => {
-      return (
-        <ImageCardWithSelection
-          key={`grid_${index}_${card.card.print.id}`}
-          tcg={tcg}
-          card={card}
-          index={index}
-          toolsEnabled={toolsEnabled}
-        />
-      );
-    }) ?? [];
+
+  const menuControls = useTcgCardMenuControls();
+  const cardElements = useMemo(() => {
+    return (
+      cardItems?.map((card, index) => {
+        return (
+          <CardGridEntry
+            key={`grid_${index}_${card.card.print.id}`}
+            tcg={tcg}
+            card={card}
+            index={index}
+            toolsEnabled={toolsEnabled}
+            onOpenMenu={menuControls.openMenu}
+          />
+        );
+      }) ?? []
+    );
+  }, [menuControls.openMenu, cardItems, tcg, toolsEnabled]);
 
   return (
     <div className={styles.cardsOverview}>
@@ -57,6 +65,8 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
             </div>
           ))}
       {!isLoading && cardElements}
+
+      <TcgCardMenu tcg={tcg} controls={menuControls} />
     </div>
   );
 }

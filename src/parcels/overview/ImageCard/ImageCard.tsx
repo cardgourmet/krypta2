@@ -3,7 +3,7 @@ import {type HTMLProps, type PropsWithChildren, useEffect, useRef, useState} fro
 import Skeleton from 'react-loading-skeleton';
 import {FlipButton} from '@/parcels/overview/CardGrid/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/FlipImage/FlipImage.tsx';
-import type {CardProperties} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
+import type {CardProperties} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';

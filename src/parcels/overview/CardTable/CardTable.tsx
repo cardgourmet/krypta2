@@ -76,10 +76,11 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           data={row.data}
           columns={tableData?.columns ?? []}
           toolsEnabled={toolsEnabled}
+          onOpenMenu={menuControls.openMenu}
         />
       );
     },
-    [tableData?.columns, toolsEnabled],
+    [menuControls.openMenu, tableData?.columns, toolsEnabled],
   );
 
   return (

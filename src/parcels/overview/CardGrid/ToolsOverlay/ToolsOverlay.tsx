@@ -1,10 +1,9 @@
-import {ActionIcon, Checkbox, Group, Overlay, Stack, Tooltip} from '@mantine/core';
-import {IconDotsVertical, IconLabelFilled} from '@tabler/icons-react';
+import {Checkbox, Group, Overlay, Stack, Tooltip} from '@mantine/core';
+import {IconLabelFilled} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
-import {Activity, type Dispatch, type SetStateAction, useMemo} from 'react';
+import {Activity, type ReactElement, useMemo} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
 import styles from './ToolsOverlay.module.css';
 
 export function ToolsOverlay({
@@ -12,15 +11,13 @@ export function ToolsOverlay({
   checked,
   isSelectionMode,
   setSelection,
-  menuOpened,
-  setMenuOpened,
+  menuButton,
 }: {
   card: TcgDataCard;
   checked: boolean;
   isSelectionMode: boolean;
   setSelection: (s: boolean) => void;
-  menuOpened: boolean;
-  setMenuOpened: Dispatch<SetStateAction<boolean>>;
+  menuButton: ReactElement;
 }) {
   const { lists } = useUserLists();
   const existsInLists = useMemo(() => {
@@ -40,32 +37,13 @@ export function ToolsOverlay({
               color={'var(--gourmet-orange-1)'}
               checked={checked}
               classNames={{ root: styles.overlayCheckbox }}
-              wrapperProps={{
+              /*wrapperProps={{
                 'data-menu-opened': menuOpened,
-              }}
+              }}*/
               data-toggle-visibility={true}
             />
           </Activity>
-          <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
-            <CardMoreActionsMenu
-              card={card}
-              menuOpened={menuOpened}
-              setMenuOpened={setMenuOpened}
-              target={
-                <ActionIcon
-                  style={{ pointerEvents: 'auto' }}
-                  onClick={() => setMenuOpened((v) => !v)}
-                  color="var(--gourmet-neutral-dark-3)"
-                  size={'1.25rem'}
-                  classNames={{ root: styles.overlayMenuButton }}
-                  data-menu-opened={menuOpened}
-                  data-toggle-visibility={true}
-                >
-                  <IconDotsVertical size={16} />
-                </ActionIcon>
-              }
-            />
-          </Activity>
+          <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>{menuButton}</Activity>
         </Group>
       </Overlay>
       <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>

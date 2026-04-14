@@ -2,8 +2,8 @@ import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
 import {Activity, useMemo, useState} from 'react';
-import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/ImageCardWithSelection/createProps.ts';
-import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
+import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
@@ -11,16 +11,17 @@ import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegrati
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './ImageCardWithSelection.module.css';
+import styles from './CardGridEntry.module.css';
 
 interface ImageCardProps {
   tcg: Tcg;
   card: TcgSearchDataCard;
   index: number;
   toolsEnabled: boolean;
+  onOpenMenu: (card: TcgDataCard, target: HTMLButtonElement) => void;
 }
 
-export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled }: ImageCardProps) {
+export default function CardGridEntry({ tcg, card, index, toolsEnabled, onOpenMenu }: ImageCardProps) {
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
@@ -32,6 +33,26 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
     index,
   });
   const [menuOpened, setMenuOpened] = useState(false);
+  const actionIcon = useMemo(() => {
+    return (
+      <ActionIcon
+        style={{ pointerEvents: 'auto' }}
+        onMouseDown={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          setMenuOpened(!menuOpened);
+
+          onOpenMenu(card?.card, event.currentTarget);
+        }}
+        color="var(--gourmet-neutral-dark-3)"
+        size={'1.25rem'}
+        classNames={{ root: styles.overlayMenuButton }}
+        /*data-menu-opened={menuOpened}*/
+        data-toggle-visibility={true}
+      >
+        <IconDotsVertical size={16} />
+      </ActionIcon>
+    );
+  }, [card, onOpenMenu, menuOpened]);
 
   return (
     <ImageCard
@@ -72,28 +93,11 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
             onChange={(event) => setSelection(event.currentTarget.checked)}
             color={'var(--gourmet-orange-1)'}
             checked={checked}
-            wrapperProps={{
+            /*wrapperProps={{
               'data-menu-opened': menuOpened,
-            }}
+            }}*/
           />
-          <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>
-            <CardMoreActionsMenu
-              card={card.card}
-              menuOpened={menuOpened}
-              setMenuOpened={setMenuOpened}
-              target={
-                <ActionIcon
-                  style={{ pointerEvents: 'auto' }}
-                  onClick={() => setMenuOpened((v) => !v)}
-                  color="var(--gourmet-neutral-dark-4)"
-                  size={'1.25rem'}
-                  data-menu-opened={menuOpened}
-                >
-                  <IconDotsVertical size={16} />
-                </ActionIcon>
-              }
-            />
-          </Activity>
+          <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>{actionIcon}</Activity>
         </Group>
       )}
 
@@ -104,8 +108,7 @@ export default function ImageCardWithSelection({ tcg, card, index, toolsEnabled 
             checked={checked}
             isSelectionMode={isSelectionMode}
             setSelection={setSelection}
-            menuOpened={menuOpened}
-            setMenuOpened={setMenuOpened}
+            menuButton={actionIcon}
           />
         </Activity>
       )}
