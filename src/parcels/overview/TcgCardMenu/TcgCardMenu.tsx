@@ -24,7 +24,6 @@ export function TcgCardMenu({
   onRemoveFromList?: (listId: string) => void;
 } & { ref?: Ref<HTMLDivElement> }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
-
   const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
 
   const resourceId = activeCard?.print?.id;

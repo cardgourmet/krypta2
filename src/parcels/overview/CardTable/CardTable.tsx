@@ -8,7 +8,6 @@ import {
 } from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
 import { TableRowHorizontal } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
 import { TableRowVertical } from '@/parcels/overview/CardTable/TableRowHorizontal/TableRowVertical.tsx';
-import { TcgCardMenu } from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
 import type { DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
 import { useConstructDlcCardTableData } from '@/parcels/tcg/dlc/overview/useConstructDlcCardTableData.tsx';
 import type { MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
@@ -95,8 +94,6 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
           constructVerTableRow={constructVerTableRow}
         />
       )}
-
-      <TcgCardMenu tcg={tcg} />
     </div>
   );
 }

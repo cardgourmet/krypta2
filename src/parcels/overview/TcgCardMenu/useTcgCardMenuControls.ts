@@ -1,5 +1,6 @@
 import {useCallback, useMemo, useRef, useState} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import type {MenuControls} from "@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts";
 
 export function useTcgCardMenuControls() {
   const compare = useCallback((a: TcgDataCard, b: TcgDataCard) => {
@@ -7,15 +8,6 @@ export function useTcgCardMenuControls() {
   }, []);
   return useMenuControls(compare);
 }
-
-export type MenuControls<T> = {
-  opened: boolean;
-  data: T | null;
-  target: HTMLButtonElement | null;
-
-  openMenu: (data: T, target: HTMLButtonElement) => void;
-  closeMenu: () => void;
-};
 
 export function useMenuControls<T>(compare?: (a: T, b: T) => boolean) {
   const [data, setData] = useState<T | null>(null);

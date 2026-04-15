@@ -9,6 +9,7 @@ import CardOverviewSettings from '@/parcels/overview/CardOverview/CardOverviewSe
 import {CardTable} from '@/parcels/overview/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
+import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
 import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import {MtgSetIcon} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
@@ -160,6 +161,8 @@ export function CardOverview({
           {searchDisplaySettings.display === 'table' && (
             <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={toolsEnabled} />
           )}
+
+          <TcgCardMenu tcg={tcg} />
         </div>
 
         <Pagination
