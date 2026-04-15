@@ -1,11 +1,15 @@
 import {Accordion, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
 import {IconAlertCircleFilled, IconClock} from '@tabler/icons-react';
-import {type RefObject, useEffect, useState} from 'react';
+import {useNavigate} from '@tanstack/react-router';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
 import CardOverviewSettings from '@/parcels/overview/CardOverview/CardOverviewSettings/CardOverviewSettings.tsx';
+import useCardOverviewData from '@/parcels/overview/CardOverview/useCardOverviewData.tsx';
+import {useTcgSearchSettings} from '@/parcels/overview/CardOverview/useTcgSearchSettings.tsx';
 import {CardTable} from '@/parcels/overview/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
@@ -13,36 +17,39 @@ import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
 import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
 import {MtgSetIcon} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
-import type {TcgSearchCardsResult, TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings,} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import type {TcgSearchCardsResult, TcgSearchParams} from '@/parcels/tcg/types.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
+import {Route} from '@/routes/$tcg/cards';
 import styles from './CardOverview.module.css';
 
-type CardOverviewProps = {
-  tcg: Tcg;
-  scrollbackRef: RefObject<HTMLDivElement | null>;
-  isLoading: boolean;
-  isQueryLoading: boolean;
-  set: TcgDataSet | null;
-
-  cards: TcgSearchCardsResult | null;
-  setSettings: (apply: ApplyFn<TcgSearchParams>) => void;
-  searchQuerySettings: TcgSearchQuerySettings;
-  searchDisplaySettings: TcgSearchDisplaySettings;
-};
-
-export function CardOverview({
-  tcg,
-  scrollbackRef,
-  isLoading,
-  isQueryLoading,
-  cards,
-  setSettings,
-  searchQuerySettings,
-  searchDisplaySettings,
-  set,
-}: CardOverviewProps) {
+export function CardOverview() {
+  const tcg = useTcgByLocation() as Tcg;
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
+  const { user } = useAuth();
+
+  const { params, querySettings, displaySettings } = useTcgSearchSettings();
+  const set = Route.useLoaderData() as TcgDataSet | null;
+  const { cards, isLoading, isQueryLoading } = useCardOverviewData(set);
+
+  const scrollbackRef = useRef<HTMLDivElement | null>(null);
+
+  const navigate = useNavigate({ from: Route.fullPath });
+  const setSettings = useCallback(
+    (apply: ApplyFn<TcgSearchParams>) => {
+      const newParams = apply(params) as Required<TcgSearchParams>;
+
+      // noinspection JSIgnoredPromiseFromCall
+      navigate({
+        search: () => ({ ...newParams }),
+        params: {
+          tcg: tcg,
+        },
+        replace: true,
+      });
+    },
+    [navigate, params, tcg],
+  );
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
   const workContext = useTcgOverviewWorkContext();
@@ -56,6 +63,9 @@ export function CardOverview({
 
   return (
     <div ref={scrollbackRef}>
+      <title>{`${(params.query?.length ?? 0) === 0 ? 'Card Database' : params.query} 
+      – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+
       <div>
         {component}
 
@@ -122,8 +132,8 @@ export function CardOverview({
 
         <CardOverviewSettings
           tcg={tcg}
-          querySettings={searchQuerySettings}
-          displaySettings={searchDisplaySettings}
+          querySettings={querySettings}
+          displaySettings={displaySettings}
           setSettings={setSettings}
           toolsEnabled={toolsEnabled}
           setToolsEnabled={setToolsEnabled}
@@ -155,11 +165,11 @@ export function CardOverview({
         )}
 
         <div style={{ padding: '0.5rem' }}>
-          {searchDisplaySettings.display === 'grid' && (
-            <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={toolsEnabled} />
+          {displaySettings.display === 'grid' && (
+            <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
-          {searchDisplaySettings.display === 'table' && (
-            <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={toolsEnabled} />
+          {displaySettings.display === 'table' && (
+            <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
 
           <TcgCardMenu tcg={tcg} />

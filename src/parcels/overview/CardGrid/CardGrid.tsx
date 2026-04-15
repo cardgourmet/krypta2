@@ -1,12 +1,11 @@
-import { useMemo } from 'react';
+import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
-import { TcgCardMenu } from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
-import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
-import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
-import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
+import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
+import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGrid.module.css';
 
 type CardGridProps = {
@@ -62,8 +61,6 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
             </div>
           ))}
       {!isLoading && cardElements}
-
-      <TcgCardMenu tcg={tcg} />
     </div>
   );
 }

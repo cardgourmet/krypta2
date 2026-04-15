@@ -1,8 +1,9 @@
 import {Group, Menu} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import {IconLink} from '@tabler/icons-react';
-import {type Ref, useCallback, useEffect, useMemo, useState} from 'react';
+import {Activity, type Ref, useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
@@ -24,8 +25,9 @@ export function TcgCardMenu({
   onRemoveFromList?: (listId: string) => void;
 } & { ref?: Ref<HTMLDivElement> }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
-  const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
+  const { user } = useAuth();
 
+  const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
   const resourceId = activeCard?.print?.id;
   const { lists, refetchLists } = useUserLists();
   const { systemLists, existsInLists } = useMemo(() => {
@@ -87,102 +89,104 @@ export function TcgCardMenu({
     <>
       <CreateListModal disclosure={disclosure} onSuccess={() => refetchLists()} />
 
-      <Menu
-        opened={opened}
-        onChange={onChange}
-        onClose={closeMenu}
-        withArrow
-        withinPortal={false}
-        styles={{ dropdown: { pointerEvents: 'auto' } }}
-        openDelay={0}
-        transitionProps={{ duration: 0 }}
-        position={'bottom-end'}
-      >
-        <Menu.Target>
-          <span
-            style={{
-              position: 'fixed',
-              left: activeTargetRef
-                ? (activeTargetRef.getBoundingClientRect().left + activeTargetRef.getBoundingClientRect().right) / 2
-                : -9999,
-              top: activeTargetRef ? activeTargetRef.getBoundingClientRect().bottom : -9999,
-              width: 1,
-              height: 1,
-              pointerEvents: 'none',
-            }}
-          />
-        </Menu.Target>
+      <Activity mode={user ? 'visible' : 'hidden'}>
+        <Menu
+          opened={opened}
+          onChange={onChange}
+          onClose={closeMenu}
+          withArrow
+          withinPortal={false}
+          styles={{ dropdown: { pointerEvents: 'auto' } }}
+          openDelay={0}
+          transitionProps={{ duration: 0 }}
+          position={'bottom-end'}
+        >
+          <Menu.Target>
+            <span
+              style={{
+                position: 'fixed',
+                left: activeTargetRef
+                  ? (activeTargetRef.getBoundingClientRect().left + activeTargetRef.getBoundingClientRect().right) / 2
+                  : -9999,
+                top: activeTargetRef ? activeTargetRef.getBoundingClientRect().bottom : -9999,
+                width: 1,
+                height: 1,
+                pointerEvents: 'none',
+              }}
+            />
+          </Menu.Target>
 
-        <Menu.Dropdown ref={ref}>
-          {`Name: ${activeCard?.name}`}
+          <Menu.Dropdown ref={ref}>
+            {`Name: ${activeCard?.name}`}
 
-          {systemLists.map((list) => {
-            return (
-              <ListMenuItem
-                key={list.list.id}
-                ressourceId={resourceId ?? ''}
-                raw={resourceId === undefined}
-                listWithResources={list}
-                action={existsInLists.includes(list.list.id) ? 'remove' : 'add'}
-                type={'search'}
-                tcg={tcg}
-                onSuccess={(res) => {
-                  if (res) {
-                    if (onSearchSaved) onSearchSaved(res.resourceId);
-                  }
-                }}
-              />
-            );
-          })}
-          {systemLists.length === 0 && <GourmetText>No system lists</GourmetText>}
-
-          <AddToListMenu
-            ref={ref}
-            ressourceId={resourceId ?? ''}
-            raw={resourceId === undefined}
-            disclosure={disclosure}
-            type={'card'}
-            tcg={tcg}
-            onSuccess={(res) => {
-              if (res) {
-                if (onSearchSaved) onSearchSaved(res.resourceId);
-              }
-            }}
-          />
-          <RemoveFromListMenu
-            ref={ref}
-            ressourceId={resourceId ?? ''}
-            raw={resourceId === undefined}
-            type={'card'}
-            tcg={tcg}
-            onSuccess={(res) => {
-              if (res) {
-                if (onRemoveFromList) onRemoveFromList(res.listId);
-              }
-            }}
-          />
-
-          <Menu.Item
-            onClick={() => {
-              if (!activeCard) return;
-
-              const set = activeCard.print.setCode?.toLowerCase() as string;
-              const cn = activeCard.print.collectorNumber.toLowerCase();
-
-              navigator.clipboard.writeText(
-                `${window.location.origin}/${tcg}/sets/${set}/${cn}/${slugify(activeCard.name)}`,
+            {systemLists.map((list) => {
+              return (
+                <ListMenuItem
+                  key={list.list.id}
+                  ressourceId={resourceId ?? ''}
+                  raw={resourceId === undefined}
+                  listWithResources={list}
+                  action={existsInLists.includes(list.list.id) ? 'remove' : 'add'}
+                  type={'search'}
+                  tcg={tcg}
+                  onSuccess={(res) => {
+                    if (res) {
+                      if (onSearchSaved) onSearchSaved(res.resourceId);
+                    }
+                  }}
+                />
               );
+            })}
+            {systemLists.length === 0 && <GourmetText>No system lists</GourmetText>}
 
-              closeMenu();
-            }}
-          >
-            <Group gap={'0.5rem'}>
-              <IconLink size={18} />
-              <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
-            </Group>
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
+            <AddToListMenu
+              ref={ref}
+              ressourceId={resourceId ?? ''}
+              raw={resourceId === undefined}
+              disclosure={disclosure}
+              type={'card'}
+              tcg={tcg}
+              onSuccess={(res) => {
+                if (res) {
+                  if (onSearchSaved) onSearchSaved(res.resourceId);
+                }
+              }}
+            />
+            <RemoveFromListMenu
+              ref={ref}
+              ressourceId={resourceId ?? ''}
+              raw={resourceId === undefined}
+              type={'card'}
+              tcg={tcg}
+              onSuccess={(res) => {
+                if (res) {
+                  if (onRemoveFromList) onRemoveFromList(res.listId);
+                }
+              }}
+            />
+
+            <Menu.Item
+              onClick={() => {
+                if (!activeCard) return;
+
+                const set = activeCard.print.setCode?.toLowerCase() as string;
+                const cn = activeCard.print.collectorNumber.toLowerCase();
+
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/${tcg}/sets/${set}/${cn}/${slugify(activeCard.name)}`,
+                );
+
+                closeMenu();
+              }}
+            >
+              <Group gap={'0.5rem'}>
+                <IconLink size={18} />
+                <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
+              </Group>
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Activity>
     </>
   );
 }
