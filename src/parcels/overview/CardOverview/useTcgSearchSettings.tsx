@@ -1,38 +1,43 @@
-import {useMemo} from 'react';
-import {useDlcMemoizedDisplaySettings, useDlcMemoizedQuerySettings} from '@/parcels/tcg/dlc/query.ts';
-import {useMtgMemoizedDisplaySettings, useMtgMemoizedQuerySettings} from '@/parcels/tcg/mtg/query.ts';
-import {usePcgMemoizedDisplaySettings, usePcgMemoizedQuerySettings} from '@/parcels/tcg/pcg/query.ts';
-import type {TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings} from '@/parcels/tcg/types.ts';
+import {useNavigate} from '@tanstack/react-router';
+import {useEffect, useMemo} from 'react';
+import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import type {TcgSearchDisplaySettings, TcgSearchQuerySettings} from '@/parcels/tcg/types.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import {Route} from '@/routes/$tcg/cards';
 
-export function useTcgSearchSettings() {
-  const { tcg } = Route.useParams();
+export function useTcgSearchSettings(set?: TcgDataSet) {
+  const tcg = useTcgByLocation() as Tcg;
   const search = Route.useSearch();
 
-  const searchParams = useMemo(() => {
-    return search as TcgSearchParams;
-  }, [search]);
+  const navigate = useNavigate({ from: Route.fullPath });
+  useEffect(() => {
+    if (!set) return;
 
-  const dlcQuerySettings = useDlcMemoizedQuerySettings();
-  const mtgQuerySettings = useMtgMemoizedQuerySettings();
-  const pcgQuerySettings = usePcgMemoizedQuerySettings();
+    navigate({
+      search: (prev) => ({ ...prev, sortBy: 'set', uniqueBy: 'prints' }),
+      params: {
+        tcg: tcg,
+      },
+      replace: true,
+    });
+  }, [set, navigate, tcg]);
+
   const searchQuerySettings = useMemo(() => {
-    if (tcg === 'mtg') return mtgQuerySettings;
-    else if (tcg === 'dlc') return dlcQuerySettings;
-    return pcgQuerySettings;
-  }, [tcg, dlcQuerySettings, mtgQuerySettings, pcgQuerySettings]) as TcgSearchQuerySettings;
-
-  const dlcDisplaySettings = useDlcMemoizedDisplaySettings();
-  const mtgDisplaySettings = useMtgMemoizedDisplaySettings();
-  const pcgDisplaySettings = usePcgMemoizedDisplaySettings();
+    return {
+      query: search.query,
+      sortBy: search.sortBy,
+      sortDirection: search.sortDirection,
+      uniqueBy: search.uniqueBy,
+    } as TcgSearchQuerySettings;
+  }, [search.query, search.sortBy, search.sortDirection, search.uniqueBy]);
   const searchDisplaySettings = useMemo(() => {
-    if (tcg === 'mtg') return mtgDisplaySettings;
-    else if (tcg === 'dlc') return dlcDisplaySettings;
-    return pcgDisplaySettings;
-  }, [tcg, mtgDisplaySettings, dlcDisplaySettings, pcgDisplaySettings]) as TcgSearchDisplaySettings;
+    return {
+      display: search.display,
+    } as TcgSearchDisplaySettings;
+  }, [search.display]);
 
   return {
-    params: searchParams,
+    params: search,
     querySettings: searchQuerySettings,
     displaySettings: searchDisplaySettings,
   };

@@ -89,11 +89,11 @@ export const tcgSearchParamsSchema = z.object({
   sortBy: z.enum(tcgSortBys).catch(tcgSearchParamsDefaults.sortBy),
 });
 
-export const tcgSetSearchParamsSchema = z.object({
+/*export const tcgSetSearchParamsSchema = z.object({
   query: z.string().catch(tcgSetSearchParamsDefaults.query),
   page: z.number().catch(tcgSetSearchParamsDefaults.page),
   sortDirection: z.enum(sortDirections).catch(tcgSetSearchParamsDefaults.sortDirection),
   display: z.enum(displayModes).catch(tcgSetSearchParamsDefaults.display),
   uniqueBy: z.enum(tcgUniqueBys).catch(tcgSetSearchParamsDefaults.uniqueBy),
   sortBy: z.enum(tcgSortBys).catch(tcgSetSearchParamsDefaults.sortBy),
-});
+});*/

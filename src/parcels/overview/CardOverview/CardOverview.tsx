@@ -28,9 +28,9 @@ export function CardOverview() {
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
   const { user } = useAuth();
 
-  const { params, querySettings, displaySettings } = useTcgSearchSettings();
   const set = Route.useLoaderData() as TcgDataSet | null;
-  const { cards, isLoading, isQueryLoading } = useCardOverviewData(set);
+  const { params, querySettings, displaySettings } = useTcgSearchSettings(set ?? undefined);
+  const { cards, isLoading, isQueryLoading } = useCardOverviewData(querySettings, set);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 

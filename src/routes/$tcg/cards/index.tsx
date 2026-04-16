@@ -2,7 +2,7 @@ import {createFileRoute, notFound, stripSearchParams} from '@tanstack/react-rout
 import {CardOverview} from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import {getSetSpecificQuery} from '@/parcels/overview/getSetSpecificQuery.ts';
 import {fetchSetByQuery} from '@/parcels/tcg/fetchSetByQuery.ts';
-import {tcgSearchParamsDefaults, tcgSearchParamsSchema, tcgSetSearchParamsSchema} from '@/parcels/tcg/types.ts';
+import {tcgSearchParamsDefaults, tcgSearchParamsSchema} from '@/parcels/tcg/types.ts';
 
 export const Route = createFileRoute('/$tcg/cards/')({
   component: RouteComponent,
@@ -26,11 +26,7 @@ export const Route = createFileRoute('/$tcg/cards/')({
     return setRes.data ?? null;
   },
   shouldReload: false, // only reload when `loaderDeps` change (i.e., the query)
-  validateSearch: (search: Record<string, unknown>) => {
-    const isSetSpecific = Boolean(search.query && getSetSpecificQuery(search.query as string));
-    const schema = isSetSpecific ? tcgSetSearchParamsSchema : tcgSearchParamsSchema;
-    return schema.parse(search);
-  },
+  validateSearch: tcgSearchParamsSchema,
   search: {
     middlewares: [stripSearchParams(tcgSearchParamsDefaults)],
   },

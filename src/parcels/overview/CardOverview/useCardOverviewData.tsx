@@ -1,7 +1,6 @@
-import {useEffect, useEffectEvent, useState} from 'react';
+import {useCallback, useEffect, useEffectEvent, useState} from 'react';
 import type {GourmetError} from '@/parcels/api/handleApiCall.ts';
 import type {TcgDataSet, TcgDataSetSummary} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails';
-import {useTcgSearchSettings} from '@/parcels/overview/CardOverview/useTcgSearchSettings.tsx';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type {ExplainSearchQuery} from '@/parcels/search/types';
 import {fetchDlcCards, fetchDlcSetSummary} from '@/parcels/tcg/dlc/api';
@@ -10,13 +9,12 @@ import {fetchMtgCards, fetchMtgSetSummary} from '@/parcels/tcg/mtg/api.ts';
 import type {MtgSearchQuerySettings, MtgSortBy} from '@/parcels/tcg/mtg/types';
 import {fetchPcgCards, fetchPcgSetSummary} from '@/parcels/tcg/pcg/api';
 import type {PcgSearchQuerySettings, PcgSortBy} from '@/parcels/tcg/pcg/types';
-import type {TcgSearchCards, TcgSearchCardsResult} from '@/parcels/tcg/types';
+import type {TcgSearchCards, TcgSearchCardsResult, TcgSearchQuerySettings} from '@/parcels/tcg/types';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import {usePrevious} from '@/parcels/usePrevious.ts';
 
-function useCardOverviewData(set?: TcgDataSet | null) {
+function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDataSet | null) {
   const tcg = useTcgByLocation() as Tcg;
-  const { querySettings } = useTcgSearchSettings();
   const prevQuerySettings = usePrevious(querySettings);
 
   const [cards, setCards] = useState<null | TcgSearchCardsResult>(null);
@@ -27,31 +25,24 @@ function useCardOverviewData(set?: TcgDataSet | null) {
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
     history?.addQuery(query);
   });
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: it's only prevQuerySettings
-  useEffect(() => {
-    if (querySettings.query !== prevQuerySettings?.query) {
-      setIsQueryLoading(true);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
+  const onCardsCallback = useCallback(({ data, error }: { data?: TcgSearchCards; error?: GourmetError }) => {
+    if (error !== undefined) {
+      return;
     }
-    setIsLoading(true);
 
-    const controller = new AbortController();
-    const onCallback = ({ data, error }: { data?: TcgSearchCards; error?: GourmetError }) => {
-      if (error !== undefined) {
-        return;
-      }
+    // write to history
+    const explainedQuery = data?.details as ExplainSearchQuery | undefined;
+    if (explainedQuery !== undefined) {
+      onQueryChange(explainedQuery);
+    }
+    setCards({ data: data } as TcgSearchCardsResult);
 
-      // write to history
-      const explainedQuery = data?.details as ExplainSearchQuery | undefined;
-      if (explainedQuery !== undefined) {
-        onQueryChange(explainedQuery);
-      }
-      setCards({ data: data } as TcgSearchCardsResult);
-
-      setIsLoading(false);
-      setIsQueryLoading(false);
-    };
-    const onSetCallback = ({ data, error }: { data?: TcgDataSetSummary; error?: GourmetError }) => {
+    setIsLoading(false);
+    setIsQueryLoading(false);
+  }, []);
+  const onSetCardsCallback = useCallback(
+    ({ data, error }: { data?: TcgDataSetSummary; error?: GourmetError }) => {
       if (error) return;
       if (!data || !data.queryExplanation) return;
 
@@ -65,56 +56,83 @@ function useCardOverviewData(set?: TcgDataSet | null) {
         items: searchCards,
         details: data.queryExplanation as ExplainSearchQuery | undefined,
       };
-      onCallback({ data: cards as TcgSearchCards, error: error });
-    };
+      onCardsCallback({ data: cards as TcgSearchCards, error: error });
+    },
+    [onCardsCallback],
+  );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
+  useEffect(() => {
+    if (querySettings.query !== prevQuerySettings?.query) {
+      setIsQueryLoading(true);
+    }
+    setIsLoading(true);
+
+    const controller = new AbortController();
     if (set) {
-      const { uniqueBy, sortBy, sortDirection } = querySettings;
-
-      if (tcg === 'mtg') {
-        fetchMtgSetSummary(
-          set.id,
-          querySettings.query,
-          uniqueBy,
-          sortBy as MtgSortBy,
-          sortDirection === 'auto' ? 'asc' : sortDirection,
-          controller,
-        ).then(onSetCallback);
-      } else if (tcg === 'pcg') {
-        fetchPcgSetSummary(
-          set.id,
-          querySettings.query,
-          uniqueBy,
-          sortBy as PcgSortBy,
-          sortDirection === 'auto' ? 'asc' : sortDirection,
-          controller,
-        ).then(onSetCallback);
-      } else {
-        fetchDlcSetSummary(
-          set.id,
-          querySettings.query,
-          uniqueBy,
-          sortBy as DlcSortBy,
-          sortDirection === 'auto' ? 'asc' : sortDirection,
-          controller,
-        ).then(onSetCallback);
-      }
+      fetchTcgSetSummary(tcg, set.id, querySettings, controller)?.then(onSetCardsCallback);
     } else {
-      if (tcg === 'mtg') {
-        fetchMtgCards(querySettings as MtgSearchQuerySettings, controller).then(onCallback);
-      } else if (tcg === 'pcg') {
-        fetchPcgCards(querySettings as PcgSearchQuerySettings, controller).then(onCallback);
-      } else {
-        fetchDlcCards(querySettings as DlcSearchQuerySettings, controller).then(onCallback);
-      }
+      fetchTcgCards(tcg, querySettings, controller)?.then(onCardsCallback);
     }
 
     return () => {
       controller.abort();
     };
-  }, [querySettings]);
+  }, [querySettings, tcg, set]);
 
   return { cards, isLoading, isQueryLoading };
 }
 
 export default useCardOverviewData;
+
+function fetchTcgSetSummary(
+  tcg: Tcg,
+  setId: string,
+  querySettings: TcgSearchQuerySettings,
+  controller?: AbortController,
+) {
+  const { query, uniqueBy, sortBy, sortDirection } = querySettings;
+
+  if (tcg === 'mtg') {
+    return fetchMtgSetSummary(
+      setId,
+      querySettings.query,
+      uniqueBy,
+      sortBy as MtgSortBy,
+      sortDirection === 'auto' ? 'asc' : sortDirection,
+      controller,
+    );
+  } else if (tcg === 'pcg') {
+    return fetchPcgSetSummary(
+      setId,
+      query,
+      uniqueBy,
+      sortBy as PcgSortBy,
+      sortDirection === 'auto' ? 'asc' : sortDirection,
+      controller,
+    );
+  } else if (tcg === 'dlc') {
+    return fetchDlcSetSummary(
+      setId,
+      querySettings.query,
+      uniqueBy,
+      sortBy as DlcSortBy,
+      sortDirection === 'auto' ? 'asc' : sortDirection,
+      controller,
+    );
+  } else {
+    return null;
+  }
+}
+
+function fetchTcgCards(tcg: Tcg, querySettings: TcgSearchQuerySettings, controller?: AbortController) {
+  if (tcg === 'mtg') {
+    return fetchMtgCards(querySettings as MtgSearchQuerySettings, controller);
+  } else if (tcg === 'pcg') {
+    return fetchPcgCards(querySettings as PcgSearchQuerySettings, controller);
+  } else if (tcg === 'dlc') {
+    return fetchDlcCards(querySettings as DlcSearchQuerySettings, controller);
+  } else {
+    return null;
+  }
+}
