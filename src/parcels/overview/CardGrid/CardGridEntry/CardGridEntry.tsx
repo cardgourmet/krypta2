@@ -1,14 +1,12 @@
 import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, useMemo} from 'react';
+import {Activity, startTransition, useEffect, useMemo, useState} from 'react';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
-import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
-import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGridEntry.module.css';
@@ -26,11 +24,22 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
   }, [tcg, card]);
 
   const isTouchDevice = useMediaQuery('(hover: none)');
-  const workContext = useTcgOverviewWorkContext();
-  const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
-    id: prop.id,
-    index,
+
+  const isSelectionMode = useTcgOverviewWorkStore((state) => (state.data?.selection?.elementIds.length ?? 0) > 0);
+  const isSelected = useTcgOverviewWorkStore((state) => {
+    const thisId = card.card.print.id;
+    return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
+  const getIdsInRange = useTcgOverviewWorkStore((state) => state.getIdsInRange);
+  const setSelection = useTcgOverviewWorkStore((state) => state.setSelection);
+
+  const [checked, setChecked] = useState<boolean>(false);
+  useEffect(() => {
+    setChecked((prev) => {
+      if (prev === isSelected) return prev;
+      return !prev;
+    });
+  }, [isSelected]);
 
   const openMenu = useCardMenuStore((state) => state.openMenu);
   const isOpen = useCardMenuStore((state) => state.opened && state.data?.print?.id === card.card.print.id);
@@ -65,16 +74,21 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
         onClick: (event) => {
           if (!isSelectionMode) return;
           event.preventDefault();
+          const thisId = card.card.print.id;
 
           // if shift key, calculate range of cards to add or remove
-          const anchorIndex = workContext?.data?.selection?.anchorIndex;
-          if (event.shiftKey && anchorIndex !== undefined && anchorIndex > -1) {
-            const ids = getIdsInRange(anchorIndex, index, workContext!);
-            setMultiSelection(ids, !checked);
+          if (event.shiftKey) {
+            const ids = getIdsInRange(index);
+            if (ids.length === 0) return;
+
+            setChecked(!checked);
+            setSelection(ids, !checked, index, thisId);
             return;
           }
 
-          setSelection(!checked);
+          setChecked(!checked);
+          setSelection([thisId], !checked, index, thisId);
+          // setSelection(!checked);
         },
         tabIndex: isSelectionMode ? 0 : undefined,
         className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
@@ -89,7 +103,14 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
         <Group p={'0.5rem'} justify={'space-between'}>
           <Checkbox
             style={{ pointerEvents: 'auto' }}
-            onChange={(event) => setSelection(event.currentTarget.checked)}
+            onChange={(event) => {
+              setChecked(event.currentTarget.checked);
+
+              startTransition(() => {
+                const thisId = card.card.print.id;
+                setSelection([thisId], event.currentTarget.checked, index, thisId);
+              });
+            }}
             color={'var(--gourmet-orange-1)'}
             checked={checked}
             /*wrapperProps={{
@@ -106,7 +127,14 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
             card={card.card}
             checked={checked}
             isSelectionMode={isSelectionMode}
-            setSelection={setSelection}
+            setSelection={(select: boolean) => {
+              setChecked(select);
+
+              startTransition(() => {
+                const thisId = card.card.print.id;
+                setSelection([thisId], select, index, thisId);
+              });
+            }}
             menuButton={actionIcon}
           />
         </Activity>

@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {SELECTION_LIMIT} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import {SELECTION_LIMIT} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 
 export function useSelectionIntegration({ id, index }: { id: string; index: number }) {

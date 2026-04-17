@@ -8,7 +8,7 @@ import styles from '@/parcels/overview/CardTable/CardTable.module.css';
 import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
 import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
 import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
 
 export function TableRowVertical({
   card,

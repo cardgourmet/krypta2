@@ -15,7 +15,7 @@ import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
 import {QueryExplanation} from '@/parcels/overview/QueryExplanation/QueryExplanation.tsx';
 import {TcgCardMenu} from '@/parcels/overview/TcgCardMenu/TcgCardMenu.tsx';
 import {OverviewSelectionDisplay} from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 import {MtgSetIcon} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 import type {TcgSearchCardsResult, TcgSearchParams} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
@@ -70,14 +70,6 @@ export function CardOverview() {
   );
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
-  const workContext = useTcgOverviewWorkContext();
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
-  useEffect(() => {
-    if (!cards || !cards.data.details) return;
-    const query = cards?.data.details?.originalQuery;
-    workContext?.setSearchResult(query, cards as TcgSearchCardsResult);
-  }, [cards]);
 
   return (
     <div ref={scrollbackRef}>
@@ -89,6 +81,8 @@ export function CardOverview() {
         <title>{`${set.translations.en.name} (${set.code?.toUpperCase()}) 
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
+
+      <WorkContextReloader cards={cards} />
 
       <div>
         {component}
@@ -219,10 +213,24 @@ export function CardOverview() {
           />
         )}
 
-        {workContext?.data && workContext.data.selection.elementIds.length > 0 && (
-          <OverviewSelectionDisplay context={workContext} />
-        )}
+        <OverviewSelectionDisplay />
       </div>
     </div>
+  );
+}
+
+function WorkContextReloader({ cards }: { cards: TcgSearchCardsResult | null }) {
+  const setData = useTcgOverviewWorkStore((state) => state.setData);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
+  useEffect(() => {
+    if (!cards || !cards.data.details) return;
+    const query = cards?.data.details?.originalQuery;
+    setData(query, cards as TcgSearchCardsResult);
+  }, [cards]);
+
+  return (
+    // biome-ignore lint/complexity/noUselessFragments: <>
+    <></>
   );
 }

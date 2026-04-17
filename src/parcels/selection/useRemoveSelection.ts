@@ -1,5 +1,5 @@
 import {type Dispatch, type SetStateAction, useCallback} from 'react';
-import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
 
 export const useRemoveSelection = ({
   workData,

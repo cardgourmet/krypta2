@@ -3,8 +3,8 @@ import {IconEyeSearch, IconX} from '@tabler/icons-react';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {EntryImage} from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
-import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ViewSelectionPages.module.css';
 

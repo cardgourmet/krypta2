@@ -6,7 +6,7 @@ import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import SearchCacheProvider from '@/parcels/search/bar/SearchCacheProvider/SearchCacheProvider.tsx';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import {TcgOverviewWorkContextProvider} from '@/parcels/selection/TcgOverviewWorkContext.tsx';
+import {TcgOverviewWorkContextProvider} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
 import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './App.module.css';
 

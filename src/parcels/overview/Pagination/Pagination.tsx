@@ -4,7 +4,7 @@ import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRight
 import {useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';

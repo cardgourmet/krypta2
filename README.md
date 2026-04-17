@@ -10,6 +10,7 @@ Our Stack:
 - Routing: https://tanstack.com/router
 - Linting and reformatting: https://biomejs.dev/
 - Package Management: https://pnpm.io/
+- State Management: https://github.com/pmndrs/zustand
 
 To get started run `pnpm install` and then `pnpm dev`. Make sure to have `pnpm` installed beforehand.
 
