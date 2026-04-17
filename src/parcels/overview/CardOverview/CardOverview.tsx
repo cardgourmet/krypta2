@@ -79,8 +79,14 @@ export function CardOverview() {
 
   return (
     <div ref={scrollbackRef}>
-      <title>{`${(params.query?.length ?? 0) === 0 ? 'Card Database' : params.query} 
+      {set === null && (
+        <title>{`${(params.query?.length ?? 0) === 0 ? 'Card Database' : params.query} 
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+      )}
+      {set !== null && (
+        <title>{`${set.translations.en.name} (${set.code?.toUpperCase()}) 
+      – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+      )}
 
       <div>
         {component}
@@ -107,12 +113,14 @@ export function CardOverview() {
                 </Tooltip>
               </Stack>
             </Group>
-            <Pagination
-              currentPage={cards?.data?.currentPage}
-              lastPage={cards?.data?.pageCount}
-              isLoading={isQueryLoading}
-              setSettings={setSettings}
-            />
+            {set === null && (
+              <Pagination
+                currentPage={cards?.data?.currentPage}
+                lastPage={cards?.data?.pageCount}
+                isLoading={isQueryLoading}
+                setSettings={setSettings}
+              />
+            )}
           </Group>
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
@@ -159,7 +167,7 @@ export function CardOverview() {
         <QueryExplanation
           isLoading={isLoading}
           currentPage={cards?.data?.currentPage}
-          pageSize={60}
+          pageSize={set === null ? 60 : (cards?.data?.details?.count ?? 0)}
           cardCount={cards?.data?.details?.count ?? 0}
           explanation={cards?.data.details?.explanation ?? ''}
         />
@@ -200,12 +208,14 @@ export function CardOverview() {
           <TcgCardMenu tcg={tcg} />
         </div>
 
-        <Pagination
-          currentPage={cards?.data?.currentPage}
-          lastPage={cards?.data?.pageCount}
-          isLoading={isQueryLoading}
-          setSettings={setSettings}
-        />
+        {set === null && (
+          <Pagination
+            currentPage={cards?.data?.currentPage}
+            lastPage={cards?.data?.pageCount}
+            isLoading={isQueryLoading}
+            setSettings={setSettings}
+          />
+        )}
 
         {workContext?.data && workContext.data.selection.elementIds.length > 0 && (
           <OverviewSelectionDisplay context={workContext} />

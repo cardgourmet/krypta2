@@ -17,6 +17,7 @@ export function MobileOverviewSettings({
   setSettingsWrapper,
   initialOverviewSettings,
   close,
+  setIsDisplayLoading,
 }: {
   t: TFunction<string>;
   items: { sortBy: Record<string, string>; sortDir: Record<string, string>; uniqueBy: Record<string, string> };
@@ -25,6 +26,7 @@ export function MobileOverviewSettings({
   setSettingsWrapper: (update: ApplyFn<TcgSearchParams>) => void;
   initialOverviewSettings: OverviewSettings;
   close: () => void;
+  setIsDisplayLoading: (isLoading: boolean) => void;
 }) {
   const [settings, setSettings] = useState<OverviewSettings>({ ...initialOverviewSettings });
 
@@ -131,6 +133,7 @@ export function MobileOverviewSettings({
             value={settings.display}
             onChange={(sel) => {
               setSettings({ ...settings, display: sel as DisplayMode });
+              setIsDisplayLoading(true);
 
               startTransition(() => {
                 setSettingsWrapper((prev) => {

@@ -114,6 +114,7 @@ export default function CardOverviewSettings({
           setSettingsWrapper={setSettingsWrapper}
           initialOverviewSettings={overviewSettings}
           close={() => setSidebarOpen(false)}
+          setIsDisplayLoading={setIsDisplayLoading}
         />
       </Drawer>
 
