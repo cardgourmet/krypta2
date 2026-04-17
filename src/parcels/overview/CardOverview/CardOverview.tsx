@@ -1,4 +1,4 @@
-import {Accordion, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
+import {Accordion, Center, Divider, Group, Loader, Overlay, Stack, Text, Tooltip} from '@mantine/core';
 import {IconAlertCircleFilled, IconClock} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -23,6 +23,8 @@ import type {ApplyFn} from '@/parcels/types.ts';
 import {Route} from '@/routes/$tcg/cards';
 import styles from './CardOverview.module.css';
 
+export type OverviewSettings = Required<TcgSearchParams>;
+
 export function CardOverview() {
   const tcg = useTcgByLocation() as Tcg;
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
@@ -35,20 +37,34 @@ export function CardOverview() {
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
   const navigate = useNavigate({ from: Route.fullPath });
+  const [isDisplayLoading, setIsDisplayLoading] = useState<boolean>(false);
+  const [overviewSettings, setOverviewSettings] = useState<OverviewSettings | undefined>({
+    query: querySettings.query,
+    page: querySettings.page,
+    sortBy: querySettings.sortBy,
+    sortDirection: querySettings.sortDirection,
+    uniqueBy: querySettings.uniqueBy,
+    display: displaySettings.display,
+  });
+  useEffect(() => {
+    if (!overviewSettings) return;
+
+    navigate({
+      search: () => ({ ...overviewSettings }),
+      params: {
+        tcg: tcg,
+      },
+      replace: true,
+    });
+  }, [overviewSettings, navigate, tcg]);
   const setSettings = useCallback(
     (apply: ApplyFn<TcgSearchParams>) => {
       const newParams = apply(params) as Required<TcgSearchParams>;
 
-      // noinspection JSIgnoredPromiseFromCall
-      navigate({
-        search: () => ({ ...newParams }),
-        params: {
-          tcg: tcg,
-        },
-        replace: true,
-      });
+      setOverviewSettings(newParams);
+      setIsDisplayLoading(false);
     },
-    [navigate, params, tcg],
+    [params],
   );
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
@@ -137,6 +153,7 @@ export function CardOverview() {
           setSettings={setSettings}
           toolsEnabled={toolsEnabled}
           setToolsEnabled={setToolsEnabled}
+          setIsDisplayLoading={setIsDisplayLoading}
         />
 
         <QueryExplanation
@@ -164,7 +181,15 @@ export function CardOverview() {
           </Accordion>
         )}
 
-        <div style={{ padding: '0.5rem' }}>
+        <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
+          {isDisplayLoading && (
+            <Overlay backgroundOpacity={0.75} color={'var(--gourmet-neutral-0)'}>
+              <Center mt={'12rem'}>
+                <Loader color={'var(--gourmet-neutral-9)'} />
+              </Center>
+            </Overlay>
+          )}
+
           {displaySettings.display === 'grid' && (
             <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}

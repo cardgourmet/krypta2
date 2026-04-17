@@ -4,23 +4,33 @@ import {IconSettings} from '@tabler/icons-react';
 import {useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import type {OverviewSettings} from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import {DesktopOverviewSettings} from '@/parcels/overview/CardOverview/CardOverviewSettings/DesktopOverviewSettings/DesktopOverviewSettings.tsx';
 import {MobileOverviewSettings} from '@/parcels/overview/CardOverview/CardOverviewSettings/MobileOverviewSettings/MobileOverviewSettings.tsx';
-import {type DlcSearchDisplaySettings, type DlcSearchParams, type DlcSearchQuerySettings, dlcSortBys, dlcUniqueBys,} from '@/parcels/tcg/dlc/types.ts';
-import {type MtgSearchDisplaySettings, type MtgSearchParams, type MtgSearchQuerySettings, mtgSortBys, mtgUniqueBys,} from '@/parcels/tcg/mtg/types.ts';
-import {type PcgSearchDisplaySettings, type PcgSearchParams, type PcgSearchQuerySettings, pcgSortBys, pcgUniqueBys,} from '@/parcels/tcg/pcg/types.ts';
-import {type SortDirection, sortDirections, type TcgSortBy, type TcgUniqueBy} from '@/parcels/tcg/types.ts';
+import {dlcSortBys, dlcUniqueBys} from '@/parcels/tcg/dlc/types.ts';
+import {mtgSortBys, mtgUniqueBys} from '@/parcels/tcg/mtg/types.ts';
+import {pcgSortBys, pcgUniqueBys} from '@/parcels/tcg/pcg/types.ts';
+import {
+  type SortDirection,
+  sortDirections,
+  type TcgSearchDisplaySettings,
+  type TcgSearchParams,
+  type TcgSearchQuerySettings,
+  type TcgSortBy,
+  type TcgUniqueBy,
+} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 import styles from './CardOverviewSettings.module.css';
 
 export type CardOverviewSettingsProps = {
   tcg: Tcg;
-  querySettings: MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
-  displaySettings: MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
-  setSettings: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
+  querySettings: TcgSearchQuerySettings;
+  displaySettings: TcgSearchDisplaySettings;
+  setSettings: (update: ApplyFn<TcgSearchParams>) => void;
   toolsEnabled: boolean;
   setToolsEnabled: (tools: boolean) => void;
+  setIsDisplayLoading: (isDisplayLoading: boolean) => void;
 };
 
 export default function CardOverviewSettings({
@@ -30,6 +40,7 @@ export default function CardOverviewSettings({
   setSettings,
   toolsEnabled,
   setToolsEnabled,
+  setIsDisplayLoading,
 }: CardOverviewSettingsProps) {
   const { t } = useTranslation('cards', { keyPrefix: `${tcg}` });
   function fillTranslation(prefix: string, elements: string[]) {
@@ -71,6 +82,20 @@ export default function CardOverviewSettings({
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
   const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
 
+  const items = useMemo(() => {
+    return {
+      sortBy: sortByItems,
+      sortDir: sortDirItems,
+      uniqueBy: uniqueByItems,
+    };
+  }, [sortByItems, sortDirItems, uniqueByItems]);
+  const overviewSettings = useMemo(() => {
+    return {
+      ...querySettings,
+      ...displaySettings,
+    } as OverviewSettings;
+  }, [displaySettings, querySettings]);
+
   return (
     <div className={styles.settings}>
       <Drawer
@@ -83,16 +108,11 @@ export default function CardOverviewSettings({
       >
         <MobileOverviewSettings
           t={t}
-          sortByItems={sortByItems}
-          defaultSortBy={querySettings.sortBy}
-          sortDirItems={sortDirItems}
-          defaultSortDirection={querySettings.sortDirection}
-          uniqueByItems={uniqueByItems}
-          defaultUniqueBy={querySettings.uniqueBy}
-          defaultDisplayMode={displaySettings.display}
+          items={items}
           toolsEnabled={toolsEnabled}
           setToolsEnabled={setToolsEnabled}
           setSettingsWrapper={setSettingsWrapper}
+          initialOverviewSettings={overviewSettings}
           close={() => setSidebarOpen(false)}
         />
       </Drawer>
@@ -100,16 +120,12 @@ export default function CardOverviewSettings({
       {!smallScreen && (
         <DesktopOverviewSettings
           t={t}
-          sortByItems={sortByItems}
-          defaultSortBy={querySettings.sortBy}
-          sortDirItems={sortDirItems}
-          defaultSortDirection={querySettings.sortDirection}
-          uniqueByItems={uniqueByItems}
-          defaultUniqueBy={querySettings.uniqueBy}
-          defaultDisplayMode={displaySettings.display}
+          items={items}
           toolsEnabled={toolsEnabled}
           setToolsEnabled={setToolsEnabled}
           setSettingsWrapper={setSettingsWrapper}
+          initialOverviewSettings={overviewSettings}
+          setIsDisplayLoading={setIsDisplayLoading}
         />
       )}
       {smallScreen && (

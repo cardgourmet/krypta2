@@ -1,42 +1,33 @@
 import {Button, Center, Group, SegmentedControl, Stack, Text, UnstyledButton} from '@mantine/core';
 import {IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off, IconX} from '@tabler/icons-react';
 import type {TFunction} from 'i18next';
+import {startTransition, useState} from 'react';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import type {OverviewSettings} from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import styles from '@/parcels/overview/CardOverview/CardOverviewSettings/CardOverviewSettings.module.css';
-import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
-import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
-import type {PcgSearchParams} from '@/parcels/tcg/pcg/types.ts';
-import type {DisplayMode, SortDirection, TcgSortBy, TcgUniqueBy} from '@/parcels/tcg/types.ts';
+import type {DisplayMode, SortDirection, TcgSearchParams, TcgSortBy, TcgUniqueBy} from '@/parcels/tcg/types.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
 
 export function MobileOverviewSettings({
   t,
-  sortByItems,
-  defaultSortBy,
-  sortDirItems,
-  defaultSortDirection,
-  uniqueByItems,
-  defaultUniqueBy,
-  defaultDisplayMode,
+  items,
   toolsEnabled,
   setToolsEnabled,
   setSettingsWrapper,
+  initialOverviewSettings,
   close,
 }: {
   t: TFunction<string>;
-  sortByItems: Record<string, string>;
-  defaultSortBy: string;
-  sortDirItems: Record<string, string>;
-  defaultSortDirection: string;
-  uniqueByItems: Record<string, string>;
-  defaultUniqueBy: string;
-  defaultDisplayMode: DisplayMode;
+  items: { sortBy: Record<string, string>; sortDir: Record<string, string>; uniqueBy: Record<string, string> };
   toolsEnabled: boolean;
   setToolsEnabled: (enabled: boolean) => void;
-  setSettingsWrapper: (update: ApplyFn<MtgSearchParams | DlcSearchParams | PcgSearchParams>) => void;
+  setSettingsWrapper: (update: ApplyFn<TcgSearchParams>) => void;
+  initialOverviewSettings: OverviewSettings;
   close: () => void;
 }) {
+  const [settings, setSettings] = useState<OverviewSettings>({ ...initialOverviewSettings });
+
   return (
     <Stack>
       <Group justify={'space-between'}>
@@ -55,24 +46,32 @@ export function MobileOverviewSettings({
               {t('common.sortby')}
             </GourmetText>
             <TextDropdown
-              items={sortByItems}
+              items={items.sortBy}
               t={t}
               transPrefix={'sortby'}
-              defaultSelected={defaultSortBy}
+              defaultSelected={settings.sortBy}
               onSelect={(sel) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortBy: sel as TcgSortBy };
+                setSettings({ ...settings, sortBy: sel as TcgSortBy });
+
+                startTransition(() => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, sortBy: sel as TcgSortBy };
+                  });
                 });
               }}
             />
             <TextDropdown
-              items={sortDirItems}
+              items={items.sortDir}
               t={t}
               transPrefix={'sortdir'}
-              defaultSelected={defaultSortDirection}
+              defaultSelected={settings.sortDirection}
               onSelect={(sel) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortDirection: sel as SortDirection };
+                setSettings({ ...settings, sortDirection: sel as SortDirection });
+
+                startTransition(() => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, sortDirection: sel as SortDirection };
+                  });
                 });
               }}
             />
@@ -82,13 +81,17 @@ export function MobileOverviewSettings({
               {t('common.show')}
             </GourmetText>
             <TextDropdown
-              items={uniqueByItems}
+              items={items.uniqueBy}
               t={t}
               transPrefix={'uniqueby'}
-              defaultSelected={defaultUniqueBy}
+              defaultSelected={settings.uniqueBy}
               onSelect={(sel) => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, uniqueBy: sel as TcgUniqueBy };
+                setSettings({ ...settings, uniqueBy: sel as TcgUniqueBy });
+
+                startTransition(() => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, uniqueBy: sel as TcgUniqueBy };
+                  });
                 });
               }}
             />
@@ -124,12 +127,15 @@ export function MobileOverviewSettings({
           <SegmentedControl
             classNames={{ root: styles.displayModeControl }}
             color={'var(--gourmet-blue-1)'}
-            transitionDuration={100}
-            transitionTimingFunction={'linear'}
-            value={defaultDisplayMode}
+            transitionDuration={0}
+            value={settings.display}
             onChange={(sel) => {
-              setSettingsWrapper((prev) => {
-                return { ...prev, display: sel as DisplayMode };
+              setSettings({ ...settings, display: sel as DisplayMode });
+
+              startTransition(() => {
+                setSettingsWrapper((prev) => {
+                  return { ...prev, display: sel as DisplayMode };
+                });
               });
             }}
             data={[
