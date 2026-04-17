@@ -3,20 +3,26 @@ import {IconArrowRight} from '@tabler/icons-react';
 import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import z from 'zod';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 
+export const loginParamsSchema = z.object({
+  redirect: z.string().optional(),
+});
+
 export const Route = createFileRoute('/login/')({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
-    if (context.auth.user) {
+    if (context.auth.user?.id) {
       // if the user is already logged in -> forward to the home page
       throw redirect({
         to: '/',
       });
     }
   },
+  validateSearch: loginParamsSchema,
 });
 
 function RouteComponent() {
@@ -24,6 +30,8 @@ function RouteComponent() {
   const { login } = useAuth();
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+
+  const { redirect } = Route.useSearch();
 
   const navigate = useNavigate();
 
@@ -85,9 +93,11 @@ function RouteComponent() {
 
                 console.log('Successfully loginned', JSON.stringify(r.data));
 
+                // TODO: redirect to last page
+
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  to: '/',
+                  to: redirect ?? '/',
                   replace: true,
                 });
               });

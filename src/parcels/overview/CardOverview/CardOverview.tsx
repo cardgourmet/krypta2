@@ -36,7 +36,7 @@ export function CardOverview() {
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = useNavigate();
   const [isDisplayLoading, setIsDisplayLoading] = useState<boolean>(false);
   const [overviewSettings, setOverviewSettings] = useState<OverviewSettings | undefined>({
     query: querySettings.query,
@@ -48,8 +48,10 @@ export function CardOverview() {
   });
   useEffect(() => {
     if (!overviewSettings) return;
+    if (!tcg) return;
 
     navigate({
+      to: '/$tcg/cards',
       search: () => ({ ...overviewSettings }),
       params: {
         tcg: tcg,
@@ -147,7 +149,7 @@ export function CardOverview() {
                   </GourmetText>
                 </Group>
                 <GourmetText fz={'1.15rem'} cgmff={'ui'} cgmc={'neutral-1'}>
-                  {set.printsAvailable} cards
+                  {set.printsAvailable} prints
                 </GourmetText>
               </Stack>
             </Group>

@@ -131,7 +131,13 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
 
                 // need this: https://github.com/TanStack/router/issues/2072#issuecomment-3152903491
                 router.invalidate();
-                router.navigate({ reloadDocument: true });
+                router.navigate({
+                  reloadDocument: true,
+                  // @ts-expect-error
+                  search: (current) => ({
+                    ...current,
+                  }),
+                });
               }}
               className={styles.menuItem}
             >
@@ -167,6 +173,7 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
 
             <Stack gap={'0.25rem'}>
               <Link
+                from={'/'}
                 to={'/me/history'}
                 search={{ ...historyParamDefaults, tcg: tcg }}
                 style={{ textDecoration: 'none' }}
@@ -176,17 +183,22 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
                 </Menu.Item>
               </Link>
 
-              <Menu.Item
-                component={Link}
+              <Link
                 to={'/login'}
-                leftSection={<IconLogin size={18} color={'var(--gourmet-neutral-2)'} />}
-                onClick={() => {
-                  close();
+                search={{
+                  redirect: router.state.location.href,
                 }}
-                className={styles.menuLoginButton}
+                style={{ textDecoration: 'none' }}
               >
-                <GourmetText cgmc={'neutral-2'}>{t('login')}</GourmetText>
-              </Menu.Item>
+                <Menu.Item
+                  leftSection={<IconLogin size={18} color={'var(--gourmet-neutral-2)'} />}
+                  className={styles.menuLoginButton}
+                >
+                  <GourmetText cgmff="ui" cgmc={'neutral-2'}>
+                    {t('login')}
+                  </GourmetText>
+                </Menu.Item>
+              </Link>
             </Stack>
           </Menu.Dropdown>
         </Menu>

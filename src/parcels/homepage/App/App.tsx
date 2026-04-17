@@ -13,8 +13,6 @@ import styles from './App.module.css';
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // TODO: subscribe to event to store last non-auth related page (for forwarding)
-
   const router = useRouter();
   router.subscribe('onBeforeLoad', ({ fromLocation, pathChanged }) => {
     fromLocation && pathChanged && nprogress.start();

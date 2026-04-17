@@ -9,11 +9,14 @@ export function useTcgSearchSettings(set?: TcgDataSet) {
   const tcg = useTcgByLocation() as Tcg;
   const search = Route.useSearch();
 
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = useNavigate();
   useEffect(() => {
     if (!set) return;
+    if (!tcg) return;
 
     navigate({
+      to: '/$tcg/cards',
+      // @ts-expect-error it's stupid
       search: (prev) => ({ ...prev, sortBy: 'set', uniqueBy: 'prints' }),
       params: {
         tcg: tcg,

@@ -98,18 +98,18 @@ const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$tcg': typeof TcgIndexRoute
-  '/login': typeof LoginIndexRoute
-  '/register': typeof RegisterIndexRoute
+  '/$tcg/': typeof TcgIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
-  '/$tcg/advanced': typeof TcgAdvancedIndexRoute
-  '/$tcg/cards': typeof TcgCardsIndexRoute
-  '/me/history': typeof MeHistoryIndexRoute
-  '/me/lists': typeof MeListsIndexRoute
-  '/me/saved-searches': typeof MeSavedSearchesIndexRoute
-  '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
+  '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
+  '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/me/history/': typeof MeHistoryIndexRoute
+  '/me/lists/': typeof MeListsIndexRoute
+  '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
+  '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesByTo {
@@ -149,18 +149,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/$tcg'
-    | '/login'
-    | '/register'
+    | '/$tcg/'
+    | '/login/'
+    | '/register/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
     | '/me/lists/$listId'
-    | '/$tcg/advanced'
-    | '/$tcg/cards'
-    | '/me/history'
-    | '/me/lists'
-    | '/me/saved-searches'
-    | '/$tcg/sets/$setCode'
+    | '/$tcg/advanced/'
+    | '/$tcg/cards/'
+    | '/me/history/'
+    | '/me/lists/'
+    | '/me/saved-searches/'
+    | '/$tcg/sets/$setCode/'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -225,56 +225,56 @@ declare module '@tanstack/react-router' {
     '/register/': {
       id: '/register/'
       path: '/register'
-      fullPath: '/register'
+      fullPath: '/register/'
       preLoaderRoute: typeof RegisterIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login/': {
       id: '/login/'
       path: '/login'
-      fullPath: '/login'
+      fullPath: '/login/'
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/': {
       id: '/$tcg/'
       path: '/$tcg'
-      fullPath: '/$tcg'
+      fullPath: '/$tcg/'
       preLoaderRoute: typeof TcgIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/saved-searches/': {
       id: '/me/saved-searches/'
       path: '/me/saved-searches'
-      fullPath: '/me/saved-searches'
+      fullPath: '/me/saved-searches/'
       preLoaderRoute: typeof MeSavedSearchesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/lists/': {
       id: '/me/lists/'
       path: '/me/lists'
-      fullPath: '/me/lists'
+      fullPath: '/me/lists/'
       preLoaderRoute: typeof MeListsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/history/': {
       id: '/me/history/'
       path: '/me/history'
-      fullPath: '/me/history'
+      fullPath: '/me/history/'
       preLoaderRoute: typeof MeHistoryIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/cards/': {
       id: '/$tcg/cards/'
       path: '/$tcg/cards'
-      fullPath: '/$tcg/cards'
+      fullPath: '/$tcg/cards/'
       preLoaderRoute: typeof TcgCardsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/advanced/': {
       id: '/$tcg/advanced/'
       path: '/$tcg/advanced'
-      fullPath: '/$tcg/advanced'
+      fullPath: '/$tcg/advanced/'
       preLoaderRoute: typeof TcgAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -302,7 +302,7 @@ declare module '@tanstack/react-router' {
     '/$tcg/sets/$setCode/': {
       id: '/$tcg/sets/$setCode/'
       path: '/$tcg/sets/$setCode'
-      fullPath: '/$tcg/sets/$setCode'
+      fullPath: '/$tcg/sets/$setCode/'
       preLoaderRoute: typeof TcgSetsSetCodeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }

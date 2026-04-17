@@ -3,7 +3,7 @@ import {AdvancedFiltersOverview} from '@/parcels/search/advanced/form/AdvancedFi
 
 export const Route = createFileRoute('/$tcg/advanced/')({
   component: RouteComponent,
-  loader: ({ params }) => {
+  beforeLoad: ({ params }) => {
     const allowed = ['mtg', 'dlc', 'pcg'];
     if (!allowed.includes(params.tcg)) throw notFound();
   },

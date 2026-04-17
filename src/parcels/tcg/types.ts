@@ -60,15 +60,6 @@ export const tcgSearchParamsDefaults = {
   sortBy: 'name' as TcgSortBy,
 };
 
-export const tcgSetSearchParamsDefaults = {
-  query: '',
-  page: 1,
-  sortDirection: 'auto' as SortDirection,
-  display: 'grid' as DisplayMode,
-  uniqueBy: 'prints' as TcgUniqueBy,
-  sortBy: 'set' as TcgSortBy,
-};
-
 export const tcgSortBys = [...dlcSortBys, ...mtgSortBys, ...pcgSortBys] as const;
 export type TcgSortBy = (typeof tcgSortBys)[number];
 
@@ -88,12 +79,3 @@ export const tcgSearchParamsSchema = z.object({
   uniqueBy: z.enum(tcgUniqueBys).catch(tcgSearchParamsDefaults.uniqueBy),
   sortBy: z.enum(tcgSortBys).catch(tcgSearchParamsDefaults.sortBy),
 });
-
-/*export const tcgSetSearchParamsSchema = z.object({
-  query: z.string().catch(tcgSetSearchParamsDefaults.query),
-  page: z.number().catch(tcgSetSearchParamsDefaults.page),
-  sortDirection: z.enum(sortDirections).catch(tcgSetSearchParamsDefaults.sortDirection),
-  display: z.enum(displayModes).catch(tcgSetSearchParamsDefaults.display),
-  uniqueBy: z.enum(tcgUniqueBys).catch(tcgSetSearchParamsDefaults.uniqueBy),
-  sortBy: z.enum(tcgSortBys).catch(tcgSetSearchParamsDefaults.sortBy),
-});*/
