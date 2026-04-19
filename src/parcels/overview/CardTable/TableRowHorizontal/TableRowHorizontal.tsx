@@ -5,9 +5,7 @@ import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetail
 import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import styles from '@/parcels/overview/CardTable/CardTable.module.css';
 import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
-import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
-import {useSelectionIntegration} from '@/parcels/selection/useSelectionIntegration.ts';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 
 export function TableRowHorizontal({
   card,
@@ -22,11 +20,14 @@ export function TableRowHorizontal({
   columns: string[];
   toolsEnabled: boolean;
 }) {
-  const workContext = useTcgOverviewWorkContext();
-  const { isSelectionMode, isSelected, checked, setSelection, setMultiSelection } = useSelectionIntegration({
-    id: card.id,
-    index,
+  const thisId = card.print.id;
+
+  const isSelectionMode = useTcgOverviewWorkStore((state) => state.isSelectionMode);
+  const isSelected = useTcgOverviewWorkStore((state) => {
+    return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
+  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
+
   const columnElements = useMemo(() => {
     return columns.map((column) => <td key={column}>{data[column]}</td>);
   }, [columns, data]);
@@ -36,24 +37,18 @@ export function TableRowHorizontal({
       <Checkbox
         style={{ pointerEvents: 'auto' }}
         onClick={(event) => {
-          // if shift key, calculate range of cards to add or remove
-          const anchorIndex = workContext?.data?.selection?.anchorIndex;
-          if (event.shiftKey && anchorIndex !== undefined && anchorIndex > -1) {
+          if (event.shiftKey) {
             window.getSelection()?.removeAllRanges();
-
-            const ids = getIdsInRange(anchorIndex, index, workContext!);
-            setMultiSelection(ids, !checked);
-            return;
           }
 
-          setSelection(!checked);
+          setSelectionWithCheck([thisId], event.currentTarget.checked, event.shiftKey, thisId, index);
         }}
         color={'var(--gourmet-orange-1)'}
-        checked={checked}
+        checked={isSelected}
         classNames={{ root: styles.overlayCheckbox }}
       />
     );
-  }, [checked, index, setMultiSelection, setSelection, workContext]);
+  }, [index, isSelected, setSelectionWithCheck, thisId]);
 
   const openMenu = useCardMenuStore((state) => state.openMenu);
   const actionIcon = useMemo(() => {
