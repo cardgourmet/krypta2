@@ -3,11 +3,11 @@ import {IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-reac
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {addResourcesToList, removeResourcesFromList} from '@/parcels/lists/api.ts';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import type {UserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
 import type {OptionalTcgProps} from '@/parcels/tcg/TcgProps.ts';

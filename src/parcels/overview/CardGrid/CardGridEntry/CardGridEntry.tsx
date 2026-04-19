@@ -60,6 +60,8 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
         /* @ts-expect-error */
         'data-selected': isSelected,
         onClick: (event) => {
+          if (!isSelectionMode) return;
+
           event.preventDefault(); // prevent the event from bubbling up
           setSelectionWithCheck([thisId], !isSelected, event.shiftKey, thisId, index);
         },

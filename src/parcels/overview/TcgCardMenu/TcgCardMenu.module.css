@@ -1,9 +1,3 @@
-.menuDropdown {
-  button:hover {
-    background-color: var(--gourmet-neutral-2);
-  }
-}
-
 .menuItem {
   --bg-color: light-dark(var(--gourmet-neutral-0), var(--gourmet-neutral-3));
 

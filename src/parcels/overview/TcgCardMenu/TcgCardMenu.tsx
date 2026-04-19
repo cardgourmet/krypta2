@@ -1,4 +1,4 @@
-import {Group, Menu} from '@mantine/core';
+import {Group, Menu, Stack} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import {IconLink} from '@tabler/icons-react';
 import {Activity, type Ref, useCallback, useEffect, useMemo, useState} from 'react';
@@ -13,15 +13,16 @@ import {RemoveFromListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/Re
 import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './TcgCardMenu.module.css';
 
 export function TcgCardMenu({
   tcg,
-  onSearchSaved,
+  onAddToList,
   onRemoveFromList,
   ref,
 }: {
   tcg: Tcg;
-  onSearchSaved?: (id: string) => void;
+  onAddToList?: (id: string) => void;
   onRemoveFromList?: (listId: string) => void;
 } & { ref?: Ref<HTMLDivElement> }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
@@ -117,7 +118,16 @@ export function TcgCardMenu({
           </Menu.Target>
 
           <Menu.Dropdown ref={ref}>
-            {`Name: ${activeCard?.name}`}
+            {activeCard && (
+              <Stack p={'0.25rem'} gap={'0rem'}>
+                <GourmetText fz={'0.95rem'} fw={'500'}>
+                  {activeCard.name}
+                </GourmetText>
+                <GourmetText fz={'0.95rem'} cgmc={'neutral-6'}>
+                  {activeCard.print.collectorNumber}
+                </GourmetText>
+              </Stack>
+            )}
 
             {systemLists.map((list) => {
               return (
@@ -127,11 +137,11 @@ export function TcgCardMenu({
                   raw={resourceId === undefined}
                   listWithResources={list}
                   action={existsInLists.includes(list.list.id) ? 'remove' : 'add'}
-                  type={'search'}
+                  type={'card'}
                   tcg={tcg}
                   onSuccess={(res) => {
                     if (res) {
-                      if (onSearchSaved) onSearchSaved(res.resourceId);
+                      if (onAddToList) onAddToList(res.resourceId);
                     }
                   }}
                 />
@@ -148,8 +158,10 @@ export function TcgCardMenu({
               tcg={tcg}
               onSuccess={(res) => {
                 if (res) {
-                  if (onSearchSaved) onSearchSaved(res.resourceId);
+                  if (onAddToList) onAddToList(res.resourceId);
                 }
+
+                closeMenu();
               }}
             />
             <RemoveFromListMenu
@@ -162,6 +174,8 @@ export function TcgCardMenu({
                 if (res) {
                   if (onRemoveFromList) onRemoveFromList(res.listId);
                 }
+
+                closeMenu();
               }}
             />
 
@@ -178,6 +192,7 @@ export function TcgCardMenu({
 
                 closeMenu();
               }}
+              className={styles.menuItem}
             >
               <Group gap={'0.5rem'}>
                 <IconLink size={18} />
