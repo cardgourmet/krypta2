@@ -1,7 +1,7 @@
 import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, startTransition, useEffect, useMemo, useState} from 'react';
+import {Activity, useCallback, useEffect, useMemo, useState} from 'react';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
@@ -25,13 +25,51 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
 
   const isTouchDevice = useMediaQuery('(hover: none)');
 
-  const isSelectionMode = useTcgOverviewWorkStore((state) => (state.data?.selection?.elementIds.length ?? 0) > 0);
+  const isSelectionMode = useTcgOverviewWorkStore((state) => state.isSelectionMode);
   const isSelected = useTcgOverviewWorkStore((state) => {
     const thisId = card.card.print.id;
     return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
   const getIdsInRange = useTcgOverviewWorkStore((state) => state.getIdsInRange);
+  const checkSelection = useTcgOverviewWorkStore((state) => state.checkSelection);
+
   const setSelection = useTcgOverviewWorkStore((state) => state.setSelection);
+  const setSelectionMode = useTcgOverviewWorkStore((state) => state.setSelectionMode);
+  const setSelectionModeLoading = useTcgOverviewWorkStore((state) => state.setSelectionModeLoading);
+  const setSelectionWithCheck = useCallback(
+    (ids: string[], select: boolean, shift: boolean) => {
+      const thisId = card.card.print.id;
+
+      let mustIds = ids;
+      if (shift) {
+        // if shift key, calculate range of cards to add or remove
+        mustIds = getIdsInRange(index);
+      }
+      if (mustIds.length === 0) return;
+
+      const { success: allowed, toggledMode, newMode } = checkSelection(mustIds, select);
+      if (!allowed) return;
+
+      setChecked(select);
+      setSelection(mustIds, select, index, thisId);
+
+      if (toggledMode) {
+        setSelectionModeLoading(true);
+
+        setTimeout(() => {
+          setSelectionMode(newMode ?? false);
+        }, 0);
+      }
+    },
+    [card.card.print.id, checkSelection, getIdsInRange, index, setSelection, setSelectionMode, setSelectionModeLoading],
+  );
+  const setSelectionWrapper = useCallback(
+    (select: boolean) => {
+      const thisId = card.card.print.id;
+      setSelectionWithCheck([thisId], select, false);
+    },
+    [card.card.print.id, setSelectionWithCheck],
+  );
 
   const [checked, setChecked] = useState<boolean>(false);
   useEffect(() => {
@@ -69,56 +107,39 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
       linkProps={{
         /* @ts-expect-error */
         'data-selected': checked,
-        disabled: isSelectionMode,
-        'data-disabled': isSelectionMode,
         onClick: (event) => {
-          if (!isSelectionMode) return;
           event.preventDefault();
           const thisId = card.card.print.id;
 
-          // if shift key, calculate range of cards to add or remove
-          if (event.shiftKey) {
-            const ids = getIdsInRange(index);
-            if (ids.length === 0) return;
-
-            setChecked(!checked);
-            setSelection(ids, !checked, index, thisId);
-            return;
-          }
-
-          setChecked(!checked);
-          setSelection([thisId], !checked, index, thisId);
-          // setSelection(!checked);
+          setSelectionWithCheck([thisId], !checked, event.shiftKey);
         },
-        tabIndex: isSelectionMode ? 0 : undefined,
-        className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
+        //tabIndex: isSelectionMode ? 0 : undefined,
+        className: `${styles.cardLink} ${isSelectionMode && !isSelected && !checked ? styles.cardLinkSelectable : ''}`,
       }}
       imageDivProps={{
-        className: isSelectionMode ? styles.cardSelectionOverlay : '',
+        //className: isSelectionMode ? styles.cardSelectionOverlay : '',
         /* @ts-expect-error */
-        'data-selected': isSelected,
+        'data-selected': checked,
+      }}
+      style={{
+        zIndex: checked ? 1 : 0,
       }}
     >
-      {toolsEnabled && isTouchDevice && (
-        <Group p={'0.5rem'} justify={'space-between'}>
-          <Checkbox
-            style={{ pointerEvents: 'auto' }}
-            onChange={(event) => {
-              setChecked(event.currentTarget.checked);
-
-              startTransition(() => {
+      {isTouchDevice && (
+        <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
+          <Group p={'0.5rem'} justify={'space-between'}>
+            <Checkbox
+              style={{ pointerEvents: 'auto' }}
+              onChange={(event) => {
                 const thisId = card.card.print.id;
-                setSelection([thisId], event.currentTarget.checked, index, thisId);
-              });
-            }}
-            color={'var(--gourmet-orange-1)'}
-            checked={checked}
-            /*wrapperProps={{
-              'data-menu-opened': menuOpened,
-            }}*/
-          />
-          <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>{actionIcon}</Activity>
-        </Group>
+                setSelectionWithCheck([thisId], event.currentTarget.checked, false);
+              }}
+              color={'var(--gourmet-orange-1)'}
+              checked={checked}
+            />
+            <Activity mode={'hidden'}>{actionIcon}</Activity>
+          </Group>
+        </Activity>
       )}
 
       {!isTouchDevice && (
@@ -126,15 +147,8 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
           <ToolsOverlay
             card={card.card}
             checked={checked}
-            isSelectionMode={isSelectionMode}
-            setSelection={(select: boolean) => {
-              setChecked(select);
-
-              startTransition(() => {
-                const thisId = card.card.print.id;
-                setSelection([thisId], select, index, thisId);
-              });
-            }}
+            isSelectionMode={checked || isSelectionMode}
+            setSelection={setSelectionWrapper}
             menuButton={actionIcon}
           />
         </Activity>

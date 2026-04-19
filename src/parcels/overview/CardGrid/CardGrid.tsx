@@ -1,6 +1,7 @@
 import {useMemo} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/CardGrid/CardGridEntry/CardGridEntry.tsx';
+import {CardGridSelectionOverlay} from '@/parcels/selection/OverviewSelectionDisplay/CardGridSelectionOverlay.tsx';
 import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
 import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
 import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
@@ -61,6 +62,8 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
             </div>
           ))}
       {!isLoading && cardElements}
+
+      <CardGridSelectionOverlay />
     </div>
   );
 }

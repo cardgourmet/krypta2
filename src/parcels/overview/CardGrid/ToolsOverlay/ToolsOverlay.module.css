@@ -39,6 +39,13 @@
   }
 }
 
+.overlayCheckbox *,
+.overlayCheckbox *::before,
+.overlayCheckbox *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 .listLink:focus {
   border: none;
   outline: none;

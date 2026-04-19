@@ -1,4 +1,4 @@
-import {Accordion, Center, Divider, Group, Loader, Overlay, Stack, Text, Tooltip} from '@mantine/core';
+import {Accordion, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
 import {IconAlertCircleFilled, IconClock} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -7,6 +7,7 @@ import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {CardGrid} from '@/parcels/overview/CardGrid/CardGrid.tsx';
+import {CardOverviewLoader} from '@/parcels/overview/CardOverview/CardOverviewLoader.tsx';
 import CardOverviewSettings from '@/parcels/overview/CardOverview/CardOverviewSettings/CardOverviewSettings.tsx';
 import useCardOverviewData from '@/parcels/overview/CardOverview/useCardOverviewData.tsx';
 import {useTcgSearchSettings} from '@/parcels/overview/CardOverview/useTcgSearchSettings.tsx';
@@ -186,13 +187,7 @@ export function CardOverview() {
         )}
 
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
-          {isDisplayLoading && (
-            <Overlay backgroundOpacity={0.75} color={'var(--gourmet-neutral-0)'}>
-              <Center mt={'12rem'}>
-                <Loader color={'var(--gourmet-neutral-9)'} />
-              </Center>
-            </Overlay>
-          )}
+          <CardOverviewLoader isDisplayLoading={isDisplayLoading} />
 
           {displaySettings.display === 'grid' && (
             <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />

@@ -2,14 +2,14 @@ import {ActionIcon, Flex, Group, Stack, Tooltip} from '@mantine/core';
 import {useClickOutside, useMediaQuery} from '@mantine/hooks';
 import {IconEyeSearch, IconX} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown/MorePagesDropdown.tsx';
 import {SelectionProgress} from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import {UseSelectionButton} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/UseSelectionButton.tsx';
 import {ViewSelectionMenu} from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionMenu.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
@@ -18,8 +18,9 @@ export function OverviewSelectionDisplay() {
   const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
-  // TODO: use `useTcgOverviewWorkStore` instead
-  const workContext = useTcgOverviewWorkContext();
+  const workData = useTcgOverviewWorkStore((state) => state.data);
+  const isOverlayEnabled = useTcgOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
+  const clearSelection = useTcgOverviewWorkStore((state) => state.clearSelection);
 
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
@@ -29,14 +30,18 @@ export function OverviewSelectionDisplay() {
   const [dropdown, setDropdown] = useState<HTMLDivElement | null>(null);
   useClickOutside(() => setMenuOpened(false), null, [eyeButton, dropdown]);
 
-  const cardAmount = workContext?.data?.selection?.elementIds?.length ?? 0;
-  const pageCardAmount = Object.keys(
-    workContext?.data?.selection?.elementsByPage[workContext.data.search.page] ?? [],
-  ).length;
+  const cardAmount = workData?.selection?.elementIds?.length ?? 0;
+  useEffect(() => {
+    if (cardAmount === 0) {
+      setMenuOpened(false);
+    }
+  }, [cardAmount]);
+
+  const pageCardAmount = Object.keys(workData?.selection?.elementsByPage[workData.search.page] ?? []).length;
 
   return (
     <>
-      {workContext && cardAmount > 0 && (
+      {isOverlayEnabled && (
         <Group
           style={{
             position: 'sticky',
@@ -48,7 +53,7 @@ export function OverviewSelectionDisplay() {
           justify={'center'}
           align={'center'}
         >
-          <ViewSelectionMenu setDropdown={setDropdown} menuOpened={menuOpened} setMenuOpened={setMenuOpened}>
+          <ViewSelectionMenu dropdownRef={setDropdown} menuOpened={menuOpened} setMenuOpened={setMenuOpened}>
             <Stack
               style={{
                 border: '2px solid var(--cgm-navbar-border)',
@@ -90,7 +95,7 @@ export function OverviewSelectionDisplay() {
                   <Group gap={'0.1rem'}>
                     <MorePagesDropdown
                       text={t('current-page')}
-                      currentPage={workContext.data.search.page}
+                      currentPage={workData?.search.page ?? 1}
                       onSelect={(sel) => {
                         // noinspection JSIgnoredPromiseFromCall
                         navigate({
@@ -117,7 +122,7 @@ export function OverviewSelectionDisplay() {
                     <ActionIcon
                       color={'var(--gourmet-neutral-3)'}
                       onClick={() => {
-                        workContext.clearSelection();
+                        clearSelection();
                       }}
                     >
                       <IconX size={16} />

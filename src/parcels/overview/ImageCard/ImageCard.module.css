@@ -17,6 +17,10 @@
       filter: brightness(1.1);
     }
   }
+
+  &:hover {
+    z-index: 1 !important;
+  }
 }
 
 .card:has(:focus-visible) [data-toggle-visibility="true"],

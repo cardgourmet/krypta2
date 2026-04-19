@@ -6,12 +6,12 @@ import styles from './ViewSelectionMenu.module.css';
 export function ViewSelectionMenu({
   menuOpened,
   setMenuOpened,
-  setDropdown,
+  dropdownRef,
   children,
 }: {
   menuOpened: boolean;
   setMenuOpened: Dispatch<SetStateAction<boolean>>;
-  setDropdown: Dispatch<SetStateAction<HTMLDivElement | null>>;
+  dropdownRef: Dispatch<SetStateAction<HTMLDivElement | null>>;
 } & PropsWithChildren) {
   return (
     <Menu
@@ -19,12 +19,12 @@ export function ViewSelectionMenu({
       width={'min(42rem, 95dvw)'}
       position={'top'}
       opened={menuOpened}
-      transitionProps={{ transition: 'fade-up', duration: 150 }}
+      transitionProps={{ transition: 'fade-up', duration: 50 }}
       floatingStrategy={'fixed'}
     >
       <Menu.Target>{children}</Menu.Target>
 
-      <Menu.Dropdown className={styles.menuDropdown} ref={setDropdown}>
+      <Menu.Dropdown className={styles.menuDropdown} ref={dropdownRef}>
         <ViewSelectionPages setMenuOpened={setMenuOpened} />
       </Menu.Dropdown>
     </Menu>

@@ -1,9 +1,9 @@
 import {Link} from '@tanstack/react-router';
 import {type HTMLProps, type PropsWithChildren, useEffect, useRef, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
+import type {CardProperties} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {FlipButton} from '@/parcels/overview/CardGrid/FlipButton/FlipButton.tsx';
 import {FlipImage} from '@/parcels/overview/CardGrid/FlipImage/FlipImage.tsx';
-import type {CardProperties} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
@@ -45,7 +45,7 @@ export function ImageCard({
   }, []);
 
   return (
-    <div className={styles.card} {...others}>
+    <div className={`${styles.card}`} {...others}>
       <Link
         to={'/$tcg/sets/$setCode/$collectorNumber/{-$any}'}
         params={{

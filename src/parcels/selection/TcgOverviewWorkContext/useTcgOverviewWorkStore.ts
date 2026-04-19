@@ -7,8 +7,17 @@ export type TcgOverviewWorkStore = {
   data: TcgOverviewWorkData | null;
   setData: (query: string, result: TcgSearchCardsResult) => void;
 
-  setSelection: (ids: string[], select: boolean, anchorIndex?: number, anchorId?: string) => void;
+  isSelectionMode: boolean;
+  setSelectionMode: (m: boolean) => void;
+  isSelectionOverlayEnabled: boolean;
+  isSelectionModeLoading: boolean;
+  setSelectionModeLoading: (m: boolean) => void;
+
+  // checks if there is enough space left in the selection
+  checkSelection: (ids: string[], select: boolean) => { success: boolean; toggledMode: boolean; newMode?: boolean };
+  setSelection: (ids: string[], select: boolean, anchorIndex?: number, anchorId?: string) => boolean;
   clearSelection: () => void;
+
   getIdsInRange: (to: number) => string[];
 };
 
@@ -27,25 +36,58 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     set({ ...store, data: { ...workData, search: newSearch } });
   },
 
-  getIdsInRange: (to: number): string[] => {
+  isSelectionMode: false,
+  setSelectionMode: (m: boolean) => {
+    const store = get();
+    set({ ...store, isSelectionMode: m, isSelectionModeLoading: false });
+  },
+  isSelectionModeLoading: false,
+  setSelectionModeLoading: (m: boolean) => {
+    const store = get();
+    set({ ...store, isSelectionModeLoading: m });
+  },
+  isSelectionOverlayEnabled: false,
+
+  checkSelection: (ids: string[], select: boolean): { success: boolean; toggledMode: boolean; newMode?: boolean } => {
     const store = get();
     const workData = store.data;
-    if (!workData) return [];
 
-    const anchorIndex = workData?.selection?.anchorIndex;
-    if (anchorIndex === undefined) return [];
-    return getIdsInRange(anchorIndex, to, workData);
+    if (!workData?.selection) return { success: false, toggledMode: false };
+    if (ids.length === 0) return { success: false, toggledMode: false };
+
+    const current = workData?.selection?.elementIds.length ?? 0;
+    if (select && current + ids.length >= SELECTION_LIMIT) {
+      return { success: false, toggledMode: false };
+    }
+
+    let toggledMode = false;
+    let newMode: boolean | undefined;
+    if (select && current === 0) {
+      toggledMode = true;
+      newMode = true;
+
+      set({ ...store, isSelectionOverlayEnabled: true });
+    } else if (!select) {
+      const idsToDelete = ids.filter((id) => workData.selection.elementIds.includes(id));
+      if (current - idsToDelete.length <= 0) {
+        toggledMode = true;
+        newMode = false;
+
+        set({ ...store, isSelectionOverlayEnabled: false });
+      }
+    }
+    return { success: true, toggledMode: toggledMode, newMode: newMode };
   },
 
-  setSelection: (ids: string[], select: boolean, anchorIndex?: number, anchorId?: string) => {
+  setSelection: (ids: string[], select: boolean, anchorIndex?: number, anchorId?: string): boolean => {
     const store = get();
     const workData = store.data;
-    if (!workData?.selection) return;
-    if (ids.length === 0) return;
+    if (!workData?.selection) return false;
+    if (ids.length === 0) return false;
 
     const current = workData?.selection?.elementIds.length ?? 0;
     if (select && current + ids.length > SELECTION_LIMIT) {
-      return;
+      return false;
     }
     const dataEntries = (workData?.search?.result?.data?.items as TcgSearchDataCard[]).filter((c) =>
       ids.includes(c.card.print.id),
@@ -89,6 +131,7 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
         anchorId,
       );
     }
+    return true;
   },
   clearSelection: () => {
     const store = get();
@@ -103,6 +146,16 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
       anchorId: undefined,
     };
     set({ ...store, data: { ...workData, selection: newSelection } });
+  },
+
+  getIdsInRange: (to: number): string[] => {
+    const store = get();
+    const workData = store.data;
+    if (!workData) return [];
+
+    const anchorIndex = workData?.selection?.anchorIndex;
+    if (anchorIndex === undefined) return [];
+    return getIdsInRange(anchorIndex, to, workData);
   },
 }));
 

@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {EntryImage} from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
 import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
+import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ViewSelectionPages.module.css';
 
@@ -12,7 +12,9 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
   const { t } = useTranslation('selection');
 
   const tcg = useTcgByLocation() as Tcg;
-  const workContext = useTcgOverviewWorkContext();
+
+  const workData = useTcgOverviewWorkStore((state) => state.data);
+  const setSelection = useTcgOverviewWorkStore((state) => state.setSelection);
 
   return (
     <Stack>
@@ -40,8 +42,8 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
         pr={'0.2rem'}
       >
         <Stack gap={'2.5rem'} p={'0.25rem 0.25rem'}>
-          {workContext?.data
-            && dataEntriesByPage(workContext?.data).map(({ page, entries }) => {
+          {workData
+            && dataEntriesByPage(workData).map(({ page, entries }) => {
               return (
                 <Stack key={page}>
                   <Group justify={'space-between'}>
@@ -55,7 +57,8 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
                     <Button
                       classNames={{ root: styles.clearFromPageButton }}
                       onClick={() => {
-                        workContext?.removeSelection([...entries.map((e) => e.card.print.id)], Number(page));
+                        setSelection([...entries.map((e) => e.card.print.id)], false);
+                        //workContext?.removeSelection([...entries.map((e) => e.card.print.id)], Number(page));
                       }}
                     >
                       <Group>
@@ -67,7 +70,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
 
                   <SimpleGrid cols={4} spacing={'xs'}>
                     {entries.map((entry, index) => {
-                      return <EntryImage key={index} tcg={tcg} entry={entry} page={Number(page)} work={workContext} />;
+                      return <EntryImage key={index} tcg={tcg} entry={entry} />;
                     })}
                   </SimpleGrid>
                 </Stack>
