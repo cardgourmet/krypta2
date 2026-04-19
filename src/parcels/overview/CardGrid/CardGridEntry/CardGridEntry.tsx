@@ -1,9 +1,8 @@
 import {ActionIcon, Checkbox, Group} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, useCallback, useMemo} from 'react';
+import {Activity, useMemo} from 'react';
 import {type CardProperties, createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
-import {useSetSelectionWithCheck} from '@/parcels/overview/CardGrid/CardGridEntry/useSetSelectionWithCheck.ts';
 import {ToolsOverlay} from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
 import {useCardMenuStore} from '@/parcels/overview/TcgCardMenu/useTcgCardMenuStore.ts';
@@ -23,44 +22,35 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
-
   const isTouchDevice = useMediaQuery('(hover: none)');
+  const thisId = card.card.print.id;
 
   const isSelectionMode = useTcgOverviewWorkStore((state) => state.isSelectionMode);
   const isSelected = useTcgOverviewWorkStore((state) => {
-    const thisId = card.card.print.id;
     return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
+  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
 
-  const setSelectionWithCheck = useSetSelectionWithCheck({ thisId: card.card.print.id, index });
-  const setSelectionWrapper = useCallback(
-    (select: boolean) => {
-      const thisId = card.card.print.id;
-      setSelectionWithCheck([thisId], select, false);
-    },
-    [card.card.print.id, setSelectionWithCheck],
-  );
-
-  const openMenu = useCardMenuStore((state) => state.openMenu);
-  const isOpen = useCardMenuStore((state) => state.opened && state.data?.print?.id === card.card.print.id);
-  const actionIcon = useMemo(() => {
+  const openCardMenu = useCardMenuStore((state) => state.openMenu);
+  const isCardMenuOpen = useCardMenuStore((state) => state.opened && state.data?.print?.id === card.card.print.id);
+  const cardMenuButton = useMemo(() => {
     return (
       <ActionIcon
         style={{ pointerEvents: 'auto' }}
         onMouseDown={(event) => event.stopPropagation()}
         onClick={(event) => {
-          openMenu(card?.card, event.currentTarget);
+          openCardMenu(card?.card, event.currentTarget);
         }}
         color="var(--gourmet-neutral-dark-3)"
         size={'1.25rem'}
         classNames={{ root: styles.overlayMenuButton }}
-        data-menu-opened={isOpen}
+        data-menu-opened={isCardMenuOpen}
         data-toggle-visibility={true}
       >
         <IconDotsVertical size={16} />
       </ActionIcon>
     );
-  }, [card, openMenu, isOpen]);
+  }, [card, openCardMenu, isCardMenuOpen]);
 
   return (
     <ImageCard
@@ -70,10 +60,8 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
         /* @ts-expect-error */
         'data-selected': isSelected,
         onClick: (event) => {
-          event.preventDefault();
-          const thisId = card.card.print.id;
-
-          setSelectionWithCheck([thisId], !isSelected, event.shiftKey);
+          event.preventDefault(); // prevent the event from bubbling up
+          setSelectionWithCheck([thisId], !isSelected, event.shiftKey, thisId, index);
         },
         tabIndex: isSelectionMode ? 0 : undefined,
         className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
@@ -92,13 +80,12 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
             <Checkbox
               style={{ pointerEvents: 'auto' }}
               onChange={(event) => {
-                const thisId = card.card.print.id;
-                setSelectionWithCheck([thisId], event.currentTarget.checked, false);
+                setSelectionWithCheck([thisId], event.currentTarget.checked, false, thisId, index);
               }}
               color={'var(--gourmet-orange-1)'}
               checked={isSelected}
             />
-            <Activity mode={'hidden'}>{actionIcon}</Activity>
+            <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>{cardMenuButton}</Activity>
           </Group>
         </Activity>
       )}
@@ -109,8 +96,11 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
             card={card.card}
             checked={isSelected}
             isSelectionMode={isSelected || isSelectionMode}
-            setSelection={setSelectionWrapper}
-            menuButton={actionIcon}
+            setSelection={(select) => {
+              const thisId = card.card.print.id;
+              setSelectionWithCheck([thisId], select, false, thisId, index);
+            }}
+            menuButton={cardMenuButton}
           />
         </Activity>
       )}

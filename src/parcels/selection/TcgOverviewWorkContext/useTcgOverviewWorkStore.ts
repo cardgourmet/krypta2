@@ -16,6 +16,7 @@ export type TcgOverviewWorkStore = {
   // checks if there is enough space left in the selection
   checkSelection: (ids: string[], select: boolean) => { success: boolean; toggledMode: boolean; newMode?: boolean };
   setSelection: (ids: string[], select: boolean, anchorIndex?: number, anchorId?: string) => boolean;
+  setSelectionWithCheck: (ids: string[], select: boolean, shift?: boolean, thisId?: string, index?: number) => void;
   clearSelection: () => void;
 
   getIdsInRange: (to: number) => string[];
@@ -133,19 +134,34 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     }
     return true;
   },
+  setSelectionWithCheck: (ids: string[], select: boolean, shift?: boolean, thisId?: string, index?: number) => {
+    const store = get();
+
+    let mustIds = ids;
+    if (shift === true && index !== undefined) {
+      // if shift key, calculate range of cards to add or remove
+      mustIds = store.getIdsInRange(index);
+    }
+    if (mustIds.length === 0) return;
+
+    const { success: allowed, toggledMode, newMode } = store.checkSelection(mustIds, select);
+    if (!allowed) return;
+
+    store.setSelection(mustIds, select, index, thisId);
+    if (toggledMode) {
+      store.setSelectionModeLoading(true);
+
+      setTimeout(() => {
+        store.setSelectionMode(newMode ?? false);
+      }, 0);
+    }
+  },
   clearSelection: () => {
     const store = get();
     const workData = store.data;
     if (!workData?.selection) return;
 
-    const newSelection = {
-      elementsByPage: {} as Record<number, string[]>,
-      elementIds: [] as string[],
-      elementDataById: {},
-      anchorIndex: -1,
-      anchorId: undefined,
-    };
-    set({ ...store, data: { ...workData, selection: newSelection } });
+    store.setSelectionWithCheck(workData.selection.elementIds, false, false);
   },
 
   getIdsInRange: (to: number): string[] => {

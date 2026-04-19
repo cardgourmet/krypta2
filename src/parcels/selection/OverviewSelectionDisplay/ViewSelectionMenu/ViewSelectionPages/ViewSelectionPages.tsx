@@ -14,7 +14,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
   const tcg = useTcgByLocation() as Tcg;
 
   const workData = useTcgOverviewWorkStore((state) => state.data);
-  const setSelection = useTcgOverviewWorkStore((state) => state.setSelection);
+  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
 
   return (
     <Stack>
@@ -57,8 +57,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
                     <Button
                       classNames={{ root: styles.clearFromPageButton }}
                       onClick={() => {
-                        setSelection([...entries.map((e) => e.card.print.id)], false);
-                        //workContext?.removeSelection([...entries.map((e) => e.card.print.id)], Number(page));
+                        setSelectionWithCheck([...entries.map((e) => e.card.print.id)], false);
                       }}
                     >
                       <Group>

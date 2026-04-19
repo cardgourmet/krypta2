@@ -15,8 +15,7 @@ export function EntryImage({ tcg, entry }: { tcg: Tcg; entry: TcgSearchDataCard 
 
   const imageRef = useRef<HTMLImageElement>(null);
   const backfaceImageRef = useRef<HTMLImageElement>(null);
-
-  const setSelection = useTcgOverviewWorkStore((state) => state.setSelection);
+  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
 
   return (
     <div className={styles.card}>
@@ -24,7 +23,7 @@ export function EntryImage({ tcg, entry }: { tcg: Tcg; entry: TcgSearchDataCard 
         <UnstyledButton
           style={{ display: 'flex', width: '100%', height: '100%' }}
           onClick={() => {
-            setSelection([entry.card.print.id], false);
+            setSelectionWithCheck([entry.card.print.id], false);
           }}
         >
           <FlipImage
