@@ -21,6 +21,7 @@ import {MtgSetIcon} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrin
 import type {TcgSearchCardsResult, TcgSearchParams} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import type {ApplyFn} from '@/parcels/types.ts';
+import {usePrevious} from '@/parcels/usePrevious.ts';
 import {Route} from '@/routes/$tcg/cards';
 import styles from './CardOverview.module.css';
 
@@ -47,9 +48,12 @@ export function CardOverview() {
     uniqueBy: querySettings.uniqueBy,
     display: displaySettings.display,
   });
+  const prevOverviewSettings = usePrevious(overviewSettings);
+
   useEffect(() => {
     if (!overviewSettings) return;
     if (!tcg) return;
+    if (!prevOverviewSettings || prevOverviewSettings === overviewSettings) return;
 
     navigate({
       to: '/$tcg/cards',
@@ -59,7 +63,7 @@ export function CardOverview() {
       },
       replace: true,
     });
-  }, [overviewSettings, navigate, tcg]);
+  }, [overviewSettings, navigate, tcg, prevOverviewSettings]);
   const setSettings = useCallback(
     (apply: ApplyFn<TcgSearchParams>) => {
       const newParams = apply(params) as Required<TcgSearchParams>;

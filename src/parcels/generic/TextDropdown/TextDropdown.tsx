@@ -2,7 +2,7 @@ import {Combobox, Group, type StyleProp, UnstyledButton, useCombobox} from '@man
 import {IconCaretDownFilled, IconCheck} from '@tabler/icons-react';
 import type {Property} from 'csstype';
 import type {TFunction} from 'i18next';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './TextDropdown.module.css';
 
@@ -20,6 +20,10 @@ export type TextDropdownProps = {
 export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect, miw }: TextDropdownProps) {
   const combobox = useCombobox();
   const [selectedValue, setSelectedValue] = useState<string | undefined>(defaultSelected);
+  useEffect(() => {
+    setSelectedValue(defaultSelected);
+  }, [defaultSelected]);
+
   const options = Object.entries(items).map(([key, value]) => (
     <Combobox.Option value={key} key={key}>
       <Group justify={'space-between'}>

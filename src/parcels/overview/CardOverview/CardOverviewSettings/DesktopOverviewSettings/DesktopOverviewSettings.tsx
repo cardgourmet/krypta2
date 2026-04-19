@@ -1,7 +1,7 @@
 import {Center, Group, SegmentedControl, UnstyledButton} from '@mantine/core';
 import {IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off} from '@tabler/icons-react';
 import type {TFunction} from 'i18next';
-import {startTransition, useState} from 'react';
+import {startTransition, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
@@ -16,7 +16,7 @@ export function DesktopOverviewSettings({
   toolsEnabled,
   setToolsEnabled,
   setSettingsWrapper,
-  initialOverviewSettings,
+  overviewSettings,
   setIsDisplayLoading,
 }: {
   t: TFunction<string>;
@@ -24,13 +24,17 @@ export function DesktopOverviewSettings({
   toolsEnabled: boolean;
   setToolsEnabled: (enabled: boolean) => void;
   setSettingsWrapper: (update: ApplyFn<TcgSearchParams>) => void;
-  initialOverviewSettings: OverviewSettings;
+  overviewSettings: OverviewSettings;
   setIsDisplayLoading: (isLoading: boolean) => void;
 }) {
   const { user } = useAuth();
   const [toolsButtonEnabled, setToolsButtonEnabled] = useState(toolsEnabled ?? true);
 
-  const [settings, setSettings] = useState<OverviewSettings>({ ...initialOverviewSettings });
+  const [settings, setSettings] = useState<OverviewSettings>({ ...overviewSettings });
+  console.log('settings', settings);
+  useEffect(() => {
+    setSettings({ ...overviewSettings });
+  }, [overviewSettings]);
 
   return (
     <Group justify={'space-between'}>

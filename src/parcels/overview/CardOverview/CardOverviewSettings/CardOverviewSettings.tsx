@@ -125,7 +125,7 @@ export default function CardOverviewSettings({
           toolsEnabled={toolsEnabled}
           setToolsEnabled={setToolsEnabled}
           setSettingsWrapper={setSettingsWrapper}
-          initialOverviewSettings={overviewSettings}
+          overviewSettings={overviewSettings}
           setIsDisplayLoading={setIsDisplayLoading}
         />
       )}
