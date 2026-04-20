@@ -5,7 +5,7 @@ export const Route = createFileRoute('/$tcg/advanced/')({
   component: RouteComponent,
   beforeLoad: ({ params }) => {
     const allowed = ['mtg', 'dlc', 'pcg'];
-    if (!allowed.includes(params.tcg)) throw notFound();
+    if (!allowed.includes(params.tcg)) throw notFound({ data: { tcg: params.tcg } });
   },
 });
 

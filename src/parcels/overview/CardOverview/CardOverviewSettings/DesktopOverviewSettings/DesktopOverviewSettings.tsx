@@ -31,7 +31,6 @@ export function DesktopOverviewSettings({
   const [toolsButtonEnabled, setToolsButtonEnabled] = useState(toolsEnabled ?? true);
 
   const [settings, setSettings] = useState<OverviewSettings>({ ...overviewSettings });
-  console.log('settings', settings);
   useEffect(() => {
     setSettings({ ...overviewSettings });
   }, [overviewSettings]);
