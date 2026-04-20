@@ -3,7 +3,7 @@ export function getSetSpecificQuery(query: string): string | null {
   const lowerQuery = query.toLowerCase();
   if (lowerQuery.includes(' or ')) return null;
 
-  const allowedFilters = ['set', 'setcode', 'setname'];
+  const allowedFilters = ['set', 'setcode', 'setname', 's', 'e', 'setid', 'edition', 'expansion'];
   let allowed = false;
   for (const allowedFilter of allowedFilters) {
     if (lowerQuery.startsWith(allowedFilter)) {

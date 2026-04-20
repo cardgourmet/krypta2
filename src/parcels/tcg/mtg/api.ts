@@ -22,6 +22,20 @@ export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
 
+// /v1/mtg/sets/search
+export async function searchMtgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<MtgDataSet[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/sets/search`, {
+      params: {
+        query: {
+          query: query,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // v1/mtg/sets/{setId}/summary
 export async function fetchMtgSetSummary(
   setId: string,

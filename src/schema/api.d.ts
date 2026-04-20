@@ -1931,6 +1931,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/mtg/sets/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search MTG Sets
+         * @description Returns all Magic: The Gathering sets that match the set filters of the given query. If no set filter is found, no sets are returned.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The query to search the sets by. */
+                    query: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-List-MtgDataSet"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/mtg/blocks": {
         parameters: {
             query?: never;
@@ -2821,6 +2863,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dlc/sets/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search DLC Sets
+         * @description Returns all Disney Lorcana sets that match the set filters of the given query. If no set filter is found, no sets are returned.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The query to search the sets by. */
+                    query: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-List-DlcDataSet"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/pcg/cards/search": {
         parameters: {
             query?: never;
@@ -3518,8 +3602,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get DLC Set Summary
-         * @description Return all data related to a Disney Lorcana set.
+         * Get PCG Set Summary
+         * @description Return all data related to a Pokémon Trading Card Game set.
          */
         get: {
             parameters: {
@@ -3553,6 +3637,48 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["DataApiResponse-PcgDataSetSummary"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/pcg/sets/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search PCG Sets
+         * @description Returns all Pokémon Trading Card Game sets that match the set filters of the given query. If no set filter is found, no sets are returned.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The query to search the sets by. */
+                    query: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DataApiResponse-List-PcgDataSet"];
                     };
                 };
             };
@@ -6608,6 +6734,11 @@ export interface components {
             /** Format: int32 */
             statusCode: number;
         };
+        "DataApiResponse-List-MtgDataSet": {
+            data: components["schemas"]["MtgDataSet"][];
+            /** Format: int32 */
+            statusCode: number;
+        };
         MtgDataBlockTranslation: {
             name: string;
         };
@@ -6812,6 +6943,11 @@ export interface components {
         };
         "DataApiResponse-DlcDataSetSummary": {
             data: components["schemas"]["DlcDataSetSummary"];
+            /** Format: int32 */
+            statusCode: number;
+        };
+        "DataApiResponse-List-DlcDataSet": {
+            data: components["schemas"]["DlcDataSet"][];
             /** Format: int32 */
             statusCode: number;
         };
@@ -7045,6 +7181,11 @@ export interface components {
         };
         "DataApiResponse-PcgDataSetSummary": {
             data: components["schemas"]["PcgDataSetSummary"];
+            /** Format: int32 */
+            statusCode: number;
+        };
+        "DataApiResponse-List-PcgDataSet": {
+            data: components["schemas"]["PcgDataSet"][];
             /** Format: int32 */
             statusCode: number;
         };

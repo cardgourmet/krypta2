@@ -20,6 +20,20 @@ export type PcgDataCard = c['schemas']['PcgDataCard'];
 export type PcgDataPrint = c['schemas']['PcgDataPrint'];
 export type PcgDataSet = c['schemas']['PcgDataSet'];
 
+// /v1/pcg/sets/search
+export async function searchPcgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/sets/search`, {
+      params: {
+        query: {
+          query: query,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // v1/pcg/sets/{setId}/summary
 export async function fetchPcgSetSummary(
   setId: string,

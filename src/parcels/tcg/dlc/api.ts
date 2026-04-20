@@ -20,6 +20,20 @@ export type DlcDataCard = c['schemas']['DlcDataCard'];
 export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 
+// /v1/dlc/sets/search
+export async function searchDlcSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/sets/search`, {
+      params: {
+        query: {
+          query: query,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // v1/dlc/sets/{setId}/summary
 export async function fetchDlcSetSummary(
   setId: string,
