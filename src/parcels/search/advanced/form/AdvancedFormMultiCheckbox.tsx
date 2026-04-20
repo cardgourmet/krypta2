@@ -1,10 +1,10 @@
-import { Group, Stack, Text } from '@mantine/core';
-import type { UseFormReturnType } from '@mantine/form';
-import { type ReactElement, useContext } from 'react';
-import { AdvancedFilterContext } from '@/parcels/search/advanced/form/AdvancedFiltersOverview.tsx';
-import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
-import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
-import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx';
+import {Group, Stack, Text} from '@mantine/core';
+import type {UseFormReturnType} from '@mantine/form';
+import {type ReactElement, useContext} from 'react';
+import type {AdvancedFormProps} from '@/parcels/search/advanced/form/types.ts';
+import {AdvancedFilterContext} from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
+import {StyledCheckbox} from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
+import {StyledSelect} from '@/parcels/search/advanced/styled/StyledSelect.tsx';
 
 type AdvancedFormMultiCheckboxProps = AdvancedFormProps & {
   data: { value: string; label: string }[];
@@ -23,7 +23,10 @@ export function AdvancedFormMultiCheckbox({ k, data, iconsMap, exactDropdownValu
           .map((d) => {
             return (
               <Group gap={'0.5rem'} key={d.value}>
-                <StyledCheckbox {...form.getInputProps(`${k}.values.${d.value}`)} />
+                <StyledCheckbox
+                  key={form.key(`${k}.values.${d.value}`)}
+                  {...form?.getInputProps(`${k}.values.${d.value}`)}
+                />
 
                 {!iconsMap && <Text fs={'1rem'}>{d.label}</Text>}
                 {iconsMap && (
@@ -44,7 +47,8 @@ export function AdvancedFormMultiCheckbox({ k, data, iconsMap, exactDropdownValu
             { value: 'exact', label: exactDropdownValues?.exact },
             { value: 'contains', label: exactDropdownValues?.contains },
           ]}
-          {...form.getInputProps(`${k}.mode`)}
+          key={form.key(`${k}.mode`)}
+          {...form?.getInputProps(`${k}.mode`)}
         />
       )}
     </Stack>

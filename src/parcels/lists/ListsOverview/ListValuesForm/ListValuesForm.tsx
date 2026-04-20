@@ -47,7 +47,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
           <GourmetTextInput
             placeholder={'e.g. "New deck ideas"'}
             key={form.key('name')}
-            {...form.getInputProps('name')}
+            {...form?.getInputProps('name')}
           />
         </Grid.Col>
 
@@ -60,7 +60,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
           <GourmetTextInput
             placeholder={'Describe your list'}
             key={form.key('description')}
-            {...form.getInputProps('description')}
+            {...form?.getInputProps('description')}
           />
         </Grid.Col>
 
@@ -113,7 +113,7 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
               data={allowedTcgsData}
               defaultValue={form.values.allowedTcgs}
               key={form.key('allowedTcgs')}
-              {...form.getInputProps('allowedTcgs')}
+              {...form?.getInputProps('allowedTcgs')}
             />
             <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
               {t('allowedTcgsExplain')}
