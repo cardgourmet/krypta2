@@ -1,28 +1,30 @@
-import { Button, Group, Text } from '@mantine/core';
-import { type UseFormReturnType, useForm } from '@mantine/form';
-import { useDebouncedValue } from '@mantine/hooks';
-import { IconSearch } from '@tabler/icons-react';
-import { createContext, useMemo, useState } from 'react';
+import {Button, Group, Text} from '@mantine/core';
+import {useForm, type UseFormReturnType} from '@mantine/form';
+import {useDebouncedValue} from '@mantine/hooks';
+import {IconSearch} from '@tabler/icons-react';
+import {createContext, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import styles from '@/parcels/search/advanced/FilterOverview.module.css';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useStartSearch } from '@/parcels/search/startSearch.ts';
-import { constructDlcQuery } from '@/parcels/tcg/dlc/advanced/constructDlcQuery.ts';
-import { DlcAdvancedFilters } from '@/parcels/tcg/dlc/advanced/DlcAdvancedFilters.tsx';
-import { createDefaultDlcFormData, type DlcAdvancedFilterFormData } from '@/parcels/tcg/dlc/advanced/formData.ts';
-import { constructMtgQuery } from '@/parcels/tcg/mtg/advanced/constructMtgQuery.ts';
-import { createDefaultMtgFormData, type MtgAdvancedFilterFormData } from '@/parcels/tcg/mtg/advanced/formData.ts';
-import { MtgAdvancedFilters } from '@/parcels/tcg/mtg/advanced/MtgAdvancedFilters.tsx';
-import { constructPcgQuery } from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
-import { createDefaultPcgFormData, type PcgAdvancedFilterFormData } from '@/parcels/tcg/pcg/advanced/formData.ts';
-import { PcgAdvancedFilters } from '@/parcels/tcg/pcg/advanced/PcgAdvancedFilters.tsx';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
+import {useStartSearch} from '@/parcels/search/startSearch.ts';
+import {constructDlcQuery} from '@/parcels/tcg/dlc/advanced/constructDlcQuery.ts';
+import {DlcAdvancedFilters} from '@/parcels/tcg/dlc/advanced/DlcAdvancedFilters.tsx';
+import {createDefaultDlcFormData, type DlcAdvancedFilterFormData} from '@/parcels/tcg/dlc/advanced/formData.ts';
+import {constructMtgQuery} from '@/parcels/tcg/mtg/advanced/constructMtgQuery.ts';
+import {createDefaultMtgFormData, type MtgAdvancedFilterFormData} from '@/parcels/tcg/mtg/advanced/formData.ts';
+import {MtgAdvancedFilters} from '@/parcels/tcg/mtg/advanced/MtgAdvancedFilters.tsx';
+import {constructPcgQuery} from '@/parcels/tcg/pcg/advanced/constructPcgQuery.ts';
+import {createDefaultPcgFormData, type PcgAdvancedFilterFormData} from '@/parcels/tcg/pcg/advanced/formData.ts';
+import {PcgAdvancedFilters} from '@/parcels/tcg/pcg/advanced/PcgAdvancedFilters.tsx';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const AdvancedFilterContext = createContext<UseFormReturnType<
   PcgAdvancedFilterFormData | DlcAdvancedFilterFormData | MtgAdvancedFilterFormData
 > | null>(null);
 
 export function AdvancedFiltersOverview() {
+  const { t } = useTranslation('advanced');
   const [constructedQueryFilters, setConstructedQueryFilters] = useState<string[]>([]);
 
   const tcg = useTcgByLocation() as Tcg;
@@ -61,21 +63,24 @@ export function AdvancedFiltersOverview() {
 
   return (
     <div className={styles.mainContent}>
-      <Breadcrumbs subpage={'Erweiterte Suche'} />
+      <Breadcrumbs subpage={t('title')} />
 
       <div className={styles.advancedSearch}>
         <div className={styles.header}>
           <Group justify={'space-between'}>
             <div style={{ width: '50%' }}>
-              {constructedQueryFilters.length === 0 && (
-                <Text fs={'italic'}>Benutze die Filter unten, um dir die Suche zusammenzubauen.</Text>
-              )}
+              {constructedQueryFilters.length === 0 && <Text fs={'italic'}>{t('subtitle')}</Text>}
               {constructedQueryFilters.length > 0 && <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />}
             </div>
             <Group>
               {constructedQueryFilters.length > 0 && (
-                <Button color={'var(--gourmet-neutral-3)'} onClick={() => {}}>
-                  {constructedQueryFilters.length} Filter zurücksetzen
+                <Button
+                  color={'var(--gourmet-neutral-3)'}
+                  onClick={() => {
+                    form.setValues(defaultFormData!);
+                  }}
+                >
+                  {t('resetButton', { count: constructedQueryFilters.length })}
                 </Button>
               )}
               <Button
@@ -84,7 +89,7 @@ export function AdvancedFiltersOverview() {
                 leftSection={<IconSearch size={18} />}
                 onClick={startSearch}
               >
-                Suche starten
+                {t('startSearch')}
               </Button>
             </Group>
           </Group>

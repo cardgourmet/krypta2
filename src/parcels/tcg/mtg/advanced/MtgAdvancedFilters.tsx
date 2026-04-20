@@ -1,5 +1,6 @@
 import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
 import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
 import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
 import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
@@ -10,6 +11,8 @@ import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.
 import {mtgColors, mtgFormats, mtgGames, mtgKeywords, mtgRarities, mtgSetNames, mtgTypes,} from '@/parcels/tcg/mtg/raw/apiValues.ts';
 
 export function MtgAdvancedFilters() {
+  const { t } = useTranslation('advanced', { keyPrefix: 'mtg' });
+  const { t: ft } = useTranslation('advanced', { keyPrefix: 'mtg.filters' });
   const setNamesMapped = useMemo(() => {
     return mtgSetNames.data.values.map((d) => {
       return { value: d.value, label: capitalizeFirstLetter(d.value) };
@@ -28,19 +31,19 @@ export function MtgAdvancedFilters() {
 
   return (
     <>
-      <AdvancedFilterCategory title={'identity'} icon={<IconUserScan />}>
+      <AdvancedFilterCategory title={t('categories.identity')} icon={<IconUserScan />}>
         <AdvancedFormMultiSelect
           k={'type'}
-          title={'Typ'}
-          description={'Typ einer Karte'}
+          title={ft('type.title')}
+          description={ft('type.description')}
           filter={'type'}
           data={typesMapped}
-          dropdownPlaceholder={'Gib einen Typen ein oder wähle einen'}
+          dropdownPlaceholder={ft('type.placeholder')}
         />
         <AdvancedFormMultiCheckbox
           k={'color'}
-          title={'Mana-Farbe'}
-          description={'Art der Mana, die als Kosten auf der Karte gekennzeichnet sind'}
+          title={ft('color.title')}
+          description={ft('color.description')}
           filter={'color'}
           data={mtgColors.data.values
             .filter((d) => d.type === 'color')
@@ -53,123 +56,118 @@ export function MtgAdvancedFilters() {
             white: <MtgSymbolSVG symbol={'{W}'} size={24} />,
             green: <MtgSymbolSVG symbol={'{G}'} size={24} />,
           }}
-          exactDropdownValues={{ exact: 'Genau diese Farben', contains: 'Enthält eine dieser Farben' }}
+          exactDropdownValues={{ exact: ft('color.exact'), contains: ft('color.contains') }}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'text'} icon={<IconTextSize />}>
+      <AdvancedFilterCategory title={t('categories.text')} icon={<IconTextSize />}>
         <AdvancedFormText
           k={'name'}
-          title={'Kartenname'}
-          description={'Irgendein Wort, das im Namen der Karte vorkommt'}
+          title={ft('name.title')}
+          description={ft('name.description')}
           filter={'text'}
-          inputPlaceholder={`Irgendein Wort wie "tuff"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('name.placeholder')}
+          checkboxLabel={ft('name.checkboxLabel')}
           withCheckbox
         />
         <AdvancedFormText
           k={'text'}
-          title={'Text'}
-          description={'Irgendeine Wortfolge, die im Text der Karte vorkommt'}
+          title={ft('text.title')}
+          description={ft('text.description')}
           filter={'text'}
-          inputPlaceholder={`Irgendein Wort wie "Round"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('text.placeholder')}
+          checkboxLabel={ft('text.checkboxLabel')}
           withCheckbox
         />
         <AdvancedFormText
           k={'flavortext'}
-          title={'Flavortext'}
-          description={'Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert'}
+          title={ft('flavortext.title')}
+          description={ft('flavortext.description')}
           filter={'flavortext'}
-          inputPlaceholder={`Irgendein Wort wie "fine fur"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('flavortext.placeholder')}
+          checkboxLabel={ft('flavortext.checkboxLabel')}
           withCheckbox
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'effect'} icon={<IconSparkles />}>
+      <AdvancedFilterCategory title={t('categories.effect')} icon={<IconSparkles />}>
         <AdvancedFormMultiSelect
           k={'keyword'}
-          title={'Schlüsselwörter'}
-          description={'Schlüsselwörter einer Karte, die als Kürzel für teils komplexere Mechaniken dienen'}
+          title={ft('keyword.title')}
+          description={ft('keyword.description')}
           filter={'keyword'}
           data={keywordsMapped}
-          dropdownPlaceholder={'Gib ein Schlüsselwort ein oder wähle eins'}
+          dropdownPlaceholder={ft('keyword.placeholder')}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'stats'} icon={<IconNumbers />}>
-        <AdvancedFormNumberCompare
-          k={'cmc'}
-          title={'Manakosten'}
-          description={'Wert der Manakosten als Ganzzahl'}
-          filter={'cmc'}
-        />
+      <AdvancedFilterCategory title={t('categories.stats')} icon={<IconNumbers />}>
+        <AdvancedFormNumberCompare k={'cmc'} title={ft('cmc.title')} description={ft('cmc.title')} filter={'cmc'} />
         <AdvancedFormNumberCompare
           k={'power'}
-          title={'Stärke'}
-          description={'Wert der Stärke, falls vorhanden'}
+          title={ft('power.title')}
+          description={ft('power.description')}
           filter={'power'}
         />
         <AdvancedFormNumberCompare
           k={'toughness'}
-          title={'Widerstandskraft'}
-          description={'Wert der Widerstandskraft, falls vorhanden'}
+          title={ft('toughness.title')}
+          description={ft('toughness.description')}
           filter={'toughness'}
         />
         <AdvancedFormNumberCompare
           k={'loyalty'}
-          title={'Loyalität'}
-          description={'Wert der Loyalität, falls vorhanden'}
+          title={ft('loyalty.title')}
+          description={ft('loyalty.description')}
           filter={'loyalty'}
         />
         <AdvancedFormNumberCompare
           k={'defense'}
-          title={'Verteidigung'}
-          description={'Wert der Verteidigung, falls vorhanden'}
+          title={ft('defense.title')}
+          description={ft('defense.description')}
           filter={'defense'}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'release'} icon={<IconMeteorFilled />}>
+      <AdvancedFilterCategory title={t('categories.release')} icon={<IconMeteorFilled />}>
         <AdvancedFormMultiSelect
           k={'sets'}
-          title={'Sets'}
-          description={'Sets, in der die Karte gedruckt wurde'}
+          title={ft('sets.title')}
+          description={ft('sets.description')}
           filter={'setname'}
           data={setNamesMapped}
-          dropdownPlaceholder={'Suche nach einem Set'}
+          dropdownPlaceholder={ft('sets.placeholder')}
         />
         <AdvancedFormMultiSelect
           k={'rarity'}
-          title={'Seltenheit'}
-          description={'Seltenheit, mit der die Karte in einem Set gedruckt wurde'}
+          title={ft('rarity.title')}
+          description={ft('rarity.description')}
           filter={'rarity'}
           data={mtgRarities.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
           withoutLimit
-          dropdownPlaceholder={'Suche nach einer Seltenheit'}
+          dropdownPlaceholder={ft('rarity.placeholder')}
         />
         <AdvancedFormMultiSelect
           k={'format'}
-          title={'Format'}
-          description={'In welchen Formaten die Karten legal zu spielen sind'}
+          title={ft('format.title')}
+          description={ft('format.description')}
           filter={'game'}
           data={mtgFormats.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
-          dropdownPlaceholder={'Gib ein Format ein oder wähle eins'}
+          dropdownPlaceholder={ft('format.placeholder')}
         />
         <AdvancedFormMultiSelect
           k={'games'}
-          title={'Spiel'}
-          description={'Unterscheidung zwischen digitalen Produkten und Druck'}
+          title={ft('games.title')}
+          description={ft('games.description')}
           filter={'game'}
           data={mtgGames.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
-          dropdownPlaceholder={'Gib ein Spiel ein oder wähle eins'}
+          dropdownPlaceholder={ft('games.placeholder')}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'artwork'} icon={<IconBrush />}>
+      <AdvancedFilterCategory title={t('categories.artwork')} icon={<IconBrush />}>
         <AdvancedFormText
           k={'artist'}
-          title={'Künstler:in'}
-          description={'Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt'}
+          title={ft('artist.title')}
+          description={ft('artist.description')}
           filter={'artist'}
-          inputPlaceholder={`Irgendein Wort wie "Dunce"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('artist.placeholder')}
+          checkboxLabel={ft('artist.checkboxLabel')}
           withCheckbox
         />
       </AdvancedFilterCategory>

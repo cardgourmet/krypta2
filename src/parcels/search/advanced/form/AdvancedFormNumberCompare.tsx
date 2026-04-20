@@ -1,6 +1,7 @@
 import { Group, NumberInput, Stack } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AdvancedFilterContext } from '@/parcels/search/advanced/form/AdvancedFiltersOverview.tsx';
 import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
 import styles from '@/parcels/search/advanced/styled/mantineStyles.module.css';
@@ -9,6 +10,7 @@ import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx'
 type NumberCompareProps = AdvancedFormProps & {};
 
 export function AdvancedFormNumberCompare({ k }: NumberCompareProps) {
+  const { t } = useTranslation('advanced', { keyPrefix: 'numberCompare' });
   const form = useContext(AdvancedFilterContext) as UseFormReturnType<unknown>;
 
   return (
@@ -16,11 +18,11 @@ export function AdvancedFormNumberCompare({ k }: NumberCompareProps) {
       <Group>
         <StyledSelect
           data={[
-            { value: '=', label: 'gleich' },
-            { value: '<', label: 'kleiner als' },
-            { value: '<=', label: 'kleiner oder gleich' },
-            { value: '>', label: 'größer als' },
-            { value: '>=', label: 'größer oder gleich' },
+            { value: '=', label: t('=') },
+            { value: '<', label: t('<') },
+            { value: '<=', label: t('<=') },
+            { value: '>', label: t('>') },
+            { value: '>=', label: t('>=') },
           ]}
           allowDeselect={false}
           withCheckIcon={false}

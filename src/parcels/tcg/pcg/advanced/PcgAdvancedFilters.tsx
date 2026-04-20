@@ -1,5 +1,6 @@
 import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
 import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
 import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
 import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
@@ -20,6 +21,8 @@ import {PcgEnergyWater} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx'
 import {abilityTypes, baseTypes, effectTypes, energyTypes, evolvesFromName, evoStages, rarities, setNames, subTypes,} from '@/parcels/tcg/pcg/raw/apiValues.ts';
 
 export function PcgAdvancedFilters() {
+  const { t } = useTranslation('advanced', { keyPrefix: 'pcg' });
+  const { t: ft } = useTranslation('advanced', { keyPrefix: 'pcg.filters' });
   const setNamesMapped = useMemo(() => {
     return setNames.data.values.map((d) => {
       return { value: d.value, label: capitalizeFirstLetter(d.value) };
@@ -33,11 +36,11 @@ export function PcgAdvancedFilters() {
 
   return (
     <>
-      <AdvancedFilterCategory title={'identity'} icon={<IconUserScan />}>
+      <AdvancedFilterCategory title={t('categories.identity')} icon={<IconUserScan />}>
         <AdvancedFormMultiCheckbox
           k={'basetype'}
-          title={'Basistyp'}
-          description={'Art der Karte'}
+          title={ft('basetype.title')}
+          description={ft('basetype.description')}
           filter={'basetype'}
           data={baseTypes.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
@@ -45,8 +48,8 @@ export function PcgAdvancedFilters() {
         />
         <AdvancedFormMultiCheckbox
           k={'energy'}
-          title={'Energie'}
-          description={'Sorte der Energie, gekennzeichnet durch ein Symbol auf der Karte'}
+          title={ft('energy.title')}
+          description={ft('energy.description')}
           filter={'energy'}
           data={energyTypes.data.values
             .filter((d) => d.value !== 'free')
@@ -64,140 +67,135 @@ export function PcgAdvancedFilters() {
             psychic: <PcgEnergyPsychic size={22} />,
             water: <PcgEnergyWater size={22} />,
           }}
-          exactDropdownValues={{ exact: 'Genau diese Energien', contains: 'Enthält eine dieser Energien' }}
+          exactDropdownValues={{ exact: ft('energy.exact'), contains: ft('energy.contains') }}
         />
         <AdvancedFormMultiSelect
           k={'subtype'}
-          title={'Subtyp'}
-          description={'Unterart des Basistypen für speziellere Karten'}
+          title={ft('subtype.title')}
+          description={ft('subtype.description')}
           filter={'subtype'}
           data={subTypes.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
           })}
-          dropdownPlaceholder={'Gib einen Subtypen ein oder wähle einen'}
+          dropdownPlaceholder={ft('subtype.placeholder')}
         />
         <AdvancedFormMultiSelect
           k={'stage'}
-          title={'Entwicklungsstufe'}
-          description={'Die Entwicklungsstufe der Karte'}
+          title={ft('stage.title')}
+          description={ft('stage.description')}
           filter={'stage'}
           data={evoStages.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
           })}
-          dropdownPlaceholder={'Gib eine Entwicklungsstufe ein oder wähle einen'}
+          dropdownPlaceholder={ft('stage.placeholder')}
         />
         <AdvancedFormMultiSelect
           k={'evolves'}
-          title={'Entwicklung'}
-          description={'Name der Karte, aus der sich diese Karte entwickeln kann, falls vorhanden'}
+          title={ft('evolves.title')}
+          description={ft('evolves.description')}
           filter={'evolves'}
           data={evolvesFromMapped}
-          dropdownPlaceholder={'Suche nach einem Pokémon'}
+          dropdownPlaceholder={ft('evolves.placeholder')}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'text'} icon={<IconTextSize />}>
+      <AdvancedFilterCategory title={t('categories.text')} icon={<IconTextSize />}>
         <AdvancedFormText
           k={'name'}
-          title={'Kartenname'}
-          description={'Irgendein Wort, das im Namen der Karte vorkommt'}
+          title={ft('name.title')}
+          description={ft('name.description')}
           filter={'text'}
-          inputPlaceholder={`Irgendein Wort wie "tuff"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('name.placeholder')}
+          checkboxLabel={ft('name.checkboxLabel')}
           withCheckbox
         />
         <AdvancedFormText
           k={'text'}
-          title={'Text'}
-          description={'Irgendeine Wortfolge, die im Text der Karte vorkommt'}
+          title={ft('text.title')}
+          description={ft('text.description')}
           filter={'text'}
-          inputPlaceholder={`Irgendein Wort wie "Round"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('text.placeholder')}
+          checkboxLabel={ft('text.checkboxLabel')}
           withCheckbox
         />
         <AdvancedFormText
           k={'flavortext'}
-          title={'Flavortext'}
-          description={'Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert'}
+          title={ft('flavortext.title')}
+          description={ft('flavortext.description')}
           filter={'flavortext'}
-          inputPlaceholder={`Irgendein Wort wie "fine fur"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('flavortext.placeholder')}
+          checkboxLabel={ft('flavortext.checkboxLabel')}
           withCheckbox
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'effect'} icon={<IconSparkles />}>
+      <AdvancedFilterCategory title={t('categories.effect')} icon={<IconSparkles />}>
         <AdvancedFormMultiSelect
           k={'ability'}
-          title={'Fähigkeit'}
-          description={'Der Fähigkeitentyp, falls einer existiert'}
+          title={ft('ability.title')}
+          description={ft('ability.description')}
           filter={'ability'}
           data={abilityTypes.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
           })}
-          dropdownPlaceholder={'Gib einen Fähigkeitstypen ein oder wähle einen'}
+          dropdownPlaceholder={ft('ability.placeholder')}
         />
         <AdvancedFormText
           k={'attack'}
-          title={'Angriff'}
-          description={'Irgendein Wort, das im Namen einer Attacke vorkommt, falls eine existiert'}
+          title={ft('attack.title')}
+          description={ft('attack.description')}
           filter={'attack'}
-          inputPlaceholder={`Irgendein Wort wie "Psybeam"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('attack.placeholder')}
+          checkboxLabel={ft('attack.checkboxLabel')}
           withCheckbox
         />
         <AdvancedFormMultiSelect
           k={'effect'}
-          title={'Effekt'}
-          description={'Typ eines Effektes, der weder eine Fähigkeit noch eine Attacke ist'}
+          title={ft('effect.title')}
+          description={ft('effect.description')}
           filter={'effect'}
           data={effectTypes.data.values.map((d) => {
             return { value: d.value, label: capitalizeFirstLetter(d.value) };
           })}
-          dropdownPlaceholder={'Gib einen Effekttypen ein oder wähle einen'}
+          dropdownPlaceholder={ft('effect.placeholder')}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'stats'} icon={<IconNumbers />}>
-        <AdvancedFormNumberCompare
-          k={'hp'}
-          title={'Lebenspunkte'}
-          description={'Wert der Lebenspunkte, falls vorhanden'}
-          filter={'hp'}
-        />
+      <AdvancedFilterCategory title={t('categories.stats')} icon={<IconNumbers />}>
+        <AdvancedFormNumberCompare k={'hp'} title={ft('hp.title')} description={ft('hp.description')} filter={'hp'} />
         <AdvancedFormNumberCompare
           k={'retreat'}
-          title={'Rückzugskosten'}
-          description={'Kosten die Karte zurückzuziehen, falls vorhanden'}
+          title={ft('retreat.title')}
+          description={ft('retreat.description')}
           filter={'retreat'}
         />
       </AdvancedFilterCategory>
       <AdvancedFilterCategory title={'release'} icon={<IconMeteorFilled />}>
         <AdvancedFormMultiSelect
           k={'sets'}
-          title={'Sets'}
-          description={'Sets, in der die Karte gedruckt wurde'}
+          title={ft('sets.title')}
+          description={ft('sets.description')}
           filter={'setname'}
           data={setNamesMapped}
-          dropdownPlaceholder={'Suche nach einem Set'}
+          dropdownPlaceholder={ft('sets.placeholder')}
         />
         <AdvancedFormMultiSelect
           k={'rarity'}
-          title={'Seltenheit'}
-          description={'Seltenheit, mit der die Karte in einem Set gedruckt wurde'}
+          title={ft('rarity.title')}
+          description={ft('rarity.description')}
           filter={'rarity'}
           data={rarities.data.values
             .filter((d) => d.value !== 'free')
             .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
           withoutLimit
-          dropdownPlaceholder={'Suche nach einer Seltenheit'}
+          dropdownPlaceholder={ft('rarity.placeholder')}
         />
       </AdvancedFilterCategory>
-      <AdvancedFilterCategory title={'artwork'} icon={<IconBrush />}>
+      <AdvancedFilterCategory title={t('categories.artwork')} icon={<IconBrush />}>
         <AdvancedFormText
           k={'artist'}
-          title={'Künstler:in'}
-          description={'Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt'}
+          title={ft('artist.title')}
+          description={ft('artist.description')}
           filter={'artist'}
-          inputPlaceholder={`Irgendein Wort wie "Dunce"`}
-          checkboxLabel={'Genaue Übereinstimmung'}
+          inputPlaceholder={ft('artist.placeholder')}
+          checkboxLabel={ft('artist.checkboxLabel')}
           withCheckbox
         />
       </AdvancedFilterCategory>
