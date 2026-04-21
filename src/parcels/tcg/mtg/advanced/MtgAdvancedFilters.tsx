@@ -1,3 +1,4 @@
+import {Center, Loader, Overlay} from '@mantine/core';
 import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -7,30 +8,70 @@ import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/Advanced
 import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
 import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
 import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import {useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
 import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
-import {mtgColors, mtgFormats, mtgGames, mtgKeywords, mtgRarities, mtgSetNames, mtgTypes,} from '@/parcels/tcg/mtg/raw/apiValues.ts';
 
 export function MtgAdvancedFilters() {
   const { t } = useTranslation('advanced', { keyPrefix: 'mtg' });
   const { t: ft } = useTranslation('advanced', { keyPrefix: 'mtg.filters' });
+
+  const targetFilters = useMemo(() => ['type', 'color', 'keyword', 'rarity', 'format', 'game', 'setname'], []);
+  const { filterValues, isLoading } = useFilterValues('mtg', targetFilters);
+
   const setNamesMapped = useMemo(() => {
-    return mtgSetNames.data.values.map((d) => {
-      return { value: d.value, label: capitalizeFirstLetter(d.value) };
-    });
-  }, []);
+    const keyword = 'setname';
+    return (
+      filterValues?.[keyword]?.map((d) => {
+        return { value: d.value, label: d.displayValue };
+      }) ?? []
+    );
+  }, [filterValues]);
+
   const typesMapped = useMemo(() => {
-    return mtgTypes.data.values.map((d) => {
-      return { value: d.value, label: capitalizeFirstLetter(d.value) };
-    });
-  }, []);
+    const keyword = 'type';
+    return (
+      filterValues?.[keyword]
+        ?.filter((d) => d.type === 'sub_type')
+        .map((d) => {
+          return { value: d.value, label: d.displayValue };
+        }) ?? []
+    );
+  }, [filterValues]);
   const keywordsMapped = useMemo(() => {
-    return mtgKeywords.data.values.map((d) => {
-      return { value: d.value, label: capitalizeFirstLetter(d.value) };
-    });
-  }, []);
+    const keyword = 'keyword';
+    return (
+      filterValues?.[keyword]?.map((d) => {
+        return { value: d.value, label: d.displayValue };
+      }) ?? []
+    );
+  }, [filterValues]);
+  // TODO: cleanup these with a helper function
+  const mtgColors =
+    filterValues?.color
+      ?.filter((d) => d.type === 'color')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const mtgRarities =
+    filterValues?.rarity?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const mtgFormats =
+    filterValues?.format
+      ?.filter((d) => d.type === 'color')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const mtgGames =
+    filterValues?.game
+      ?.filter((d) => d.type === 'color')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
 
   return (
     <>
+      {isLoading && (
+        <div style={{ top: 0, left: 0, right: 0, bottom: 0, position: 'absolute' }}>
+          <Overlay backgroundOpacity={0.75} color={'var(--gourmet-neutral-0)'}>
+            <Center mt={'12rem'}>
+              <Loader color={'var(--gourmet-neutral-9)'} />
+            </Center>
+          </Overlay>
+        </div>
+      )}
       <AdvancedFilterCategory title={t('categories.identity')} icon={<IconUserScan />}>
         <AdvancedFormMultiSelect
           k={'type'}
@@ -45,9 +86,7 @@ export function MtgAdvancedFilters() {
           title={ft('color.title')}
           description={ft('color.description')}
           filter={'color'}
-          data={mtgColors.data.values
-            .filter((d) => d.type === 'color')
-            .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={mtgColors}
           iconsMap={{
             colorless: <MtgSymbolSVG symbol={'{C}'} size={24} />,
             black: <MtgSymbolSVG symbol={'{B}'} size={24} />,
@@ -139,7 +178,7 @@ export function MtgAdvancedFilters() {
           title={ft('rarity.title')}
           description={ft('rarity.description')}
           filter={'rarity'}
-          data={mtgRarities.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={mtgRarities}
           withoutLimit
           dropdownPlaceholder={ft('rarity.placeholder')}
         />
@@ -148,7 +187,7 @@ export function MtgAdvancedFilters() {
           title={ft('format.title')}
           description={ft('format.description')}
           filter={'game'}
-          data={mtgFormats.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={mtgFormats}
           dropdownPlaceholder={ft('format.placeholder')}
         />
         <AdvancedFormMultiSelect
@@ -156,7 +195,7 @@ export function MtgAdvancedFilters() {
           title={ft('games.title')}
           description={ft('games.description')}
           filter={'game'}
-          data={mtgGames.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={mtgGames}
           dropdownPlaceholder={ft('games.placeholder')}
         />
       </AdvancedFilterCategory>

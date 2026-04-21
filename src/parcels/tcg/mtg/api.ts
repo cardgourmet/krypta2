@@ -1,6 +1,6 @@
 import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
 import type {MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy} from '@/parcels/tcg/mtg/types.ts';
-import type {TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
+import type {SearchQueryExecutorFilterValues, TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -165,6 +165,23 @@ export async function fetchMtgFilters(abort: AbortController): Promise<{ data?: 
     }
     return { error: error };
   }
+}
+
+// /v1/mtg/cards/search/filters/values
+export async function fetchMtgFiltersValues(
+  filters: string[],
+  abort?: AbortController,
+): Promise<GourmetApiResponse<Record<string, SearchQueryExecutorFilterValues>>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/search/filters/values`, {
+      params: {
+        query: {
+          filters: filters.join(','),
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
 }
 
 // /v1/mtg/cards/search/filters/{filter}/values

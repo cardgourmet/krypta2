@@ -1,7 +1,7 @@
 import {createFileRoute, notFound, stripSearchParams} from '@tanstack/react-router';
 import {CardOverview} from '@/parcels/overview/CardOverview/CardOverview.tsx';
 import {getSetSpecificQuery} from '@/parcels/overview/getSetSpecificQuery.ts';
-import {fetchSetByQuery2} from '@/parcels/tcg/fetchSetByQuery.ts';
+import {fetchSetByQuery} from '@/parcels/tcg/fetchSetByQuery.ts';
 import {tcgSearchParamsDefaults, tcgSearchParamsSchema} from '@/parcels/tcg/types.ts';
 
 export const Route = createFileRoute('/$tcg/cards/')({
@@ -18,9 +18,7 @@ export const Route = createFileRoute('/$tcg/cards/')({
     if (!setFilter) return null;
 
     const { tcg } = params;
-
-    // TODO: endpoint to get set by any identifier (anything that goes with `set=`) instead
-    const setRes = await fetchSetByQuery2(tcg, deps.query);
+    const setRes = await fetchSetByQuery(tcg, deps.query);
     if (!setRes || setRes.error) return null;
 
     return setRes.data ?? null;

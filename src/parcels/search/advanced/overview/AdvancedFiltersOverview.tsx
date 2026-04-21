@@ -79,9 +79,9 @@ export function AdvancedFiltersOverview() {
 
         <div className={styles.searchOptions}>
           <AdvancedFilterContext value={form}>
+            {tcg === 'mtg' && <MtgAdvancedFilters />}
             {tcg === 'pcg' && <PcgAdvancedFilters />}
             {tcg === 'dlc' && <DlcAdvancedFilters />}
-            {tcg === 'mtg' && <MtgAdvancedFilters />}
           </AdvancedFilterContext>
         </div>
       </div>

@@ -1,4 +1,6 @@
+import {Center, Loader, Overlay} from '@mantine/core';
 import {IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan} from '@tabler/icons-react';
+import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
 import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
@@ -6,6 +8,7 @@ import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/Advanced
 import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
 import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
 import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import {useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
 import {DlcInkAmber} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
 import {DlcInkAmethyst} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
 import {DlcInkEmerald} from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
@@ -18,14 +21,46 @@ import {DlcRarityLegendary} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityLegend
 import {DlcRarityRare} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityRare.tsx';
 import {DlcRaritySuperRare} from '@/parcels/tcg/dlc/icons/rarity/DlcRaritySuperRare.tsx';
 import {DlcRarityUncommon} from '@/parcels/tcg/dlc/icons/rarity/DlcRarityUncommon.tsx';
-import {franchises, inks, rarities, setNames, typesAndClassifications} from '@/parcels/tcg/dlc/raw/apiValues.ts';
 
 export function DlcAdvancedFilters() {
   const { t } = useTranslation('advanced', { keyPrefix: 'dlc' });
   const { t: ft } = useTranslation('advanced', { keyPrefix: 'dlc.filters' });
 
+  const targetFilters = useMemo(() => ['type', 'ink', 'rarity', 'setname', 'franchise'], []);
+  const { filterValues, isLoading } = useFilterValues('dlc', targetFilters);
+
+  const dlcTypes =
+    filterValues?.type
+      ?.filter((d) => d.type === 'type')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const dlcClassifications =
+    filterValues?.type
+      ?.filter((d) => d.type === 'classification')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const dlcInks =
+    filterValues?.ink
+      ?.filter((d) => d.value !== 'none')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const dlcRarities =
+    filterValues?.rarity?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const dlcSetnames =
+    filterValues?.setname?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const dlcFranchises =
+    filterValues?.franchise
+      ?.filter((d) => d.type === 'name')
+      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+
   return (
     <>
+      {isLoading && (
+        <div style={{ top: 0, left: 0, right: 0, bottom: 0, position: 'absolute' }}>
+          <Overlay backgroundOpacity={0.75} color={'var(--gourmet-neutral-0)'}>
+            <Center mt={'12rem'}>
+              <Loader color={'var(--gourmet-neutral-9)'} />
+            </Center>
+          </Overlay>
+        </div>
+      )}
       <AdvancedFilterCategory title={t('categories.identity')} icon={<IconUserScan />}>
         <AdvancedFormMultiSelect
           k={'type'}
@@ -35,19 +70,11 @@ export function DlcAdvancedFilters() {
           data={[
             {
               group: ft('type.dataGroups.types'),
-              items: typesAndClassifications.data.values
-                .filter((d) => d.type === 'type')
-                .map((d) => {
-                  return { value: d.value, label: capitalizeFirstLetter(d.value) };
-                }),
+              items: dlcTypes,
             },
             {
               group: ft('type.dataGroups.classifications'),
-              items: typesAndClassifications.data.values
-                .filter((d) => d.type === 'classification')
-                .map((d) => {
-                  return { value: d.value, label: capitalizeFirstLetter(d.value) };
-                }),
+              items: dlcClassifications,
             },
           ]}
           dropdownPlaceholder={ft('type.placeholder')}
@@ -57,9 +84,7 @@ export function DlcAdvancedFilters() {
           title={ft('ink.title')}
           description={ft('ink.description')}
           filter={'ink'}
-          data={inks.data.values
-            .filter((d) => d.value !== 'none')
-            .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={dlcInks}
           iconsMap={{
             amber: <DlcInkAmber size={32} color={'#f0b11d'} />,
             amethyst: <DlcInkAmethyst size={32} color={'#80397b'} />,
@@ -132,7 +157,7 @@ export function DlcAdvancedFilters() {
           title={ft('sets.title')}
           description={ft('sets.description')}
           filter={'setname'}
-          data={setNames.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={dlcSetnames}
           dropdownPlaceholder={ft('sets.placeholder')}
         />
         <AdvancedFormMultiCheckbox
@@ -140,7 +165,7 @@ export function DlcAdvancedFilters() {
           title={ft('rarity.title')}
           description={ft('rarity.description')}
           filter={'rarity'}
-          data={rarities.data.values.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) }))}
+          data={dlcRarities}
           iconsMap={{
             common: <DlcRarityCommon size={20} />,
             uncommon: <DlcRarityUncommon size={20} />,
@@ -166,11 +191,7 @@ export function DlcAdvancedFilters() {
           title={ft('franchise.title')}
           description={ft('franchise.description')}
           filter={'franchise'}
-          data={franchises.data.values
-            .filter((d) => d.type === 'name')
-            .map((d) => {
-              return { value: d.value, label: capitalizeFirstLetter(d.value) };
-            })}
+          data={dlcFranchises}
           withoutLimit
           dropdownPlaceholder={ft('franchise.placeholder')}
         />
