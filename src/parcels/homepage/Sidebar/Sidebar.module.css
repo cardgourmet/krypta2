@@ -9,12 +9,6 @@
   height: 100dvh;
   position: fixed;
   z-index: var(--sidebar-layer);
-
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
 }
 
 .sidebarLogo {
@@ -39,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 15%;
+  border-radius: 0.25rem;
   padding: 0.5rem;
 
   svg {
@@ -75,4 +69,33 @@
 
 .mobileSidebar {
   background-color: var(--gourmet-neutral-0);
+}
+
+.submenu {
+  background-color: var(--gourmet-neutral-2);
+  border-right: 0.1rem solid var(--cgm-sidebar-border);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 13rem;
+  z-index: calc(var(--sidebar-layer) - 1);
+  transform: translateX(-100%);
+
+  transition: transform 0.2s ease-in-out;
+}
+
+.submenu[data-open="true"] {
+  transform: translateX(0);
+}
+
+.submenuItem {
+  padding: 0.5rem 1rem;
+  border-radius: var(--mantine-radius-xs);
+  text-decoration: none;
+  color: var(--mantine-color-text);
+}
+
+.submenuItem:hover {
+  background-color: var(--mantine-color-default-hover);
 }

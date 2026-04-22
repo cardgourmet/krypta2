@@ -1,13 +1,17 @@
-import {Drawer, Group} from '@mantine/core';
+import {offset, safePolygon, useFloating, useHover, useInteractions} from '@floating-ui/react';
+import {Drawer, Group, Stack} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
+import {IconCards, IconDeviceVisionPro, IconFolders} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {MobileSidebar} from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
 import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
 import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
 import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
-import {useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {
@@ -32,7 +36,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  });
+  }, [setSidebarOpen, sidebarOpen]);
 
   return (
     <>
@@ -58,33 +62,81 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           </Group>
 
           <div>
-            <Link
-              to="/$tcg"
-              params={{ tcg: 'mtg' }}
-              className={`${styles.sidebarButton}`}
-              data-state={tcg === 'mtg' ? 'enabled' : ''}
-            >
-              <MTGIcon height={24} width={24} />
-            </Link>
-            <Link
-              to="/$tcg"
-              params={{ tcg: 'pcg' }}
-              className={styles.sidebarButton}
-              data-state={tcg === 'pcg' ? 'enabled' : ''}
-            >
-              <PCGIcon height={24} width={24} />
-            </Link>
-            <Link
-              to="/$tcg"
-              params={{ tcg: 'dlc' }}
-              className={styles.sidebarButton}
-              data-state={tcg === 'dlc' ? 'enabled' : ''}
-            >
-              <DLCIcon height={24} width={24} />
-            </Link>
+            <TcgCategoryButton tcg={'mtg'} selectedTcg={tcg} />
+            {/*
+            <TcgCategoryButton tcg={'pcg'} selectedTcg={tcg} />
+            <TcgCategoryButton tcg={'dlc'} selectedTcg={tcg} />*/}
           </div>
         </nav>
       )}
+    </>
+  );
+}
+
+function TcgCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg?: Tcg }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    placement: 'right-start',
+    strategy: 'fixed',
+    middleware: [offset(8)],
+  });
+
+  const hover = useHover(context, {
+    handleClose: safePolygon(),
+  });
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
+
+  // TODO: submenu cant have lower zindex, because it's inside the sidebar.
+  // => so we have to extract that somehow
+
+  return (
+    <>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        <Link
+          to="/$tcg"
+          params={{ tcg: tcg }}
+          className={`${styles.sidebarButton}`}
+          data-state={tcg === selectedTcg ? 'enabled' : ''}
+        >
+          {tcg === 'mtg' && <MTGIcon height={24} width={24} />}
+          {tcg === 'pcg' && <PCGIcon height={24} width={24} />}
+          {tcg === 'dlc' && <DLCIcon height={24} width={24} />}
+        </Link>
+      </div>
+
+      {/* Submenu Panel */}
+      <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()}>
+        <div className={styles.submenu} data-open={isOpen}>
+          <Stack gap={'0.5rem'} p={'0.5rem 0'}>
+            <Link to="/$tcg/sets" params={{ tcg: tcg }} className={styles.submenuItem}>
+              <Group gap={'0.75rem'}>
+                <IconFolders size={22} />
+                <GourmetText>Sets</GourmetText>
+              </Group>
+            </Link>
+            <Link
+              to="/$tcg/cards"
+              params={{ tcg: tcg }}
+              className={styles.submenuItem}
+              search={{ ...tcgSearchParamsDefaults }}
+            >
+              <Group gap={'0.75rem'}>
+                <IconCards size={22} />
+                <GourmetText>Cards</GourmetText>
+              </Group>
+            </Link>
+            <Link to="/$tcg/advanced" params={{ tcg: tcg }} className={styles.submenuItem}>
+              <Group gap={'0.75rem'}>
+                <IconDeviceVisionPro size={22} />
+                <GourmetText>Advanced Search</GourmetText>
+              </Group>
+            </Link>
+          </Stack>
+        </div>
+      </div>
     </>
   );
 }
