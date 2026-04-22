@@ -1,10 +1,12 @@
-import { quickScore } from 'quick-score';
-import { levenshtein } from '@/parcels/search/levenshtein.ts';
-import { type DlcSearchFilter, type DlcSearchFilterValues, fetchDlcFilterValues } from '@/parcels/tcg/dlc/api.ts';
-import { fetchMtgFilterValues, type MtgSearchFilter } from '@/parcels/tcg/mtg/api.ts';
-import { fetchPcgFilterValues, type PcgSearchFilter, type PcgSearchFilterValues } from '@/parcels/tcg/pcg/api.ts';
-import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {quickScore} from 'quick-score';
+import type {GourmetApiResponse} from '@/parcels/api/handleApiCall.ts';
+import type {FilterValuesByKeyword} from '@/parcels/search/filter/FilterCacheStore.tsx';
+import {levenshtein} from '@/parcels/search/levenshtein.ts';
+import type {DlcSearchFilter} from '@/parcels/tcg/dlc/api.ts';
+import type {MtgSearchFilter} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgSearchFilter} from '@/parcels/tcg/pcg/api.ts';
+import type {SearchQueryExecutorFilter, TcgFilterOperator} from '@/parcels/tcg/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type SearchFilterStore = {
   pcg: PcgSearchFilter[];
@@ -37,14 +39,18 @@ export type SearchCompletionState = {
   completions: GeneratedSearchCompletion[];
 };
 
+export type FindOrFetchFn = (
+  tcg: Tcg,
+  keywords: string[],
+  operator?: string,
+) => Promise<GourmetApiResponse<FilterValuesByKeyword>>;
+
 export async function generateCompletions(
   tcg: Tcg,
   currentQuery: string,
-  filterStore: SearchFilterStore,
-  filterValueStore: SearchFilterValueStore,
+  filters: SearchQueryExecutorFilter[],
   max: number = 5,
-  setIsLoading: (value: boolean) => void,
-  abort?: AbortController,
+  findOrFetchValues: FindOrFetchFn,
 ): Promise<SearchCompletionState> {
   if (currentQuery.length === 0) return { mode: 'filter', completions: [] }; // mode: filter
   if (currentQuery.trim().length === 0) return { mode: 'filter', completions: [] }; // mode: filter
@@ -63,7 +69,7 @@ export async function generateCompletions(
       return { mode: 'invalid', completions: [] };
     }
 
-    const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
+    const matchedFilter = filters.find((f) => f.keywords.includes(filter));
     if (!matchedFilter) {
       return { mode: 'invalid', completions: [] };
     }
@@ -74,10 +80,8 @@ export async function generateCompletions(
       matchedFilter,
       operator as TcgFilterOperator,
       value,
-      filterValueStore,
       max,
-      setIsLoading,
-      abort,
+      findOrFetchValues,
     );
   }
 
@@ -92,12 +96,12 @@ export async function generateCompletions(
   const matches = Array.from(currentPart.matchAll(QUERY_REGEX));
   if (matches.length > 1) return { mode: 'invalid', completions: [] };
   if (matches.length === 0) {
-    return generateFilterCompletions(tcg, currentPart, filterStore, max);
+    return generateFilterCompletions(currentPart, filters, max);
   }
   const [_, filter, operator, value] = matches[0];
   if (filter.length === 0) return { mode: 'invalid', completions: [] };
 
-  const matchedFilter = filterStore[tcg]?.find((f) => f.keywords.includes(filter));
+  const matchedFilter = filters.find((f) => f.keywords.includes(filter));
   if (!matchedFilter) return { mode: 'invalid', completions: [] };
 
   // `mode: value`, find matches with `value` and `operator`
@@ -106,10 +110,8 @@ export async function generateCompletions(
     matchedFilter,
     operator as TcgFilterOperator,
     value,
-    filterValueStore,
     max,
-    setIsLoading,
-    abort,
+    findOrFetchValues,
   );
 }
 
@@ -119,10 +121,8 @@ async function generateFilterValueCompletions(
   filter: PcgSearchFilter | DlcSearchFilter | MtgSearchFilter,
   operator: TcgFilterOperator,
   currentValue: string,
-  store: SearchFilterValueStore,
   max: number,
-  setIsLoading: (value: boolean) => void,
-  abort?: AbortController,
+  findOrFetchValues: FindOrFetchFn,
 ): Promise<SearchCompletionState> {
   if (!filter.providesValues) return { mode: 'invalid', completions: [] }; // e.g. numbers
   if (filter.properties.length === 0) return { mode: 'invalid', completions: [] };
@@ -134,83 +134,12 @@ async function generateFilterValueCompletions(
     return { mode: 'invalid', completions: [] };
   }
 
-  const cachedValues: SearchFilterValueStoreEntry[] | undefined = store[tcg]?.[filter.keywords[0]]?.[operator];
-  if (cachedValues !== undefined) {
-    const potentialMatches: { entry: SearchFilterValueStoreEntry; score: number }[] = [];
-    for (const entry of cachedValues) {
-      const score = quickScore(entry.value, currentValue);
-      if (currentValue.length > 0 && score === 0) continue;
-
-      potentialMatches.push({
-        entry: entry,
-        score: score,
-      });
-    }
-
-    const matches = potentialMatches
-      .sort((a, b) => (a.score - b.score) * -1)
-      .slice(0, max)
-      .map((match) => match.entry);
-
-    return {
-      mode: 'value',
-      userInput: {
-        operator: operator,
-        value: currentValue,
-      },
-      completions: matches,
-    };
+  const keyword = filter.keywords[0];
+  const valuesRes = await findOrFetchValues(tcg, [keyword], operator);
+  if (!valuesRes.data || valuesRes.error) {
+    return { mode: 'invalid', completions: [] };
   }
-
-  const maxAmount = 100;
-
-  setIsLoading(true);
-  let data: PcgSearchFilterValues | DlcSearchFilterValues | undefined;
-  let error: Error | undefined;
-
-  if (tcg === 'pcg') {
-    const res = await fetchPcgFilterValues(
-      filter.keywords[0],
-      abort,
-      operator as TcgFilterOperator,
-      currentValue,
-      maxAmount,
-    );
-    data = res.data;
-    error = res.error;
-  } else if (tcg === 'dlc') {
-    const res = await fetchDlcFilterValues(
-      filter.keywords[0],
-      abort,
-      operator as TcgFilterOperator,
-      currentValue,
-      maxAmount,
-    );
-    data = res.data;
-    error = res.error;
-  } else if (tcg === 'mtg') {
-    const res = await fetchMtgFilterValues(
-      filter.keywords[0],
-      abort,
-      operator as TcgFilterOperator,
-      currentValue,
-      maxAmount,
-    );
-    data = res.data;
-    error = res.error;
-  }
-  if (error !== undefined) {
-    // if it was aborted, we don't reset the loading indicator to not
-    // interfere with the new request
-    if (error.name === 'AbortError') {
-      return { mode: 'invalid', completions: [] };
-    }
-  }
-  setIsLoading(false);
-
-  if (!data) return { mode: 'invalid', completions: [] };
-
-  const values: SearchFilterValueStoreEntry[] = data.values
+  const values: SearchFilterValueStoreEntry[] = valuesRes.data[keyword]
     .flatMap((value) => [
       { value: value.value, type: value.type },
       ...(value.aliases?.map((alias) => {
@@ -218,14 +147,22 @@ async function generateFilterValueCompletions(
       }) ?? []),
     ])
     .filter((value) => value.value.length > 0);
-  if (data.total > 0 && data.total <= maxAmount && data.matches === data.total) {
-    // store in cache
-    if (!store[tcg]?.[filter.keywords[0]]) {
-      store[tcg] = { [filter.keywords[0]]: { ':': [], '<': [], '<=': [], '=': [], '>': [], '>=': [] } };
-    }
-    store[tcg][filter.keywords[0]][operator] = values;
+
+  const potentialMatches: { entry: SearchFilterValueStoreEntry; score: number }[] = [];
+  for (const entry of values) {
+    const score = quickScore(entry.value, currentValue);
+    if (currentValue.length > 0 && score === 0) continue;
+
+    potentialMatches.push({
+      entry: entry,
+      score: score,
+    });
   }
-  const completions = values.slice(0, max);
+
+  const matches = potentialMatches
+    .sort((a, b) => (a.score - b.score) * -1)
+    .slice(0, max)
+    .map((match) => match.entry);
 
   return {
     mode: 'value',
@@ -233,21 +170,19 @@ async function generateFilterValueCompletions(
       operator: operator,
       value: currentValue,
     },
-    completions: completions,
+    completions: matches,
   };
 }
 
 export function generateFilterCompletions(
-  tcg: Tcg,
   currentWord: string,
-  store: SearchFilterStore,
+  filters: SearchQueryExecutorFilter[],
   max: number,
 ): SearchCompletionState {
   if (currentWord.length === 0) {
     // TODO: maybe instead return "featured list = most used filters"
     return { mode: 'filter', completions: [] };
   }
-  const filters = store[tcg];
   if (!filters || filters.length === 0) return { mode: 'invalid', completions: [] };
 
   // get all keywords that start with the currentWord

@@ -1,7 +1,6 @@
 import { Highlight } from '@mantine/core';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchCache } from '@/parcels/search/bar/SearchCacheProvider/SearchCacheProvider.tsx';
 import {
   type GeneratedSearchCompletion,
   generateCompletions,
@@ -10,6 +9,8 @@ import {
   type SearchSuggestion,
   transformCompletions,
 } from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
+import { useFilterCacheStore } from '@/parcels/search/filter/FilterCacheStore.tsx';
+import { useFilters } from '@/parcels/search/filter/useFilters.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
 
@@ -33,9 +34,8 @@ export function SearchCompletion({
   setQuery,
 }: SearchCompletionProps) {
   const { t } = useTranslation('search');
-  const { filter: filterStore, values: filterValueStore } = useSearchCache();
 
-  const [_, setIsLoading] = useState(false);
+  const filters = useFilters(tcg);
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
 
   const handleKeydown = useCallback(
@@ -72,20 +72,16 @@ export function SearchCompletion({
     };
   }, [handleKeydown]);
 
+  const findOrFetchValues = useFilterCacheStore((state) => state.findOrFetchValues);
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
     if (!isOpened) return;
 
-    const controller = new AbortController();
-    generateCompletions(tcg, currentQuery, filterStore, filterValueStore, 5, setIsLoading, controller).then((state) => {
+    generateCompletions(tcg, currentQuery, filters, 5, findOrFetchValues).then((state) => {
       const suggestions = transformCompletions(currentQuery, state);
       setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
     });
-
-    return () => {
-      controller.abort();
-    };
-  }, [tcg, currentQuery, isOpened]);
+  }, [tcg, currentQuery, isOpened, findOrFetchValues]);
 
   return (
     <div className={styles.main}>

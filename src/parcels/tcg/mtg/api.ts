@@ -1,6 +1,6 @@
 import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
 import type {MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy} from '@/parcels/tcg/mtg/types.ts';
-import type {SearchQueryExecutorFilterValues, TcgCardQuery, TcgFilterOperator} from '@/parcels/tcg/types.ts';
+import type {SearchQueryExecutorFilter, SearchQueryExecutorFilterValues, TcgCardQuery, TcgFilterOperator,} from '@/parcels/tcg/types.ts';
 import type {components as c} from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -141,30 +141,14 @@ export async function fetchMtgCards(
 }
 
 // /v1/mtg/cards/search/filters
-export async function fetchMtgFilters(abort: AbortController): Promise<{ data?: MtgSearchFilter[]; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/mtg/cards/search/filters`, {
-      signal: abort.signal,
+export async function fetchMtgFilters(
+  abort?: AbortController,
+): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/search/filters`, {
+      signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/mtg/cards/search/filters/values

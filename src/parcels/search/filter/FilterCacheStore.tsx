@@ -1,13 +1,13 @@
 import {create} from 'zustand/react';
 import type {GourmetApiResponse} from '@/parcels/api/handleApiCall.ts';
-import {fetchDlcFiltersValues} from '@/parcels/tcg/dlc/api.ts';
-import {fetchMtgFiltersValues} from '@/parcels/tcg/mtg/api.ts';
-import {fetchPcgFiltersValues} from '@/parcels/tcg/pcg/api.ts';
-import type {SearchQueryExecutorFilterValue, SearchQueryExecutorFilterValues} from '@/parcels/tcg/types.ts';
+import {fetchDlcFilters, fetchDlcFiltersValues} from '@/parcels/tcg/dlc/api.ts';
+import {fetchMtgFilters, fetchMtgFiltersValues} from '@/parcels/tcg/mtg/api.ts';
+import {fetchPcgFilters, fetchPcgFiltersValues} from '@/parcels/tcg/pcg/api.ts';
+import type {SearchQueryExecutorFilter, SearchQueryExecutorFilterValue, SearchQueryExecutorFilterValues,} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type FilterValuesByKeyword = Record<string, SearchQueryExecutorFilterValue[]>;
-export type FilterValueStore = {
+export type FilterCacheStore = {
   valuesByKeyword: Record<Tcg, FilterValuesByKeyword>;
   findValues: (tcg: Tcg, keyword: string, operator?: string) => SearchQueryExecutorFilterValue[] | undefined;
   findOrFetchValues: (
@@ -15,9 +15,12 @@ export type FilterValueStore = {
     keywords: string[],
     operator?: string,
   ) => Promise<GourmetApiResponse<FilterValuesByKeyword>>;
+
+  filters: Record<Tcg, SearchQueryExecutorFilter[]>;
+  loadFilters: (tcg: Tcg) => void;
 };
 
-export const useFilterValueStore = create<FilterValueStore>((set, get) => ({
+export const useFilterCacheStore = create<FilterCacheStore>((set, get) => ({
   valuesByKeyword: {
     mtg: {},
     pcg: {},
@@ -71,6 +74,36 @@ export const useFilterValueStore = create<FilterValueStore>((set, get) => ({
     set(() => ({ valuesByKeyword: prevValues }));
 
     return { data: foundValuesByKeyword };
+  },
+
+  filters: {
+    mtg: [],
+    pcg: [],
+    dlc: [],
+  },
+  loadFilters: async (tcg: Tcg) => {
+    const filters = get().filters;
+    if (filters[tcg].length > 0) return;
+
+    let res: GourmetApiResponse<SearchQueryExecutorFilter[]> | undefined;
+    if (tcg === 'mtg') {
+      res = await fetchMtgFilters();
+    } else if (tcg === 'pcg') {
+      res = await fetchPcgFilters();
+    } else if (tcg === 'dlc') {
+      res = await fetchDlcFilters();
+    }
+
+    if (!res?.data || res.error) {
+      return;
+    }
+
+    set({
+      filters: {
+        ...filters,
+        [tcg]: res.data,
+      },
+    });
   },
 }));
 

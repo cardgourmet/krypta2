@@ -1,12 +1,12 @@
 import {useEffect, useMemo, useState} from 'react';
-import {type FilterValuesByKeyword, useFilterValueStore} from '@/parcels/search/filter/FilterValueStore.tsx';
+import {type FilterValuesByKeyword, useFilterCacheStore} from '@/parcels/search/filter/FilterCacheStore.tsx';
 import type {SearchQueryExecutorFilterValue} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function useFilterValues(tcg: Tcg, keywords: string[], operator?: string) {
   const [filterValues, setFilterValues] = useState<FilterValuesByKeyword | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const findFilterValues = useFilterValueStore((state) => state.findOrFetchValues);
+  const findFilterValues = useFilterCacheStore((state) => state.findOrFetchValues);
 
   useEffect(() => {
     setIsLoading(true);
