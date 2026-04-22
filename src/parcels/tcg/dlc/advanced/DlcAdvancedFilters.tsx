@@ -2,13 +2,12 @@ import {Center, Loader, Overlay} from '@mantine/core';
 import {IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan} from '@tabler/icons-react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
 import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
 import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
 import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
 import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
 import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import {useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
+import {getFilterValue, useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
 import {DlcInkAmber} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
 import {DlcInkAmethyst} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
 import {DlcInkEmerald} from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
@@ -29,26 +28,12 @@ export function DlcAdvancedFilters() {
   const targetFilters = useMemo(() => ['type', 'ink', 'rarity', 'setname', 'franchise'], []);
   const { filterValues, isLoading } = useFilterValues('dlc', targetFilters);
 
-  const dlcTypes =
-    filterValues?.type
-      ?.filter((d) => d.type === 'type')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const dlcClassifications =
-    filterValues?.type
-      ?.filter((d) => d.type === 'classification')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const dlcInks =
-    filterValues?.ink
-      ?.filter((d) => d.value !== 'none')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const dlcRarities =
-    filterValues?.rarity?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const dlcSetnames =
-    filterValues?.setname?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const dlcFranchises =
-    filterValues?.franchise
-      ?.filter((d) => d.type === 'name')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const types = getFilterValue(filterValues, 'type', (d) => d.type === 'type', 'type');
+  const classifications = getFilterValue(filterValues, 'type', (d) => d.type === 'classification', 'class');
+  const inks = getFilterValue(filterValues, 'ink', (d) => d.value !== 'none');
+  const rarities = getFilterValue(filterValues, 'rarity');
+  const setnames = getFilterValue(filterValues, 'setname');
+  const franchises = getFilterValue(filterValues, 'franchise', (d) => d.type === 'name');
 
   return (
     <>
@@ -70,11 +55,11 @@ export function DlcAdvancedFilters() {
           data={[
             {
               group: ft('type.dataGroups.types'),
-              items: dlcTypes,
+              items: types,
             },
             {
               group: ft('type.dataGroups.classifications'),
-              items: dlcClassifications,
+              items: classifications,
             },
           ]}
           dropdownPlaceholder={ft('type.placeholder')}
@@ -84,7 +69,7 @@ export function DlcAdvancedFilters() {
           title={ft('ink.title')}
           description={ft('ink.description')}
           filter={'ink'}
-          data={dlcInks}
+          data={inks}
           iconsMap={{
             amber: <DlcInkAmber size={32} color={'#f0b11d'} />,
             amethyst: <DlcInkAmethyst size={32} color={'#80397b'} />,
@@ -157,7 +142,7 @@ export function DlcAdvancedFilters() {
           title={ft('sets.title')}
           description={ft('sets.description')}
           filter={'setname'}
-          data={dlcSetnames}
+          data={setnames}
           dropdownPlaceholder={ft('sets.placeholder')}
         />
         <AdvancedFormMultiCheckbox
@@ -165,7 +150,7 @@ export function DlcAdvancedFilters() {
           title={ft('rarity.title')}
           description={ft('rarity.description')}
           filter={'rarity'}
-          data={dlcRarities}
+          data={rarities}
           iconsMap={{
             common: <DlcRarityCommon size={20} />,
             uncommon: <DlcRarityUncommon size={20} />,
@@ -191,7 +176,7 @@ export function DlcAdvancedFilters() {
           title={ft('franchise.title')}
           description={ft('franchise.description')}
           filter={'franchise'}
-          data={dlcFranchises}
+          data={franchises}
           withoutLimit
           dropdownPlaceholder={ft('franchise.placeholder')}
         />

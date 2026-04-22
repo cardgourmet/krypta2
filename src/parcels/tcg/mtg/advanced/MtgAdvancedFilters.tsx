@@ -2,13 +2,12 @@ import {Center, Loader, Overlay} from '@mantine/core';
 import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
 import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
 import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
 import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
 import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
 import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import {useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
+import {getFilterValue, useFilterValue, useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
 import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
 export function MtgAdvancedFilters() {
@@ -18,48 +17,13 @@ export function MtgAdvancedFilters() {
   const targetFilters = useMemo(() => ['type', 'color', 'keyword', 'rarity', 'format', 'game', 'setname'], []);
   const { filterValues, isLoading } = useFilterValues('mtg', targetFilters);
 
-  const setNamesMapped = useMemo(() => {
-    const keyword = 'setname';
-    return (
-      filterValues?.[keyword]?.map((d) => {
-        return { value: d.value, label: d.displayValue };
-      }) ?? []
-    );
-  }, [filterValues]);
-
-  const typesMapped = useMemo(() => {
-    const keyword = 'type';
-    return (
-      filterValues?.[keyword]
-        ?.filter((d) => d.type === 'sub_type')
-        .map((d) => {
-          return { value: d.value, label: d.displayValue };
-        }) ?? []
-    );
-  }, [filterValues]);
-  const keywordsMapped = useMemo(() => {
-    const keyword = 'keyword';
-    return (
-      filterValues?.[keyword]?.map((d) => {
-        return { value: d.value, label: d.displayValue };
-      }) ?? []
-    );
-  }, [filterValues]);
-  // TODO: cleanup these with a helper function
-  const mtgColors =
-    filterValues?.color
-      ?.filter((d) => d.type === 'color')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const mtgRarities =
-    filterValues?.rarity?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const mtgFormats =
-    filterValues?.format
-      ?.filter((d) => d.type === 'color')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const mtgGames =
-    filterValues?.game
-      ?.filter((d) => d.type === 'color')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const setNamesMapped = useFilterValue(filterValues, 'setname');
+  const typesMapped = useFilterValue(filterValues, 'type', (d) => d.type === 'sub_type');
+  const keywordsMapped = useFilterValue(filterValues, 'keyword');
+  const colors = getFilterValue(filterValues, 'color', (d) => d.type === 'color');
+  const rarities = getFilterValue(filterValues, 'rarity');
+  const formats = getFilterValue(filterValues, 'format');
+  const games = getFilterValue(filterValues, 'game');
 
   return (
     <>
@@ -86,7 +50,7 @@ export function MtgAdvancedFilters() {
           title={ft('color.title')}
           description={ft('color.description')}
           filter={'color'}
-          data={mtgColors}
+          data={colors}
           iconsMap={{
             colorless: <MtgSymbolSVG symbol={'{C}'} size={24} />,
             black: <MtgSymbolSVG symbol={'{B}'} size={24} />,
@@ -178,7 +142,7 @@ export function MtgAdvancedFilters() {
           title={ft('rarity.title')}
           description={ft('rarity.description')}
           filter={'rarity'}
-          data={mtgRarities}
+          data={rarities}
           withoutLimit
           dropdownPlaceholder={ft('rarity.placeholder')}
         />
@@ -187,7 +151,7 @@ export function MtgAdvancedFilters() {
           title={ft('format.title')}
           description={ft('format.description')}
           filter={'game'}
-          data={mtgFormats}
+          data={formats}
           dropdownPlaceholder={ft('format.placeholder')}
         />
         <AdvancedFormMultiSelect
@@ -195,7 +159,7 @@ export function MtgAdvancedFilters() {
           title={ft('games.title')}
           description={ft('games.description')}
           filter={'game'}
-          data={mtgGames}
+          data={games}
           dropdownPlaceholder={ft('games.placeholder')}
         />
       </AdvancedFilterCategory>

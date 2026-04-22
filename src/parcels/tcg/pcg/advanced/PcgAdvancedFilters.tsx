@@ -2,13 +2,12 @@ import {Center, Loader, Overlay} from '@mantine/core';
 import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
 import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
 import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
 import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
 import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
 import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import {useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
+import {getFilterValue, useFilterValue, useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
 import {PcgEnergyColorless} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
 import {PcgEnergyDarkness} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
 import {PcgEnergyDragon} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
@@ -31,30 +30,15 @@ export function PcgAdvancedFilters() {
   );
   const { filterValues, isLoading } = useFilterValues('pcg', targetFilters);
 
-  const setNamesMapped = useMemo(() => {
-    return filterValues?.setname?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  }, [filterValues]);
-  const evolvesFromMapped = useMemo(() => {
-    return filterValues?.evolvesFrom?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  }, [filterValues]);
-  const pcgBasetypes =
-    filterValues?.basetype?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const pcgEnergyTypes =
-    filterValues?.energy
-      ?.filter((d) => d.value !== 'free')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const pcgSubtypes =
-    filterValues?.subtype?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const pcgEvoStages =
-    filterValues?.stage
-      ?.filter((d) => d.value === 'evolution_stage')
-      .map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const pcgAbilityTypes =
-    filterValues?.ability?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const pcgEffectTypes =
-    filterValues?.effect?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
-  const pcgRarities =
-    filterValues?.rarity?.map((d) => ({ value: d.value, label: capitalizeFirstLetter(d.value) })) ?? [];
+  const setNamesMapped = useFilterValue(filterValues, 'setname');
+  const evolvesFromMapped = useFilterValue(filterValues, 'evolvesFrom');
+  const basetypes = getFilterValue(filterValues, 'basetype');
+  const energyTypes = getFilterValue(filterValues, 'energy', (d) => d.value !== 'free');
+  const subtypes = getFilterValue(filterValues, 'subtype');
+  const evoStages = getFilterValue(filterValues, 'stage', (d) => d.value === 'evolution_stage');
+  const abilityTypes = getFilterValue(filterValues, 'ability');
+  const effectTypes = getFilterValue(filterValues, 'effect');
+  const rarities = getFilterValue(filterValues, 'rarity');
 
   return (
     <>
@@ -73,14 +57,14 @@ export function PcgAdvancedFilters() {
           title={ft('basetype.title')}
           description={ft('basetype.description')}
           filter={'basetype'}
-          data={pcgBasetypes}
+          data={basetypes}
         />
         <AdvancedFormMultiCheckbox
           k={'energy'}
           title={ft('energy.title')}
           description={ft('energy.description')}
           filter={'energy'}
-          data={pcgEnergyTypes}
+          data={energyTypes}
           iconsMap={{
             colorless: <PcgEnergyColorless size={22} />,
             darkness: <PcgEnergyDarkness size={22} />,
@@ -101,7 +85,7 @@ export function PcgAdvancedFilters() {
           title={ft('subtype.title')}
           description={ft('subtype.description')}
           filter={'subtype'}
-          data={pcgSubtypes}
+          data={subtypes}
           dropdownPlaceholder={ft('subtype.placeholder')}
         />
         <AdvancedFormMultiSelect
@@ -109,7 +93,7 @@ export function PcgAdvancedFilters() {
           title={ft('stage.title')}
           description={ft('stage.description')}
           filter={'stage'}
-          data={pcgEvoStages}
+          data={evoStages}
           dropdownPlaceholder={ft('stage.placeholder')}
         />
         <AdvancedFormMultiSelect
@@ -156,7 +140,7 @@ export function PcgAdvancedFilters() {
           title={ft('ability.title')}
           description={ft('ability.description')}
           filter={'ability'}
-          data={pcgAbilityTypes}
+          data={abilityTypes}
           dropdownPlaceholder={ft('ability.placeholder')}
         />
         <AdvancedFormText
@@ -173,7 +157,7 @@ export function PcgAdvancedFilters() {
           title={ft('effect.title')}
           description={ft('effect.description')}
           filter={'effect'}
-          data={pcgEffectTypes}
+          data={effectTypes}
           dropdownPlaceholder={ft('effect.placeholder')}
         />
       </AdvancedFilterCategory>
@@ -200,7 +184,7 @@ export function PcgAdvancedFilters() {
           title={ft('rarity.title')}
           description={ft('rarity.description')}
           filter={'rarity'}
-          data={pcgRarities}
+          data={rarities}
           withoutLimit
           dropdownPlaceholder={ft('rarity.placeholder')}
         />
