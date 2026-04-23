@@ -73,7 +73,7 @@
 
 .submenu {
   background-color: var(--gourmet-neutral-2);
-  border-right: 0.1rem solid var(--cgm-sidebar-border);
+  border-right: 2px solid var(--cgm-sidebar-border);
 
   position: relative;
   display: flex;
@@ -98,4 +98,8 @@
 
 .submenuItem:hover {
   background-color: var(--mantine-color-default-hover);
+}
+
+.submenuFooter {
+  border-bottom: 1px solid var(--gourmet-neutral-4);
 }

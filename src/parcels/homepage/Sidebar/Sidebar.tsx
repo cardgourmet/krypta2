@@ -3,7 +3,7 @@ import {Drawer, Group, Stack} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconCards, IconDeviceVisionPro, IconFolders} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {MobileSidebar} from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import {Logo} from '@/parcels/Logo.tsx';
@@ -38,6 +38,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     };
   }, [setSidebarOpen, sidebarOpen]);
 
+  const mtgCategory = useCategoryButton({ tcg: 'mtg', selectedTcg: tcg });
+  const pcgCategory = useCategoryButton({ tcg: 'pcg', selectedTcg: tcg });
+  const dlcCategory = useCategoryButton({ tcg: 'dlc', selectedTcg: tcg });
+
   return (
     <>
       <Drawer
@@ -54,34 +58,39 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       </Drawer>
 
       {!smallScreen && (
-        <nav className={styles.sidebar}>
-          <Group classNames={{ root: styles.sidebarLogo }} justify={'center'} align={'center'} w={'100%'}>
-            <Link to="/">
-              <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
-            </Link>
-          </Group>
+        <>
+          <nav className={styles.sidebar}>
+            <Group classNames={{ root: styles.sidebarLogo }} justify={'center'} align={'center'} w={'100%'}>
+              <Link to="/">
+                <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
+              </Link>
+            </Group>
 
-          <div>
-            <TcgCategoryButton tcg={'mtg'} selectedTcg={tcg} />
-            {/*
-            <TcgCategoryButton tcg={'pcg'} selectedTcg={tcg} />
-            <TcgCategoryButton tcg={'dlc'} selectedTcg={tcg} />*/}
-          </div>
-        </nav>
+            <Stack gap={'1rem'}>
+              {mtgCategory.button}
+              {pcgCategory.button}
+              {dlcCategory.button}
+            </Stack>
+          </nav>
+
+          {mtgCategory.submenu}
+          {pcgCategory.submenu}
+          {dlcCategory.submenu}
+        </>
       )}
     </>
   );
 }
 
-function TcgCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg?: Tcg }) {
+function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | undefined }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement: 'right-start',
+    placement: isOpen ? 'right-start' : 'left-start', // to prevent overlap
     strategy: 'fixed',
-    middleware: [offset(8)],
+    middleware: [offset({ mainAxis: 8, crossAxis: -34 })],
   });
 
   const hover = useHover(context, {
@@ -89,27 +98,43 @@ function TcgCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg?: Tcg }
   });
   const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
 
-  // TODO: submenu cant have lower zindex, because it's inside the sidebar.
-  // => so we have to extract that somehow
-
-  return (
-    <>
+  const button = useMemo(() => {
+    return (
       <div ref={refs.setReference} {...getReferenceProps()}>
         <Link
           to="/$tcg"
           params={{ tcg: tcg }}
           className={`${styles.sidebarButton}`}
-          data-state={tcg === selectedTcg ? 'enabled' : ''}
+          data-state={tcg === selectedTcg ? 'enabled' : 'disabled'}
         >
           {tcg === 'mtg' && <MTGIcon height={24} width={24} />}
           {tcg === 'pcg' && <PCGIcon height={24} width={24} />}
           {tcg === 'dlc' && <DLCIcon height={24} width={24} />}
         </Link>
       </div>
-
-      {/* Submenu Panel */}
-      <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()}>
+    );
+  }, [getReferenceProps, refs.setReference, tcg, selectedTcg]);
+  const submenu = useMemo(() => {
+    return (
+      <div
+        ref={refs.setFloating}
+        style={{
+          ...floatingStyles,
+          zIndex: 'calc(var(--sidebar-layer) - 1)',
+        }}
+        {...getFloatingProps()}
+      >
         <div className={styles.submenu} data-open={isOpen}>
+          <div className={styles.submenuFooter}>
+            <Stack p={'0.25rem 0.5rem'} justify={'center'} align={'center'}>
+              <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+                {tcg === 'mtg' && 'Magic: The Gathering'}
+                {tcg === 'pcg' && 'Pokémon Card Game'}
+                {tcg === 'dlc' && 'Disney Lorcana'}
+              </GourmetText>
+            </Stack>
+          </div>
+
           <Stack gap={'0.5rem'} p={'0.5rem 0'}>
             <Link to="/$tcg/sets" params={{ tcg: tcg }} className={styles.submenuItem}>
               <Group gap={'0.75rem'}>
@@ -137,6 +162,8 @@ function TcgCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg?: Tcg }
           </Stack>
         </div>
       </div>
-    </>
-  );
+    );
+  }, [floatingStyles, getFloatingProps, isOpen, refs.setFloating, tcg]);
+
+  return { button, submenu };
 }
