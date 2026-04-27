@@ -1,4 +1,5 @@
-import {Accordion, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
+import {Accordion, Divider, Flex, Group, Stack, Text, Tooltip} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
 import {IconAlertCircleFilled, IconClock} from '@tabler/icons-react';
 import {useNavigate} from '@tanstack/react-router';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -28,6 +29,8 @@ import styles from './CardOverview.module.css';
 export type OverviewSettings = Required<TcgSearchParams>;
 
 export function CardOverview() {
+  const smallScreen = useMediaQuery('(max-width: 800px)');
+
   const tcg = useTcgByLocation() as Tcg;
   const { component, title } = useBreadcrumbs({ subpage: 'Kartendatenbank' });
   const { user } = useAuth();
@@ -102,7 +105,12 @@ export function CardOverview() {
           }}
           mb={'1rem'}
         >
-          <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
+          <Flex
+            justify={'space-between'}
+            p={'0.5rem 0'}
+            direction={smallScreen ? 'column' : 'row'}
+            gap={smallScreen ? '0.25rem' : ''}
+          >
             <Group gap={'0.1rem'}>
               <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
                 {title?.label}
@@ -122,7 +130,7 @@ export function CardOverview() {
                 setSettings={setSettings}
               />
             )}
-          </Group>
+          </Flex>
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
 

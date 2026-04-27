@@ -23,23 +23,41 @@
 }
 
 .mobileSidebarLink {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
   text-decoration: none;
-  padding: 0 1rem 0 1rem;
-  gap: 1rem;
 
-  &:hover {
-    background-color: var(--gourmet-neutral-3);
+  svg {
+    color: var(--gourmet-neutral-9);
+  }
+}
+
+.mobileSidebarAccordion {
+  & > div {
+    border: none;
   }
 
-  &.active {
+  button {
+    border-radius: 0.25rem;
+
+    &:hover {
+      background-color: var(--gourmet-neutral-3);
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.active {
+  p {
+    color: var(--gourmet-neutral-0);
+  }
+
+  button {
     background-color: var(--cgm-sidebar-button-bg);
 
-    p {
-      color: var(--gourmet-neutral-0);
+    &:hover {
+      background-color: color-mix(in srgb, var(--cgm-sidebar-button-bg), white 10%);
     }
 
     svg {
