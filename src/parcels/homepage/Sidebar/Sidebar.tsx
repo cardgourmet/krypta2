@@ -1,25 +1,17 @@
-import {
-  FloatingFocusManager,
-  offset,
-  safePolygon,
-  useFloating,
-  useFocus,
-  useHover,
-  useInteractions,
-} from '@floating-ui/react';
-import { Drawer, Group, Stack } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { IconCards, IconDeviceVisionPro, IconFolders } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
-import { Logo } from '@/parcels/Logo.tsx';
-import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
-import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
-import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
-import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import {offset, safePolygon, useFloating, useHover, useInteractions,} from '@floating-ui/react';
+import {Drawer, Group, Stack} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
+import {IconCards, IconDeviceVisionPro, IconFolders} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
+import {useEffect, useMemo, useRef, useState} from 'react';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {MobileSidebar} from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
+import {Logo} from '@/parcels/Logo.tsx';
+import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
+import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
+import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
+import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {
@@ -101,11 +93,11 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
     middleware: [offset({ mainAxis: 8, crossAxis: -34 })],
   });
 
-  const focus = useFocus(context);
+  /*const focus = useFocus(context);*/
   const hover = useHover(context, {
     handleClose: safePolygon(),
   });
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
 
   const button = useMemo(() => {
     return (
@@ -125,56 +117,54 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
   }, [getReferenceProps, refs.setReference, tcg, selectedTcg]);
   const submenu = useMemo(() => {
     return (
-      <FloatingFocusManager context={context} modal={false}>
-        <div
-          ref={refs.setFloating}
-          style={{
-            ...floatingStyles,
-            zIndex: 'calc(var(--sidebar-layer) - 1)',
-          }}
-          {...getFloatingProps()}
-        >
-          <div className={styles.submenu} data-open={isOpen}>
-            <div className={styles.submenuFooter}>
-              <Stack p={'0.25rem 0.5rem'} justify={'center'} align={'center'}>
-                <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
-                  {tcg === 'mtg' && 'Magic: The Gathering'}
-                  {tcg === 'pcg' && 'Pokémon Card Game'}
-                  {tcg === 'dlc' && 'Disney Lorcana'}
-                </GourmetText>
-              </Stack>
-            </div>
-
-            <Stack gap={'0.5rem'} p={'0.5rem 0'}>
-              <Link to="/$tcg/sets" params={{ tcg: tcg }} className={styles.submenuItem}>
-                <Group gap={'0.75rem'}>
-                  <IconFolders size={22} />
-                  <GourmetText>Sets</GourmetText>
-                </Group>
-              </Link>
-              <Link
-                to="/$tcg/cards"
-                params={{ tcg: tcg }}
-                className={styles.submenuItem}
-                search={{ ...tcgSearchParamsDefaults }}
-              >
-                <Group gap={'0.75rem'}>
-                  <IconCards size={22} />
-                  <GourmetText>Cards</GourmetText>
-                </Group>
-              </Link>
-              <Link to="/$tcg/advanced" params={{ tcg: tcg }} className={styles.submenuItem}>
-                <Group gap={'0.75rem'}>
-                  <IconDeviceVisionPro size={22} />
-                  <GourmetText>Advanced Search</GourmetText>
-                </Group>
-              </Link>
+      <div
+        ref={refs.setFloating}
+        style={{
+          ...floatingStyles,
+          zIndex: 'calc(var(--sidebar-layer) - 1)',
+        }}
+        {...getFloatingProps()}
+      >
+        <div className={styles.submenu} data-open={isOpen}>
+          <div className={styles.submenuFooter}>
+            <Stack p={'0.25rem 0.5rem'} justify={'center'} align={'center'}>
+              <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+                {tcg === 'mtg' && 'Magic: The Gathering'}
+                {tcg === 'pcg' && 'Pokémon Card Game'}
+                {tcg === 'dlc' && 'Disney Lorcana'}
+              </GourmetText>
             </Stack>
           </div>
+
+          <Stack gap={'0.5rem'} p={'0.5rem 0'}>
+            <Link to="/$tcg/sets" params={{ tcg: tcg }} className={styles.submenuItem}>
+              <Group gap={'0.75rem'}>
+                <IconFolders size={22} />
+                <GourmetText>Sets</GourmetText>
+              </Group>
+            </Link>
+            <Link
+              to="/$tcg/cards"
+              params={{ tcg: tcg }}
+              className={styles.submenuItem}
+              search={{ ...tcgSearchParamsDefaults }}
+            >
+              <Group gap={'0.75rem'}>
+                <IconCards size={22} />
+                <GourmetText>Cards</GourmetText>
+              </Group>
+            </Link>
+            <Link to="/$tcg/advanced" params={{ tcg: tcg }} className={styles.submenuItem}>
+              <Group gap={'0.75rem'}>
+                <IconDeviceVisionPro size={22} />
+                <GourmetText>Advanced Search</GourmetText>
+              </Group>
+            </Link>
+          </Stack>
         </div>
-      </FloatingFocusManager>
+      </div>
     );
-  }, [floatingStyles, getFloatingProps, isOpen, refs.setFloating, tcg, context, refs]);
+  }, [floatingStyles, getFloatingProps, isOpen, refs.setFloating, tcg, refs]);
 
   return { button, submenu };
 }
