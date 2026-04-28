@@ -16,6 +16,7 @@ export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
 export type MtgDataPrint = c['schemas']['MtgDataPrint'];
 export type MtgDataPrintReference = c['schemas']['MtgDataPrintReference'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
+export type MtgDataSets = c['schemas']['Page-MtgDataSet'];
 export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
 
 export type MtgCardQuery = TcgCardQuery & {
@@ -72,6 +73,15 @@ export async function fetchMtgSet(setId: string, abort?: AbortController): Promi
           setId: setId,
         },
       },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/mtg/sets
+export async function fetchMtgSets(abort?: AbortController): Promise<GourmetApiResponse<MtgDataSets>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/sets`, {
       signal: abort?.signal,
     });
   });

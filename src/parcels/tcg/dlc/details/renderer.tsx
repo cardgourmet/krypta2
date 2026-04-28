@@ -1,10 +1,10 @@
-import type { ReactElement } from 'react';
-import type { TcgDetailParams } from '@/parcels/details/loadTcgPrintAndSet.ts';
-import type { TcgDataCard, TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import { slugify } from '@/parcels/slugify.ts';
-import type { DlcDataCard, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
-import { DlcPrintContentRenderer } from '@/parcels/tcg/dlc/details/DlcPrintContentRenderer/DlcPrintContentRenderer.tsx';
-import { DlcPrintMetaRenderer } from '@/parcels/tcg/dlc/details/DlcPrintMetaRenderer/DlcPrintMetaRenderer.tsx';
+import type {ReactElement} from 'react';
+import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
+import type {TcgDataCard, TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {slugify} from '@/parcels/slugify.ts';
+import type {DlcDataCard, DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
+import {DlcPrintContentRenderer} from '@/parcels/tcg/dlc/details/DlcPrintContentRenderer/DlcPrintContentRenderer.tsx';
+import {DlcPrintMetaRenderer} from '@/parcels/tcg/dlc/details/DlcPrintMetaRenderer/DlcPrintMetaRenderer.tsx';
 
 export function findDlcParamsByLanguage(cardWithPrints: TcgDataCard, lang: string): TcgDetailParams {
   const card = cardWithPrints as DlcDataCard;
@@ -43,7 +43,6 @@ export function constructDlcPrintMeta(
 
   return (
     <DlcPrintMetaRenderer
-      tcg={'dlc'}
       card={cardWithPrints}
       print={cardWithPrints.print}
       set={set}

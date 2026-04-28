@@ -19,6 +19,7 @@ export type DlcDataSetSummary = c['schemas']['DlcDataSetSummary'];
 export type DlcDataCard = c['schemas']['DlcDataCard'];
 export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
+export type DlcDataSets = c['schemas']['Page-DlcDataSet'];
 
 // /v1/dlc/sets/search
 export async function searchDlcSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet[]>> {
@@ -70,6 +71,15 @@ export async function fetchDlcSet(setId: string, abort?: AbortController): Promi
           setId: setId,
         },
       },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/dlc/sets
+export async function fetchDlcSets(abort?: AbortController): Promise<GourmetApiResponse<DlcDataSets>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/sets`, {
       signal: abort?.signal,
     });
   });

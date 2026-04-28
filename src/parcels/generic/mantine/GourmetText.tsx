@@ -6,7 +6,7 @@ export function GourmetText(props: GourmetTextProps) {
   const color = `var(--gourmet-${props.cgmc ?? 'neutral-8'})`;
 
   return (
-    <Text ff={fontFamily} c={color} {...props}>
+    <Text ff={fontFamily} c={color} span={props.span ?? false} {...props}>
       {props.children}
     </Text>
   );

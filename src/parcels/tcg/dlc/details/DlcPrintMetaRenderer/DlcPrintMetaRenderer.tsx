@@ -1,24 +1,21 @@
-import { Code, Group, Select, type SelectProps, Stack, Text } from '@mantine/core';
-import { IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-import { useMemo } from 'react';
-import type { DlcDataCard, DlcDataPrint, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
-import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
-import type { PcgDataCard, PcgDataPrint, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
-import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {Code, Group, Select, type SelectProps, Stack, Text} from '@mantine/core';
+import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber} from '@tabler/icons-react';
+import {Link} from '@tanstack/react-router';
+import {useMemo} from 'react';
+import type {DlcDataCard, DlcDataPrint, DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
+import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
+import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
+import type {PcgDataCard, PcgDataPrint, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
+import {PcgSetIcon} from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
 import styles from './DlcPrintMetaRenderer.module.css';
 
 export function DlcPrintMetaRenderer({
-  tcg,
   card,
   print,
   set,
   language,
   setLanguage,
 }: {
-  tcg: Tcg;
   card: MtgDataCard | PcgDataCard | DlcDataCard;
   print: MtgDataPrint | PcgDataPrint | DlcDataPrint;
   set: MtgDataSet | PcgDataSet | DlcDataSet;
@@ -79,8 +76,8 @@ export function DlcPrintMetaRenderer({
     >
       <Stack gap={'xs'}>
         <Link
-          to={`/${tcg}/sets/$setCode`}
-          params={{ setCode: (set as DlcDataSet).code.toLowerCase() }}
+          to={`/$tcg/sets/$setCode`}
+          params={{ tcg: 'dlc', setCode: (set as DlcDataSet).code.toLowerCase() }}
           className={styles.setLink}
         >
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
@@ -146,7 +143,8 @@ export function DlcPrintMetaRenderer({
             </Group>
             <Group gap={'xs'}>
               <Link
-                to={`/${tcg}/cards`}
+                to={`/$tcg/cards`}
+                params={{ tcg: 'dlc' }}
                 search={{
                   ...dlcSearchParamsDefaults,
                   query: `rarity:"${print.rarity}"`,
@@ -173,7 +171,8 @@ export function DlcPrintMetaRenderer({
               </Group>
               <Group gap={'xs'}>
                 <Link
-                  to={`/${tcg}/cards`}
+                  to={`/$tcg/cards`}
+                  params={{ tcg: 'dlc' }}
                   search={{
                     ...dlcSearchParamsDefaults,
                     query: `artist:"${(print as DlcDataPrint).artist}"`,

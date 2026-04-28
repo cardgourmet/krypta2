@@ -4,6 +4,7 @@ import type {PropsWithChildren} from 'react';
 export type GourmetTextProps = PropsWithChildren<TextProps> & {
   cgmc?: GourmetColor;
   cgmff?: GourmetFontFamily;
+  span?: boolean;
 };
 
 export type GourmetColor =
