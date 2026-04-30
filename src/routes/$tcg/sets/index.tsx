@@ -1,4 +1,4 @@
-import {Divider, Group, SimpleGrid, Stack} from '@mantine/core';
+import {Center, Divider, Group, SimpleGrid, Stack} from '@mantine/core';
 import {createFileRoute, Link, notFound} from '@tanstack/react-router';
 import type {ReactElement} from 'react';
 import type {GourmetApiResponse} from '@/parcels/api/handleApiCall.ts';
@@ -71,7 +71,16 @@ function RouteComponent() {
 }
 
 function sortSetsByReleaseYear(tcg: Tcg, sets: TcgDataSet[], order: 'asc' | 'desc'): ReactElement[] {
-  const setsByYear = groupBy<TcgDataSet, number>(sets, (set) => {
+  let filteredSets = sets;
+  if (tcg === 'pcg') {
+    filteredSets = filteredSets.filter((set) => {
+      const s = set as PcgDataSet;
+
+      return s.region === 'int' && ['main_expansion', 'special_expansion', 'energies'].includes(s.type);
+    });
+  }
+
+  const setsByYear = groupBy<TcgDataSet, number>(filteredSets, (set) => {
     let releaseDate: string | undefined;
     if (tcg === 'mtg') {
       releaseDate = (set as MtgDataSet).releaseDate;
@@ -111,18 +120,29 @@ function sortSetsByReleaseYear(tcg: Tcg, sets: TcgDataSet[], order: 'asc' | 'des
   });
 }
 
-const bannerSrc =
-  'https://images.ctfassets.net/s5n2t79q9icq/5DBkWOEJ02sWQGXU6Xm2Nd/eae989456760c6a51db665741a2d5643/3H8hMTEhhnho_DE_660x237.png';
+/*const bannerSrc =
+  'https://images.ctfassets.net/s5n2t79q9icq/5DBkWOEJ02sWQGXU6Xm2Nd/eae989456760c6a51db665741a2d5643/3H8hMTEhhnho_DE_660x237.png';*/
 
 function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
-  const name = set.translations.en?.name ?? 'translation not found';
+  const language = 'en';
+  const translation = set.translations[language];
 
-  // TODO: include set icon
-  // TODO: include set banner into card
+  const name = translation?.name ?? 'translation not found';
+  const logoUrl = translation?.imageUrls?.logo ?? '';
+
+  // TODO: make date formatted
+  let date = new Date().toLocaleDateString();
+  if (tcg === 'mtg') {
+    date = (set as MtgDataSet).releaseDate;
+  } else if (tcg === 'pcg') {
+    date = (set as PcgDataSet).releaseStartDate ?? '';
+  } else if (tcg === 'dlc') {
+    date = (set as DlcDataSet).releaseDate;
+  }
 
   return (
     <Stack className={styles.setCard}>
-      <Stack gap={'0.5rem'}>
+      <Stack gap={'0.5rem'} h={'100%'}>
         <Group wrap={'nowrap'} gap={'1rem'}>
           <TcgSetIcon tcg={tcg} setCode={set.code ?? '?'} />
           <div>
@@ -135,16 +155,46 @@ function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
                 {name}
               </GourmetText>
             </Link>
-            <GourmetText cgmc={'neutral-6'} fz={'0.95rem'} span>
+            <GourmetText cgmc={'neutral-6'} fz={'0.85rem'} span>
               {set.code}
             </GourmetText>
           </div>
         </Group>
 
-        <img src={bannerSrc} alt={'banner'} />
-      </Stack>
+        <Center>
+          {logoUrl && (
+            <Link
+              to={'/$tcg/sets/$setCode'}
+              params={{ tcg: tcg, setCode: set.code ?? '?' }}
+              className={styles.setCardLink}
+            >
+              <img src={logoUrl} alt={'banner'} style={{ maxWidth: '100%', maxHeight: '5rem' }} />
+            </Link>
+          )}
+          {!logoUrl && (
+            <Center style={{ height: '5rem' }}>
+              <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
+                No image available.
+              </GourmetText>
+            </Center>
+          )}
+        </Center>
 
-      <GourmetText style={{ wordBreak: 'break-all' }}>{JSON.stringify(set)}</GourmetText>
+        <Stack justify={'space-between'} h={'100%'}>
+          <Group justify={'end'}>
+            <div className={styles.setTypeTag}>
+              <GourmetText cgmff={'monospace'} fz={'0.85rem'}>
+                {set.type}
+              </GourmetText>
+            </div>
+          </Group>
+
+          <Group justify={'space-between'}>
+            <GourmetText>{set.printsAvailable} prints</GourmetText>
+            <GourmetText cgmff={'ui'}>{date}</GourmetText>
+          </Group>
+        </Stack>
+      </Stack>
     </Stack>
   );
 }

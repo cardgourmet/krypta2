@@ -6654,7 +6654,12 @@ export interface components {
             /** Format: int32 */
             statusCode: number;
         };
+        DataSetImageUrls: {
+            icon?: string | null;
+            logo?: string | null;
+        };
         MtgDataSetTranslation: {
+            imageUrls?: components["schemas"]["DataSetImageUrls"] | null;
             name: string;
         };
         MtgDataSetReference: {
@@ -6887,10 +6892,6 @@ export interface components {
             data: components["schemas"]["DlcDataCard"];
             /** Format: int32 */
             statusCode: number;
-        };
-        DataSetImageUrls: {
-            icon?: string | null;
-            logo?: string | null;
         };
         DlcDataSetTranslation: {
             /** Format: uuid */
