@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-
+import advancedDE from '@/../locales/advanced/de.json';
+import advancedEN from '@/../locales/advanced/en.json';
 import authDE from '@/../locales/auth/de.json';
 import authEN from '@/../locales/auth/en.json';
 import cardsDE from '@/../locales/cards/de.json';
@@ -17,8 +18,8 @@ import searchDE from '@/../locales/search/de.json';
 import searchEN from '@/../locales/search/en.json';
 import selectionDE from '@/../locales/selection/de.json';
 import selectionEN from '@/../locales/selection/en.json';
-import advancedDE from '@/../locales/advanced/de.json';
-import advancedEN from '@/../locales/advanced/en.json';
+import setsDE from '@/../locales/sets/de.json';
+import setsEN from '@/../locales/sets/en.json';
 
 const resources = {
   en: {
@@ -31,6 +32,7 @@ const resources = {
     history: historyEN,
     saved: savedEN,
     advanced: advancedEN,
+    sets: setsEN,
   },
   de: {
     auth: authDE,
@@ -42,6 +44,7 @@ const resources = {
     history: historyDE,
     saved: savedDE,
     advanced: advancedDE,
+    sets: setsDE,
   },
 };
 

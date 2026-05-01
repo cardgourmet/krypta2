@@ -1,0 +1,14 @@
+{
+  "common": {
+    "groupBy": "Group by"
+  },
+  "groupBy": {
+    "year": "Year",
+    "era": "Era"
+  },
+  "sortdir": {
+    "auto": "Auto",
+    "asc": "Ascending",
+    "desc": "Descending"
+  }
+}
