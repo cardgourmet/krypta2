@@ -1,7 +1,7 @@
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
-import {createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
-import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
+import {createProps} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
+import {ImageCard} from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 

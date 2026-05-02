@@ -10,7 +10,7 @@ import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx'
 import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
-import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
+import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import {deleteSavedSearches, fetchSavedSearches} from '@/parcels/search/api.ts';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';

@@ -1,9 +1,9 @@
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import { getSetSpecificQuery } from '@/parcels/overview/getSetSpecificQuery.ts';
-import { searchDlcSets } from '@/parcels/tcg/dlc/api.ts';
-import { searchMtgSets } from '@/parcels/tcg/mtg/api.ts';
-import { searchPcgSets } from '@/parcels/tcg/pcg/api.ts';
+import type {GourmetApiResponse} from '@/parcels/api/handleApiCall.ts';
+import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {getSetSpecificQuery} from '@/parcels/overview/cards/getSetSpecificQuery.ts';
+import {searchDlcSets} from '@/parcels/tcg/dlc/api.ts';
+import {searchMtgSets} from '@/parcels/tcg/mtg/api.ts';
+import {searchPcgSets} from '@/parcels/tcg/pcg/api.ts';
 
 export async function fetchSetByQuery(tcg: string, query: string): Promise<GourmetApiResponse<TcgDataSet> | null> {
   const setFilter = getSetSpecificQuery(query);

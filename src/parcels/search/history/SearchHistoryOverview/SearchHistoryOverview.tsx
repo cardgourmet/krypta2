@@ -8,7 +8,7 @@ import {GourmetTable, type GourmetTableData} from '@/parcels/generic/GourmetTabl
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
-import Pagination from '@/parcels/overview/Pagination/Pagination.tsx';
+import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import {fetchSearchHistory} from '@/parcels/search/api.ts';
 import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import {HorTableRow} from '@/parcels/search/history/SearchHistoryOverview/HorTableRow/HorTableRow.tsx';

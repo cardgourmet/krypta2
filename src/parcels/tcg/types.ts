@@ -1,6 +1,6 @@
 import type {ReactElement} from 'react';
 import z from 'zod';
-import type {CardSearchParams} from '@/parcels/overview/types.ts';
+import type {CardSearchParams} from '@/parcels/overview/cards/types.ts';
 import type {DlcDataCard, DlcDataPrint, DlcDataSets, DlcSearchCards, DlcSearchCardsResult, DlcSearchDataCard,} from '@/parcels/tcg/dlc/api.ts';
 import {type DlcSearchDisplaySettings, type DlcSearchQuerySettings, dlcSortBys, dlcUniqueBys,} from '@/parcels/tcg/dlc/types.ts';
 import type {MtgDataCard, MtgDataPrint, MtgDataSets, MtgSearchCards, MtgSearchCardsResult, MtgSearchDataCard,} from '@/parcels/tcg/mtg/api.ts';

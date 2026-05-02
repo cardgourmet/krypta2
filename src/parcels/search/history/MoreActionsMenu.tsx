@@ -3,10 +3,10 @@ import {useDisclosure} from '@mantine/hooks';
 import {type Dispatch, type PropsWithChildren, type ReactElement, type Ref, type SetStateAction, useMemo, useState,} from 'react';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import {AddToListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/AddToListMenu/AddToListMenu.tsx';
-import {ListMenuItem} from '@/parcels/overview/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
-import styles from '@/parcels/overview/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import {RemoveFromListMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/RemoveFromListMenu/RemoveFromListMenu.tsx';
+import {AddToListMenu} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/AddToListMenu/AddToListMenu.tsx';
+import {ListMenuItem} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
+import styles from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
+import {RemoveFromListMenu} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/RemoveFromListMenu/RemoveFromListMenu.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function MoreActionsMenu({

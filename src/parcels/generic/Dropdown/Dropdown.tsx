@@ -1,6 +1,6 @@
-import { IconCheck, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { type CSSProperties, type ReactElement, useEffect, useRef, useState } from 'react';
-import { useWindowSize } from '@/parcels/overview/useWindowSize.ts';
+import {IconCheck, IconChevronDown, IconChevronUp} from '@tabler/icons-react';
+import {type CSSProperties, type ReactElement, useEffect, useRef, useState} from 'react';
+import {useWindowSize} from '@/parcels/overview/cards/useWindowSize.ts';
 import styles from './Dropdown.module.css';
 
 interface DropdownProps {

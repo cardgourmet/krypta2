@@ -3,10 +3,10 @@ import {IconDotsVertical} from '@tabler/icons-react';
 import {useState} from 'react';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
-import {createProps} from '@/parcels/overview/CardGrid/CardGridEntry/createProps.ts';
-import {CardMoreActionsMenu} from '@/parcels/overview/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
-import styles from '@/parcels/overview/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
-import {ImageCard} from '@/parcels/overview/ImageCard/ImageCard.tsx';
+import {createProps} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
+import {CardMoreActionsMenu} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/CardMoreActionsMenu.tsx';
+import styles from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
+import {ImageCard} from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 

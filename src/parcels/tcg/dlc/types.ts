@@ -1,4 +1,4 @@
-import type {CardSearchDisplaySettings, CardSearchParams, CardSearchQuerySettings} from '@/parcels/overview/types.ts';
+import type {CardSearchDisplaySettings, CardSearchParams, CardSearchQuerySettings,} from '@/parcels/overview/cards/types.ts';
 import type {DisplayMode, SortDirection} from '@/parcels/tcg/types.ts';
 
 export const dlcSortBys = ['name', 'set', 'ink', 'strength', 'willpower', 'movement', 'released'] as const;
