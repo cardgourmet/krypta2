@@ -116,13 +116,15 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
 
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-            <Menu.Item
-              leftSection={<IconSettings size={18} />}
-              className={styles.menuItem}
-              disabled={user.state === 'unverified'}
-            >
-              <GourmetText cgmff="ui">{t('settings')}</GourmetText>
-            </Menu.Item>
+            <Link to={'/me/settings'} style={{ textDecoration: 'none' }}>
+              <Menu.Item
+                leftSection={<IconSettings size={18} />}
+                className={styles.menuItem}
+                disabled={user.state === 'unverified'}
+              >
+                <GourmetText cgmff="ui">{t('settings')}</GourmetText>
+              </Menu.Item>
+            </Link>
             <Menu.Item
               color="var(--gourmet-red-01)"
               leftSection={<IconLogout size={18} />}

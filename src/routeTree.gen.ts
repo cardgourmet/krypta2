@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
+import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
 import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
 import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
@@ -20,6 +21,7 @@ import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
 import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
+import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
 import { Route as TcgCardsPrintIdRouteImport } from './routes/$tcg/cards/$printId'
 import { Route as TcgSetsSetCodeIndexRouteImport } from './routes/$tcg/sets/$setCode/index'
@@ -43,6 +45,11 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 const TcgIndexRoute = TcgIndexRouteImport.update({
   id: '/$tcg/',
   path: '/$tcg/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeSettingsIndexRoute = MeSettingsIndexRouteImport.update({
+  id: '/me/settings/',
+  path: '/me/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeSavedSearchesIndexRoute = MeSavedSearchesIndexRouteImport.update({
@@ -80,6 +87,11 @@ const MeListsListIdRoute = MeListsListIdRouteImport.update({
   path: '/me/lists/$listId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthEmailTokenRoute = AuthEmailTokenRouteImport.update({
+  id: '/auth/email/$token',
+  path: '/auth/email/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthConfirmTokenRoute = AuthConfirmTokenRouteImport.update({
   id: '/auth/confirm/$token',
   path: '/auth/confirm/$token',
@@ -109,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
@@ -116,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/me/history/': typeof MeHistoryIndexRoute
   '/me/lists/': typeof MeListsIndexRoute
   '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
+  '/me/settings/': typeof MeSettingsIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -126,6 +140,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
@@ -133,6 +148,7 @@ export interface FileRoutesByTo {
   '/me/history': typeof MeHistoryIndexRoute
   '/me/lists': typeof MeListsIndexRoute
   '/me/saved-searches': typeof MeSavedSearchesIndexRoute
+  '/me/settings': typeof MeSettingsIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -144,6 +160,7 @@ export interface FileRoutesById {
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
@@ -151,6 +168,7 @@ export interface FileRoutesById {
   '/me/history/': typeof MeHistoryIndexRoute
   '/me/lists/': typeof MeListsIndexRoute
   '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
+  '/me/settings/': typeof MeSettingsIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
   '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -163,6 +181,7 @@ export interface FileRouteTypes {
     | '/register/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
+    | '/auth/email/$token'
     | '/me/lists/$listId'
     | '/$tcg/advanced/'
     | '/$tcg/cards/'
@@ -170,6 +189,7 @@ export interface FileRouteTypes {
     | '/me/history/'
     | '/me/lists/'
     | '/me/saved-searches/'
+    | '/me/settings/'
     | '/$tcg/sets/$setCode/'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
@@ -180,6 +200,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
+    | '/auth/email/$token'
     | '/me/lists/$listId'
     | '/$tcg/advanced'
     | '/$tcg/cards'
@@ -187,6 +208,7 @@ export interface FileRouteTypes {
     | '/me/history'
     | '/me/lists'
     | '/me/saved-searches'
+    | '/me/settings'
     | '/$tcg/sets/$setCode'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   id:
@@ -197,6 +219,7 @@ export interface FileRouteTypes {
     | '/register/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
+    | '/auth/email/$token'
     | '/me/lists/$listId'
     | '/$tcg/advanced/'
     | '/$tcg/cards/'
@@ -204,6 +227,7 @@ export interface FileRouteTypes {
     | '/me/history/'
     | '/me/lists/'
     | '/me/saved-searches/'
+    | '/me/settings/'
     | '/$tcg/sets/$setCode/'
     | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesById: FileRoutesById
@@ -215,6 +239,7 @@ export interface RootRouteChildren {
   RegisterIndexRoute: typeof RegisterIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
+  AuthEmailTokenRoute: typeof AuthEmailTokenRoute
   MeListsListIdRoute: typeof MeListsListIdRoute
   TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
@@ -222,6 +247,7 @@ export interface RootRouteChildren {
   MeHistoryIndexRoute: typeof MeHistoryIndexRoute
   MeListsIndexRoute: typeof MeListsIndexRoute
   MeSavedSearchesIndexRoute: typeof MeSavedSearchesIndexRoute
+  MeSettingsIndexRoute: typeof MeSettingsIndexRoute
   TcgSetsSetCodeIndexRoute: typeof TcgSetsSetCodeIndexRoute
   TcgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
@@ -254,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/$tcg'
       fullPath: '/$tcg/'
       preLoaderRoute: typeof TcgIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/settings/': {
+      id: '/me/settings/'
+      path: '/me/settings'
+      fullPath: '/me/settings/'
+      preLoaderRoute: typeof MeSettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/saved-searches/': {
@@ -305,6 +338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeListsListIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/email/$token': {
+      id: '/auth/email/$token'
+      path: '/auth/email/$token'
+      fullPath: '/auth/email/$token'
+      preLoaderRoute: typeof AuthEmailTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/confirm/$token': {
       id: '/auth/confirm/$token'
       path: '/auth/confirm/$token'
@@ -343,6 +383,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterIndexRoute: RegisterIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
+  AuthEmailTokenRoute: AuthEmailTokenRoute,
   MeListsListIdRoute: MeListsListIdRoute,
   TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
@@ -350,6 +391,7 @@ const rootRouteChildren: RootRouteChildren = {
   MeHistoryIndexRoute: MeHistoryIndexRoute,
   MeListsIndexRoute: MeListsIndexRoute,
   MeSavedSearchesIndexRoute: MeSavedSearchesIndexRoute,
+  MeSettingsIndexRoute: MeSettingsIndexRoute,
   TcgSetsSetCodeIndexRoute: TcgSetsSetCodeIndexRoute,
   TcgSetsSetCodeCollectorNumberChar123AnyChar125Route:
     TcgSetsSetCodeCollectorNumberChar123AnyChar125Route,

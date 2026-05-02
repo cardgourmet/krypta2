@@ -1,3 +1,4 @@
+import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
 import type {components as c} from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -5,6 +6,8 @@ export type AuthApiUserResponse = c['schemas']['AuthApiUserResponse'];
 export type AuthApiRegisterResponse = c['schemas']['AuthApiRegisterResponse'];
 export type DataAuthUser = c['schemas']['DataAuthUser'];
 export type AuthApiSessionDetails = c['schemas']['AuthApiSessionDetails'];
+
+export type UserSettings = c['schemas']['UserSettings'];
 
 // /v1/auth/basic/register
 export async function registerUsingBasicAuth(
@@ -210,4 +213,84 @@ export async function getCurrentLoggedInUser(
     }
     return { error: error };
   }
+}
+
+// /v1/auth/user/settings
+export async function updateUserSettings(
+  settings: UserSettings,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DataAuthUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.PUT(`/v1/auth/user/settings`, {
+      body: settings,
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/user/displayName
+export async function updateUserDisplayName(
+  displayName: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DataAuthUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/user/displayName`, {
+      body: {
+        displayName: displayName,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/user/email
+export async function requestUpdateUserEmail(
+  email: string,
+  password: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/user/email`, {
+      body: {
+        email: email,
+        password: password,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/user/email/{token}
+export async function confirmUpdateUserEmail(
+  token: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/user/email/{token}`, {
+      params: {
+        path: {
+          token: token,
+        },
+      },
+      body: undefined,
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/user/password
+export async function updateUserPassword(
+  currentPassword: string,
+  newPassword: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/user/password`, {
+      body: {
+        previousPassword: currentPassword,
+        password: newPassword,
+      },
+      signal: abort?.signal,
+    });
+  });
 }
