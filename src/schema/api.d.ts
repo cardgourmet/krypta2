@@ -3475,6 +3475,8 @@ export interface paths {
                     releasedAfter?: string;
                     /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
                     sortBy?: string;
+                    /** @description Filter sets by the region they were released in */
+                    region?: "int" | "jap" | "chi" | "kor" | "tha" | "ind";
                 };
                 header?: never;
                 path?: never;

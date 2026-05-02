@@ -88,7 +88,12 @@ export const tcgSearchParamsSchema = z.object({
 export const tcgSetGroupBys = ['year', 'era'] as const;
 export type TcgSetGroupBy = (typeof tcgSetGroupBys)[number];
 
+export const tcgSetsParamsDefaults = {
+  groupBy: 'year' as TcgSetGroupBy,
+  order: 'desc' as SortDirection,
+};
+
 export const tcgSetsParamsSchema = z.object({
-  groupBy: z.enum(tcgSetGroupBys).catch('year'),
-  order: z.enum(sortDirections).catch('desc'),
+  groupBy: z.enum(tcgSetGroupBys).catch(tcgSetsParamsDefaults.groupBy),
+  order: z.enum(sortDirections).catch(tcgSetsParamsDefaults.order),
 });

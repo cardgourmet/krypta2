@@ -1,5 +1,5 @@
 import { Center, Divider, Group, SimpleGrid, Stack } from '@mantine/core';
-import { createFileRoute, Link, notFound, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link, notFound, stripSearchParams, useNavigate } from '@tanstack/react-router';
 import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
@@ -9,19 +9,26 @@ import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { type DlcDataSet, fetchDlcSets } from '@/parcels/tcg/dlc/api.ts';
 import { fetchMtgSets, type MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
-import { fetchPcgSets, type PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import {
+  fetchPcgEras,
+  fetchPcgSets,
+  type PcgDataEra,
+  type PcgDataEras,
+  type PcgDataSet,
+} from '@/parcels/tcg/pcg/api.ts';
 import { TcgSetIcon } from '@/parcels/tcg/TcgSetIcon.tsx';
 import {
   type SortDirection,
   sortDirections,
   type TcgDataSets,
   type TcgSetGroupBy,
+  tcgSetsParamsDefaults,
   tcgSetsParamsSchema,
 } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './index.module.css';
-import { usePrevious } from '@/parcels/usePrevious.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
+import { usePrevious } from '@/parcels/usePrevious.ts';
+import styles from './index.module.css';
 
 export const Route = createFileRoute('/$tcg/sets/')({
   component: RouteComponent,
@@ -38,14 +45,30 @@ export const Route = createFileRoute('/$tcg/sets/')({
     } else if (params.tcg === 'dlc') {
       res = await fetchDlcSets();
     }
-    return res;
+
+    let erasRes: GourmetApiResponse<PcgDataEras> | undefined;
+    if (params.tcg === 'pcg') {
+      erasRes = await fetchPcgEras();
+    }
+    return { setsRes: res, erasRes: erasRes };
   },
   validateSearch: tcgSetsParamsSchema,
+  search: {
+    middlewares: [stripSearchParams(tcgSetsParamsDefaults)],
+  },
 });
 
 function RouteComponent() {
   const { tcg } = Route.useParams();
-  const data = Route.useLoaderData();
+  const { setsRes: data, erasRes: erasData } = Route.useLoaderData();
+  const erasById: Record<string, PcgDataEra> = useMemo(() => {
+    return (
+      erasData?.data?.items?.reduce((map: Record<string, PcgDataEra>, obj: PcgDataEra) => {
+        map[obj.id] = obj;
+        return map;
+      }, {}) ?? {}
+    );
+  }, [erasData?.data?.items]);
   const search = Route.useSearch();
 
   const [settings, setSettings] = useState<OverviewSettings>(search);
@@ -85,35 +108,66 @@ function RouteComponent() {
         filteredSets?.filter((set) => {
           const s = set as PcgDataSet;
 
-          return s.region === 'int' && ['main_expansion', 'special_expansion', 'energies'].includes(s.type);
+          return ['main_expansion', 'special_expansion', 'energies'].includes(s.type);
         }) ?? [];
     }
+    // always sort the sets by date first before grouping.
+    filteredSets.sort((a, b) => {
+      const dateA = getReleaseDate(tcg as Tcg, a)?.getTime() ?? 0;
+      const dateB = getReleaseDate(tcg as Tcg, b)?.getTime() ?? 0;
 
-    const setsByYear = groupBy<TcgDataSet, number>(filteredSets, (set) => {
-      let releaseDate: string | undefined;
-      if (tcg === 'mtg') {
-        releaseDate = (set as MtgDataSet).releaseDate;
-      } else if (tcg === 'pcg') {
-        releaseDate = (set as PcgDataSet).releaseStartDate ?? undefined;
-      } else if (tcg === 'dlc') {
-        releaseDate = (set as DlcDataSet).releaseDate;
-      }
-
-      if (releaseDate === undefined) return 0 as number;
-      return new Date(releaseDate).getFullYear();
-    });
-    const setsByYearArr = Object.entries(setsByYear).map(([year, sets]) => ({
-      year: Number(year),
-      sets,
-    }));
-
-    setsByYearArr.sort((a, b) => {
-      if (search.order === 'asc') return a.year - b.year;
-      return (a.year - b.year) * -1;
+      if (search.order === 'asc') return dateA - dateB;
+      return (dateA - dateB) * -1;
     });
 
-    return setsByYearArr;
-  }, [data?.data, tcg, search.order]);
+    if (settings.groupBy === 'year') {
+      const setsByYear = groupBy<TcgDataSet, number>(filteredSets, (set) => {
+        const releaseDate = getReleaseDate(tcg as Tcg, set);
+
+        if (releaseDate === undefined) return 0 as number;
+        return new Date(releaseDate).getFullYear();
+      });
+      const setsByYearArr = Object.entries(setsByYear).map(([year, sets]) => ({
+        year: Number(year),
+        era: undefined,
+        sets,
+      }));
+
+      setsByYearArr.sort((a, b) => {
+        if (search.order === 'asc') return a.year - b.year;
+        return (a.year - b.year) * -1;
+      });
+
+      return setsByYearArr;
+    } else if (settings.groupBy === 'era') {
+      const setsByEra = groupBy<TcgDataSet, string>(filteredSets, (set) => {
+        if (tcg === 'pcg') {
+          return (set as PcgDataSet).eraId;
+        }
+        return '';
+      });
+      const setsByEraArr = Object.entries(setsByEra).map(([eraId, sets]) => ({
+        era: eraId,
+        year: undefined,
+        sets,
+      }));
+
+      setsByEraArr.sort((a, b) => {
+        const eraA = erasById[a.era];
+        const eraB = erasById[b.era];
+        const ancientDate = new Date(0);
+
+        const dateA = eraA?.from ? new Date(eraA.from) : ancientDate;
+        const dateB = eraB?.from ? new Date(eraB.from) : ancientDate;
+
+        if (search.order === 'asc') return dateA.getTime() - dateB.getTime();
+        return (dateA.getTime() - dateB.getTime()) * -1;
+      });
+
+      return setsByEraArr;
+    }
+    return [];
+  }, [data?.data, tcg, search.order, settings.groupBy, erasById]);
 
   return (
     <>
@@ -141,20 +195,23 @@ function RouteComponent() {
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
 
-        <Stack mb={'1rem'}>
+        <Stack mb={'1.5rem'}>
           <SetOverviewSettings tcg={tcg as Tcg} overviewSettings={search} setOverviewSettings={setSettingsWrapper} />
         </Stack>
 
-        <Stack>
-          {sortedSets.map(({ year, sets }) => {
+        <Stack gap={'2rem'}>
+          {sortedSets.map((e) => {
+            const era: PcgDataEra | undefined = erasById[e.era ?? ''];
+            const eraName = era?.translations?.en?.name;
+
             return (
-              <Stack key={year} gap={'0.5rem'}>
+              <Stack key={e?.year ?? e.era} gap={'0.5rem'}>
                 <GourmetText cgmff={'ui'} cgmc={'neutral-9'} fw={400} fz={'1.2rem'}>
-                  {year}
+                  {e?.year ?? eraName}
                 </GourmetText>
 
                 <SimpleGrid cols={4}>
-                  {sets.map((set) => (
+                  {e.sets.map((set) => (
                     <SetCard key={set.id} tcg={tcg as Tcg} set={set} />
                   ))}
                 </SimpleGrid>
@@ -316,7 +373,7 @@ function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
           )}
         </Center>
 
-        <Stack justify={'space-between'} h={'100%'}>
+        <Stack justify={'end'} h={'100%'}>
           <Group justify={'space-between'}>
             <GourmetText cgmff={'ui'}>{set.printsAvailable} prints</GourmetText>
             <GourmetText cgmff={'ui'}>{date}</GourmetText>
@@ -325,6 +382,19 @@ function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
       </Stack>
     </Stack>
   );
+}
+
+function getReleaseDate(tcg: Tcg, set: TcgDataSet): Date | undefined {
+  let releaseDate: string | undefined;
+  if (tcg === 'mtg') {
+    releaseDate = (set as MtgDataSet).releaseDate;
+  } else if (tcg === 'pcg') {
+    releaseDate = (set as PcgDataSet).releaseStartDate ?? undefined;
+  } else if (tcg === 'dlc') {
+    releaseDate = (set as DlcDataSet).releaseDate;
+  }
+
+  return releaseDate ? new Date(releaseDate) : undefined;
 }
 
 const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>

@@ -20,6 +20,8 @@ export type PcgDataCard = c['schemas']['PcgDataCard'];
 export type PcgDataPrint = c['schemas']['PcgDataPrint'];
 export type PcgDataSet = c['schemas']['PcgDataSet'];
 export type PcgDataSets = c['schemas']['Page-PcgDataSet'];
+export type PcgDataEra = c['schemas']['PcgDataEra'];
+export type PcgDataEras = c['schemas']['Page-PcgDataEra'];
 
 // /v1/pcg/sets/search
 export async function searchPcgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet[]>> {
@@ -80,6 +82,20 @@ export async function fetchPcgSet(setId: string, abort?: AbortController): Promi
 export async function fetchPcgSets(abort?: AbortController): Promise<GourmetApiResponse<PcgDataSets>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/sets`, {
+      params: {
+        query: {
+          region: 'int',
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/pcg/era
+export async function fetchPcgEras(abort?: AbortController): Promise<GourmetApiResponse<PcgDataEras>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/eras`, {
       signal: abort?.signal,
     });
   });
