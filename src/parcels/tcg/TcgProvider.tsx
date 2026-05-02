@@ -30,25 +30,19 @@ export default function TcgProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  // as soon as data from storage is ready, update current tcg.
+  // keep current tcg in sync with route and local storage
   useEffect(() => {
-    if (tcgInStorage !== null) {
+    if (tcgByLocation !== undefined && previousTcgByLocation !== tcgByLocation) {
+      currentTcg.setTcg(tcgByLocation);
+      return;
+    }
+    if (tcgInStorage !== null && tcgByLocation === undefined) {
       setCurrentTcg((prev) => ({
         ...prev,
         tcg: tcgInStorage,
       }));
     }
-  }, [tcgInStorage]);
-
-  // as soon as location changes, check if we're in tcg context
-  useEffect(() => {
-    if (tcgByLocation !== undefined && previousTcgByLocation !== tcgByLocation) {
-      setCurrentTcg((prev) => ({
-        ...prev,
-        tcg: tcgByLocation,
-      }));
-    }
-  }, [tcgByLocation, previousTcgByLocation]);
+  }, [tcgByLocation, previousTcgByLocation, tcgInStorage, currentTcg.setTcg]);
 
   return <TcgContext.Provider value={currentTcg}>{children}</TcgContext.Provider>;
 }

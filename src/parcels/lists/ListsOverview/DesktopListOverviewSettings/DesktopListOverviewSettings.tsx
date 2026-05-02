@@ -42,7 +42,7 @@ export function DesktopListOverviewSettings() {
               onSelect={(sel) => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  from: '/me/lists',
+                  from: '/me/lists/',
                   search: (prev) => ({ ...prev, sortBy: sel as 'name' | 'updatedAt' | 'size' }),
                   replace: true,
                 });
@@ -56,7 +56,7 @@ export function DesktopListOverviewSettings() {
               onSelect={(sel) => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  from: '/me/lists',
+                  from: '/me/lists/',
                   search: (prev) => ({ ...prev, sortDir: sel as 'auto' | 'asc' | 'desc' }),
                   replace: true,
                 });
@@ -78,7 +78,7 @@ export function DesktopListOverviewSettings() {
               onSelect={(sel) => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  from: '/me/lists',
+                  from: '/me/lists/',
                   search: (prev) => ({ ...prev, tcg: sel as Tcg }),
                   replace: true,
                 });
@@ -101,7 +101,7 @@ export function DesktopListOverviewSettings() {
           onChange={(sel) => {
             // noinspection JSIgnoredPromiseFromCall
             navigate({
-              from: '/me/lists',
+              from: '/me/lists/',
               search: (prev) => ({ ...prev, display: sel as 'grid' | 'table' }),
               replace: true,
             });
