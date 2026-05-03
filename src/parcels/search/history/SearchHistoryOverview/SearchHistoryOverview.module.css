@@ -1,0 +1,42 @@
+.playButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.moreButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.actionIcon {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.infoBanner {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--gourmet-neutral-3);
+  border-radius: 0.25rem;
+}
+
+.inListButton {
+  background-color: transparent;
+  border: none;
+
+  height: 1.75rem;
+  padding: 0 0.5rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-4);
+  }
+}

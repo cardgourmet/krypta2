@@ -1,0 +1,30 @@
+.avatarIcon {
+  height: 2.5rem;
+  width: 2.5rem;
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+
+  position: relative;
+
+  > img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+
+  > div {
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}

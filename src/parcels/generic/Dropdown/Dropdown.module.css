@@ -1,0 +1,91 @@
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 2px solid var(--gourmet-neutral-2);
+  background-color: var(--gourmet-neutral-1);
+  border-radius: 8px;
+  color: var(--gourmet-white-1);
+  padding: 0 0.5rem 0 0.5rem;
+  gap: 0.5rem;
+
+  min-width: 2.25rem;
+  height: 2.25rem;
+
+  font-size: 1rem;
+  cursor: pointer;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    p {
+      margin: 0.5rem 0 0.5rem 0;
+    }
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+
+  &[active="true"] {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.dropdownContent {
+  z-index: var(--dropdown-layer);
+  display: none;
+  position: absolute;
+  margin-top: 0.5rem;
+
+  flex-direction: column;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--gourmet-neutral-4);
+  background-color: var(--gourmet-neutral-3);
+
+  &[active="true"] {
+    display: flex;
+  }
+
+  &[right="true"] {
+    right: 0;
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0 0.5rem 0 0.5rem;
+    border-radius: 0.25rem;
+    gap: 1rem;
+
+    p {
+      white-space: nowrap;
+      margin: 0.5rem auto 0.5rem 0;
+    }
+
+    &:hover {
+      background-color: var(--gourmet-neutral-4);
+      cursor: pointer;
+    }
+  }
+}

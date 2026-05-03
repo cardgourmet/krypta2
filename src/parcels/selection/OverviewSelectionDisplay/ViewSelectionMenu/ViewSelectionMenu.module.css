@@ -1,0 +1,7 @@
+.menuDropdown {
+  border: 2px solid var(--cgm-navbar-border);
+  border-radius: 4px;
+  background-color: var(--cgm-navbar-bg);
+
+  padding: 0.5rem 1rem;
+}

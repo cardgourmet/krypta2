@@ -10,33 +10,246 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RegisterIndexRouteImport } from './routes/register/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
+import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
+import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
+import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
+import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
+import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
+import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
+import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
+import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
+import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
+import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
+import { Route as TcgCardsPrintIdRouteImport } from './routes/$tcg/cards/$printId'
+import { Route as TcgSetsSetCodeIndexRouteImport } from './routes/$tcg/sets/$setCode/index'
+import { Route as TcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/$tcg/sets/$setCode/$collectorNumber/{-$any}'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegisterIndexRoute = RegisterIndexRouteImport.update({
+  id: '/register/',
+  path: '/register/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgIndexRoute = TcgIndexRouteImport.update({
+  id: '/$tcg/',
+  path: '/$tcg/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeSettingsIndexRoute = MeSettingsIndexRouteImport.update({
+  id: '/me/settings/',
+  path: '/me/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeSavedSearchesIndexRoute = MeSavedSearchesIndexRouteImport.update({
+  id: '/me/saved-searches/',
+  path: '/me/saved-searches/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeListsIndexRoute = MeListsIndexRouteImport.update({
+  id: '/me/lists/',
+  path: '/me/lists/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeHistoryIndexRoute = MeHistoryIndexRouteImport.update({
+  id: '/me/history/',
+  path: '/me/history/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgSetsIndexRoute = TcgSetsIndexRouteImport.update({
+  id: '/$tcg/sets/',
+  path: '/$tcg/sets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
+  id: '/$tcg/cards/',
+  path: '/$tcg/cards/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgAdvancedIndexRoute = TcgAdvancedIndexRouteImport.update({
+  id: '/$tcg/advanced/',
+  path: '/$tcg/advanced/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeListsListIdRoute = MeListsListIdRouteImport.update({
+  id: '/me/lists/$listId',
+  path: '/me/lists/$listId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthEmailTokenRoute = AuthEmailTokenRouteImport.update({
+  id: '/auth/email/$token',
+  path: '/auth/email/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthConfirmTokenRoute = AuthConfirmTokenRouteImport.update({
+  id: '/auth/confirm/$token',
+  path: '/auth/confirm/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgCardsPrintIdRoute = TcgCardsPrintIdRouteImport.update({
+  id: '/$tcg/cards/$printId',
+  path: '/$tcg/cards/$printId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgSetsSetCodeIndexRoute = TcgSetsSetCodeIndexRouteImport.update({
+  id: '/$tcg/sets/$setCode/',
+  path: '/$tcg/sets/$setCode/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
+  TcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport.update({
+    id: '/$tcg/sets/$setCode/$collectorNumber/{-$any}',
+    path: '/$tcg/sets/$setCode/$collectorNumber/{-$any}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$tcg/': typeof TcgIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/register/': typeof RegisterIndexRoute
+  '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/auth/email/$token': typeof AuthEmailTokenRoute
+  '/me/lists/$listId': typeof MeListsListIdRoute
+  '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
+  '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/$tcg/sets/': typeof TcgSetsIndexRoute
+  '/me/history/': typeof MeHistoryIndexRoute
+  '/me/lists/': typeof MeListsIndexRoute
+  '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
+  '/me/settings/': typeof MeSettingsIndexRoute
+  '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
+  '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$tcg': typeof TcgIndexRoute
+  '/login': typeof LoginIndexRoute
+  '/register': typeof RegisterIndexRoute
+  '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/auth/email/$token': typeof AuthEmailTokenRoute
+  '/me/lists/$listId': typeof MeListsListIdRoute
+  '/$tcg/advanced': typeof TcgAdvancedIndexRoute
+  '/$tcg/cards': typeof TcgCardsIndexRoute
+  '/$tcg/sets': typeof TcgSetsIndexRoute
+  '/me/history': typeof MeHistoryIndexRoute
+  '/me/lists': typeof MeListsIndexRoute
+  '/me/saved-searches': typeof MeSavedSearchesIndexRoute
+  '/me/settings': typeof MeSettingsIndexRoute
+  '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
+  '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$tcg/': typeof TcgIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/register/': typeof RegisterIndexRoute
+  '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/auth/confirm/$token': typeof AuthConfirmTokenRoute
+  '/auth/email/$token': typeof AuthEmailTokenRoute
+  '/me/lists/$listId': typeof MeListsListIdRoute
+  '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
+  '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/$tcg/sets/': typeof TcgSetsIndexRoute
+  '/me/history/': typeof MeHistoryIndexRoute
+  '/me/lists/': typeof MeListsIndexRoute
+  '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
+  '/me/settings/': typeof MeSettingsIndexRoute
+  '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
+  '/$tcg/sets/$setCode/$collectorNumber/{-$any}': typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/$tcg/'
+    | '/login/'
+    | '/register/'
+    | '/$tcg/cards/$printId'
+    | '/auth/confirm/$token'
+    | '/auth/email/$token'
+    | '/me/lists/$listId'
+    | '/$tcg/advanced/'
+    | '/$tcg/cards/'
+    | '/$tcg/sets/'
+    | '/me/history/'
+    | '/me/lists/'
+    | '/me/saved-searches/'
+    | '/me/settings/'
+    | '/$tcg/sets/$setCode/'
+    | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/$tcg'
+    | '/login'
+    | '/register'
+    | '/$tcg/cards/$printId'
+    | '/auth/confirm/$token'
+    | '/auth/email/$token'
+    | '/me/lists/$listId'
+    | '/$tcg/advanced'
+    | '/$tcg/cards'
+    | '/$tcg/sets'
+    | '/me/history'
+    | '/me/lists'
+    | '/me/saved-searches'
+    | '/me/settings'
+    | '/$tcg/sets/$setCode'
+    | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
+  id:
+    | '__root__'
+    | '/'
+    | '/$tcg/'
+    | '/login/'
+    | '/register/'
+    | '/$tcg/cards/$printId'
+    | '/auth/confirm/$token'
+    | '/auth/email/$token'
+    | '/me/lists/$listId'
+    | '/$tcg/advanced/'
+    | '/$tcg/cards/'
+    | '/$tcg/sets/'
+    | '/me/history/'
+    | '/me/lists/'
+    | '/me/saved-searches/'
+    | '/me/settings/'
+    | '/$tcg/sets/$setCode/'
+    | '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TcgIndexRoute: typeof TcgIndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
+  RegisterIndexRoute: typeof RegisterIndexRoute
+  TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
+  AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
+  AuthEmailTokenRoute: typeof AuthEmailTokenRoute
+  MeListsListIdRoute: typeof MeListsListIdRoute
+  TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
+  TcgCardsIndexRoute: typeof TcgCardsIndexRoute
+  TcgSetsIndexRoute: typeof TcgSetsIndexRoute
+  MeHistoryIndexRoute: typeof MeHistoryIndexRoute
+  MeListsIndexRoute: typeof MeListsIndexRoute
+  MeSavedSearchesIndexRoute: typeof MeSavedSearchesIndexRoute
+  MeSettingsIndexRoute: typeof MeSettingsIndexRoute
+  TcgSetsSetCodeIndexRoute: typeof TcgSetsSetCodeIndexRoute
+  TcgSetsSetCodeCollectorNumberChar123AnyChar125Route: typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125Route
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +261,140 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/register/': {
+      id: '/register/'
+      path: '/register'
+      fullPath: '/register/'
+      preLoaderRoute: typeof RegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/': {
+      id: '/$tcg/'
+      path: '/$tcg'
+      fullPath: '/$tcg/'
+      preLoaderRoute: typeof TcgIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/settings/': {
+      id: '/me/settings/'
+      path: '/me/settings'
+      fullPath: '/me/settings/'
+      preLoaderRoute: typeof MeSettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/saved-searches/': {
+      id: '/me/saved-searches/'
+      path: '/me/saved-searches'
+      fullPath: '/me/saved-searches/'
+      preLoaderRoute: typeof MeSavedSearchesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/lists/': {
+      id: '/me/lists/'
+      path: '/me/lists'
+      fullPath: '/me/lists/'
+      preLoaderRoute: typeof MeListsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/history/': {
+      id: '/me/history/'
+      path: '/me/history'
+      fullPath: '/me/history/'
+      preLoaderRoute: typeof MeHistoryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/sets/': {
+      id: '/$tcg/sets/'
+      path: '/$tcg/sets'
+      fullPath: '/$tcg/sets/'
+      preLoaderRoute: typeof TcgSetsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/cards/': {
+      id: '/$tcg/cards/'
+      path: '/$tcg/cards'
+      fullPath: '/$tcg/cards/'
+      preLoaderRoute: typeof TcgCardsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/advanced/': {
+      id: '/$tcg/advanced/'
+      path: '/$tcg/advanced'
+      fullPath: '/$tcg/advanced/'
+      preLoaderRoute: typeof TcgAdvancedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me/lists/$listId': {
+      id: '/me/lists/$listId'
+      path: '/me/lists/$listId'
+      fullPath: '/me/lists/$listId'
+      preLoaderRoute: typeof MeListsListIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/email/$token': {
+      id: '/auth/email/$token'
+      path: '/auth/email/$token'
+      fullPath: '/auth/email/$token'
+      preLoaderRoute: typeof AuthEmailTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/confirm/$token': {
+      id: '/auth/confirm/$token'
+      path: '/auth/confirm/$token'
+      fullPath: '/auth/confirm/$token'
+      preLoaderRoute: typeof AuthConfirmTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/cards/$printId': {
+      id: '/$tcg/cards/$printId'
+      path: '/$tcg/cards/$printId'
+      fullPath: '/$tcg/cards/$printId'
+      preLoaderRoute: typeof TcgCardsPrintIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/sets/$setCode/': {
+      id: '/$tcg/sets/$setCode/'
+      path: '/$tcg/sets/$setCode'
+      fullPath: '/$tcg/sets/$setCode/'
+      preLoaderRoute: typeof TcgSetsSetCodeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$tcg/sets/$setCode/$collectorNumber/{-$any}': {
+      id: '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
+      path: '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
+      fullPath: '/$tcg/sets/$setCode/$collectorNumber/{-$any}'
+      preLoaderRoute: typeof TcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TcgIndexRoute: TcgIndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
+  RegisterIndexRoute: RegisterIndexRoute,
+  TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
+  AuthConfirmTokenRoute: AuthConfirmTokenRoute,
+  AuthEmailTokenRoute: AuthEmailTokenRoute,
+  MeListsListIdRoute: MeListsListIdRoute,
+  TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
+  TcgCardsIndexRoute: TcgCardsIndexRoute,
+  TcgSetsIndexRoute: TcgSetsIndexRoute,
+  MeHistoryIndexRoute: MeHistoryIndexRoute,
+  MeListsIndexRoute: MeListsIndexRoute,
+  MeSavedSearchesIndexRoute: MeSavedSearchesIndexRoute,
+  MeSettingsIndexRoute: MeSettingsIndexRoute,
+  TcgSetsSetCodeIndexRoute: TcgSetsSetCodeIndexRoute,
+  TcgSetsSetCodeCollectorNumberChar123AnyChar125Route:
+    TcgSetsSetCodeCollectorNumberChar123AnyChar125Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

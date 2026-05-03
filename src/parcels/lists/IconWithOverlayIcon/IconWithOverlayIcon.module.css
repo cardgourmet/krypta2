@@ -1,0 +1,14 @@
+.overlayIcon {
+  svg {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /*noinspection CssUnresolvedCustomProperty*/
+    background-color: var(--bg-color, var(--gourmet-neutral-1));
+    border-radius: 50%;
+  }
+}

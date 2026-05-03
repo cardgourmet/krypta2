@@ -1,0 +1,19 @@
+{
+  "display-selection": "Auswahl anzeigen",
+  "current-page": "Aktuelle Seite",
+  "selection": "Auswahl",
+  "clear-selection": "Auswahl aufheben",
+  "cards_one": "{{count}} Karte",
+  "cards_other": "{{count}} Karten",
+  "use-selection": "Auswahl verwenden für ...",
+  "mark-as-favorite": "Als Favoriten markieren",
+  "add-to-bookmarks": "Zu Lesezeichen hinzufügen",
+  "add-to-lists": "Zur Liste hinzufügen ..",
+  "create-new-list": "Neue Erstellen",
+  "page": "Seite",
+  "maximum-cards": "Du darfst nur maximal <strong>60</strong> Karten gleichzeitig auswählen.",
+  "maximum-cards-2": "Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber <u>die gesamte Suche abspeichern</u> willst.",
+  "view-selection": "Auswahl ansehen",
+  "selectio-menu-info": "Klicke ein Element, um die Auswahl aufzuheben.",
+  "clear-page": "Alle aufheben"
+}

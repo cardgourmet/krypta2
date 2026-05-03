@@ -1,0 +1,124 @@
+.settings {
+  /*display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+    color: var(--cgm-text-color);
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  @media (width <= 950px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }*/
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
+
+  color: var(--cgm-text-color);
+  border-radius: 8px;
+  border: 2px solid var(--gourmet-neutral-2);
+  background-color: var(--gourmet-neutral-1);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+    cursor: pointer;
+  }
+}
+
+.settingsSidebar {
+  position: fixed;
+  top: 0;
+  width: 75%;
+  left: -75%;
+  height: 100dvh;
+  background-color: var(--gourmet-neutral-0);
+  z-index: var(--modal-layer);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0.25rem 0 0.2rem -0.2rem var(--gourmet-black-1);
+  transition: left 0.1s ease-in-out;
+
+  h1 {
+    margin: 0;
+    font-size: calc(0.5rem + 1vw);
+    font-family: var(--cgm-title-font-family), ui-sans-serif;
+  }
+
+  &.shown {
+    left: 0;
+  }
+}
+
+.settingsSidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  padding: 1rem;
+  height: var(--navbar-height);
+  border-bottom: 0.1rem solid var(--gourmet-neutral-3);
+
+  h1 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.settingsSidebarContent {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 1rem;
+  flex-grow: 1;
+
+  gap: 1.5rem;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & > div {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.displayModeControl {
+  label {
+    color: var(--gourmet-neutral-9);
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+
+    &[data-active="true"] {
+      color: var(--gourmet-neutral-0);
+    }
+  }
+}

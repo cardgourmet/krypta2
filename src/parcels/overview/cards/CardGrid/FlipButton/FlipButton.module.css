@@ -1,0 +1,29 @@
+.refreshButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.25rem;
+  color: var(--gourmet-neutral-dark-1);
+  background-color: var(--gourmet-neutral-light-1);
+  border: solid 1px var(--gourmet-neutral-3);
+  border-radius: 100%;
+
+  opacity: 0.5;
+
+  z-index: -1;
+
+  svg {
+    color: inherit;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--gourmet-blue-1);
+    opacity: 1;
+  }
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}

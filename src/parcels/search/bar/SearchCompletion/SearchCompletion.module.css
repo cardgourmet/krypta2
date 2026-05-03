@@ -1,0 +1,51 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.completionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.completionEntry {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+
+  border: none;
+  background-color: transparent;
+
+  &[data-state="selected"] {
+    background-color: var(--gourmet-neutral-dark-4);
+  }
+
+  &:hover {
+    background-color: var(--gourmet-neutral-dark-3);
+    cursor: pointer;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .entryType {
+    background-color: var(--gourmet-teal-1);
+    border-radius: 0.25rem;
+    color: var(--gourmet-blue-5);
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.75rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
+  }
+
+  .entryAlias {
+    color: var(--cgm-text-color-dimmed);
+  }
+}

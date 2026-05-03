@@ -1,0 +1,20 @@
+{
+  "login": {
+    "login-title": "Einloggen",
+    "first-time": "Zum ersten Mal hier?",
+    "register": "Registrieren",
+    "email-or-name": "E-Mail-Adresse oder Benutzername",
+    "password": "Passwort",
+    "forgot-password": "Passwort vergessen?",
+    "login-button": "Anmelden"
+  },
+  "register": {
+    "register-title": "Registrieren",
+    "first-time": "Schon mal hier gewesen?",
+    "email": "E-Mail-Adresse",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "password-repeat": "Passwort wiederholen",
+    "register-button": "Registrieren"
+  }
+}

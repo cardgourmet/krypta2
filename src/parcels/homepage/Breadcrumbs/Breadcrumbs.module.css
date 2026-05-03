@@ -1,0 +1,17 @@
+.breadcrumb {
+  a {
+    text-decoration: none;
+
+    :hover {
+      text-decoration: underline;
+      text-decoration-color: var(--cgm-sidebar-button-bg);
+      text-underline-offset: 2px;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+    color: var(--gourmet-neutral-6);
+  }
+}

@@ -1,28 +1,33 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router';
-import { StrictMode } from 'react';
+import {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals.ts';
-import { routeTree } from './routeTree.gen';
-import './styles.css';
+import './styles/styles.css';
+import './styles/gourmet.css';
+import './parcels/i18n/i18n';
 
+import 'react-loading-skeleton/dist/skeleton.css';
 import '@mantine/core/styles.layer.css';
+import '@mantine/nprogress/styles.css';
+import '@mantine/notifications/styles.css';
+import 'keyrune/css/keyrune.min.css';
+import {AuthContextProvider} from '@/parcels/auth/AuthContextProvider.tsx';
+import {ListsContextProvider} from '@/parcels/lists/ListsContextProvider.tsx'; // Render the app
+import {AppRouter} from '@/parcels/router/AppRouter.tsx'; //Extend attributes of attributes
 
-// Create a new router instance
-const router = createRouter({
-  context: {},
-  defaultPreload: 'intent',
-  defaultPreloadStaleTime: 0,
-  defaultStructuralSharing: true,
-  routeTree,
-  scrollRestoration: true,
-});
+//Extend attributes of attributes
+//Definition start
+type CSSVariable = `--${string}`;
+/*type DataAttributeKey = `data-${string}`;*/
+declare module 'react' {
+  /*interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    [dataAttribute: DataAttributeKey]: unknown;
+  }*/
 
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
+  interface CSSProperties {
+    [key: CSSVariable]: string | number | undefined;
   }
 }
+//Definition end
 
 // Render the app
 const rootElement = document.getElementById('app');
@@ -31,7 +36,11 @@ if (rootElement && !rootElement.innerHTML) {
 
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <ListsContextProvider>
+          <AppRouter />
+        </ListsContextProvider>
+      </AuthContextProvider>
     </StrictMode>,
   );
 }

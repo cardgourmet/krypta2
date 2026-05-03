@@ -1,0 +1,14 @@
+.visibilityBadge {
+  background-color: var(--gourmet-neutral-3);
+  border-radius: 4px;
+  padding: 0.1rem 0.25rem;
+}
+
+.link {
+  text-decoration: none;
+
+  :hover {
+    text-decoration: underline;
+    text-decoration-color: var(--gourmet-blue-1);
+  }
+}

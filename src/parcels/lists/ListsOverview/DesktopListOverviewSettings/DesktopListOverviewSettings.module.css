@@ -1,0 +1,10 @@
+.displayModeControl {
+  label {
+    color: var(--gourmet-neutral-9);
+    font-family: var(--cgm-ui-font-family), ui-sans-serif;
+
+    &[data-active="true"] {
+      color: var(--gourmet-neutral-0);
+    }
+  }
+}

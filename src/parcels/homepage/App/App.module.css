@@ -1,0 +1,54 @@
+body {
+  background-color: var(--gourmet-neutral-0);
+
+  h1,
+  h2,
+  h3,
+  p {
+    color: var(--gourmet-neutral-8);
+    font-family: "Montserrat", sans-serif;
+  }
+}
+
+/*button {
+  background-color: var(--gourmet-neutral-8);
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 0.75rem;
+  font-family: var(--cgm-ui-font-family), sans-serif;
+
+  button:hover {
+    cursor: pointer;
+  }
+}*/
+
+.mainContent {
+  margin-left: var(--sidebar-width);
+  min-height: calc(100vh - var(--navbar-height));
+
+  @media (max-width: 800px) {
+    margin-left: 0;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 1.5rem;
+  max-width: 1280px;
+
+  overflow: visible;
+
+  @media (max-width: 500px) {
+    padding: 1.5rem 0.75rem;
+  }
+}
+
+.footer {
+  margin-left: var(--sidebar-width);
+
+  @media (max-width: 800px) {
+    margin-left: 0;
+  }
+}

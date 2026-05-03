@@ -1,0 +1,114 @@
+{
+  "search": {
+    "aliasFor": "alias for"
+  },
+  "table": {
+    "cols": {
+      "Set": "Set",
+      "Name": "Name",
+      "Number": "Number",
+      "Cost": "Cost",
+      "Type": "Type",
+      "Rarity": "Rarity",
+      "Artist": "Artist"
+    }
+  },
+  "dlc": {
+    "common": {
+      "sortby": "Sort by",
+      "show": "Show",
+      "as": "As",
+      "settings": "Settings"
+    },
+    "sortby": {
+      "strength": "Strength",
+      "name": "Name",
+      "set": "Set",
+      "ink": "Ink",
+      "willpower": "Willpower",
+      "movement": "Movement Cost",
+      "released": "Released"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints"
+    },
+    "displaymode": {
+      "grid": "Grid",
+      "table": "Table"
+    }
+  },
+  "pcg": {
+    "common": {
+      "sortby": "Sort by",
+      "show": "Show",
+      "as": "As",
+      "settings": "Settings"
+    },
+    "sortby": {
+      "name": "Name",
+      "rarity": "Rarity",
+      "set": "Set",
+      "type": "Type",
+      "health": "Health",
+      "released": "Released"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints"
+    },
+    "displaymode": {
+      "grid": "Grid",
+      "table": "Table"
+    }
+  },
+  "mtg": {
+    "common": {
+      "sortby": "Sort by",
+      "show": "Show",
+      "as": "As",
+      "settings": "Settings"
+    },
+    "sortby": {
+      "cmc": "Mana Value",
+      "power": "Power",
+      "toughness": "Toughness",
+      "defense": "Defense",
+      "loyalty": "Loyalty",
+      "name": "Name",
+      "rarity": "Rarity",
+      "set": "Set",
+      "usd": "Price (USD)",
+      "tix": "Price (TIX)",
+      "eur": "Price (EUR)",
+      "color": "Color",
+      "edhrec": "EDHREC Rank",
+      "released": "Released"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "uniqueby": {
+      "cards": "Cards",
+      "prints": "Prints",
+      "faces": "Faces",
+      "printfaces": "Print Faces"
+    },
+    "displaymode": {
+      "grid": "Grid",
+      "table": "Table"
+    }
+  }
+}

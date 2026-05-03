@@ -1,0 +1,76 @@
+.mantineInputRoot {
+  flex-grow: 1;
+}
+
+.mantineInputSection[data-position="left"] {
+  width: 3rem;
+}
+
+.mantineInput {
+  border-radius: 0.2rem;
+  border: solid 2px var(--cgm-button-border);
+  background-color: var(--cgm-button-bg);
+  padding-left: 3rem;
+  font-size: var(--mantine-font-size-sm);
+
+  &:focus-visible {
+    outline: 2px solid var(--gourmet-blue-2);
+  }
+}
+
+.mantineButtonRoot {
+  padding: 0;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.mantineDropdown {
+  border-radius: 4px;
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.typingInfo {
+  p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gourmet-neutral-7);
+  }
+}
+
+.help {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  p {
+    font-size: var(--mantine-font-size-sm);
+    text-decoration: none;
+    color: var(--cgm-sidebar-button-bg);
+
+    margin: 0;
+  }
+}
+
+.advancedSearch {
+  margin-right: 3rem;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    font-size: var(--mantine-font-size-sm);
+    text-decoration: none;
+    color: var(--cgm-sidebar-button-bg);
+
+    margin: 0;
+  }
+}

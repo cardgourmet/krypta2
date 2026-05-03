@@ -1,0 +1,146 @@
+import {Divider, Group, Stack, Text} from '@mantine/core';
+import type {DlcDataCard, DlcDataPrint} from '@/parcels/tcg/dlc/api.ts';
+import {DlcInkSymbolSVG} from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
+import {DlcOtherSymbolSVG} from '@/parcels/tcg/dlc/details/DlcOtherSymbolSVG.tsx';
+import {renderRichDlcText} from '@/parcels/tcg/dlc/renderRichText.tsx';
+import {dlcTransClassifications} from '@/parcels/tcg/dlc/translations/classifications.ts';
+import {dlcTransType} from '@/parcels/tcg/dlc/translations/type.ts';
+
+export function DlcPrintContentRenderer({
+  card,
+  print,
+  lang,
+}: {
+  card: DlcDataCard;
+  print: DlcDataPrint;
+  lang?: string;
+}) {
+  const trans = print.translations[lang ?? 'en'] ?? print.translations.en;
+
+  const stats = [
+    {
+      label: 'strength',
+      value: card.strength,
+    },
+    {
+      label: 'willpower',
+      value: card.willpower,
+    },
+    {
+      label: 'lore',
+      value: card.loreValue
+        ? Array.from(Array(card.loreValue ?? 0).keys()).map((e) => (
+            <DlcOtherSymbolSVG key={e} symbol={'lore'} size={18} color={'var(--gourmet-neutral-9)'} />
+          ))
+        : undefined,
+    },
+  ];
+
+  return (
+    <Stack w={'28rem'} align={'start'} gap={'lg'} p={'sm'}>
+      <Stack gap={'xs'} style={{ width: '100%' }}>
+        <Group align={'start'} justify={'space-between'} style={{ width: '100%' }} wrap={'nowrap'}>
+          <Stack gap={'0.1rem'}>
+            <Text
+              ff={'var(--cgm-content-font-family)'}
+              fw={'bold'}
+              fz={'1.1rem'}
+              c={'var(--gourmet-neutral-9)'}
+              style={{ flexGrow: 1 }}
+            >
+              {trans.name}
+            </Text>
+            <Text ff={'var(--cgm-content-font-family)'} c={'var(--gourmet-neutral-6)'}>
+              {trans.title}
+            </Text>
+          </Stack>
+          <Group gap={'0.2rem'}>
+            <Text ff={'var(--cgm-content-font-family)'}>{card.cost}</Text>
+            {card.isInkwell && <DlcOtherSymbolSVG symbol={'ink'} size={26} color={'#d5b885'} />}
+            {!card.isInkwell && <DlcOtherSymbolSVG symbol={'cost'} size={20} color={'var(--gourmet-neutral-9)'} />}
+          </Group>
+        </Group>
+        <Group gap={'0.5rem'}>
+          {card.inkTypes.length > 0 && (
+            <Group align={'start'} gap={'0.1rem'}>
+              {card.inkTypes.map((t) => (
+                <DlcInkSymbolSVG key={t} symbol={t} size={22} />
+              ))}
+            </Group>
+          )}
+          <Text ff={'var(--cgm-content-font-family)'}>
+            {renderType(card.type, lang ?? 'en')} —{' '}
+            {card.classifications.map((c) => renderClassification(c, lang ?? 'en')).join(' ')}
+          </Text>
+        </Group>
+      </Stack>
+
+      {trans.abilities.length > 0 && (
+        <Stack gap={'lg'}>
+          {trans.abilities.map((ability, i) => {
+            return (
+              <div key={i}>
+                {ability.keyword && (
+                  <Stack>
+                    <Text>{renderRichDlcText(ability.descriptionWithReminders ?? '', ability.keyword)}</Text>
+                  </Stack>
+                )}
+                {!ability.keyword && (
+                  <Group gap={'0.2rem'}>
+                    <Text
+                      fw={'bold'}
+                      style={{
+                        border: '1px solid var(--gourmet-neutral-5)',
+                        borderRadius: '0.25rem',
+                      }}
+                      p={'0.1rem 0.5rem'}
+                    >
+                      {ability.name}
+                    </Text>
+                    <Text>{renderRichDlcText(ability.descriptionWithReminders ?? '')}</Text>
+                  </Group>
+                )}
+              </div>
+            );
+          })}
+        </Stack>
+      )}
+
+      {trans.flavorText && (
+        <>
+          <Divider w={'95%'} style={{ alignSelf: 'center' }} color={'var(--gourmet-neutral-3)'} />
+          <Text ff={'var(--cgm-serif-font-family)'} fs={'italic'}>
+            {trans.flavorText}
+          </Text>
+        </>
+      )}
+
+      {stats && (
+        <Group align={'start'}>
+          {stats
+            .filter((s) => s.value !== undefined)
+            .map((s) => {
+              return (
+                <Stack key={s.label} gap={'0.15rem'}>
+                  <Text ff={'var(--cgm-content-font-family)'} fz={'xs'} c={'var(--gourmet-neutral-6)'}>
+                    {s.label.toUpperCase()}
+                  </Text>
+                  <Text ff={'var(--cgm-content-font-family)'} fz={'md'} c={'var(--gourmet-neutral-9)'}>
+                    {s.value}
+                  </Text>
+                </Stack>
+              );
+            })}
+        </Group>
+      )}
+    </Stack>
+  );
+}
+
+function renderType(type: string, _: string) {
+  return dlcTransType[type] ?? type;
+}
+
+function renderClassification(classi: string, _: string) {
+  return dlcTransClassifications[classi] ?? classi;
+}

@@ -1,0 +1,11 @@
+.dropdownTextButton:hover {
+  --hover-color: color-mix(in srgb, var(--gourmet-blue-1), black 10%);
+
+  p {
+    color: var(--hover-color) !important;
+  }
+
+  svg {
+    fill: var(--hover-color);
+  }
+}

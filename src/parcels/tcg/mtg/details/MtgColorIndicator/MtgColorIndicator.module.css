@@ -1,0 +1,39 @@
+.base {
+  border: 1px solid #000;
+  border-radius: 9999px;
+  display: inline-block;
+  height: 1em;
+  margin-right: 0.25rem;
+  position: relative;
+  top: 0.125rem;
+  width: 1em;
+
+  /*noinspection CssUnresolvedCustomProperty*/
+  &[color-count="1"] {
+    background-color: var(--mtg-ci-color-1);
+  }
+
+  /*noinspection CssUnresolvedCustomProperty*/
+  &[color-count="2"] {
+    background-image: conic-gradient(
+      from 45deg,
+      var(--mtg-ci-color-1),
+      var(--mtg-ci-color-1) 0.5turn,
+      var(--mtg-ci-color-2) 0.5turn,
+      var(--mtg-ci-color-2)
+    );
+  }
+
+  /*noinspection CssUnresolvedCustomProperty*/
+  &[color-count="3"] {
+    background-image: conic-gradient(
+      from -60deg,
+      var(--mtg-ci-color-1),
+      var(--mtg-ci-color-1) 120deg,
+      var(--mtg-ci-color-2) 120deg,
+      var(--mtg-ci-color-2) 240deg,
+      var(--mtg-ci-color-3) 240deg,
+      var(--mtg-ci-color-3)
+    );
+  }
+}

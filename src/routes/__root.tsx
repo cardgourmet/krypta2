@@ -1,14 +1,22 @@
-import { MantineProvider } from '@mantine/core';
-import { TanStackDevtools } from '@tanstack/react-devtools';
-import { createRootRoute, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
-import { theme } from '../theme';
+import {MantineProvider} from '@mantine/core';
+import {Notifications} from '@mantine/notifications';
+import {TanStackDevtools} from '@tanstack/react-devtools';
+import {createRootRouteWithContext} from '@tanstack/react-router';
+import {TanStackRouterDevtoolsPanel} from '@tanstack/react-router-devtools';
+import type {useAuth} from '@/parcels/auth/AuthContext.ts';
+import App from '@/parcels/homepage/App/App.tsx';
+import {theme} from '../theme';
 
-export const Route = createRootRoute({
+type RouterContext = {
+  auth: ReturnType<typeof useAuth>;
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <MantineProvider defaultColorScheme="auto" theme={theme}>
-        <Outlet />
+        <Notifications />
+        <App />
 
         <TanStackDevtools
           config={{

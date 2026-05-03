@@ -1,0 +1,20 @@
+{
+  "login": {
+    "login-title": "Login",
+    "first-time": "First time here?",
+    "register": "Register",
+    "email-or-name": "Email-Address or Username",
+    "password": "Password",
+    "forgot-password": "Forgot password?",
+    "login-button": "Login"
+  },
+  "register": {
+    "register-title": "Register",
+    "first-time": "Seen this page before?",
+    "email": "Email-Address",
+    "username": "Username",
+    "password": "Password",
+    "password-repeat": "Confirm Password",
+    "register-button": "Register"
+  }
+}

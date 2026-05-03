@@ -1,0 +1,12 @@
+.inlineTextInput {
+  input {
+    font-size: 1rem;
+  }
+
+  input:read-only {
+    border: none;
+    background: none;
+
+    color: var(--gourmet-neutral-9);
+  }
+}

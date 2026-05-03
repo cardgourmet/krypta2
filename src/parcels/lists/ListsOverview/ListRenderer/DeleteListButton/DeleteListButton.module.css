@@ -1,0 +1,7 @@
+.editButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}

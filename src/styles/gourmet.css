@@ -1,0 +1,69 @@
+:root {
+  --gourmet-blue-1: light-dark(#0055cc, #579dff);
+  --gourmet-blue-2: light-dark(oklch(60.35% 0.2112 258.65), oklch(64.69% 0.1902 257.72));
+  --gourmet-blue-2-lighten: #0763e4;
+  --gourmet-blue-2-soft: #66a6ff;
+  --gourmet-blue-3: #388bff;
+  --gourmet-blue-4: #0949a3;
+  --gourmet-blue-5: #339af0;
+  --gourmet-blue-6: light-dark(#b1c3de, #1c2b41);
+  --gourmet-blue-7: #09326c;
+
+  --gourmet-blue-01: light-dark(#0055cc, #579dff);
+  --gourmet-blue-02: light-dark(#006aff, #006aff);
+  --gourmet-blue-03: #3388ff;
+  --gourmet-blue-04: light-dark(#66a6ff, #66a6ff);
+  --gourmet-blue-05: light-dark(#3388ff, #99c3ff);
+  --gourmet-blue-06: #cce1ff;
+
+  --gourmet-red-01: light-dark(oklch(49.99% 0.1663 28.93), oklch(0.64 0.199 28.932));
+  --gourmet-red-02: oklch(49.99% 0.1663 28.93);
+
+  --gourmet-teal-1: rgba(34, 139, 230, 0.15);
+
+  --gourmet-orange-1: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));
+  --gourmet-orange-2: #443121;
+  --gourmet-orange-3: #a66a29;
+  --gourmet-orange-4: #ca8656;
+  --gourmet-orange-5: #bc8a66;
+  --gourmet-orange-02: #f4914a;
+
+  --gourmet-green-1: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
+
+  --gourmet-white-1: #f9f6ee;
+  --gourmet-black-1: #0b0c0c;
+  --gourmet-black-2: #191d21;
+
+  --gourmet-neutral-0: light-dark(var(--gourmet-neutral-light-1), var(--gourmet-neutral-dark-1));
+  --gourmet-neutral-1: light-dark(var(--gourmet-neutral-light-2), var(--gourmet-neutral-dark-2));
+  --gourmet-neutral-2: light-dark(var(--gourmet-neutral-light-3), var(--gourmet-neutral-dark-3));
+  --gourmet-neutral-3: light-dark(var(--gourmet-neutral-light-4), var(--gourmet-neutral-dark-4));
+  --gourmet-neutral-4: light-dark(var(--gourmet-neutral-light-5), var(--gourmet-neutral-dark-5));
+  --gourmet-neutral-5: light-dark(var(--gourmet-neutral-light-6), var(--gourmet-neutral-dark-6));
+  --gourmet-neutral-6: light-dark(var(--gourmet-neutral-light-7), var(--gourmet-neutral-dark-7));
+  --gourmet-neutral-7: light-dark(var(--gourmet-neutral-light-8), var(--gourmet-neutral-dark-8));
+  --gourmet-neutral-8: light-dark(var(--gourmet-neutral-light-9), var(--gourmet-neutral-dark-9));
+  --gourmet-neutral-9: light-dark(var(--gourmet-neutral-light-10), var(--gourmet-neutral-dark-10));
+
+  --gourmet-neutral-dark-1: #161a1d;
+  --gourmet-neutral-dark-2: #1d2125;
+  --gourmet-neutral-dark-3: #22272b;
+  --gourmet-neutral-dark-4: #2c333a;
+  --gourmet-neutral-dark-5: #454f59;
+  --gourmet-neutral-dark-6: #596773;
+  --gourmet-neutral-dark-7: #738496;
+  --gourmet-neutral-dark-8: #8c9bab;
+  --gourmet-neutral-dark-9: #9fadbc;
+  --gourmet-neutral-dark-10: #b6c2cf;
+
+  --gourmet-neutral-light-1: #ffffff;
+  --gourmet-neutral-light-2: #f7f8f9;
+  --gourmet-neutral-light-3: #f1f2f4;
+  --gourmet-neutral-light-4: #dcdfe4;
+  --gourmet-neutral-light-5: #b3b9c4;
+  --gourmet-neutral-light-6: #8590a2;
+  --gourmet-neutral-light-7: #758195;
+  --gourmet-neutral-light-8: #626f86;
+  --gourmet-neutral-light-9: #44546f;
+  --gourmet-neutral-light-10: #2c3e5d;
+}

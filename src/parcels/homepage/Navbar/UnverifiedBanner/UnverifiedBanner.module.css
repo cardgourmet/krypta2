@@ -1,0 +1,36 @@
+.banner {
+  left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  top: 0;
+  position: sticky;
+
+  height: 2.5rem;
+  z-index: var(--nav-layer);
+
+  background-color: var(--gourmet-orange-1);
+
+  color: var(--gourmet-black-1);
+  p {
+    font-weight: 500;
+    font-size: 0.85rem;
+    font-family: var(--cgm-content-font-family), sans-serif;
+    color: var(--gourmet-black-1);
+  }
+
+  @media (max-width: 800px) {
+    left: 0;
+    width: 100%;
+  }
+}
+
+.resendButton {
+  text-decoration: underline;
+
+  &[data-disabled="true"] {
+    text-decoration-color: var(--gourmet-orange-3);
+
+    > p {
+      color: var(--gourmet-orange-3);
+    }
+  }
+}

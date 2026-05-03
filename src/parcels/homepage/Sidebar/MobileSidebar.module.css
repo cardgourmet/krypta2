@@ -1,0 +1,73 @@
+.mobileSidebarTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem;
+
+  height: var(--navbar-height);
+
+  border-bottom: 0.1rem solid var(--gourmet-neutral-1);
+}
+
+.mobileSidebarTop > button {
+  border: none;
+  background-color: transparent;
+}
+
+.mobileSidebarBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0 0 0;
+}
+
+.mobileSidebarLink {
+  text-decoration: none;
+
+  svg {
+    color: var(--gourmet-neutral-9);
+  }
+}
+
+.mobileSidebarAccordion {
+  & > div {
+    border: none;
+  }
+
+  button {
+    border-radius: 0.25rem;
+
+    &:hover {
+      background-color: var(--gourmet-neutral-3);
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.active {
+  p {
+    color: var(--gourmet-neutral-0);
+  }
+
+  button {
+    background-color: var(--cgm-sidebar-button-bg);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--cgm-sidebar-button-bg), white 10%);
+    }
+
+    svg {
+      color: var(--gourmet-neutral-0);
+    }
+  }
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}

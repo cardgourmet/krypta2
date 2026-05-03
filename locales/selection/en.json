@@ -1,0 +1,21 @@
+{
+  "display-selection": "Show selection",
+  "current-page": "Current Page",
+  "selection": "Selection",
+  "clear-selection": "Clear selection",
+  "cards_one": "{{count}} Card",
+  "cards_other": "{{count}} Cards",
+  "page": "Page",
+  "maximum-cards": "You can only select <strong>60</strong> cards at once.",
+  "maximum-cards-2": "If you want to select more, maybe think about <u>saving the whole search</u> first.",
+  "view-selection": "View Selection",
+  "selectio-menu-info": "Click any element to remove it from the selection.",
+  "clear-page": "Clear page",
+  "useSelectionMenu": {
+    "use-selection": "Use selection for ...",
+    "favorite": "Add {{count}} to Favorites",
+    "bookmark": "Add {{count}} to Bookmarks",
+    "add-to-lists": "Add to list ..",
+    "create-new-list": "Create new one"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "common": {
+    "sortby": "Sort by",
+    "filterBy": "Filter by"
+  },
+  "sortby": {
+    "name": "Name",
+    "updatedAt": "Last Updated"
+  },
+  "sortdir": {
+    "auto": "Auto",
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+  "displaymode": {
+    "grid": "Grid",
+    "table": "Table"
+  },
+  "system": {
+    "favorites": "Favorites",
+    "favorites-desc": "All of your favorite things, possibly showing them off in your profile."
+  },
+  "actionmenu": {
+    "favorite": "Add to Favorites",
+    "favorite-remove": "Remove from Favorites",
+    "bookmark": "Add to Bookmarks",
+    "bookmark-remove": "Remove from Bookmarks",
+    "add-to-list": "Add to list ...",
+    "remove-from-list": "Remove from list ...",
+    "create-new": "Create new",
+    "copy-print": "Copy print link"
+  },
+  "create": {
+    "title": "Create New List"
+  },
+  "delete": {
+    "warning": "This will delete the list permanently.",
+    "system": "This is a system list and can't be deleted",
+    "tooltip": "Delete List",
+    "youSure": "Are you sure?",
+    "cancel": "Cancel",
+    "confirm": "Confirm delete"
+  },
+  "edit": {
+    "title": "Edit List",
+    "cancel": "Cancel",
+    "update": "Update",
+    "system": "This is a system list and can't be edited"
+  },
+  "last-updated": "Last updated",
+  "noDescription": "No description set.",
+  "visibility": {
+    "public": "Public",
+    "private": "Private",
+    "unlisted": "Unlisted"
+  },
+  "form": {
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "visibility": "Visibility",
+      "allowedTcgs": "Allowed TCGs",
+      "color": "Color"
+    },
+    "visibilityExplain": {
+      "private": "<strong>Private</strong> lists can only be seen by you.",
+      "unlisted": "<strong>Unlisted</strong> can be seen by everybody who has the link to your list.",
+      "public": "<strong>Public</strong> can be seen by everybody."
+    },
+    "allowedTcgsExplain": "If empty, all TCGs are allowed.",
+    "allowedTcgsPlaceholder": "Choose",
+    "required": "Required Field"
+  },
+  "listEmpty": "This list is empty.",
+  "noResources": "No resources found.",
+  "mtg": "Magic: The Gathering",
+  "pcg": "Pokémon Card Game",
+  "dlc": "Disney Lorcana",
+  "table": {
+    "cols": {
+      "name": "Name",
+      "description": "Description",
+      "lastUpdated": "Last Updated",
+      "visibility": "Visibility",
+      "size": "Size",
+      "color": "Color"
+    },
+    "reExecute": "Re-execute query",
+    "moreOptions": "More options"
+  },
+  "searchbarPlaceholder": "Search...",
+  "details": {
+    "savedSearches": "Saved Searches",
+    "cards": "Cards",
+    "searchCards_one": "{{count}} card",
+    "searchCards_other": "{{count}} cards"
+  }
+}

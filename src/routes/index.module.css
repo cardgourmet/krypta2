@@ -1,0 +1,98 @@
+.homepage {
+  overflow-wrap: break-word;
+  word-break: break-all;
+
+  overflow-y: scroll;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--cgm-title-font-family), serif;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    color: var(--cgm-sidebar-button-bg);
+  }
+
+  h2 {
+    font-family: var(--cgm-title-font-family), serif;
+    font-weight: 500;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+  }
+
+  p {
+    font-family: var(--cgm-content-font-family), serif;
+    font-weight: 300;
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+  }
+
+  .homePageGrid {
+    width: 60%;
+    margin: 0 8vw 8vw 8vw;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.25rem;
+    grid-template-areas:
+      "box-1 box-1 box-3"
+      "box-2 box-2 box-3"
+      "box-4 box-4 box-4";
+  }
+
+  .homePageGridItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    background-color: var(--cgm-sidebar-bg);
+    border: 0.1rem solid var(--cgm-sidebar-border);
+    border-radius: 5px;
+    margin: 0.6rem;
+    padding: 1rem;
+
+    word-break: break-word;
+
+    a {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: var(--cgm-sidebar-button-bg);
+      color: inherit;
+    }
+
+    code {
+      /*background-color: rgb(255 155 93, 0.15);
+      color: #ff9b5d;*/
+      /*background-color: rgba(87, 157, 255, 0.15);*/
+      color: var(--cgm-sidebar-button-bg);
+      font-family: var(--cgm-monospace-font-family), monospace;
+      font-weight: 300;
+      padding: 2px calc(0.625rem / 2);
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .homepage {
+    left: 0;
+    width: 100dvw;
+
+    .homePageGrid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-areas:
+        "box-1 box-1"
+        "box-2 box-2"
+        "box-3 box-3"
+        "box-4 box-4";
+    }
+  }
+}

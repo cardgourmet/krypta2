@@ -1,0 +1,28 @@
+.userButton {
+  display: flex;
+  flex-direction: row;
+
+  border-radius: 8px;
+  border: 1px solid var(--gourmet-neutral-2);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+}
+
+.userIcon {
+  height: 100%;
+  width: 100%;
+
+  > img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}

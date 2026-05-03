@@ -1,0 +1,7 @@
+{
+  "title": "Advanced Search",
+  "subtitle": "Use the filters below to construct a search query.",
+  "resetButton_one": "Reset {{count}} filter",
+  "resetButton_other": "Reset {{count}} filters",
+  "startSearch": "Start search"
+}

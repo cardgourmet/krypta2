@@ -1,9 +1,4 @@
-import {
-  createTheme,
-  type DefaultMantineColor,
-  type MantineColorsTuple,
-  virtualColor,
-} from '@mantine/core';
+import {createTheme, type DefaultMantineColor, type MantineColorsTuple, virtualColor} from '@mantine/core';
 
 type ExtendedCustomColors = 'neutral' | DefaultMantineColor;
 
@@ -14,6 +9,7 @@ declare module '@mantine/core' {
 }
 
 export const theme = createTheme({
+  cursorType: 'pointer',
   black: '#212427',
   colors: {
     dark: [
@@ -25,8 +21,8 @@ export const theme = createTheme({
       '#454F59',
       '#2C333A',
       '#22272B',
-      '#1D2125',
-      '#161A1D',
+      'var(--gourmet-neutral-1)',
+      'var(--gourmet-neutral-0)',
     ],
     gray: [
       '#F7F8F9',
@@ -41,8 +37,8 @@ export const theme = createTheme({
       '#172B4D',
     ],
     neutralDark: [
-      '#161A1D',
-      '#1D2125',
+      'var(--gourmet-neutral-0)',
+      'var(--gourmet-neutral-1)',
       '#22272B',
       '#2C333A',
       '#454F59',

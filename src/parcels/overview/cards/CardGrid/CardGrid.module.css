@@ -1,0 +1,43 @@
+.cardsOverview {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  column-gap: 0.75rem;
+  justify-content: center;
+}
+
+.card {
+  position: relative;
+  word-break: break-all;
+  overflow: hidden;
+
+  border-radius: 15px;
+  object-fit: contain;
+  aspect-ratio: 672 / 936;
+  max-width: 252px;
+  max-height: 351px;
+}
+
+@media (max-width: 1110px) {
+  .cardsOverview {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 930px) {
+  .cardsOverview {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 750px) {
+  .cardsOverview {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 565px) {
+  .cardsOverview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

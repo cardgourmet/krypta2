@@ -1,0 +1,15 @@
+.accordionControl {
+  border-bottom: 1px solid var(--gourmet-neutral-4);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+}
+
+.accordionItem {
+  border: none;
+}
+
+.accordionPanel {
+  padding: 1rem 0 0 0;
+}

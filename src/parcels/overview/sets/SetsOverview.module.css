@@ -1,0 +1,22 @@
+.setCard {
+  border: 1px solid var(--gourmet-neutral-3);
+  border-radius: 0.25rem;
+
+  padding: 0.5rem 1rem;
+}
+
+.setCardLink {
+  text-decoration: none;
+  margin-right: 0.375rem;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--gourmet-blue-1);
+  }
+}
+
+.setTypeTag {
+  border: 1px solid var(--gourmet-neutral-3);
+  border-radius: 0.25rem;
+  padding: 0.15rem;
+}
