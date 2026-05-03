@@ -6,18 +6,15 @@ import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.
 import type {PcgDataCard, PcgDataPrint, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
 import {PcgSetIcon} from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
 import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './PcgPrintMetaRenderer.module.css';
 
 export function PcgPrintMetaRenderer({
-  tcg,
   card,
   print,
   set,
   language,
   setLanguage,
 }: {
-  tcg: Tcg;
   card: MtgDataCard | PcgDataCard;
   print: MtgDataPrint | PcgDataPrint;
   set: MtgDataSet | PcgDataSet;
@@ -78,8 +75,8 @@ export function PcgPrintMetaRenderer({
     >
       <Stack gap={'xs'}>
         <Link
-          to={`/${tcg}/sets/$setCode`}
-          params={{ setCode: (set as PcgDataSet).code?.toLowerCase() ?? '???' }}
+          to={`/$tcg/sets/$setCode`}
+          params={{ tcg: 'pcg', setCode: (set as PcgDataSet).code?.toLowerCase() ?? '???' }}
           className={styles.setLink}
         >
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
@@ -145,7 +142,10 @@ export function PcgPrintMetaRenderer({
             </Group>
             <Group gap={'xs'}>
               <Link
-                to={`/${tcg}/cards`}
+                to={`/$tcg/cards`}
+                params={{
+                  tcg: 'pcg',
+                }}
                 search={{
                   ...pcgSearchParamsDefaults,
                   query: `rarity:"${print.rarity}"`,
@@ -172,7 +172,10 @@ export function PcgPrintMetaRenderer({
               </Group>
               <Group gap={'xs'}>
                 <Link
-                  to={`/${tcg}/cards`}
+                  to={`/$tcg/cards`}
+                  params={{
+                    tcg: 'pcg',
+                  }}
                   search={{
                     ...pcgSearchParamsDefaults,
                     query: `artist:"${(print as PcgDataPrint).illustrators}"`,

@@ -1,12 +1,12 @@
-import {Button, Center, Group, TextInput} from '@mantine/core';
-import {IconSearch} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from '@/routes/me/saved-searches';
+import { Button, Center, Group, TextInput } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { Route } from '@/routes/me/saved-searches';
 import styles from './SavedSearchesOverviewSettings.module.css';
 
 export function SavedSearchesOverviewSettings() {
@@ -35,8 +35,8 @@ export function SavedSearchesOverviewSettings() {
             onSelect={(sel) => {
               // noinspection JSIgnoredPromiseFromCall
               navigate({
-                from: '/me/saved-searches',
-                search: (prev) => ({ ...prev, sortDir: sel as 'asc' | 'desc' }),
+                to: '/me/saved-searches',
+                search: () => ({ ...search, sortDir: sel as 'asc' | 'desc' }),
                 replace: true,
               });
             }}
@@ -57,8 +57,8 @@ export function SavedSearchesOverviewSettings() {
             onSelect={(sel) => {
               // noinspection JSIgnoredPromiseFromCall
               navigate({
-                from: '/me/saved-searches',
-                search: (prev) => ({ ...prev, tcg: sel as Tcg }),
+                to: '/me/saved-searches',
+                search: () => ({ ...search, tcg: sel as Tcg }),
                 replace: true,
               });
             }}

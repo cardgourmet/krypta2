@@ -1,0 +1,44 @@
+name: Publish Release
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  determine-tag:
+    runs-on: ubuntu-latest
+
+    outputs:
+      tag: ${{ steps.semver.outputs.nextStrict }}
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Get Next Version
+      id: semver
+      uses: ietf-tools/semver-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+        patchAll: true
+        noVersionBumpBehavior: patch
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1.12.0
+      with:
+        allowUpdates: true
+        draft: false
+        makeLatest: true
+        tag: ${{ steps.semver.outputs.nextStrict }}
+        name: ${{ steps.semver.outputs.next }}
+        body: Automated release ${{ steps.semver.outputs.next }}.
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+  call-docker-deploy:
+    needs: determine-tag
+    uses: cardgourmet/krypta2/.github/workflows/docker-deploy.yml@main
+    with:
+      tag: ${{ needs.determine-tag.outputs.tag }}
+    secrets: inherit

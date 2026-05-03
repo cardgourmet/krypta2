@@ -4,7 +4,7 @@ import {CGM_USER_SESSION} from '@/parcels/auth/AuthContextProvider.tsx';
 import type {paths} from '@/schema/api';
 
 const umoriClient = createClient<paths>({
-  baseUrl: 'https://api.cardgourmet.dev',
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
 });
 const authMiddleware: Middleware = {
   onRequest({ request }) {
@@ -13,6 +13,7 @@ const authMiddleware: Middleware = {
       request.headers.set('x-user-session', session.token);
     }
 
+    // TODO: only during testing. prod server won't expect basic authh
     request.headers.set('Authorization', `Basic ${btoa('quagga:omnivoregarden42')}`);
     return request;
   },

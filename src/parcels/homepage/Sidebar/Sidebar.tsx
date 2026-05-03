@@ -1,4 +1,4 @@
-import {offset, safePolygon, useFloating, useHover, useInteractions,} from '@floating-ui/react';
+import {offset, safePolygon, useFloating, useHover, useInteractions} from '@floating-ui/react';
 import {Drawer, Group, Stack} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconCards, IconDeviceVisionPro, IconFolders} from '@tabler/icons-react';
@@ -10,7 +10,7 @@ import {Logo} from '@/parcels/Logo.tsx';
 import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
 import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
 import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
-import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
+import {tcgSearchParamsDefaults, tcgSetsParamsDefaults} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Sidebar.module.css';
 
@@ -137,7 +137,12 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
           </div>
 
           <Stack gap={'0.5rem'} p={'0.5rem 0'}>
-            <Link to="/$tcg/sets" params={{ tcg: tcg }} className={styles.submenuItem}>
+            <Link
+              to="/$tcg/sets"
+              params={{ tcg: tcg }}
+              search={{ ...tcgSetsParamsDefaults }}
+              className={styles.submenuItem}
+            >
               <Group gap={'0.75rem'}>
                 <IconFolders size={22} />
                 <GourmetText>Sets</GourmetText>

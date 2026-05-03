@@ -5,7 +5,7 @@ import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
 import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
 import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
-import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
+import {tcgSearchParamsDefaults, tcgSetsParamsDefaults} from '@/parcels/tcg/types.ts';
 import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './MobileSidebar.module.css';
 
@@ -54,7 +54,13 @@ function TcgButton({ tcg, activeTcg, close }: { tcg: Tcg; activeTcg: Tcg | undef
         </Accordion.Control>
         <Accordion.Panel>
           <Stack pt={'0.5rem'} pl={'0.15rem'} gap={'1.5rem'}>
-            <Link to={'/$tcg/sets'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
+            <Link
+              to={'/$tcg/sets'}
+              params={{ tcg: tcg }}
+              search={{ ...tcgSetsParamsDefaults }}
+              className={styles.mobileSidebarLink}
+              onClick={close}
+            >
               <Group gap={'0.75rem'}>
                 <IconFolders size={22} />
                 <GourmetText>Sets</GourmetText>

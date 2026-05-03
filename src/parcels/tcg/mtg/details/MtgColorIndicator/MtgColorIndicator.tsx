@@ -1,5 +1,5 @@
-import type { CSSProperties } from 'react';
-import styles from './MTGColorIndicator.module.css';
+import type {CSSProperties} from 'react';
+import styles from './MtgColorIndicator.module.css';
 
 const colorValues: Record<string, string> = {
   B: '#393736',

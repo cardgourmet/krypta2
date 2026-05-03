@@ -24,5 +24,11 @@ declare module '@tanstack/react-router' {
 export function AppRouter() {
   const auth = useAuth();
 
-  return <RouterProvider router={router} context={{ auth: auth }} defaultNotFoundComponent={({data}) => <NotFound data={data} />} />;
+  return (
+    <RouterProvider
+      router={router}
+      context={{ auth: auth }}
+      defaultNotFoundComponent={({ data }) => <NotFound data={data as Record<string, string>} />}
+    />
+  );
 }

@@ -35,8 +35,8 @@ export function SearchHistoryOverviewSettings() {
             onSelect={(sel) => {
               // noinspection JSIgnoredPromiseFromCall
               navigate({
-                from: '/me/history',
-                search: (prev) => ({ ...prev, sortDir: sel as 'asc' | 'desc' }),
+                to: '/me/history',
+                search: () => ({ ...search, sortDir: sel as 'asc' | 'desc' }),
                 replace: true,
               });
             }}
@@ -57,9 +57,8 @@ export function SearchHistoryOverviewSettings() {
             onSelect={(sel) => {
               // noinspection JSIgnoredPromiseFromCall
               navigate({
-                from: '/me/history',
-                search: (prev) => ({ ...prev, tcg: sel as Tcg }),
-                replace: true,
+                to: '/me/history',
+                search: () => ({ ...search, tcg: sel as Tcg }),
               });
             }}
             miw={'14rem'}

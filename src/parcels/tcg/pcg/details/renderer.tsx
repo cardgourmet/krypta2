@@ -43,7 +43,6 @@ export function constructPcgPrintMeta(
 
   return (
     <PcgPrintMetaRenderer
-      tcg={'pcg'}
       card={cardWithPrints}
       print={cardWithPrints.print}
       set={set}
