@@ -20,10 +20,6 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create .env file
-      run: |
-        touch .env
-        echo VITE_API_BASE_URL='${{ vars.CARDGOURMET_API_URL }}' >> .env
     - name: Build and Push
       uses: docker/build-push-action@v2
       with:
@@ -31,7 +27,7 @@ jobs:
         push: true
         file: Dockerfile
         build-args: |
-          "VITE_API_BASE_URL=${{ vars.CARDGOURMET_API_URL }}"
+          VITE_API_BASE_URL=${{ vars.CARDGOURMET_API_URL }}
         tags: ghcr.io/cardgourmet/krypta2:${{ inputs.tag }},ghcr.io/cardgourmet/krypta2:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
