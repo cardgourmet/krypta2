@@ -3,14 +3,14 @@ import {useMediaQuery} from '@mantine/hooks';
 import {IconChevronRight, IconList, IconMinus} from '@tabler/icons-react';
 import {type Ref, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
+import {ListMenuItem, type ListMenuItemRessourceProps} from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {ListMenuItem, type ListMenuItemRessourceProps,} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
-import styles from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
 import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
 
-export function RemoveFromListMenu(props: ListMenuItemRessourceProps & TcgProps & { ref?: Ref<HTMLDivElement> }) {
+export function ListRemoveMenuItem(props: ListMenuItemRessourceProps & TcgProps & { ref?: Ref<HTMLDivElement> }) {
   const { ressourceId, type } = props;
 
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });

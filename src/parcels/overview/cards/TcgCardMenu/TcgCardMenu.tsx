@@ -5,11 +5,11 @@ import {Activity, type Ref, useCallback, useEffect, useMemo, useState} from 'rea
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {ListAddMenuItem} from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
+import {ListMenuItem} from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+import {ListRemoveMenuItem} from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import {AddToListMenu} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/AddToListMenu/AddToListMenu.tsx';
-import {ListMenuItem} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/ListMenuItem/ListMenuItem.tsx';
-import {RemoveFromListMenu} from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/RemoveFromListMenu/RemoveFromListMenu.tsx';
 import {useCardMenuStore} from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
 import {slugify} from '@/parcels/slugify.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
@@ -85,7 +85,6 @@ export function TcgCardMenu({
     [closeMenu],
   );
 
-  // TODO: make dropdown like it was before
   return (
     <>
       <CreateListModal disclosure={disclosure} onSuccess={() => refetchLists()} />
@@ -149,7 +148,7 @@ export function TcgCardMenu({
             })}
             {systemLists.length === 0 && <GourmetText>No system lists</GourmetText>}
 
-            <AddToListMenu
+            <ListAddMenuItem
               ref={ref}
               ressourceId={resourceId ?? ''}
               raw={resourceId === undefined}
@@ -164,7 +163,7 @@ export function TcgCardMenu({
                 closeMenu();
               }}
             />
-            <RemoveFromListMenu
+            <ListRemoveMenuItem
               ref={ref}
               ressourceId={resourceId ?? ''}
               raw={resourceId === undefined}

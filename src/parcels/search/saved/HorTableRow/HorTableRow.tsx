@@ -4,7 +4,7 @@ import {Link} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
+import {MoreActionsMenu} from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type {TableEntryProps} from '@/parcels/search/saved/SavedSearchesOverview.tsx';
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
