@@ -11,7 +11,7 @@ export async function handleApiCall<R>(
       const apiError = handleApiError(res.error);
 
       if (!apiError) return { error: errorFrom(new Error(res.response.statusText)) };
-      return { error: errorFrom(new Error(apiError.error.key)) };
+      return { error: errorFrom(new Error(apiError.error.key), apiError.error.key) };
     }
     if (!res.data) {
       return { error: errorFrom(new Error('Received invalid data')) };
@@ -22,7 +22,7 @@ export async function handleApiCall<R>(
   }
 }
 
-function handleUncaughtError<T>(error: unknown): GourmetApiResponse<T> {
+export function handleUncaughtError<T>(error: unknown): GourmetApiResponse<T> {
   if (!(error instanceof Error)) throw error;
 
   if (error.name === 'AbortError') {
@@ -33,7 +33,7 @@ function handleUncaughtError<T>(error: unknown): GourmetApiResponse<T> {
   return { error: { error: error, key: 'unknown' } };
 }
 
-function handleApiError(error: Error | undefined): ApiError | undefined {
+export function handleApiError(error: Error | undefined): ApiError | undefined {
   const errorBody = error as unknown as ApiError;
   if (!errorBody?.error?.key) return undefined;
   return errorBody;
@@ -49,7 +49,7 @@ export type GourmetError = {
   error?: Error;
 };
 
-function errorFrom(error: Error, key?: string): GourmetError {
+export function errorFrom(error: Error, key?: string): GourmetError {
   return { key: key ?? 'unknown', error };
 }
 
