@@ -27,12 +27,13 @@ export function useTcgSearchSettings(set?: TcgDataSet) {
 
   const searchQuerySettings = useMemo(() => {
     return {
+      page: search.page,
       query: search.query,
       sortBy: search.sortBy,
       sortDirection: search.sortDirection,
       uniqueBy: search.uniqueBy,
     } as TcgSearchQuerySettings;
-  }, [search.query, search.sortBy, search.sortDirection, search.uniqueBy]);
+  }, [search.query, search.sortBy, search.sortDirection, search.uniqueBy, search.page]);
   const searchDisplaySettings = useMemo(() => {
     return {
       display: search.display,

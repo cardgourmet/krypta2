@@ -1,10 +1,11 @@
 import {Button, Center, Group, Menu, NumberInput, Stack, UnstyledButton} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRightPipe, IconDots,} from '@tabler/icons-react';
-import {useMemo, useState} from 'react';
+import {startTransition, useEffect, useMemo, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
+import type {TcgSearchParams} from "@/parcels/tcg/types.ts";
 import type {ApplyFn} from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
@@ -13,13 +14,17 @@ type PaginationProps = {
   currentPage?: number;
   lastPage?: number;
   isLoading?: boolean;
-  setSettings: (update: ApplyFn<{ page?: number }>) => void;
+  setSettings: (update: ApplyFn<TcgSearchParams>) => void;
 };
 
 export default function Pagination({ currentPage, lastPage, isLoading, setSettings }: PaginationProps) {
   const smallScreen = useMediaQuery('(max-width: 830px)');
   const mustCurrentPage = currentPage ?? 1;
   const [actualCurrentPage, setActualCurrentPage] = useState(mustCurrentPage);
+
+  useEffect(() => {
+    setActualCurrentPage(mustCurrentPage);
+  }, [mustCurrentPage]);
 
   const switchPage = (nextPage: number) => {
     if (nextPage < 1) return;
@@ -28,13 +33,15 @@ export default function Pagination({ currentPage, lastPage, isLoading, setSettin
 
     setActualCurrentPage(nextPage);
 
-    setSettings((params) => {
-      return { ...params, page: nextPage };
+    startTransition(() => {
+      setSettings((prev) => {
+        return { ...prev, page: nextPage };
+      });
     });
   };
   const pages = useMemo(() => {
-    return calculatePages(mustCurrentPage, lastPage ?? 1, 1, 2);
-  }, [mustCurrentPage, lastPage]);
+    return calculatePages(actualCurrentPage, lastPage ?? 1, 1, 2);
+  }, [actualCurrentPage, lastPage]);
 
   const workContext = useTcgOverviewWorkContext();
   const selectedCardsPerPage = useMemo(() => {
