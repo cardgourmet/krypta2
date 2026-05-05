@@ -1,6 +1,6 @@
 import {Group, Menu} from '@mantine/core';
 import {IconLink} from '@tabler/icons-react';
-import {type Dispatch, type ReactElement, type SetStateAction} from 'react';
+import type {Dispatch, ReactElement, SetStateAction} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';

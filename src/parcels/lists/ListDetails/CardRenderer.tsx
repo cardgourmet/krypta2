@@ -26,9 +26,6 @@ export function CardRenderer({
     preferredDisplayFaceIndex: 0,
   } as TcgSearchDataCard);
 
-  // TODO: add more actions menu to image card
-  // => look at CardsOverview
-
   const [menuOpened, setMenuOpened] = useState(false);
 
   return (

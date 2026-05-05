@@ -72,11 +72,16 @@ export function MoreActionsMenu({
                 raw={resourceId === undefined}
                 listWithResources={list}
                 action={existsInLists.includes(list.list.id) ? 'remove' : 'add'}
-                type={'search'}
+                type={type === 'card' ? 'card' : 'search'}
                 tcg={tcg}
                 onSuccess={(res) => {
-                  if (res) {
+                  if (!res) return;
+
+                  const action = existsInLists.includes(list.list.id) ? 'remove' : 'add';
+                  if (action === 'add') {
                     if (onSearchSaved) onSearchSaved(res.resourceId);
+                  } else if (action === 'remove') {
+                    if (onRemoveFromList) onRemoveFromList(list.list.id);
                   }
                 }}
               />
