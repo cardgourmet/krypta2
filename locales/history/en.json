@@ -14,6 +14,7 @@
   "dlc": "Disney Lorcana",
   "title": "Your Search History",
   "notLoggedIn": "You are not logged in. This means your offline history disappears when switching browsers or logging into an account.",
+  "notVerified": "You are not verified. This means your history is not stored online yet. Your offline history will disappear when switching browsers or being verified.",
   "noSearches": "You don't have any searches yet. Use the searchbar at the top to start!",
   "searchbarPlaceholder": "Search...",
   "table": {

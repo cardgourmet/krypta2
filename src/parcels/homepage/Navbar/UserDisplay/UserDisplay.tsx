@@ -81,7 +81,11 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
               search={{ ...savedSearchesParamDefaults, tcg: tcg }}
               style={{ textDecoration: 'none' }}
             >
-              <Menu.Item leftSection={<IconBook2 size={18} />} className={styles.menuItem}>
+              <Menu.Item
+                leftSection={<IconBook2 size={18} />}
+                className={styles.menuItem}
+                disabled={user.state === 'unverified'}
+              >
                 <GourmetText cgmff="ui">{t('savedSearches')}</GourmetText>
               </Menu.Item>
             </Link>

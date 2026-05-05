@@ -47,6 +47,7 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     if (!user?.id) return; // e.g., on logout or no user account
+    if (user.state !== 'verified') return;
 
     for (const tcg of ['mtg', 'dlc', 'pcg'] as Tcg[]) {
       fetchSearchHistory(user.id, tcg).then(({ data, error }) => {
