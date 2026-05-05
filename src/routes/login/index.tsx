@@ -1,12 +1,16 @@
-import {Button, Group, PasswordInput, Stack, TextInput} from '@mantine/core';
-import {IconArrowRight} from '@tabler/icons-react';
+import {Blockquote, Button, Group, Stack} from '@mantine/core';
+import {useForm} from '@mantine/form';
+import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
 import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import z from 'zod';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
+import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import styles from '@/routes/register/index.module.css';
 
 export const loginParamsSchema = z.object({
   redirect: z.string().optional(),
@@ -28,10 +32,17 @@ export const Route = createFileRoute('/login/')({
 function RouteComponent() {
   const { t } = useTranslation('auth', { keyPrefix: 'login' });
   const { login } = useAuth();
-  const [loginUsername, setLoginUsername] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
 
   const { redirect } = Route.useSearch();
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      username: '',
+      password: '',
+    },
+  });
+  const [loginError, setLoginError] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -55,57 +66,60 @@ function RouteComponent() {
           </Group>
         </Stack>
 
-        <Stack>
-          <Stack gap={'0.1rem'}>
-            <GourmetText>{t('email-or-name')}</GourmetText>
-            <TextInput value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} />
-          </Stack>
-          <Stack gap={'0.1rem'}>
-            <Group justify={'space-between'}>
-              <GourmetText>{t('password')}</GourmetText>
-              <Link to={'/'} style={{ textDecoration: 'none' }}>
-                <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgot-password')}</GourmetText>
-              </Link>
-            </Group>
-            <PasswordInput value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} w={'100%'} />
-          </Stack>
-          <Button
-            color={'var(--gourmet-blue-1)'}
-            onClick={() => {
-              if (loginUsername.length <= 1) return;
-              if (loginPassword.length <= 1) return;
+        <form
+          onSubmit={form.onSubmit(() => {
+            const values = form.getValues();
 
-              loginUsingBasicAuth({
-                usernameOrEmail: loginUsername,
-                password: loginPassword,
-              }).then((r) => {
-                if (r.error) {
-                  console.log('Error during login', r.error);
-                  return;
-                }
-                if ((r.session && r.data?.session) || r.data?.user?.state === 'unverified') {
-                  login({
-                    token: r.session,
-                    expiresAt: r.data?.session.expiresAt,
-                    user: r.data.user,
-                  });
-                }
+            setLoginError('');
 
-                console.log('Successfully loginned', JSON.stringify(r.data));
-
-                // TODO: redirect to last page
-
-                // noinspection JSIgnoredPromiseFromCall
-                navigate({
-                  to: redirect ?? '/',
-                  replace: true,
+            loginUsingBasicAuth({
+              usernameOrEmail: values.username,
+              password: values.password,
+            }).then((r) => {
+              if (r.error) {
+                setLoginError(r.error.key);
+                return;
+              }
+              if ((r.session && r.data?.session) || r.data?.user?.state === 'unverified') {
+                login({
+                  token: r.session,
+                  expiresAt: r.data?.session.expiresAt,
+                  user: r.data.user,
                 });
+              }
+
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                to: redirect ?? '/',
+                replace: true,
               });
-            }}
-          >
-            <GourmetText cgmc={'neutral-0'}>{t('login-button')}</GourmetText>
-          </Button>
-        </Stack>
+            });
+          })}
+        >
+          <Stack>
+            <Stack gap={'0.1rem'}>
+              <GourmetTextInput {...form.getInputProps('username')} />
+            </Stack>
+            <Stack gap={'0.1rem'}>
+              <Group justify={'space-between'}>
+                <GourmetText>{t('password')}</GourmetText>
+                <Link to={'/'} style={{ textDecoration: 'none' }}>
+                  <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgot-password')}</GourmetText>
+                </Link>
+              </Group>
+              <GourmetPasswordInput {...form.getInputProps('password')} w={'100%'} />
+            </Stack>
+            <Button type={'submit'} color={'var(--gourmet-blue-1)'}>
+              <GourmetText cgmc={'neutral-0'}>{t('login-button')}</GourmetText>
+            </Button>
+          </Stack>
+        </form>
+
+        {loginError && (
+          <Blockquote color={'var(--gourmet-red-01)'} icon={<IconInfoCircle />} className={styles.errorField}>
+            {loginError}
+          </Blockquote>
+        )}
       </Stack>
     </Group>
   );

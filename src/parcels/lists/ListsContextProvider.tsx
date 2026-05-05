@@ -21,7 +21,7 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
   }, []);
   const refetchLists = useCallback(() => {
     const id = auth.user?.id;
-    if (!id) {
+    if (!id || auth.user?.state !== 'verified') {
       setLists([]);
       return;
     }
@@ -35,7 +35,7 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
       const lists = res.data?.items ?? [];
       setListsSorted(lists);
     });
-  }, [auth.user?.id, noti.show, setListsSorted]);
+  }, [auth.user, noti.show, setListsSorted]);
 
   useEffect(() => {
     refetchLists();

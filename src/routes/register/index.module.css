@@ -1,0 +1,5 @@
+.errorField {
+  span {
+    background-color: var(--gourmet-neutral-0);
+  }
+}

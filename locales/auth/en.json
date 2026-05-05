@@ -9,6 +9,7 @@
     "login-button": "Login"
   },
   "register": {
+    "login": "Login",
     "register-title": "Register",
     "first-time": "Seen this page before?",
     "email": "Email-Address",

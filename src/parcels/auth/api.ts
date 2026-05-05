@@ -1,4 +1,4 @@
-import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
+import {errorFrom, type GourmetApiResponse, type GourmetError, handleApiCall, handleApiError, handleUncaughtError,} from '@/parcels/api/handleApiCall.ts';
 import type {components as c} from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -10,6 +10,7 @@ export type AuthApiSessionDetails = c['schemas']['AuthApiSessionDetails'];
 export type UserSettings = c['schemas']['UserSettings'];
 
 // /v1/auth/basic/register
+
 export async function registerUsingBasicAuth(
   data: {
     email: string;
@@ -18,7 +19,7 @@ export async function registerUsingBasicAuth(
     preferredGlobalLanguage?: 'en' | 'de';
   },
   abort?: AbortController,
-): Promise<{ data?: AuthApiRegisterResponse; session?: string; error?: Error }> {
+): Promise<{ data?: AuthApiRegisterResponse; session?: string; error?: GourmetError }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/basic/register`, {
       body: {
@@ -31,21 +32,17 @@ export async function registerUsingBasicAuth(
     });
 
     if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
+      const apiError = handleApiError(res.error);
+
+      if (!apiError) return { error: errorFrom(new Error(res.response.statusText)) };
+      return { error: errorFrom(new Error(apiError.error.key), apiError.error.key) };
     }
     if (!res.data) {
-      return { error: new Error('Received invalid data') };
+      return { error: errorFrom(new Error('Received invalid data')) };
     }
     return { data: res.data.data, session: res.response.headers.get('x-user-session') ?? undefined };
   } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
+    return handleUncaughtError(error);
   }
 }
 
@@ -127,7 +124,7 @@ export async function loginUsingBasicAuth(
     password: string;
   },
   abort?: AbortController,
-): Promise<{ data?: AuthApiUserResponse; session?: string; error?: Error }> {
+): Promise<{ data?: AuthApiUserResponse; session?: string; error?: GourmetError }> {
   try {
     const res = await umoriClient.POST(`/v1/auth/basic/login`, {
       body: {
@@ -138,21 +135,17 @@ export async function loginUsingBasicAuth(
     });
 
     if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
+      const apiError = handleApiError(res.error);
+
+      if (!apiError) return { error: errorFrom(new Error(res.response.statusText)) };
+      return { error: errorFrom(new Error(apiError.error.key), apiError.error.key) };
     }
     if (!res.data) {
-      return { error: new Error('Received invalid data') };
+      return { error: errorFrom(new Error('Received invalid data')) };
     }
     return { data: res.data.data, session: res.response.headers.get('x-user-session') ?? undefined };
   } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
+    return handleUncaughtError(error);
   }
 }
 

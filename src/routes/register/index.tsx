@@ -1,11 +1,15 @@
-import {Button, Group, PasswordInput, Stack, TextInput} from '@mantine/core';
-import {IconArrowRight} from '@tabler/icons-react';
+import {Blockquote, Button, Group, Stack} from '@mantine/core';
+import {matches, useForm} from '@mantine/form';
+import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
 import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {registerUsingBasicAuth} from '@/parcels/auth/api.ts';
+import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import styles from './index.module.css';
 
 export const Route = createFileRoute('/register/')({
   component: RouteComponent,
@@ -19,9 +23,9 @@ export const Route = createFileRoute('/register/')({
   },
 });
 
-export const USERNAME_REGEX = /^[a-z0-9_]{3,}$/;
+export const USERNAME_REGEX = /^[a-z0-9_]{3,36}$/;
 export const DISPLAYNAME_REGEX = /^[a-zA-Z0-9-_\s]{3,50}$/;
-export const PASSWORD_REGEX = /^.{8,}$/;
+export const PASSWORD_REGEX = /^.{8,128}$/;
 export const EMAIL_REGEX =
   // biome-ignore lint/suspicious/noControlCharactersInRegex: EMAILS YOU KNOW
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -30,10 +34,24 @@ function RouteComponent() {
   const { t } = useTranslation('auth', { keyPrefix: 'register' });
   const { login } = useAuth();
 
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerUsername, setRegisterUsername] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [registerPassword2, setRegisterPassword2] = useState('');
+  // const [registerError, setRegisterError] = useState<string>('');
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      email: '',
+      username: '',
+      password: '',
+      password2: '',
+    },
+    validate: {
+      email: matches(EMAIL_REGEX, 'invalid-email'),
+      username: matches(USERNAME_REGEX, 'invalid-username'),
+      password: matches(PASSWORD_REGEX, 'invalid-password'),
+      password2: (value, values) => (value !== values.password ? 'passwords-doesnt-match' : null),
+    },
+  });
+  const [registerError, setRegisterError] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -50,71 +68,72 @@ function RouteComponent() {
             </GourmetText>
             <Link to={'/login'} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
-                <GourmetText c={'var(--gourmet-blue-1)'}>Anmelden</GourmetText>
+                <GourmetText c={'var(--gourmet-blue-1)'}>{t('login')}</GourmetText>
                 <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />
               </Group>
             </Link>
           </Group>
         </Stack>
 
-        <Stack>
-          <Stack gap={'0.1rem'}>
-            <GourmetText>{t('email')}</GourmetText>
-            <TextInput value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} />
-          </Stack>
-          <Stack gap={'0.1rem'}>
-            <GourmetText>{t('username')}</GourmetText>
-            <TextInput value={registerUsername} onChange={(e) => setRegisterUsername(e.target.value)} />
-          </Stack>
-          <Stack gap={'0.1rem'}>
-            <GourmetText>{t('password')}</GourmetText>
-            <PasswordInput value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} w={'100%'} />
-          </Stack>
-          <Stack gap={'0.1rem'}>
-            <GourmetText>{t('password-repeat')}</GourmetText>
-            <PasswordInput
-              value={registerPassword2}
-              onChange={(e) => setRegisterPassword2(e.target.value)}
-              w={'100%'}
-            />
-          </Stack>
-          <Button
-            color={'var(--gourmet-blue-1)'}
-            onClick={() => {
-              if (registerEmail.length <= 1) return;
-              if (registerUsername.length <= 1) return;
-              if (registerPassword.length <= 1) return;
+        <form
+          onSubmit={form.onSubmit(() => {
+            const values = form.getValues();
 
-              registerUsingBasicAuth({
-                email: registerEmail,
-                username: registerUsername,
-                password: registerPassword,
-              }).then((r) => {
-                if (r.error) {
-                  console.log('Error during register:', r.error);
-                  return;
-                }
+            setRegisterError('');
 
-                // login potentially without session token
-                login({
-                  token: r.session,
-                  expiresAt: r.data?.session?.expiresAt,
-                  user: r.data?.user,
-                });
+            registerUsingBasicAuth({
+              email: values.email,
+              username: values.username,
+              password: values.password,
+            }).then((r) => {
+              if (r.error) {
+                setRegisterError(r.error.key);
+                return;
+              }
 
-                console.log('Successfully registered', JSON.stringify(r.data));
-
-                // noinspection JSIgnoredPromiseFromCall
-                navigate({
-                  to: '/',
-                  replace: true,
-                });
+              // login potentially without session token
+              login({
+                token: r.session,
+                expiresAt: r.data?.session?.expiresAt,
+                user: r.data?.user,
               });
-            }}
-          >
-            <GourmetText cgmc={'neutral-0'}>{t('register-button')}</GourmetText>
-          </Button>
-        </Stack>
+
+              // noinspection JSIgnoredPromiseFromCall
+              navigate({
+                to: '/',
+                replace: true,
+              });
+            });
+          })}
+        >
+          <Stack>
+            <Stack gap={'0.1rem'}>
+              <GourmetText>{t('email')}</GourmetText>
+              <GourmetTextInput {...form.getInputProps('email')} />
+            </Stack>
+            <Stack gap={'0.1rem'}>
+              <GourmetText>{t('username')}</GourmetText>
+              <GourmetTextInput {...form.getInputProps('username')} />
+            </Stack>
+            <Stack gap={'0.1rem'}>
+              <GourmetText>{t('password')}</GourmetText>
+              <GourmetPasswordInput w={'100%'} {...form.getInputProps('password')} />
+            </Stack>
+            <Stack gap={'0.1rem'}>
+              <GourmetText>{t('password-repeat')}</GourmetText>
+              <GourmetPasswordInput w={'100%'} {...form.getInputProps('password2')} />
+            </Stack>
+            <Button type={'submit'} color={'var(--gourmet-blue-1)'}>
+              <GourmetText cgmc={'neutral-0'}>{t('register-button')}</GourmetText>
+            </Button>
+          </Stack>
+        </form>
+
+        {registerError && (
+          <Blockquote color={'var(--gourmet-red-01)'} icon={<IconInfoCircle />} className={styles.errorField}>
+            {registerError}
+          </Blockquote>
+        )}
       </Stack>
     </Group>
   );

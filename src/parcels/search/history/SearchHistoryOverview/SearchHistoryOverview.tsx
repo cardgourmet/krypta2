@@ -42,7 +42,7 @@ export function SearchHistoryOverview() {
   const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
-    if (!user?.id) {
+    if (user?.state !== 'verified') {
       // if user is not logged in: let's fetch based on local history
       const localData = localHistory.pastQueries;
       const localHistoryData = localData
@@ -99,16 +99,7 @@ export function SearchHistoryOverview() {
       // abort.abort();
       setIsLoading(false);
     };
-  }, [
-    search.page,
-    search.size,
-    search.sortDir,
-    search.tcg,
-    user?.id,
-    search.search,
-    localHistory.pastQueries,
-    noti.show,
-  ]);
+  }, [search.page, search.size, search.sortDir, search.tcg, user, search.search, localHistory.pastQueries, noti.show]);
 
   const navigate = useNavigate();
   const setSettings = (apply: ApplyFn<{ page?: number }>) => {
@@ -195,6 +186,14 @@ export function SearchHistoryOverview() {
           <Group wrap={'nowrap'}>
             <IconAlertSquareRoundedFilled />
             <GourmetText cgmff={'ui'}>{t('notLoggedIn')}</GourmetText>
+          </Group>
+        </Stack>
+      )}
+      {user?.id && user?.state !== 'verified' && (
+        <Stack className={styles.infoBanner}>
+          <Group wrap={'nowrap'}>
+            <IconAlertSquareRoundedFilled />
+            <GourmetText cgmff={'ui'}>{t('notVerified')}</GourmetText>
           </Group>
         </Stack>
       )}
