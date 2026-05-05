@@ -38,6 +38,7 @@ export function ListDetails() {
     moreSubpages: [
       {
         label: 'Lists',
+        href: '/me/lists',
       },
       {
         label: list.systemListType !== undefined ? t(`system.${list.name}`) : list.name,

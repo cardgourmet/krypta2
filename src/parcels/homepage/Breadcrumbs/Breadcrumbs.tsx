@@ -7,15 +7,16 @@ import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
   subpage: string;
+  subpageHref?: string;
   moreSubpages?: { label: string; href?: string }[];
   withoutTitle?: boolean;
 };
 
-export default function Breadcrumbs({ subpage, moreSubpages, withoutTitle }: BreadcrumbProps) {
+export default function Breadcrumbs({ subpage, subpageHref, moreSubpages, withoutTitle }: BreadcrumbProps) {
   const tcg = useTcgByLocation();
   const subpages = [...(moreSubpages ?? [])];
   if (subpage.length > 0) {
-    subpages.unshift({ label: subpage });
+    subpages.unshift({ label: subpage, href: subpageHref });
   }
 
   const currentPage = subpages.length === 1 ? subpages[0] : subpages[subpages.length - 1];
