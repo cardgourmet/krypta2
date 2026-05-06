@@ -83,7 +83,6 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
       {tableData && (
         <GourmetTable
           t={t}
-          tcg={tcg}
           isLoading={isLoading}
           tableData={tableData}
           constructHorTableRow={constructHorTableRow}

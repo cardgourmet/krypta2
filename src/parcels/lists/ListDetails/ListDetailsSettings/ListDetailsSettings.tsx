@@ -8,10 +8,10 @@ import type {UserList} from '@/parcels/lists/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {Route} from '@/routes/me/lists/$listId.tsx';
 
-export function ListDetailsSettings({ list }: { list: UserList }) {
-  const { t } = useTranslation('lists', { keyPrefix: 'details.settings' });
-  const { t: t2 } = useTranslation('lists', { keyPrefix: 'details.settings.sortBy' });
-  const { t: t3 } = useTranslation('lists', { keyPrefix: 'details.settings.sortDir' });
+export function ListDetailsSettings({list}: { list: UserList }) {
+  const {t} = useTranslation('lists', {keyPrefix: 'details.settings'});
+  const {t: t2} = useTranslation('lists', {keyPrefix: 'details.settings.sortBy'});
+  const {t: t3} = useTranslation('lists', {keyPrefix: 'details.settings.sortDir'});
   const search = Route.useSearch();
 
   const [selectedTcg, setSelectedTcg] = useState<Tcg>(search.tcg ?? 'mtg');
@@ -44,7 +44,7 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
                   params: {
                     listId: list.slug,
                   },
-                  search: (prev) => ({ ...prev, tcg: sel as Tcg }),
+                  search: (prev) => ({...prev, tcg: sel as Tcg}),
                   replace: true,
                 });
               });
@@ -74,7 +74,7 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
                   params: {
                     listId: list.slug,
                   },
-                  search: (prev) => ({ ...prev, sort: sel as 'name' | 'addedAt' }),
+                  search: () => ({...search, sort: sel as 'name' | 'addedAt'}),
                   replace: true,
                 });
               });
@@ -99,7 +99,7 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
                   params: {
                     listId: list.slug,
                   },
-                  search: (prev) => ({ ...prev, order: sel as 'asc' | 'desc' | 'auto' }),
+                  search: () => ({...search, order: sel as 'asc' | 'desc' | 'auto'}),
                   replace: true,
                 });
               });
