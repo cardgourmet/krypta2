@@ -1,12 +1,10 @@
 import {useMediaQuery} from '@mantine/hooks';
 import type {TFunction} from 'i18next';
 import {type ReactElement, useMemo} from 'react';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './GourmetTable.module.css';
 
 type SearchHistoryTableProps<T> = {
   t?: TFunction<string>;
-  tcg: Tcg;
   isLoading: boolean;
   tableData: GourmetTableData<T>;
   constructHorTableRow: (row: GourmetTableDataRow<T>, index: number) => ReactElement;

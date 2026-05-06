@@ -47,6 +47,7 @@ export function ExistsInListsBadge({
                     to={'/me/lists/$listId'}
                     params={{ listId: l.list.id }}
                     style={{ textDecoration: 'none' }}
+                    preload={false}
                   >
                     <Group wrap={'nowrap'} gap={'0.25rem'}>
                       <IconLabelFilled

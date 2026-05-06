@@ -1,5 +1,5 @@
 import {Divider, Group, Stack} from '@mantine/core';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -9,12 +9,14 @@ import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/Cre
 import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
 import {ListsOverviewGrid} from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import {ListsOverviewTable} from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
-import type {UserListResponse, UserListWithResources} from '@/parcels/lists/types.ts';
+import type {UserListWithResources} from '@/parcels/lists/types.ts';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation';
 import {Route} from '@/routes/me/lists';
 
 export default function ListsOverview() {
   const { user } = useAuth();
+  const noti = useGourmetNotification();
 
   const { component, title } = useBreadcrumbs({
     subpage: `@${user?.username}`,
@@ -28,80 +30,60 @@ export default function ListsOverview() {
   const search = Route.useSearch();
   const { tcg } = search;
 
-  const [userListsData, setUserListsData] = useState<UserListResponse | undefined>(undefined);
-  const userLists = (userListsData?.items ?? []) as UserListWithResources[];
-  const [userListsResources, setUserListsResources] = useState<Record<string, UserListWithResources>>({});
-
-  const [isLoading] = useState(false);
-  const [isPreviewsLoading, setIsPreviewsLoading] = useState(false);
-
   const { lists: localUserLists, setLists } = useUserLists();
-  const sortOrFilterLists = useCallback(() => {
-    let lists: UserListWithResources[] = localUserLists.map((list) => {
-      return {
-        ...list,
-        resources: userListsResources[list.list.id]?.resources ?? {},
-      };
-    });
-
+  const processedLocalUserLists: UserListWithResources[] = useMemo(() => {
+    let lists: UserListWithResources[] = localUserLists
+      .map((list) => {
+        return { ...list };
+      })
+      .filter((l) => {
+        const allowed = l.list.allowedTcgs;
+        if (!allowed) return true;
+        if (tcg === 'all') return true;
+        return allowed.includes(tcg as Tcg);
+      });
     if (search.search.trim().length > 0) {
       lists = lists.filter((l) => l.list.name.toLowerCase().includes(search.search.toLowerCase()));
     }
     sortLists(lists, search.sortBy, search.sortDir);
 
-    setUserListsData({
-      currentPage: 1,
-      nextPage: 1,
-      hasNextPage: false,
-      lastPage: 1,
-      items: lists,
-    });
-  }, [localUserLists, search.search, search.sortBy, search.sortDir, userListsResources]);
-  useEffect(() => {
-    sortOrFilterLists();
-  }, [sortOrFilterLists]);
+    return lists;
+  }, [localUserLists, search.search, search.sortBy, search.sortDir, tcg]);
 
-  const noti = useGourmetNotification();
+  const [userListsWithResources, setUserListsWithResources] = useState<UserListWithResources[]>([]);
   const refetchListsContent = useCallback(() => {
     if (!user?.id) return;
-    if (Object.keys(userListsResources).length > 0) return;
-
-    const listIds = userLists.map((list) => {
-      return list.list.id;
-    });
-    if (listIds.length === 0) return;
 
     setIsPreviewsLoading(true);
-    fetchListsPreview(user.id, listIds, undefined, undefined).then((res) => {
-      setIsPreviewsLoading(false);
+    fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), undefined).then(
+      (res) => {
+        setIsPreviewsLoading(false);
 
-      if (res.error) {
-        noti.show('Unknown error', `${res.error}`, 'error');
-        return;
-      }
-      if (!res.data) return;
+        if (res.error) {
+          noti.show('Unknown error', `${res.error}`, 'error');
+          return;
+        }
+        if (!res.data) return;
 
-      const appliedLists: UserListWithResources[] =
-        userListsData?.items.map((listWithRes) => {
+        const appliedLists: UserListWithResources[] = processedLocalUserLists?.map((listWithRes) => {
           const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
           if (!newList) return listWithRes as UserListWithResources;
 
           return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
-        }) ?? [];
+        });
 
-      const newUserListsResources: Record<string, UserListWithResources> = {};
-      appliedLists.forEach((appliedList) => {
-        newUserListsResources[appliedList.list.id] = appliedList;
-      });
-
-      setUserListsResources(newUserListsResources);
-    });
-  }, [user?.id, userLists, noti.show, userListsData, userListsResources]);
-
+        setUserListsWithResources(appliedLists);
+      },
+    );
+  }, [user?.id, search.tcg, noti, processedLocalUserLists]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
+    // only refetch the content if the user lists change in any way (order, filter, etc.)
     refetchListsContent();
-  }, [userLists]);
+  }, [processedLocalUserLists]);
+
+  const [isLoading] = useState(false);
+  const [isPreviewsLoading, setIsPreviewsLoading] = useState(false);
 
   const [scrollToListId, setScrollToListId] = useState<string | null>(null);
   useEffect(() => {
@@ -155,17 +137,15 @@ export default function ListsOverview() {
       <Stack mt={'xl'}>
         {search.display === 'grid' && (
           <ListsOverviewGrid
-            tcg={tcg}
             isLoading={isLoading}
             isPreviewsLoading={isPreviewsLoading}
-            userLists={userLists}
+            userLists={userListsWithResources}
           />
         )}
         {search.display === 'table' && (
           <ListsOverviewTable
-            tcg={tcg}
             isLoading={isLoading}
-            userLists={userLists}
+            userLists={userListsWithResources}
             onUpdate={(list) => {
               const newLists: UserListWithResources[] = [];
               localUserLists.forEach((l) => {

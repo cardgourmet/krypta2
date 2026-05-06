@@ -9,7 +9,7 @@ import type {UserResolvedSavedSearch} from '@/parcels/search/types.ts';
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function RendererSearchResources({ tcg, resources }: { tcg: Tcg; resources: ResolvedUserListResource[] }) {
+export function RendererSearchResources({ resources }: { resources: ResolvedUserListResource[] }) {
   return (
     <Stack
       gap={'0.5rem'}
@@ -21,12 +21,13 @@ export function RendererSearchResources({ tcg, resources }: { tcg: Tcg; resource
     >
       {resources.map((resource) => {
         const search = resource.resourceData as unknown as UserResolvedSavedSearch;
+        const searchTcg = resource.listResource.game as Tcg;
 
         return (
           <Link
             key={resource.listResource.resourceId}
             to={'/$tcg/cards'}
-            params={{ tcg: tcg }}
+            params={{ tcg: searchTcg }}
             rel="noreferrer noopener"
             search={{
               ...tcgSearchParamsDefaults,

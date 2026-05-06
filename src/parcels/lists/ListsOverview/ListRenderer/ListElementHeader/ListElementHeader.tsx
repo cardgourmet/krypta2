@@ -26,7 +26,7 @@ export function ListElementHeader({
           <Group gap={'0.5rem'} wrap={'nowrap'}>
             {list.systemListType === 'favorites' && <IconStar size={22} color={'var(--gourmet-neutral-9'} />}
 
-            <Link to={'/me/lists/$listId'} params={{ listId: list.slug }} className={styles.link}>
+            <Link to={'/me/lists/$listId'} params={{ listId: list.slug }} className={styles.link} preload={false}>
               <GourmetText
                 cgmff={'ui'}
                 cgmc={'neutral-9'}

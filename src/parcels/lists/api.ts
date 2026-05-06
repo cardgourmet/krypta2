@@ -39,7 +39,7 @@ export async function fetchLists(
 // /v1/users/{id}/lists
 export async function fetchListsPreview(
   userId: string,
-  listIds: string[],
+  listIds?: string[],
   game?: Tcg,
   amount?: number,
   abort?: AbortController,
@@ -49,7 +49,7 @@ export async function fetchListsPreview(
       params: {
         query: {
           game: game,
-          listIds: listIds.join(','),
+          listIds: listIds ? listIds.join(',') : undefined,
           createSystem: 'true',
           withSize: 'true',
           withResources: 'true',

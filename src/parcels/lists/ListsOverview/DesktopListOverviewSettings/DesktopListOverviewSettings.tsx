@@ -72,6 +72,7 @@ export function DesktopListOverviewSettings() {
                 mtg: t('mtg'),
                 pcg: t('pcg'),
                 dlc: t('dlc'),
+                all: t('all'),
               }}
               t={t}
               defaultSelected={search.tcg}

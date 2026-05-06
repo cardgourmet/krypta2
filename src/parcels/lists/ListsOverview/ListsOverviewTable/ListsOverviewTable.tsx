@@ -11,16 +11,13 @@ import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditLis
 import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.module.css';
 import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function ListsOverviewTable({
-  tcg,
   isLoading,
   userLists,
   onUpdate,
   onDelete,
 }: {
-  tcg: Tcg;
   isLoading: boolean;
   userLists: UserListWithResources[];
   onUpdate?: (list: UserList) => void;
@@ -45,7 +42,12 @@ export function ListsOverviewTable({
               <Group gap={'0.25rem'}>
                 {list.list.systemListType === 'favorites' && <IconStar size={18} color={'var(--gourmet-neutral-9'} />}
 
-                <Link to={'/me/lists/$listId'} params={{ listId: list.list.slug }} className={styles.link}>
+                <Link
+                  to={'/me/lists/$listId'}
+                  params={{ listId: list.list.slug }}
+                  className={styles.link}
+                  preload={false}
+                >
                   <GourmetText
                     cgmff={'ui'}
                     cgmc={'neutral-9'}
@@ -87,7 +89,6 @@ export function ListsOverviewTable({
   return (
     <GourmetTable
       t={t}
-      tcg={tcg}
       isLoading={isLoading}
       tableData={tableData}
       constructHorTableRow={(row) => {

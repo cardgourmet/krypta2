@@ -7,17 +7,14 @@ import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListRenderer/List
 import {RendererCardResources} from '@/parcels/lists/ListsOverview/ListRenderer/RendererCardResources/RendererCardResources.tsx';
 import {RendererSearchResources} from '@/parcels/lists/ListsOverview/ListRenderer/RendererSearchResources/RendererSearchResources.tsx';
 import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './GridListRenderer.module.css';
 
 export function GridListRenderer({
-  tcg,
   listWithResources,
   isLoading,
   onUpdate,
   onDelete,
 }: {
-  tcg: Tcg;
   listWithResources: UserListWithResources;
   isLoading: boolean;
   onUpdate?: (list: UserList) => void;
@@ -85,7 +82,7 @@ export function GridListRenderer({
                         <IconSearch size={20} />
                       </Center>
                     </div>
-                    <RendererSearchResources tcg={tcg} resources={searchResources} />
+                    <RendererSearchResources resources={searchResources} />
                   </Group>
                 )}
                 {cardResources.length > 0 && (
@@ -104,7 +101,7 @@ export function GridListRenderer({
                       </Center>
                     </div>
                     <Group wrap={'nowrap'} h={'100%'} gap={'0.25rem'}>
-                      <RendererCardResources tcg={tcg} resources={cardResources} />
+                      <RendererCardResources resources={cardResources} />
                     </Group>
                   </Group>
                 )}

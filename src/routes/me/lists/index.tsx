@@ -12,7 +12,7 @@ export const paramDefaults = {
 export const paramsSchema = z.object({
   sortBy: z.enum(['name', 'updatedAt', 'size']).catch(paramDefaults.sortBy),
   sortDir: z.enum(['asc', 'desc', 'auto']).catch(paramDefaults.sortDir),
-  tcg: z.enum(['mtg', 'dlc', 'pcg']).catch('mtg'),
+  tcg: z.enum(['mtg', 'dlc', 'pcg', 'all']).catch('all'),
   display: z.enum(['grid', 'table']).catch(paramDefaults.display),
   search: z.string().catch(paramDefaults.search),
 });

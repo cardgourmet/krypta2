@@ -2,15 +2,12 @@ import {Loader, SimpleGrid} from '@mantine/core';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {GridListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function ListsOverviewGrid({
-  tcg,
   isLoading,
   isPreviewsLoading,
   userLists,
 }: {
-  tcg: Tcg;
   isLoading: boolean;
   isPreviewsLoading: boolean;
   userLists: UserListWithResources[];
@@ -24,7 +21,6 @@ export function ListsOverviewGrid({
         return (
           <GridListRenderer
             key={list.list.id}
-            tcg={tcg}
             listWithResources={list}
             isLoading={isLoading || isPreviewsLoading}
             onUpdate={(list) => {
