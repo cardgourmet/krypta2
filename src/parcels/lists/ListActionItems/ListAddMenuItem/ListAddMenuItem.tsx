@@ -13,6 +13,7 @@ import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
 export function ListAddMenuItem(
   props: {
     disclosure: UseDisclosureReturnValue;
+    buttonText?: string;
   } & ListMenuItemRessourceProps &
     TcgProps & { ref?: Ref<HTMLDivElement> },
 ) {
@@ -67,7 +68,7 @@ export function ListAddMenuItem(
                 icon={<IconList size={18} />}
                 overlayIcon={<IconPlus size={14} color={'var(--gourmet-green-1)'} />}
               />
-              <GourmetText cgmff={'ui'}>{t('add-to-list')}</GourmetText>
+              <GourmetText cgmff={'ui'}>{props.buttonText}</GourmetText>
             </Group>
             <IconChevronRight size={18} />
           </Group>
@@ -89,6 +90,7 @@ export function ListAddMenuItem(
               listWithResources={list}
               action={'add'}
               disabled={existsInLists.includes(list.list.id)}
+              buttonText={t('add-to-list')}
               {...props}
             />
           );

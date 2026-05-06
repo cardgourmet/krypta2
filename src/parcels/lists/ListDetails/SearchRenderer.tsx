@@ -5,8 +5,8 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
-import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
+import {ListDetailsActionMenu} from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
+import type {ResolvedUserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type {UserResolvedSavedSearch} from '@/parcels/search/types.ts';
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
@@ -14,11 +14,13 @@ import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SearchRenderer({
   tcg,
+  list,
   data,
   onSearchSaved,
   onRemoveFromList,
 }: {
   tcg: Tcg;
+  list: UserListWithResources;
   data: ResolvedUserListResource;
   onSearchSaved?: (id: string) => void;
   onRemoveFromList?: (listId: string) => void;
@@ -71,8 +73,9 @@ export function SearchRenderer({
 
           {user?.id && (
             <Tooltip label={t('table.moreOptions')} openDelay={500}>
-              <MoreListActionsMenu
+              <ListDetailsActionMenu
                 type={'user_search'}
+                listContext={list}
                 tcg={tcg}
                 resourceId={resolvedSavedSearch.savedSearch.id}
                 rawResourceId={resolvedSavedSearch.firstSearch.id}

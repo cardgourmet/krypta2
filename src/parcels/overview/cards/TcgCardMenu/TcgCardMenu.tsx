@@ -1,6 +1,6 @@
 import {Group, Menu, Stack} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
-import {IconLink} from '@tabler/icons-react';
+import {IconLink, IconStar} from '@tabler/icons-react';
 import {Activity, type Ref, useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
@@ -143,10 +143,11 @@ export function TcgCardMenu({
                       if (onAddToList) onAddToList(res.resourceId);
                     }
                   }}
+                  icon={<IconStar size={18} />}
+                  buttonText={t(`favorite${existsInLists.includes(list.list.id) ? '-remove' : ''}`)}
                 />
               );
             })}
-            {systemLists.length === 0 && <GourmetText>No system lists</GourmetText>}
 
             <ListAddMenuItem
               ref={ref}
@@ -162,6 +163,7 @@ export function TcgCardMenu({
 
                 closeMenu();
               }}
+              buttonText={t('add-to-list')}
             />
             <ListRemoveMenuItem
               ref={ref}
@@ -177,6 +179,8 @@ export function TcgCardMenu({
                 closeMenu();
               }}
             />
+
+            <Menu.Divider />
 
             <Menu.Item
               onClick={() => {

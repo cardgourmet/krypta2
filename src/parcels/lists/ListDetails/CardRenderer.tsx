@@ -4,8 +4,8 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
-import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
+import {ListDetailsActionMenu} from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
+import type {ResolvedUserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
 import {createProps} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import styles from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
 import {ImageCard} from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
@@ -15,10 +15,12 @@ import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function CardRenderer({
   tcg,
+  list,
   data,
   onRemoveFromList,
 }: {
   tcg: Tcg;
+  list: UserListWithResources;
   data: ResolvedUserListResource;
   onRemoveFromList?: (listId: string) => void;
 }) {
@@ -36,8 +38,9 @@ export function CardRenderer({
     <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} style={{ height: '100%' }}>
       <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
         <Group p={'1rem 1rem 0 1rem'} justify={'end'}>
-          <MoreListActionsMenu
+          <ListDetailsActionMenu
             tcg={tcg}
+            listContext={list}
             rawResourceId={card.print.id}
             resourceId={card.print.id}
             menuOpened={menuOpened}
@@ -78,7 +81,7 @@ export function CardRenderer({
                 <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
               </Group>
             </Menu.Item>
-          </MoreListActionsMenu>
+          </ListDetailsActionMenu>
         </Group>
       </Overlay>
     </ImageCard>

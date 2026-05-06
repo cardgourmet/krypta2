@@ -23,6 +23,7 @@
   "actionmenu": {
     "favorite": "Add to Favorites",
     "favorite-remove": "Remove from Favorites",
+    "favorite-copy": "Copy to Favorites",
     "bookmark": "Add to Bookmarks",
     "bookmark-remove": "Remove from Bookmarks",
     "add-to-list": "Add to list ...",
