@@ -25,6 +25,7 @@ const QUERY_WITH_PARENTS_REGEX = /[-(]*([a-z]+)([:=])"([^><:=()]*)$/g;
 export type GeneratedSearchCompletion = {
   value: string;
   type?: string;
+  types?: string[];
   aliasOf?: string;
 };
 

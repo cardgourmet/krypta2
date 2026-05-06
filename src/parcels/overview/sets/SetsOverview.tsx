@@ -3,6 +3,7 @@ import {useNavigate} from '@tanstack/react-router';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {groupBy} from '@/parcels/groupBy.ts';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {SetCard} from '@/parcels/overview/sets/SetCard.tsx';
 import {type OverviewSettings, SetOverviewSettings} from '@/parcels/overview/sets/SetOverviewSettings.tsx';
@@ -201,13 +202,3 @@ function getReleaseDate(tcg: Tcg, set: TcgDataSet): Date | undefined {
 
   return releaseDate ? new Date(releaseDate) : undefined;
 }
-
-const groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
-  arr.reduce(
-    (groups, item) => {
-      // biome-ignore lint/suspicious/noAssignInExpressions: <>
-      (groups[key(item)] ||= []).push(item);
-      return groups;
-    },
-    {} as Record<K, T[]>,
-  );

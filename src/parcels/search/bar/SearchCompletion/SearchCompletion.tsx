@@ -1,17 +1,11 @@
-import { Highlight } from '@mantine/core';
-import { type RefObject, useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  type GeneratedSearchCompletion,
-  generateCompletions,
-} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
-import {
-  type SearchSuggestion,
-  transformCompletions,
-} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
-import { useFilterCacheStore } from '@/parcels/search/filter/FilterCacheStore.tsx';
-import { useFilters } from '@/parcels/search/filter/useFilters.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import {Group, Highlight} from '@mantine/core';
+import {type RefObject, useCallback, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {generateCompletions, type GeneratedSearchCompletion,} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
+import {type SearchSuggestion, transformCompletions,} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
+import {useFilterCacheStore} from '@/parcels/search/filter/FilterCacheStore.tsx';
+import {useFilters} from '@/parcels/search/filter/useFilters.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
 
 type SearchCompletionProps = {
@@ -96,7 +90,7 @@ export function SearchCompletion({
               <button
                 type={'button'}
                 className={styles.completionEntry}
-                key={completion.value}
+                key={`${completion.value}_${completion.type}`}
                 data-state={selected ? 'selected' : ''}
                 onClick={() => {
                   const currentSugg = sugg.fullQuery;
@@ -119,7 +113,17 @@ export function SearchCompletion({
                   </Highlight>
                 )}
                 {!userInput && <p>{completion.value}</p>}
-                {completion.type !== undefined && <p className={styles.entryType}>{completion.type}</p>}
+                {completion.types && (
+                  <Group gap={'0.25rem'}>
+                    {completion.types?.map((type) => {
+                      return (
+                        <p key={type} className={styles.entryType}>
+                          {type}
+                        </p>
+                      );
+                    })}
+                  </Group>
+                )}
                 {completion.aliasOf !== undefined && (
                   <p className={styles.entryAlias}>
                     {t('aliasFor')}: {completion.aliasOf}

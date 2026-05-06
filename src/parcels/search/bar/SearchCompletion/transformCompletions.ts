@@ -1,3 +1,4 @@
+import { groupBy } from '@/parcels/groupBy.ts';
 import type {
   GeneratedSearchCompletion,
   SearchCompletionState,
@@ -10,7 +11,14 @@ export type SearchSuggestion = {
 };
 
 export function transformCompletions(currentQuery: string, state: SearchCompletionState) {
-  return state.completions.map((compl) => {
+  const groupedCompletions = groupBy(state.completions, (c) => c.value ?? '');
+  const completions = Object.entries(groupedCompletions).map(([_, arr]) => {
+    const types = arr.map((c) => c.type ?? '') ?? [];
+
+    return { ...arr[0], types: types };
+  });
+
+  return completions.map((compl) => {
     if (state.mode === 'value' && state.userInput?.value !== undefined) {
       let completionValue = compl.value;
       if (completionValue.includes(' ') && !completionValue.endsWith('"')) {
