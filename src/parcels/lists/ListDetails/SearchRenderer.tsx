@@ -4,8 +4,8 @@ import {Link} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {MoreActionsMenu} from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type {UserResolvedSavedSearch} from '@/parcels/search/types.ts';
@@ -71,7 +71,7 @@ export function SearchRenderer({
 
           {user?.id && (
             <Tooltip label={t('table.moreOptions')} openDelay={500}>
-              <MoreActionsMenu
+              <MoreListActionsMenu
                 type={'user_search'}
                 tcg={tcg}
                 resourceId={resolvedSavedSearch.savedSearch.id}

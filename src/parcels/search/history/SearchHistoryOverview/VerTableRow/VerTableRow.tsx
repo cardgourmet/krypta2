@@ -3,8 +3,8 @@ import {IconDotsVertical, IconPlayerPlayFilled} from '@tabler/icons-react';
 import {Link} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {MoreActionsMenu} from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type {TableEntryProps} from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.tsx';
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
@@ -44,7 +44,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
             </Link>
 
             <Tooltip label={t('table.moreOptions')} openDelay={500}>
-              <MoreActionsMenu
+              <MoreListActionsMenu
                 type={'user_search'}
                 tcg={tcg}
                 resourceId={entry.savedSearch?.id}

@@ -24,6 +24,13 @@ export function ListAddMenuItem(
   const { lists } = useUserLists();
   const { nonSystemLists, existsInLists } = useMemo(() => {
     const nonSystemLists = lists.filter((l) => l.list.systemListType === undefined);
+    nonSystemLists.sort((a, b) => {
+      const timeA = new Date(a.list.updatedAt).getTime();
+      const timeB = new Date(b.list.updatedAt).getTime();
+
+      return (timeA - timeB) * -1;
+    });
+
     const existsInLists = lists
       .filter((list) => {
         if (type === 'card') return list.resources?.card?.find((res) => res.listResource.resourceId === ressourceId);

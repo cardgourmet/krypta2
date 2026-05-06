@@ -3,8 +3,8 @@ import {IconDotsVertical, IconLink} from '@tabler/icons-react';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {MoreActionsMenu} from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import type {ResolvedUserListResource} from '@/parcels/lists/types.ts';
 import {createProps} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import styles from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
@@ -36,7 +36,7 @@ export function CardRenderer({
     <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} style={{ height: '100%' }}>
       <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
         <Group p={'1rem 1rem 0 1rem'} justify={'end'}>
-          <MoreActionsMenu
+          <MoreListActionsMenu
             tcg={tcg}
             rawResourceId={card.print.id}
             resourceId={card.print.id}
@@ -78,7 +78,7 @@ export function CardRenderer({
                 <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
               </Group>
             </Menu.Item>
-          </MoreActionsMenu>
+          </MoreListActionsMenu>
         </Group>
       </Overlay>
     </ImageCard>
