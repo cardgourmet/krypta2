@@ -1,19 +1,19 @@
-import {ActionIcon, Group, Tooltip} from '@mantine/core';
-import {IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical} from '@tabler/icons-react';
-import {Link, useNavigate} from '@tanstack/react-router';
-import {type Ref, type RefObject, useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
-import {deleteSavedSearches, saveSearches} from '@/parcels/search/api.ts';
-import type {HistoryEntry} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import {getFocusableElements} from '@/parcels/search/getFocusableElements.ts';
-import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
-import type {TcgProps} from '@/parcels/tcg/TcgProps.ts';
-import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {historyParamDefaults} from '@/routes/me/history';
+import { ActionIcon, Group, Tooltip } from '@mantine/core';
+import { IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical } from '@tabler/icons-react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { type Ref, type RefObject, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
+import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
+import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
+import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { historyParamDefaults } from '@/routes/me/history';
 import styles from './SearchRecent.module.css';
 
 type SearchRecentItemProps = {
@@ -183,7 +183,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
         {!query.saved && <IconBook size={18} color={'var(--gourmet-neutral-7)'} />}
       </ActionIcon>
 
-      <MoreActionsMenu
+      <MoreListActionsMenu
         ref={submenuRef}
         type={'user_search'}
         tcg={tcg}

@@ -1,17 +1,16 @@
-import {Group, Menu, Tooltip} from '@mantine/core';
-import {IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {addResourcesToList, removeResourcesFromList} from '@/parcels/lists/api.ts';
-import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import type {UserListResource, UserListWithResources} from '@/parcels/lists/types.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
-import styles from '@/parcels/overview/cards/CardGrid/MoreActionsMenu/MoreActionsMenu.module.css';
-import type {OptionalTcgProps} from '@/parcels/tcg/TcgProps.ts';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import { Group, Menu, Tooltip } from '@mantine/core';
+import { IconLabelFilled, IconMinus, IconPlus } from '@tabler/icons-react';
+import { type ReactElement, useMemo } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
+import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type ListMenuItemRessourceProps = {
   ressourceId: string;
@@ -29,16 +28,19 @@ export function ListMenuItem({
   tcg,
   raw,
   onSuccess,
+  icon,
+  buttonText,
 }: {
   listWithResources: UserListWithResources;
   action: 'add' | 'remove';
   disabled?: boolean;
+  icon?: ReactElement;
+  buttonText?: string;
 } & ListMenuItemRessourceProps &
   OptionalTcgProps) {
   const locationTcg = useTcgByLocation();
   const mustTcg = tcg ?? (locationTcg as Tcg);
   const { user } = useAuth();
-  const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
 
   const { refetchLists } = useUserLists();
   const { list, resources, size } = listWithResources;
@@ -86,10 +88,10 @@ export function ListMenuItem({
       className={styles.menuItem}
     >
       <Group gap={'0.5rem'}>
-        {list.systemListType === 'favorites' && (
+        {icon && (
           <>
             <IconWithOverlayIcon
-              icon={<IconStar size={18} />}
+              icon={icon}
               overlayIcon={
                 action === 'add' ? (
                   <IconPlus size={14} color={'var(--gourmet-green-1)'} />
@@ -98,11 +100,11 @@ export function ListMenuItem({
                 )
               }
             />
-            <GourmetText cgmff={'ui'}>{t(`favorite${action === 'remove' ? '-remove' : ''}`)}</GourmetText>
+            <GourmetText cgmff={'ui'}>{buttonText}</GourmetText>
           </>
         )}
 
-        {list.systemListType === undefined && (
+        {!icon && (
           <Group justify={'space-between'} w={'100%'} wrap={'nowrap'}>
             <Group gap={'0.25rem'} wrap={'nowrap'}>
               <Tooltip label={list.name} openDelay={500}>

@@ -4,7 +4,7 @@ import {Link} from '@tanstack/react-router';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {MoreActionsMenu} from '@/parcels/search/history/MoreActionsMenu.tsx';
+import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type {TableEntryProps} from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.tsx';
 import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
@@ -42,7 +42,7 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
 
           {user?.id && (
             <Tooltip label={t('table.moreOptions')} openDelay={500}>
-              <MoreActionsMenu
+              <MoreListActionsMenu
                 type={'user_search'}
                 tcg={tcg}
                 resourceId={entry.savedSearch?.id}

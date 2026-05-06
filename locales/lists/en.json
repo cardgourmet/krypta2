@@ -23,6 +23,7 @@
   "actionmenu": {
     "favorite": "Add to Favorites",
     "favorite-remove": "Remove from Favorites",
+    "favorite-copy": "Copy to Favorites",
     "bookmark": "Add to Bookmarks",
     "bookmark-remove": "Remove from Bookmarks",
     "add-to-list": "Add to list ...",
@@ -93,6 +94,24 @@
     "savedSearches": "Saved Searches",
     "cards": "Cards",
     "searchCards_one": "{{count}} card",
-    "searchCards_other": "{{count}} cards"
+    "searchCards_other": "{{count}} cards",
+    "settings": {
+      "common": {
+        "sortBy": "Sort by",
+        "filterBy": "Filter by"
+      },
+      "sortBy": {
+        "name": "Name",
+        "addedAt": "Added At"
+      },
+      "sortDir": {
+        "auto": "Auto",
+        "asc": "Ascending",
+        "desc": "Descending"
+      },
+      "mtg": "Magic: The Gathering",
+      "pcg": "Pokémon Card Game",
+      "dlc": "Disney Lorcana"
+    }
   }
 }
