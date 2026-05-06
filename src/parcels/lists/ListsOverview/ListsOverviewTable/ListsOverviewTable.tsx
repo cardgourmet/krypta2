@@ -11,6 +11,8 @@ import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditLis
 import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.module.css';
 import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
+import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import {Route} from "@/routes/me/lists";
 
 export function ListsOverviewTable({
   isLoading,
@@ -27,6 +29,9 @@ export function ListsOverviewTable({
   const { t } = useTranslation('lists', { keyPrefix: 'table.cols' });
   const { t: t2 } = useTranslation('lists');
 
+  const search = Route.useSearch();
+  const { tcg } = search;
+
   const tableData: GourmetTableData<UserListWithResources> = useMemo(() => {
     const columns = ['name', 'description', 'lastUpdated', 'visibility', 'size', 'color'];
     const colSizes = ['', '', '8', '6', '6', '4'];
@@ -35,6 +40,14 @@ export function ListsOverviewTable({
       columns,
       colSizes,
       rows: userLists.map((list) => {
+        let listTcg = tcg;
+        if (listTcg === 'all') {
+          listTcg = 'mtg';
+        }
+        if (list.list.allowedTcgs?.length === 1) {
+          listTcg = list.list.allowedTcgs[1] as Tcg;
+        }
+
         return {
           entry: list,
           data: {
@@ -45,6 +58,7 @@ export function ListsOverviewTable({
                 <Link
                   to={'/me/lists/$listId'}
                   params={{ listId: list.list.slug }}
+                  search={{ tcg: listTcg }}
                   className={styles.link}
                   preload={false}
                 >
@@ -84,7 +98,7 @@ export function ListsOverviewTable({
         };
       }),
     };
-  }, [userLists, i18n.language, t2]);
+  }, [userLists, i18n.language, t2, tcg]);
 
   return (
     <GourmetTable
