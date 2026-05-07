@@ -1,12 +1,18 @@
-import {Button, Center, Group, Menu, NumberInput, Stack, UnstyledButton} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {IconChevronLeft, IconChevronLeftPipe, IconChevronRight, IconChevronRightPipe, IconDots,} from '@tabler/icons-react';
-import {startTransition, useEffect, useMemo, useState} from 'react';
+import { Button, Center, Group, Menu, NumberInput, Stack, UnstyledButton } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import {
+  IconChevronLeft,
+  IconChevronLeftPipe,
+  IconChevronRight,
+  IconChevronRightPipe,
+  IconDots,
+} from '@tabler/icons-react';
+import { startTransition, useEffect, useMemo, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useTcgOverviewWorkContext} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkContext.ts';
-import type {TcgSearchParams} from "@/parcels/tcg/types.ts";
-import type {ApplyFn} from '@/parcels/types.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
 import styles from './Pagination.module.css';
 
@@ -43,16 +49,16 @@ export default function Pagination({ currentPage, lastPage, isLoading, setSettin
     return calculatePages(actualCurrentPage, lastPage ?? 1, 1, 2);
   }, [actualCurrentPage, lastPage]);
 
-  const workContext = useTcgOverviewWorkContext();
+  const workContextElements = useTcgOverviewWorkStore((state) => state?.data?.selection?.elementsByPage ?? {});
   const selectedCardsPerPage = useMemo(() => {
     const map: Record<number, number> = {};
 
-    for (const [page, entries] of Object.entries(workContext?.data?.selection?.elementsByPage ?? {})) {
+    for (const [page, entries] of Object.entries(workContextElements)) {
       map[Number(page)] = entries.length;
     }
 
     return map;
-  }, [workContext?.data?.selection?.elementsByPage]);
+  }, [workContextElements]);
 
   return (
     <div className={styles.contentNav}>

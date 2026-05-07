@@ -8,6 +8,7 @@ import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithO
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import {ListMenuItem2} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/ListMenuItem2/ListMenuItem2.tsx';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './UseSelectionButton.module.css';
 
 export function UseSelectionButton() {
@@ -17,13 +18,20 @@ export function UseSelectionButton() {
   const [menuOpened, setMenuOpened] = useState(false);
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
+  const tcg = useTcgByLocation() as Tcg;
   const { lists, refetchLists } = useUserLists();
   const { systemLists, nonSystemLists } = useMemo(() => {
     const systemLists = lists.filter((l) => l.list.systemListType !== undefined);
-    const nonSystemLists = lists.filter((l) => l.list.systemListType === undefined);
+    const nonSystemLists = lists.filter((l) => {
+      if (l.list.systemListType !== undefined) return false;
+
+      // filter by tcg
+      if ((l.list.allowedTcgs?.length ?? 0) === 0) return true;
+      return l.list.allowedTcgs?.includes(tcg);
+    });
 
     return { systemLists, nonSystemLists };
-  }, [lists]);
+  }, [lists, tcg]);
 
   const disclosure = useDisclosure(false);
   const [_, { open }] = disclosure;
