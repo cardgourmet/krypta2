@@ -32,7 +32,7 @@ export const Route = createFileRoute('/me/lists/$listId')({
   loader: async ({ params, context, deps }) => {
     const listId = params.listId;
     const userId = context.auth.user!.id;
-    const tcg = deps.tcg;
+    const tcg = deps.tcg ?? 'mtg';
 
     const list = await getList(userId, listId);
     if (!list.data) {
