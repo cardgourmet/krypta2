@@ -49,7 +49,7 @@ export default function Pagination({ currentPage, lastPage, isLoading, setSettin
     return calculatePages(actualCurrentPage, lastPage ?? 1, 1, 2);
   }, [actualCurrentPage, lastPage]);
 
-  const workContextElements = useTcgOverviewWorkStore((state) => state?.data?.selection?.elementsByPage ?? {});
+  const workContextElements = useTcgOverviewWorkStore((state) => state?.data?.selection?.elementsByPage) ?? {};
   const selectedCardsPerPage = useMemo(() => {
     const map: Record<number, number> = {};
 

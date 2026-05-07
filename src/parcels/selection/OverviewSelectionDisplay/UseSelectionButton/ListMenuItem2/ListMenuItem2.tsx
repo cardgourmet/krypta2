@@ -1,16 +1,16 @@
-import { Group, Menu, Tooltip } from '@mantine/core';
-import { IconLabelFilled, IconMinus, IconPlus, IconStar } from '@tabler/icons-react';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { addResourcesToList } from '@/parcels/lists/api.ts';
-import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
-import type { UserListWithResources } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import {Group, Menu, Tooltip} from '@mantine/core';
+import {IconLabelFilled, IconMinus, IconPlus, IconStar} from '@tabler/icons-react';
+import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {addResourcesToList} from '@/parcels/lists/api.ts';
+import {IconWithOverlayIcon} from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
+import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
+import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
+import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListMenuItem2.module.css';
 
 export function ListMenuItem2({
@@ -24,7 +24,7 @@ export function ListMenuItem2({
   const { user } = useAuth();
   const { t } = useTranslation('selection', { keyPrefix: 'useSelectionMenu' });
 
-  const selectedPrintIds = useTcgOverviewWorkStore((state) => state.data?.selection?.elementIds ?? []);
+  const selectedPrintIds = useTcgOverviewWorkStore((state) => state.data?.selection?.elementIds) ?? [];
 
   const { refetchLists } = useUserLists();
   const { list, resources, size } = listWithResources;
