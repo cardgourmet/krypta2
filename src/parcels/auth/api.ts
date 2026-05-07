@@ -10,7 +10,6 @@ export type AuthApiSessionDetails = c['schemas']['AuthApiSessionDetails'];
 export type UserSettings = c['schemas']['UserSettings'];
 
 // /v1/auth/basic/register
-
 export async function registerUsingBasicAuth(
   data: {
     email: string;

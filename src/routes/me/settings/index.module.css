@@ -1,6 +1,7 @@
 .inlineTextInput {
   input {
     font-size: 1rem;
+    width: 12rem;
   }
 
   input:read-only {
@@ -8,5 +9,27 @@
     background: none;
 
     color: var(--gourmet-neutral-9);
+  }
+}
+
+.closeButton {
+  background: none;
+  border-radius: 0.5rem;
+
+  color: var(--gourmet-neutral-9);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.checkButton {
+  background: none;
+  border-radius: 0.5rem;
+
+  color: var(--gourmet-green-1);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
   }
 }

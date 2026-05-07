@@ -1,8 +1,11 @@
-import {Divider, Group, type MantineColorScheme, Radio, RadioGroup, Stack, TextInput, UnstyledButton, useMantineColorScheme,} from '@mantine/core';
-import {IconEdit} from '@tabler/icons-react';
+import {ActionIcon, Divider, Group, Loader, type MantineColorScheme, Radio, RadioGroup, Stack, UnstyledButton, useMantineColorScheme,} from '@mantine/core';
+import {IconCheck, IconEdit, IconX} from '@tabler/icons-react';
 import {createFileRoute, redirect} from '@tanstack/react-router';
+import {startTransition, useRef, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {updateUserDisplayName} from '@/parcels/auth/api.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import styles from './index.module.css';
 
@@ -55,6 +58,12 @@ function RouteComponent() {
 
    */
 
+  const [displayName, setDisplayName] = useState(user?.displayName!);
+  const [displayNameEdit, setDisplayNameEdit] = useState(false);
+  const [displayNameLoading, setDisplayNameLoading] = useState(false);
+  const [displayNameError, setDisplayNameError] = useState('');
+  const displayNameEditRef = useRef<HTMLInputElement>(null);
+
   return (
     <div>
       <title>{`Account Settings – Cardgourmet`}</title>
@@ -105,27 +114,80 @@ function RouteComponent() {
         <Stack>
           <GroupTitle text={'Account & Sicherheit'} />
 
-          <Group>
+          <Group align={'start'}>
             <GroupSettingTitle title={'Anzeigename'} description={'So wirst du auf Cardgourmet dargestellt.'} />
 
-            <Group>
-              <TextInput value={user?.username} readOnly className={styles.inlineTextInput} />
+            <Stack gap={'0.1rem'}>
+              <Group>
+                <GourmetTextInput
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  readOnly={!displayNameEdit}
+                  className={styles.inlineTextInput}
+                  ref={displayNameEditRef}
+                />
 
-              <UnstyledButton
-                onClick={() => {
-                  // TODO: switch edit mode for username
-                  // => if on: input is enabled and this button will be hidden to show "apply" and "cancel" buttons
-                  // => if off: only show this, input is readOnly
-                }}
-              >
-                <Group gap={'0.5rem'}>
-                  <IconEdit size={18} color={'var(--gourmet-blue-1)'} />
-                  <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
-                    Bearbeiten
-                  </GourmetText>
-                </Group>
-              </UnstyledButton>
-            </Group>
+                {!displayNameLoading && !displayNameEdit && (
+                  <UnstyledButton
+                    onClick={() => {
+                      setDisplayNameEdit(true);
+                      displayNameEditRef.current?.focus();
+                    }}
+                  >
+                    <Group gap={'0.5rem'}>
+                      <IconEdit size={18} color={'var(--gourmet-blue-1)'} />
+                      <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
+                        Bearbeiten
+                      </GourmetText>
+                    </Group>
+                  </UnstyledButton>
+                )}
+                {displayNameLoading && <Loader size={18} />}
+                {displayNameEdit && (
+                  <Group gap={'0.25rem'}>
+                    <ActionIcon
+                      onClick={() => {
+                        setDisplayNameEdit(false);
+                        setDisplayName(user?.displayName!);
+                      }}
+                      className={styles.closeButton}
+                    >
+                      <IconX size={18} />
+                    </ActionIcon>
+                    <ActionIcon
+                      onClick={() => {
+                        setDisplayNameEdit(false);
+                        setDisplayNameError('');
+
+                        if (displayName === user?.displayName) return;
+                        setDisplayNameLoading(true);
+
+                        startTransition(async () => {
+                          const d = await updateUserDisplayName(displayName);
+
+                          setDisplayNameLoading(false);
+                          if (d.error || !d.data) {
+                            setDisplayName(user?.displayName!);
+                            setDisplayNameError(d.error?.key ?? 'unknown');
+                            return;
+                          }
+
+                          setDisplayName(d.data.displayName);
+                        });
+                      }}
+                      className={styles.checkButton}
+                    >
+                      <IconCheck size={18} />
+                    </ActionIcon>
+                  </Group>
+                )}
+              </Group>
+              {displayNameError && (
+                <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'}>
+                  {displayNameError}
+                </GourmetText>
+              )}
+            </Stack>
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
