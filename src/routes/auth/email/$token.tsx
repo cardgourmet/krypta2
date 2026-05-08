@@ -12,7 +12,7 @@ export const Route = createFileRoute('/auth/email/$token')({
       });
     }
 
-    if (context.auth.user?.state !== 'unverified') {
+    if (context.auth.user?.state !== 'verified') {
       throw redirect({
         to: '/',
       });
