@@ -12,6 +12,10 @@ export type AuthData = {
   wasVerified: boolean;
   verify: () => void;
   removeVerified: () => void;
+
+  emailWasChanged: boolean;
+  setEmailHasChanged: () => void;
+  removeEmailWasChanged: () => void;
 };
 
 export function useAuth(): AuthData {
