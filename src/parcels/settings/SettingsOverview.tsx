@@ -1,18 +1,12 @@
-import {
-  Divider,
-  Group,
-  type MantineColorScheme,
-  Radio,
-  RadioGroup,
-  Stack,
-  useMantineColorScheme,
-} from '@mantine/core';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { DisplayNameSetting } from '@/parcels/settings/DisplayNameSetting/DisplayNameSetting.tsx';
-import { EmailSetting } from '@/parcels/settings/EmailSetting/EmailSetting.tsx';
-import { PasswordSetting } from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
+import {Divider, Group, Stack} from '@mantine/core';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import {DisplayNameSetting} from '@/parcels/settings/DisplayNameSetting/DisplayNameSetting.tsx';
+import {EmailSetting} from '@/parcels/settings/EmailSetting/EmailSetting.tsx';
+import {LanguageSetting} from '@/parcels/settings/LanguageSetting/LanguageSetting.tsx';
+import {PasswordSetting} from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
+import {ThemeSetting} from '@/parcels/settings/ThemeSetting/ThemeSetting.tsx';
 
 export function SettingsOverview() {
   const { user } = useAuth();
@@ -24,8 +18,6 @@ export function SettingsOverview() {
       },
     ],
   });
-
-  const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
     <div>
@@ -57,21 +49,7 @@ export function SettingsOverview() {
           <Group>
             <GroupSettingTitle title={'Theme'} description={'Diese Einstellung gilt nur für diesen Browser.'} />
 
-            <Stack>
-              <RadioGroup
-                name={'theme'}
-                value={colorScheme}
-                onChange={(val) => {
-                  setColorScheme(val as MantineColorScheme);
-                }}
-              >
-                <Group>
-                  <Radio value={'light'} label={'Light'} />
-                  <Radio value={'dark'} label={'Dark'} />
-                  <Radio value={'auto'} label={'Auto'} />
-                </Group>
-              </RadioGroup>
-            </Stack>
+            <ThemeSetting />
           </Group>
         </Stack>
         <Stack>
@@ -100,25 +78,6 @@ export function SettingsOverview() {
           </Group>
         </Stack>
         <Stack>
-          <GroupTitle text={'Privatsphäre'} />
-
-          <Group>
-            <GroupSettingTitle
-              title={'Sichtbarkeit deines Profils'}
-              description={'Du entscheidest, wer dein Profil sehen darf.'}
-            />
-          </Group>
-
-          <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
-
-          <Group>
-            <GroupSettingTitle
-              title={'Sichtbarkeit deiner Aktivität'}
-              description={'Du entscheidest, wer sehen darf, wann du zuletzt online warst.'}
-            />
-          </Group>
-        </Stack>
-        <Stack>
           <GroupTitle text={'Sprache'} />
 
           <Group>
@@ -126,6 +85,8 @@ export function SettingsOverview() {
               title={'Benachrichtigungen'}
               description={'Wir werden E-Mails an dich in dieser Sprache verschicken.'}
             />
+
+            <LanguageSetting field={'global'} languages={[]} />
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
@@ -135,6 +96,8 @@ export function SettingsOverview() {
               title={'Magic: The Gathering'}
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
             />
+
+            <LanguageSetting field={'mtg'} languages={[]} />
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
@@ -144,6 +107,8 @@ export function SettingsOverview() {
               title={'Pokémon Card Game'}
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
             />
+
+            <LanguageSetting field={'pcg'} languages={[]} />
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
@@ -153,6 +118,8 @@ export function SettingsOverview() {
               title={'Disney Lorcana'}
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
             />
+
+            <LanguageSetting field={'dlc'} languages={[]} />
           </Group>
         </Stack>
         <Stack>

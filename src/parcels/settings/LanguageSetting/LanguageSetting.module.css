@@ -1,0 +1,14 @@
+.closeButton {
+  background: none;
+  border-radius: 0.5rem;
+
+  color: var(--gourmet-neutral-9);
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.dropdownButton {
+  border: 1px solid var(--gourmet-neutral-3);
+}
