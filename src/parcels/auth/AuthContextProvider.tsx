@@ -1,14 +1,18 @@
 import {useLocalStorage} from '@mantine/hooks';
-import {type PropsWithChildren, useCallback, useEffect, useMemo} from 'react';
+import {type PropsWithChildren, useCallback, useEffect, useMemo, useState} from 'react';
 import {AuthContext, type UserSession} from '@/parcels/auth/AuthContext.ts';
-import {type DataAuthUser, getCurrentLoggedInUser, logout as doLogout} from '@/parcels/auth/api.ts';
+import {type AuthApiUserIntegration, type DataAuthUser, getCurrentLoggedInUser, listUserIntegrations, logout as doLogout,} from '@/parcels/auth/api.ts';
 import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 
 export const CGM_USER_SESSION = 'cgm-user-session';
 export const CGM_USER = 'cgm-user';
 export const CGM_WAS_VERIFIED = 'cgm-was-verified';
+export const CGM_EMAIL_PENDING = 'cgm-email-pending';
+export const CGM_EMAIL_WAS_CHANGED = 'cgm-email-was-changed';
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
+  const noti = useGourmetNotification();
+
   const [session, setSession, removeSession] = useLocalStorage<UserSession | null>({
     key: CGM_USER_SESSION,
     getInitialValueInEffect: false,
@@ -20,7 +24,26 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
   const [wasVerified, setWasVerified, removeWasVerified] = useLocalStorage<boolean | null>({
     key: CGM_WAS_VERIFIED,
   });
-  const noti = useGourmetNotification();
+
+  // specific to email update in settings
+  const [emailWasChanged, setEmailWasChanged, removeEmailWasChanged] = useLocalStorage<boolean | null>({
+    key: CGM_EMAIL_WAS_CHANGED,
+  });
+
+  const [integrations, setIntegrations] = useState<AuthApiUserIntegration[] | null>(null);
+  const loadIntegrations = useCallback(async () => {
+    if (user?.state !== 'verified') return;
+
+    // TODO: also fetch all integrations from user
+    const res = await listUserIntegrations();
+    if (res.error) {
+      setIntegrations(null);
+    }
+    setIntegrations(res.data ?? []);
+  }, [user?.state]);
+  useEffect(() => {
+    loadIntegrations();
+  }, [loadIntegrations]);
 
   const login = useCallback(
     ({ token, expiresAt, user }: Partial<UserSession> & { user?: DataAuthUser }) => {
@@ -61,12 +84,13 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         }
         if (!res.data) return;
 
+        removeEmailWasChanged();
         removeWasVerified();
         setSession({ token: token, expiresAt: expiresAt });
         setUser(res.data);
       });
     },
-    [removeSession, setSession, removeUser, setUser, removeWasVerified, noti.show],
+    [removeSession, setSession, removeUser, setUser, removeWasVerified, noti.show, removeEmailWasChanged],
   );
   const logout = useCallback(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -79,17 +103,49 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     setWasVerified(true);
   }, [setWasVerified]);
 
+  const setEmailHasChanged = useCallback(() => {
+    setEmailWasChanged(true);
+  }, [setEmailWasChanged]);
+
+  const updateUser = useCallback(
+    (user: DataAuthUser) => {
+      setUser(user);
+    },
+    [setUser],
+  );
+
   const authData = useMemo(() => {
     return {
       user: user ?? undefined,
       token: session?.token,
-      login: login,
-      logout: logout,
+      login,
+      logout,
       wasVerified: wasVerified ?? false,
-      verify: verify,
+      verify,
       removeVerified: removeWasVerified,
+
+      removeEmailWasChanged,
+      emailWasChanged: emailWasChanged ?? false,
+      setEmailHasChanged,
+      updateUser,
+      integrations,
+      loadIntegrations,
     };
-  }, [user, session, login, logout, verify, wasVerified, removeWasVerified]);
+  }, [
+    user,
+    session,
+    login,
+    logout,
+    verify,
+    wasVerified,
+    removeWasVerified,
+    emailWasChanged,
+    setEmailHasChanged,
+    removeEmailWasChanged,
+    updateUser,
+    integrations,
+    loadIntegrations,
+  ]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {

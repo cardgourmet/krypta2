@@ -1,5 +1,5 @@
 import {createContext, useContext} from 'react';
-import type {DataAuthUser} from '@/parcels/auth/api.ts';
+import type {AuthApiUserIntegration, DataAuthUser} from '@/parcels/auth/api.ts';
 
 export const AuthContext = createContext<AuthData | null>(null);
 
@@ -12,6 +12,14 @@ export type AuthData = {
   wasVerified: boolean;
   verify: () => void;
   removeVerified: () => void;
+
+  emailWasChanged: boolean;
+  setEmailHasChanged: () => void;
+  removeEmailWasChanged: () => void;
+
+  updateUser: (user: DataAuthUser) => void;
+  loadIntegrations: () => void;
+  integrations: AuthApiUserIntegration[] | null;
 };
 
 export function useAuth(): AuthData {

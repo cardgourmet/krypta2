@@ -17,5 +17,33 @@
     "password": "Password",
     "password-repeat": "Confirm Password",
     "register-button": "Register"
+  },
+  "settings": {
+    "languages": {
+      "en": "English",
+      "de": "German",
+      "fr": "French",
+      "it": "Italian",
+      "es": "Spanish",
+      "pt": "Portuguese",
+      "el": "Ancient Greek",
+      "ar": "Arabic",
+      "zhs": "Simplified Chinese",
+      "zht": "Traditional Chinese",
+      "he": "Hebrew",
+      "jp": "Japanese",
+      "ko": "Korean",
+      "la": "Latin",
+      "ph": "Phyrexian",
+      "ru": "Russian",
+      "sa": "Sanskrit",
+      "qy": "Quenya",
+      "pl": "Polish",
+      "nl": "Dutch",
+      "cmn": "Mandarin",
+      "yue": "Cantonese",
+      "th": "Thai",
+      "id": "Indonesian"
+    }
   }
 }

@@ -18,6 +18,8 @@
     "@mantine/hooks": "8.3.11",
     "@mantine/notifications": "^8.3.18",
     "@mantine/nprogress": "^8.3.18",
+    "@react-oauth/github": "^0.1.0",
+    "@react-oauth/google": "^0.13.5",
     "@tabler/icons-react": "^3.41.1",
     "@tanstack/react-devtools": "^0.7.11",
     "@tanstack/react-router": "^1.168.22",

@@ -6,11 +6,11 @@ export type AuthApiUserResponse = c['schemas']['AuthApiUserResponse'];
 export type AuthApiRegisterResponse = c['schemas']['AuthApiRegisterResponse'];
 export type DataAuthUser = c['schemas']['DataAuthUser'];
 export type AuthApiSessionDetails = c['schemas']['AuthApiSessionDetails'];
+export type AuthApiUserIntegration = c['schemas']['AuthApiUserIntegration'];
 
 export type UserSettings = c['schemas']['UserSettings'];
 
 // /v1/auth/basic/register
-
 export async function registerUsingBasicAuth(
   data: {
     email: string;
@@ -282,6 +282,48 @@ export async function updateUserPassword(
       body: {
         previousPassword: currentPassword,
         password: newPassword,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/integrations
+export async function listUserIntegrations(
+  abort?: AbortController,
+): Promise<GourmetApiResponse<AuthApiUserIntegration[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/auth/integrations`, {
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/oauth/connect
+export async function connectOAuth(
+  accessToken: string,
+  expiresAt: string,
+  provider: 'google',
+  abort?: AbortController,
+): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/oauth/connect`, {
+      body: {
+        accessToken: accessToken,
+        expiresAt: expiresAt,
+        provider: provider,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/oauth/connect
+export async function disconnectOAuth(provider: 'google', abort?: AbortController): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/oauth/disconnect`, {
+      body: {
+        provider: provider,
       },
       signal: abort?.signal,
     });

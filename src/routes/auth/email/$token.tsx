@@ -12,13 +12,13 @@ export const Route = createFileRoute('/auth/email/$token')({
       });
     }
 
-    if (context.auth.user?.state !== 'unverified') {
+    if (context.auth.user?.state !== 'verified') {
       throw redirect({
         to: '/',
       });
     }
   },
-  loader: async ({ params }) => {
+  loader: async ({ params, context }) => {
     const token = params.token;
 
     const result = await confirmUpdateUserEmail(token);
@@ -26,9 +26,12 @@ export const Route = createFileRoute('/auth/email/$token')({
       return;
     }
 
-    // email has been verified, back to settings
+    // verify success, please relogin
+    context.auth.logout();
+    context.auth.setEmailHasChanged();
+
     throw redirect({
-      to: '/me/settings',
+      to: '/login',
       search: {},
     });
   },

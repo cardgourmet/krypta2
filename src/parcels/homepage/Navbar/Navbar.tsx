@@ -15,6 +15,7 @@ import {Logo} from '@/parcels/Logo.tsx';
 import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 import styles from './Navbar.module.css';
+import {EmailChangedBanner} from "@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx";
 
 interface NavbarProps {
   setSidebarOpen: (open: boolean) => void;
@@ -22,7 +23,7 @@ interface NavbarProps {
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const smallScreen = useMediaQuery('(max-width: 800px)');
-  const { user, wasVerified } = useAuth();
+  const { user, wasVerified, emailWasChanged } = useAuth();
 
   const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -60,6 +61,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
 
       {!smallScreen && (
         <>
+          {emailWasChanged && <EmailChangedBanner />}
           {wasVerified && <VerifiedBanner />}
           {!wasVerified && user?.state === 'unverified' && <UnverifiedBanner user={user} />}
           <nav className={styles.navbar}>
