@@ -7,7 +7,7 @@ import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export function GoogleIntegrationSetting() {
   return (
-    <GoogleOAuthProvider clientId={'754383302885-809uidvoogh3bjsivfnif1m313q3e70v.apps.googleusercontent.com'}>
+    <GoogleOAuthProvider clientId={import.meta.env.OAUTH_GOOGLE_CLIENT_ID}>
       <GoogleIntegration />
     </GoogleOAuthProvider>
   );
