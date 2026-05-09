@@ -1,8 +1,8 @@
-import { useLocalStorage } from '@mantine/hooks';
-import { type PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
-import { AuthContext, type UserSession } from '@/parcels/auth/AuthContext.ts';
-import { type DataAuthUser, logout as doLogout, getCurrentLoggedInUser } from '@/parcels/auth/api.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import {useLocalStorage} from '@mantine/hooks';
+import {type PropsWithChildren, useCallback, useEffect, useMemo} from 'react';
+import {AuthContext, type UserSession} from '@/parcels/auth/AuthContext.ts';
+import {type DataAuthUser, getCurrentLoggedInUser, logout as doLogout} from '@/parcels/auth/api.ts';
+import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
 
 export const CGM_USER_SESSION = 'cgm-user-session';
 export const CGM_USER = 'cgm-user';
@@ -92,6 +92,13 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     setEmailWasChanged(true);
   }, [setEmailWasChanged]);
 
+  const updateUser = useCallback(
+    (user: DataAuthUser) => {
+      setUser(user);
+    },
+    [setUser],
+  );
+
   const authData = useMemo(() => {
     return {
       user: user ?? undefined,
@@ -105,6 +112,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       removeEmailWasChanged,
       emailWasChanged: emailWasChanged ?? false,
       setEmailHasChanged,
+      updateUser,
     };
   }, [
     user,
@@ -117,6 +125,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     emailWasChanged,
     setEmailHasChanged,
     removeEmailWasChanged,
+    updateUser,
   ]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _

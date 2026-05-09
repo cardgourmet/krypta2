@@ -1,4 +1,5 @@
 import {Divider, Group, Stack} from '@mantine/core';
+import {useMemo} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -18,6 +19,35 @@ export function SettingsOverview() {
       },
     ],
   });
+
+  const mtgLanguages = useMemo(() => {
+    return [
+      'en',
+      'de',
+      'fr',
+      'it',
+      'es',
+      'pt',
+      'el',
+      'ar',
+      'zhs',
+      'zht',
+      'he',
+      'jp',
+      'ko',
+      'la',
+      'ph',
+      'ru',
+      'sa',
+      'qy',
+    ];
+  }, []);
+  const pcgLanguages = useMemo(() => {
+    return ['en', 'de', 'fr', 'es', 'pt', 'it', 'nl', 'ru', 'pl', 'jp', 'ko', 'zht', 'zhs', 'cmn', 'yue', 'th', 'id'];
+  }, []);
+  const dlcLanguages = useMemo(() => {
+    return ['en', 'de', 'fr', 'it'];
+  }, []);
 
   return (
     <div>
@@ -86,7 +116,7 @@ export function SettingsOverview() {
               description={'Wir werden E-Mails an dich in dieser Sprache verschicken.'}
             />
 
-            <LanguageSetting field={'global'} languages={[]} />
+            <LanguageSetting field={'global'} languages={['en', 'de']} />
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
@@ -97,7 +127,7 @@ export function SettingsOverview() {
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
             />
 
-            <LanguageSetting field={'mtg'} languages={[]} />
+            <LanguageSetting field={'mtg'} languages={mtgLanguages} />
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
@@ -108,7 +138,7 @@ export function SettingsOverview() {
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
             />
 
-            <LanguageSetting field={'pcg'} languages={[]} />
+            <LanguageSetting field={'pcg'} languages={pcgLanguages} />
           </Group>
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
@@ -119,7 +149,7 @@ export function SettingsOverview() {
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
             />
 
-            <LanguageSetting field={'dlc'} languages={[]} />
+            <LanguageSetting field={'dlc'} languages={dlcLanguages} />
           </Group>
         </Stack>
         <Stack>

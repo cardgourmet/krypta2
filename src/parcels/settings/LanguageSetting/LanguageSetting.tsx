@@ -1,6 +1,7 @@
 import {ActionIcon, Combobox, Group, Loader, Stack, UnstyledButton, useCombobox} from '@mantine/core';
-import {IconCheck, IconEdit, IconX} from '@tabler/icons-react';
+import {IconCaretDownFilled, IconCheck, IconEdit, IconX} from '@tabler/icons-react';
 import {startTransition, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {updateUserSettings} from '@/parcels/auth/api.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -13,7 +14,8 @@ export function LanguageSetting({
   field: 'global' | 'mtg' | 'dlc' | 'pcg';
   languages: string[];
 }) {
-  const { user } = useAuth();
+  const { t } = useTranslation('auth', { keyPrefix: 'settings' });
+  const { user, updateUser } = useAuth();
   const current = user?.settings?.preferredLanguages?.[field];
 
   const [language, setLanguage] = useState<string>(current as string);
@@ -23,7 +25,7 @@ export function LanguageSetting({
   const [error, setError] = useState('');
 
   const combobox = useCombobox();
-  const items = Object.fromEntries(languages.map((l) => [l, l.toUpperCase()]));
+  const items = Object.fromEntries(languages.map((l) => [l, t(`languages.${l}`)]));
   const options = Object.entries(items).map(([key, value]) => (
     <Combobox.Option value={key} key={key}>
       <Group justify={'space-between'}>
@@ -45,7 +47,7 @@ export function LanguageSetting({
     <Stack>
       {!edit && (
         <Group>
-          <GourmetText>{current}</GourmetText>
+          <GourmetText>{t(`languages.${language}`)}</GourmetText>
 
           {!loading && (
             <UnstyledButton
@@ -73,6 +75,7 @@ export function LanguageSetting({
               setLanguage(optionValue);
               combobox.closeDropdown();
 
+              setEdit(false);
               setLoading(true);
               startTransition(async () => {
                 const res = await updateUserSettings({
@@ -83,12 +86,14 @@ export function LanguageSetting({
                   },
                 });
 
-                setEdit(false);
                 setLoading(false);
                 if (res.error) {
                   setError(res.error.key);
                   return;
                 }
+
+                if (res.data) updateUser(res.data);
+                setLanguage(optionValue);
               });
             }}
             store={combobox}
@@ -101,12 +106,17 @@ export function LanguageSetting({
                   else combobox.openDropdown();
                 }}
               >
-                <GourmetText>{language}</GourmetText>
+                <Group justify={'space-between'}>
+                  <GourmetText>{t(`languages.${language}`)}</GourmetText>
+                  <IconCaretDownFilled size={18} />
+                </Group>
               </UnstyledButton>
             </Combobox.Target>
 
             <Combobox.Dropdown miw={'10rem'}>
-              <Combobox.Options>{options}</Combobox.Options>
+              <Combobox.Options mah={'24rem'} style={{ overflowY: 'auto' }}>
+                {options}
+              </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
           <ActionIcon

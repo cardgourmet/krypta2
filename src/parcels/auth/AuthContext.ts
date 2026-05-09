@@ -16,6 +16,8 @@ export type AuthData = {
   emailWasChanged: boolean;
   setEmailHasChanged: () => void;
   removeEmailWasChanged: () => void;
+
+  updateUser: (user: DataAuthUser) => void;
 };
 
 export function useAuth(): AuthData {

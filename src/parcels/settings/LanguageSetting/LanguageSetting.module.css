@@ -11,4 +11,11 @@
 
 .dropdownButton {
   border: 1px solid var(--gourmet-neutral-3);
+  border-radius: 0.25rem;
+
+  padding: 0.25rem 1rem;
+
+  &:hover {
+    border: 1px solid var(--gourmet-neutral-4);
+  }
 }
