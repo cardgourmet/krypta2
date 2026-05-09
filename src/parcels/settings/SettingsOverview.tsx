@@ -5,6 +5,7 @@ import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import {DisplayNameSetting} from '@/parcels/settings/DisplayNameSetting/DisplayNameSetting.tsx';
 import {EmailSetting} from '@/parcels/settings/EmailSetting/EmailSetting.tsx';
+import {GoogleIntegrationSetting} from '@/parcels/settings/IntegrationSetting/GoogleIntegrationSetting.tsx';
 import {LanguageSetting} from '@/parcels/settings/LanguageSetting/LanguageSetting.tsx';
 import {PasswordSetting} from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
 import {ThemeSetting} from '@/parcels/settings/ThemeSetting/ThemeSetting.tsx';
@@ -154,9 +155,16 @@ export function SettingsOverview() {
         </Stack>
         <Stack>
           <GroupTitle text={'Integrationen'} />
-        </Stack>
 
-        <GourmetText>{JSON.stringify(user)}</GourmetText>
+          <Group>
+            <GroupSettingTitle
+              title={'Google'}
+              description={'Du kannst Google verwenden, um dich später damit einzuloggen.'}
+            />
+
+            <GoogleIntegrationSetting />
+          </Group>
+        </Stack>
       </Stack>
     </div>
   );
