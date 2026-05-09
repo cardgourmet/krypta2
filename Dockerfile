@@ -13,10 +13,10 @@ RUN --mount=type=cache,target=/root/.npm \
 WORKDIR /app
 
 ARG VITE_API_BASE_URL
-ARG OAUTH_GOOGLE_CLIENT_ID
+ARG VITE_OAUTH_GOOGLE_CLIENT_ID
 
 ENV VITE_API_BASE_URL ${VITE_API_BASE_URL}
-ENV OAUTH_GOOGLE_CLIENT_ID ${OAUTH_GOOGLE_CLIENT_ID}
+ENV VITE_OAUTH_GOOGLE_CLIENT_ID ${OAUTH_GOOGLE_CLIENT_ID}
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.local/share/pnpm/store to speed up subsequent builds.
