@@ -1,5 +1,5 @@
 import {Group, Highlight} from '@mantine/core';
-import {type RefObject, useCallback, useEffect, useState} from 'react';
+import {Fragment, type RefObject, useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {generateCompletions, type GeneratedSearchCompletion,} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
 import {type SearchSuggestion, transformCompletions,} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
@@ -116,8 +116,11 @@ export function SearchCompletion({
                 {completion.types && (
                   <Group gap={'0.25rem'}>
                     {completion.types?.map((type) => {
+                      const key = `${completion.value}_${type}`;
+                      if (!type) return <Fragment key={key} />;
+
                       return (
-                        <p key={type} className={styles.entryType}>
+                        <p key={key} className={styles.entryType}>
                           {type}
                         </p>
                       );

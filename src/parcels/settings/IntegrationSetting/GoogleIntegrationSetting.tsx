@@ -68,6 +68,9 @@ function GoogleIntegration() {
 
               login();
             }}
+            style={{
+              color: 'var(--gourmet-neutral-1)',
+            }}
             disabled={loading}
           >
             Connect with Google
