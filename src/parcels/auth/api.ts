@@ -329,3 +329,75 @@ export async function disconnectOAuth(provider: 'google', abort?: AbortControlle
     });
   });
 }
+
+// /v1/auth/oauth/login
+export async function loginUsingOAuth(
+  accessToken: string,
+  expiresAt: string,
+  provider: 'google',
+  abort?: AbortController,
+): Promise<{ data?: AuthApiUserResponse; session?: string; error?: GourmetError }> {
+  try {
+    const res = await umoriClient.POST(`/v1/auth/oauth/login`, {
+      body: {
+        accessToken: accessToken,
+        expiresAt: expiresAt,
+        provider: provider,
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      const apiError = handleApiError(res.error);
+
+      if (!apiError) return { error: errorFrom(new Error(res.response.statusText)) };
+      return { error: errorFrom(new Error(apiError.error.key), apiError.error.key) };
+    }
+    if (!res.data) {
+      return { error: errorFrom(new Error('Received invalid data')) };
+    }
+    return { data: res.data.data, session: res.response.headers.get('x-user-session') ?? undefined };
+  } catch (error) {
+    return handleUncaughtError(error);
+  }
+}
+
+// /v1/auth/oauth/register
+export async function registerUsingOAuth(
+  accessToken: string,
+  expiresAt: string,
+  provider: 'google',
+  username: string,
+  email?: string,
+  abort?: AbortController,
+): Promise<{
+  data?: AuthApiRegisterResponse;
+  session?: string;
+  error?: GourmetError;
+}> {
+  try {
+    const res = await umoriClient.POST(`/v1/auth/oauth/register`, {
+      body: {
+        accessToken: accessToken,
+        expiresAt: expiresAt,
+        provider: provider,
+        username: username,
+        email: email,
+      },
+      signal: abort?.signal,
+    });
+
+    if (!res.response.ok) {
+      const apiError = handleApiError(res.error);
+
+      if (!apiError) return { error: errorFrom(new Error(res.response.statusText)) };
+      return { error: errorFrom(new Error(apiError.error.key), apiError.error.key) };
+    }
+    if (!res.data) {
+      return { error: errorFrom(new Error('Received invalid data')) };
+    }
+    return { data: res.data.data, session: res.response.headers.get('x-user-session') ?? undefined };
+  } catch (error) {
+    return handleUncaughtError(error);
+  }
+}

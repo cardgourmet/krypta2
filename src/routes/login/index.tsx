@@ -1,4 +1,4 @@
-import {Blockquote, Button, Group, Stack} from '@mantine/core';
+import {Blockquote, Button, Divider, Group, Stack} from '@mantine/core';
 import {useForm} from '@mantine/form';
 import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
 import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import z from 'zod';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
+import {GoogleLoginButton} from '@/parcels/auth/login/GoogleLoginButton.tsx';
 import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
@@ -114,6 +115,10 @@ function RouteComponent() {
             </Button>
           </Stack>
         </form>
+
+        <Divider label={'Or'} />
+
+        <GoogleLoginButton />
 
         {loginError && (
           <Blockquote color={'var(--gourmet-red-01)'} icon={<IconInfoCircle />} className={styles.errorField}>
