@@ -6147,6 +6147,7 @@ export interface components {
             email: string;
             /** Format: uuid */
             id: string;
+            isPasswordEmpty: boolean;
             /** Format: date-time */
             lastActivityAt: string;
             roles: components["schemas"]["UserRole"][];

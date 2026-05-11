@@ -58,7 +58,7 @@ function RouteComponent() {
             <GourmetText fz={'md'} cgmc={'neutral-6'}>
               {t('first-time')}
             </GourmetText>
-            <Link to={'/register'} style={{ textDecoration: 'none' }}>
+            <Link to={'/register'} style={{ textDecoration: 'none' }} params={{ redirect: redirect }}>
               <Group gap={'0.25rem'}>
                 <GourmetText c={'var(--gourmet-blue-1)'}>{t('register')}</GourmetText>
                 <IconArrowRight size={16} color={'var(--gourmet-blue-1)'} />
