@@ -1,20 +1,11 @@
-import { Blockquote, Group, Stack } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
-import { createFileRoute, Link, redirect, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import z from 'zod';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { loginUsingBasicAuth } from '@/parcels/auth/api.ts';
-import { Button } from '@/parcels/generic/Button/Button';
-import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
-import styles from '@/routes/register/index.module.css';
+import { LoginForm } from '@/parcels/auth/login/LoginForm.tsx';
+import { ResetPasswordForm } from '@/parcels/auth/login/ResetPasswordForm.tsx';
 
 export const loginParamsSchema = z.object({
   redirect: z.string().optional(),
+  reset: z.string().optional(),
 });
 
 export const Route = createFileRoute('/login/')({
@@ -31,96 +22,13 @@ export const Route = createFileRoute('/login/')({
 });
 
 function RouteComponent() {
-  const { t } = useTranslation('auth', { keyPrefix: 'login' });
-  const { login } = useAuth();
-
-  const { redirect } = Route.useSearch();
-
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      username: '',
-      password: '',
-    },
-  });
-  const [loginError, setLoginError] = useState<string>('');
-
-  const navigate = useNavigate();
+  const { reset, redirect } = Route.useSearch();
 
   return (
-    <Group justify={'center'}>
-      <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
-        <Stack gap={'0.25rem'}>
-          <GourmetText fz={'h2'} cgmff={'title'} cgmc={'neutral-9'}>
-            {t('login-title')}
-          </GourmetText>
-          <Group gap={'0.25rem'}>
-            <GourmetText fz={'md'} cgmc={'neutral-6'}>
-              {t('first-time')}
-            </GourmetText>
-            <Link to={'/register'} style={{ textDecoration: 'none' }}>
-              <Group gap={'0.25rem'}>
-                <GourmetText c={'var(--gourmet-blue-1)'}>{t('register')}</GourmetText>
-                <IconArrowRight size={16} color={'var(--gourmet-blue-1)'} />
-              </Group>
-            </Link>
-          </Group>
-        </Stack>
+    <>
+      {!reset && <LoginForm />}
 
-        <form
-          onSubmit={form.onSubmit(() => {
-            const values = form.getValues();
-
-            setLoginError('');
-
-            loginUsingBasicAuth({
-              usernameOrEmail: values.username,
-              password: values.password,
-            }).then((r) => {
-              if (r.error) {
-                setLoginError(r.error.key);
-                return;
-              }
-              if ((r.session && r.data?.session) || r.data?.user?.state === 'unverified') {
-                login({
-                  token: r.session,
-                  expiresAt: r.data?.session.expiresAt,
-                  user: r.data.user,
-                });
-              }
-
-              // noinspection JSIgnoredPromiseFromCall
-              navigate({
-                to: redirect ?? '/',
-                replace: true,
-              });
-            });
-          })}
-        >
-          <Stack>
-            <Stack gap={'0.1rem'}>
-              <GourmetTextInput {...form.getInputProps('username')} />
-            </Stack>
-            <Stack gap={'0.1rem'}>
-              <Group justify={'space-between'}>
-                <GourmetText>{t('password')}</GourmetText>
-                <Link to={'/'} style={{ textDecoration: 'none' }}>
-                  <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgot-password')}</GourmetText>
-                </Link>
-              </Group>
-              <GourmetPasswordInput {...form.getInputProps('password')} w={'100%'} />
-            </Stack>
-
-            <Button type="submit">{t('login-button')}</Button>
-          </Stack>
-        </form>
-
-        {loginError && (
-          <Blockquote color={'var(--gourmet-red-01)'} icon={<IconInfoCircle />} className={styles.errorField}>
-            {loginError}
-          </Blockquote>
-        )}
-      </Stack>
-    </Group>
+      {reset && <ResetPasswordForm token={reset} redirect={redirect} />}
+    </>
   );
 }

@@ -18,6 +18,16 @@
     "password-repeat": "Confirm Password",
     "register-button": "Register"
   },
+  "forgot": {
+    "forgotPasswordTitle": "Forgot Password",
+    "rememberItAgain": "Remembering it again?",
+    "login": "Login",
+    "forgotButton": "Reset Password",
+    "enterUsername": "Enter username or email ...",
+    "emailHasBeenSent": "A confirmation has been sent to your email address.",
+    "passwordHasBeenReset": "Your password has been updated.",
+    "changePasswordButton": "Update Password"
+  },
   "settings": {
     "languages": {
       "en": "English",

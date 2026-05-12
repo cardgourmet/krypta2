@@ -111,7 +111,7 @@ export function SettingsOverview() {
         <Stack>
           <GroupTitle text={'Sprache'} />
 
-          <Group>
+          <Group align={'start'}>
             <GroupSettingTitle
               title={'Benachrichtigungen'}
               description={'Wir werden E-Mails an dich in dieser Sprache verschicken.'}
@@ -122,7 +122,7 @@ export function SettingsOverview() {
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
-          <Group>
+          <Group align={'start'}>
             <GroupSettingTitle
               title={'Magic: The Gathering'}
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
@@ -133,7 +133,7 @@ export function SettingsOverview() {
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
-          <Group>
+          <Group align={'start'}>
             <GroupSettingTitle
               title={'Pokémon Card Game'}
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
@@ -144,7 +144,7 @@ export function SettingsOverview() {
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
-          <Group>
+          <Group align={'start'}>
             <GroupSettingTitle
               title={'Disney Lorcana'}
               description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
@@ -156,7 +156,7 @@ export function SettingsOverview() {
         <Stack>
           <GroupTitle text={'Integrationen'} />
 
-          <Group>
+          <Group align={'start'}>
             <GroupSettingTitle
               title={'Google'}
               description={'Du kannst Google verwenden, um dich später damit einzuloggen.'}

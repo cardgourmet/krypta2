@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as ForgotIndexRouteImport } from './routes/forgot/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
@@ -46,6 +47,11 @@ const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotIndexRoute = ForgotIndexRouteImport.update({
+  id: '/forgot/',
+  path: '/forgot/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TcgIndexRoute = TcgIndexRouteImport.update({
@@ -123,6 +129,7 @@ const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/forgot/': typeof ForgotIndexRoute
   '/login/': typeof LoginIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/register/': typeof RegisterIndexRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$tcg': typeof TcgIndexRoute
+  '/forgot': typeof ForgotIndexRoute
   '/login': typeof LoginIndexRoute
   '/playground': typeof PlaygroundIndexRoute
   '/register': typeof RegisterIndexRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/forgot/': typeof ForgotIndexRoute
   '/login/': typeof LoginIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/register/': typeof RegisterIndexRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$tcg/'
+    | '/forgot/'
     | '/login/'
     | '/playground/'
     | '/register/'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$tcg'
+    | '/forgot'
     | '/login'
     | '/playground'
     | '/register'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$tcg/'
+    | '/forgot/'
     | '/login/'
     | '/playground/'
     | '/register/'
@@ -247,6 +259,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TcgIndexRoute: typeof TcgIndexRoute
+  ForgotIndexRoute: typeof ForgotIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login/'
       preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot/': {
+      id: '/forgot/'
+      path: '/forgot'
+      fullPath: '/forgot/'
+      preLoaderRoute: typeof ForgotIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/': {
@@ -399,6 +419,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TcgIndexRoute: TcgIndexRoute,
+  ForgotIndexRoute: ForgotIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
