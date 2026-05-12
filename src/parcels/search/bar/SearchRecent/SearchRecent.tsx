@@ -1,9 +1,10 @@
 import { ActionIcon, Group, Tooltip } from '@mantine/core';
-import { IconArrowNarrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical } from '@tabler/icons-react';
+import { IconArrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { type Ref, type RefObject, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { Button } from '@/parcels/generic/Button/Button';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
@@ -131,10 +132,11 @@ export default function SearchRecent({
         ))}
       </ul>
       <div className={styles.moreRecents}>
-        <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }}>
-          {t('to-history')}
-          <IconArrowNarrowRight size={20} />
-        </Link>
+        <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">
+          <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }}>
+            {t('to-history')}
+          </Link>
+        </Button>
       </div>
     </div>
   );

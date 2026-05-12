@@ -1,14 +1,15 @@
-import {Blockquote, Button, Group, Stack} from '@mantine/core';
-import {matches, useForm} from '@mantine/form';
-import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
-import {createFileRoute, Link, redirect, useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {registerUsingBasicAuth} from '@/parcels/auth/api.ts';
-import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import { Blockquote, Group, Stack } from '@mantine/core';
+import { matches, useForm } from '@mantine/form';
+import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
+import { createFileRoute, Link, redirect, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { registerUsingBasicAuth } from '@/parcels/auth/api.ts';
+import { Button } from '@/parcels/generic/Button/Button';
+import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/register/')({
@@ -123,9 +124,8 @@ function RouteComponent() {
               <GourmetText>{t('password-repeat')}</GourmetText>
               <GourmetPasswordInput w={'100%'} {...form.getInputProps('password2')} />
             </Stack>
-            <Button type={'submit'} color={'var(--gourmet-blue-1)'}>
-              <GourmetText cgmc={'neutral-0'}>{t('register-button')}</GourmetText>
-            </Button>
+
+            <Button type="submit">{t('register-button')}</Button>
           </Stack>
         </form>
 

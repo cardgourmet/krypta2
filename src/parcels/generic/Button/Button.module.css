@@ -15,6 +15,7 @@
     padding-block: 0.25rem;
     padding-inline: var(--button-padding-inline);
     position: relative;
+    text-decoration: none;
     transition: background-color 0.1s;
 
     &[data-cgm-size="sm"] {
