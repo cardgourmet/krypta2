@@ -1,5 +1,5 @@
 import {ActionIcon, Group, Loader, Stack, UnstyledButton} from '@mantine/core';
-import {IconCheck, IconEdit, IconX} from '@tabler/icons-react';
+import {IconAlertCircle, IconCheck, IconEdit, IconX} from '@tabler/icons-react';
 import {startTransition, useRef, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {updateUserPassword} from '@/parcels/auth/api.ts';
@@ -54,7 +54,7 @@ export function PasswordSetting() {
 
             setError('');
 
-            if (!oldPassword || !newPassword) return;
+            if (!newPassword || (!user?.isPasswordEmpty && !oldPassword)) return;
             if (newPassword !== newPassword2) return;
             setLoading(true);
 
@@ -83,6 +83,7 @@ export function PasswordSetting() {
                 className={styles.inlineTextInput}
                 style={{ width: '12rem' }}
                 ref={editRef}
+                disabled={user?.isPasswordEmpty}
                 autoComplete="current-password"
               />
 
@@ -120,6 +121,15 @@ export function PasswordSetting() {
           </Stack>
         </form>
       )}
+      {user?.isPasswordEmpty && (
+        <Group gap={'0.25rem'}>
+          <IconAlertCircle size={20} color={'var(--gourmet-neutral-6)'} />
+          <GourmetText c={'var(--gourmet-neutral-6)'}>
+            You have no password set, since you've created your account with Google.
+          </GourmetText>
+        </Group>
+      )}
+
       {error && (
         <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'}>
           {error}

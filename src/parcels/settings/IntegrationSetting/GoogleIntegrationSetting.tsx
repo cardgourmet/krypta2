@@ -1,6 +1,7 @@
 import {Button, Group, Loader, Stack} from '@mantine/core';
 import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
-import {startTransition, useState} from 'react';
+import {IconAlertCircle} from '@tabler/icons-react';
+import {startTransition, useEffect, useState} from 'react';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {connectOAuth, disconnectOAuth} from '@/parcels/auth/api.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -14,9 +15,12 @@ export function GoogleIntegrationSetting() {
 }
 
 function GoogleIntegration() {
-  const { integrations, loadIntegrations } = useAuth();
+  const { user, integrations, loadIntegrations } = useAuth();
 
   const [connected, setConnected] = useState((integrations?.map((i) => i.provider) ?? []).includes('google'));
+  useEffect(() => {
+    setConnected((integrations?.map((i) => i.provider) ?? []).includes('google'));
+  }, [integrations]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -79,7 +83,13 @@ function GoogleIntegration() {
         {connected && (
           <Button
             color={'var(--gourmet-red-01)'}
+            data-disabled={user?.isPasswordEmpty}
             onClick={() => {
+              if (user?.isPasswordEmpty) {
+                setError('no-password-set');
+                return;
+              }
+
               setLoading(true);
               setConnected(false);
 
@@ -100,6 +110,14 @@ function GoogleIntegration() {
         )}
         {loading && <Loader size={18} />}
       </Group>
+      {user?.isPasswordEmpty && (
+        <Group gap={'0.5rem'} wrap={'nowrap'}>
+          <IconAlertCircle size={20} color={'var(--gourmet-neutral-6)'} />
+          <GourmetText c={'var(--gourmet-neutral-6)'} maw={'32rem'}>
+            You can't remove this integration, since you have created your account with it.
+          </GourmetText>
+        </Group>
+      )}
       {error && (
         <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'}>
           {error}
