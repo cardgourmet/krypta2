@@ -11,6 +11,7 @@
     justify-content: center;
     line-height: var(--button-line-height);
     min-height: var(--button-height);
+    min-width: var(--button-height);
     padding-block: 0.25rem;
     padding-inline: var(--button-padding-inline);
     position: relative;
@@ -44,12 +45,8 @@
       }
     }
 
-    &.isDestructive {
-      --cgm-color-brand: light-dark(oklch(49.99% 0.1663 28.93), oklch(0.64 0.199 28.932));
-    }
-
     &[data-cgm-variant="primary"] {
-      background-color: var(--cgm-color-brand);
+      background-color: var(--cgm-accent);
       border: var(--cgm-border-width) solid var(--cgm-border-primary);
       color: var(--cgm-foreground-primary-inverse);
 
@@ -65,7 +62,7 @@
 
       @media (hover: hover) {
         &:not([disabled]):hover {
-          background-color: color-mix(in oklch, var(--cgm-color-brand), var(--cgm-background-hover) 12%);
+          background-color: color-mix(in oklch, var(--cgm-accent), var(--cgm-background-hover) 12%);
         }
       }
     }
@@ -73,11 +70,10 @@
     &[data-cgm-variant="secondary"] {
       background-color: var(--cgm-background-surface);
       border: var(--cgm-border-width) solid var(--cgm-border-secondary);
-      color: var(--cgm-foreground-secondary);
+      color: var(--cgm-accent);
 
-      &.isDestructive {
-        border-color: color-mix(in oklch, var(--cgm-color-brand), var(--cgm-border-secondary));
-        color: var(--cgm-color-brand);
+      &:not([data-cgm-accent="neutral"]) {
+        border-color: color-mix(in oklch, var(--cgm-accent), var(--cgm-border-secondary));
       }
 
       @media (hover: hover) {
@@ -91,17 +87,17 @@
       background-color: transparent;
       border: none;
       box-shadow: none;
-      color: var(--cgm-color-brand);
+      color: var(--cgm-accent);
 
       @media (hover: hover) {
         &:not([disabled]):hover {
-          background-color: color-mix(in oklch, var(--cgm-color-brand), transparent 80%);
+          background-color: color-mix(in oklch, var(--cgm-accent), transparent 80%);
         }
       }
     }
 
     &:focus-visible {
-      outline: var(--cgm-outline-width) solid var(--krypta-color-brand);
+      outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
       outline-offset: var(--cgm-outline-width);
     }
 
@@ -115,7 +111,10 @@
   .iconContainer {
     display: flex;
     font-size: var(--button-icon-size);
-    opacity: 0.8;
+
+    &:not(:only-child) {
+      opacity: 0.8;
+    }
 
     & svg {
       height: 1em;

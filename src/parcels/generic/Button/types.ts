@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 import type { Composable } from '@/parcels/composition/extend';
+import type { Accent } from '@/styles/accents';
 
 export type ButtonProps = Composable<
   'button',
   {
+    accent?: Accent;
     className?: string;
-    destructive?: boolean;
     disabled?: boolean;
     leadingIcon?: ReactNode;
     size?: 'sm' | 'md';

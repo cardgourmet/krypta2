@@ -9,19 +9,20 @@ export const Button = ({
   asChild,
   children,
   className,
-  destructive = false,
   disabled = false,
   leadingIcon,
   size = 'md',
   trailingIcon,
   variant = 'primary',
+  accent = variant === 'primary' ? 'brand' : 'neutral',
   ...props
 }: ButtonProps) => {
   const Component = asChild ? Slot : 'button';
 
   return (
     <Component
-      className={clsx(styles.base, destructive && styles.isDestructive, className)}
+      className={clsx(styles.base, className)}
+      data-cgm-accent={accent}
       data-cgm-size={size}
       data-cgm-variant={variant}
       disabled={disabled}
