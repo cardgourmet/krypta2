@@ -1,13 +1,14 @@
-import {Blockquote, Button, Group, Stack} from '@mantine/core';
-import {useForm} from '@mantine/form';
-import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {confirmPasswordReset, requestPasswordReset} from '@/parcels/auth/api.ts';
-import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import { Blockquote, Group, Stack } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { confirmPasswordReset, requestPasswordReset } from '@/parcels/auth/api.ts';
+import { Button } from '@/parcels/generic/Button/Button';
+import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
 import styles from '@/routes/register/index.module.css';
 
 export function ResetPasswordForm({ token, redirect }: { token?: string; redirect?: string }) {
@@ -72,8 +73,9 @@ export function ResetPasswordForm({ token, redirect }: { token?: string; redirec
                 <Stack gap={'0.1rem'}>
                   <GourmetTextInput placeholder={t('enterUsername')} {...userForm.getInputProps('username')} />
                 </Stack>
-                <Button type={'submit'} color={'var(--gourmet-blue-1)'} disabled={success}>
-                  <GourmetText cgmc={'neutral-0'}>{t('forgotButton')}</GourmetText>
+
+                <Button disabled={success} type="submit">
+                  {t('forgotButton')}
                 </Button>
               </Stack>
             </form>
@@ -117,8 +119,9 @@ export function ResetPasswordForm({ token, redirect }: { token?: string; redirec
                     autoComplete="new-password"
                   />
                 </Stack>
-                <Button type={'submit'} color={'var(--gourmet-blue-1)'} disabled={success}>
-                  <GourmetText cgmc={'neutral-0'}>{t('changePasswordButton')}</GourmetText>
+
+                <Button disabled={success} type="submit">
+                  {t('changePasswordButton')}
                 </Button>
               </Stack>
             </form>

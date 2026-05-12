@@ -111,30 +111,5 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-
-    a {
-      padding: 0.5rem;
-      height: 2rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 0.25rem;
-
-      font-family: var(--cgm-ui-font-family), sans-serif;
-      text-decoration: none;
-      color: var(--cgm-sidebar-button-bg);
-      font-size: 0.9rem;
-      border: none;
-      border-radius: 0.5rem;
-      background: none;
-
-      &:hover {
-        background-color: var(--gourmet-neutral-dark-2);
-      }
-    }
-
-    svg {
-      color: var(--cgm-sidebar-button-bg);
-    }
   }
 }

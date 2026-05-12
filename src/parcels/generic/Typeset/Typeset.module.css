@@ -1,0 +1,49 @@
+@layer components {
+  .base {
+    font-weight: var(--typeset-weight, 400);
+
+    &[data-cgm-size="xs"] {
+      font-size: 0.75rem;
+    }
+
+    &[data-cgm-size="sm"] {
+      font-size: 0.875rem;
+      line-height: calc(20 / 14);
+    }
+
+    &[data-cgm-size="md"] {
+      font-size: 1rem;
+    }
+
+    &[data-cgm-size="lg"] {
+      font-size: 1.125rem;
+      line-height: calc(26 / 18);
+    }
+
+    &[data-cgm-variant="primary"] {
+      color: var(--cgm-foreground-primary);
+    }
+
+    &[data-cgm-variant="secondary"] {
+      color: var(--cgm-foreground-secondary);
+    }
+
+    &[data-cgm-variant="tertiary"] {
+      color: var(--cgm-foreground-tertiary);
+    }
+
+    & em {
+      display: inline-block;
+      font-style: normal;
+      transform: skewX(-6deg);
+    }
+
+    & strong {
+      font-weight: calc(var(--typeset-weight, 400) + 100);
+    }
+  }
+
+  .isBlock {
+    display: block;
+  }
+}

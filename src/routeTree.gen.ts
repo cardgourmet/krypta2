@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
+import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as ForgotIndexRouteImport } from './routes/forgot/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
@@ -36,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
 const RegisterIndexRoute = RegisterIndexRouteImport.update({
   id: '/register/',
   path: '/register/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
+  id: '/playground/',
+  path: '/playground/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginIndexRoute = LoginIndexRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/$tcg/': typeof TcgIndexRoute
   '/forgot/': typeof ForgotIndexRoute
   '/login/': typeof LoginIndexRoute
+  '/playground/': typeof PlaygroundIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/$tcg': typeof TcgIndexRoute
   '/forgot': typeof ForgotIndexRoute
   '/login': typeof LoginIndexRoute
+  '/playground': typeof PlaygroundIndexRoute
   '/register': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/$tcg/': typeof TcgIndexRoute
   '/forgot/': typeof ForgotIndexRoute
   '/login/': typeof LoginIndexRoute
+  '/playground/': typeof PlaygroundIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/$tcg/'
     | '/forgot/'
     | '/login/'
+    | '/playground/'
     | '/register/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/$tcg'
     | '/forgot'
     | '/login'
+    | '/playground'
     | '/register'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/$tcg/'
     | '/forgot/'
     | '/login/'
+    | '/playground/'
     | '/register/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   TcgIndexRoute: typeof TcgIndexRoute
   ForgotIndexRoute: typeof ForgotIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
+  PlaygroundIndexRoute: typeof PlaygroundIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
@@ -279,6 +292,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register/'
       preLoaderRoute: typeof RegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playground/': {
+      id: '/playground/'
+      path: '/playground'
+      fullPath: '/playground/'
+      preLoaderRoute: typeof PlaygroundIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login/': {
@@ -401,6 +421,7 @@ const rootRouteChildren: RootRouteChildren = {
   TcgIndexRoute: TcgIndexRoute,
   ForgotIndexRoute: ForgotIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
+  PlaygroundIndexRoute: PlaygroundIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,

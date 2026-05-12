@@ -16,46 +16,6 @@
   justify-content: flex-end;
   gap: 0.75rem;
 
-  .pageButton {
-    border: 2px solid var(--gourmet-neutral-2);
-    background-color: var(--gourmet-neutral-1);
-    border-radius: 8px;
-    color: var(--cgm-text-color);
-    font-size: 1rem;
-    padding: 0.5rem;
-    min-width: 2.25rem;
-    height: 2.25rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--gourmet-neutral-3);
-    }
-
-    &.currentPage {
-      border: 2px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%);
-      background-color: var(--gourmet-blue-1);
-
-      color: var(--gourmet-neutral-1);
-    }
-
-    &:hover.currentPage {
-      background-color: color-mix(in srgb, var(--gourmet-blue-1), white 10%);
-    }
-
-    &:disabled {
-      background-color: var(--gourmet-neutral-0);
-      border: 2px solid var(--gourmet-neutral-1);
-      color: var(--gourmet-neutral-5);
-
-      cursor: default;
-    }
-  }
-
   p {
     color: var(--cgm-text-color);
     margin: 0;
@@ -95,21 +55,7 @@
   pointer-events: none;
 }
 
-.dotsButton {
-  padding: 0.25rem;
-  margin: 0 0.25rem;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: var(--gourmet-neutral-3);
-  }
-}
-
 .switchPageInput {
   font-size: 1rem;
   font-family: var(--cgm-ui-font-family), ui-sans-serif;
-}
-
-.switchPageButton[data-disabled="true"] {
-  background-color: var(--gourmet-neutral-4);
 }

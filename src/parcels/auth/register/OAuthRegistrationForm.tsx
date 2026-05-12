@@ -1,15 +1,16 @@
-import {Blockquote, Button, Group, Stack} from '@mantine/core';
-import {matches, useForm} from '@mantine/form';
-import {IconInfoCircle} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {startTransition, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {registerUsingOAuth} from '@/parcels/auth/api.ts';
-import type {OAuthData} from '@/parcels/auth/register/GoogleRegisterButton.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
-import {Route, USERNAME_REGEX} from '@/routes/register';
+import { Blockquote, Group, Stack } from '@mantine/core';
+import { matches, useForm } from '@mantine/form';
+import { IconInfoCircle } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { startTransition, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { registerUsingOAuth } from '@/parcels/auth/api.ts';
+import type { OAuthData } from '@/parcels/auth/register/GoogleRegisterButton.tsx';
+import { Button } from '@/parcels/generic/Button/Button';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import { Route, USERNAME_REGEX } from '@/routes/register';
 import styles from '@/routes/register/index.module.css';
 
 export function OAuthRegistrationForm({
@@ -85,17 +86,11 @@ export function OAuthRegistrationForm({
           </Stack>
 
           <Group gap={'0.2rem'} justify={'end'}>
-            <Button
-              color={'var(--gourmet-neutral-6)'}
-              onClick={() => {
-                clearOAuthData();
-              }}
-            >
-              <GourmetText cgmc={'neutral-0'}>Cancel Registration</GourmetText>
+            <Button onClick={clearOAuthData} variant="secondary">
+              Cancel Registration
             </Button>
-            <Button type={'submit'} color={'var(--gourmet-blue-1)'}>
-              <GourmetText cgmc={'neutral-0'}>Finish Registration</GourmetText>
-            </Button>
+
+            <Button type="submit">Finish Registration</Button>
           </Group>
         </Stack>
       </form>
