@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as ForgotIndexRouteImport } from './routes/forgot/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
@@ -40,6 +41,11 @@ const RegisterIndexRoute = RegisterIndexRouteImport.update({
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotIndexRoute = ForgotIndexRouteImport.update({
+  id: '/forgot/',
+  path: '/forgot/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TcgIndexRoute = TcgIndexRouteImport.update({
@@ -117,6 +123,7 @@ const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/forgot/': typeof ForgotIndexRoute
   '/login/': typeof LoginIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$tcg': typeof TcgIndexRoute
+  '/forgot': typeof ForgotIndexRoute
   '/login': typeof LoginIndexRoute
   '/register': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/forgot/': typeof ForgotIndexRoute
   '/login/': typeof LoginIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$tcg/'
+    | '/forgot/'
     | '/login/'
     | '/register/'
     | '/$tcg/cards/$printId'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$tcg'
+    | '/forgot'
     | '/login'
     | '/register'
     | '/$tcg/cards/$printId'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$tcg/'
+    | '/forgot/'
     | '/login/'
     | '/register/'
     | '/$tcg/cards/$printId'
@@ -235,6 +247,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TcgIndexRoute: typeof TcgIndexRoute
+  ForgotIndexRoute: typeof ForgotIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login/'
       preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot/': {
+      id: '/forgot/'
+      path: '/forgot'
+      fullPath: '/forgot/'
+      preLoaderRoute: typeof ForgotIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/': {
@@ -379,6 +399,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TcgIndexRoute: TcgIndexRoute,
+  ForgotIndexRoute: ForgotIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,

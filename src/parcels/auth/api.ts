@@ -401,3 +401,32 @@ export async function registerUsingOAuth(
     return handleUncaughtError(error);
   }
 }
+
+// /v1/auth/basic/reset
+export async function requestPasswordReset(usernameOrEmail: string, abort?: AbortController) {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/basic/reset`, {
+      body: {
+        username: usernameOrEmail,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/auth/basic/reset/{token}
+export async function confirmPasswordReset(token: string, password: string, abort?: AbortController) {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/auth/basic/reset/{token}`, {
+      params: {
+        path: {
+          token: token,
+        },
+      },
+      body: {
+        password: password,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
