@@ -10,6 +10,7 @@ export const Button = ({
   children,
   className,
   destructive = false,
+  disabled = false,
   leadingIcon,
   size = 'md',
   trailingIcon,
@@ -23,6 +24,7 @@ export const Button = ({
       className={clsx(styles.base, destructive && styles.isDestructive, className)}
       data-cgm-size={size}
       data-cgm-variant={variant}
+      disabled={disabled}
       {...maybe('type', 'button' as const, !asChild)}
       {...props}
     >

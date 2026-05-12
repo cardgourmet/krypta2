@@ -6,6 +6,7 @@ export type ButtonProps = Composable<
   {
     className?: string;
     destructive?: boolean;
+    disabled?: boolean;
     leadingIcon?: ReactNode;
     size?: 'sm' | 'md';
     trailingIcon?: ReactNode;

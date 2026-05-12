@@ -63,8 +63,10 @@
         position: absolute;
       }
 
-      &:hover {
-        background-color: color-mix(in oklch, var(--cgm-color-brand), var(--cgm-background-hover) 12%);
+      @media (hover: hover) {
+        &:not([disabled]):hover {
+          background-color: color-mix(in oklch, var(--cgm-color-brand), var(--cgm-background-hover) 12%);
+        }
       }
     }
 
@@ -78,8 +80,10 @@
         color: var(--cgm-color-brand);
       }
 
-      &:hover {
-        background-color: color-mix(in oklch, var(--cgm-background-surface), var(--cgm-background-hover) 6%);
+      @media (hover: hover) {
+        &:not([disabled]):hover {
+          background-color: color-mix(in oklch, var(--cgm-background-surface), var(--cgm-background-hover) 6%);
+        }
       }
     }
 
@@ -89,14 +93,22 @@
       box-shadow: none;
       color: var(--cgm-color-brand);
 
-      &:hover {
-        background-color: color-mix(in oklch, var(--cgm-color-brand), transparent 80%);
+      @media (hover: hover) {
+        &:not([disabled]):hover {
+          background-color: color-mix(in oklch, var(--cgm-color-brand), transparent 80%);
+        }
       }
     }
 
     &:focus-visible {
       outline: var(--cgm-outline-width) solid var(--krypta-color-brand);
       outline-offset: var(--cgm-outline-width);
+    }
+
+    &:disabled,
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 
