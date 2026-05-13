@@ -1,10 +1,13 @@
-import {Divider, Group, Stack, Text} from '@mantine/core';
-import type {DlcDataCard, DlcDataPrint} from '@/parcels/tcg/dlc/api.ts';
-import {DlcInkSymbolSVG} from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
-import {DlcOtherSymbolSVG} from '@/parcels/tcg/dlc/details/DlcOtherSymbolSVG.tsx';
-import {renderRichDlcText} from '@/parcels/tcg/dlc/renderRichText.tsx';
-import {dlcTransClassifications} from '@/parcels/tcg/dlc/translations/classifications.ts';
-import {dlcTransType} from '@/parcels/tcg/dlc/translations/type.ts';
+import { Divider, Group, Stack, Text } from '@mantine/core';
+import { Badge } from '@/parcels/generic/Badge/Badge';
+import { Kicker } from '@/parcels/generic/Kicker/Kicker';
+import { Typeset } from '@/parcels/generic/Typeset/Typeset';
+import type { DlcDataCard, DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
+import { DlcInkSymbolSVG } from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
+import { DlcOtherSymbolSVG } from '@/parcels/tcg/dlc/details/DlcOtherSymbolSVG.tsx';
+import { renderRichDlcText } from '@/parcels/tcg/dlc/renderRichText.tsx';
+import { dlcTransClassifications } from '@/parcels/tcg/dlc/translations/classifications.ts';
+import { dlcTransType } from '@/parcels/tcg/dlc/translations/type.ts';
 
 export function DlcPrintContentRenderer({
   card,
@@ -76,28 +79,16 @@ export function DlcPrintContentRenderer({
       </Stack>
 
       {trans.abilities.length > 0 && (
-        <Stack gap={'lg'}>
+        <Stack gap="md" style={{ fontFamily: 'var(--cgm-content-font-family)' }}>
           {trans.abilities.map((ability, i) => {
             return (
               <div key={i}>
-                {ability.keyword && (
-                  <Stack>
-                    <Text>{renderRichDlcText(ability.descriptionWithReminders ?? '', ability.keyword)}</Text>
-                  </Stack>
-                )}
-                {!ability.keyword && (
-                  <Group gap={'0.2rem'}>
-                    <Text
-                      fw={'bold'}
-                      style={{
-                        border: '1px solid var(--gourmet-neutral-5)',
-                        borderRadius: '0.25rem',
-                      }}
-                      p={'0.1rem 0.5rem'}
-                    >
-                      {ability.name}
-                    </Text>
-                    <Text>{renderRichDlcText(ability.descriptionWithReminders ?? '')}</Text>
+                {ability.keyword ? (
+                  <Typeset block>{renderRichDlcText(ability.descriptionWithReminders ?? '', ability.keyword)}</Typeset>
+                ) : (
+                  <Group gap="0.25rem">
+                    <Badge>{ability.name}</Badge>
+                    <Typeset block>{renderRichDlcText(ability.descriptionWithReminders ?? '')}</Typeset>
                   </Group>
                 )}
               </div>
@@ -108,10 +99,20 @@ export function DlcPrintContentRenderer({
 
       {trans.flavorText && (
         <>
-          <Divider w={'95%'} style={{ alignSelf: 'center' }} color={'var(--gourmet-neutral-3)'} />
-          <Text ff={'var(--cgm-serif-font-family)'} fs={'italic'}>
-            {trans.flavorText}
-          </Text>
+          <Divider
+            w={'95%'}
+            style={{ alignSelf: 'center', marginBottom: '-0.5rem' }}
+            color={'var(--gourmet-neutral-3)'}
+          />
+          <Typeset
+            asChild
+            block
+            style={{ fontFamily: 'var(--cgm-serif-font-family)' }}
+            variant="secondary"
+            weight={500}
+          >
+            <em>{trans.flavorText}</em>
+          </Typeset>
         </>
       )}
 
@@ -121,10 +122,9 @@ export function DlcPrintContentRenderer({
             .filter((s) => s.value !== undefined)
             .map((s) => {
               return (
-                <Stack key={s.label} gap={'0.15rem'}>
-                  <Text ff={'var(--cgm-content-font-family)'} fz={'xs'} c={'var(--gourmet-neutral-6)'}>
-                    {s.label.toUpperCase()}
-                  </Text>
+                <Stack gap="0.125rem" key={s.label}>
+                  <Kicker size="sm">{s.label}</Kicker>
+
                   <Text ff={'var(--cgm-content-font-family)'} fz={'md'} c={'var(--gourmet-neutral-9)'}>
                     {s.value}
                   </Text>

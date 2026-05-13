@@ -32,12 +32,6 @@
       color: var(--cgm-foreground-tertiary);
     }
 
-    & em {
-      display: inline-block;
-      font-style: normal;
-      transform: skewX(-6deg);
-    }
-
     & strong {
       font-weight: calc(var(--typeset-weight, 400) + 100);
     }

@@ -1,12 +1,13 @@
-import {Code, Group, Select, type SelectProps, Stack, Text} from '@mantine/core';
-import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import type {DlcDataCard, DlcDataPrint, DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
-import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
-import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgDataCard, PcgDataPrint, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import {PcgSetIcon} from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
+import { Code, Group, Select, type SelectProps, Stack, Text } from '@mantine/core';
+import { IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { Kicker } from '@/parcels/generic/Kicker/Kicker';
+import type { DlcDataCard, DlcDataPrint, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
+import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
+import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgDataCard, PcgDataPrint, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
 import styles from './DlcPrintMetaRenderer.module.css';
 
 export function DlcPrintMetaRenderer({
@@ -92,6 +93,7 @@ export function DlcPrintMetaRenderer({
             </Stack>
           </Group>
         </Link>
+
         <Select
           classNames={{
             root: styles.selectRoot,
@@ -122,32 +124,50 @@ export function DlcPrintMetaRenderer({
           renderOption={renderSelectOption}
           disabled={thisPrintLanguages.length + otherPrintLanguages.length === 1}
         />
-        <Stack p={'0.75rem'}>
-          <Stack gap={'0rem'}>
-            <Group gap={'0.5rem'}>
-              <IconNumber color={'var(--gourmet-neutral-6)'} size={18} />
-              <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                {`Collector Number`.toUpperCase()}
-              </Text>
-            </Group>
-            <Group gap={'xs'}>
-              <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
-            </Group>
+
+        <Stack py={'0.75rem'}>
+          <Stack gap="0.125rem">
+            <Kicker leadingIcon={<IconNumber />} size="xs">
+              Collector Number
+            </Kicker>
+
+            <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
           </Stack>
-          <Stack gap={'0.1rem'}>
-            <Group gap={'0.5rem'}>
-              <IconDiamond color={'var(--gourmet-neutral-6)'} size={18} />
-              <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                {`Rarity`.toUpperCase()}
-              </Text>
-            </Group>
-            <Group gap={'xs'}>
+
+          <Stack gap="0.125rem">
+            <Kicker leadingIcon={<IconDiamond />} size="xs">
+              Rarity
+            </Kicker>
+
+            <Link
+              to={`/$tcg/cards`}
+              params={{ tcg: 'dlc' }}
+              search={{
+                ...dlcSearchParamsDefaults,
+                query: `rarity:"${print.rarity}"`,
+              }}
+              style={{
+                textDecoration: 'underline',
+                textDecorationColor: 'var(--gourmet-blue-03)',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
+            </Link>
+          </Stack>
+
+          {(print as DlcDataPrint).artist && (
+            <Stack gap="0.125rem">
+              <Kicker leadingIcon={<IconBrush />} size="xs">
+                Artist
+              </Kicker>
+
               <Link
                 to={`/$tcg/cards`}
                 params={{ tcg: 'dlc' }}
                 search={{
                   ...dlcSearchParamsDefaults,
-                  query: `rarity:"${print.rarity}"`,
+                  query: `artist:"${(print as DlcDataPrint).artist}"`,
                 }}
                 style={{
                   textDecoration: 'underline',
@@ -155,37 +175,8 @@ export function DlcPrintMetaRenderer({
                   textUnderlineOffset: '2px',
                 }}
               >
-                <Group gap={'xs'}>
-                  <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
-                </Group>
+                <Text ff={'var(--cgm-content-font-family)'}>{(print as DlcDataPrint).artist}</Text>
               </Link>
-            </Group>
-          </Stack>
-          {(print as DlcDataPrint).artist && (
-            <Stack gap={'0.1rem'}>
-              <Group gap={'0.5rem'}>
-                <IconBrush color={'var(--gourmet-neutral-6)'} size={18} />
-                <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                  {`Artist`.toUpperCase()}
-                </Text>
-              </Group>
-              <Group gap={'xs'}>
-                <Link
-                  to={`/$tcg/cards`}
-                  params={{ tcg: 'dlc' }}
-                  search={{
-                    ...dlcSearchParamsDefaults,
-                    query: `artist:"${(print as DlcDataPrint).artist}"`,
-                  }}
-                  style={{
-                    textDecoration: 'underline',
-                    textDecorationColor: 'var(--gourmet-blue-03)',
-                    textUnderlineOffset: '2px',
-                  }}
-                >
-                  <Text ff={'var(--cgm-content-font-family)'}>{(print as DlcDataPrint).artist}</Text>
-                </Link>
-              </Group>
             </Stack>
           )}
         </Stack>
