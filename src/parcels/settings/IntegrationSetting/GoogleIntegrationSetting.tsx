@@ -1,10 +1,11 @@
-import {Button, Group, Loader, Stack} from '@mantine/core';
-import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
-import {IconAlertCircle} from '@tabler/icons-react';
-import {startTransition, useEffect, useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {connectOAuth, disconnectOAuth} from '@/parcels/auth/api.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Group, Loader, Stack } from '@mantine/core';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import { IconAlertCircle } from '@tabler/icons-react';
+import { startTransition, useEffect, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { connectOAuth, disconnectOAuth } from '@/parcels/auth/api.ts';
+import { Button } from '@/parcels/generic/Button/Button';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export function GoogleIntegrationSetting() {
   return (
@@ -65,25 +66,22 @@ function GoogleIntegration() {
       <Group>
         {!connected && (
           <Button
-            color={'var(--gourmet-blue-1)'}
+            disabled={loading}
             onClick={() => {
               setError('');
               setLoading(true);
 
               login();
             }}
-            style={{
-              color: 'var(--gourmet-neutral-1)',
-            }}
-            disabled={loading}
+            size="sm"
           >
             Connect with Google
           </Button>
         )}
         {connected && (
           <Button
-            color={'var(--gourmet-red-01)'}
-            data-disabled={user?.isPasswordEmpty}
+            accent="negative"
+            disabled={loading}
             onClick={() => {
               if (user?.isPasswordEmpty) {
                 setError('no-password-set');
@@ -103,7 +101,7 @@ function GoogleIntegration() {
                 }
               });
             }}
-            disabled={loading}
+            size="sm"
           >
             Disconnect from Google
           </Button>
