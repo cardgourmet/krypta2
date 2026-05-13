@@ -1,9 +1,11 @@
-import {Divider, Group, Stack, type StackProps, Text} from '@mantine/core';
-import {useMemo} from 'react';
-import type {MtgDataPrintFace} from '@/parcels/tcg/mtg/api.ts';
-import {MtgColorIndicator} from '@/parcels/tcg/mtg/details/MtgColorIndicator/MtgColorIndicator.tsx';
-import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
-import {renderRichText} from '@/parcels/tcg/mtg/renderRichText.tsx';
+import { Divider, Group, Stack, type StackProps, Text } from '@mantine/core';
+import { useMemo } from 'react';
+import { Kicker } from '@/parcels/generic/Kicker/Kicker';
+import { Typeset } from '@/parcels/generic/Typeset/Typeset';
+import type { MtgDataPrintFace } from '@/parcels/tcg/mtg/api.ts';
+import { MtgColorIndicator } from '@/parcels/tcg/mtg/details/MtgColorIndicator/MtgColorIndicator.tsx';
+import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
+import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
 
 export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDataPrintFace } & StackProps) {
   const trans = print.translations.en;
@@ -66,12 +68,23 @@ export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDa
           </Text>
         ))}
       </Stack>
+
       {trans.flavorText && (
         <>
-          <Divider w={'95%'} style={{ alignSelf: 'center' }} color={'var(--gourmet-neutral-3)'} />
-          <Text ff={'var(--cgm-serif-font-family)'} fs={'italic'}>
-            {trans.flavorText}
-          </Text>
+          <Divider
+            w={'95%'}
+            style={{ alignSelf: 'center', marginBottom: '-0.5rem' }}
+            color={'var(--gourmet-neutral-3)'}
+          />
+          <Typeset
+            asChild
+            block
+            style={{ fontFamily: 'var(--cgm-serif-font-family)' }}
+            variant="secondary"
+            weight={500}
+          >
+            <em>{trans.flavorText}</em>
+          </Typeset>
         </>
       )}
 
@@ -79,10 +92,9 @@ export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDa
         <Group>
           {statsFiltered.map((s) => {
             return (
-              <Stack key={s.label} gap={'0.15rem'}>
-                <Text ff={'var(--cgm-content-font-family)'} fz={'xs'} c={'var(--gourmet-neutral-6)'}>
-                  {s.label.toUpperCase()}
-                </Text>
+              <Stack gap="0.125rem" key={s.label}>
+                <Kicker size="sm">{s.label}</Kicker>
+
                 <Text ff={'var(--cgm-content-font-family)'} fz={'md'} fw={'bold'} c={'var(--gourmet-neutral-9)'}>
                   {s.value}
                 </Text>

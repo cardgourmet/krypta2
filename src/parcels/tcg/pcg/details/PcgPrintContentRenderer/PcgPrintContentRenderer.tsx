@@ -1,11 +1,12 @@
-import {Divider, Stack, Text} from '@mantine/core';
-import type {PcgDataCard, PcgDataPrint} from '@/parcels/tcg/pcg/api.ts';
-import {PcgPrintContentAbility} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentAbility.tsx';
-import {PcgPrintContentAttack} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentAttack.tsx';
-import {PcgPrintContentName} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentName.tsx';
-import {PcgPrintContentStats} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentStats.tsx';
-import {PcgPrintContentTypeline} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentTypeline.tsx';
-import {renderRichPcgText} from '@/parcels/tcg/pcg/renderRichText.tsx';
+import { Divider, Stack, Text } from '@mantine/core';
+import { Typeset } from '@/parcels/generic/Typeset/Typeset';
+import type { PcgDataCard, PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
+import { PcgPrintContentAbility } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentAbility.tsx';
+import { PcgPrintContentAttack } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentAttack.tsx';
+import { PcgPrintContentName } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentName.tsx';
+import { PcgPrintContentStats } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentStats.tsx';
+import { PcgPrintContentTypeline } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentTypeline.tsx';
+import { renderRichPcgText } from '@/parcels/tcg/pcg/renderRichText.tsx';
 
 export function PcgPrintContentRenderer({ card, print }: { card: PcgDataCard; print: PcgDataPrint }) {
   const trans = print.translations.en;
@@ -43,10 +44,20 @@ export function PcgPrintContentRenderer({ card, print }: { card: PcgDataCard; pr
 
       {trans.flavorText && (
         <>
-          <Divider w={'95%'} style={{ alignSelf: 'center' }} color={'var(--gourmet-neutral-3)'} />
-          <Text ff={'var(--cgm-serif-font-family)'} fs={'italic'}>
-            {trans.flavorText}
-          </Text>
+          <Divider
+            w={'95%'}
+            style={{ alignSelf: 'center', marginBottom: '-0.5rem' }}
+            color={'var(--gourmet-neutral-3)'}
+          />
+          <Typeset
+            asChild
+            block
+            style={{ fontFamily: 'var(--cgm-serif-font-family)' }}
+            variant="secondary"
+            weight={500}
+          >
+            <em>{trans.flavorText}</em>
+          </Typeset>
         </>
       )}
 

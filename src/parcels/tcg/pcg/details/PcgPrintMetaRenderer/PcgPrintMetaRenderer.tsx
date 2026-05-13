@@ -1,11 +1,12 @@
-import {Code, Group, Select, type SelectProps, Stack, Text} from '@mantine/core';
-import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgDataCard, PcgDataPrint, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import {PcgSetIcon} from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
-import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
+import { Code, Group, Select, type SelectProps, Stack, Text } from '@mantine/core';
+import { IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { Kicker } from '@/parcels/generic/Kicker/Kicker';
+import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgDataCard, PcgDataPrint, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
+import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
 import styles from './PcgPrintMetaRenderer.module.css';
 
 export function PcgPrintMetaRenderer({
@@ -121,26 +122,45 @@ export function PcgPrintMetaRenderer({
           renderOption={renderSelectOption}
           disabled={thisPrintLanguages.length + otherPrintLanguages.length === 1}
         />
-        <Stack p={'0.75rem'}>
-          <Stack gap={'0rem'}>
-            <Group gap={'0.5rem'}>
-              <IconNumber color={'var(--gourmet-neutral-6)'} size={18} />
-              <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                {`Collector Number`.toUpperCase()}
-              </Text>
-            </Group>
-            <Group gap={'xs'}>
-              <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
-            </Group>
+        <Stack py={'0.75rem'}>
+          <Stack gap="0.125rem">
+            <Kicker leadingIcon={<IconNumber />} size="xs">
+              Collector Number
+            </Kicker>
+
+            <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
           </Stack>
-          <Stack gap={'0.1rem'}>
-            <Group gap={'0.5rem'}>
-              <IconDiamond color={'var(--gourmet-neutral-6)'} size={18} />
-              <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                {`Rarity`.toUpperCase()}
-              </Text>
-            </Group>
-            <Group gap={'xs'}>
+
+          <Stack gap="0.125rem">
+            <Kicker leadingIcon={<IconDiamond />} size="xs">
+              Rarity
+            </Kicker>
+
+            <Link
+              to={`/$tcg/cards`}
+              params={{
+                tcg: 'pcg',
+              }}
+              search={{
+                ...pcgSearchParamsDefaults,
+                query: `rarity:"${print.rarity}"`,
+              }}
+              style={{
+                textDecoration: 'underline',
+                textDecorationColor: 'var(--gourmet-blue-03)',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
+            </Link>
+          </Stack>
+
+          {(print as PcgDataPrint).illustrators.length > 0 && (
+            <Stack gap="0.125rem">
+              <Kicker leadingIcon={<IconBrush />} size="xs">
+                Artist
+              </Kicker>
+
               <Link
                 to={`/$tcg/cards`}
                 params={{
@@ -148,7 +168,7 @@ export function PcgPrintMetaRenderer({
                 }}
                 search={{
                   ...pcgSearchParamsDefaults,
-                  query: `rarity:"${print.rarity}"`,
+                  query: `artist:"${(print as PcgDataPrint).illustrators}"`,
                 }}
                 style={{
                   textDecoration: 'underline',
@@ -156,39 +176,8 @@ export function PcgPrintMetaRenderer({
                   textUnderlineOffset: '2px',
                 }}
               >
-                <Group gap={'xs'}>
-                  <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
-                </Group>
+                <Text ff={'var(--cgm-content-font-family)'}>{(print as PcgDataPrint).illustrators}</Text>
               </Link>
-            </Group>
-          </Stack>
-          {(print as PcgDataPrint).illustrators.length > 0 && (
-            <Stack gap={'0.1rem'}>
-              <Group gap={'0.5rem'}>
-                <IconBrush color={'var(--gourmet-neutral-6)'} size={18} />
-                <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-                  {`Artist`.toUpperCase()}
-                </Text>
-              </Group>
-              <Group gap={'xs'}>
-                <Link
-                  to={`/$tcg/cards`}
-                  params={{
-                    tcg: 'pcg',
-                  }}
-                  search={{
-                    ...pcgSearchParamsDefaults,
-                    query: `artist:"${(print as PcgDataPrint).illustrators}"`,
-                  }}
-                  style={{
-                    textDecoration: 'underline',
-                    textDecorationColor: 'var(--gourmet-blue-03)',
-                    textUnderlineOffset: '2px',
-                  }}
-                >
-                  <Text ff={'var(--cgm-content-font-family)'}>{(print as PcgDataPrint).illustrators}</Text>
-                </Link>
-              </Group>
             </Stack>
           )}
         </Stack>

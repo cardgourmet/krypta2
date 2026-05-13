@@ -1,17 +1,18 @@
-import {Button, Group, Image, Stack, type StackProps, Text} from '@mantine/core';
-import {IconArrowRight, IconRefresh} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo, useRef, useState} from 'react';
-import {FlippableCard} from '@/parcels/details/FlippableCard/FlippableCard.tsx';
-import {backupImageUrl} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import {slugify} from '@/parcels/slugify.ts';
-import type {DlcDataCard, DlcDataPrint} from '@/parcels/tcg/dlc/api.ts';
-import {dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
-import type {MtgDataCard, MtgDataPrint} from '@/parcels/tcg/mtg/api.ts';
-import {mtgSearchParamsDefaults} from '@/parcels/tcg/mtg/types.ts';
-import type {PcgDataCard, PcgDataPrint} from '@/parcels/tcg/pcg/api.ts';
-import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { Group, Image, Stack, type StackProps } from '@mantine/core';
+import { IconArrowRight, IconRefresh } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo, useRef, useState } from 'react';
+import { FlippableCard } from '@/parcels/details/FlippableCard/FlippableCard.tsx';
+import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
+import { slugify } from '@/parcels/slugify.ts';
+import type { DlcDataCard, DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
+import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
+import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
+import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
+import type { PcgDataCard, PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
+import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { Button } from '../generic/Button/Button';
 
 export function TcgPrintImageRenderer({
   tcg,
@@ -49,21 +50,18 @@ export function TcgPrintImageRenderer({
       />
       {backUrl && (
         <Button
+          leadingIcon={<IconRefresh />}
           onClick={() => {
             const newFlipped = !flipped;
 
             flipRef.current?.setAttribute('flipped', `${newFlipped}`);
             setFlipped(newFlipped);
           }}
-          color={'var(--gourmet-neutral-2)'}
-          c={'var(--gourmet-neutral-7)'}
-          w={'100%'}
-          maw={'18rem'}
+          size="sm"
+          style={{ width: 'min(100%, 18rem)' }}
+          variant="secondary"
         >
-          <Group gap={'0.25rem'}>
-            <IconRefresh size={18} />
-            Transform
-          </Group>
+          Transform
         </Button>
       )}
 
@@ -93,25 +91,22 @@ export function TcgPrintImageRenderer({
         </Group>
       )}
       {card.allPrints.length > 1 && (
-        <Link
-          to={`/$tcg/cards`}
-          search={{
-            ...searchParamsDefault,
-            query: `cardid:"${card.id}"`,
-            uniqueBy: 'prints',
-          }}
-          params={{
-            tcg: tcg,
-          }}
-          style={{ textDecoration: 'none' }}
-        >
-          <Group gap={'xs'}>
-            <Text fz={'sm'} c={'var(--gourmet-blue-5)'}>
-              Alle {card.allPrints.length} Prints ansehen
-            </Text>
-            <IconArrowRight style={{ color: 'var(--gourmet-blue-5)' }} size={'0.875rem'} />
-          </Group>
-        </Link>
+        <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">
+          <Link
+            params={{
+              tcg: tcg,
+            }}
+            search={{
+              ...searchParamsDefault,
+              query: `cardid:"${card.id}"`,
+              uniqueBy: 'prints',
+            }}
+            style={{ marginLeft: '-0.5rem' }}
+            to="/$tcg/cards"
+          >
+            Alle {card.allPrints.length} Prints ansehen
+          </Link>
+        </Button>
       )}
     </Stack>
   );

@@ -1,9 +1,18 @@
-import {Code, Group, Select, type SelectProps, Stack, Text} from '@mantine/core';
-import {IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber, IconPlayCard,} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import type {MtgDataCard, MtgDataPrint, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import {mtgSearchParamsDefaults} from '@/parcels/tcg/mtg/types.ts';
+import { Code, Group, Select, type SelectProps, Stack, Text } from '@mantine/core';
+import {
+  IconBrush,
+  IconCaretDownFilled,
+  IconCheck,
+  IconDiamond,
+  IconLanguage,
+  IconNumber,
+  IconPlayCard,
+} from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { Kicker } from '@/parcels/generic/Kicker/Kicker';
+import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
 import styles from './MtgPrintMetaRenderer.module.css';
 
 export function MtgPrintMetaRenderer({
@@ -110,82 +119,67 @@ export function MtgPrintMetaRenderer({
         renderOption={renderSelectOption}
         disabled={thisPrintLanguages.length + otherPrintLanguages.length === 1}
       />
-      <Stack p={'0.75rem'}>
-        <Stack gap={'0rem'}>
-          <Group gap={'0.5rem'}>
-            <IconNumber color={'var(--gourmet-neutral-6)'} size={18} />
-            <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-              {`Collector Number`.toUpperCase()}
-            </Text>
-          </Group>
-          <Group gap={'xs'}>
-            <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
-          </Group>
+      <Stack py={'0.75rem'}>
+        <Stack gap="0.125rem">
+          <Kicker leadingIcon={<IconNumber />} size="xs">
+            Collector Number
+          </Kicker>
+
+          <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
         </Stack>
-        <Stack gap={'0.1rem'}>
-          <Group gap={'0.5rem'}>
-            <IconDiamond color={'var(--gourmet-neutral-6)'} size={18} />
-            <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-              {`Rarity`.toUpperCase()}
-            </Text>
-          </Group>
-          <Group gap={'xs'}>
-            <Link
-              to={'/$tcg/cards'}
-              params={{ tcg: 'mtg' }}
-              search={{
-                ...mtgSearchParamsDefaults,
-                query: `rarity:"${print.rarity}"`,
-              }}
-              style={{
-                textDecoration: 'underline',
-                textDecorationColor: 'var(--gourmet-blue-03)',
-                textUnderlineOffset: '2px',
-              }}
-            >
-              <Group gap={'xs'}>
-                <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
-              </Group>
-            </Link>
-          </Group>
+
+        <Stack gap="0.125rem">
+          <Kicker leadingIcon={<IconDiamond />} size="xs">
+            Rarity
+          </Kicker>
+
+          <Link
+            to={'/$tcg/cards'}
+            params={{ tcg: 'mtg' }}
+            search={{
+              ...mtgSearchParamsDefaults,
+              query: `rarity:"${print.rarity}"`,
+            }}
+            style={{
+              textDecoration: 'underline',
+              textDecorationColor: 'var(--gourmet-blue-03)',
+              textUnderlineOffset: '2px',
+            }}
+          >
+            <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
+          </Link>
         </Stack>
-        <Stack gap={'0.1rem'}>
-          <Group gap={'0.5rem'}>
-            <IconPlayCard color={'var(--gourmet-neutral-6)'} size={18} />
-            <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-              {`Finishes`.toUpperCase()}
-            </Text>
-          </Group>
-          <Group gap={'xs'}>
-            <Text ff={'var(--cgm-content-font-family)'}>{print.finishes.join(', ')}</Text>
-          </Group>
+
+        <Stack gap="0.125rem">
+          <Kicker leadingIcon={<IconPlayCard />} size="xs">
+            Finishes
+          </Kicker>
+
+          <Text ff={'var(--cgm-content-font-family)'}>{print.finishes.join(', ')}</Text>
         </Stack>
-        <Stack gap={'0.1rem'}>
-          <Group gap={'0.5rem'}>
-            <IconBrush color={'var(--gourmet-neutral-6)'} size={18} />
-            <Text ff={'var(--cgm-content-font-family)'} fz="xs" c={'var(--gourmet-neutral-6)'}>
-              {`Artist`.toUpperCase()}
-            </Text>
-          </Group>
-          <Group gap={'xs'}>
-            <Link
-              to={'/$tcg/cards'}
-              params={{
-                tcg: 'mtg',
-              }}
-              search={{
-                ...mtgSearchParamsDefaults,
-                query: `artist="${print.artist}"`,
-              }}
-              style={{
-                textDecoration: 'underline',
-                textDecorationColor: 'var(--gourmet-blue-03)',
-                textUnderlineOffset: '2px',
-              }}
-            >
-              <Text ff={'var(--cgm-content-font-family)'}>{print.artist}</Text>
-            </Link>
-          </Group>
+
+        <Stack gap="0.125rem">
+          <Kicker leadingIcon={<IconBrush />} size="xs">
+            Artist
+          </Kicker>
+
+          <Link
+            to={'/$tcg/cards'}
+            params={{
+              tcg: 'mtg',
+            }}
+            search={{
+              ...mtgSearchParamsDefaults,
+              query: `artist="${print.artist}"`,
+            }}
+            style={{
+              textDecoration: 'underline',
+              textDecorationColor: 'var(--gourmet-blue-03)',
+              textUnderlineOffset: '2px',
+            }}
+          >
+            <Text ff={'var(--cgm-content-font-family)'}>{print.artist}</Text>
+          </Link>
         </Stack>
       </Stack>
     </Stack>

@@ -1,0 +1,38 @@
+@layer components {
+  .base {
+    align-items: center;
+    display: flex;
+    gap: var(--kicker-gap);
+    text-transform: uppercase;
+
+    &[data-cgm-size="xs"] {
+      --kicker-gap: 0.375rem;
+      --kicker-icon-size: 0.875rem;
+    }
+
+    &[data-cgm-size="sm"] {
+      --kicker-gap: 0.375rem;
+      --kicker-icon-size: 1rem;
+    }
+
+    &[data-cgm-size="md"] {
+      --kicker-gap: 0.5rem;
+      --kicker-icon-size: 1.125rem;
+    }
+
+    &[data-cgm-size="lg"] {
+      --kicker-gap: 0.75rem;
+      --kicker-icon-size: 1.125rem;
+    }
+  }
+
+  .iconContainer {
+    display: flex;
+    font-size: var(--kicker-icon-size);
+
+    & svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
+}

@@ -1,24 +1,16 @@
 import { Group, Stack, Text } from '@mantine/core';
+import { Badge } from '@/parcels/generic/Badge/Badge';
 import { renderRichPcgText } from '@/parcels/tcg/pcg/renderRichText.tsx';
 import type { components as c } from '@/schema/api';
 
 export function PcgPrintContentAbility({ ability }: { ability: c['schemas']['PcgCardAbility'] }) {
   return (
     <Stack key={ability.name} gap={'0.25rem'}>
-      <Group>
-        <Text
-          ff={'var(--cgm-content-font-family)'}
-          fz={'sm'}
-          style={{
-            border: '1px solid var(--gourmet-red-01)',
-            borderRadius: '0.5rem',
-          }}
-          c={'var(--gourmet-red-01)'}
-          p={'0.15rem 0.75rem'}
-        >
+      <Group gap={12}>
+        <Badge color="red" style={{ '--badge-color': 'var(--gourmet-red-01)' }}>
           Ability
-        </Text>
-        <Text ff={'var(--cgm-content-font-family)'} c={'var(--gourmet-red-01)'}>
+        </Badge>
+        <Text ff={'var(--cgm-content-font-family)'} c={'var(--gourmet-red-01)'} fw="bold">
           {ability.name}
         </Text>
       </Group>
