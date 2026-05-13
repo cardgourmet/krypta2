@@ -21,7 +21,7 @@ export function SetOverviewSettings({
   overviewSettings: OverviewSettings;
   setOverviewSettings: (update: ApplyFn<OverviewSettings>) => void;
 }) {
-  const { t } = useTranslation('sets');
+  const { t } = useTranslation('sets', { keyPrefix: 'settings' });
 
   const fillTranslation = useCallback(
     (prefix: string, elements: string[]) => {

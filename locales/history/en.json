@@ -1,22 +1,30 @@
 {
-  "header": "Suchhistorie",
-  "guest": "Guest",
-  "common": {
-    "sortby": "Sort by date",
-    "filterBy": "Filter by"
+  "header": {
+    "title": "Search history",
+    "breadcrumbs": {
+      "guest": "Guest"
+    }
   },
-  "sortdir": {
-    "asc": "Ascending",
-    "desc": "Descending"
+  "filters": {
+    "common": {
+      "sortby": "Sort by date",
+      "filterBy": "Filter by"
+    },
+    "sortdir": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "tcg": {
+      "mtg": "Magic: The Gathering",
+      "pcg": "Pokémon Card Game",
+      "dlc": "Disney Lorcana"
+    },
+    "searchbarPlaceholder": "Search..."
   },
-  "mtg": "Magic: The Gathering",
-  "pcg": "Pokémon Card Game",
-  "dlc": "Disney Lorcana",
-  "title": "Your Search History",
+  "pageTitle": "Your Search History",
   "notLoggedIn": "You are not logged in. This means your offline history disappears when switching browsers or logging into an account.",
   "notVerified": "You are not verified. This means your history is not stored online yet. Your offline history will disappear when switching browsers or being verified.",
   "noSearches": "You don't have any searches yet. Use the searchbar at the top to start!",
-  "searchbarPlaceholder": "Search...",
   "table": {
     "reExecute": "Re-execute query",
     "moreOptions": "More options",

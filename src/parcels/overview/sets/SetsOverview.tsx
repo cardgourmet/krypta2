@@ -1,6 +1,7 @@
 import {Divider, SimpleGrid, Stack} from '@mantine/core';
 import {useNavigate} from '@tanstack/react-router';
 import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {groupBy} from '@/parcels/groupBy.ts';
@@ -17,6 +18,8 @@ import {usePrevious} from '@/parcels/usePrevious.ts';
 import {Route} from '@/routes/$tcg/sets';
 
 export function SetsOverview() {
+  const { t } = useTranslation('sets');
+
   const { tcg } = Route.useParams();
   const { setsRes: data, erasRes: erasData } = Route.useLoaderData();
   const erasById: Record<string, PcgDataEra> = useMemo(() => {
@@ -54,9 +57,7 @@ export function SetsOverview() {
     [settings],
   );
 
-  // const { t } = useTranslation('sets');
-
-  const { component, title } = useBreadcrumbs({ subpage: 'Alle Sets' });
+  const { component, title } = useBreadcrumbs({ subpage: t('header.title') });
   const sortedSets = useMemo(() => {
     if (!data?.data) return [];
 
@@ -88,7 +89,7 @@ export function SetsOverview() {
 
   return (
     <>
-      <title>{`All Sets Overview – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
+      <title>{`${t('pageTitle')} – ${t(`tcg.${tcg}`)} – Cardgourmet`}</title>
 
       <div>
         {component}

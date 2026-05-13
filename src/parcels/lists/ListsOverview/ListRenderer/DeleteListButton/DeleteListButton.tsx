@@ -10,7 +10,7 @@ import {useGourmetNotification} from '@/parcels/notification/useGourmetNotificat
 import styles from './DeleteListButton.module.css';
 
 export function DeleteListButton({ list, onSuccess }: { list: UserList; onSuccess?: (id: string) => void }) {
-  const { t } = useTranslation('lists', { keyPrefix: 'delete' });
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.delete' });
   const [opened, { open, close }] = useDisclosure(false);
   const auth = useAuth();
   const noti = useGourmetNotification();

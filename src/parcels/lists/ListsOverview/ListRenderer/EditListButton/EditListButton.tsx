@@ -12,7 +12,7 @@ import {useGourmetNotification} from '@/parcels/notification/useGourmetNotificat
 import styles from './EditListButton.module.css';
 
 export function EditListButton({ list, onSuccess }: { list: UserList; onSuccess?: (list: UserList) => void }) {
-  const { t } = useTranslation('lists', { keyPrefix: 'edit' });
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.edit' });
   const [opened, { open, close }] = useDisclosure(false);
   const auth = useAuth();
 

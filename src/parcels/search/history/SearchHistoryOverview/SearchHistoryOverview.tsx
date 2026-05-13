@@ -30,10 +30,10 @@ export function SearchHistoryOverview() {
 
   const { user } = useAuth();
   const { component, title } = useBreadcrumbs({
-    subpage: !user ? t('guest') : `@${user?.username}`,
+    subpage: !user ? t('header.breadcrumbs.guest') : `@${user?.username}`,
     moreSubpages: [
       {
-        label: t('header'),
+        label: t('header.title'),
       },
     ],
   });
@@ -151,7 +151,7 @@ export function SearchHistoryOverview() {
 
   return (
     <div>
-      <title>{`${t('title')} – Cardgourmet`}</title>
+      <title>{`${t('pageTitle')} – Cardgourmet`}</title>
       {component}
 
       <Stack

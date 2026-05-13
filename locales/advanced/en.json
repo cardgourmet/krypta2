@@ -3,5 +3,278 @@
   "subtitle": "Use the filters below to construct a search query.",
   "resetButton_one": "Reset {{count}} filter",
   "resetButton_other": "Reset {{count}} filters",
-  "startSearch": "Start search"
+  "startSearch": "Start search",
+  "numberCompare": {
+    "=": "equals",
+    "<": "less than",
+    "<=": "less than or equals",
+    ">": "greater than",
+    ">=": "greater than or equals"
+  },
+  "pcg": {
+    "categories": {
+      "identity": "Identity",
+      "text": "Text",
+      "effect": "Effect",
+      "stats": "Stats",
+      "artwork": "Artwork"
+    },
+    "filters": {
+      "basetype": {
+        "title": "Basetype",
+        "description": "Category of card"
+      },
+      "energy": {
+        "title": "Energy",
+        "description": "Type of energy, shown as a symbol on the card.",
+        "exact": "Exactly these energies",
+        "contains": "Contains one of these energies"
+      },
+      "subtype": {
+        "title": "Subtype",
+        "description": "Subtype of a specific basetype.",
+        "placeholder": "Enter a subtype or select one"
+      },
+      "stage": {
+        "title": "Evolution Stage",
+        "description": "Evolution stage of the card",
+        "placeholder": "Enter an evolution stage or select one"
+      },
+      "evolves": {
+        "title": "Evolves From",
+        "description": "Name of the card this card evolves from",
+        "placeholder": "Search for a Pokémon"
+      },
+      "name": {
+        "title": "Name",
+        "description": "Something that appears in the card's name",
+        "placeholder": "Something like \"tuff\"",
+        "checkboxLabel": "Exact match"
+      },
+      "text": {
+        "title": "Text",
+        "description": "Something that appears in the card's text",
+        "placeholder": "Something like \"Round\"",
+        "checkboxLabel": "Exact match"
+      },
+      "flavortext": {
+        "title": "Flavortext",
+        "description": "Something that appears in the card's flavor text",
+        "placeholder": "Something like \"fine fur\"",
+        "checkboxLabel": "Exact match"
+      },
+      "ability": {
+        "title": "Ability",
+        "description": "Type of ability, if the card has any",
+        "placeholder": "Enter an ability type or select one"
+      },
+      "attack": {
+        "title": "Attack",
+        "description": "Something that appears in the name of any of the Pokémon's attacks",
+        "placeholder": "Something like \"Psybeam\"",
+        "checkboxLabel": "Exact match"
+      },
+      "effect": {
+        "title": "Effect",
+        "description": "A type of effect that is neither an ability nor an attack",
+        "placeholder": "Enter an effect type or select one"
+      },
+      "hp": {
+        "title": "Health points",
+        "description": "Amount of health points, if any"
+      },
+      "retreat": {
+        "title": "Retreat costs",
+        "description": "Amount to pay to retreat a card"
+      },
+      "sets": {
+        "title": "Sets",
+        "description": "Sets in which the card was printed",
+        "placeholder": "Search for a set"
+      },
+      "rarity": {
+        "title": "Rarity",
+        "description": "The rarity with which the card was printed in a set",
+        "placeholder": "Search for a rarity"
+      },
+      "artist": {
+        "title": "Artist",
+        "description": "Any word that appears in the artist’s name on the card",
+        "placeholder": "Something like \"Dunce\"",
+        "checkboxLabel": "Exact match"
+      }
+    }
+  },
+  "mtg": {
+    "categories": {
+      "identity": "Identity",
+      "text": "Text",
+      "effect": "Effect",
+      "stats": "Stats",
+      "release": "Release",
+      "artwork": "Artwork"
+    },
+    "filters": {
+      "type": {
+        "title": "Type",
+        "description": "Type of a card",
+        "placeholder": "Enter a type or select one"
+      },
+      "color": {
+        "title": "Mana Color",
+        "description": "The type of mana indicated as a cost on the card",
+        "exact": "Exactly these colors",
+        "contains": "Contains one of these colors"
+      },
+      "name": {
+        "title": "Card name",
+        "description": "Any word that appears in the card's name",
+        "placeholder": "Something like \"tuff\"",
+        "checkboxLabel": "Exact match"
+      },
+      "text": {
+        "title": "Text",
+        "description": "Any words or phrase that appears in the text on the card",
+        "placeholder": "Something like \"Round\"",
+        "checkboxLabel": "Exact match"
+      },
+      "flavortext": {
+        "title": "Flavortext",
+        "description": "Any word that appears in the card's flavour text, if there is one",
+        "placeholder": "Something like \"fine fur\"",
+        "checkboxLabel": "Exact match"
+      },
+      "keyword": {
+        "title": "Keywords",
+        "description": "Keywords on a card that serve as shorthand for specific mechanics",
+        "placeholder": "Enter a keyword or select one"
+      },
+      "cmc": {
+        "title": "Mana cost",
+        "description": "The mana cost as an integer"
+      },
+      "power": {
+        "title": "Power",
+        "description": "Power value, if any"
+      },
+      "toughness": {
+        "title": "Toughness",
+        "description": "Toughness value, if any"
+      },
+      "loyalty": {
+        "title": "Loyalty",
+        "description": "Loyalty value, if any"
+      },
+      "defense": {
+        "title": "Defense",
+        "description": "Defense value, if any"
+      },
+      "sets": {
+        "title": "Sets",
+        "description": "Sets in which the card was printed",
+        "placeholder": "Search for a set"
+      },
+      "rarity": {
+        "title": "Rarity",
+        "description": "The rarity with which the card was printed in a set",
+        "placeholder": "Search for a rarity"
+      },
+      "format": {
+        "title": "Format",
+        "description": "In which formats the cards are legal to play",
+        "placeholder": "Enter a format or select one"
+      },
+      "games": {
+        "title": "Game",
+        "description": "Distinguishing between digital products and print",
+        "placeholder": "Enter a game or select one"
+      },
+      "artist": {
+        "title": "Artist",
+        "description": "Any word that appears in the artist’s name on the card",
+        "placeholder": "Something like \"Dunce\"",
+        "checkboxLabel": "Exact match"
+      }
+    }
+  },
+  "dlc": {
+    "categories": {
+      "identity": "Identity",
+      "text": "Text",
+      "stats": "Stats",
+      "release": "Release",
+      "artist": "Artist"
+    },
+    "filters": {
+      "type": {
+        "title": "Type and Classification",
+        "description": "Term appearing in the card's type line",
+        "placeholder": "Enter a type or select one",
+        "dataGroups": {
+          "types": "Types",
+          "classifications": "Classifications"
+        }
+      },
+      "ink": {
+        "title": "Ink",
+        "description": "Type of ink, identified by the colour and symbol on the card",
+        "exact": "Exactly these ink types",
+        "contains": "Contains one of these ink types"
+      },
+      "name": {
+        "title": "Card name",
+        "description": "Any word that appears in the name of the card",
+        "placeholder": "Something like \"Fire\"",
+        "checkboxLabel": "Exact match"
+      },
+      "text": {
+        "title": "Text",
+        "description": "Any word or phrase that appears in the text on the card",
+        "placeholder": "Something like \"Draw a card\"",
+        "checkboxLabel": "Exact match"
+      },
+      "flavortext": {
+        "title": "Flavortext",
+        "description": "Any word that appears in the card's flavour text, if there is one",
+        "placeholder": "Something like \"Why did Urza\"",
+        "checkboxLabel": "Exact match"
+      },
+      "strength": {
+        "title": "Strength",
+        "description": "The strength value, starting from 0, applies only to characters"
+      },
+      "willpower": {
+        "title": "Willpower",
+        "description": "The willpower value, starting from 0, applies only to characters"
+      },
+      "movecost": {
+        "title": "Move cost",
+        "description": "The move cost, starting from 0, applies only to characters"
+      },
+      "lore": {
+        "title": "Lore",
+        "description": "The lore value, starting from 0"
+      },
+      "sets": {
+        "title": "Sets",
+        "description": "Sets in which the card was printed",
+        "placeholder": "Search for a set"
+      },
+      "rarity": {
+        "title": "Rarity",
+        "description": "The rarity with which the card was printed in a set"
+      },
+      "artist": {
+        "title": "Artist",
+        "description": "Any word that appears in the artist’s name on the card",
+        "placeholder": "Something like \"Dunce\"",
+        "checkboxLabel": "Exact match"
+      },
+      "franchise": {
+        "title": "Franchise",
+        "description": "The franchise the character or subject on the card can be assigned to",
+        "placeholder": "Enter a franchise or select one"
+      }
+    }
+  }
 }

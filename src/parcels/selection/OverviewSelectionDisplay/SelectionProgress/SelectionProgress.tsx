@@ -41,10 +41,10 @@ export function SelectionProgress({ sections, current, max }: { sections: number
             <Popover.Dropdown>
               <Stack>
                 <GourmetText>
-                  <Trans t={t} i18nKey={'maximum-cards'} />
+                  <Trans t={t} i18nKey={'maximumCards'} />
                 </GourmetText>
                 <GourmetText>
-                  <Trans t={t} i18nKey={'maximum-cards-2'} components={{ u: <u /> }} />
+                  <Trans t={t} i18nKey={'maximumCards2'} components={{ u: <u /> }} />
                 </GourmetText>
               </Stack>
             </Popover.Dropdown>

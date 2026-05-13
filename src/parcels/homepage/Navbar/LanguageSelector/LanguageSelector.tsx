@@ -1,6 +1,6 @@
 import {Center, Combobox, Group, UnstyledButton, useCombobox} from '@mantine/core';
 import {IconCheck, IconLanguage} from '@tabler/icons-react';
-import {useEffect, useEffectEvent, useState} from 'react';
+import {startTransition, useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './LanguageSelector.module.css';
@@ -10,15 +10,13 @@ export function LanguageSelector() {
   const { t } = useTranslation('nav', { keyPrefix: 'language' });
 
   const [language, setLanguage] = useState<string>('en');
-  const switchLanguage = useEffectEvent((language: string) => {
-    // noinspection JSIgnoredPromiseFromCall
-    i18n.changeLanguage(language);
-  });
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    switchLanguage(language);
-  }, [language]);
+  const switchLanguage = useCallback(
+    (lang: string) => {
+      // noinspection JSIgnoredPromiseFromCall
+      i18n.changeLanguage(lang);
+    },
+    [i18n.changeLanguage],
+  );
 
   const combobox = useCombobox();
   const items = {
@@ -47,6 +45,10 @@ export function LanguageSelector() {
       onOptionSubmit={(optionValue) => {
         setLanguage(optionValue);
         combobox.closeDropdown();
+
+        startTransition(() => {
+          switchLanguage(optionValue);
+        });
       }}
       store={combobox}
       position="bottom-start"

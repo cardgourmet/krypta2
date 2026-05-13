@@ -1,22 +1,22 @@
 {
   "login": {
-    "login-title": "Login",
-    "first-time": "First time here?",
+    "loginTitle": "Login",
+    "firstTime": "First time here?",
     "register": "Register",
-    "email-or-name": "Email-Address or Username",
+    "emailOrName": "Email-Address or Username",
     "password": "Password",
-    "forgot-password": "Forgot password?",
-    "login-button": "Login"
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login"
   },
   "register": {
     "login": "Login",
-    "register-title": "Register",
-    "first-time": "Seen this page before?",
+    "registerTitle": "Register",
+    "firstTime": "Seen this page before?",
     "email": "Email-Address",
     "username": "Username",
     "password": "Password",
-    "password-repeat": "Confirm Password",
-    "register-button": "Register"
+    "passwordRepeat": "Confirm Password",
+    "registerButton": "Register"
   },
   "forgot": {
     "forgotPasswordTitle": "Forgot Password",

@@ -19,7 +19,7 @@ export type ListValues = {
 };
 
 export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> }) {
-  const { t } = useTranslation('lists', { keyPrefix: 'form' });
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.form' });
   const visibilityData = [
     { value: 'private', label: 'Private' },
     { value: 'unlisted', label: 'Unlisted' },

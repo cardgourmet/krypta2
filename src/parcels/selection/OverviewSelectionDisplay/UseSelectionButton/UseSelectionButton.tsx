@@ -51,7 +51,7 @@ export function UseSelectionButton() {
         <Menu.Target>
           <Button color={'var(--gourmet-orange-1'} className={styles.selectionButton}>
             <GourmetText cgmff={'ui'} cgmc={'neutral-1'} fw={'500'}>
-              {t('use-selection')}
+              {t('useSelection')}
             </GourmetText>
           </Button>
         </Menu.Target>
@@ -82,7 +82,7 @@ export function UseSelectionButton() {
                       icon={<IconList size={18} />}
                       overlayIcon={<IconPlus size={14} color={'var(--gourmet-green-1)'} />}
                     />
-                    <GourmetText cgmff={'ui'}>{t('add-to-lists')}</GourmetText>
+                    <GourmetText cgmff={'ui'}>{t('addToLists')}</GourmetText>
                   </Group>
                   <IconChevronRight size={18} />
                 </Group>
@@ -110,7 +110,7 @@ export function UseSelectionButton() {
               >
                 <Group gap={'0.5rem'}>
                   <IconPlus size={18} />
-                  <GourmetText cgmff={'ui'}>{t('create-new-list')}</GourmetText>
+                  <GourmetText cgmff={'ui'}>{t('createNewList')}</GourmetText>
                 </Group>
               </Menu.Item>
             </Menu.Dropdown>

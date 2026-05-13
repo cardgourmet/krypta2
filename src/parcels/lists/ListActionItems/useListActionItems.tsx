@@ -74,7 +74,7 @@ export function useListActionItems({
                 }
               }}
               icon={<IconStar size={18} />}
-              buttonText={listContext !== undefined ? t('favorite-copy') : t(`favorite${inList ? '-remove' : ''}`)}
+              buttonText={listContext !== undefined ? t('favoriteCopy') : t(`favorite${inList ? '-remove' : ''}`)}
             />
           );
         })}
@@ -86,7 +86,7 @@ export function useListActionItems({
           disclosure={disclosure}
           type={type === 'card' ? 'card' : 'search'}
           tcg={tcg}
-          buttonText={listContext !== undefined ? 'Copy to list ...' : t('add-to-list')}
+          buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
           onSuccess={(res) => {
             if (res) {
               if (onSearchSaved) onSearchSaved(res.resourceId);

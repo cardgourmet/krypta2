@@ -20,7 +20,7 @@ export function GridListRenderer({
   onUpdate?: (list: UserList) => void;
   onDelete?: (id: string) => void;
 }) {
-  const { t, i18n } = useTranslation('lists');
+  const { t, i18n } = useTranslation('lists', { keyPrefix: 'overview' });
   const { list, size, resources: allResources } = listWithResources;
 
   const searchResources = allResources?.user_search ?? [];
@@ -32,10 +32,10 @@ export function GridListRenderer({
 
       <Group justify={'space-between'}>
         <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
-          {size}/100 Resources
+          {size}/100 {t('card.resources')}
         </GourmetText>
         <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
-          {t('last-updated')}{' '}
+          {t('card.lastUpdated')}{' '}
           <span title={new Date(list.updatedAt).toLocaleString()}>
             {formatRelativeTimestamp(list.updatedAt, i18n.language)}
           </span>
@@ -46,7 +46,7 @@ export function GridListRenderer({
         {(size ?? 0) === 0 && (
           <Center>
             <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-              {t('listEmpty')}
+              {t('card.listEmpty')}
             </GourmetText>
           </Center>
         )}
@@ -63,7 +63,7 @@ export function GridListRenderer({
                 {searchResources.length === 0 && cardResources.length === 0 && (
                   <Center>
                     <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-                      {t('noResources')}
+                      {t('card.noResources')}
                     </GourmetText>
                   </Center>
                 )}

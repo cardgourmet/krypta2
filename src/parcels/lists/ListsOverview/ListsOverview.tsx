@@ -1,5 +1,6 @@
 import {Divider, Group, Stack} from '@mantine/core';
 import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -15,26 +16,27 @@ import type {Tcg} from '@/parcels/tcg/useTcgByLocation';
 import {Route} from '@/routes/me/lists';
 
 export default function ListsOverview() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const noti = useGourmetNotification();
+  const { t } = useTranslation('lists', { keyPrefix: 'overview' });
 
-  const {component, title} = useBreadcrumbs({
+  const { component, title } = useBreadcrumbs({
     subpage: `@${user?.username}`,
     moreSubpages: [
       {
-        label: 'Listen',
+        label: t('header.title'),
       },
     ],
   });
 
   const search = Route.useSearch();
-  const {tcg} = search;
+  const { tcg } = search;
 
-  const {lists: localUserLists, setLists} = useUserLists();
+  const { lists: localUserLists, setLists } = useUserLists();
   const processedLocalUserLists: UserListWithResources[] = useMemo(() => {
     let lists: UserListWithResources[] = localUserLists
       .map((list) => {
-        return {...list};
+        return { ...list };
       })
       .filter((l) => {
         const allowed = l.list.allowedTcgs;
@@ -69,7 +71,7 @@ export default function ListsOverview() {
           const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
           if (!newList) return listWithRes as UserListWithResources;
 
-          return {...listWithRes, resources: newList.resources ?? listWithRes.resources} as UserListWithResources;
+          return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
         });
 
         setUserListsWithResources(appliedLists);
@@ -101,7 +103,7 @@ export default function ListsOverview() {
 
   return (
     <div>
-      <title>{`Your Lists – Cardgourmet`}</title>
+      <title>{`${t('pageTitle')} – Cardgourmet`}</title>
       {component}
 
       <Stack
@@ -121,7 +123,7 @@ export default function ListsOverview() {
 
           <CreateListButton
             onSuccess={(list) => {
-              const newList = {list: list, resources: {}, size: 0};
+              const newList = { list: list, resources: {}, size: 0 };
               const newLists = [...localUserLists, newList];
               setLists(newLists);
 
@@ -129,10 +131,10 @@ export default function ListsOverview() {
             }}
           />
         </Group>
-        <Divider w={'100%'} color={'var(--gourmet-neutral-3)'}/>
+        <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
       </Stack>
 
-      <DesktopListOverviewSettings/>
+      <DesktopListOverviewSettings />
 
       <Stack mt={'xl'} mb={'2.5rem'}>
         {search.display === 'grid' && (
@@ -150,7 +152,7 @@ export default function ListsOverview() {
               const newLists: UserListWithResources[] = [];
               localUserLists.forEach((l) => {
                 if (l.list.id === list.id) {
-                  newLists.push({list: list, resources: l.resources, size: l.size});
+                  newLists.push({ list: list, resources: l.resources, size: l.size });
                 } else {
                   newLists.push(l);
                 }

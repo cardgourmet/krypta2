@@ -1,17 +1,17 @@
-import { Blockquote, Divider, Group, Stack } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
-import { Link, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { loginUsingBasicAuth } from '@/parcels/auth/api.ts';
-import { GoogleLoginButton } from '@/parcels/auth/login/GoogleLoginButton.tsx';
-import { Button } from '@/parcels/generic/Button/Button';
-import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
-import { Route } from '@/routes/login';
+import {Blockquote, Divider, Group, Stack} from '@mantine/core';
+import {useForm} from '@mantine/form';
+import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
+import {Link, useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
+import {GoogleLoginButton} from '@/parcels/auth/login/GoogleLoginButton.tsx';
+import {Button} from '@/parcels/generic/Button/Button';
+import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import {Route} from '@/routes/login';
 import styles from '@/routes/register/index.module.css';
 
 export function LoginForm() {
@@ -36,11 +36,11 @@ export function LoginForm() {
       <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
         <Stack gap={'0.25rem'}>
           <GourmetText fz={'h2'} cgmff={'title'} cgmc={'neutral-9'}>
-            {t('login-title')}
+            {t('loginTitle')}
           </GourmetText>
           <Group gap={'0.25rem'}>
             <GourmetText fz={'md'} cgmc={'neutral-6'}>
-              {t('first-time')}
+              {t('firstTime')}
             </GourmetText>
             <Link to={'/register'} style={{ textDecoration: 'none' }} params={{ redirect: redirect }}>
               <Group gap={'0.25rem'}>
@@ -89,13 +89,13 @@ export function LoginForm() {
               <Group justify={'space-between'}>
                 <GourmetText>{t('password')}</GourmetText>
                 <Link to={'/forgot'} style={{ textDecoration: 'none' }}>
-                  <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgot-password')}</GourmetText>
+                  <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgotPassword')}</GourmetText>
                 </Link>
               </Group>
               <GourmetPasswordInput {...form.getInputProps('password')} w={'100%'} />
             </Stack>
 
-            <Button type="submit">{t('login-button')}</Button>
+            <Button type="submit">{t('loginButton')}</Button>
           </Stack>
         </form>
 

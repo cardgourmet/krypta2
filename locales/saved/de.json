@@ -1,3 +1,29 @@
 {
-
+  "header": "Gespeicherte Suchen",
+  "title": "Deine Gespeicherte Suchen",
+  "common": {
+    "sortby": "Sortiert nach Datum",
+    "filterBy": "Filtern nach"
+  },
+  "sortdir": {
+    "asc": "Aufsteigend",
+    "desc": "Absteigend"
+  },
+  "mtg": "Magic: The Gathering",
+  "pcg": "Pokémon Card Game",
+  "dlc": "Disney Lorcana",
+  "noSearches": "Du hast keine gespeicherten Suchen. Benutz die Suchleite oben um zu starten!",
+  "searchbarPlaceholder": "Suche...",
+  "table": {
+    "reExecute": "Erneut ausführen",
+    "moreOptions": "Mehr Optionen",
+    "cols": {
+      "query": "Query",
+      "cards": "Karten",
+      "time": "Zeit",
+      "speed": "Dauer",
+      "saved": "Gespeichert",
+      "inList": "In Liste"
+    }
+  }
 }
