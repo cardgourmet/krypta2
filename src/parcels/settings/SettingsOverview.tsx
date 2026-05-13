@@ -1,5 +1,6 @@
 import {Divider, Group, Stack} from '@mantine/core';
 import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -11,12 +12,14 @@ import {PasswordSetting} from '@/parcels/settings/PasswordSetting/PasswordSettin
 import {ThemeSetting} from '@/parcels/settings/ThemeSetting/ThemeSetting.tsx';
 
 export function SettingsOverview() {
+  const { t } = useTranslation('auth', { keyPrefix: 'settings' });
+
   const { user } = useAuth();
   const { component, title } = useBreadcrumbs({
     subpage: `@${user?.username}`,
     moreSubpages: [
       {
-        label: 'Settings',
+        label: t('header.title'),
       },
     ],
   });
@@ -52,7 +55,7 @@ export function SettingsOverview() {
 
   return (
     <div>
-      <title>{`Account Settings – Cardgourmet`}</title>
+      <title>{`${t('pageTitle')} – Cardgourmet`}</title>
       {component}
 
       <Stack
@@ -75,19 +78,25 @@ export function SettingsOverview() {
 
       <Stack gap={'2.5rem'}>
         <Stack>
-          <GroupTitle text={'Allgemein'} />
+          <GroupTitle text={t('groups.general.title')} />
 
           <Group>
-            <GroupSettingTitle title={'Theme'} description={'Diese Einstellung gilt nur für diesen Browser.'} />
+            <GroupSettingTitle
+              title={t('groups.general.theme.title')}
+              description={t('groups.general.theme.description')}
+            />
 
             <ThemeSetting />
           </Group>
         </Stack>
         <Stack>
-          <GroupTitle text={'Account & Sicherheit'} />
+          <GroupTitle text={t('groups.account.title')} />
 
           <Group align={'start'}>
-            <GroupSettingTitle title={'Anzeigename'} description={'So wirst du auf Cardgourmet dargestellt.'} />
+            <GroupSettingTitle
+              title={t('groups.account.displayname.title')}
+              description={t('groups.account.displayname.description')}
+            />
 
             <DisplayNameSetting />
           </Group>
@@ -95,7 +104,10 @@ export function SettingsOverview() {
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
           <Group align={'start'}>
-            <GroupSettingTitle title={'E-Mail-Adresse'} />
+            <GroupSettingTitle
+              title={t('groups.account.email.title')}
+              description={t('groups.account.email.description')}
+            />
 
             <EmailSetting />
           </Group>
@@ -103,18 +115,21 @@ export function SettingsOverview() {
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
           <Group align={'start'}>
-            <GroupSettingTitle title={'Passwort'} />
+            <GroupSettingTitle
+              title={t('groups.account.password.title')}
+              description={t('groups.account.password.description')}
+            />
 
             <PasswordSetting />
           </Group>
         </Stack>
         <Stack>
-          <GroupTitle text={'Sprache'} />
+          <GroupTitle text={t('groups.language.title')} />
 
           <Group align={'start'}>
             <GroupSettingTitle
-              title={'Benachrichtigungen'}
-              description={'Wir werden E-Mails an dich in dieser Sprache verschicken.'}
+              title={t('groups.language.notifications.title')}
+              description={t('groups.language.notifications.description')}
             />
 
             <LanguageSetting field={'global'} languages={['en', 'de']} />
@@ -124,8 +139,8 @@ export function SettingsOverview() {
 
           <Group align={'start'}>
             <GroupSettingTitle
-              title={'Magic: The Gathering'}
-              description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
+              title={t('groups.language.mtg.title')}
+              description={t('groups.language.mtg.description')}
             />
 
             <LanguageSetting field={'mtg'} languages={mtgLanguages} />
@@ -135,8 +150,8 @@ export function SettingsOverview() {
 
           <Group align={'start'}>
             <GroupSettingTitle
-              title={'Pokémon Card Game'}
-              description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
+              title={t('groups.language.pcg.title')}
+              description={t('groups.language.pcg.description')}
             />
 
             <LanguageSetting field={'pcg'} languages={pcgLanguages} />
@@ -146,20 +161,20 @@ export function SettingsOverview() {
 
           <Group align={'start'}>
             <GroupSettingTitle
-              title={'Disney Lorcana'}
-              description={'Karten werden bevorzugt in dieser Sprache gesucht und dargestellt.'}
+              title={t('groups.language.dlc.title')}
+              description={t('groups.language.dlc.description')}
             />
 
             <LanguageSetting field={'dlc'} languages={dlcLanguages} />
           </Group>
         </Stack>
         <Stack>
-          <GroupTitle text={'Integrationen'} />
+          <GroupTitle text={t('groups.integrations.title')} />
 
           <Group align={'start'}>
             <GroupSettingTitle
-              title={'Google'}
-              description={'Du kannst Google verwenden, um dich später damit einzuloggen.'}
+              title={t('groups.integrations.google.title')}
+              description={t('groups.integrations.google.description')}
             />
 
             <GoogleIntegrationSetting />

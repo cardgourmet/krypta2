@@ -29,6 +29,60 @@
     "changePasswordButton": "Update Password"
   },
   "settings": {
+    "header": {
+      "title": "Settings"
+    },
+    "pageTitle": "Account Settings",
+    "groups": {
+      "general": {
+        "title": "General",
+        "theme": {
+          "title": "Theme",
+          "description": "This setting applies only to this browser."
+        }
+      },
+      "account": {
+        "title": "Account & Security",
+        "displayname": {
+          "title": "Display Name",
+          "description": "This is how you'll be displayed on Cardgourmet."
+        },
+        "email": {
+          "title": "Email Adress",
+          "description": ""
+        },
+        "password": {
+          "title": "Password",
+          "description": ""
+        }
+      },
+      "language": {
+        "title": "Language",
+        "notifications": {
+          "title": "Notifications",
+          "description": "We will send you emails in this language."
+        },
+        "mtg": {
+          "title": "Magic: The Gathering",
+          "description": "Cards are primarily searched for and displayed in this language."
+        },
+        "pcg": {
+          "title": "Pokémon Card Game",
+          "description": "Cards are primarily searched for and displayed in this language."
+        },
+        "dlc": {
+          "title": "Disney Lorcana",
+          "description": "Cards are primarily searched for and displayed in this language."
+        }
+      },
+      "integrations": {
+        "title": "Integrations",
+        "google": {
+          "title": "Google",
+          "description": "You can use Google to log in with it later."
+        }
+      }
+    },
     "languages": {
       "en": "English",
       "de": "German",

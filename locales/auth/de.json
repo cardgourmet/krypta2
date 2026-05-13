@@ -16,5 +16,97 @@
     "password": "Passwort",
     "passwordRepeat": "Passwort wiederholen",
     "registerButton": "Registrieren"
+  },
+  "forgot": {
+    "forgotPasswordTitle": "Passwort vergessen",
+    "rememberItAgain": "Erinnerst du dich wieder?",
+    "login": "Einloggen",
+    "forgotButton": "Passwort zurücksetzen",
+    "enterUsername": "Username oder Email ...",
+    "emailHasBeenSent": "Eine Bestätigung wurde zu deiner Email-Adresse geschickt.",
+    "passwordHasBeenReset": "Dein Passwort wurde aktualisiert.",
+    "changePasswordButton": "Passwort aktualisieren"
+  },
+  "settings": {
+    "header": {
+      "title": "Einstellungen"
+    },
+    "pageTitle": "Account Einstellungen",
+    "groups": {
+      "general": {
+        "title": "Allgemein",
+        "theme": {
+          "title": "Thema",
+          "description": "Diese Einstellung gilt nur für diesen Browser."
+        }
+      },
+      "account": {
+        "title": "Account & Sicherheit",
+        "displayname": {
+          "title": "Anzeigename",
+          "description": "So wirst du auf Cardgourmet dargestellt."
+        },
+        "email": {
+          "title": "E-Mail-Adresse",
+          "description": ""
+        },
+        "password": {
+          "title": "Passwort",
+          "description": ""
+        }
+      },
+      "language": {
+        "title": "Sprache",
+        "notifications": {
+          "title": "Benachrichtigungen",
+          "description": "Wir werden E-Mails an dich in dieser Sprache verschicken."
+        },
+        "mtg": {
+          "title": "Magic: The Gathering",
+          "description": "Karten werden bevorzugt in dieser Sprache gesucht und dargestellt."
+        },
+        "pcg": {
+          "title": "Pokémon Card Game",
+          "description": "Karten werden bevorzugt in dieser Sprache gesucht und dargestellt."
+        },
+        "dlc": {
+          "title": "Disney Lorcana",
+          "description": "Karten werden bevorzugt in dieser Sprache gesucht und dargestellt."
+        }
+      },
+      "integrations": {
+        "title": "Integrationen",
+        "google": {
+          "title": "Google",
+          "description": "Du kannst Google verwenden, um dich später damit einzuloggen."
+        }
+      }
+    },
+    "languages": {
+      "en": "Englisch",
+      "de": "Deutsch",
+      "fr": "Französisch",
+      "it": "Italienisch",
+      "es": "Spanisch",
+      "pt": "Portugiesisch",
+      "el": "Altgriechisch",
+      "ar": "Arabisch",
+      "zhs": "Vereinfachtes Chinesisch",
+      "zht": "Traditionelles Chinesisch",
+      "he": "Hebräisch",
+      "jp": "Japanisch",
+      "ko": "Koreanisch",
+      "la": "Latein",
+      "ph": "Phyrexianisch",
+      "ru": "Russisch",
+      "sa": "Sanskrit",
+      "qy": "Quenya",
+      "pl": "Polnisch",
+      "nl": "Niederländisch",
+      "cmn": "Mandarin",
+      "yue": "Kantonesisch",
+      "th": "Thailändisch",
+      "id": "Indonesisch"
+    }
   }
 }
