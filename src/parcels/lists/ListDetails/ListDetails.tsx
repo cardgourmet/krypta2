@@ -1,17 +1,17 @@
-import { Group, SimpleGrid, Stack } from '@mantine/core';
-import { IconCards, IconSearch } from '@tabler/icons-react';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { CardRenderer } from '@/parcels/lists/ListDetails/CardRenderer.tsx';
-import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
-import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
-import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
-import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
-import { Route } from '@/routes/me/lists/$listId.tsx';
+import {Group, SimpleGrid, Stack} from '@mantine/core';
+import {IconCards, IconSearch} from '@tabler/icons-react';
+import {useEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import {CardRenderer} from '@/parcels/lists/ListDetails/CardRenderer.tsx';
+import {ListDetailsHeader} from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
+import {ListDetailsSettings} from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
+import {SearchRenderer} from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
+import type {ResolvedUserListResource, UserList, UserListWithResources} from '@/parcels/lists/types.ts';
+import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
+import {Route} from '@/routes/me/lists/$listId.tsx';
 
 export function ListDetails() {
   const { t } = useTranslation('lists');
@@ -44,11 +44,11 @@ export function ListDetails() {
     subpage: `@${user?.username}`,
     moreSubpages: [
       {
-        label: 'Lists',
+        label: t('details.header.breadcrumbs.lists'),
         href: '/me/lists',
       },
       {
-        label: list.systemListType !== undefined ? t(`system.${list.name}`) : list.name,
+        label: list.systemListType !== undefined ? t(`overview.card.system.${list.name}`) : list.name,
       },
     ],
   });
@@ -91,6 +91,8 @@ export function ListDetails() {
 
   return (
     <div>
+      <title>{`${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${t('details.pageTitle')} – Cardgourmet`}</title>
+
       {listRes.error !== undefined && <GourmetText>{listRes.error.key}</GourmetText>}
 
       {component}
@@ -100,7 +102,7 @@ export function ListDetails() {
 
       {sortedCardResoures.length === 0 && sortedSearchResources.length === 0 && (
         <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-          {t('noResources')}
+          {t('overview.card.noResources')}
         </GourmetText>
       )}
       {(sortedCardResoures.length > 0 || sortedSearchResources.length > 0) && (

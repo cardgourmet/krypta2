@@ -1,6 +1,8 @@
 import {Group, type MantineColorScheme, Radio, RadioGroup, Stack, useMantineColorScheme} from '@mantine/core';
+import {useTranslation} from 'react-i18next';
 
 export function ThemeSetting() {
+  const { t } = useTranslation('auth', { keyPrefix: 'settings.groups.general.theme' });
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
@@ -13,9 +15,9 @@ export function ThemeSetting() {
         }}
       >
         <Group>
-          <Radio value={'light'} label={'Light'} />
-          <Radio value={'dark'} label={'Dark'} />
-          <Radio value={'auto'} label={'Auto'} />
+          <Radio value={'light'} label={t('values.light')} />
+          <Radio value={'dark'} label={t('values.dark')} />
+          <Radio value={'auto'} label={t('values.auto')} />
         </Group>
       </RadioGroup>
     </Stack>

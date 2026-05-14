@@ -82,7 +82,7 @@ export function OverviewSelectionDisplay() {
                       {t('cards', { count: cardAmount })}
                     </GourmetText>
 
-                    <Tooltip label={t('display-selection')} openDelay={1000}>
+                    <Tooltip label={t('displaySelection')} openDelay={1000}>
                       <ActionIcon
                         className={styles.selectionShowButton}
                         onClick={() => setMenuOpened((prev) => !prev)}
@@ -94,7 +94,7 @@ export function OverviewSelectionDisplay() {
                   </Group>
                   <Group gap={'0.1rem'}>
                     <MorePagesDropdown
-                      text={t('current-page')}
+                      text={t('currentPage')}
                       currentPage={workData?.search.page ?? 1}
                       onSelect={(sel) => {
                         // noinspection JSIgnoredPromiseFromCall
@@ -118,7 +118,7 @@ export function OverviewSelectionDisplay() {
                 </Stack>
                 <Group wrap={'nowrap'}>
                   <UseSelectionButton />
-                  <Tooltip label={t('clear-selection')} openDelay={500}>
+                  <Tooltip label={t('clearSelection')} openDelay={500}>
                     <ActionIcon
                       color={'var(--gourmet-neutral-3)'}
                       onClick={() => {

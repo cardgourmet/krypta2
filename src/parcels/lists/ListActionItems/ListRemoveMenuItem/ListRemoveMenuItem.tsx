@@ -59,7 +59,7 @@ export function ListRemoveMenuItem(props: ListMenuItemRessourceProps & TcgProps 
                     icon={<IconList size={18} />}
                     overlayIcon={<IconMinus size={14} color={'var(--gourmet-red-01)'} />}
                   />
-                  <GourmetText cgmff={'ui'}>{t('remove-from-list')}</GourmetText>
+                  <GourmetText cgmff={'ui'}>{t('removeFromList')}</GourmetText>
                 </Group>
                 <IconChevronRight size={18} />
               </Group>

@@ -1,3 +1,133 @@
 {
-
+  "actionmenu": {
+    "favorite": "Hinzufügen zu Favoriten",
+    "favoriteRemove": "Entfernen von Favoriten",
+    "favoriteCopy": "Kopieren zu Favoriten",
+    "addToList": "Hinzufügen zu ...",
+    "removeFromList": "Entfernen von ...",
+    "createNew": "Neue Erstellen",
+    "copyPrint": "Link kopieren"
+  },
+  "overview": {
+    "header": {
+      "title": "Listen"
+    },
+    "pageTitle": "Deine Listen",
+    "settings": {
+      "common": {
+        "sortby": "Sortieren nach",
+        "filterBy": "Filtern nach"
+      },
+      "sortby": {
+        "name": "Name",
+        "updatedAt": "Zuletzt aktualisiert"
+      },
+      "sortdir": {
+        "auto": "Auto",
+        "asc": "Aufsteigend",
+        "desc": "Absteigend"
+      },
+      "displaymode": {
+        "grid": "Gitterkartoffeln",
+        "table": "Tafelsalz"
+      },
+      "mtg": "Magic: The Gathering",
+      "pcg": "Pokémon Card Game",
+      "dlc": "Disney Lorcana",
+      "searchbarPlaceholder": "Suche..."
+    },
+    "create": {
+      "title": "Neue Liste Erstellen"
+    },
+    "delete": {
+      "warning": "Die Liste wird permanent gelöscht.",
+      "system": "Systemlisten können nicht gelöscht werden.",
+      "tooltip": "Liste löschen",
+      "youSure": "Bist du sicher?",
+      "cancel": "Abbrechen",
+      "confirm": "Los, lösch sie!"
+    },
+    "edit": {
+      "title": "Liste bearbeiten",
+      "cancel": "Abbrechen",
+      "update": "Änderungen anwenden",
+      "system": "Systemlisten können nicht bearbeitet werden."
+    },
+    "card": {
+      "lastUpdated": "Zuletzt bearbeitet",
+      "noDescription": "Keine Beschreibung gesetzt.",
+      "visibility": {
+        "public": "Öffentlich",
+        "private": "Privat",
+        "unlisted": "Ungelistet"
+      },
+      "listEmpty": "Diese Liste ist leer.",
+      "noResources": "Keine Ressourcen gefunden.",
+      "resources": "Ressourcen",
+      "system": {
+        "favorites": "Favoriten",
+        "favoritesDesc": "All deine Lieblinge, die du vielleicht in deinem Profil präsentieren kannst"
+      }
+    },
+    "form": {
+      "fields": {
+        "name": "Name",
+        "description": "Beschreibung",
+        "visibility": "Sichtbarkeit",
+        "allowedTcgs": "Erlaubte TCGs",
+        "color": "Farbe"
+      },
+      "visibilityExplain": {
+        "private": "<strong>Private</strong> Listen kannst nur du sehen.",
+        "unlisted": "<strong>Ungelistete</strong> Listen können von allen gesehen werden, die einen Link zu deiner Liste haben.",
+        "public": "<strong>Öffentliche</strong> Listen kann jeder sehen."
+      },
+      "allowedTcgsExplain": "Leer lassen, um alle TCGs zu erlauben.",
+      "allowedTcgsPlaceholder": "Auswählen...",
+      "required": "Pflichtfeld"
+    },
+    "all": "Alle TCGs",
+    "table": {
+      "cols": {
+        "name": "Name",
+        "description": "Beschreibung",
+        "lastUpdated": "Zuletzt bearbeitet",
+        "visibility": "Sichtbarkeit",
+        "size": "Größe",
+        "color": "Farbe"
+      },
+      "reExecute": "Erneut ausführen",
+      "moreOptions": "Mehr Optionen"
+    }
+  },
+  "details": {
+    "header": {
+      "breadcrumbs": {
+        "lists": "Listen"
+      }
+    },
+    "pageTitle": "Deine Listen",
+    "savedSearches": "Gespeicherte Suchen",
+    "cards": "Karten",
+    "searchCards_one": "{{count}} Karte",
+    "searchCards_other": "{{count}} Karten",
+    "settings": {
+      "common": {
+        "sortBy": "Sortieren nach",
+        "filterBy": "Filtern nach"
+      },
+      "sortBy": {
+        "name": "Name",
+        "addedAt": "Hinzugefügt"
+      },
+      "sortDir": {
+        "auto": "Auto",
+        "asc": "Aufsteigend",
+        "desc": "Absteigend"
+      },
+      "mtg": "Magic: The Gathering",
+      "pcg": "Pokémon Card Game",
+      "dlc": "Disney Lorcana"
+    }
+  }
 }

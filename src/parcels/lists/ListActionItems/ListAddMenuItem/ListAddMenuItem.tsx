@@ -90,7 +90,7 @@ export function ListAddMenuItem(
               listWithResources={list}
               action={'add'}
               disabled={existsInLists.includes(list.list.id)}
-              buttonText={t('add-to-list')}
+              buttonText={t('addToList')}
               {...props}
             />
           );
@@ -111,7 +111,7 @@ export function ListAddMenuItem(
         >
           <Group gap={'0.5rem'}>
             <IconPlus size={18} />
-            <GourmetText cgmff={'ui'}>{t('create-new')}</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('createNew')}</GourmetText>
           </Group>
         </Menu.Item>
       </Menu.Dropdown>

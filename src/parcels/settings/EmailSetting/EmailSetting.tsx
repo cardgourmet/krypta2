@@ -1,14 +1,17 @@
-import { ActionIcon, Group, Loader, Stack, UnstyledButton } from '@mantine/core';
-import { IconCheck, IconEdit, IconX } from '@tabler/icons-react';
-import { startTransition, useRef, useState } from 'react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { requestUpdateUserEmail } from '@/parcels/auth/api.ts';
-import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import {ActionIcon, Group, Loader, Stack, UnstyledButton} from '@mantine/core';
+import {IconCheck, IconEdit, IconX} from '@tabler/icons-react';
+import {startTransition, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {requestUpdateUserEmail} from '@/parcels/auth/api.ts';
+import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
 import styles from '@/routes/me/settings/index.module.css';
 
 export function EmailSetting() {
+  const { t } = useTranslation('auth', { keyPrefix: 'settings' });
+  const { t: t2 } = useTranslation('auth', { keyPrefix: 'settings.groups.account.email' });
   const { user } = useAuth();
 
   const [emailPending, setEmailPending] = useState<string>('');
@@ -47,7 +50,7 @@ export function EmailSetting() {
             <Group gap={'0.5rem'}>
               <IconEdit size={18} color={'var(--gourmet-blue-1)'} />
               <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
-                Bearbeiten
+                {t('edit')}
               </GourmetText>
             </Group>
           </UnstyledButton>
@@ -97,7 +100,7 @@ export function EmailSetting() {
       </Group>
 
       {emailEdit && (
-        <GourmetPasswordInput label={'Password'} value={password} onChange={(e) => setPassword(e.target.value)} />
+        <GourmetPasswordInput label={t2('password')} value={password} onChange={(e) => setPassword(e.target.value)} />
       )}
       {emailError && (
         <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'}>
@@ -106,7 +109,7 @@ export function EmailSetting() {
       )}
       {emailPending && (
         <GourmetText c={'var(--gourmet-green-1)'} fz={'0.95rem'}>
-          A verification link has been sent to your new email.
+          {t('verificationLinkSent')}
         </GourmetText>
       )}
     </Stack>

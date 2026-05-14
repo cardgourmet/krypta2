@@ -1,22 +1,22 @@
 {
   "login": {
-    "login-title": "Login",
-    "first-time": "First time here?",
+    "loginTitle": "Login",
+    "firstTime": "First time here?",
     "register": "Register",
-    "email-or-name": "Email-Address or Username",
+    "emailOrName": "Email-Address or Username",
     "password": "Password",
-    "forgot-password": "Forgot password?",
-    "login-button": "Login"
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login"
   },
   "register": {
     "login": "Login",
-    "register-title": "Register",
-    "first-time": "Seen this page before?",
+    "registerTitle": "Register",
+    "firstTime": "Seen this page before?",
     "email": "Email-Address",
     "username": "Username",
     "password": "Password",
-    "password-repeat": "Confirm Password",
-    "register-button": "Register"
+    "passwordRepeat": "Confirm Password",
+    "registerButton": "Register"
   },
   "forgot": {
     "forgotPasswordTitle": "Forgot Password",
@@ -29,6 +29,74 @@
     "changePasswordButton": "Update Password"
   },
   "settings": {
+    "header": {
+      "title": "Settings"
+    },
+    "pageTitle": "Account Settings",
+    "edit": "Edit",
+    "verificationLinkSent": "A verification link has been sent to your new email.",
+    "noPassword": "You have no password set, since you've created your account with Google.",
+    "groups": {
+      "general": {
+        "title": "General",
+        "theme": {
+          "title": "Theme",
+          "description": "This setting applies only to this browser.",
+          "values": {
+            "light": "Light",
+            "dark": "Dark",
+            "auto": "Auto"
+          }
+        }
+      },
+      "account": {
+        "title": "Account & Security",
+        "displayname": {
+          "title": "Display Name",
+          "description": "This is how you'll be displayed on Cardgourmet."
+        },
+        "email": {
+          "title": "Email Adress",
+          "description": "",
+          "password": "Password"
+        },
+        "password": {
+          "title": "Password",
+          "description": "",
+          "fieldLabel": "New Password",
+          "fieldLabelConfirm": "Confirm New Password"
+        }
+      },
+      "language": {
+        "title": "Language",
+        "notifications": {
+          "title": "Notifications",
+          "description": "We will send you emails in this language."
+        },
+        "mtg": {
+          "title": "Magic: The Gathering",
+          "description": "Cards are primarily searched for and displayed in this language."
+        },
+        "pcg": {
+          "title": "Pokémon Card Game",
+          "description": "Cards are primarily searched for and displayed in this language."
+        },
+        "dlc": {
+          "title": "Disney Lorcana",
+          "description": "Cards are primarily searched for and displayed in this language."
+        }
+      },
+      "integrations": {
+        "title": "Integrations",
+        "google": {
+          "title": "Google",
+          "description": "You can use Google to log in with it later.",
+          "connect": "Connect with Google",
+          "disconnect": "Disconnect from Google",
+          "cantRemove": "You can't remove this integration, since you have created your account with it."
+        }
+      }
+    },
     "languages": {
       "en": "English",
       "de": "German",

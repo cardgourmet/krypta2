@@ -23,7 +23,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
           <Group gap={'0.5rem'}>
             <IconEyeSearch color={'var(--gourmet-neutral-9'} />
             <GourmetText cgmff={'ui'} cgmc={'neutral-9'} fz={'1.15rem'} fw={'500'}>
-              {t('view-selection')}
+              {t('viewSelection')}
             </GourmetText>
           </Group>
           <Button onClick={() => setMenuOpened(false)} classNames={{ root: styles.closeButton }}>
@@ -31,7 +31,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
           </Button>
         </Group>
 
-        <GourmetText cgmff={'ui'}>{t('selectio-menu-info')}</GourmetText>
+        <GourmetText cgmff={'ui'}>{t('selectionMenuInfo')}</GourmetText>
       </Stack>
 
       <ScrollArea
@@ -62,7 +62,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
                     >
                       <Group>
                         <IconX size={16} color={'var(--gourmet-neutral-8)'} />
-                        <GourmetText cgmff={'ui'}>{t('clear-page')}</GourmetText>
+                        <GourmetText cgmff={'ui'}>{t('clearPage')}</GourmetText>
                       </Group>
                     </Button>
                   </Group>

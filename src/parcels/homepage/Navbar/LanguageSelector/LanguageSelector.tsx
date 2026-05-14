@@ -1,7 +1,9 @@
 import {Center, Combobox, Group, UnstyledButton, useCombobox} from '@mantine/core';
+import {useLocalStorage} from '@mantine/hooks';
 import {IconCheck, IconLanguage} from '@tabler/icons-react';
-import {useEffect, useEffectEvent, useState} from 'react';
+import {startTransition, useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {CGM_THEME} from '@/parcels/auth/AuthContextProvider.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './LanguageSelector.module.css';
 
@@ -9,16 +11,24 @@ export function LanguageSelector() {
   const { i18n } = useTranslation();
   const { t } = useTranslation('nav', { keyPrefix: 'language' });
 
-  const [language, setLanguage] = useState<string>('en');
-  const switchLanguage = useEffectEvent((language: string) => {
-    // noinspection JSIgnoredPromiseFromCall
-    i18n.changeLanguage(language);
+  const [language, setLanguage] = useLocalStorage<'en' | 'de'>({
+    key: CGM_THEME,
+    defaultValue: 'en',
+    getInitialValueInEffect: true,
   });
+  const [localLanguage, setLocalLanguage] = useState<string>(language);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
+  const switchLanguage = useCallback(
+    (lang: string) => {
+      // noinspection JSIgnoredPromiseFromCall
+      i18n.changeLanguage(lang);
+    },
+    [i18n.changeLanguage],
+  );
   useEffect(() => {
     switchLanguage(language);
-  }, [language]);
+    setLocalLanguage(language);
+  }, [language, switchLanguage]);
 
   const combobox = useCombobox();
   const items = {
@@ -31,13 +41,13 @@ export function LanguageSelector() {
         <Group>
           <GourmetText
             cgmff={'ui'}
-            fw={key === language ? '600' : 'inherit'}
-            cgmc={key === language ? 'neutral-9' : 'neutral-7'}
+            fw={key === localLanguage ? '600' : 'inherit'}
+            cgmc={key === localLanguage ? 'neutral-9' : 'neutral-7'}
           >
             {value}
           </GourmetText>
         </Group>
-        {key === language && <IconCheck size={18} color={'var(--gourmet-neutral-9)'} />}
+        {key === localLanguage && <IconCheck size={18} color={'var(--gourmet-neutral-9)'} />}
       </Group>
     </Combobox.Option>
   ));
@@ -45,8 +55,18 @@ export function LanguageSelector() {
   return (
     <Combobox
       onOptionSubmit={(optionValue) => {
-        setLanguage(optionValue);
+        setLocalLanguage(optionValue);
         combobox.closeDropdown();
+
+        // "If one frame is still not enough, use a double requestAnimationFrame"
+        // - and so I did. (it actually works, with only one it doesn't)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            startTransition(() => {
+              setLanguage(optionValue as 'de' | 'en');
+            });
+          });
+        });
       }}
       store={combobox}
       position="bottom-start"

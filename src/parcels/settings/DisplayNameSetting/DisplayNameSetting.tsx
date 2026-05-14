@@ -1,13 +1,15 @@
-import { ActionIcon, Group, Loader, Stack, UnstyledButton } from '@mantine/core';
-import { IconCheck, IconEdit, IconX } from '@tabler/icons-react';
-import { startTransition, useRef, useState } from 'react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { updateUserDisplayName } from '@/parcels/auth/api.ts';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import {ActionIcon, Group, Loader, Stack, UnstyledButton} from '@mantine/core';
+import {IconCheck, IconEdit, IconX} from '@tabler/icons-react';
+import {startTransition, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {updateUserDisplayName} from '@/parcels/auth/api.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
 import styles from '@/routes/me/settings/index.module.css';
 
 export function DisplayNameSetting() {
+  const { t } = useTranslation('auth', { keyPrefix: 'settings' });
   const { user } = useAuth();
 
   const [displayName, setDisplayName] = useState(user?.displayName!);
@@ -40,7 +42,7 @@ export function DisplayNameSetting() {
             <Group gap={'0.5rem'}>
               <IconEdit size={18} color={'var(--gourmet-blue-1)'} />
               <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
-                Bearbeiten
+                {t('edit')}
               </GourmetText>
             </Group>
           </UnstyledButton>

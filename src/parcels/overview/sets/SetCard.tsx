@@ -1,5 +1,6 @@
 import {Center, Group, Stack} from '@mantine/core';
 import {Link} from '@tanstack/react-router';
+import {useTranslation} from 'react-i18next';
 import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from '@/parcels/overview/sets/SetsOverview.module.css';
@@ -10,6 +11,8 @@ import {TcgSetIcon} from '@/parcels/tcg/TcgSetIcon.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
+  const { t } = useTranslation('sets', { keyPrefix: 'overview.card' });
+
   const language = 'en';
   const translation = set.translations[language];
 
@@ -70,7 +73,7 @@ export function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
           {!logoUrl && (
             <Center style={{ height: '5rem' }}>
               <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-                No image available.
+                {t('noImage')}
               </GourmetText>
             </Center>
           )}
@@ -78,7 +81,7 @@ export function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
 
         <Stack justify={'end'} h={'100%'}>
           <Group justify={'space-between'}>
-            <GourmetText cgmff={'ui'}>{set.printsAvailable} prints</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('prints', { count: set.printsAvailable })}</GourmetText>
             <GourmetText cgmff={'ui'}>{date}</GourmetText>
           </Group>
         </Stack>

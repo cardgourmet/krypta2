@@ -1,3 +1,32 @@
 {
-
+  "header": {
+    "title": "Alle Sets"
+  },
+  "pageTitle": "Alle Sets Übersicht",
+  "tcg": {
+    "mtg": "Magic: The Gathering",
+    "pcg": "Pokémon Card Game",
+    "dlc": "Disney Lorcana"
+  },
+  "settings": {
+    "common": {
+      "groupBy": "Gruppieren nach"
+    },
+    "groupBy": {
+      "year": "Jahr",
+      "era": "Ära"
+    },
+    "sortdir": {
+      "auto": "Auto",
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    }
+  },
+  "overview": {
+    "card": {
+      "prints_one": "{{count}} Print",
+      "prints_other": "{{count}} Prints",
+      "noImage": "Kein Bild verfügbar."
+    }
+  }
 }

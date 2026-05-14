@@ -163,7 +163,7 @@ export function TcgCardMenu({
 
                 closeMenu();
               }}
-              buttonText={t('add-to-list')}
+              buttonText={t('addToList')}
             />
             <ListRemoveMenuItem
               ref={ref}
@@ -199,7 +199,7 @@ export function TcgCardMenu({
             >
               <Group gap={'0.5rem'}>
                 <IconLink size={18} />
-                <GourmetText cgmff={'ui'}>{t('copy-print')}</GourmetText>
+                <GourmetText cgmff={'ui'}>{t('copyPrint')}</GourmetText>
               </Group>
             </Menu.Item>
           </Menu.Dropdown>

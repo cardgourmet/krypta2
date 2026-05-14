@@ -9,6 +9,7 @@ export const CGM_USER = 'cgm-user';
 export const CGM_WAS_VERIFIED = 'cgm-was-verified';
 export const CGM_EMAIL_PENDING = 'cgm-email-pending';
 export const CGM_EMAIL_WAS_CHANGED = 'cgm-email-was-changed';
+export const CGM_THEME = 'cgm-theme';
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
   const noti = useGourmetNotification();

@@ -1,7 +1,8 @@
 {
   "title": "Erweiterte Suche",
   "subtitle": "Benutze die Filter unten, um dir die Suche zusammenzubauen.",
-  "resetButton": "Filter zurücksetzen",
+  "resetButton_one": "{{count}} Filter zurücksetzen",
+  "resetButton_other": "{{count}} Filter zurücksetzen",
   "startSearch": "Suche starten",
   "numberCompare": {
     "=": "gleich",
@@ -211,7 +212,7 @@
         "placeholder": "Gib einen Typen ein oder wähle einen",
         "dataGroups": {
           "types": "Types",
-          "classifications": "Classifications"
+          "classifications": "Klassifikationen"
         }
       },
       "ink": {

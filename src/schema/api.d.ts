@@ -6822,6 +6822,7 @@ export interface components {
             id: string;
             imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
             name: string;
+            text?: string | null;
             title?: string | null;
         };
         DlcDataPrint: {

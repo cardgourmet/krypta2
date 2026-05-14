@@ -26,7 +26,7 @@ export function ListsOverviewTable({
   onDelete?: (id: string) => void;
 }) {
   const { i18n } = useTranslation();
-  const { t } = useTranslation('lists', { keyPrefix: 'table.cols' });
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
   const { t: t2 } = useTranslation('lists');
 
   const search = Route.useSearch();

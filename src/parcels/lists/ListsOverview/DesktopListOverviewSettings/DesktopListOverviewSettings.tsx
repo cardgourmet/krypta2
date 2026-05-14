@@ -10,7 +10,7 @@ import {Route} from '@/routes/me/lists';
 import styles from './../ListsOverview.module.css';
 
 export function DesktopListOverviewSettings() {
-  const { t } = useTranslation('lists');
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
   const search = Route.useSearch();
   const navigate = useNavigate();
 
@@ -134,7 +134,7 @@ export function DesktopListOverviewSettings() {
 }
 
 function Searchbar() {
-  const { t } = useTranslation('lists');
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
 
   const search = Route.useSearch();
   const navigate = useNavigate();

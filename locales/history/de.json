@@ -1,1 +1,41 @@
-{}
+{
+  "header": {
+    "title": "Suchverlauf",
+    "breadcrumbs": {
+      "guest": "Gast"
+    }
+  },
+  "filters": {
+    "common": {
+      "sortby": "Sortieren nach Datum",
+      "filterBy": "Filtern nach"
+    },
+    "sortdir": {
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "tcg": {
+      "mtg": "Magic: The Gathering",
+      "pcg": "Pokémon Card Game",
+      "dlc": "Disney Lorcana"
+    },
+    "searchbarPlaceholder": "Suche..."
+  },
+  "pageTitle": "Dein Suchverlauf",
+  "notLoggedIn": "Du bist nicht angemeldet. Das bedeutet, dass dein Offline-Verlauf verschwinden könnte, wenn du den Browser wechselst oder dich einloggst.",
+  "notVerified": "Du bist nicht verifiziert. Das bedeutet dein Verlauf wird noch nicht online gespeichert und könnte verschwinden, wenn du den Browser wechselst oder dich verifizierst.",
+  "noSearches": "Du hast noch keine Suche. Benutz die Suchleiste oben um anzufangen!",
+  "table": {
+    "reExecute": "Erneut ausführen",
+    "moreOptions": "Mehr Optionen",
+    "cols": {
+      "query": "Query",
+      "cards": "Karten",
+      "time": "Zeit",
+      "speed": "Dauer",
+      "saved": "Gespeichert",
+      "inList": "In Liste"
+    }
+  }
+}
+

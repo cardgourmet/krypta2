@@ -10,7 +10,8 @@ import {Route} from '@/routes/me/history';
 import styles from './SearchHistoryOverviewSettings.module.css';
 
 export function SearchHistoryOverviewSettings() {
-  const { t } = useTranslation('history');
+  const { t } = useTranslation('history', { keyPrefix: 'filters' });
+  const { t: t2 } = useTranslation('history', { keyPrefix: 'filters.tcg' });
   const search = Route.useSearch();
   const navigate = useNavigate();
 
@@ -48,11 +49,11 @@ export function SearchHistoryOverviewSettings() {
           </GourmetText>
           <TextDropdown
             items={{
-              mtg: t('mtg'),
-              pcg: t('pcg'),
-              dlc: t('dlc'),
+              mtg: t2('mtg'),
+              pcg: t2('pcg'),
+              dlc: t2('dlc'),
             }}
-            t={t}
+            t={t2}
             defaultSelected={search.tcg}
             onSelect={(sel) => {
               // noinspection JSIgnoredPromiseFromCall

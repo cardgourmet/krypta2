@@ -1,19 +1,20 @@
 {
-  "display-selection": "Auswahl anzeigen",
-  "current-page": "Aktuelle Seite",
+  "displaySelection": "Auswahl anzeigen",
+  "currentPage": "Aktuelle Seite",
   "selection": "Auswahl",
-  "clear-selection": "Auswahl aufheben",
+  "clearSelection": "Auswahl aufheben",
   "cards_one": "{{count}} Karte",
   "cards_other": "{{count}} Karten",
-  "use-selection": "Auswahl verwenden für ...",
-  "mark-as-favorite": "Als Favoriten markieren",
-  "add-to-bookmarks": "Zu Lesezeichen hinzufügen",
-  "add-to-lists": "Zur Liste hinzufügen ..",
-  "create-new-list": "Neue Erstellen",
   "page": "Seite",
-  "maximum-cards": "Du darfst nur maximal <strong>60</strong> Karten gleichzeitig auswählen.",
-  "maximum-cards-2": "Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber <u>die gesamte Suche abspeichern</u> willst.",
-  "view-selection": "Auswahl ansehen",
-  "selectio-menu-info": "Klicke ein Element, um die Auswahl aufzuheben.",
-  "clear-page": "Alle aufheben"
+  "maximumCards": "Du darfst nur maximal <strong>60</strong> Karten gleichzeitig auswählen.",
+  "maximumCards2": "Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber <u>die gesamte Suche abspeichern</u> willst.",
+  "viewSelection": "Auswahl ansehen",
+  "selectionMenuInfo": "Klicke ein Element, um die Auswahl aufzuheben.",
+  "clearPage": "Alle aufheben",
+  "useSelectionMenu": {
+    "useSelection": "Auswahl benutzen ...",
+    "favorite": "Füge {{count}} zu Favoriten hinzu",
+    "addToLists": "Hinzufügen zu ..",
+    "createNewList": "Neue Erstellen"
+  }
 }

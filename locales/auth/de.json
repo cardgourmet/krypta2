@@ -1,20 +1,126 @@
 {
   "login": {
-    "login-title": "Einloggen",
-    "first-time": "Zum ersten Mal hier?",
+    "loginTitle": "Einloggen",
+    "firstTime": "Zum ersten Mal hier?",
     "register": "Registrieren",
-    "email-or-name": "E-Mail-Adresse oder Benutzername",
+    "emailOrName": "E-Mail-Adresse oder Benutzername",
     "password": "Passwort",
-    "forgot-password": "Passwort vergessen?",
-    "login-button": "Anmelden"
+    "forgotPassword": "Passwort vergessen?",
+    "loginButton": "Anmelden"
   },
   "register": {
-    "register-title": "Registrieren",
-    "first-time": "Schon mal hier gewesen?",
+    "registerTitle": "Registrieren",
+    "firstTime": "Schon mal hier gewesen?",
     "email": "E-Mail-Adresse",
     "username": "Benutzername",
     "password": "Passwort",
-    "password-repeat": "Passwort wiederholen",
-    "register-button": "Registrieren"
+    "passwordRepeat": "Passwort wiederholen",
+    "registerButton": "Registrieren"
+  },
+  "forgot": {
+    "forgotPasswordTitle": "Passwort vergessen",
+    "rememberItAgain": "Erinnerst du dich wieder?",
+    "login": "Einloggen",
+    "forgotButton": "Passwort zurücksetzen",
+    "enterUsername": "Username oder Email ...",
+    "emailHasBeenSent": "Eine Bestätigung wurde zu deiner Email-Adresse geschickt.",
+    "passwordHasBeenReset": "Dein Passwort wurde aktualisiert.",
+    "changePasswordButton": "Passwort aktualisieren"
+  },
+  "settings": {
+    "header": {
+      "title": "Einstellungen"
+    },
+    "pageTitle": "Account Einstellungen",
+    "edit": "Bearbeiten",
+    "verificationLinkSent": "Ein Verifizierungslink wurde zu deiner Email-Adresse gesendet.",
+    "noPassword": "Du hast kein Passwort gesetzt, weil du deinen Account über Google erstellt hast.",
+    "groups": {
+      "general": {
+        "title": "Allgemein",
+        "theme": {
+          "title": "Thema",
+          "description": "Diese Einstellung gilt nur für diesen Browser.",
+          "values": {
+            "light": "Hell",
+            "dark": "Dunkel",
+            "auto": "Auto"
+          }
+        }
+      },
+      "account": {
+        "title": "Account & Sicherheit",
+        "displayname": {
+          "title": "Anzeigename",
+          "description": "So wirst du auf Cardgourmet dargestellt."
+        },
+        "email": {
+          "title": "E-Mail-Adresse",
+          "description": "",
+          "password": "Passwort"
+        },
+        "password": {
+          "title": "Passwort",
+          "description": "",
+          "fieldLabel": "Neues Passwort",
+          "fieldLabelConfirm": "Neues Passwort bestätigen"
+        }
+      },
+      "language": {
+        "title": "Sprache",
+        "notifications": {
+          "title": "Benachrichtigungen",
+          "description": "Wir werden E-Mails an dich in dieser Sprache verschicken."
+        },
+        "mtg": {
+          "title": "Magic: The Gathering",
+          "description": "Karten werden bevorzugt in dieser Sprache gesucht und dargestellt."
+        },
+        "pcg": {
+          "title": "Pokémon Card Game",
+          "description": "Karten werden bevorzugt in dieser Sprache gesucht und dargestellt."
+        },
+        "dlc": {
+          "title": "Disney Lorcana",
+          "description": "Karten werden bevorzugt in dieser Sprache gesucht und dargestellt."
+        }
+      },
+      "integrations": {
+        "title": "Integrationen",
+        "google": {
+          "title": "Google",
+          "description": "Du kannst Google verwenden, um dich später damit einzuloggen.",
+          "connect": "Verbinden mit Google",
+          "disconnect": "Verbindung mit Google trennen",
+          "cantRemove": "Du kannst diese Integration nicht trennen, weil du deinen Account damit erstellt hast."
+        }
+      }
+    },
+    "languages": {
+      "en": "Englisch",
+      "de": "Deutsch",
+      "fr": "Französisch",
+      "it": "Italienisch",
+      "es": "Spanisch",
+      "pt": "Portugiesisch",
+      "el": "Altgriechisch",
+      "ar": "Arabisch",
+      "zhs": "Vereinfachtes Chinesisch",
+      "zht": "Traditionelles Chinesisch",
+      "he": "Hebräisch",
+      "jp": "Japanisch",
+      "ko": "Koreanisch",
+      "la": "Latein",
+      "ph": "Phyrexianisch",
+      "ru": "Russisch",
+      "sa": "Sanskrit",
+      "qy": "Quenya",
+      "pl": "Polnisch",
+      "nl": "Niederländisch",
+      "cmn": "Mandarin",
+      "yue": "Kantonesisch",
+      "th": "Thailändisch",
+      "id": "Indonesisch"
+    }
   }
 }

@@ -1,17 +1,17 @@
-import { Blockquote, Divider, Stack } from '@mantine/core';
-import { matches, useForm } from '@mantine/form';
-import { IconInfoCircle } from '@tabler/icons-react';
-import { useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { registerUsingBasicAuth } from '@/parcels/auth/api.ts';
-import { GoogleRegisterButton, type OAuthData } from '@/parcels/auth/register/GoogleRegisterButton.tsx';
-import { Button } from '@/parcels/generic/Button/Button';
-import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
-import { EMAIL_REGEX, PASSWORD_REGEX, Route, USERNAME_REGEX } from '@/routes/register';
+import {Blockquote, Divider, Stack} from '@mantine/core';
+import {matches, useForm} from '@mantine/form';
+import {IconInfoCircle} from '@tabler/icons-react';
+import {useNavigate} from '@tanstack/react-router';
+import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {registerUsingBasicAuth} from '@/parcels/auth/api.ts';
+import {GoogleRegisterButton, type OAuthData} from '@/parcels/auth/register/GoogleRegisterButton.tsx';
+import {Button} from '@/parcels/generic/Button/Button';
+import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import {EMAIL_REGEX, PASSWORD_REGEX, Route, USERNAME_REGEX} from '@/routes/register';
 import styles from '@/routes/register/index.module.css';
 
 export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (data: OAuthData) => void }) {
@@ -85,11 +85,11 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
             <GourmetPasswordInput w={'100%'} {...form.getInputProps('password')} />
           </Stack>
           <Stack gap={'0.1rem'}>
-            <GourmetText>{t('password-repeat')}</GourmetText>
+            <GourmetText>{t('passwordRepeat')}</GourmetText>
             <GourmetPasswordInput w={'100%'} {...form.getInputProps('password2')} />
           </Stack>
 
-          <Button type="submit">{t('register-button')}</Button>
+          <Button type="submit">{t('registerButton')}</Button>
         </Stack>
       </form>
 
