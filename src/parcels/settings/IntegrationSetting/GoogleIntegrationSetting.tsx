@@ -1,12 +1,12 @@
-import { Group, Loader, Stack} from '@mantine/core';
+import {Group, Loader, Stack} from '@mantine/core';
 import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
 import {IconAlertCircle} from '@tabler/icons-react';
 import {startTransition, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {connectOAuth, disconnectOAuth} from '@/parcels/auth/api.ts';
+import {Button} from '@/parcels/generic/Button/Button';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useTranslation} from 'react-i18next';
-import { Button } from '@/parcels/generic/Button/Button';
 
 export function GoogleIntegrationSetting() {
   return (
