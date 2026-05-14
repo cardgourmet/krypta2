@@ -1,4 +1,4 @@
-import type {ReactElement} from 'react';
+import type { ReactElement } from 'react';
 import styles from './IconWithOverlayIcon.module.css';
 
 export function IconWithOverlayIcon({ icon, overlayIcon }: { icon: ReactElement; overlayIcon: ReactElement }) {

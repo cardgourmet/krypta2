@@ -1,7 +1,7 @@
-import {useEffect, useMemo, useState} from 'react';
-import {type FilterValuesByKeyword, useFilterCacheStore} from '@/parcels/search/filter/FilterCacheStore.tsx';
-import type {SearchQueryExecutorFilterValue} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useEffect, useMemo, useState } from 'react';
+import { type FilterValuesByKeyword, useFilterCacheStore } from '@/parcels/search/filter/FilterCacheStore.tsx';
+import type { SearchQueryExecutorFilterValue } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function useFilterValues(tcg: Tcg, keywords: string[], operator?: string) {
   const [filterValues, setFilterValues] = useState<FilterValuesByKeyword | undefined>();

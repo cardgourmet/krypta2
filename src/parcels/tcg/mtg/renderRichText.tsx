@@ -1,6 +1,6 @@
-import type {ReactElement, ReactNode} from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import reactStringReplace from 'react-string-replace';
-import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
+import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
 export function renderRichText(line: string): ReactElement {
   let formattedLine: ReactNode[] = [line];

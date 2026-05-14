@@ -1,4 +1,4 @@
-import {Image, rem} from '@mantine/core';
+import { Image, rem } from '@mantine/core';
 import number0 from '@/parcels/tcg/mtg/details/MtgSymbolSVG/symbols/0.svg';
 import number1 from '@/parcels/tcg/mtg/details/MtgSymbolSVG/symbols/1.svg';
 import number2 from '@/parcels/tcg/mtg/details/MtgSymbolSVG/symbols/2.svg';

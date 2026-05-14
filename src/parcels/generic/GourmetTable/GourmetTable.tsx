@@ -1,6 +1,6 @@
-import {useMediaQuery} from '@mantine/hooks';
-import type {TFunction} from 'i18next';
-import {type ReactElement, useMemo} from 'react';
+import { useMediaQuery } from '@mantine/hooks';
+import type { TFunction } from 'i18next';
+import { type ReactElement, useMemo } from 'react';
 import styles from './GourmetTable.module.css';
 
 type SearchHistoryTableProps<T> = {

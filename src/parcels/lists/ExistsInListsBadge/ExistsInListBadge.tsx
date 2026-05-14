@@ -1,9 +1,9 @@
-import {Button, Group, Menu, Stack, Tooltip} from '@mantine/core';
-import {IconLabelFilled} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
+import { Button, Group, Menu, Stack, Tooltip } from '@mantine/core';
+import { IconLabelFilled } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 
 export function ExistsInListsBadge({

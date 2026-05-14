@@ -35,6 +35,7 @@
 }
 
 .itemButton {
+  width: 100%;
   background-color: transparent;
 
   &:hover {

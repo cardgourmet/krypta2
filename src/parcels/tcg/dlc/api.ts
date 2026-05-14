@@ -1,7 +1,12 @@
-import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
-import type {DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy} from '@/parcels/tcg/dlc/types.ts';
-import type {SearchQueryExecutorFilter, SearchQueryExecutorFilterValues, TcgCardQuery, TcgFilterOperator,} from '@/parcels/tcg/types.ts';
-import type {components as c} from '@/schema/api.d.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import type { DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy } from '@/parcels/tcg/dlc/types.ts';
+import type {
+  SearchQueryExecutorFilter,
+  SearchQueryExecutorFilterValues,
+  TcgCardQuery,
+  TcgFilterOperator,
+} from '@/parcels/tcg/types.ts';
+import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
 export type DlcCardQuery = TcgCardQuery & {

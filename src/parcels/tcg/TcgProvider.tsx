@@ -1,6 +1,6 @@
-import {useLocalStorage, usePrevious} from '@mantine/hooks';
-import {createContext, type ReactNode, useContext, useEffect, useState} from 'react';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useLocalStorage, usePrevious } from '@mantine/hooks';
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const CGM_LAST_TCG = 'cgm-last-tcg';
 

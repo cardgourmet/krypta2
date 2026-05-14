@@ -1,4 +1,4 @@
-import type {CSSProperties} from 'react';
+import type { CSSProperties } from 'react';
 import styles from './MtgColorIndicator.module.css';
 
 const colorValues: Record<string, string> = {

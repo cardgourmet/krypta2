@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import advancedDE from '@/../locales/advanced/de.json';
 import advancedEN from '@/../locales/advanced/en.json';
 import authDE from '@/../locales/auth/de.json';

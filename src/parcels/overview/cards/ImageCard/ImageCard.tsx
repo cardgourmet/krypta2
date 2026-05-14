@@ -1,11 +1,11 @@
-import {Link} from '@tanstack/react-router';
-import {type HTMLProps, type PropsWithChildren, useEffect, useRef, useState} from 'react';
+import { Link } from '@tanstack/react-router';
+import { type HTMLProps, type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import type {CardProperties} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import {FlipButton} from '@/parcels/overview/cards/CardGrid/FlipButton/FlipButton.tsx';
-import {FlipImage} from '@/parcels/overview/cards/CardGrid/FlipImage/FlipImage.tsx';
-import {slugify} from '@/parcels/slugify.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import type { CardProperties } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
+import { FlipButton } from '@/parcels/overview/cards/CardGrid/FlipButton/FlipButton.tsx';
+import { FlipImage } from '@/parcels/overview/cards/CardGrid/FlipImage/FlipImage.tsx';
+import { slugify } from '@/parcels/slugify.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
 
 export function ImageCard({

@@ -1,5 +1,5 @@
-import type {TextProps} from '@mantine/core';
-import type {PropsWithChildren} from 'react';
+import type { TextProps } from '@mantine/core';
+import type { PropsWithChildren } from 'react';
 
 export type GourmetTextProps = PropsWithChildren<TextProps> & {
   cgmc?: GourmetColor;

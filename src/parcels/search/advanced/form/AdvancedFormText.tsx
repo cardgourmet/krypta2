@@ -1,10 +1,10 @@
-import {Stack} from '@mantine/core';
-import type {UseFormReturnType} from '@mantine/form';
-import {useContext} from 'react';
-import type {AdvancedFormProps} from '@/parcels/search/advanced/form/types.ts';
-import {AdvancedFilterContext} from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
-import {StyledCheckbox} from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
-import {StyledTextInput} from '@/parcels/search/advanced/styled/StyledTextInput.tsx';
+import { Stack } from '@mantine/core';
+import type { UseFormReturnType } from '@mantine/form';
+import { useContext } from 'react';
+import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
+import { AdvancedFilterContext } from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
+import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
+import { StyledTextInput } from '@/parcels/search/advanced/styled/StyledTextInput.tsx';
 
 type AdvancedFormTextProps = AdvancedFormProps & {
   inputPlaceholder?: string;

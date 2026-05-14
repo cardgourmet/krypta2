@@ -1,10 +1,10 @@
-import {Group} from '@mantine/core';
-import {Link} from '@tanstack/react-router';
-import {type ReactElement, useCallback, useMemo} from 'react';
-import {slugify} from '@/parcels/slugify.ts';
-import type {MtgDataCard, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import {renderRichText} from '@/parcels/tcg/mtg/renderRichText.tsx';
-import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
+import { Group } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
+import { type ReactElement, useCallback, useMemo } from 'react';
+import { slugify } from '@/parcels/slugify.ts';
+import type { MtgDataCard, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
+import type { TcgCardTableData } from '@/parcels/tcg/types.ts';
 
 export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
   const constructMtgTableData = useCallback((card: MtgDataCard) => {

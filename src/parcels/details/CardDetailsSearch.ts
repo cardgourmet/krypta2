@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 export const cardDetailDefaults = { lang: 'en' };
 export const cardDetailSearchSchema = z.object({

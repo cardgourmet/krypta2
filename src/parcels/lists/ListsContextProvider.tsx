@@ -1,8 +1,8 @@
-import {createContext, type PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {fetchLists} from '@/parcels/lists/api.ts';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
+import { createContext, type PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { fetchLists } from '@/parcels/lists/api.ts';
+import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 
 export function ListsContextProvider({ children }: PropsWithChildren) {
   const auth = useAuth();

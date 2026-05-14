@@ -1,12 +1,12 @@
-import {Accordion, Button, Group, Stack, Text} from '@mantine/core';
-import {IconCards, IconDeviceVisionPro, IconFolders, IconX} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
-import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
-import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
-import {tcgSearchParamsDefaults, tcgSetsParamsDefaults} from '@/parcels/tcg/types.ts';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import { Accordion, Button, Group, Stack, Text } from '@mantine/core';
+import { IconCards, IconDeviceVisionPro, IconFolders, IconX } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
+import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
+import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
+import { tcgSearchParamsDefaults, tcgSetsParamsDefaults } from '@/parcels/tcg/types.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './MobileSidebar.module.css';
 
 export function MobileSidebar({ close }: { close: () => void }) {

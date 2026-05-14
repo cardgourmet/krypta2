@@ -1,4 +1,4 @@
-import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
+import type { TcgOverviewWorkData } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
 
 export function getIdsInRange(anchorIndex: number, currentIndex: number, data: TcgOverviewWorkData): string[] {
   const fromIndex = anchorIndex < currentIndex ? anchorIndex : currentIndex;

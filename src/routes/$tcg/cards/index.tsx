@@ -1,8 +1,8 @@
-import {createFileRoute, notFound, stripSearchParams} from '@tanstack/react-router';
-import {CardOverview} from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
-import {getSetSpecificQuery} from '@/parcels/overview/cards/getSetSpecificQuery.ts';
-import {fetchSetByQuery} from '@/parcels/tcg/fetchSetByQuery.ts';
-import {tcgSearchParamsDefaults, tcgSearchParamsSchema} from '@/parcels/tcg/types.ts';
+import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
+import { CardOverview } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
+import { getSetSpecificQuery } from '@/parcels/overview/cards/getSetSpecificQuery.ts';
+import { fetchSetByQuery } from '@/parcels/tcg/fetchSetByQuery.ts';
+import { tcgSearchParamsDefaults, tcgSearchParamsSchema } from '@/parcels/tcg/types.ts';
 
 export const Route = createFileRoute('/$tcg/cards/')({
   component: RouteComponent,

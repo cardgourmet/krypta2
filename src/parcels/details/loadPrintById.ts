@@ -1,9 +1,9 @@
-import {notFound, redirect} from "@tanstack/react-router";
-import {slugify} from "@/parcels/slugify.ts";
-import {fetchDlcPrintById} from "@/parcels/tcg/dlc/api.ts";
-import {fetchMtgPrintById} from "@/parcels/tcg/mtg/api.ts";
-import {fetchPcgPrintById} from "@/parcels/tcg/pcg/api.ts";
-import type {Tcg} from "@/parcels/tcg/useTcgByLocation.ts";
+import { notFound, redirect } from '@tanstack/react-router';
+import { slugify } from '@/parcels/slugify.ts';
+import { fetchDlcPrintById } from '@/parcels/tcg/dlc/api.ts';
+import { fetchMtgPrintById } from '@/parcels/tcg/mtg/api.ts';
+import { fetchPcgPrintById } from '@/parcels/tcg/pcg/api.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const loadPrintById = async (tcg: Tcg, printId: string) => {
   const res =
@@ -32,4 +32,4 @@ export const loadPrintById = async (tcg: Tcg, printId: string) => {
     },
     replace: true,
   });
-}
+};

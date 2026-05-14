@@ -1,14 +1,14 @@
-import {useDisclosure} from '@mantine/hooks';
-import {IconList, IconStar} from '@tabler/icons-react';
-import {type Ref, useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {ListAddMenuItem} from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
-import {ListMenuItem} from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import {ListRemoveMenuItem} from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useDisclosure } from '@mantine/hooks';
+import { IconList, IconStar } from '@tabler/icons-react';
+import { type Ref, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
+import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
+import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type ListActionItemsProps = {
   tcg: Tcg;

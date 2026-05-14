@@ -1,14 +1,14 @@
-import {Divider, Group, Stack} from '@mantine/core';
-import {IconLabelFilled, IconLink, IconLock, IconStar, IconWorld} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
-import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
-import type {UserList} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from '@/routes/me/lists';
+import { Divider, Group, Stack } from '@mantine/core';
+import { IconLabelFilled, IconLink, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { DeleteListButton } from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
+import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
+import type { UserList } from '@/parcels/lists/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { Route } from '@/routes/me/lists';
 import styles from './ListElementHeader.module.css';
 
 export function ListElementHeader({
@@ -41,7 +41,7 @@ export function ListElementHeader({
     <Stack id={`list-${list.id}`} gap={'0.5rem'}>
       <Stack gap={'0.1rem'}>
         <Group justify={'space-between'} wrap={'nowrap'}>
-          <Group gap={'0.5rem'} wrap={'nowrap'}>
+          <Group gap={'0.5rem'} wrap={'nowrap'} style={{ minWidth: 0, flex: 1 }}>
             {list.systemListType === 'favorites' && <IconStar size={22} color={'var(--gourmet-neutral-9'} />}
 
             <Link
@@ -50,6 +50,7 @@ export function ListElementHeader({
               search={{ tcg: listTcg }}
               className={styles.link}
               preload={false}
+              style={{ minWidth: '8rem', flexShrink: 1 }}
             >
               <GourmetText
                 cgmff={'ui'}
@@ -70,10 +71,10 @@ export function ListElementHeader({
 
             <VisibilityBadge visibility={list.visibility} />
 
-            <IconLabelFilled size={22} color={list.color ?? 'var(--gourmet-neutral-9'} />
+            <IconLabelFilled size={22} color={list.color ?? 'var(--gourmet-neutral-9'} style={{ flexShrink: 0 }} />
           </Group>
 
-          <Group gap={'0.25rem'}>
+          <Group gap={'0.25rem'} wrap={'nowrap'}>
             <EditListButton list={list} onSuccess={onCreate} />
             <DeleteListButton list={list} onSuccess={onDelete} />
           </Group>

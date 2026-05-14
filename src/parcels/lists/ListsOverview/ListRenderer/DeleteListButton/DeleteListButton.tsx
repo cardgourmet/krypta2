@@ -1,12 +1,12 @@
-import {ActionIcon, Button, Group, Modal, Stack, Tooltip} from '@mantine/core';
-import {useDisclosure} from '@mantine/hooks';
-import {IconTrash, IconTrashOff} from '@tabler/icons-react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {deleteLists} from '@/parcels/lists/api.ts';
-import type {UserList} from '@/parcels/lists/types.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
+import { ActionIcon, Button, Group, Modal, Stack, Tooltip } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconTrash, IconTrashOff } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { deleteLists } from '@/parcels/lists/api.ts';
+import type { UserList } from '@/parcels/lists/types.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import styles from './DeleteListButton.module.css';
 
 export function DeleteListButton({ list, onSuccess }: { list: UserList; onSuccess?: (id: string) => void }) {

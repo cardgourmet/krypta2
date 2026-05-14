@@ -1,9 +1,9 @@
-import {Button, Group, Modal, Stack, Text, UnstyledButton} from '@mantine/core';
-import {useDisclosure, useMediaQuery} from '@mantine/hooks';
-import {IconAlertHexagon, IconAlertHexagonFilled} from '@tabler/icons-react';
-import {useCallback} from 'react';
-import {useTimer} from 'react-timer-hook';
-import {type DataAuthUser, resendConfirmationMail} from '@/parcels/auth/api.ts';
+import { Button, Group, Modal, Stack, Text, UnstyledButton } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { IconAlertHexagon, IconAlertHexagonFilled } from '@tabler/icons-react';
+import { useCallback } from 'react';
+import { useTimer } from 'react-timer-hook';
+import { type DataAuthUser, resendConfirmationMail } from '@/parcels/auth/api.ts';
 import styles from './UnverifiedBanner.module.css';
 
 export function UnverifiedBanner({ user }: { user: DataAuthUser }) {

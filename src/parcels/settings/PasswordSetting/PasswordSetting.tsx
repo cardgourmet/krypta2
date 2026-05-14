@@ -1,11 +1,11 @@
-import {ActionIcon, Group, Loader, Stack, UnstyledButton} from '@mantine/core';
-import {IconAlertCircle, IconCheck, IconEdit, IconX} from '@tabler/icons-react';
-import {startTransition, useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {updateUserPassword} from '@/parcels/auth/api.ts';
-import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { ActionIcon, Group, Loader, Stack, UnstyledButton } from '@mantine/core';
+import { IconAlertCircle, IconCheck, IconEdit, IconX } from '@tabler/icons-react';
+import { startTransition, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { updateUserPassword } from '@/parcels/auth/api.ts';
+import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from '@/routes/me/settings/index.module.css';
 
 export function PasswordSetting() {

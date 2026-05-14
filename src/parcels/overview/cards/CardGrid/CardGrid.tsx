@@ -1,12 +1,12 @@
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/cards/CardGrid/CardGridEntry/CardGridEntry.tsx';
-import {CardGridSelectionOverlay} from '@/parcels/selection/OverviewSelectionDisplay/CardGridSelectionOverlay.tsx';
-import type {DlcSearchCardsResult} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
-import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { CardGridSelectionOverlay } from '@/parcels/selection/OverviewSelectionDisplay/CardGridSelectionOverlay.tsx';
+import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGrid.module.css';
 
 type CardGridProps = {

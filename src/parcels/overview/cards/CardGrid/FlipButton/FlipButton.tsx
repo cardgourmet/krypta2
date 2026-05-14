@@ -1,6 +1,6 @@
-import {Container} from '@mantine/core';
-import {IconRefresh} from '@tabler/icons-react';
-import type {RefObject} from 'react';
+import { Container } from '@mantine/core';
+import { IconRefresh } from '@tabler/icons-react';
+import type { RefObject } from 'react';
 import styles from './FlipButton.module.css';
 
 export function FlipButton({

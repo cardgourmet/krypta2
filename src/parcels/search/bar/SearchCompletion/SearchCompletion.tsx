@@ -1,11 +1,17 @@
-import {Group, Highlight} from '@mantine/core';
-import {Fragment, type RefObject, useCallback, useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {generateCompletions, type GeneratedSearchCompletion,} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
-import {type SearchSuggestion, transformCompletions,} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
-import {useFilterCacheStore} from '@/parcels/search/filter/FilterCacheStore.tsx';
-import {useFilters} from '@/parcels/search/filter/useFilters.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { Group, Highlight } from '@mantine/core';
+import { Fragment, type RefObject, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  type GeneratedSearchCompletion,
+  generateCompletions,
+} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
+import {
+  type SearchSuggestion,
+  transformCompletions,
+} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
+import { useFilterCacheStore } from '@/parcels/search/filter/FilterCacheStore.tsx';
+import { useFilters } from '@/parcels/search/filter/useFilters.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
 
 type SearchCompletionProps = {

@@ -1,5 +1,5 @@
-import {Image} from '@mantine/core';
-import type {RefObject} from 'react';
+import { Image } from '@mantine/core';
+import type { RefObject } from 'react';
 import styles from './FlippableCard.module.css';
 
 export function FlippableCard(props: {

@@ -1,6 +1,6 @@
-import {useMemo} from 'react';
-import {type DlcSearchParams, dlcSearchParamsDefaults} from '@/parcels/tcg/dlc/types.ts';
-import {Route} from "@/routes/$tcg/cards";
+import { useMemo } from 'react';
+import { type DlcSearchParams, dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
+import { Route } from '@/routes/$tcg/cards';
 
 export function useDlcMemoizedQuerySettings() {
   const searchParams = Route.useSearch() as DlcSearchParams;

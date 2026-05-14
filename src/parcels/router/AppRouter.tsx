@@ -1,7 +1,7 @@
-import {createRouter, RouterProvider} from '@tanstack/react-router';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {NotFound} from '@/parcels/homepage/NotFound.tsx';
-import {routeTree} from '@/routeTree.gen.ts';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { NotFound } from '@/parcels/homepage/NotFound.tsx';
+import { routeTree } from '@/routeTree.gen.ts';
 
 const router = createRouter({
   context: {

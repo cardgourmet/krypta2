@@ -1,17 +1,17 @@
-import {ActionIcon, Flex, Group, Stack, Tooltip} from '@mantine/core';
-import {useClickOutside, useMediaQuery} from '@mantine/hooks';
-import {IconEyeSearch, IconX} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {MorePagesDropdown} from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown/MorePagesDropdown.tsx';
-import {SelectionProgress} from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
-import {UseSelectionButton} from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/UseSelectionButton.tsx';
-import {ViewSelectionMenu} from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionMenu.tsx';
-import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
-import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import { ActionIcon, Flex, Group, Stack, Tooltip } from '@mantine/core';
+import { useClickOutside, useMediaQuery } from '@mantine/hooks';
+import { IconEyeSearch, IconX } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { MorePagesDropdown } from '@/parcels/selection/OverviewSelectionDisplay/MorePagesDropdown/MorePagesDropdown.tsx';
+import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
+import { UseSelectionButton } from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/UseSelectionButton.tsx';
+import { ViewSelectionMenu } from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionMenu.tsx';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
 
 export function OverviewSelectionDisplay() {

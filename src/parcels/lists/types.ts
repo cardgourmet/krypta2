@@ -1,4 +1,4 @@
-import type {components as c} from '@/schema/api';
+import type { components as c } from '@/schema/api';
 
 export type UserListResponse = c['schemas']['SimplePage-UserListWithResources'];
 export type UserListWithResources = c['schemas']['UserListWithResources'];

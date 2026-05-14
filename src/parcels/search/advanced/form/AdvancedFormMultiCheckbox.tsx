@@ -1,10 +1,10 @@
-import {Group, Stack, Text} from '@mantine/core';
-import type {UseFormReturnType} from '@mantine/form';
-import {type ReactElement, useContext} from 'react';
-import type {AdvancedFormProps} from '@/parcels/search/advanced/form/types.ts';
-import {AdvancedFilterContext} from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
-import {StyledCheckbox} from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
-import {StyledSelect} from '@/parcels/search/advanced/styled/StyledSelect.tsx';
+import { Group, Stack, Text } from '@mantine/core';
+import type { UseFormReturnType } from '@mantine/form';
+import { type ReactElement, useContext } from 'react';
+import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
+import { AdvancedFilterContext } from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
+import { StyledCheckbox } from '@/parcels/search/advanced/styled/StyledCheckbox.tsx';
+import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx';
 
 type AdvancedFormMultiCheckboxProps = AdvancedFormProps & {
   data: { value: string; label: string }[];

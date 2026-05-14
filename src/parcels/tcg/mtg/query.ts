@@ -1,7 +1,7 @@
-import {useMemo} from 'react';
-import type {MtgSearchParams} from '@/parcels/tcg/mtg/types.ts';
-import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
-import {Route} from '@/routes/$tcg/cards';
+import { useMemo } from 'react';
+import type { MtgSearchParams } from '@/parcels/tcg/mtg/types.ts';
+import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
+import { Route } from '@/routes/$tcg/cards';
 
 export function useMtgMemoizedQuerySettings() {
   const searchParams = Route.useSearch() as MtgSearchParams;

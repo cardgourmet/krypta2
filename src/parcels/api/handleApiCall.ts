@@ -1,5 +1,5 @@
 // @ts-expect-error
-import type {FetchResponse} from "openapi-fetch/src";
+import type { FetchResponse } from 'openapi-fetch/src';
 
 export async function handleApiCall<R>(
   call: () => Promise<FetchResponse<unknown, unknown, unknown>>,

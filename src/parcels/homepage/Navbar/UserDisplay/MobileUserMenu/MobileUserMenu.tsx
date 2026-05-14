@@ -1,17 +1,31 @@
-import {Button, type ButtonProps, Divider, Group, Stack, Text} from '@mantine/core';
-import {IconBookmark, IconHistory, IconList, IconLogin, IconLogout, IconQuestionMark, IconSettings, IconStar, IconX,} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {forwardRef, type ReactElement} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {MobileLanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
-import {MobileThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
+import { Button, type ButtonProps, Divider, Group, Stack, Text } from '@mantine/core';
+import {
+  IconHistory,
+  IconList,
+  IconLogin,
+  IconLogout,
+  IconQuestionMark,
+  IconSettings,
+  IconStar,
+  IconX,
+} from '@tabler/icons-react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { forwardRef, type ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { MobileLanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
+import { MobileThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { historyParamDefaults } from '@/routes/me/history';
+import { paramDefaults } from '@/routes/me/lists';
 import styles from './MobileUserMenu.module.css';
 
 export function MobileUserMenu({ close }: { close: () => void }) {
   const { t } = useTranslation('nav', { keyPrefix: 'user' });
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+
+  const { tcg } = useTcg();
 
   return (
     <>
@@ -86,30 +100,46 @@ export function MobileUserMenu({ close }: { close: () => void }) {
 
           <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-          <ItemButton title={t('history')} icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />} />
-          <ItemButton
-            title={t('favorites')}
-            icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled={user.state === 'unverified'}
-          />
-          <ItemButton
-            title={t('bookmarks')}
-            icon={<IconBookmark size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled={user.state === 'unverified'}
-          />
-          <ItemButton
-            title={t('lists')}
-            icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled={user.state === 'unverified'}
-          />
+          <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }}>
+            <ItemButton
+              title={t('history')}
+              icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />}
+              onClick={() => close()}
+            />
+          </Link>
+          <Link to={'/me/lists/$listId'} params={{ listId: 'favorites' }}>
+            <ItemButton
+              title={t('favorites')}
+              icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />}
+              disabled={user.state === 'unverified'}
+              onClick={() => close()}
+            />
+          </Link>
+          <Link
+            to={'/me/lists'}
+            search={{
+              ...paramDefaults,
+              tcg: tcg,
+            }}
+          >
+            <ItemButton
+              title={t('lists')}
+              icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />}
+              disabled={user.state === 'unverified'}
+              onClick={() => close()}
+            />
+          </Link>
 
           <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-          <ItemButton
-            title={t('settings')}
-            icon={<IconSettings size={18} color={'var(--gourmet-neutral-8)'} />}
-            disabled={user.state === 'unverified'}
-          />
+          <Link to={'/me/settings'}>
+            <ItemButton
+              title={t('settings')}
+              icon={<IconSettings size={18} color={'var(--gourmet-neutral-8)'} />}
+              disabled={user.state === 'unverified'}
+              onClick={() => close()}
+            />
+          </Link>
           <MobileThemeSelector />
           <MobileLanguageSelector />
           <ItemButton

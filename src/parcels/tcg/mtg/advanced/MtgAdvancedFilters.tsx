@@ -1,14 +1,21 @@
-import {Center, Loader, Overlay} from '@mantine/core';
-import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
-import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
-import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
-import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
-import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import {getFilterValue, useFilterValue, useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
-import {MtgSymbolSVG} from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
+import { Center, Loader, Overlay } from '@mantine/core';
+import {
+  IconBrush,
+  IconMeteorFilled,
+  IconNumbers,
+  IconSparkles,
+  IconTextSize,
+  IconUserScan,
+} from '@tabler/icons-react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AdvancedFilterCategory } from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
+import { AdvancedFormMultiCheckbox } from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
+import { AdvancedFormMultiSelect } from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
+import { AdvancedFormNumberCompare } from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
+import { AdvancedFormText } from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import { getFilterValue, useFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
+import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
 export function MtgAdvancedFilters() {
   const { t } = useTranslation('advanced', { keyPrefix: 'mtg' });

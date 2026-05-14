@@ -1,10 +1,10 @@
-import {createFileRoute, notFound, stripSearchParams} from '@tanstack/react-router';
-import type {GourmetApiResponse} from '@/parcels/api/handleApiCall.ts';
-import {SetsOverview} from '@/parcels/overview/sets/SetsOverview.tsx';
-import {fetchDlcSets} from '@/parcels/tcg/dlc/api.ts';
-import {fetchMtgSets} from '@/parcels/tcg/mtg/api.ts';
-import {fetchPcgEras, fetchPcgSets, type PcgDataEras} from '@/parcels/tcg/pcg/api.ts';
-import {type TcgDataSets, tcgSetsParamsDefaults, tcgSetsParamsSchema} from '@/parcels/tcg/types.ts';
+import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import { SetsOverview } from '@/parcels/overview/sets/SetsOverview.tsx';
+import { fetchDlcSets } from '@/parcels/tcg/dlc/api.ts';
+import { fetchMtgSets } from '@/parcels/tcg/mtg/api.ts';
+import { fetchPcgEras, fetchPcgSets, type PcgDataEras } from '@/parcels/tcg/pcg/api.ts';
+import { type TcgDataSets, tcgSetsParamsDefaults, tcgSetsParamsSchema } from '@/parcels/tcg/types.ts';
 
 export const Route = createFileRoute('/$tcg/sets/')({
   component: RouteComponent,

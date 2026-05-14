@@ -1,4 +1,4 @@
-import type {components as c} from '@/schema/api';
+import type { components as c } from '@/schema/api';
 
 export type ExplainSearchQuery = c['schemas']['ExplainSearchQueryResponse'];
 export type SearchQueryStatistics = c['schemas']['SearchQueryStatistics'];

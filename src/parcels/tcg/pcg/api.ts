@@ -1,7 +1,12 @@
-import {type GourmetApiResponse, handleApiCall} from '@/parcels/api/handleApiCall.ts';
-import type {PcgSearchQuerySettings, PcgSortBy, PcgUniqueBy} from '@/parcels/tcg/pcg/types.ts';
-import type {SearchQueryExecutorFilter, SearchQueryExecutorFilterValues, TcgCardQuery, TcgFilterOperator,} from '@/parcels/tcg/types.ts';
-import type {components as c} from '@/schema/api';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import type { PcgSearchQuerySettings, PcgSortBy, PcgUniqueBy } from '@/parcels/tcg/pcg/types.ts';
+import type {
+  SearchQueryExecutorFilter,
+  SearchQueryExecutorFilterValues,
+  TcgCardQuery,
+  TcgFilterOperator,
+} from '@/parcels/tcg/types.ts';
+import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
 
 export type PcgSearchCardsResult =

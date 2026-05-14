@@ -1,7 +1,7 @@
-import createClient, {type Middleware} from 'openapi-fetch';
-import type {UserSession} from '@/parcels/auth/AuthContext.ts';
-import {CGM_USER_SESSION} from '@/parcels/auth/AuthContextProvider.tsx';
-import type {paths} from '@/schema/api';
+import createClient, { type Middleware } from 'openapi-fetch';
+import type { UserSession } from '@/parcels/auth/AuthContext.ts';
+import { CGM_USER_SESSION } from '@/parcels/auth/AuthContextProvider.tsx';
+import type { paths } from '@/schema/api';
 
 const umoriClient = createClient<paths>({
   baseUrl: import.meta.env.VITE_API_BASE_URL,

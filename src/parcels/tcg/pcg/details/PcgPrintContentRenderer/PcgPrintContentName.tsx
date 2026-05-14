@@ -1,8 +1,8 @@
-import {Group, Stack, Text} from '@mantine/core';
-import type {ReactElement} from 'react';
-import type {PcgDataCard} from '@/parcels/tcg/pcg/api.ts';
-import {PcgSymbolSVG} from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
-import {renderRichPcgText} from '@/parcels/tcg/pcg/renderRichText.tsx';
+import { Group, Stack, Text } from '@mantine/core';
+import type { ReactElement } from 'react';
+import type { PcgDataCard } from '@/parcels/tcg/pcg/api.ts';
+import { PcgSymbolSVG } from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
+import { renderRichPcgText } from '@/parcels/tcg/pcg/renderRichText.tsx';
 
 export function PcgPrintContentName({ card }: { card: PcgDataCard }) {
   const trans = card.print.translations.en;

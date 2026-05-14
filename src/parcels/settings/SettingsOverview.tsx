@@ -1,15 +1,15 @@
-import {Divider, Group, Stack} from '@mantine/core';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import {DisplayNameSetting} from '@/parcels/settings/DisplayNameSetting/DisplayNameSetting.tsx';
-import {EmailSetting} from '@/parcels/settings/EmailSetting/EmailSetting.tsx';
-import {GoogleIntegrationSetting} from '@/parcels/settings/IntegrationSetting/GoogleIntegrationSetting.tsx';
-import {LanguageSetting} from '@/parcels/settings/LanguageSetting/LanguageSetting.tsx';
-import {PasswordSetting} from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
-import {ThemeSetting} from '@/parcels/settings/ThemeSetting/ThemeSetting.tsx';
+import { Divider, Group, Stack } from '@mantine/core';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { DisplayNameSetting } from '@/parcels/settings/DisplayNameSetting/DisplayNameSetting.tsx';
+import { EmailSetting } from '@/parcels/settings/EmailSetting/EmailSetting.tsx';
+import { GoogleIntegrationSetting } from '@/parcels/settings/IntegrationSetting/GoogleIntegrationSetting.tsx';
+import { LanguageSetting } from '@/parcels/settings/LanguageSetting/LanguageSetting.tsx';
+import { PasswordSetting } from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
+import { ThemeSetting } from '@/parcels/settings/ThemeSetting/ThemeSetting.tsx';
 
 export function SettingsOverview() {
   const { t } = useTranslation('auth', { keyPrefix: 'settings' });

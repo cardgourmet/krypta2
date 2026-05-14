@@ -1,5 +1,5 @@
-import {useMemo} from 'react';
-import Breadcrumbs, {type BreadcrumbProps} from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
+import { useMemo } from 'react';
+import Breadcrumbs, { type BreadcrumbProps } from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 
 export function useBreadcrumbs({ subpage, subpageHref, moreSubpages }: BreadcrumbProps) {
   const currentTitle = useMemo(() => {

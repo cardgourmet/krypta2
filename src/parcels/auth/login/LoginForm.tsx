@@ -1,17 +1,17 @@
-import {Blockquote, Divider, Group, Stack} from '@mantine/core';
-import {useForm} from '@mantine/form';
-import {IconArrowRight, IconInfoCircle} from '@tabler/icons-react';
-import {Link, useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {loginUsingBasicAuth} from '@/parcels/auth/api.ts';
-import {GoogleLoginButton} from '@/parcels/auth/login/GoogleLoginButton.tsx';
-import {Button} from '@/parcels/generic/Button/Button';
-import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
-import {Route} from '@/routes/login';
+import { Blockquote, Divider, Group, Stack } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { loginUsingBasicAuth } from '@/parcels/auth/api.ts';
+import { GoogleLoginButton } from '@/parcels/auth/login/GoogleLoginButton.tsx';
+import { Button } from '@/parcels/generic/Button/Button';
+import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import { Route } from '@/routes/login';
 import styles from '@/routes/register/index.module.css';
 
 export function LoginForm() {

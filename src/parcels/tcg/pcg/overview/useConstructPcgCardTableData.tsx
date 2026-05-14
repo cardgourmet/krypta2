@@ -1,10 +1,10 @@
-import {Group} from '@mantine/core';
-import {Link} from '@tanstack/react-router';
-import {type ReactElement, useCallback, useMemo} from 'react';
-import {slugify} from '@/parcels/slugify.ts';
-import type {PcgDataCard, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
-import {PcgSymbolSVG} from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
-import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
+import { Group } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
+import { type ReactElement, useCallback, useMemo } from 'react';
+import { slugify } from '@/parcels/slugify.ts';
+import type { PcgDataCard, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import { PcgSymbolSVG } from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
+import type { TcgCardTableData } from '@/parcels/tcg/types.ts';
 
 export function useConstructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
   const constructPcgTableData = useCallback((card: PcgDataCard) => {

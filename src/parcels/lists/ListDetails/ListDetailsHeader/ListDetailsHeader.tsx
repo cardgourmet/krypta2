@@ -1,16 +1,16 @@
-import {Divider, Group, Stack} from '@mantine/core';
-import {IconLabelFilled, IconStar} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
-import {DeleteListButton} from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
-import {EditListButton} from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
-import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
-import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {paramDefaults} from '@/routes/me/lists';
+import { Divider, Group, Stack } from '@mantine/core';
+import { IconLabelFilled, IconStar } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
+import { DeleteListButton } from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
+import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
+import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
+import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { paramDefaults } from '@/routes/me/lists';
 
 export function ListDetailsHeader({
   tcg,

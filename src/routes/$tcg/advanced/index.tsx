@@ -1,5 +1,5 @@
-import {createFileRoute, notFound} from '@tanstack/react-router';
-import {AdvancedFiltersOverview} from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
+import { createFileRoute, notFound } from '@tanstack/react-router';
+import { AdvancedFiltersOverview } from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
 
 export const Route = createFileRoute('/$tcg/advanced/')({
   component: RouteComponent,

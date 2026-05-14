@@ -1,15 +1,15 @@
-import {Group, Menu, Stack} from '@mantine/core';
-import {IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar} from '@tabler/icons-react';
-import {Link, useRouter} from '@tanstack/react-router';
-import {type CSSProperties, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {UserDisplayButton} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplayButton/UserDisplayButton.tsx';
-import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
-import {historyParamDefaults} from '@/routes/me/history';
-import {paramDefaults} from '@/routes/me/lists';
-import {savedSearchesParamDefaults} from '@/routes/me/saved-searches';
+import { Group, Menu, Stack } from '@mantine/core';
+import { IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
+import { Link, useRouter } from '@tanstack/react-router';
+import { type CSSProperties, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { UserDisplayButton } from '@/parcels/homepage/Navbar/UserDisplay/UserDisplayButton/UserDisplayButton.tsx';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { historyParamDefaults } from '@/routes/me/history';
+import { paramDefaults } from '@/routes/me/lists';
+import { savedSearchesParamDefaults } from '@/routes/me/saved-searches';
 import styles from './UserDisplay.module.css';
 
 export function UserDisplay({ style }: { style?: CSSProperties }) {

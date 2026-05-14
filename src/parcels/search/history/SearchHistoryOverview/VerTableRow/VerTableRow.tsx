@@ -1,13 +1,13 @@
-import {ActionIcon, Group, Tooltip} from '@mantine/core';
-import {IconDotsVertical, IconPlayerPlayFilled} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
+import { ActionIcon, Group, Tooltip } from '@mantine/core';
+import { IconDotsVertical, IconPlayerPlayFilled } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
-import type {TableEntryProps} from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.tsx';
-import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
+import type { TableEntryProps } from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.tsx';
+import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 
 export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryProps) {
   const { t } = useTranslation('history');

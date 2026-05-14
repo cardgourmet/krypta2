@@ -1,9 +1,9 @@
-import {useNavigate} from '@tanstack/react-router';
-import {useEffect, useMemo} from 'react';
-import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import type {TcgSearchDisplaySettings, TcgSearchQuerySettings} from '@/parcels/tcg/types.ts';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from '@/routes/$tcg/cards';
+import { useNavigate } from '@tanstack/react-router';
+import { useEffect, useMemo } from 'react';
+import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import type { TcgSearchDisplaySettings, TcgSearchQuerySettings } from '@/parcels/tcg/types.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { Route } from '@/routes/$tcg/cards';
 
 export function useTcgSearchSettings(set?: TcgDataSet) {
   const tcg = useTcgByLocation() as Tcg;

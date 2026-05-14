@@ -1,5 +1,5 @@
-import {showNotification} from '@mantine/notifications';
-import {useCallback} from 'react';
+import { showNotification } from '@mantine/notifications';
+import { useCallback } from 'react';
 
 export function useGourmetNotification() {
   const show = useCallback((title: string, msg: string, type: 'success' | 'error') => {

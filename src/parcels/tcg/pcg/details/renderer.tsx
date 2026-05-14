@@ -1,10 +1,10 @@
-import type {ReactElement} from 'react';
-import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
-import type {TcgDataCard, TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {slugify} from '@/parcels/slugify.ts';
-import type {PcgDataCard, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import {PcgPrintContentRenderer} from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentRenderer.tsx';
-import {PcgPrintMetaRenderer} from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
+import type { ReactElement } from 'react';
+import type { TcgDetailParams } from '@/parcels/details/loadTcgPrintAndSet.ts';
+import type { TcgDataCard, TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { slugify } from '@/parcels/slugify.ts';
+import type { PcgDataCard, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import { PcgPrintContentRenderer } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentRenderer.tsx';
+import { PcgPrintMetaRenderer } from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
 
 export function findPcgParamsByLanguage(cardWithPrints: TcgDataCard, lang: string): TcgDetailParams {
   const card = cardWithPrints as PcgDataCard;

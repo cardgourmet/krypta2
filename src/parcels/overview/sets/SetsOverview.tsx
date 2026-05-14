@@ -1,21 +1,21 @@
-import {Divider, SimpleGrid, Stack} from '@mantine/core';
-import {useNavigate} from '@tanstack/react-router';
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {groupBy} from '@/parcels/groupBy.ts';
-import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import {SetCard} from '@/parcels/overview/sets/SetCard.tsx';
-import {type OverviewSettings, SetOverviewSettings} from '@/parcels/overview/sets/SetOverviewSettings.tsx';
-import type {DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgDataEra, PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import type {SortDirection} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import type {ApplyFn} from '@/parcels/types.ts';
-import {usePrevious} from '@/parcels/usePrevious.ts';
-import {Route} from '@/routes/$tcg/sets';
+import { Divider, Stack } from '@mantine/core';
+import { useNavigate } from '@tanstack/react-router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { groupBy } from '@/parcels/groupBy.ts';
+import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { SetOverviewGrid } from '@/parcels/overview/sets/SetOverviewGrid/SetOverviewGrid.tsx';
+import { type OverviewSettings, SetOverviewSettings } from '@/parcels/overview/sets/SetOverviewSettings.tsx';
+import type { DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgDataEra, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import type { SortDirection } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
+import { usePrevious } from '@/parcels/usePrevious.ts';
+import { Route } from '@/routes/$tcg/sets';
 
 export function SetsOverview() {
   const { t } = useTranslation('sets');
@@ -87,6 +87,10 @@ export function SetsOverview() {
     return [];
   }, [data?.data, tcg, settings.groupBy, erasById, settings.order]);
 
+  // TODO: cutoffs
+  // 1100px: 3 per row
+  //
+
   return (
     <>
       <title>{`${t('pageTitle')} – ${t(`tcg.${tcg}`)} – Cardgourmet`}</title>
@@ -117,26 +121,7 @@ export function SetsOverview() {
           <SetOverviewSettings tcg={tcg as Tcg} overviewSettings={search} setOverviewSettings={setSettingsWrapper} />
         </Stack>
 
-        <Stack gap={'2rem'}>
-          {sortedSets.map((e) => {
-            const era: PcgDataEra | undefined = erasById[e.era ?? ''];
-            const eraName = era?.translations?.en?.name;
-
-            return (
-              <Stack key={e?.year ?? e.era} gap={'0.5rem'}>
-                <GourmetText cgmff={'ui'} cgmc={'neutral-9'} fw={400} fz={'1.2rem'}>
-                  {e?.year ?? eraName}
-                </GourmetText>
-
-                <SimpleGrid cols={4}>
-                  {e.sets.map((set) => (
-                    <SetCard key={set.id} tcg={tcg as Tcg} set={set} />
-                  ))}
-                </SimpleGrid>
-              </Stack>
-            );
-          })}
-        </Stack>
+        <SetOverviewGrid tcg={tcg} sortedSets={sortedSets} erasById={erasById} />
       </div>
     </>
   );

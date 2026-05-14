@@ -1,17 +1,17 @@
-import {offset, safePolygon, useFloating, useHover, useInteractions} from '@floating-ui/react';
-import {Drawer, Group, Stack} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {IconCards, IconDeviceVisionPro, IconFolders} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useEffect, useMemo, useRef, useState} from 'react';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {MobileSidebar} from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
-import {Logo} from '@/parcels/Logo.tsx';
-import {DLCIcon} from '@/parcels/tcg/dlc/Icon.tsx';
-import {MTGIcon} from '@/parcels/tcg/mtg/Icon.tsx';
-import {PCGIcon} from '@/parcels/tcg/pcg/Icon.tsx';
-import {tcgSearchParamsDefaults, tcgSetsParamsDefaults} from '@/parcels/tcg/types.ts';
-import {type Tcg, useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import { offset, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
+import { Drawer, Group, Stack } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { IconCards, IconDeviceVisionPro, IconFolders } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
+import { Logo } from '@/parcels/Logo.tsx';
+import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
+import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
+import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
+import { tcgSearchParamsDefaults, tcgSetsParamsDefaults } from '@/parcels/tcg/types.ts';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {

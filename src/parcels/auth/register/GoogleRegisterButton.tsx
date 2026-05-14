@@ -1,8 +1,8 @@
-import {Button, Group, Loader, Stack} from '@mantine/core';
-import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
-import {IconBrandGoogleFilled} from '@tabler/icons-react';
-import {startTransition, useState} from 'react';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Button, Group, Loader, Stack } from '@mantine/core';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import { IconBrandGoogleFilled } from '@tabler/icons-react';
+import { startTransition, useState } from 'react';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export type OAuthData = { accessToken: string; expiresAt: string; provider: string };
 

@@ -1,13 +1,13 @@
-import {Group, Stack} from '@mantine/core';
-import {IconArrowRight} from '@tabler/icons-react';
-import {createFileRoute, Link, redirect} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { Group, Stack } from '@mantine/core';
+import { IconArrowRight } from '@tabler/icons-react';
+import { createFileRoute, Link, redirect } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import z from 'zod';
-import {BasicRegistrationForm} from '@/parcels/auth/register/BasicRegistrationForm.tsx';
-import type {OAuthData} from '@/parcels/auth/register/GoogleRegisterButton.tsx';
-import {OAuthRegistrationForm} from '@/parcels/auth/register/OAuthRegistrationForm.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { BasicRegistrationForm } from '@/parcels/auth/register/BasicRegistrationForm.tsx';
+import type { OAuthData } from '@/parcels/auth/register/GoogleRegisterButton.tsx';
+import { OAuthRegistrationForm } from '@/parcels/auth/register/OAuthRegistrationForm.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export const registerParamsSchema = z.object({
   redirect: z.string().optional(),

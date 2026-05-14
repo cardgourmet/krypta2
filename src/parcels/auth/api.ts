@@ -1,5 +1,12 @@
-import {errorFrom, type GourmetApiResponse, type GourmetError, handleApiCall, handleApiError, handleUncaughtError,} from '@/parcels/api/handleApiCall.ts';
-import type {components as c} from '@/schema/api.d.ts';
+import {
+  errorFrom,
+  type GourmetApiResponse,
+  type GourmetError,
+  handleApiCall,
+  handleApiError,
+  handleUncaughtError,
+} from '@/parcels/api/handleApiCall.ts';
+import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
 export type AuthApiUserResponse = c['schemas']['AuthApiUserResponse'];

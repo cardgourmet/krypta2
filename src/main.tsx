@@ -1,4 +1,4 @@
-import {StrictMode} from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals.ts';
 import './styles/styles.css';
@@ -10,9 +10,9 @@ import '@mantine/core/styles.layer.css';
 import '@mantine/nprogress/styles.css';
 import '@mantine/notifications/styles.css';
 import 'keyrune/css/keyrune.min.css';
-import {AuthContextProvider} from '@/parcels/auth/AuthContextProvider.tsx';
-import {ListsContextProvider} from '@/parcels/lists/ListsContextProvider.tsx'; // Render the app
-import {AppRouter} from '@/parcels/router/AppRouter.tsx'; //Extend attributes of attributes
+import { AuthContextProvider } from '@/parcels/auth/AuthContextProvider.tsx';
+import { ListsContextProvider } from '@/parcels/lists/ListsContextProvider.tsx'; // Render the app
+import { AppRouter } from '@/parcels/router/AppRouter.tsx'; //Extend attributes of attributes
 
 //Extend attributes of attributes
 //Definition start

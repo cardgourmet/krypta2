@@ -1,18 +1,18 @@
-import {useDebouncedValue, useFocusTrap, useMergedRef} from '@mantine/hooks';
-import {IconDeviceVisionPro, IconQuestionMark, IconX} from '@tabler/icons-react';
-import {Link, useNavigate, useRouter} from '@tanstack/react-router';
-import {useCallback, useEffect, useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {TcgSelector} from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
-import {handleKeydown} from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
+import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
+import { IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
+import { Link, useNavigate, useRouter } from '@tanstack/react-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
+import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
-import {SearchCompletion} from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
-import {SearchQueryExplanation} from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
+import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
+import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
-import {useClickOutsideWithRegistry} from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
-import {useSearchQuery} from '@/parcels/search/useSearchQuery.ts';
-import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
+import { useClickOutsideWithRegistry } from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
+import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './Searchbar.module.css';
 
 export default function Searchbar() {

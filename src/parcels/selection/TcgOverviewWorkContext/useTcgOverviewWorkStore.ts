@@ -1,7 +1,7 @@
-import {create} from 'zustand/react';
-import {getIdsInRange} from '@/parcels/selection/getIdsInRange.ts';
-import type {TcgOverviewWorkData} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
-import type {TcgSearchCardsResult, TcgSearchDataCard} from '@/parcels/tcg/types.ts';
+import { create } from 'zustand/react';
+import { getIdsInRange } from '@/parcels/selection/getIdsInRange.ts';
+import type { TcgOverviewWorkData } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
+import type { TcgSearchCardsResult, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 
 export type TcgOverviewWorkStore = {
   data: TcgOverviewWorkData | null;

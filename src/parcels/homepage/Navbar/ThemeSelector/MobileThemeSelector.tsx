@@ -1,7 +1,7 @@
-import {Combobox, Group, useCombobox, useMantineColorScheme} from '@mantine/core';
-import {IconCheck, IconMoon, IconSun, IconSunMoon} from '@tabler/icons-react';
-import {useTranslation} from 'react-i18next';
-import {ItemButton} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu/MobileUserMenu.tsx';
+import { Combobox, Group, useCombobox, useMantineColorScheme } from '@mantine/core';
+import { IconCheck, IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
+import { ItemButton } from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu/MobileUserMenu.tsx';
 
 export function MobileThemeSelector() {
   const { t } = useTranslation('nav', { keyPrefix: 'theme' });

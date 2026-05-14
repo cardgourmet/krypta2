@@ -1,10 +1,10 @@
-import {Group} from '@mantine/core';
-import {Link} from '@tanstack/react-router';
-import {type ReactElement, useCallback, useMemo} from 'react';
-import {slugify} from '@/parcels/slugify.ts';
-import type {DlcDataCard, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import {DlcInkSymbolSVG} from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
-import type {TcgCardTableData} from '@/parcels/tcg/types.ts';
+import { Group } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
+import { type ReactElement, useCallback, useMemo } from 'react';
+import { slugify } from '@/parcels/slugify.ts';
+import type { DlcDataCard, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import { DlcInkSymbolSVG } from '@/parcels/tcg/dlc/details/DlcInkSymbolSVG.tsx';
+import type { TcgCardTableData } from '@/parcels/tcg/types.ts';
 
 export function useConstructDlcCardTableData(cardItems: DlcSearchDataCard[]) {
   const constructDlcTableData = useCallback((card: DlcDataCard) => {

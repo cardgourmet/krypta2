@@ -1,4 +1,4 @@
-import type {components as c} from '@/schema/api';
+import type { components as c } from '@/schema/api';
 
 export const pcgSupertypesMapping = {
   pokemon: 'Pokémon',

@@ -1,11 +1,11 @@
-import {Group, Text} from '@mantine/core';
-import {Link} from '@tanstack/react-router';
-import {capitalizeFirstLetter} from '@/parcels/capitalizeFirstLetter.ts';
-import type {PcgDataCard} from '@/parcels/tcg/pcg/api.ts';
-import {pcgSubtypesMapping} from '@/parcels/tcg/pcg/translations/subtypes.ts';
-import {pcgSupertypesMapping} from '@/parcels/tcg/pcg/translations/supertypes.ts';
-import {pcgSearchParamsDefaults} from '@/parcels/tcg/pcg/types.ts';
-import type {components as c} from '@/schema/api';
+import { Group, Text } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
+import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
+import type { PcgDataCard } from '@/parcels/tcg/pcg/api.ts';
+import { pcgSubtypesMapping } from '@/parcels/tcg/pcg/translations/subtypes.ts';
+import { pcgSupertypesMapping } from '@/parcels/tcg/pcg/translations/supertypes.ts';
+import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
+import type { components as c } from '@/schema/api';
 
 export function PcgPrintContentTypeline({ card }: { card: PcgDataCard }) {
   return (

@@ -1,7 +1,10 @@
-import {useContext, useMemo} from 'react';
-import {SearchHistoryContext, type TcgSpecificSearchHistory,} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import type {ExplainSearchQuery} from '@/parcels/search/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useContext, useMemo } from 'react';
+import {
+  SearchHistoryContext,
+  type TcgSpecificSearchHistory,
+} from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function useSearchHistory(tcg: Tcg) {
   const searchHistory = useContext(SearchHistoryContext);

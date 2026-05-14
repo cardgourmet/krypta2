@@ -1,13 +1,13 @@
-import {ActionIcon, Group, Tooltip} from '@mantine/core';
-import {IconDotsVertical, IconPlayerPlayFilled} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {MoreListActionsMenu} from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
+import { ActionIcon, Group, Tooltip } from '@mantine/core';
+import { IconDotsVertical, IconPlayerPlayFilled } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
-import type {TableEntryProps} from '@/parcels/search/saved/SavedSearchesOverview.tsx';
-import {tcgSearchParamsDefaults} from '@/parcels/tcg/types.ts';
+import type { TableEntryProps } from '@/parcels/search/saved/SavedSearchesOverview.tsx';
+import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 
 export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryProps) {
   const { t } = useTranslation('saved');

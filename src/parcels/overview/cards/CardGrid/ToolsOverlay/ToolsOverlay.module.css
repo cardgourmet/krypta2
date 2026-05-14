@@ -12,6 +12,11 @@
     opacity: 1;
     visibility: visible !important;
   }
+
+  @media (hover: none) {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .overlayCheckbox {
