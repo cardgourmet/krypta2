@@ -1,7 +1,7 @@
 import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
 import { IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useNavigate, useRouter } from '@tanstack/react-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
@@ -15,7 +15,13 @@ import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './Searchbar.module.css';
 
-export default function Searchbar() {
+export default function Searchbar({
+  inputStyles,
+  modalStyles,
+}: {
+  inputStyles?: CSSProperties;
+  modalStyles?: CSSProperties;
+}) {
   const { tcg, setTcg } = useTcg();
   const { t } = useTranslation('search');
 
@@ -120,6 +126,7 @@ export default function Searchbar() {
             }
           }}
           data-autofocus
+          style={inputStyles}
         />
         <button
           className={`${styles.deleteSearchIcon} ${currentQuery.query.length === 0 ? styles.hidden : ''}`}
@@ -136,7 +143,7 @@ export default function Searchbar() {
           <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
         </button>
 
-        <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
+        <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`} style={modalStyles}>
           <div className={styles.content}>
             <div className={styles.advancedSearch}>
               <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
