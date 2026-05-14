@@ -20,6 +20,16 @@ For IntelliJ there is an official plugin available: https://biomejs.dev/guides/e
 
 For VSCode there is, of course, also one available: https://biomejs.dev/guides/editors/first-party-extensions/#vs-code
 
+### Pre-Commit
+
+To make sure the code is always properly formatted, we use [pre-commit](https://pre-commit.com/). To set it up use:
+
+```sh
+pip install pre-commit
+
+pre-commit install
+```
+
 ## Update API Schema
 
 Make sure to have dependencies installed before running the following commands.
