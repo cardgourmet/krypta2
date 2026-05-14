@@ -1,11 +1,11 @@
-import {UnstyledButton} from '@mantine/core';
-import {useRef, useState} from 'react';
-import {type CardProperties, createProps} from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import {FlipButton} from '@/parcels/overview/cards/CardGrid/FlipButton/FlipButton.tsx';
-import {FlipImage} from '@/parcels/overview/cards/CardGrid/FlipImage/FlipImage.tsx';
-import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
-import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { UnstyledButton } from '@mantine/core';
+import { useRef, useState } from 'react';
+import { type CardProperties, createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
+import { FlipButton } from '@/parcels/overview/cards/CardGrid/FlipButton/FlipButton.tsx';
+import { FlipImage } from '@/parcels/overview/cards/CardGrid/FlipImage/FlipImage.tsx';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './EntryImage.module.css';
 
 export function EntryImage({ tcg, entry }: { tcg: Tcg; entry: TcgSearchDataCard }) {

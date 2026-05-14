@@ -1,21 +1,21 @@
-import {Drawer, Group} from '@mantine/core';
-import {useDisclosure, useMediaQuery} from '@mantine/hooks';
-import {IconMenu2, IconSearch, IconUser} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {useRef} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {LanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
-import {ThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
-import {UnverifiedBanner} from '@/parcels/homepage/Navbar/UnverifiedBanner/UnverifiedBanner.tsx';
-import {MobileUserMenu} from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu/MobileUserMenu.tsx';
-import {UserDisplay} from '@/parcels/homepage/Navbar/UserDisplay/UserDisplay.tsx';
-import {UserIcon} from '@/parcels/homepage/Navbar/UserDisplay/UserIcon/UserIcon.tsx';
-import {VerifiedBanner} from '@/parcels/homepage/Navbar/VerifiedBanner/VerifiedBanner.tsx';
-import {Logo} from '@/parcels/Logo.tsx';
-import {MobileSearchbar} from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
+import { Drawer, Group } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { IconMenu2, IconSearch, IconUser } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useRef } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { EmailChangedBanner } from '@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx';
+import { LanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
+import { ThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
+import { UnverifiedBanner } from '@/parcels/homepage/Navbar/UnverifiedBanner/UnverifiedBanner.tsx';
+import { MobileUserMenu } from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu/MobileUserMenu.tsx';
+import { UserDisplay } from '@/parcels/homepage/Navbar/UserDisplay/UserDisplay.tsx';
+import { UserIcon } from '@/parcels/homepage/Navbar/UserDisplay/UserIcon/UserIcon.tsx';
+import { VerifiedBanner } from '@/parcels/homepage/Navbar/VerifiedBanner/VerifiedBanner.tsx';
+import { Logo } from '@/parcels/Logo.tsx';
+import { MobileSearchbar } from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 import styles from './Navbar.module.css';
-import {EmailChangedBanner} from "@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx";
 
 interface NavbarProps {
   setSidebarOpen: (open: boolean) => void;

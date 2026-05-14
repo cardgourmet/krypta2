@@ -1,12 +1,12 @@
-import {Button, Center, Group, SegmentedControl, Stack, TextInput} from '@mantine/core';
-import {IconColumns3, IconLayoutGrid, IconSearch} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from '@/routes/me/lists';
+import { Button, Center, Group, SegmentedControl, Stack, TextInput } from '@mantine/core';
+import { IconColumns3, IconLayoutGrid, IconSearch } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { Route } from '@/routes/me/lists';
 import styles from './ListOverviewSettings.module.css';
 
 export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {

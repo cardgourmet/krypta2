@@ -4,7886 +4,8256 @@
  */
 
 export interface paths {
-    "/v1/auth/oauth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Login using OAuth
-         * @description Logs in a user using OAuth.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["OAuthRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiUserResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/oauth/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Register using OAuth
-         * @description Registers a user using OAuth.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["OAuthRegisterRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiRegisterResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/oauth/connect": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Connect OAuth
-         * @description Connects an OAuth integration to the current user. This will allow the user to log in using SSO via the given OAuth provider.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["OAuthRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/oauth/disconnect": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Disconnect OAuth
-         * @description Disconnects an OAuth integration from the current user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiDisconnectOAuthRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/openid/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Login using OAuth (OpenID)
-         * @description Logs in a user using OpenID.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["OpenIdRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiUserResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/openid/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Register using OAuth (OpenID)
-         * @description Registers a user using OpenID.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["OpenIdRegisterRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiRegisterResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/openid/connect": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Connect OAuth (OpenID)
-         * @description Connects an OpenID integration to the current user. This will allow the user to log in using SSO via the given OpenID provider.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["OpenIdRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/openid/disconnect": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Disconnect OAuth (OpenID)
-         * @description Disconnects an OpenID integration from the current user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiDisconnectOAuthRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/basic/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Login using Basic Auth
-         * @description Logs in a user using Basic Auth (i.e. username and password).
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["BasicAuthLoginRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiUserResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/basic/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Register using Basic Auth
-         * @description Registers a user using Basic Auth.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["BasicAuthRegisterRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiRegisterResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/basic/reset": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Request Password Reset
-         * @description Requests a password reset mail for Basic Auth.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiBasicResetRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/basic/reset/{token}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The token to use. */
-                token: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Confirm Password Reset
-         * @description Confirms a password reset and updates the password for Basic Auth.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The token to use. */
-                    token: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiBasicResetPasswordRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/confirm": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Request Confirmation Mail
-         * @description Requests a verification/confirmation mail for a user if not already verified.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiTriggerConfirmRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/confirm/{token}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The token to use. */
-                token: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Confirm Registration
-         * @description Confirms a user registration and updates the user state to verified.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The token to use. */
-                    token: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "*/*"?: never;
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Logged In User
-         * @description Returns the user that is currently logged in, if any.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DataAuthUser"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user/settings": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * Update User Settings
-         * @description Updates the settings for the currently logged in user.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserSettings"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DataAuthUser"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user/displayName": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Update Display Name
-         * @description Updates the display name for the currently logged in user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiUpdateDisplayNameRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DataAuthUser"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user/password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Update Password
-         * @description Updates the password for the currently logged in user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiUpdatePasswordRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user/email": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Update Email Address
-         * @description Updates the email address for the currently logged in user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiUpdateEmailAddressRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user/ratelimit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Rate Limit Usage
-         * @description Fetches the current usage of the ratelimit for user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-RateLimitUsage"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/integrations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List User Integrations
-         * @description Lists all oauth user integrations for the current user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-AuthApiUserIntegration"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/tokens": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List API Tokens
-         * @description Lists all API tokens for the current user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-AuthApiUserApiToken"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create API Token
-         * @description Creates a new API token for the current user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AuthApiCreateApiTokenRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-AuthApiUserApiToken"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/tokens/{token}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                token: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Revoke API Token
-         * @description Revokes and deletes the given API token for the current user.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    token: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Logout
-         * @description Logs out the current user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "*/*"?: never;
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/user/email/{token}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The token to use. */
-                token: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Confirm Email Address Update
-         * @description Confirms the email address update for the currently logged in user.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The token to use. */
-                    token: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "*/*"?: never;
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Search MTG Cards
-         * @description Searches for Magic: The Gathering cards.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The amount of items to return per page. Defaults to `60`. */
-                    pageSize?: number;
-                    /** @description The page to return. Defaults to `1`. */
-                    page?: number;
-                    /** @description The mode to sort by. */
-                    sortBy?: "cmc" | "power" | "toughness" | "defense" | "loyalty" | "set" | "name" | "usd" | "tix" | "eur" | "rarity" | "color" | "released" | "edhrec";
-                    /** @description The direction to sort by. */
-                    sortDirection?: "asc" | "desc";
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
-                    allowedFilters?: string;
-                    /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
-                    forbiddenFilters?: string;
-                    /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
-                    allowedValueTypes?: string;
-                    /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
-                    retries?: string;
-                    /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
-                    validationRules?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search/explain": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Explain MTG Card Search
-         * @description Explains the given search query in a human-readable format, providing additional query details.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
-                    allowedFilters?: string;
-                    /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
-                    forbiddenFilters?: string;
-                    /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
-                    allowedValueTypes?: string;
-                    /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
-                    includeCount?: string;
-                    /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
-                    validationRules?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/random": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Random MTG Cards
-         * @description Returns a random selection of Magic: The Gathering cards based on the query provided.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The amount of items to return per page. Defaults to `1`. */
-                    pageSize?: number;
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
-                    retries?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search/filters": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get MTG Search Filters
-         * @description Returns a list of filters available for filtering Magic: The Gathering cards.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The query to search filters by. Only returns filters with matching (partial) keywords. */
-                    query?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-SearchQueryExecutorSearchQueryFilter"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search/filters/{filter}/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The filter to return available values for. */
-                filter: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Search Filter Values
-         * @description Returns a subset of values available for use in the given filter used for auto-completion.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The query to filter the available values by. */
-                    query?: string;
-                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The amount of values to return. Defaults to `25`. */
-                    amount?: number;
-                    /** @description The type of values to return. Returns all values of all types if not specified. */
-                    valueType?: string;
-                    /** @description The operator to apply to the values. Defaults to any. */
-                    operator?: ":" | ">=" | ">" | "<=" | "<" | "=";
-                };
-                header?: never;
-                path: {
-                    /** @description The filter to return available values for. */
-                    filter: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SearchQueryExecutorFilterValues"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search/filters/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get MTG Search Filter Values (Multiple)
-         * @description Returns a subset of values available for use in the given filters used for auto-completion.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The filters to return available values for. Comma separated. */
-                    filters: string;
-                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
-                    amount?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Map-String-SearchQueryExecutorFilterValues"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search/filters/types": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get MTG Search Filter Value Types
-         * @description Returns a list of value types available for use in filters.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-String"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the card to return. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find MTG Card
-         * @description Finds a Magic: The Gathering card by its id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display the cards in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the card to return. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-MtgDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/prints/{setCode}/{collectorNumber}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The set code of the print. */
-                setCode: string;
-                /** @description The collector number of the print. */
-                collectorNumber: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find MTG Card by Set and Number
-         * @description Finds a Magic: The Gathering card by the print associated to the given set code and collector number.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display related card and print names in. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The set code of the print. */
-                    setCode: string;
-                    /** @description The collector number of the print. */
-                    collectorNumber: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-MtgDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/prints/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the card to return. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find MTG Card by Print
-         * @description Finds a Magic: The Gathering card by an associated print.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display related card and print names in. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the card to return. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-MtgDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/sets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get MTG Sets
-         * @description Returns all sets for Magic: The Gathering.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Defaults to `1000`. */
-                    pageSize?: number;
-                    /** @description Whether to include subsets in the top level results. Defaults to `false`. */
-                    includeSubsets?: string;
-                    /** @description Filter sets by name. */
-                    name?: string;
-                    /** @description Filter sets by code. */
-                    code?: string;
-                    /** @description Filter sets by type. */
-                    type?: string;
-                    /** @description Filter sets released before a specific date. */
-                    releasedBefore?: string;
-                    /** @description Filter sets released after a specific date. */
-                    releasedAfter?: string;
-                    /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
-                    sortBy?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-MtgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/sets/{setId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Set By Id or Code
-         * @description Return a Magic: The Gathering set by id or code.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
-                    withSubsets?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-MtgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/sets/{setId}/categories": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Set Categories
-         * @description Return all categories related to a Magic: The Gathering set.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
-                    withSubsets?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-DataSetCategoryQuery"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/sets/{setId}/subsets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return subsets for. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Subsets
-         * @description Return all subsets related to a Magic: The Gathering set.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Must be between 1 and 100. Defaults to `100`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return subsets for. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-MtgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/sets/{setId}/summary": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Set Summary
-         * @description Return all data related to a Magic: The Gathering set.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
-                    withSubsets?: string;
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query: string;
-                    /** @description The mode to sort by. */
-                    sortBy?: "cmc" | "power" | "toughness" | "defense" | "loyalty" | "set" | "name" | "usd" | "tix" | "eur" | "rarity" | "color" | "released" | "edhrec";
-                    /** @description The direction to sort by. */
-                    sortDirection?: "asc" | "desc";
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-MtgDataSetSummary"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/sets/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Search MTG Sets
-         * @description Returns all Magic: The Gathering sets that match the set filters of the given query. If no set filter is found, no sets are returned.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The query to search the sets by. */
-                    query: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-MtgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/blocks": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get MTG Blocks
-         * @description Returns all blocks for Magic: The Gathering.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of blocks to return per page. Must be between 1 and 100. Defaults to `100`. */
-                    pageSize?: number;
-                    /** @description Filter sets by name. */
-                    name?: string;
-                    /** @description Sort the blocks by a specific field. Append `.desc` for descending order. Defaults to `name.asc`. */
-                    sortBy?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-MtgDataBlock"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/blocks/{blockId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the block to return. */
-                blockId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Block By Id
-         * @description Return a block for Magic: The Gathering by id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Whether to return set objects instead of set ids. Defaults to `false`. */
-                    withSets?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the block to return. */
-                    blockId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-MtgDataBlock"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/blocks/{blockId}/sets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the block to return sets for. */
-                blockId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get MTG Block By Id
-         * @description Return a block for Magic: The Gathering by id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Must be between 1 and 100. Defaults to `100`. */
-                    pageSize?: number;
-                    /** @description Whether to include subsets in the top level results. Defaults to `false`. */
-                    includeSubsets?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the block to return sets for. */
-                    blockId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-MtgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Search DLC Cards
-         * @description Searches for Disney Lorcana cards.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The amount of items to return per page. Defaults to `60`. */
-                    pageSize?: number;
-                    /** @description The page to return. Defaults to `1`. */
-                    page?: number;
-                    /** @description The mode to sort by. */
-                    sortBy?: "name" | "set" | "ink" | "strength" | "willpower" | "movement" | "released";
-                    /** @description The direction to sort by. */
-                    sortDirection?: "asc" | "desc";
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
-                    allowedFilters?: string;
-                    /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
-                    forbiddenFilters?: string;
-                    /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
-                    allowedValueTypes?: string;
-                    /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
-                    retries?: string;
-                    /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
-                    validationRules?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search/explain": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Explain DLC Card Search
-         * @description Explains the given search query in a human-readable format, providing additional query details.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
-                    allowedFilters?: string;
-                    /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
-                    forbiddenFilters?: string;
-                    /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
-                    allowedValueTypes?: string;
-                    /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
-                    includeCount?: string;
-                    /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
-                    validationRules?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/random": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Random DLC Cards
-         * @description Returns a random selection of Disney Lorcana cards based on the query provided.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The amount of items to return per page. Defaults to `1`. */
-                    pageSize?: number;
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
-                    retries?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search/filters": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get DLC Search Filters
-         * @description Returns a list of filters available for filtering Disney Lorcana cards.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The query to search filters by. Only returns filters with matching (partial) keywords. */
-                    query?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-SearchQueryExecutorSearchQueryFilter"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search/filters/{filter}/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The filter to return available values for. */
-                filter: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get DLC Search Filter Values
-         * @description Returns a subset of values available for use in the given filter used for auto-completion.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The query to filter the available values by. */
-                    query?: string;
-                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The amount of values to return. Defaults to `25`. */
-                    amount?: number;
-                    /** @description The type of values to return. Returns all values of all types if not specified. */
-                    valueType?: string;
-                    /** @description The operator to apply to the values. Defaults to any. */
-                    operator?: ":" | ">=" | ">" | "<=" | "<" | "=";
-                };
-                header?: never;
-                path: {
-                    /** @description The filter to return available values for. */
-                    filter: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SearchQueryExecutorFilterValues"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search/filters/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get DLC Search Filter Values (Multiple)
-         * @description Returns a subset of values available for use in the given filters used for auto-completion.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The filters to return available values for. Comma separated. */
-                    filters: string;
-                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
-                    amount?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Map-String-SearchQueryExecutorFilterValues"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search/filters/types": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get DLC Search Filter Value Types
-         * @description Returns a list of value types available for use in filters.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-String"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the card to return. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find DLC Card
-         * @description Finds a Disney Lorcana card by its id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display the cards in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the card to return. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DlcDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/prints/{setCode}/{collectorNumber}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The set code of the print. */
-                setCode: string;
-                /** @description The collector number of the print. */
-                collectorNumber: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find DLC Card by Set and Number
-         * @description Finds a Disney Lorcana card by the print associated to the given set code and collector number.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display related card and print names in. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The set code of the print. */
-                    setCode: string;
-                    /** @description The collector number of the print. */
-                    collectorNumber: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DlcDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/prints/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the card to return. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find DLC Card by Print
-         * @description Finds a Disney Lorcana card by an associated print.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display related card and print names in. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the card to return. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DlcDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/sets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get DLC Sets
-         * @description Returns all sets for Disney Lorcana.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Defaults to `1000`. */
-                    pageSize?: number;
-                    /** @description Filter sets by name. */
-                    name?: string;
-                    /** @description Filter sets by code. */
-                    code?: string;
-                    /** @description Filter sets released before a specific date. */
-                    releasedBefore?: string;
-                    /** @description Filter sets released after a specific date. */
-                    releasedAfter?: string;
-                    /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
-                    sortBy?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-DlcDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/sets/{setId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get DLC Set By Id or Code
-         * @description Return a Disney Lorcana set by id or code.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DlcDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/sets/{setId}/categories": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get DLC Set Categories
-         * @description Return all categories related to a Disney Lorcana set.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-DataSetCategoryQuery"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/sets/{setId}/summary": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get DLC Set Summary
-         * @description Return all data related to a Disney Lorcana set.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
-                    withSubsets?: string;
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query: string;
-                    /** @description The mode to sort by. */
-                    sortBy?: "name" | "set" | "ink" | "strength" | "willpower" | "movement" | "released";
-                    /** @description The direction to sort by. */
-                    sortDirection?: "asc" | "desc";
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DlcDataSetSummary"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/sets/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Search DLC Sets
-         * @description Returns all Disney Lorcana sets that match the set filters of the given query. If no set filter is found, no sets are returned.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The query to search the sets by. */
-                    query: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-DlcDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Search PCG Cards
-         * @description Searches for Pokémon Trading Card Game cards.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The amount of items to return per page. Defaults to `60`. */
-                    pageSize?: number;
-                    /** @description The page to return. Defaults to `1`. */
-                    page?: number;
-                    /** @description The mode to sort by. */
-                    sortBy?: "name" | "rarity" | "set" | "type" | "health" | "released";
-                    /** @description The direction to sort by. */
-                    sortDirection?: "asc" | "desc";
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
-                    allowedFilters?: string;
-                    /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
-                    forbiddenFilters?: string;
-                    /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
-                    allowedValueTypes?: string;
-                    /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
-                    retries?: string;
-                    /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
-                    validationRules?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search/explain": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Explain PCG Card Search
-         * @description Explains the given search query in a human-readable format, providing additional query details.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
-                    allowedFilters?: string;
-                    /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
-                    forbiddenFilters?: string;
-                    /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
-                    allowedValueTypes?: string;
-                    /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
-                    includeCount?: string;
-                    /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
-                    validationRules?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/random": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Random PCG Cards
-         * @description Returns a random selection of Pokémon Trading Card Game cards based on the query provided.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query?: string;
-                    /** @description The amount of items to return per page. Defaults to `1`. */
-                    pageSize?: number;
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
-                    displayLanguage?: string;
-                    /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
-                    flags?: string;
-                    /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
-                    retries?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search/filters": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get PCG Search Filters
-         * @description Returns a list of filters available for filtering Pokémon Trading Card Game cards.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The query to search filters by. Only returns filters with matching (partial) keywords. */
-                    query?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-SearchQueryExecutorSearchQueryFilter"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search/filters/{filter}/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The filter to return available values for. */
-                filter: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get PCG Search Filter Values
-         * @description Returns a subset of values available for use in the given filter used for auto-completion.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The query to filter the available values by. */
-                    query?: string;
-                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The amount of values to return. Defaults to `25`. */
-                    amount?: number;
-                    /** @description The type of values to return. Returns all values of all types if not specified. */
-                    valueType?: string;
-                    /** @description The operator to apply to the values. Defaults to any. */
-                    operator?: ":" | ">=" | ">" | "<=" | "<" | "=";
-                };
-                header?: never;
-                path: {
-                    /** @description The filter to return available values for. */
-                    filter: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SearchQueryExecutorFilterValues"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search/filters/values": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get PCG Search Filter Values (Multiple)
-         * @description Returns a subset of values available for use in the given filters used for auto-completion.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The filters to return available values for. Comma separated. */
-                    filters: string;
-                    /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                    /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
-                    amount?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Map-String-SearchQueryExecutorFilterValues"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search/filters/types": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get PCG Search Filter Value Types
-         * @description Returns a list of value types available for use in filters.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-String"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the card to return. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find PCG Card
-         * @description Finds a Pokémon Trading Card Game card by its id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display the cards in. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the card to return. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-PcgDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/prints/{setCode}/{collectorNumber}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The set code of the print. */
-                setCode: string;
-                /** @description The collector number of the print. */
-                collectorNumber: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find PCG Card by Set and Number
-         * @description Finds a Pokémon Trading Card Game card by the print associated to the given set code and collector number.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display related card and print names in. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The set code of the print. */
-                    setCode: string;
-                    /** @description The collector number of the print. */
-                    collectorNumber: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-PcgDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/prints/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the card to return. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find PCG Card by Print
-         * @description Finds a Pokémon Trading Card Game card by an associated print.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display related card and print names in. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the card to return. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-PcgDataCard"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ErrorApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/sets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get PCG Sets
-         * @description Returns all sets for Pokémon Trading Card Game.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Defaults to `1000`. */
-                    pageSize?: number;
-                    /** @description Filter sets by name. */
-                    name?: string;
-                    /** @description Filter sets by code. */
-                    code?: string;
-                    /** @description Filter sets by type. */
-                    type?: "main_expansion" | "special_expansion" | "promotional" | "deck" | "trainer_deck_kits" | "energies" | "unspecified";
-                    /** @description Filter sets released before a specific date. */
-                    releasedBefore?: string;
-                    /** @description Filter sets released after a specific date. */
-                    releasedAfter?: string;
-                    /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
-                    sortBy?: string;
-                    /** @description Filter sets by the region they were released in */
-                    region?: "int" | "jap" | "chi" | "kor" | "tha" | "ind";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-PcgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/sets/{setId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get PCG Set By Id or Code
-         * @description Return a Pokémon Trading Card Game set by id or code.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-PcgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/sets/{setId}/categories": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get PCG Set Categories
-         * @description Return all categories related to a Pokémon Trading Card Game set.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-DataSetCategoryQuery"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/sets/{setId}/summary": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or code of the set to return. */
-                setId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get PCG Set Summary
-         * @description Return all data related to a Pokémon Trading Card Game set.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
-                    withSubsets?: string;
-                    /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
-                    mode?: string;
-                    /** @description The query to search the cards by. */
-                    query: string;
-                    /** @description The mode to sort by. */
-                    sortBy?: "name" | "rarity" | "set" | "type" | "health" | "released";
-                    /** @description The direction to sort by. */
-                    sortDirection?: "asc" | "desc";
-                    /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
-                    lang?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or code of the set to return. */
-                    setId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-PcgDataSetSummary"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/sets/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Search PCG Sets
-         * @description Returns all Pokémon Trading Card Game sets that match the set filters of the given query. If no set filter is found, no sets are returned.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The query to search the sets by. */
-                    query: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-PcgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/eras": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get PCG Eras
-         * @description Returns all eras for Pokémon Trading Card Game.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Defaults to `100`. */
-                    pageSize?: number;
-                    /** @description Filter sets by name. */
-                    name?: string;
-                    /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `name.asc`. */
-                    sortBy?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-PcgDataEra"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/eras/{eraId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the block to return. */
-                eraId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get PCG Era By Id
-         * @description Return an era for Pokémon Trading Card Game by id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Whether to return set objects instead of set ids. Defaults to `false`. */
-                    withSets?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the block to return. */
-                    eraId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-PcgDataEra"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/eras/{eraId}/sets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the block to return sets for. */
-                eraId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get PCG Era By Id
-         * @description Return an era for Pokémon Trading Card Game by id.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The page to retrieve. Starts at and defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of sets to return per page. Defaults to `100`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the block to return sets for. */
-                    eraId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Page-PcgDataSet"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/mtg/cards/search/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the saved search. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Search MTG By Statistics
-         * @description Search MTG cards by the statistics of a saved search.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display the explanation in. Defaults to the user's language. */
-                    displayLanguage?: "en" | "de";
-                    /** @description The page to return. Defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `60`. */
-                    pageSize?: number;
-                    /** @description Whether to retry the search if it fails. Defaults to `false`. */
-                    retries?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the saved search. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/pcg/cards/search/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the saved search. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Search PCG By Statistics
-         * @description Search PCG cards by the statistics of a saved search.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display the explanation in. Defaults to the user's language. */
-                    displayLanguage?: "en" | "de";
-                    /** @description The page to return. Defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `60`. */
-                    pageSize?: number;
-                    /** @description Whether to retry the search if it fails. Defaults to `false`. */
-                    retries?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the saved search. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/dlc/cards/search/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of the saved search. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Search DLC By Statistics
-         * @description Search DLC cards by the statistics of a saved search.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The language to display the explanation in. Defaults to the user's language. */
-                    displayLanguage?: "en" | "de";
-                    /** @description The page to return. Defaults to `1`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `60`. */
-                    pageSize?: number;
-                    /** @description Whether to retry the search if it fails. Defaults to `false`. */
-                    retries?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the saved search. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{identifier}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The user identifier (id or username). */
-                identifier: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Find User
-         * @description Find a user by their id or username.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user identifier (id or username). */
-                    identifier: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DataUser"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/searches/history": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Search History
-         * @description Last X entries of user's search history
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description Game as filter for these resources */
-                    game: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Optional string to search the query by. */
-                    search?: string;
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserSearchHistoryEntry"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/searches": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Saved Searches
-         * @description Paginated list of user's saved searches
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Optional string to search the query by. */
-                    search?: string;
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "savedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserSavedSearch"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Save Searches
-         * @description Saves specific user searches
-         */
-        post: {
-            parameters: {
-                query: {
-                    /** @description Game as filter for these resources */
-                    game: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["SaveSearchesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-ResolvedUserSavedSearch"];
-                    };
-                };
-            };
-        };
-        /**
-         * Delete Saved Searches
-         * @description Deletes specific user saved searches
-         */
-        delete: {
-            parameters: {
-                query: {
-                    /** @description Game as filter for these resources */
-                    game: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/searches/{savedSearchId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user. */
-                id: string;
-                /** @description Id of the saved search. */
-                savedSearchId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Saved Search
-         * @description Get specific saved search
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description Game as filter for these resources */
-                    game: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user. */
-                    id: string;
-                    /** @description Id of the saved search. */
-                    savedSearchId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-ResolvedUserSavedSearch"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the lists for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get User Lists
-         * @description Returns all user lists on given page or per default on the first.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Ids of lists to specifically search for. Separated with ',' */
-                    listIds?: string;
-                    /** @description The name to search lists by. */
-                    name?: string;
-                    /** @description Game as filter for these lists */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned tags by. */
-                    sortBy?: "name" | "updatedAt" | "size";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description If true, will create system lists if they don't exist. */
-                    createSystem?: string;
-                    /** @description If true, will resolve the size of each list before returning. */
-                    withSize?: string;
-                    /** @description If true, will also resolve some listed resources based on the TCG */
-                    withResources?: string;
-                    /** @description If true, will not resolve the resources data. */
-                    reduced?: string;
-                    /** @description Only used if withResources is set. */
-                    resourcesPerType?: number;
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the lists for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserListWithResources"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update User Lists
-         * @description Updates all given lists with their respective changes.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the lists for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpdateUserListsRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        /**
-         * Create User List
-         * @description Creates a new user list and returns the result.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the lists for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["CreateUserListRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserList"];
-                    };
-                };
-            };
-        };
-        /**
-         * Delete User Lists
-         * @description Deletes all given lists, if they exist.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the lists for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the collection tag for. */
-                id: string;
-                /** @description The id of the list. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Single User List
-         * @description Returns the list with given id for given user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the collection tag for. */
-                    id: string;
-                    /** @description The id of the list. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserList"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/resources/card": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `favorite`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get card Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add card Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove card Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/resources/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-                /** @description The id of the collection tag or a key like `favorite`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get user_search Resources From List
-         * @description Paginated list of resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Field to sort the returned resources by. */
-                    sortBy?: "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description If true, will resolve the listed resources linked data. */
-                    resolve?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Add user_search Resources To List
-         * @description Tags target resources with specific type
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UserListResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-UserListResource"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove user_search Resources From List
-         * @description Removes target resources with specific type from list
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                    /** @description The id of the collection tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/all": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the list for. */
-                id: string;
-                /** @description The id of the tag or a key like `favorite`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get All List Resources
-         * @description Overview over all resources in a specific list
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Game as filter for these resources. */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Amount of resources per type to return. */
-                    size?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the list for. */
-                    id: string;
-                    /** @description The id of the tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-Map-String-List-ResolvedUserListResource"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/lists/{listId}/duplicate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the list for. */
-                id: string;
-                /** @description The id of the tag or a key like `favorite`. */
-                listId: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Duplicate List
-         * @description Creates a new list and copies all resources to the new one.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the list for. */
-                    id: string;
-                    /** @description The id of the tag or a key like `favorite`. */
-                    listId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["DuplicateUserListRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserList"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/card": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed card Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/listed-resources/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the listed resources for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get Listed user_search Resources
-         * @description User listing information for a subset of resources.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the listed resources for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["GetListedResourcesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetListedResourcesResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/binders": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search binders for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get User Card Binders
-         * @description Returns all user card binders on given page or per default on the first.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search binders for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserCardBinder"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update User Card Binders
-         * @description Updates all given card binders with their respective changes.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search binders for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpdateUserCardBindersRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        /**
-         * Create User Card Binder
-         * @description Creates a new user card binder and returns the result.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search binders for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["CreateUserCardBinderRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserCardBinder"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/binders/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to delete binders for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * Delete User Card Binders
-         * @description Deletes all given card binders, if they exist.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to delete binders for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["DeleteUserCardBindersRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/binders/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the binder for. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Search User Card Binders
-         * @description Returns all user card binders of given user that match the given query.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The name to search binders by. */
-                    name: string;
-                    /** @description Field to sort the returned binders by. */
-                    sortBy: "name" | "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder: "asc" | "desc";
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the binder for. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserCardBinder"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/binders/{binderId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to search the binder for. */
-                id: string;
-                /** @description The id of the binder. */
-                binderId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Single User Card Binder
-         * @description Returns the binder with given id for given user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to search the binder for. */
-                    id: string;
-                    /** @description The id of the binder. */
-                    binderId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserCardBinder"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/decks": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user get decks from. */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get All User Decks
-         * @description Returns all user decks on given page or per default on the first.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The key of the game type to get decks from. */
-                    tcg?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Like name to search for. */
-                    name?: string;
-                    /** @description Whether or not the decks are deleted. */
-                    isDeleted?: string;
-                    /** @description Field to sort the returned decks by. */
-                    sortBy?: "name" | "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user get decks from. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-ResolvedUserDeck"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create Empty User Deck
-         * @description Creates an empty user deck for given game.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user get decks from. */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["CreateUserDeckRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-CreateUserDeckResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/decks/{deckId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to add cards to. */
-                id: string;
-                /** @description The id of the user deck. */
-                deckId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get User Deck
-         * @description Returns the user deck with given user deck id.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-ResolvedUserDeck"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update User Deck
-         * @description Updates the user deck with given user deck id.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpdateUserDeckRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-ResolvedUserDeck"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Delete User Deck
-         * @description Deletes the user deck with given user deck id.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/decks/{deckId}/validate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to add cards to. */
-                id: string;
-                /** @description The id of the user deck. */
-                deckId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Validate User Deck
-         * @description Validates an user deck based on the format it's created for.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/decks/{deckId}/cards": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to add cards to. */
-                id: string;
-                /** @description The id of the user deck. */
-                deckId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Deck Cards
-         * @description Returns all user deck cards on given page or per default on the first.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description Preferred language to use for card prints */
-                    preferredLanguage?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UnspecificResolvedDeckCard"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update Deck Cards
-         * @description Updates given user deck cards. Fails if any update is invalid.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpdateDeckCardsRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        /**
-         * Add Card To Deck
-         * @description Adds a card to a user deck with given user deck id.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AddDeckCardsRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-List-DeckCard"];
-                    };
-                };
-            };
-        };
-        /**
-         * Remove User Deck Cards
-         * @description Removes the specific user deck cards in given user deck.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/{id}/decks/{deckId}/cards/{cardId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id or username of the user to add cards to. */
-                id: string;
-                /** @description The id of the user deck. */
-                deckId: string;
-                /** @description The id of the user deck card. */
-                cardId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get User Deck Card
-         * @description Returns the user deck card with given user deck card id.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                    /** @description The id of the user deck card. */
-                    cardId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-DeckCard"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        /**
-         * Remove User Deck Card
-         * @description Removes the specific user deck card in given user deck.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id or username of the user to add cards to. */
-                    id: string;
-                    /** @description The id of the user deck. */
-                    deckId: string;
-                    /** @description The id of the user deck card. */
-                    cardId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/importables/{type}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Name of the importable type */
-                type: "tags" | "lists" | "binders" | "cards" | "decks";
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Importable
-         * @description Returns meta information about fields and values for given import type.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Name of the importable type */
-                    type: "tags" | "lists" | "binders" | "cards" | "decks";
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-GetImportableResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/imports": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Imports
-         * @description Returns all user imports with given parameters, paginated. Data gets redacted.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Type of data that's being imported. */
-                    type?: "tags" | "lists" | "binders" | "cards" | "decks";
-                    /** @description Game to import the data to. */
-                    game?: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-                    /** @description Format of the uploaded data. */
-                    format?: "csv" | "json" | "txt_moxfield_decks";
-                    /** @description Timestamp of creation. (Only God knows) */
-                    startedAt?: string;
-                    /** @description Whether the import is finished */
-                    isFinished?: string;
-                    /** @description Whether the import is deleted */
-                    isDeleted?: string;
-                    /** @description The id of the page to return. Defaults to `0`. */
-                    page?: number;
-                    /** @description The amount of items to return per page. Defaults to `10`. */
-                    pageSize?: number;
-                    /** @description Field to sort the returned imports by. */
-                    sortBy?: "type" | "game" | "updatedAt";
-                    /** @description The order of sorting, either ascending or descending. */
-                    sortOrder?: "asc" | "desc";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-SimplePage-UserImport"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create Import
-         * @description Creates a new user import and returns the result.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "*/*"?: never;
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-CreateImportResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/imports/{importId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of user specific import */
-                importId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Get Import
-         * @description Returns the import with given id for current user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of user specific import */
-                    importId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserImport"];
-                    };
-                };
-            };
-        };
-        /**
-         * Update Import
-         * @description Updates import with given id of current user.
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of user specific import */
-                    importId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpdateImportRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserImport"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        /**
-         * Delete Import
-         * @description Deletes import with given id of current user.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of user specific import */
-                    importId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SimpleApiResponse"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/imports/{importId}/evaluate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of user specific import */
-                importId: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * Evaluate Import
-         * @description Evaluates import with given id of current user.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of user specific import */
-                    importId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-UserImportEvaluation"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/imports/{importId}/finish": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The id of user specific import */
-                importId: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Finish Import
-         * @description Finishes the import by applying the data to user data.
-         */
-        post: {
-            parameters: {
-                query?: {
-                    /** @description If enabled, will not make any real changes */
-                    dryRun?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The id of user specific import */
-                    importId: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "*/*"?: never;
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-FinishImportResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/users/exports/{exportType}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Type of the export to create */
-                exportType: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create Export
-         * @description Creates a new user export and returns the result.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Type of the export to create */
-                    exportType: string;
-                };
-                cookie?: never;
-            };
-            /** @description Request Body */
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["CreateExportRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["DataApiResponse-String"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+  '/v1/auth/oauth/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Login using OAuth
+     * @description Logs in a user using OAuth.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['OAuthRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiUserResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/oauth/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Register using OAuth
+     * @description Registers a user using OAuth.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['OAuthRegisterRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiRegisterResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/oauth/connect': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Connect OAuth
+     * @description Connects an OAuth integration to the current user. This will allow the user to log in using SSO via the given OAuth provider.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['OAuthRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/oauth/disconnect': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Disconnect OAuth
+     * @description Disconnects an OAuth integration from the current user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiDisconnectOAuthRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/openid/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Login using OAuth (OpenID)
+     * @description Logs in a user using OpenID.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['OpenIdRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiUserResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/openid/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Register using OAuth (OpenID)
+     * @description Registers a user using OpenID.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['OpenIdRegisterRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiRegisterResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/openid/connect': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Connect OAuth (OpenID)
+     * @description Connects an OpenID integration to the current user. This will allow the user to log in using SSO via the given OpenID provider.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['OpenIdRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/openid/disconnect': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Disconnect OAuth (OpenID)
+     * @description Disconnects an OpenID integration from the current user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiDisconnectOAuthRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/basic/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Login using Basic Auth
+     * @description Logs in a user using Basic Auth (i.e. username and password).
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['BasicAuthLoginRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiUserResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/basic/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Register using Basic Auth
+     * @description Registers a user using Basic Auth.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['BasicAuthRegisterRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiRegisterResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/basic/reset': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Request Password Reset
+     * @description Requests a password reset mail for Basic Auth.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiBasicResetRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/basic/reset/{token}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The token to use. */
+        token: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Confirm Password Reset
+     * @description Confirms a password reset and updates the password for Basic Auth.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The token to use. */
+          token: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiBasicResetPasswordRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/confirm': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Request Confirmation Mail
+     * @description Requests a verification/confirmation mail for a user if not already verified.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiTriggerConfirmRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/confirm/{token}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The token to use. */
+        token: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Confirm Registration
+     * @description Confirms a user registration and updates the user state to verified.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The token to use. */
+          token: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          '*/*'?: never;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get Logged In User
+     * @description Returns the user that is currently logged in, if any.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DataAuthUser'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user/settings': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Update User Settings
+     * @description Updates the settings for the currently logged in user.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UserSettings'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DataAuthUser'];
+          };
+        };
+      };
+    };
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user/displayName': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Update Display Name
+     * @description Updates the display name for the currently logged in user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiUpdateDisplayNameRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DataAuthUser'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user/password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Update Password
+     * @description Updates the password for the currently logged in user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiUpdatePasswordRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user/email': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Update Email Address
+     * @description Updates the email address for the currently logged in user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiUpdateEmailAddressRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user/ratelimit': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get Rate Limit Usage
+     * @description Fetches the current usage of the ratelimit for user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-RateLimitUsage'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/integrations': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List User Integrations
+     * @description Lists all oauth user integrations for the current user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-AuthApiUserIntegration'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/tokens': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * List API Tokens
+     * @description Lists all API tokens for the current user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-AuthApiUserApiToken'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Create API Token
+     * @description Creates a new API token for the current user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthApiCreateApiTokenRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-AuthApiUserApiToken'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/tokens/{token}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        token: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Revoke API Token
+     * @description Revokes and deletes the given API token for the current user.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          token: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/logout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Logout
+     * @description Logs out the current user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          '*/*'?: never;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/user/email/{token}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The token to use. */
+        token: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Confirm Email Address Update
+     * @description Confirms the email address update for the currently logged in user.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The token to use. */
+          token: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          '*/*'?: never;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search MTG Cards
+     * @description Searches for Magic: The Gathering cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The mode to sort by. */
+          sortBy?:
+            | 'cmc'
+            | 'power'
+            | 'toughness'
+            | 'defense'
+            | 'loyalty'
+            | 'set'
+            | 'name'
+            | 'usd'
+            | 'tix'
+            | 'eur'
+            | 'rarity'
+            | 'color'
+            | 'released'
+            | 'edhrec';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search/explain': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Explain MTG Card Search
+     * @description Explains the given search query in a human-readable format, providing additional query details.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
+          includeCount?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/random': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Random MTG Cards
+     * @description Returns a random selection of Magic: The Gathering cards based on the query provided.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `1`. */
+          pageSize?: number;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search/filters': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get MTG Search Filters
+     * @description Returns a list of filters available for filtering Magic: The Gathering cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The query to search filters by. Only returns filters with matching (partial) keywords. */
+          query?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search/filters/{filter}/values': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The filter to return available values for. */
+        filter: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Search Filter Values
+     * @description Returns a subset of values available for use in the given filter used for auto-completion.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The query to filter the available values by. */
+          query?: string;
+          /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The amount of values to return. Defaults to `25`. */
+          amount?: number;
+          /** @description The type of values to return. Returns all values of all types if not specified. */
+          valueType?: string;
+          /** @description The operator to apply to the values. Defaults to any. */
+          operator?: ':' | '>=' | '>' | '<=' | '<' | '=';
+        };
+        header?: never;
+        path: {
+          /** @description The filter to return available values for. */
+          filter: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SearchQueryExecutorFilterValues'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search/filters/values': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get MTG Search Filter Values (Multiple)
+     * @description Returns a subset of values available for use in the given filters used for auto-completion.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The filters to return available values for. Comma separated. */
+          filters: string;
+          /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
+          amount?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Map-String-SearchQueryExecutorFilterValues'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search/filters/types': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get MTG Search Filter Value Types
+     * @description Returns a list of value types available for use in filters.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-String'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the card to return. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find MTG Card
+     * @description Finds a Magic: The Gathering card by its id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the cards in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the card to return. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-MtgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/prints/{setCode}/{collectorNumber}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The set code of the print. */
+        setCode: string;
+        /** @description The collector number of the print. */
+        collectorNumber: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find MTG Card by Set and Number
+     * @description Finds a Magic: The Gathering card by the print associated to the given set code and collector number.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The set code of the print. */
+          setCode: string;
+          /** @description The collector number of the print. */
+          collectorNumber: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-MtgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/prints/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the card to return. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find MTG Card by Print
+     * @description Finds a Magic: The Gathering card by an associated print.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the card to return. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-MtgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/sets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get MTG Sets
+     * @description Returns all sets for Magic: The Gathering.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Defaults to `1000`. */
+          pageSize?: number;
+          /** @description Whether to include subsets in the top level results. Defaults to `false`. */
+          includeSubsets?: string;
+          /** @description Filter sets by name. */
+          name?: string;
+          /** @description Filter sets by code. */
+          code?: string;
+          /** @description Filter sets by type. */
+          type?: string;
+          /** @description Filter sets released before a specific date. */
+          releasedBefore?: string;
+          /** @description Filter sets released after a specific date. */
+          releasedAfter?: string;
+          /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
+          sortBy?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-MtgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/sets/{setId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Set By Id or Code
+     * @description Return a Magic: The Gathering set by id or code.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-MtgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/sets/{setId}/categories': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Set Categories
+     * @description Return all categories related to a Magic: The Gathering set.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-DataSetCategoryQuery'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/sets/{setId}/subsets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return subsets for. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Subsets
+     * @description Return all subsets related to a Magic: The Gathering set.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Must be between 1 and 100. Defaults to `100`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return subsets for. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-MtgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/sets/{setId}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Set Summary
+     * @description Return all data related to a Magic: The Gathering set.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query: string;
+          /** @description The mode to sort by. */
+          sortBy?:
+            | 'cmc'
+            | 'power'
+            | 'toughness'
+            | 'defense'
+            | 'loyalty'
+            | 'set'
+            | 'name'
+            | 'usd'
+            | 'tix'
+            | 'eur'
+            | 'rarity'
+            | 'color'
+            | 'released'
+            | 'edhrec';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-MtgDataSetSummary'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/sets/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search MTG Sets
+     * @description Returns all Magic: The Gathering sets that match the set filters of the given query. If no set filter is found, no sets are returned.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The query to search the sets by. */
+          query: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-MtgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/blocks': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get MTG Blocks
+     * @description Returns all blocks for Magic: The Gathering.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of blocks to return per page. Must be between 1 and 100. Defaults to `100`. */
+          pageSize?: number;
+          /** @description Filter sets by name. */
+          name?: string;
+          /** @description Sort the blocks by a specific field. Append `.desc` for descending order. Defaults to `name.asc`. */
+          sortBy?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-MtgDataBlock'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/blocks/{blockId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the block to return. */
+        blockId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Block By Id
+     * @description Return a block for Magic: The Gathering by id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Whether to return set objects instead of set ids. Defaults to `false`. */
+          withSets?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the block to return. */
+          blockId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-MtgDataBlock'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/blocks/{blockId}/sets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the block to return sets for. */
+        blockId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Block By Id
+     * @description Return a block for Magic: The Gathering by id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Must be between 1 and 100. Defaults to `100`. */
+          pageSize?: number;
+          /** @description Whether to include subsets in the top level results. Defaults to `false`. */
+          includeSubsets?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the block to return sets for. */
+          blockId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-MtgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search DLC Cards
+     * @description Searches for Disney Lorcana cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'set' | 'ink' | 'strength' | 'willpower' | 'movement' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search/explain': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Explain DLC Card Search
+     * @description Explains the given search query in a human-readable format, providing additional query details.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
+          includeCount?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/random': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Random DLC Cards
+     * @description Returns a random selection of Disney Lorcana cards based on the query provided.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `1`. */
+          pageSize?: number;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search/filters': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get DLC Search Filters
+     * @description Returns a list of filters available for filtering Disney Lorcana cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The query to search filters by. Only returns filters with matching (partial) keywords. */
+          query?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search/filters/{filter}/values': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The filter to return available values for. */
+        filter: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get DLC Search Filter Values
+     * @description Returns a subset of values available for use in the given filter used for auto-completion.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The query to filter the available values by. */
+          query?: string;
+          /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The amount of values to return. Defaults to `25`. */
+          amount?: number;
+          /** @description The type of values to return. Returns all values of all types if not specified. */
+          valueType?: string;
+          /** @description The operator to apply to the values. Defaults to any. */
+          operator?: ':' | '>=' | '>' | '<=' | '<' | '=';
+        };
+        header?: never;
+        path: {
+          /** @description The filter to return available values for. */
+          filter: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SearchQueryExecutorFilterValues'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search/filters/values': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get DLC Search Filter Values (Multiple)
+     * @description Returns a subset of values available for use in the given filters used for auto-completion.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The filters to return available values for. Comma separated. */
+          filters: string;
+          /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
+          amount?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Map-String-SearchQueryExecutorFilterValues'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search/filters/types': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get DLC Search Filter Value Types
+     * @description Returns a list of value types available for use in filters.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-String'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the card to return. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find DLC Card
+     * @description Finds a Disney Lorcana card by its id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the cards in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the card to return. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DlcDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/prints/{setCode}/{collectorNumber}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The set code of the print. */
+        setCode: string;
+        /** @description The collector number of the print. */
+        collectorNumber: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find DLC Card by Set and Number
+     * @description Finds a Disney Lorcana card by the print associated to the given set code and collector number.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The set code of the print. */
+          setCode: string;
+          /** @description The collector number of the print. */
+          collectorNumber: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DlcDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/prints/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the card to return. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find DLC Card by Print
+     * @description Finds a Disney Lorcana card by an associated print.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the card to return. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DlcDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/sets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get DLC Sets
+     * @description Returns all sets for Disney Lorcana.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Defaults to `1000`. */
+          pageSize?: number;
+          /** @description Filter sets by name. */
+          name?: string;
+          /** @description Filter sets by code. */
+          code?: string;
+          /** @description Filter sets released before a specific date. */
+          releasedBefore?: string;
+          /** @description Filter sets released after a specific date. */
+          releasedAfter?: string;
+          /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
+          sortBy?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-DlcDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/sets/{setId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get DLC Set By Id or Code
+     * @description Return a Disney Lorcana set by id or code.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DlcDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/sets/{setId}/categories': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get DLC Set Categories
+     * @description Return all categories related to a Disney Lorcana set.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-DataSetCategoryQuery'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/sets/{setId}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get DLC Set Summary
+     * @description Return all data related to a Disney Lorcana set.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query: string;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'set' | 'ink' | 'strength' | 'willpower' | 'movement' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DlcDataSetSummary'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/sets/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search DLC Sets
+     * @description Returns all Disney Lorcana sets that match the set filters of the given query. If no set filter is found, no sets are returned.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The query to search the sets by. */
+          query: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-DlcDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search PCG Cards
+     * @description Searches for Pokémon Trading Card Game cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'rarity' | 'set' | 'type' | 'health' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search/explain': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Explain PCG Card Search
+     * @description Explains the given search query in a human-readable format, providing additional query details.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
+          includeCount?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/random': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Random PCG Cards
+     * @description Returns a random selection of Pokémon Trading Card Game cards based on the query provided.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `1`. */
+          pageSize?: number;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search/filters': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get PCG Search Filters
+     * @description Returns a list of filters available for filtering Pokémon Trading Card Game cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The query to search filters by. Only returns filters with matching (partial) keywords. */
+          query?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search/filters/{filter}/values': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The filter to return available values for. */
+        filter: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Search Filter Values
+     * @description Returns a subset of values available for use in the given filter used for auto-completion.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The query to filter the available values by. */
+          query?: string;
+          /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The amount of values to return. Defaults to `25`. */
+          amount?: number;
+          /** @description The type of values to return. Returns all values of all types if not specified. */
+          valueType?: string;
+          /** @description The operator to apply to the values. Defaults to any. */
+          operator?: ':' | '>=' | '>' | '<=' | '<' | '=';
+        };
+        header?: never;
+        path: {
+          /** @description The filter to return available values for. */
+          filter: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SearchQueryExecutorFilterValues'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search/filters/values': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get PCG Search Filter Values (Multiple)
+     * @description Returns a subset of values available for use in the given filters used for auto-completion.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The filters to return available values for. Comma separated. */
+          filters: string;
+          /** @description The language to primarily search values in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The maximum amount of values to return for each filter. Defaults to `25`. */
+          amount?: number;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Map-String-SearchQueryExecutorFilterValues'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search/filters/types': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get PCG Search Filter Value Types
+     * @description Returns a list of value types available for use in filters.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-String'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the card to return. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find PCG Card
+     * @description Finds a Pokémon Trading Card Game card by its id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the cards in. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the card to return. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-PcgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/prints/{setCode}/{collectorNumber}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The set code of the print. */
+        setCode: string;
+        /** @description The collector number of the print. */
+        collectorNumber: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find PCG Card by Set and Number
+     * @description Finds a Pokémon Trading Card Game card by the print associated to the given set code and collector number.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The set code of the print. */
+          setCode: string;
+          /** @description The collector number of the print. */
+          collectorNumber: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-PcgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/prints/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the card to return. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find PCG Card by Print
+     * @description Finds a Pokémon Trading Card Game card by an associated print.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the card to return. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-PcgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/sets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get PCG Sets
+     * @description Returns all sets for Pokémon Trading Card Game.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Defaults to `1000`. */
+          pageSize?: number;
+          /** @description Filter sets by name. */
+          name?: string;
+          /** @description Filter sets by code. */
+          code?: string;
+          /** @description Filter sets by type. */
+          type?:
+            | 'main_expansion'
+            | 'special_expansion'
+            | 'promotional'
+            | 'deck'
+            | 'trainer_deck_kits'
+            | 'energies'
+            | 'unspecified';
+          /** @description Filter sets released before a specific date. */
+          releasedBefore?: string;
+          /** @description Filter sets released after a specific date. */
+          releasedAfter?: string;
+          /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `releaseDate.desc`. */
+          sortBy?: string;
+          /** @description Filter sets by the region they were released in */
+          region?: 'int' | 'jap' | 'chi' | 'kor' | 'tha' | 'ind';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-PcgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/sets/{setId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Set By Id or Code
+     * @description Return a Pokémon Trading Card Game set by id or code.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-PcgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/sets/{setId}/categories': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Set Categories
+     * @description Return all categories related to a Pokémon Trading Card Game set.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-DataSetCategoryQuery'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/sets/{setId}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Set Summary
+     * @description Return all data related to a Pokémon Trading Card Game set.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query: string;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'rarity' | 'set' | 'type' | 'health' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-PcgDataSetSummary'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/sets/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search PCG Sets
+     * @description Returns all Pokémon Trading Card Game sets that match the set filters of the given query. If no set filter is found, no sets are returned.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The query to search the sets by. */
+          query: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-PcgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/eras': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get PCG Eras
+     * @description Returns all eras for Pokémon Trading Card Game.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Defaults to `100`. */
+          pageSize?: number;
+          /** @description Filter sets by name. */
+          name?: string;
+          /** @description Sort the sets by a specific field. Append `.desc` for descending order. Defaults to `name.asc`. */
+          sortBy?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-PcgDataEra'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/eras/{eraId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the block to return. */
+        eraId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Era By Id
+     * @description Return an era for Pokémon Trading Card Game by id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Whether to return set objects instead of set ids. Defaults to `false`. */
+          withSets?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the block to return. */
+          eraId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-PcgDataEra'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/eras/{eraId}/sets': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the block to return sets for. */
+        eraId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Era By Id
+     * @description Return an era for Pokémon Trading Card Game by id.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The page to retrieve. Starts at and defaults to `1`. */
+          page?: number;
+          /** @description The amount of sets to return per page. Defaults to `100`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the block to return sets for. */
+          eraId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Page-PcgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/search/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the saved search. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Search MTG By Statistics
+     * @description Search MTG cards by the statistics of a saved search.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description Whether to retry the search if it fails. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the saved search. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/search/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the saved search. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Search PCG By Statistics
+     * @description Search PCG cards by the statistics of a saved search.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description Whether to retry the search if it fails. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the saved search. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/search/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the saved search. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Search DLC By Statistics
+     * @description Search DLC cards by the statistics of a saved search.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description Whether to retry the search if it fails. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the saved search. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{identifier}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The user identifier (id or username). */
+        identifier: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find User
+     * @description Find a user by their id or username.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The user identifier (id or username). */
+          identifier: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DataUser'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/searches/history': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Search History
+     * @description Last X entries of user's search history
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Game as filter for these resources */
+          game: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Optional string to search the query by. */
+          search?: string;
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-UserSearchHistoryEntry'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/searches': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Saved Searches
+     * @description Paginated list of user's saved searches
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Game as filter for these resources */
+          game?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Optional string to search the query by. */
+          search?: string;
+          /** @description Field to sort the returned resources by. */
+          sortBy?: 'savedAt';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ResolvedUserSavedSearch'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Save Searches
+     * @description Saves specific user searches
+     */
+    post: {
+      parameters: {
+        query: {
+          /** @description Game as filter for these resources */
+          game: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['SaveSearchesRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-ResolvedUserSavedSearch'];
+          };
+        };
+      };
+    };
+    /**
+     * Delete Saved Searches
+     * @description Deletes specific user saved searches
+     */
+    delete: {
+      parameters: {
+        query: {
+          /** @description Game as filter for these resources */
+          game: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/searches/{savedSearchId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user. */
+        id: string;
+        /** @description Id of the saved search. */
+        savedSearchId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Saved Search
+     * @description Get specific saved search
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Game as filter for these resources */
+          game: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user. */
+          id: string;
+          /** @description Id of the saved search. */
+          savedSearchId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ResolvedUserSavedSearch'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the lists for. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get User Lists
+     * @description Returns all user lists on given page or per default on the first.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Ids of lists to specifically search for. Separated with ',' */
+          listIds?: string;
+          /** @description The name to search lists by. */
+          name?: string;
+          /** @description Game as filter for these lists */
+          game?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Field to sort the returned tags by. */
+          sortBy?: 'name' | 'updatedAt' | 'size';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+          /** @description If true, will create system lists if they don't exist. */
+          createSystem?: string;
+          /** @description If true, will resolve the size of each list before returning. */
+          withSize?: string;
+          /** @description If true, will also resolve some listed resources based on the TCG */
+          withResources?: string;
+          /** @description If true, will not resolve the resources data. */
+          reduced?: string;
+          /** @description Only used if withResources is set. */
+          resourcesPerType?: number;
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the lists for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-UserListWithResources'];
+          };
+        };
+      };
+    };
+    /**
+     * Update User Lists
+     * @description Updates all given lists with their respective changes.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the lists for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UpdateUserListsRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    /**
+     * Create User List
+     * @description Creates a new user list and returns the result.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the lists for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CreateUserListRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserList'];
+          };
+        };
+      };
+    };
+    /**
+     * Delete User Lists
+     * @description Deletes all given lists, if they exist.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the lists for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists/{listId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the collection tag for. */
+        id: string;
+        /** @description The id of the list. */
+        listId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Single User List
+     * @description Returns the list with given id for given user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the collection tag for. */
+          id: string;
+          /** @description The id of the list. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserList'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists/{listId}/resources/card': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the listed resources for. */
+        id: string;
+        /** @description The id of the collection tag or a key like `favorite`. */
+        listId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get card Resources From List
+     * @description Paginated list of resources in a specific list
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Game as filter for these resources */
+          game?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Field to sort the returned resources by. */
+          sortBy?: 'updatedAt';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+          /** @description If true, will resolve the listed resources linked data. */
+          resolve?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+          /** @description The id of the collection tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ResolvedUserListResource'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Add card Resources To List
+     * @description Tags target resources with specific type
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+          /** @description The id of the collection tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UserListResourcesRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-UserListResource'];
+          };
+        };
+      };
+    };
+    /**
+     * Remove card Resources From List
+     * @description Removes target resources with specific type from list
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+          /** @description The id of the collection tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists/{listId}/resources/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the listed resources for. */
+        id: string;
+        /** @description The id of the collection tag or a key like `favorite`. */
+        listId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get user_search Resources From List
+     * @description Paginated list of resources in a specific list
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Game as filter for these resources */
+          game?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Field to sort the returned resources by. */
+          sortBy?: 'updatedAt';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+          /** @description If true, will resolve the listed resources linked data. */
+          resolve?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+          /** @description The id of the collection tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ResolvedUserListResource'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Add user_search Resources To List
+     * @description Tags target resources with specific type
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+          /** @description The id of the collection tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UserListResourcesRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-UserListResource'];
+          };
+        };
+      };
+    };
+    /**
+     * Remove user_search Resources From List
+     * @description Removes target resources with specific type from list
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+          /** @description The id of the collection tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists/{listId}/all': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the list for. */
+        id: string;
+        /** @description The id of the tag or a key like `favorite`. */
+        listId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get All List Resources
+     * @description Overview over all resources in a specific list
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Game as filter for these resources. */
+          game?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Amount of resources per type to return. */
+          size?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the list for. */
+          id: string;
+          /** @description The id of the tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-Map-String-List-ResolvedUserListResource'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists/{listId}/duplicate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the list for. */
+        id: string;
+        /** @description The id of the tag or a key like `favorite`. */
+        listId: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Duplicate List
+     * @description Creates a new list and copies all resources to the new one.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the list for. */
+          id: string;
+          /** @description The id of the tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['DuplicateUserListRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserList'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/listed-resources/card': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the listed resources for. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Get Listed card Resources
+     * @description User listing information for a subset of resources.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['GetListedResourcesRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-GetListedResourcesResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/listed-resources/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the listed resources for. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Get Listed user_search Resources
+     * @description User listing information for a subset of resources.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the listed resources for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['GetListedResourcesRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-GetListedResourcesResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/binders': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search binders for. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get User Card Binders
+     * @description Returns all user card binders on given page or per default on the first.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search binders for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-UserCardBinder'];
+          };
+        };
+      };
+    };
+    /**
+     * Update User Card Binders
+     * @description Updates all given card binders with their respective changes.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search binders for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UpdateUserCardBindersRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    /**
+     * Create User Card Binder
+     * @description Creates a new user card binder and returns the result.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search binders for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CreateUserCardBinderRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserCardBinder'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/binders/delete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to delete binders for. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    /**
+     * Delete User Card Binders
+     * @description Deletes all given card binders, if they exist.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to delete binders for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['DeleteUserCardBindersRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/binders/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the binder for. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Search User Card Binders
+     * @description Returns all user card binders of given user that match the given query.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description The name to search binders by. */
+          name: string;
+          /** @description Field to sort the returned binders by. */
+          sortBy: 'name' | 'updatedAt';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder: 'asc' | 'desc';
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the binder for. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-UserCardBinder'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/binders/{binderId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the binder for. */
+        id: string;
+        /** @description The id of the binder. */
+        binderId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Single User Card Binder
+     * @description Returns the binder with given id for given user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the binder for. */
+          id: string;
+          /** @description The id of the binder. */
+          binderId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserCardBinder'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/decks': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user get decks from. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get All User Decks
+     * @description Returns all user decks on given page or per default on the first.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The key of the game type to get decks from. */
+          tcg?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Like name to search for. */
+          name?: string;
+          /** @description Whether or not the decks are deleted. */
+          isDeleted?: string;
+          /** @description Field to sort the returned decks by. */
+          sortBy?: 'name' | 'updatedAt';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user get decks from. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ResolvedUserDeck'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Create Empty User Deck
+     * @description Creates an empty user deck for given game.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user get decks from. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CreateUserDeckRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-CreateUserDeckResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/decks/{deckId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to add cards to. */
+        id: string;
+        /** @description The id of the user deck. */
+        deckId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get User Deck
+     * @description Returns the user deck with given user deck id.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ResolvedUserDeck'];
+          };
+        };
+      };
+    };
+    /**
+     * Update User Deck
+     * @description Updates the user deck with given user deck id.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UpdateUserDeckRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ResolvedUserDeck'];
+          };
+        };
+      };
+    };
+    post?: never;
+    /**
+     * Delete User Deck
+     * @description Deletes the user deck with given user deck id.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/decks/{deckId}/validate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to add cards to. */
+        id: string;
+        /** @description The id of the user deck. */
+        deckId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Validate User Deck
+     * @description Validates an user deck based on the format it's created for.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/decks/{deckId}/cards': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to add cards to. */
+        id: string;
+        /** @description The id of the user deck. */
+        deckId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Deck Cards
+     * @description Returns all user deck cards on given page or per default on the first.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+          /** @description Preferred language to use for card prints */
+          preferredLanguage?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-UnspecificResolvedDeckCard'];
+          };
+        };
+      };
+    };
+    /**
+     * Update Deck Cards
+     * @description Updates given user deck cards. Fails if any update is invalid.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UpdateDeckCardsRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    /**
+     * Add Card To Deck
+     * @description Adds a card to a user deck with given user deck id.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AddDeckCardsRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-DeckCard'];
+          };
+        };
+      };
+    };
+    /**
+     * Remove User Deck Cards
+     * @description Removes the specific user deck cards in given user deck.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/decks/{deckId}/cards/{cardId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to add cards to. */
+        id: string;
+        /** @description The id of the user deck. */
+        deckId: string;
+        /** @description The id of the user deck card. */
+        cardId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get User Deck Card
+     * @description Returns the user deck card with given user deck card id.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+          /** @description The id of the user deck card. */
+          cardId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DeckCard'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    /**
+     * Remove User Deck Card
+     * @description Removes the specific user deck card in given user deck.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to add cards to. */
+          id: string;
+          /** @description The id of the user deck. */
+          deckId: string;
+          /** @description The id of the user deck card. */
+          cardId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/importables/{type}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Name of the importable type */
+        type: 'tags' | 'lists' | 'binders' | 'cards' | 'decks';
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Importable
+     * @description Returns meta information about fields and values for given import type.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Name of the importable type */
+          type: 'tags' | 'lists' | 'binders' | 'cards' | 'decks';
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-GetImportableResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/imports': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get Imports
+     * @description Returns all user imports with given parameters, paginated. Data gets redacted.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description Type of data that's being imported. */
+          type?: 'tags' | 'lists' | 'binders' | 'cards' | 'decks';
+          /** @description Game to import the data to. */
+          game?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          /** @description Format of the uploaded data. */
+          format?: 'csv' | 'json' | 'txt_moxfield_decks';
+          /** @description Timestamp of creation. (Only God knows) */
+          startedAt?: string;
+          /** @description Whether the import is finished */
+          isFinished?: string;
+          /** @description Whether the import is deleted */
+          isDeleted?: string;
+          /** @description The id of the page to return. Defaults to `0`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `10`. */
+          pageSize?: number;
+          /** @description Field to sort the returned imports by. */
+          sortBy?: 'type' | 'game' | 'updatedAt';
+          /** @description The order of sorting, either ascending or descending. */
+          sortOrder?: 'asc' | 'desc';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-UserImport'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Create Import
+     * @description Creates a new user import and returns the result.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          '*/*'?: never;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-CreateImportResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/imports/{importId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of user specific import */
+        importId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get Import
+     * @description Returns the import with given id for current user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id of user specific import */
+          importId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserImport'];
+          };
+        };
+      };
+    };
+    /**
+     * Update Import
+     * @description Updates import with given id of current user.
+     */
+    put: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id of user specific import */
+          importId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UpdateImportRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserImport'];
+          };
+        };
+      };
+    };
+    post?: never;
+    /**
+     * Delete Import
+     * @description Deletes import with given id of current user.
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id of user specific import */
+          importId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/imports/{importId}/evaluate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of user specific import */
+        importId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Evaluate Import
+     * @description Evaluates import with given id of current user.
+     */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id of user specific import */
+          importId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-UserImportEvaluation'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/imports/{importId}/finish': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of user specific import */
+        importId: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Finish Import
+     * @description Finishes the import by applying the data to user data.
+     */
+    post: {
+      parameters: {
+        query?: {
+          /** @description If enabled, will not make any real changes */
+          dryRun?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of user specific import */
+          importId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          '*/*'?: never;
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-FinishImportResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/exports/{exportType}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description Type of the export to create */
+        exportType: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Create Export
+     * @description Creates a new user export and returns the result.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description Type of the export to create */
+          exportType: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CreateExportRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-String'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        JsonArray: unknown[];
-        JsonObject: Record<string, never>;
-        JsonPrimitive: string | boolean | number;
-        JsonElement: Record<string, never>;
-        /** Format: date */
-        LocalDate: string;
-        /** Format: time */
-        LocalTime: string;
-        /** Format: date-time */
-        LocalDateTime: string;
-        /** Format: date-time */
-        OffsetDateTime: string;
-        OAuthRequest: {
-            /** @description The access token. */
-            accessToken: string;
-            /**
-             * Format: date-time
-             * @description The expiration date of the access token.
-             */
-            expiresAt: string;
-            /** @description The provider of the OAuth token, e.g. `github`. */
-            provider: string;
-            /** @description The refresh token. */
-            refreshToken?: string | null;
-        };
-        SimpleApiResponse: {
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        DlcLanguage: "en" | "de" | "fr" | "it";
-        /** @enum {string} */
-        UserLanguage: "en" | "de";
-        /** @enum {string} */
-        MtgLanguage: "en" | "de" | "fr" | "it" | "es" | "pt" | "el" | "ar" | "zhs" | "zht" | "he" | "jp" | "ko" | "la" | "ph" | "ru" | "sa" | "qy";
-        /** @enum {string} */
-        PcgLanguage: "en" | "fr" | "es" | "pt" | "it" | "de" | "nl" | "ru" | "pl" | "jp" | "ko" | "zht" | "zhs" | "cmn" | "yue" | "th" | "id";
-        /** @enum {string} */
-        YgoLanguage: "en" | "en_north_america" | "en_europe" | "en_australia" | "en_asia" | "fr" | "fr_canada" | "de" | "it" | "pt" | "es" | "jp" | "jp_asia" | "ko" | "zht" | "zhs";
-        /** @enum {string} */
-        Visibility: "public" | "private";
-        /** @enum {string} */
-        UserState: "unverified" | "verified";
-        UserRole: {
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: uuid */
-            id: string;
-            limits: components["schemas"]["JsonObject"];
-            name: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        PreferredLanguageSettings: {
-            dlc?: components["schemas"]["DlcLanguage"];
-            global?: components["schemas"]["UserLanguage"];
-            mtg?: components["schemas"]["MtgLanguage"];
-            pcg?: components["schemas"]["PcgLanguage"];
-            ygo?: components["schemas"]["YgoLanguage"];
-        };
-        PrivacySettings: {
-            activityVisibility?: components["schemas"]["Visibility"];
-            collectionVisibility?: components["schemas"]["Visibility"];
-            profileVisibility?: components["schemas"]["Visibility"];
-        };
-        UserSettings: {
-            preferredLanguages?: components["schemas"]["PreferredLanguageSettings"];
-            privacy?: components["schemas"]["PrivacySettings"];
-        };
-        DataAuthUser: {
-            admin: boolean;
-            avatarUrl?: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            displayName: string;
-            email: string;
-            /** Format: uuid */
-            id: string;
-            isPasswordEmpty: boolean;
-            /** Format: date-time */
-            lastActivityAt: string;
-            roles: components["schemas"]["UserRole"][];
-            settings: components["schemas"]["UserSettings"];
-            state?: components["schemas"]["UserState"];
-            username: string;
-        };
-        AuthApiSessionDetails: {
-            /**
-             * Format: date-time
-             * @description The timestamp until which the session is valid.
-             */
-            expiresAt: string;
-        };
-        "DataApiResponse-AuthApiUserResponse": {
-            data: components["schemas"]["AuthApiUserResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        AuthApiUserResponse: {
-            /** @description The session details for the user. */
-            session: components["schemas"]["AuthApiSessionDetails"];
-            /** @description The user currently logged in. */
-            user: components["schemas"]["DataAuthUser"];
-        };
-        ApiError: {
-            key: string;
-            message?: string | null;
-            reasons?: string[] | null;
-        };
-        ErrorApiResponse: {
-            error: components["schemas"]["ApiError"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        OAuthRegisterRequest: {
-            /** @description The access token. */
-            accessToken: string;
-            /** @description The email to send the confirmation mail to. If not provided, the email from the OAuth provider will be used, if available. Depending on the OAuth provider, the email may already be verified and the user will be logged in immediately. Otherwise, the user will have to verify the email address first. */
-            email?: string | null;
-            /**
-             * Format: date-time
-             * @description The expiration date of the access token.
-             */
-            expiresAt: string;
-            language?: components["schemas"]["UserLanguage"] | null;
-            /** @description The provider of the OAuth token, e.g. `github`. */
-            provider: string;
-            /** @description The refresh token. */
-            refreshToken?: string | null;
-            /** @description The username to register. */
-            username: string;
-        };
-        "DataApiResponse-AuthApiRegisterResponse": {
-            data: components["schemas"]["AuthApiRegisterResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        AuthApiRegisterResponse: {
-            session?: components["schemas"]["AuthApiSessionDetails"] | null;
-            /** @description The registered user. */
-            user: components["schemas"]["DataAuthUser"];
-        };
-        AuthApiDisconnectOAuthRequest: {
-            /** @description The issuer of the OpenID integration to disconnect. */
-            provider: string;
-        };
-        OpenIdRequest: {
-            /** @description The provider of the OAuth token, e.g. `github`. */
-            provider: string;
-            /** @description The OpenID token. */
-            token: string;
-        };
-        OpenIdRegisterRequest: {
-            /** @description The email to send the confirmation mail to. If not provided, the email from the OAuth provider will be used, if available. Depending on the OAuth provider, the email may already be verified and the user will be logged in immediately. Otherwise, the user will have to verify the email address first. */
-            email?: string | null;
-            language?: components["schemas"]["UserLanguage"] | null;
-            /** @description The provider of the OAuth token, e.g. `github`. */
-            provider: string;
-            /** @description The OpenID token. */
-            token: string;
-            /** @description The username to register. */
-            username: string;
-        };
-        BasicAuthLoginRequest: {
-            /** @description The password of the user. */
-            password: string;
-            /** @description The username or email of the user to log in. */
-            username: string;
-        };
-        BasicAuthRegisterRequest: {
-            /** @description The email to send the confirmation mail to. */
-            email: string;
-            language?: components["schemas"]["UserLanguage"] | null;
-            /** @description The password to set. Will be hashed, salted and peppered before storing. */
-            password: string;
-            /** @description The requested username. */
-            username: string;
-        };
-        AuthApiBasicResetRequest: {
-            /** @description The username or email of the user to reset the password for. */
-            username: string;
-        };
-        AuthApiBasicResetPasswordRequest: {
-            /** @description The new password to set. */
-            password: string;
-        };
-        AuthApiTriggerConfirmRequest: {
-            /** @description The username or email of the user to reset the confirmation mail for. */
-            username: string;
-        };
-        "DataApiResponse-DataAuthUser": {
-            data: components["schemas"]["DataAuthUser"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        AuthApiUpdateDisplayNameRequest: {
-            /** @description The new display name to set. */
-            displayName: string;
-        };
-        AuthApiUpdatePasswordRequest: {
-            /** @description The new password to set. */
-            password: string;
-            /** @description The current password. */
-            previousPassword: string;
-        };
-        AuthApiUpdateEmailAddressRequest: {
-            /** @description The new email address to set. */
-            email: string;
-            /** @description The current password. */
-            password: string;
-        };
-        RateLimitUsage: {
-            duration: components["schemas"]["Duration"];
-            /** Format: int64 */
-            max: number;
-            /** Format: int64 */
-            usage: number;
-        };
-        Duration: {
-            /** Format: int64 */
-            rawValue: number;
-        };
-        "DataApiResponse-RateLimitUsage": {
-            data: components["schemas"]["RateLimitUsage"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        OAuthIntegrationType: "oauth" | "openid";
-        AuthApiUserIntegration: {
-            /** Format: date-time */
-            createdAt: string;
-            displayName: string;
-            provider: string;
-            subject: string;
-            type: components["schemas"]["OAuthIntegrationType"];
-        };
-        "DataApiResponse-List-AuthApiUserIntegration": {
-            data: components["schemas"]["AuthApiUserIntegration"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        AuthApiUserApiToken: {
-            expiresAt?: string | null;
-            /** Format: uuid */
-            id: string;
-            name: string;
-            token?: string | null;
-        };
-        "DataApiResponse-List-AuthApiUserApiToken": {
-            data: components["schemas"]["AuthApiUserApiToken"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        AuthApiCreateApiTokenRequest: {
-            expiresAt?: string | null;
-            name: string;
-        };
-        "DataApiResponse-AuthApiUserApiToken": {
-            data: components["schemas"]["AuthApiUserApiToken"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        Order: "asc" | "desc";
-        /** @enum {string} */
-        SearchQueryOperator: ":" | ">=" | ">" | "<=" | "<" | "=";
-        /** @enum {string} */
-        LogicalOperator: "and" | "or";
-        /** @enum {string} */
-        QueryExplanationType: "group" | "filter";
-        /** @enum {string} */
-        QueryExplanationValueType: "string" | "number" | "regex" | "filter";
-        /** @enum {string} */
-        MtgRarity: "bonus" | "special" | "common" | "uncommon" | "rare" | "mythic";
-        /** @enum {string} */
-        MtgCatalogueEntryType: "mechanic" | "card_supertype" | "card_type" | "card_subtype" | "keyword" | "tag" | "format" | "finish" | "promo";
-        /** @enum {string} */
-        MtgFinish: "thick" | "date_stamped" | "serialized" | "stamped" | "nonfoil" | "traditional_foil" | "pre_modern_foil" | "from_the_vault_foil" | "etched_foil" | "ampersand_foil" | "textured_foil" | "gold_etched_foil" | "silver_screen_foil" | "neon_ink_foil" | "gilded_foil" | "galaxy_foil" | "surge_foil" | "double_rainbow_foil" | "step_and_compleat_foil" | "oil_slick_raised_foil" | "halo_foil" | "silver_foil";
-        /** @enum {string} */
-        PromoType: "arenaleague" | "boosterfun" | "boxtopper" | "godzillaseries" | "bundle" | "buyabox" | "concept" | "setextension" | "draculaseries" | "prerelease" | "release" | "brawldeck" | "bringafriend" | "setpromo" | "commanderparty" | "wizardsplaynetwork" | "convention" | "draftweekend" | "event" | "tourney" | "instore" | "duels" | "fnm" | "gameday" | "giftbox" | "league" | "openhouse" | "intropack" | "judgegift" | "mediainsert" | "moonlitland" | "planeswalkerdeck" | "starterdeck" | "plastic" | "playerrewards" | "playpromo" | "promopack" | "themepack";
-        /** @enum {string} */
-        MtgPrintRelationType: "variation";
-        /** @enum {string} */
-        GameType: "mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab";
-        IgnoredQueryValue: {
-            reason: string;
-            supportedValues?: string[] | null;
-            value: string;
-        };
-        QueryExplanationPart: {
-            children?: components["schemas"]["QueryExplanationPart"][] | null;
-            filter?: string | null;
-            filterOperator?: components["schemas"]["SearchQueryOperator"] | null;
-            groupOperator?: components["schemas"]["LogicalOperator"] | null;
-            negate: boolean;
-            property?: string | null;
-            type: components["schemas"]["QueryExplanationType"];
-            value?: string | null;
-            valueProperty?: string | null;
-            valueType?: components["schemas"]["QueryExplanationValueType"] | null;
-        };
-        DataCardImageUrls: {
-            artCrop?: string | null;
-            full?: string | null;
-            thumbnail?: string | null;
-        };
-        DataPrintPrice: {
-            date: string;
-            eur?: number | null;
-            finish: string;
-            tix?: number | null;
-            usd?: number | null;
-        };
-        MtgDataPrintReference: {
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            prices: components["schemas"]["DataPrintPrice"][];
-            rarity: components["schemas"]["MtgRarity"];
-            releaseDate: string;
-            setCode: string;
-            supportedLanguages: string[];
-        };
-        DataCardStat: {
-            display: string;
-            value?: number | null;
-        };
-        MtgDataPrintTranslation: {
-            flavorName?: string | null;
-            flavorText?: string | null;
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            name: string;
-            oracleText?: string | null;
-            typeLine: string;
-        };
-        MtgDataPrintFace: {
-            artTags?: string[] | null;
-            colorIndicator: string[];
-            colors: string[];
-            defense?: components["schemas"]["DataCardStat"] | null;
-            id: string;
-            loyalty?: components["schemas"]["DataCardStat"] | null;
-            manaDisplay?: string | null;
-            mechanicTags?: string[] | null;
-            power?: components["schemas"]["DataCardStat"] | null;
-            producesMana: string[];
-            propertyTags?: string[] | null;
-            subTypes: string[];
-            superTypes: string[];
-            toughness?: components["schemas"]["DataCardStat"] | null;
-            translations: {
-                [key: string]: components["schemas"]["MtgDataPrintTranslation"];
-            };
-            types: string[];
-        };
-        MtgCatalogueEntry: {
-            descriptionDe?: string | null;
-            descriptionEn?: string | null;
-            key: string;
-            nameDe?: string | null;
-            nameEn?: string | null;
-            type: components["schemas"]["MtgCatalogueEntryType"];
-        };
-        MtgPrintIdentifier: {
-            cardKingdomId?: string | null;
-            cardmarketId?: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            hash: string;
-            mtgArenaId?: string | null;
-            mtgOnlineId?: string | null;
-            mtgjsonId?: string | null;
-            /** Format: uuid */
-            printId: string;
-            scryfallId?: string | null;
-            scryfallIds: {
-                [key: string]: string;
-            };
-            scryfallOracleId?: string | null;
-            tcgplayerId?: string | null;
-            /** Format: date-time */
-            touchedAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        MtgDataPrintRelation: {
-            inverse: boolean;
-            name?: string | null;
-            note?: string | null;
-            print: components["schemas"]["MtgDataPrintReference"];
-            type: components["schemas"]["MtgPrintRelationType"];
-        };
-        MtgDataPrint: {
-            artist?: string | null;
-            border: string;
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            faces: components["schemas"]["MtgDataPrintFace"][];
-            finishes: ("thick" | "date_stamped" | "serialized" | "stamped" | "nonfoil" | "traditional_foil" | "pre_modern_foil" | "from_the_vault_foil" | "etched_foil" | "ampersand_foil" | "textured_foil" | "gold_etched_foil" | "silver_screen_foil" | "neon_ink_foil" | "gilded_foil" | "galaxy_foil" | "surge_foil" | "double_rainbow_foil" | "step_and_compleat_foil" | "oil_slick_raised_foil" | "halo_foil" | "silver_foil")[];
-            frame: string;
-            /** Format: uuid */
-            id: string;
-            identifiers?: components["schemas"]["MtgPrintIdentifier"] | null;
-            legalities: {
-                [key: string]: string;
-            };
-            mediums: string[];
-            prices: components["schemas"]["DataPrintPrice"][];
-            promoTypes: ("arenaleague" | "boosterfun" | "boxtopper" | "godzillaseries" | "bundle" | "buyabox" | "concept" | "setextension" | "draculaseries" | "prerelease" | "release" | "brawldeck" | "bringafriend" | "setpromo" | "commanderparty" | "wizardsplaynetwork" | "convention" | "draftweekend" | "event" | "tourney" | "instore" | "duels" | "fnm" | "gameday" | "giftbox" | "league" | "openhouse" | "intropack" | "judgegift" | "mediainsert" | "moonlitland" | "planeswalkerdeck" | "starterdeck" | "plastic" | "playerrewards" | "playpromo" | "promopack" | "themepack")[];
-            rarity: components["schemas"]["MtgRarity"];
-            relations: components["schemas"]["MtgDataPrintRelation"][];
-            releaseDate: string;
-            setCode: string;
-            /** Format: uuid */
-            setId: string;
-            stamp?: string | null;
-            supportedLanguages: string[];
-            tags: string[];
-            watermarks: string[];
-        };
-        MtgDataCardRelationFaceTranslation: {
-            flavorName?: string | null;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            name: string;
-            typeLine: string;
-        };
-        MtgDataCardRelation: {
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            inverse: boolean;
-            /** Format: uuid */
-            printId: string;
-            relationType: string;
-            setCode: string;
-            translations: {
-                [key: string]: components["schemas"]["MtgDataCardRelationFaceTranslation"][];
-            };
-        };
-        DataSearchQuery: {
-            game: components["schemas"]["GameType"];
-            id?: string | null;
-            name: string;
-            query: string;
-        };
-        MtgCardRuling: {
-            date: string;
-            text: string;
-        };
-        Short: Record<string, never>;
-        MtgDataCard: {
-            /** @description Array of reprint references. Is empty for search queries. */
-            allPrints: components["schemas"]["MtgDataPrintReference"][];
-            attractionLights?: components["schemas"]["Short"][] | null;
-            colorIdentity: string[];
-            edhrecRank?: number | null;
-            /** Format: uuid */
-            id: string;
-            keywords: string[];
-            layout: string;
-            name: string;
-            print: components["schemas"]["MtgDataPrint"];
-            /** @description Array of card relations (e.g. tokens). Is empty for search queries. */
-            relatedCards: components["schemas"]["MtgDataCardRelation"][];
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            rulings: components["schemas"]["MtgCardRuling"][];
-        };
-        ExplainSearchQueryResponse: {
-            attempt?: number | null;
-            /** @description The total count of items matching the query. */
-            count?: number | null;
-            distinctMode: string;
-            /** @description The total count of items estimated to match the query. */
-            estimatedCount?: number | null;
-            executedQuery?: string | null;
-            /** @description If available the time it took to execute the query */
-            executionTime?: number | null;
-            /** @description A human-readable description of the query. */
-            explanation: string;
-            /** @description The list of filters that were applied to the query in the order they are explained. */
-            filters: string[];
-            flags: string[];
-            /** @description The list of query values that were ignored during pre-processing. */
-            ignored: components["schemas"]["IgnoredQueryValue"][];
-            normalizedQuery: string;
-            originalQuery: string;
-            sortBy: string;
-            sortOrder: components["schemas"]["Order"];
-            /** @description If available the id of the query statistics */
-            statisticsId?: string | null;
-            structure?: components["schemas"]["QueryExplanationPart"] | null;
-        };
-        "CardSearchResult-MtgDataCard": {
-            /** @description The card that matches the search query. */
-            card: components["schemas"]["MtgDataCard"];
-            /** @description The index of the face that matched the search query. This is the face that should be used to display the card by default. Only provided for TCGs that support having multiple faces per card. */
-            preferredDisplayFaceIndex?: number | null;
-            /** @description The language this card matched the search query in. This is the language that should be used to display the card by default. */
-            preferredDisplayLanguage: string;
-        };
-        "DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse": {
-            data: components["schemas"]["DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse": {
-            /** Format: int32 */
-            currentPage: number;
-            details?: components["schemas"]["ExplainSearchQueryResponse"] | null;
-            hasNextPage: boolean;
-            items: components["schemas"]["CardSearchResult-MtgDataCard"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-ExplainSearchQueryResponse": {
-            data: components["schemas"]["ExplainSearchQueryResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        SearchQueryExecutorValueType: {
-            format?: string | null;
-            type: string;
-        };
-        SearchQueryExecutorSearchQueryProperty: {
-            key: string;
-            operators: string[];
-            providedValueTypes: string[];
-            valueTypes: components["schemas"]["SearchQueryExecutorValueType"][];
-        };
-        SearchQueryExecutorSearchQueryFilter: {
-            inverted: boolean;
-            keywords: string[];
-            properties: components["schemas"]["SearchQueryExecutorSearchQueryProperty"][];
-            providesValues: boolean;
-            strictValues: boolean;
-        };
-        "DataApiResponse-List-SearchQueryExecutorSearchQueryFilter": {
-            data: components["schemas"]["SearchQueryExecutorSearchQueryFilter"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        SearchQueryExecutorFilterValue: {
-            aliases?: string[] | null;
-            displayValue: string;
-            language?: string | null;
-            resolvesTo?: string | null;
-            resolvesToOperator?: components["schemas"]["SearchQueryOperator"] | null;
-            type: string;
-            value: string;
-        };
-        SearchQueryExecutorFilterValues: {
-            /** Format: int32 */
-            matches: number;
-            /** Format: int32 */
-            total: number;
-            values: components["schemas"]["SearchQueryExecutorFilterValue"][];
-        };
-        "DataApiResponse-SearchQueryExecutorFilterValues": {
-            data: components["schemas"]["SearchQueryExecutorFilterValues"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-Map-String-SearchQueryExecutorFilterValues": {
-            data: {
-                [key: string]: components["schemas"]["SearchQueryExecutorFilterValues"];
-            };
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-List-String": {
-            data: string[];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-MtgDataCard": {
-            data: components["schemas"]["MtgDataCard"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DataSetImageUrls: {
-            icon?: string | null;
-            logo?: string | null;
-        };
-        MtgDataSetTranslation: {
-            imageUrls?: components["schemas"]["DataSetImageUrls"] | null;
-            name: string;
-        };
-        MtgDataSetReference: {
-            code: string;
-            /** Format: uuid */
-            id: string;
-            isTokenSet: boolean;
-            /** Format: int32 */
-            prints: number;
-            /** Format: date */
-            releaseDate: string;
-            translations: {
-                [key: string]: components["schemas"]["MtgDataSetTranslation"];
-            };
-            type: string;
-        };
-        MtgDataSet: {
-            blockId?: string | null;
-            code: string;
-            /** Format: uuid */
-            id: string;
-            isTokenSet: boolean;
-            parentId?: string | null;
-            /** Format: int32 */
-            printsAvailable: number;
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            /** Format: date */
-            releaseDate: string;
-            subsetIds: string[];
-            subsets?: components["schemas"]["MtgDataSetReference"][] | null;
-            translations: {
-                [key: string]: components["schemas"]["MtgDataSetTranslation"];
-            };
-            type: string;
-        };
-        "Page-MtgDataSet": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["MtgDataSet"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-Page-MtgDataSet": {
-            data: components["schemas"]["Page-MtgDataSet"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-MtgDataSet": {
-            data: components["schemas"]["MtgDataSet"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DataSetCategoryQuery: {
-            game: components["schemas"]["GameType"];
-            id?: string | null;
-            name: string;
-            printIds: string[];
-            query: string;
-        };
-        "DataApiResponse-List-DataSetCategoryQuery": {
-            data: components["schemas"]["DataSetCategoryQuery"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        MtgDataSetSummary: {
-            cards: components["schemas"]["CardSearchResult-MtgDataCard"][];
-            categories: components["schemas"]["DataSetCategoryQuery"][];
-            queryExplanation?: components["schemas"]["ExplainSearchQueryResponse"] | null;
-            set: components["schemas"]["MtgDataSet"];
-            subsets: components["schemas"]["MtgDataSet"][];
-        };
-        "DataApiResponse-MtgDataSetSummary": {
-            data: components["schemas"]["MtgDataSetSummary"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-List-MtgDataSet": {
-            data: components["schemas"]["MtgDataSet"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        MtgDataBlockTranslation: {
-            name: string;
-        };
-        MtgDataBlock: {
-            from?: string | null;
-            /** Format: uuid */
-            id: string;
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            setIds: string[];
-            sets?: components["schemas"]["MtgDataSetReference"][] | null;
-            to?: string | null;
-            translations: {
-                [key: string]: components["schemas"]["MtgDataBlockTranslation"];
-            };
-        };
-        "Page-MtgDataBlock": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["MtgDataBlock"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-Page-MtgDataBlock": {
-            data: components["schemas"]["Page-MtgDataBlock"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-MtgDataBlock": {
-            data: components["schemas"]["MtgDataBlock"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        DlcRarity: "common" | "uncommon" | "rare" | "super_rare" | "legendary" | "enchanted" | "promo";
-        /** @enum {string} */
-        DlcInkType: "none" | "amber" | "amethyst" | "emerald" | "ruby" | "sapphire" | "steel";
-        /** @enum {string} */
-        DlcPrintRelationType: "variation";
-        DlcDataPrintReference: {
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            prices: components["schemas"]["DataPrintPrice"][];
-            rarity: components["schemas"]["DlcRarity"];
-            releaseDate: string;
-            setCode: string;
-            supportedLanguages: string[];
-        };
-        DlcDataPrintRelation: {
-            inverse: boolean;
-            name?: string | null;
-            note?: string | null;
-            print: components["schemas"]["DlcDataPrintReference"];
-            type: components["schemas"]["DlcPrintRelationType"];
-        };
-        Ability: {
-            description?: string | null;
-            descriptionWithReminders?: string | null;
-            keyword?: string | null;
-            keywordModifier?: string | null;
-            name?: string | null;
-        };
-        DlcDataPrintTranslation: {
-            abilities: components["schemas"]["Ability"][];
-            flavorText?: string | null;
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            name: string;
-            text?: string | null;
-            title?: string | null;
-        };
-        DlcDataPrint: {
-            artTags?: string[] | null;
-            artist?: string | null;
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            /** Format: uuid */
-            id: string;
-            mechanicTags?: string[] | null;
-            prices: components["schemas"]["DataPrintPrice"][];
-            propertyTags?: string[] | null;
-            rarity: components["schemas"]["DlcRarity"];
-            relations: components["schemas"]["DlcDataPrintRelation"][];
-            releaseDate: string;
-            setCode: string;
-            /** Format: uuid */
-            setId: string;
-            supportedLanguages: string[];
-            translations: {
-                [key: string]: components["schemas"]["DlcDataPrintTranslation"];
-            };
-        };
-        DlcDataCard: {
-            /** @description Array of reprint references. Is empty for search queries. */
-            allPrints: components["schemas"]["DlcDataPrintReference"][];
-            classifications: string[];
-            /** Format: int32 */
-            cost: number;
-            franchiseId?: string | null;
-            /** Format: uuid */
-            id: string;
-            inkTypes: ("none" | "amber" | "amethyst" | "emerald" | "ruby" | "sapphire" | "steel")[];
-            isInkwell: boolean;
-            /** Format: int32 */
-            loreValue: number;
-            movementCost?: number | null;
-            name: string;
-            print: components["schemas"]["DlcDataPrint"];
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            strength?: number | null;
-            type: string;
-            willpower?: number | null;
-        };
-        "CardSearchResult-DlcDataCard": {
-            /** @description The card that matches the search query. */
-            card: components["schemas"]["DlcDataCard"];
-            /** @description The index of the face that matched the search query. This is the face that should be used to display the card by default. Only provided for TCGs that support having multiple faces per card. */
-            preferredDisplayFaceIndex?: number | null;
-            /** @description The language this card matched the search query in. This is the language that should be used to display the card by default. */
-            preferredDisplayLanguage: string;
-        };
-        "DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse": {
-            data: components["schemas"]["DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse": {
-            /** Format: int32 */
-            currentPage: number;
-            details?: components["schemas"]["ExplainSearchQueryResponse"] | null;
-            hasNextPage: boolean;
-            items: components["schemas"]["CardSearchResult-DlcDataCard"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-DlcDataCard": {
-            data: components["schemas"]["DlcDataCard"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DlcDataSetTranslation: {
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataSetImageUrls"] | null;
-            name: string;
-        };
-        DlcDataSet: {
-            code: string;
-            /** Format: uuid */
-            id: string;
-            /** Format: date */
-            marketReleaseDate: string;
-            /** Format: int32 */
-            printsAvailable: number;
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            /** Format: date */
-            releaseDate: string;
-            translations: {
-                [key: string]: components["schemas"]["DlcDataSetTranslation"];
-            };
-            type: string;
-        };
-        "Page-DlcDataSet": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["DlcDataSet"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-Page-DlcDataSet": {
-            data: components["schemas"]["Page-DlcDataSet"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-DlcDataSet": {
-            data: components["schemas"]["DlcDataSet"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DlcDataSetSummary: {
-            cards: components["schemas"]["CardSearchResult-DlcDataCard"][];
-            categories: components["schemas"]["DataSetCategoryQuery"][];
-            queryExplanation?: components["schemas"]["ExplainSearchQueryResponse"] | null;
-            set: components["schemas"]["DlcDataSet"];
-            subsets: components["schemas"]["DlcDataSet"][];
-        };
-        "DataApiResponse-DlcDataSetSummary": {
-            data: components["schemas"]["DlcDataSetSummary"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-List-DlcDataSet": {
-            data: components["schemas"]["DlcDataSet"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        PcgAbilityType: "ability" | "poke_power" | "pokemon_power" | "poke_body";
-        /** @enum {string} */
-        PcgRarity: "common" | "uncommon" | "rare" | "double_rare" | "illustration_rare" | "ultra_rare" | "special_illustration_rare" | "hyper_rare" | "shiny_rare" | "shiny_ultra_rare" | "promo" | "ace_spec_rare" | "rare_holo" | "rare_holo_v" | "rare_ultra" | "rare_holo_vmax" | "rare_secret" | "rare_holo_ex" | "rare_ace" | "rare_rainbow" | "rare_holo_vstar" | "rare_shiny" | "rare_prism_star" | "rare_holo_gx" | "rare_shiny_gx" | "rare_prime" | "rare_shining" | "rare_break" | "radiant_rare" | "trainer_gallery_rare_holo" | "trainer_gallery_rare_holo_v" | "trainer_gallery_rare_ultra" | "trainer_gallery_rare_secret" | "legend" | "amazing_rare";
-        /** @enum {string} */
-        PcgEffectType: "held_item" | "ancient_trait" | "tera";
-        /** @enum {string} */
-        PcgEvolutionStage: "baby" | "basic" | "restored" | "stage1" | "stage2" | "lvx" | "break" | "legend" | "mega" | "vunion" | "vmax" | "vstar";
-        /** @enum {string} */
-        PcgPrintRelationType: "variation";
-        /** @enum {string} */
-        PcgRegion: "int" | "jap" | "chi" | "kor" | "tha" | "ind";
-        /** @enum {string} */
-        PcgPrintTag: "team_plasma" | "shiny" | "rainbow" | "full_art_pokemon" | "prime";
-        /** @enum {string} */
-        PcgType: "grass" | "fire" | "water" | "lightning" | "fighting" | "psychic" | "colorless" | "darkness" | "metal" | "dragon" | "fairy" | "free";
-        /** @enum {string} */
-        PcgRuleType: "pokemon_ex" | "mega_evolution" | "primal_reversion" | "break_evolution" | "pokemon_gx" | "tag_team" | "prism_star" | "pokemon_v" | "pokemon_vmax" | "pokemon_vunion" | "pokemon_vstar" | "radiant_pokemon" | "pokemon_ex_sv";
-        /** @enum {string} */
-        PcgCardSuperType: "pokemon" | "trainer" | "energy";
-        PcgDataPrintReference: {
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            prices: components["schemas"]["DataPrintPrice"][];
-            rarity: components["schemas"]["PcgRarity"];
-            releaseDate?: string | null;
-            setCode?: string | null;
-            supportedLanguages: string[];
-        };
-        PcgPrintIdentifier: {
-            /** Format: date-time */
-            createdAt: string;
-            hash: string;
-            /** Format: uuid */
-            printId: string;
-            ptcgId?: string | null;
-            tcgcId?: string | null;
-            tcglId?: string | null;
-            tcgoId?: string | null;
-            tcgoTitle?: string | null;
-            /** Format: date-time */
-            touchedAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        PcgDataPrintRelation: {
-            inverse: boolean;
-            name?: string | null;
-            note?: string | null;
-            print: components["schemas"]["PcgDataPrintReference"];
-            type: components["schemas"]["PcgPrintRelationType"];
-        };
-        PcgDataSetReference: {
-            code?: string | null;
-            /** Format: uuid */
-            id: string;
-            name?: string | null;
-            region: components["schemas"]["PcgRegion"];
-        };
-        PcgCardAbility: {
-            name?: string | null;
-            text?: string | null;
-            type: components["schemas"]["PcgAbilityType"];
-        };
-        PcgCardAttack: {
-            cost: ("grass" | "fire" | "water" | "lightning" | "fighting" | "psychic" | "colorless" | "darkness" | "metal" | "dragon" | "fairy" | "free")[];
-            damage?: string | null;
-            name: string;
-            text?: string | null;
-        };
-        PcgCardEffect: {
-            name?: string | null;
-            text?: string | null;
-            type: components["schemas"]["PcgEffectType"];
-        };
-        PcgDataPrintTranslation: {
-            abilities: components["schemas"]["PcgCardAbility"][];
-            attacks: components["schemas"]["PcgCardAttack"][];
-            effects: components["schemas"]["PcgCardEffect"][];
-            flavorText?: string | null;
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataCardImageUrls"] | null;
-            name: string;
-            reminder: string[];
-            texts: string[];
-        };
-        PcgDataPrint: {
-            artTags?: string[] | null;
-            /** Format: uuid */
-            cardId: string;
-            collectorNumber: string;
-            /** Format: uuid */
-            id: string;
-            identifier?: components["schemas"]["PcgPrintIdentifier"] | null;
-            illustrators: string[];
-            mechanicTags?: string[] | null;
-            propertyTags?: string[] | null;
-            rarity: components["schemas"]["PcgRarity"];
-            regulationMark?: string | null;
-            relations: components["schemas"]["PcgDataPrintRelation"][];
-            setCode?: string | null;
-            /** Format: uuid */
-            setId: string;
-            setReference: components["schemas"]["PcgDataSetReference"];
-            tags: ("team_plasma" | "shiny" | "rainbow" | "full_art_pokemon" | "prime")[];
-            translations: {
-                [key: string]: components["schemas"]["PcgDataPrintTranslation"];
-            };
-        };
-        PcgDataCard: {
-            abilityTypes: ("ability" | "poke_power" | "pokemon_power" | "poke_body")[];
-            /** @description Array of reprint references. Is empty for search queries. */
-            allPrints: components["schemas"]["PcgDataPrintReference"][];
-            effectTypes: ("held_item" | "ancient_trait" | "tera")[];
-            evolutionStage?: components["schemas"]["PcgEvolutionStage"] | null;
-            evolvesFrom?: string | null;
-            hp?: number | null;
-            /** Format: uuid */
-            id: string;
-            name: string;
-            print: components["schemas"]["PcgDataPrint"];
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            resistanceModifier?: string | null;
-            resistanceTypes: ("grass" | "fire" | "water" | "lightning" | "fighting" | "psychic" | "colorless" | "darkness" | "metal" | "dragon" | "fairy" | "free")[];
-            retreatCost?: number | null;
-            ruleTypes: ("pokemon_ex" | "mega_evolution" | "primal_reversion" | "break_evolution" | "pokemon_gx" | "tag_team" | "prism_star" | "pokemon_v" | "pokemon_vmax" | "pokemon_vunion" | "pokemon_vstar" | "radiant_pokemon" | "pokemon_ex_sv")[];
-            subTypes: string[];
-            superType: components["schemas"]["PcgCardSuperType"];
-            types: ("grass" | "fire" | "water" | "lightning" | "fighting" | "psychic" | "colorless" | "darkness" | "metal" | "dragon" | "fairy" | "free")[];
-            weaknessModifier?: string | null;
-            weaknessTypes: ("grass" | "fire" | "water" | "lightning" | "fighting" | "psychic" | "colorless" | "darkness" | "metal" | "dragon" | "fairy" | "free")[];
-        };
-        "CardSearchResult-PcgDataCard": {
-            /** @description The card that matches the search query. */
-            card: components["schemas"]["PcgDataCard"];
-            /** @description The index of the face that matched the search query. This is the face that should be used to display the card by default. Only provided for TCGs that support having multiple faces per card. */
-            preferredDisplayFaceIndex?: number | null;
-            /** @description The language this card matched the search query in. This is the language that should be used to display the card by default. */
-            preferredDisplayLanguage: string;
-        };
-        "DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse": {
-            data: components["schemas"]["DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse": {
-            /** Format: int32 */
-            currentPage: number;
-            details?: components["schemas"]["ExplainSearchQueryResponse"] | null;
-            hasNextPage: boolean;
-            items: components["schemas"]["CardSearchResult-PcgDataCard"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-PcgDataCard": {
-            data: components["schemas"]["PcgDataCard"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        PcgSetType: "main_expansion" | "special_expansion" | "promotional" | "deck" | "trainer_deck_kits" | "energies" | "unspecified";
-        PcgDataEraReference: {
-            /** Format: uuid */
-            id: string;
-            name: string;
-        };
-        PcgDataSetTranslation: {
-            /** Format: uuid */
-            id: string;
-            imageUrls?: components["schemas"]["DataSetImageUrls"] | null;
-            name: string;
-        };
-        PcgDataSet: {
-            code?: string | null;
-            /** Format: uuid */
-            eraId: string;
-            eraReference: components["schemas"]["PcgDataEraReference"];
-            /** Format: uuid */
-            id: string;
-            /** Format: int32 */
-            prints: number;
-            /** Format: int32 */
-            printsAvailable: number;
-            /** Format: int32 */
-            publicPrints: number;
-            region: components["schemas"]["PcgRegion"];
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            releaseEndDate?: string | null;
-            releaseStartDate?: string | null;
-            translations: {
-                [key: string]: components["schemas"]["PcgDataSetTranslation"];
-            };
-            type: components["schemas"]["PcgSetType"];
-        };
-        "Page-PcgDataSet": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["PcgDataSet"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-Page-PcgDataSet": {
-            data: components["schemas"]["Page-PcgDataSet"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-PcgDataSet": {
-            data: components["schemas"]["PcgDataSet"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        PcgDataSetSummary: {
-            cards: components["schemas"]["CardSearchResult-PcgDataCard"][];
-            categories: components["schemas"]["DataSetCategoryQuery"][];
-            queryExplanation?: components["schemas"]["ExplainSearchQueryResponse"] | null;
-            set: components["schemas"]["PcgDataSet"];
-            subsets: components["schemas"]["PcgDataSet"][];
-        };
-        "DataApiResponse-PcgDataSetSummary": {
-            data: components["schemas"]["PcgDataSetSummary"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-List-PcgDataSet": {
-            data: components["schemas"]["PcgDataSet"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        PcgDataEraTranslation: {
-            name: string;
-        };
-        PcgDataEra: {
-            from?: string | null;
-            /** Format: uuid */
-            id: string;
-            relatedQueries: components["schemas"]["DataSearchQuery"][];
-            setIds: string[];
-            sets?: components["schemas"]["PcgDataSet"][] | null;
-            to?: string | null;
-            translations: {
-                [key: string]: components["schemas"]["PcgDataEraTranslation"];
-            };
-        };
-        "Page-PcgDataEra": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["PcgDataEra"][];
-            /** Format: int32 */
-            pageCount: number;
-            /** Format: int32 */
-            totalItemCount: number;
-        };
-        "DataApiResponse-Page-PcgDataEra": {
-            data: components["schemas"]["Page-PcgDataEra"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-PcgDataEra": {
-            data: components["schemas"]["PcgDataEra"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DataUser: {
-            admin: boolean;
-            avatarUrl?: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            displayName: string;
-            /** Format: uuid */
-            id: string;
-            lastActivityAt?: string | null;
-            username: string;
-        };
-        "DataApiResponse-DataUser": {
-            data: components["schemas"]["DataUser"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        AuthType: "anonymous" | "user" | "token";
-        UserSavedSearch: {
-            game: components["schemas"]["GameType"];
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            queryId: string;
-            /** Format: date-time */
-            savedAt: string;
-            /** Format: uuid */
-            userId: string;
-        };
-        SearchQueryStatistics: {
-            /** Format: int32 */
-            attempt: number;
-            authIdentifier?: string | null;
-            authType: components["schemas"]["AuthType"];
-            cached: boolean;
-            /** Format: date-time */
-            createdAt: string;
-            distinctMode: string;
-            /** Format: int64 */
-            executionTime: number;
-            flags: string[];
-            /** Format: uuid */
-            id: string;
-            language: string;
-            origin?: string | null;
-            /** Format: uuid */
-            queryId: string;
-            rawQuery: string;
-            /** Format: int32 */
-            results: number;
-            searchMode: string;
-            sortDirection: components["schemas"]["Order"];
-            sortMode: string;
-            strippedQuery: string;
-            userAgent?: string | null;
-        };
-        UserSearchHistoryEntry: {
-            clusterSize?: number | null;
-            savedSearch?: components["schemas"]["UserSavedSearch"] | null;
-            search: components["schemas"]["SearchQueryStatistics"];
-            totalCount?: number | null;
-        };
-        "SimplePage-UserSearchHistoryEntry": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["UserSearchHistoryEntry"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-UserSearchHistoryEntry": {
-            data: components["schemas"]["SimplePage-UserSearchHistoryEntry"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        ResolvedUserSavedSearch: {
-            firstSearch: components["schemas"]["SearchQueryStatistics"];
-            lastSearch?: components["schemas"]["SearchQueryStatistics"] | null;
-            lastTotalCount?: number | null;
-            savedSearch: components["schemas"]["UserSavedSearch"];
-        };
-        "SimplePage-ResolvedUserSavedSearch": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["ResolvedUserSavedSearch"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-ResolvedUserSavedSearch": {
-            data: components["schemas"]["SimplePage-ResolvedUserSavedSearch"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        SaveSearchesRequest: {
-            queryStatisticIds: string[];
-        };
-        "DataApiResponse-List-ResolvedUserSavedSearch": {
-            data: components["schemas"]["ResolvedUserSavedSearch"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DeleteSavedSearchesRequest: {
-            savedSearchIds: string[];
-        };
-        "DataApiResponse-ResolvedUserSavedSearch": {
-            data: components["schemas"]["ResolvedUserSavedSearch"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        UserSystemListType: "favorites";
-        /** @enum {string} */
-        UserListVisibility: "private" | "public";
-        /** @enum {string} */
-        ListResourceType: "card" | "deck" | "cube" | "USER_CARD" | "USER_DECK" | "USER_CUBE" | "USER_BINDER" | "user_search";
-        UserList: {
-            allowedTcgs?: ("mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab")[] | null;
-            color?: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            description: string;
-            /** Format: uuid */
-            id: string;
-            name: string;
-            slug: string;
-            systemListType?: components["schemas"]["UserSystemListType"] | null;
-            /** Format: date-time */
-            updatedAt: string;
-            /** Format: uuid */
-            userId: string;
-            visibility?: components["schemas"]["UserListVisibility"];
-        };
-        UserListResource: {
-            /** Format: date-time */
-            createdAt: string;
-            game?: components["schemas"]["GameType"] | null;
-            /** Format: uuid */
-            listId: string;
-            /** Format: uuid */
-            resourceId: string;
-            resourceMeta?: components["schemas"]["JsonObject"] | null;
-            resourceType: components["schemas"]["ListResourceType"];
-            /** Format: date-time */
-            updatedAt: string;
-            /** Format: uuid */
-            userId: string;
-        };
-        ResolvedUserListResource: {
-            listResource: components["schemas"]["UserListResource"];
-            resourceData: components["schemas"]["JsonObject"];
-        };
-        UserListWithResources: {
-            list: components["schemas"]["UserList"];
-            resources?: null | {
-                [key: string]: components["schemas"]["ResolvedUserListResource"][];
-            };
-            size?: number | null;
-        };
-        "SimplePage-UserListWithResources": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["UserListWithResources"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-UserListWithResources": {
-            data: components["schemas"]["SimplePage-UserListWithResources"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        CreateUserListRequest: {
-            allowedTcgs?: ("mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab")[] | null;
-            color?: string | null;
-            description?: string | null;
-            name: string;
-            visibility?: components["schemas"]["UserListVisibility"] | null;
-        };
-        "DataApiResponse-UserList": {
-            data: components["schemas"]["UserList"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        UserListUpdate: {
-            allowedTcgs?: ("mtg" | "ygo" | "pcg" | "dlc" | "one" | "fab")[] | null;
-            color?: string | null;
-            description?: string | null;
-            /** Format: uuid */
-            id: string;
-            name?: string | null;
-            resetAllowedTcg?: boolean | null;
-            visibility?: components["schemas"]["UserListVisibility"] | null;
-        };
-        UpdateUserListsRequest: {
-            listUpdates: components["schemas"]["UserListUpdate"][];
-        };
-        DeleteUserListsRequest: {
-            listIds: string[];
-        };
-        "SimplePage-ResolvedUserListResource": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["ResolvedUserListResource"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-ResolvedUserListResource": {
-            data: components["schemas"]["SimplePage-ResolvedUserListResource"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        UserListResourcesRequestResource: {
-            /** Format: uuid */
-            id: string;
-        };
-        UserListResourcesRequest: {
-            game?: components["schemas"]["GameType"] | null;
-            isRaw?: boolean | null;
-            resourceIds: components["schemas"]["UserListResourcesRequestResource"][];
-        };
-        "DataApiResponse-List-UserListResource": {
-            data: components["schemas"]["UserListResource"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        RemoveListResourcesRequest: {
-            resourceIds: string[];
-        };
-        "DataApiResponse-Map-String-List-ResolvedUserListResource": {
-            data: {
-                [key: string]: components["schemas"]["ResolvedUserListResource"][];
-            };
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DuplicateUserListRequest: {
-            newName: string;
-            withResources?: boolean | null;
-        };
-        GetListedResourcesRequest: {
-            game: components["schemas"]["GameType"];
-            resourceIds: string[];
-        };
-        GetListedResourcesResponse: {
-            lists: {
-                [key: string]: components["schemas"]["UserList"];
-            };
-            resourceInfos: {
-                [key: string]: string[];
-            };
-        };
-        "DataApiResponse-GetListedResourcesResponse": {
-            data: components["schemas"]["GetListedResourcesResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        BinderType: "binder" | "deckbox" | "storagebox" | "other";
-        UserCardBinder: {
-            /** Format: date-time */
-            createdAt: string;
-            description?: string;
-            /** Format: uuid */
-            id: string;
-            isDefault?: boolean;
-            name: string;
-            tags?: string[];
-            type?: components["schemas"]["BinderType"];
-            /** Format: date-time */
-            updatedAt: string;
-            /** Format: uuid */
-            userId: string;
-        };
-        "SimplePage-UserCardBinder": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["UserCardBinder"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-UserCardBinder": {
-            data: components["schemas"]["SimplePage-UserCardBinder"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        CreateUserCardBinderRequest: {
-            binderType?: components["schemas"]["BinderType"] | null;
-            description?: string | null;
-            isDefault?: boolean | null;
-            name: string;
-            tags?: string[] | null;
-        };
-        "DataApiResponse-UserCardBinder": {
-            data: components["schemas"]["UserCardBinder"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        UserCardBinderUpdate: {
-            description?: string | null;
-            /** Format: uuid */
-            id: string;
-            isDefault?: boolean | null;
-            name?: string | null;
-            tags?: string[] | null;
-        };
-        UpdateUserCardBindersRequest: {
-            binderUpdates: components["schemas"]["UserCardBinderUpdate"][];
-        };
-        DeleteUserCardBindersRequest: {
-            binderIds: string[];
-        };
-        /** @enum {string} */
-        DeckType: "user" | "precon" | "external";
-        /** @enum {string} */
-        DeckVisibility: "private" | "unlisted" | "public";
-        Deck: {
-            /** Format: date-time */
-            createdAt: string;
-            deletedAt?: string | null;
-            description: string;
-            format: string;
-            game: components["schemas"]["GameType"];
-            /** Format: uuid */
-            id: string;
-            name: string;
-            sourceMetadata?: components["schemas"]["JsonObject"] | null;
-            subType: string;
-            type: components["schemas"]["DeckType"];
-            /** Format: date-time */
-            updatedAt: string;
-            visibility: components["schemas"]["DeckVisibility"];
-        };
-        UserDeck: {
-            /** Format: uuid */
-            deckId: string;
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            userId: string;
-        };
-        ResolvedUserDeck: {
-            deck: components["schemas"]["Deck"];
-            userDeck: components["schemas"]["UserDeck"];
-        };
-        "SimplePage-ResolvedUserDeck": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["ResolvedUserDeck"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-ResolvedUserDeck": {
-            data: components["schemas"]["SimplePage-ResolvedUserDeck"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        CreateUserDeckRequest: {
-            description?: string | null;
-            format?: string | null;
-            gameType: components["schemas"]["GameType"];
-            name: string;
-        };
-        CreateUserDeckResponse: {
-            resolved: components["schemas"]["ResolvedUserDeck"];
-        };
-        "DataApiResponse-CreateUserDeckResponse": {
-            data: components["schemas"]["CreateUserDeckResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-ResolvedUserDeck": {
-            data: components["schemas"]["ResolvedUserDeck"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        UpdateUserDeckRequest: {
-            description?: string | null;
-            format?: string | null;
-            name?: string | null;
-        };
-        DeckCardToAdd: {
-            category: string;
-            /** Format: int32 */
-            copies?: number;
-            /** Format: uuid */
-            printId: string;
-            tags: string[];
-        };
-        AddDeckCardsRequest: {
-            cards: components["schemas"]["DeckCardToAdd"][];
-        };
-        DeckCard: {
-            /** Format: uuid */
-            cardId: string;
-            category: string;
-            /** Format: int32 */
-            copies: number;
-            /** Format: uuid */
-            deckId: string;
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            printId: string;
-            tags: string[];
-        };
-        "DataApiResponse-List-DeckCard": {
-            data: components["schemas"]["DeckCard"][];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        UnspecificResolvedDeckCard: {
-            dataCard: components["schemas"]["JsonObject"];
-            deckCard: components["schemas"]["DeckCard"];
-        };
-        "SimplePage-UnspecificResolvedDeckCard": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["UnspecificResolvedDeckCard"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-UnspecificResolvedDeckCard": {
-            data: components["schemas"]["SimplePage-UnspecificResolvedDeckCard"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        DeckCardToUpdate: {
-            category?: string | null;
-            copies?: number | null;
-            /** Format: uuid */
-            deckCardId: string;
-            printId?: string | null;
-            tags?: string[] | null;
-        };
-        UpdateDeckCardsRequest: {
-            updates: components["schemas"]["DeckCardToUpdate"][];
-        };
-        DeleteDeckCardsRequest: {
-            deckCardIds: string[];
-        };
-        "DataApiResponse-DeckCard": {
-            data: components["schemas"]["DeckCard"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        ImportableType: "tags" | "lists" | "binders" | "cards" | "decks";
-        /** @enum {string} */
-        DataFormatType: "csv" | "json" | "txt_moxfield_decks";
-        DataFormatExplainFieldParser: {
-            name: string;
-        };
-        DataFormatExplainField: {
-            name: string;
-            nullable: boolean;
-            requireGroup?: string | null;
-            requireSubGroup?: string | null;
-            toKey: string;
-        };
-        DataFormatExplainJsonMapping: {
-            fromKey: string;
-            parserByTcg?: {
-                [key: string]: components["schemas"]["DataFormatExplainFieldParser"];
-            };
-            toKey: string;
-        };
-        DataFormatExplainJson: {
-            defaultParser: {
-                [key: string]: components["schemas"]["DataFormatExplainFieldParser"];
-            };
-            defaultValues: {
-                [key: string]: {
-                    [key: string]: string;
-                };
-            };
-            fields: components["schemas"]["DataFormatExplainField"][];
-            mappingsByFormat: {
-                [key: string]: components["schemas"]["DataFormatExplainJsonMapping"][];
-            };
-            parserOverrides: {
-                [key: string]: {
-                    [key: string]: components["schemas"]["DataFormatExplainFieldParser"];
-                };
-            };
-            requireCompounds: string[][];
-        };
-        GetImportableResponse: {
-            availableDataFormats: ("csv" | "json" | "txt_moxfield_decks")[];
-            explain: components["schemas"]["DataFormatExplainJson"];
-        };
-        "DataApiResponse-GetImportableResponse": {
-            data: components["schemas"]["GetImportableResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        UserImport: {
-            data?: components["schemas"]["ByteArray"] | null;
-            deletedAt?: string | null;
-            finishedAt?: string | null;
-            format?: components["schemas"]["DataFormatType"] | null;
-            formatOptions?: Record<string, never> | null;
-            game?: components["schemas"]["GameType"] | null;
-            generalOptions: components["schemas"]["JsonObject"];
-            /** Format: uuid */
-            id: string;
-            resourceOptions?: components["schemas"]["JsonObject"] | null;
-            /** Format: date-time */
-            startedAt: string;
-            type: components["schemas"]["ImportableType"];
-            /** Format: date-time */
-            updatedAt: string;
-            /** Format: uuid */
-            userId: string;
-        };
-        ByteArray: Record<string, never>;
-        "SimplePage-UserImport": {
-            /** Format: int32 */
-            currentPage: number;
-            hasNextPage: boolean;
-            items: components["schemas"]["UserImport"][];
-            /** Format: int32 */
-            lastPage: number;
-            /** Format: int32 */
-            nextPage: number;
-        };
-        "DataApiResponse-SimplePage-UserImport": {
-            data: components["schemas"]["SimplePage-UserImport"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        ValidateParsePosition: {
-            column?: string | null;
-            /** Format: int32 */
-            index: number;
-            value?: string | null;
-        };
-        UserImportEvaluationError: {
-            data?: components["schemas"]["JsonObject"] | null;
-            position?: components["schemas"]["ValidateParsePosition"] | null;
-            typeClass: string;
-        };
-        UserImportEvaluation: {
-            /** Format: int32 */
-            entryCount: number;
-            errors: components["schemas"]["UserImportEvaluationError"][];
-            fields: string[];
-            mappings: {
-                [key: string]: string;
-            };
-            primaryMapping?: string | null;
-        };
-        CreateImportResponse: {
-            evaluation: components["schemas"]["UserImportEvaluation"];
-            userImport?: components["schemas"]["UserImport"] | null;
-        };
-        "DataApiResponse-CreateImportResponse": {
-            data: components["schemas"]["CreateImportResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        "DataApiResponse-UserImport": {
-            data: components["schemas"]["UserImport"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        ImportMode: "add_only" | "add_with_merge" | "add_with_replace" | "replace_all";
-        UserImportOptions: {
-            defaults: {
-                [key: string]: string;
-            };
-            ignoreInvalids: boolean;
-            mode: components["schemas"]["ImportMode"];
-            remappings: {
-                [key: string]: string;
-            };
-        };
-        UpdateImportRequest: {
-            format?: components["schemas"]["DataFormatType"] | null;
-            formatOptions?: Record<string, never> | null;
-            generalOptions?: components["schemas"]["UserImportOptions"] | null;
-            resetFormat?: boolean | null;
-            resetGeneralOptions?: boolean | null;
-            resetResourceOptions?: boolean | null;
-            resourceOptions?: Record<string, never> | null;
-        };
-        "DataApiResponse-UserImportEvaluation": {
-            data: components["schemas"]["UserImportEvaluation"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        FinishImportResponseStatus: "evaluation_failed" | "finishing_failed" | "finished";
-        FinishImportError: {
-            description?: string | null;
-            errorKey?: string | null;
-            position?: string | null;
-        };
-        FinishImportResponse: {
-            /** Format: int32 */
-            entriesSuccessful: number;
-            errors: components["schemas"]["FinishImportError"][];
-            evaluation: components["schemas"]["UserImportEvaluation"];
-            status: components["schemas"]["FinishImportResponseStatus"];
-        };
-        "DataApiResponse-FinishImportResponse": {
-            data: components["schemas"]["FinishImportResponse"];
-            /** Format: int32 */
-            statusCode: number;
-        };
-        CreateExportRequest: {
-            targetId?: string | null;
-        };
-        "DataApiResponse-String": {
-            data: string;
-            /** Format: int32 */
-            statusCode: number;
-        };
-        /** @enum {string} */
-        TcgDumpType: "allcards" | "allsets" | "alldata" | "allimagedata";
-        ReducedDumpling: {
-            downloadUrl: string;
-            encoding: string;
-            tcg?: components["schemas"]["GameType"] | null;
-            type: components["schemas"]["TcgDumpType"];
-            /** Format: int32 */
-            versionMajor: number;
-            /** Format: int32 */
-            versionMinor: number;
-        };
+  schemas: {
+    JsonArray: unknown[];
+    JsonObject: Record<string, never>;
+    JsonPrimitive: string | boolean | number;
+    JsonElement: Record<string, never>;
+    /** Format: date */
+    LocalDate: string;
+    /** Format: time */
+    LocalTime: string;
+    /** Format: date-time */
+    LocalDateTime: string;
+    /** Format: date-time */
+    OffsetDateTime: string;
+    OAuthRequest: {
+      /** @description The access token. */
+      accessToken: string;
+      /**
+       * Format: date-time
+       * @description The expiration date of the access token.
+       */
+      expiresAt: string;
+      /** @description The provider of the OAuth token, e.g. `github`. */
+      provider: string;
+      /** @description The refresh token. */
+      refreshToken?: string | null;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    SimpleApiResponse: {
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    DlcLanguage: 'en' | 'de' | 'fr' | 'it';
+    /** @enum {string} */
+    UserLanguage: 'en' | 'de';
+    /** @enum {string} */
+    MtgLanguage:
+      | 'en'
+      | 'de'
+      | 'fr'
+      | 'it'
+      | 'es'
+      | 'pt'
+      | 'el'
+      | 'ar'
+      | 'zhs'
+      | 'zht'
+      | 'he'
+      | 'jp'
+      | 'ko'
+      | 'la'
+      | 'ph'
+      | 'ru'
+      | 'sa'
+      | 'qy';
+    /** @enum {string} */
+    PcgLanguage:
+      | 'en'
+      | 'fr'
+      | 'es'
+      | 'pt'
+      | 'it'
+      | 'de'
+      | 'nl'
+      | 'ru'
+      | 'pl'
+      | 'jp'
+      | 'ko'
+      | 'zht'
+      | 'zhs'
+      | 'cmn'
+      | 'yue'
+      | 'th'
+      | 'id';
+    /** @enum {string} */
+    YgoLanguage:
+      | 'en'
+      | 'en_north_america'
+      | 'en_europe'
+      | 'en_australia'
+      | 'en_asia'
+      | 'fr'
+      | 'fr_canada'
+      | 'de'
+      | 'it'
+      | 'pt'
+      | 'es'
+      | 'jp'
+      | 'jp_asia'
+      | 'ko'
+      | 'zht'
+      | 'zhs';
+    /** @enum {string} */
+    Visibility: 'public' | 'private';
+    /** @enum {string} */
+    UserState: 'unverified' | 'verified';
+    UserRole: {
+      /** Format: date-time */
+      createdAt: string;
+      /** Format: uuid */
+      id: string;
+      limits: components['schemas']['JsonObject'];
+      name: string;
+      /** Format: date-time */
+      updatedAt: string;
+    };
+    PreferredLanguageSettings: {
+      dlc?: components['schemas']['DlcLanguage'];
+      global?: components['schemas']['UserLanguage'];
+      mtg?: components['schemas']['MtgLanguage'];
+      pcg?: components['schemas']['PcgLanguage'];
+      ygo?: components['schemas']['YgoLanguage'];
+    };
+    PrivacySettings: {
+      activityVisibility?: components['schemas']['Visibility'];
+      collectionVisibility?: components['schemas']['Visibility'];
+      profileVisibility?: components['schemas']['Visibility'];
+    };
+    UserSettings: {
+      preferredLanguages?: components['schemas']['PreferredLanguageSettings'];
+      privacy?: components['schemas']['PrivacySettings'];
+    };
+    DataAuthUser: {
+      admin: boolean;
+      avatarUrl?: string | null;
+      /** Format: date-time */
+      createdAt: string;
+      displayName: string;
+      email: string;
+      /** Format: uuid */
+      id: string;
+      isPasswordEmpty: boolean;
+      /** Format: date-time */
+      lastActivityAt: string;
+      roles: components['schemas']['UserRole'][];
+      settings: components['schemas']['UserSettings'];
+      state?: components['schemas']['UserState'];
+      username: string;
+    };
+    AuthApiSessionDetails: {
+      /**
+       * Format: date-time
+       * @description The timestamp until which the session is valid.
+       */
+      expiresAt: string;
+    };
+    'DataApiResponse-AuthApiUserResponse': {
+      data: components['schemas']['AuthApiUserResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    AuthApiUserResponse: {
+      /** @description The session details for the user. */
+      session: components['schemas']['AuthApiSessionDetails'];
+      /** @description The user currently logged in. */
+      user: components['schemas']['DataAuthUser'];
+    };
+    ApiError: {
+      key: string;
+      message?: string | null;
+      reasons?: string[] | null;
+    };
+    ErrorApiResponse: {
+      error: components['schemas']['ApiError'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    OAuthRegisterRequest: {
+      /** @description The access token. */
+      accessToken: string;
+      /** @description The email to send the confirmation mail to. If not provided, the email from the OAuth provider will be used, if available. Depending on the OAuth provider, the email may already be verified and the user will be logged in immediately. Otherwise, the user will have to verify the email address first. */
+      email?: string | null;
+      /**
+       * Format: date-time
+       * @description The expiration date of the access token.
+       */
+      expiresAt: string;
+      language?: components['schemas']['UserLanguage'] | null;
+      /** @description The provider of the OAuth token, e.g. `github`. */
+      provider: string;
+      /** @description The refresh token. */
+      refreshToken?: string | null;
+      /** @description The username to register. */
+      username: string;
+    };
+    'DataApiResponse-AuthApiRegisterResponse': {
+      data: components['schemas']['AuthApiRegisterResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    AuthApiRegisterResponse: {
+      session?: components['schemas']['AuthApiSessionDetails'] | null;
+      /** @description The registered user. */
+      user: components['schemas']['DataAuthUser'];
+    };
+    AuthApiDisconnectOAuthRequest: {
+      /** @description The issuer of the OpenID integration to disconnect. */
+      provider: string;
+    };
+    OpenIdRequest: {
+      /** @description The provider of the OAuth token, e.g. `github`. */
+      provider: string;
+      /** @description The OpenID token. */
+      token: string;
+    };
+    OpenIdRegisterRequest: {
+      /** @description The email to send the confirmation mail to. If not provided, the email from the OAuth provider will be used, if available. Depending on the OAuth provider, the email may already be verified and the user will be logged in immediately. Otherwise, the user will have to verify the email address first. */
+      email?: string | null;
+      language?: components['schemas']['UserLanguage'] | null;
+      /** @description The provider of the OAuth token, e.g. `github`. */
+      provider: string;
+      /** @description The OpenID token. */
+      token: string;
+      /** @description The username to register. */
+      username: string;
+    };
+    BasicAuthLoginRequest: {
+      /** @description The password of the user. */
+      password: string;
+      /** @description The username or email of the user to log in. */
+      username: string;
+    };
+    BasicAuthRegisterRequest: {
+      /** @description The email to send the confirmation mail to. */
+      email: string;
+      language?: components['schemas']['UserLanguage'] | null;
+      /** @description The password to set. Will be hashed, salted and peppered before storing. */
+      password: string;
+      /** @description The requested username. */
+      username: string;
+    };
+    AuthApiBasicResetRequest: {
+      /** @description The username or email of the user to reset the password for. */
+      username: string;
+    };
+    AuthApiBasicResetPasswordRequest: {
+      /** @description The new password to set. */
+      password: string;
+    };
+    AuthApiTriggerConfirmRequest: {
+      /** @description The username or email of the user to reset the confirmation mail for. */
+      username: string;
+    };
+    'DataApiResponse-DataAuthUser': {
+      data: components['schemas']['DataAuthUser'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    AuthApiUpdateDisplayNameRequest: {
+      /** @description The new display name to set. */
+      displayName: string;
+    };
+    AuthApiUpdatePasswordRequest: {
+      /** @description The new password to set. */
+      password: string;
+      /** @description The current password. */
+      previousPassword: string;
+    };
+    AuthApiUpdateEmailAddressRequest: {
+      /** @description The new email address to set. */
+      email: string;
+      /** @description The current password. */
+      password: string;
+    };
+    RateLimitUsage: {
+      duration: components['schemas']['Duration'];
+      /** Format: int64 */
+      max: number;
+      /** Format: int64 */
+      usage: number;
+    };
+    Duration: {
+      /** Format: int64 */
+      rawValue: number;
+    };
+    'DataApiResponse-RateLimitUsage': {
+      data: components['schemas']['RateLimitUsage'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    OAuthIntegrationType: 'oauth' | 'openid';
+    AuthApiUserIntegration: {
+      /** Format: date-time */
+      createdAt: string;
+      displayName: string;
+      provider: string;
+      subject: string;
+      type: components['schemas']['OAuthIntegrationType'];
+    };
+    'DataApiResponse-List-AuthApiUserIntegration': {
+      data: components['schemas']['AuthApiUserIntegration'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    AuthApiUserApiToken: {
+      expiresAt?: string | null;
+      /** Format: uuid */
+      id: string;
+      name: string;
+      token?: string | null;
+    };
+    'DataApiResponse-List-AuthApiUserApiToken': {
+      data: components['schemas']['AuthApiUserApiToken'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    AuthApiCreateApiTokenRequest: {
+      expiresAt?: string | null;
+      name: string;
+    };
+    'DataApiResponse-AuthApiUserApiToken': {
+      data: components['schemas']['AuthApiUserApiToken'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    Order: 'asc' | 'desc';
+    /** @enum {string} */
+    SearchQueryOperator: ':' | '>=' | '>' | '<=' | '<' | '=';
+    /** @enum {string} */
+    LogicalOperator: 'and' | 'or';
+    /** @enum {string} */
+    QueryExplanationType: 'group' | 'filter';
+    /** @enum {string} */
+    QueryExplanationValueType: 'string' | 'number' | 'regex' | 'filter';
+    /** @enum {string} */
+    MtgRarity: 'bonus' | 'special' | 'common' | 'uncommon' | 'rare' | 'mythic';
+    /** @enum {string} */
+    MtgCatalogueEntryType:
+      | 'mechanic'
+      | 'card_supertype'
+      | 'card_type'
+      | 'card_subtype'
+      | 'keyword'
+      | 'tag'
+      | 'format'
+      | 'finish'
+      | 'promo';
+    /** @enum {string} */
+    MtgFinish:
+      | 'thick'
+      | 'date_stamped'
+      | 'serialized'
+      | 'stamped'
+      | 'nonfoil'
+      | 'traditional_foil'
+      | 'pre_modern_foil'
+      | 'from_the_vault_foil'
+      | 'etched_foil'
+      | 'ampersand_foil'
+      | 'textured_foil'
+      | 'gold_etched_foil'
+      | 'silver_screen_foil'
+      | 'neon_ink_foil'
+      | 'gilded_foil'
+      | 'galaxy_foil'
+      | 'surge_foil'
+      | 'double_rainbow_foil'
+      | 'step_and_compleat_foil'
+      | 'oil_slick_raised_foil'
+      | 'halo_foil'
+      | 'silver_foil';
+    /** @enum {string} */
+    PromoType:
+      | 'arenaleague'
+      | 'boosterfun'
+      | 'boxtopper'
+      | 'godzillaseries'
+      | 'bundle'
+      | 'buyabox'
+      | 'concept'
+      | 'setextension'
+      | 'draculaseries'
+      | 'prerelease'
+      | 'release'
+      | 'brawldeck'
+      | 'bringafriend'
+      | 'setpromo'
+      | 'commanderparty'
+      | 'wizardsplaynetwork'
+      | 'convention'
+      | 'draftweekend'
+      | 'event'
+      | 'tourney'
+      | 'instore'
+      | 'duels'
+      | 'fnm'
+      | 'gameday'
+      | 'giftbox'
+      | 'league'
+      | 'openhouse'
+      | 'intropack'
+      | 'judgegift'
+      | 'mediainsert'
+      | 'moonlitland'
+      | 'planeswalkerdeck'
+      | 'starterdeck'
+      | 'plastic'
+      | 'playerrewards'
+      | 'playpromo'
+      | 'promopack'
+      | 'themepack';
+    /** @enum {string} */
+    MtgPrintRelationType: 'variation';
+    /** @enum {string} */
+    GameType: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+    IgnoredQueryValue: {
+      reason: string;
+      supportedValues?: string[] | null;
+      value: string;
+    };
+    QueryExplanationPart: {
+      children?: components['schemas']['QueryExplanationPart'][] | null;
+      filter?: string | null;
+      filterOperator?: components['schemas']['SearchQueryOperator'] | null;
+      groupOperator?: components['schemas']['LogicalOperator'] | null;
+      negate: boolean;
+      property?: string | null;
+      type: components['schemas']['QueryExplanationType'];
+      value?: string | null;
+      valueProperty?: string | null;
+      valueType?: components['schemas']['QueryExplanationValueType'] | null;
+    };
+    DataCardImageUrls: {
+      artCrop?: string | null;
+      full?: string | null;
+      thumbnail?: string | null;
+    };
+    DataPrintPrice: {
+      date: string;
+      eur?: number | null;
+      finish: string;
+      tix?: number | null;
+      usd?: number | null;
+    };
+    MtgDataPrintReference: {
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      prices: components['schemas']['DataPrintPrice'][];
+      rarity: components['schemas']['MtgRarity'];
+      releaseDate: string;
+      setCode: string;
+      supportedLanguages: string[];
+    };
+    DataCardStat: {
+      display: string;
+      value?: number | null;
+    };
+    MtgDataPrintTranslation: {
+      flavorName?: string | null;
+      flavorText?: string | null;
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      name: string;
+      oracleText?: string | null;
+      typeLine: string;
+    };
+    MtgDataPrintFace: {
+      artTags?: string[] | null;
+      colorIndicator: string[];
+      colors: string[];
+      defense?: components['schemas']['DataCardStat'] | null;
+      id: string;
+      loyalty?: components['schemas']['DataCardStat'] | null;
+      manaDisplay?: string | null;
+      mechanicTags?: string[] | null;
+      power?: components['schemas']['DataCardStat'] | null;
+      producesMana: string[];
+      propertyTags?: string[] | null;
+      subTypes: string[];
+      superTypes: string[];
+      toughness?: components['schemas']['DataCardStat'] | null;
+      translations: {
+        [key: string]: components['schemas']['MtgDataPrintTranslation'];
+      };
+      types: string[];
+    };
+    MtgCatalogueEntry: {
+      descriptionDe?: string | null;
+      descriptionEn?: string | null;
+      key: string;
+      nameDe?: string | null;
+      nameEn?: string | null;
+      type: components['schemas']['MtgCatalogueEntryType'];
+    };
+    MtgPrintIdentifier: {
+      cardKingdomId?: string | null;
+      cardmarketId?: string | null;
+      /** Format: date-time */
+      createdAt: string;
+      hash: string;
+      mtgArenaId?: string | null;
+      mtgOnlineId?: string | null;
+      mtgjsonId?: string | null;
+      /** Format: uuid */
+      printId: string;
+      scryfallId?: string | null;
+      scryfallIds: {
+        [key: string]: string;
+      };
+      scryfallOracleId?: string | null;
+      tcgplayerId?: string | null;
+      /** Format: date-time */
+      touchedAt: string;
+      /** Format: date-time */
+      updatedAt: string;
+    };
+    MtgDataPrintRelation: {
+      inverse: boolean;
+      name?: string | null;
+      note?: string | null;
+      print: components['schemas']['MtgDataPrintReference'];
+      type: components['schemas']['MtgPrintRelationType'];
+    };
+    MtgDataPrint: {
+      artist?: string | null;
+      border: string;
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      faces: components['schemas']['MtgDataPrintFace'][];
+      finishes: (
+        | 'thick'
+        | 'date_stamped'
+        | 'serialized'
+        | 'stamped'
+        | 'nonfoil'
+        | 'traditional_foil'
+        | 'pre_modern_foil'
+        | 'from_the_vault_foil'
+        | 'etched_foil'
+        | 'ampersand_foil'
+        | 'textured_foil'
+        | 'gold_etched_foil'
+        | 'silver_screen_foil'
+        | 'neon_ink_foil'
+        | 'gilded_foil'
+        | 'galaxy_foil'
+        | 'surge_foil'
+        | 'double_rainbow_foil'
+        | 'step_and_compleat_foil'
+        | 'oil_slick_raised_foil'
+        | 'halo_foil'
+        | 'silver_foil'
+      )[];
+      frame: string;
+      /** Format: uuid */
+      id: string;
+      identifiers?: components['schemas']['MtgPrintIdentifier'] | null;
+      legalities: {
+        [key: string]: string;
+      };
+      mediums: string[];
+      prices: components['schemas']['DataPrintPrice'][];
+      promoTypes: (
+        | 'arenaleague'
+        | 'boosterfun'
+        | 'boxtopper'
+        | 'godzillaseries'
+        | 'bundle'
+        | 'buyabox'
+        | 'concept'
+        | 'setextension'
+        | 'draculaseries'
+        | 'prerelease'
+        | 'release'
+        | 'brawldeck'
+        | 'bringafriend'
+        | 'setpromo'
+        | 'commanderparty'
+        | 'wizardsplaynetwork'
+        | 'convention'
+        | 'draftweekend'
+        | 'event'
+        | 'tourney'
+        | 'instore'
+        | 'duels'
+        | 'fnm'
+        | 'gameday'
+        | 'giftbox'
+        | 'league'
+        | 'openhouse'
+        | 'intropack'
+        | 'judgegift'
+        | 'mediainsert'
+        | 'moonlitland'
+        | 'planeswalkerdeck'
+        | 'starterdeck'
+        | 'plastic'
+        | 'playerrewards'
+        | 'playpromo'
+        | 'promopack'
+        | 'themepack'
+      )[];
+      rarity: components['schemas']['MtgRarity'];
+      relations: components['schemas']['MtgDataPrintRelation'][];
+      releaseDate: string;
+      setCode: string;
+      /** Format: uuid */
+      setId: string;
+      stamp?: string | null;
+      supportedLanguages: string[];
+      tags: string[];
+      watermarks: string[];
+    };
+    MtgDataCardRelationFaceTranslation: {
+      flavorName?: string | null;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      name: string;
+      typeLine: string;
+    };
+    MtgDataCardRelation: {
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      inverse: boolean;
+      /** Format: uuid */
+      printId: string;
+      relationType: string;
+      setCode: string;
+      translations: {
+        [key: string]: components['schemas']['MtgDataCardRelationFaceTranslation'][];
+      };
+    };
+    DataSearchQuery: {
+      game: components['schemas']['GameType'];
+      id?: string | null;
+      name: string;
+      query: string;
+    };
+    MtgCardRuling: {
+      date: string;
+      text: string;
+    };
+    Short: Record<string, never>;
+    MtgDataCard: {
+      /** @description Array of reprint references. Is empty for search queries. */
+      allPrints: components['schemas']['MtgDataPrintReference'][];
+      attractionLights?: components['schemas']['Short'][] | null;
+      colorIdentity: string[];
+      edhrecRank?: number | null;
+      /** Format: uuid */
+      id: string;
+      keywords: string[];
+      layout: string;
+      name: string;
+      print: components['schemas']['MtgDataPrint'];
+      /** @description Array of card relations (e.g. tokens). Is empty for search queries. */
+      relatedCards: components['schemas']['MtgDataCardRelation'][];
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      rulings: components['schemas']['MtgCardRuling'][];
+    };
+    ExplainSearchQueryResponse: {
+      attempt?: number | null;
+      /** @description The total count of items matching the query. */
+      count?: number | null;
+      distinctMode: string;
+      /** @description The total count of items estimated to match the query. */
+      estimatedCount?: number | null;
+      executedQuery?: string | null;
+      /** @description If available the time it took to execute the query */
+      executionTime?: number | null;
+      /** @description A human-readable description of the query. */
+      explanation: string;
+      /** @description The list of filters that were applied to the query in the order they are explained. */
+      filters: string[];
+      flags: string[];
+      /** @description The list of query values that were ignored during pre-processing. */
+      ignored: components['schemas']['IgnoredQueryValue'][];
+      normalizedQuery: string;
+      originalQuery: string;
+      sortBy: string;
+      sortOrder: components['schemas']['Order'];
+      /** @description If available the id of the query statistics */
+      statisticsId?: string | null;
+      structure?: components['schemas']['QueryExplanationPart'] | null;
+    };
+    'CardSearchResult-MtgDataCard': {
+      /** @description The card that matches the search query. */
+      card: components['schemas']['MtgDataCard'];
+      /** @description The index of the face that matched the search query. This is the face that should be used to display the card by default. Only provided for TCGs that support having multiple faces per card. */
+      preferredDisplayFaceIndex?: number | null;
+      /** @description The language this card matched the search query in. This is the language that should be used to display the card by default. */
+      preferredDisplayLanguage: string;
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse': {
+      data: components['schemas']['DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-MtgDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-ExplainSearchQueryResponse': {
+      data: components['schemas']['ExplainSearchQueryResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    SearchQueryExecutorValueType: {
+      format?: string | null;
+      type: string;
+    };
+    SearchQueryExecutorSearchQueryProperty: {
+      key: string;
+      operators: string[];
+      providedValueTypes: string[];
+      valueTypes: components['schemas']['SearchQueryExecutorValueType'][];
+    };
+    SearchQueryExecutorSearchQueryFilter: {
+      inverted: boolean;
+      keywords: string[];
+      properties: components['schemas']['SearchQueryExecutorSearchQueryProperty'][];
+      providesValues: boolean;
+      strictValues: boolean;
+    };
+    'DataApiResponse-List-SearchQueryExecutorSearchQueryFilter': {
+      data: components['schemas']['SearchQueryExecutorSearchQueryFilter'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    SearchQueryExecutorFilterValue: {
+      aliases?: string[] | null;
+      displayValue: string;
+      language?: string | null;
+      resolvesTo?: string | null;
+      resolvesToOperator?: components['schemas']['SearchQueryOperator'] | null;
+      type: string;
+      value: string;
+    };
+    SearchQueryExecutorFilterValues: {
+      /** Format: int32 */
+      matches: number;
+      /** Format: int32 */
+      total: number;
+      values: components['schemas']['SearchQueryExecutorFilterValue'][];
+    };
+    'DataApiResponse-SearchQueryExecutorFilterValues': {
+      data: components['schemas']['SearchQueryExecutorFilterValues'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-Map-String-SearchQueryExecutorFilterValues': {
+      data: {
+        [key: string]: components['schemas']['SearchQueryExecutorFilterValues'];
+      };
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-List-String': {
+      data: string[];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-MtgDataCard': {
+      data: components['schemas']['MtgDataCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DataSetImageUrls: {
+      icon?: string | null;
+      logo?: string | null;
+    };
+    MtgDataSetTranslation: {
+      imageUrls?: components['schemas']['DataSetImageUrls'] | null;
+      name: string;
+    };
+    MtgDataSetReference: {
+      code: string;
+      /** Format: uuid */
+      id: string;
+      isTokenSet: boolean;
+      /** Format: int32 */
+      prints: number;
+      /** Format: date */
+      releaseDate: string;
+      translations: {
+        [key: string]: components['schemas']['MtgDataSetTranslation'];
+      };
+      type: string;
+    };
+    MtgDataSet: {
+      blockId?: string | null;
+      code: string;
+      /** Format: uuid */
+      id: string;
+      isTokenSet: boolean;
+      parentId?: string | null;
+      /** Format: int32 */
+      printsAvailable: number;
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      /** Format: date */
+      releaseDate: string;
+      subsetIds: string[];
+      subsets?: components['schemas']['MtgDataSetReference'][] | null;
+      translations: {
+        [key: string]: components['schemas']['MtgDataSetTranslation'];
+      };
+      type: string;
+    };
+    'Page-MtgDataSet': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['MtgDataSet'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-Page-MtgDataSet': {
+      data: components['schemas']['Page-MtgDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-MtgDataSet': {
+      data: components['schemas']['MtgDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DataSetCategoryQuery: {
+      game: components['schemas']['GameType'];
+      id?: string | null;
+      name: string;
+      printIds: string[];
+      query: string;
+    };
+    'DataApiResponse-List-DataSetCategoryQuery': {
+      data: components['schemas']['DataSetCategoryQuery'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    MtgDataSetSummary: {
+      cards: components['schemas']['CardSearchResult-MtgDataCard'][];
+      categories: components['schemas']['DataSetCategoryQuery'][];
+      queryExplanation?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      set: components['schemas']['MtgDataSet'];
+      subsets: components['schemas']['MtgDataSet'][];
+    };
+    'DataApiResponse-MtgDataSetSummary': {
+      data: components['schemas']['MtgDataSetSummary'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-List-MtgDataSet': {
+      data: components['schemas']['MtgDataSet'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    MtgDataBlockTranslation: {
+      name: string;
+    };
+    MtgDataBlock: {
+      from?: string | null;
+      /** Format: uuid */
+      id: string;
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      setIds: string[];
+      sets?: components['schemas']['MtgDataSetReference'][] | null;
+      to?: string | null;
+      translations: {
+        [key: string]: components['schemas']['MtgDataBlockTranslation'];
+      };
+    };
+    'Page-MtgDataBlock': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['MtgDataBlock'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-Page-MtgDataBlock': {
+      data: components['schemas']['Page-MtgDataBlock'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-MtgDataBlock': {
+      data: components['schemas']['MtgDataBlock'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    DlcRarity: 'common' | 'uncommon' | 'rare' | 'super_rare' | 'legendary' | 'enchanted' | 'promo';
+    /** @enum {string} */
+    DlcInkType: 'none' | 'amber' | 'amethyst' | 'emerald' | 'ruby' | 'sapphire' | 'steel';
+    /** @enum {string} */
+    DlcPrintRelationType: 'variation';
+    DlcDataPrintReference: {
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      prices: components['schemas']['DataPrintPrice'][];
+      rarity: components['schemas']['DlcRarity'];
+      releaseDate: string;
+      setCode: string;
+      supportedLanguages: string[];
+    };
+    DlcDataPrintRelation: {
+      inverse: boolean;
+      name?: string | null;
+      note?: string | null;
+      print: components['schemas']['DlcDataPrintReference'];
+      type: components['schemas']['DlcPrintRelationType'];
+    };
+    Ability: {
+      description?: string | null;
+      descriptionWithReminders?: string | null;
+      keyword?: string | null;
+      keywordModifier?: string | null;
+      name?: string | null;
+    };
+    DlcDataPrintTranslation: {
+      abilities: components['schemas']['Ability'][];
+      flavorText?: string | null;
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      name: string;
+      text?: string | null;
+      title?: string | null;
+    };
+    DlcDataPrint: {
+      artTags?: string[] | null;
+      artist?: string | null;
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      /** Format: uuid */
+      id: string;
+      mechanicTags?: string[] | null;
+      prices: components['schemas']['DataPrintPrice'][];
+      propertyTags?: string[] | null;
+      rarity: components['schemas']['DlcRarity'];
+      relations: components['schemas']['DlcDataPrintRelation'][];
+      releaseDate: string;
+      setCode: string;
+      /** Format: uuid */
+      setId: string;
+      supportedLanguages: string[];
+      translations: {
+        [key: string]: components['schemas']['DlcDataPrintTranslation'];
+      };
+    };
+    DlcDataCard: {
+      /** @description Array of reprint references. Is empty for search queries. */
+      allPrints: components['schemas']['DlcDataPrintReference'][];
+      classifications: string[];
+      /** Format: int32 */
+      cost: number;
+      franchiseId?: string | null;
+      /** Format: uuid */
+      id: string;
+      inkTypes: ('none' | 'amber' | 'amethyst' | 'emerald' | 'ruby' | 'sapphire' | 'steel')[];
+      isInkwell: boolean;
+      /** Format: int32 */
+      loreValue: number;
+      movementCost?: number | null;
+      name: string;
+      print: components['schemas']['DlcDataPrint'];
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      strength?: number | null;
+      type: string;
+      willpower?: number | null;
+    };
+    'CardSearchResult-DlcDataCard': {
+      /** @description The card that matches the search query. */
+      card: components['schemas']['DlcDataCard'];
+      /** @description The index of the face that matched the search query. This is the face that should be used to display the card by default. Only provided for TCGs that support having multiple faces per card. */
+      preferredDisplayFaceIndex?: number | null;
+      /** @description The language this card matched the search query in. This is the language that should be used to display the card by default. */
+      preferredDisplayLanguage: string;
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse': {
+      data: components['schemas']['DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-DlcDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-DlcDataCard': {
+      data: components['schemas']['DlcDataCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DlcDataSetTranslation: {
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataSetImageUrls'] | null;
+      name: string;
+    };
+    DlcDataSet: {
+      code: string;
+      /** Format: uuid */
+      id: string;
+      /** Format: date */
+      marketReleaseDate: string;
+      /** Format: int32 */
+      printsAvailable: number;
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      /** Format: date */
+      releaseDate: string;
+      translations: {
+        [key: string]: components['schemas']['DlcDataSetTranslation'];
+      };
+      type: string;
+    };
+    'Page-DlcDataSet': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['DlcDataSet'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-Page-DlcDataSet': {
+      data: components['schemas']['Page-DlcDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-DlcDataSet': {
+      data: components['schemas']['DlcDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DlcDataSetSummary: {
+      cards: components['schemas']['CardSearchResult-DlcDataCard'][];
+      categories: components['schemas']['DataSetCategoryQuery'][];
+      queryExplanation?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      set: components['schemas']['DlcDataSet'];
+      subsets: components['schemas']['DlcDataSet'][];
+    };
+    'DataApiResponse-DlcDataSetSummary': {
+      data: components['schemas']['DlcDataSetSummary'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-List-DlcDataSet': {
+      data: components['schemas']['DlcDataSet'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    PcgAbilityType: 'ability' | 'poke_power' | 'pokemon_power' | 'poke_body';
+    /** @enum {string} */
+    PcgRarity:
+      | 'common'
+      | 'uncommon'
+      | 'rare'
+      | 'double_rare'
+      | 'illustration_rare'
+      | 'ultra_rare'
+      | 'special_illustration_rare'
+      | 'hyper_rare'
+      | 'shiny_rare'
+      | 'shiny_ultra_rare'
+      | 'promo'
+      | 'ace_spec_rare'
+      | 'rare_holo'
+      | 'rare_holo_v'
+      | 'rare_ultra'
+      | 'rare_holo_vmax'
+      | 'rare_secret'
+      | 'rare_holo_ex'
+      | 'rare_ace'
+      | 'rare_rainbow'
+      | 'rare_holo_vstar'
+      | 'rare_shiny'
+      | 'rare_prism_star'
+      | 'rare_holo_gx'
+      | 'rare_shiny_gx'
+      | 'rare_prime'
+      | 'rare_shining'
+      | 'rare_break'
+      | 'radiant_rare'
+      | 'trainer_gallery_rare_holo'
+      | 'trainer_gallery_rare_holo_v'
+      | 'trainer_gallery_rare_ultra'
+      | 'trainer_gallery_rare_secret'
+      | 'legend'
+      | 'amazing_rare';
+    /** @enum {string} */
+    PcgEffectType: 'held_item' | 'ancient_trait' | 'tera';
+    /** @enum {string} */
+    PcgEvolutionStage:
+      | 'baby'
+      | 'basic'
+      | 'restored'
+      | 'stage1'
+      | 'stage2'
+      | 'lvx'
+      | 'break'
+      | 'legend'
+      | 'mega'
+      | 'vunion'
+      | 'vmax'
+      | 'vstar';
+    /** @enum {string} */
+    PcgPrintRelationType: 'variation';
+    /** @enum {string} */
+    PcgRegion: 'int' | 'jap' | 'chi' | 'kor' | 'tha' | 'ind';
+    /** @enum {string} */
+    PcgPrintTag: 'team_plasma' | 'shiny' | 'rainbow' | 'full_art_pokemon' | 'prime';
+    /** @enum {string} */
+    PcgType:
+      | 'grass'
+      | 'fire'
+      | 'water'
+      | 'lightning'
+      | 'fighting'
+      | 'psychic'
+      | 'colorless'
+      | 'darkness'
+      | 'metal'
+      | 'dragon'
+      | 'fairy'
+      | 'free';
+    /** @enum {string} */
+    PcgRuleType:
+      | 'pokemon_ex'
+      | 'mega_evolution'
+      | 'primal_reversion'
+      | 'break_evolution'
+      | 'pokemon_gx'
+      | 'tag_team'
+      | 'prism_star'
+      | 'pokemon_v'
+      | 'pokemon_vmax'
+      | 'pokemon_vunion'
+      | 'pokemon_vstar'
+      | 'radiant_pokemon'
+      | 'pokemon_ex_sv';
+    /** @enum {string} */
+    PcgCardSuperType: 'pokemon' | 'trainer' | 'energy';
+    PcgDataPrintReference: {
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      prices: components['schemas']['DataPrintPrice'][];
+      rarity: components['schemas']['PcgRarity'];
+      releaseDate?: string | null;
+      setCode?: string | null;
+      supportedLanguages: string[];
+    };
+    PcgPrintIdentifier: {
+      /** Format: date-time */
+      createdAt: string;
+      hash: string;
+      /** Format: uuid */
+      printId: string;
+      ptcgId?: string | null;
+      tcgcId?: string | null;
+      tcglId?: string | null;
+      tcgoId?: string | null;
+      tcgoTitle?: string | null;
+      /** Format: date-time */
+      touchedAt: string;
+      /** Format: date-time */
+      updatedAt: string;
+    };
+    PcgDataPrintRelation: {
+      inverse: boolean;
+      name?: string | null;
+      note?: string | null;
+      print: components['schemas']['PcgDataPrintReference'];
+      type: components['schemas']['PcgPrintRelationType'];
+    };
+    PcgDataSetReference: {
+      code?: string | null;
+      /** Format: uuid */
+      id: string;
+      name?: string | null;
+      region: components['schemas']['PcgRegion'];
+    };
+    PcgCardAbility: {
+      name?: string | null;
+      text?: string | null;
+      type: components['schemas']['PcgAbilityType'];
+    };
+    PcgCardAttack: {
+      cost: (
+        | 'grass'
+        | 'fire'
+        | 'water'
+        | 'lightning'
+        | 'fighting'
+        | 'psychic'
+        | 'colorless'
+        | 'darkness'
+        | 'metal'
+        | 'dragon'
+        | 'fairy'
+        | 'free'
+      )[];
+      damage?: string | null;
+      name: string;
+      text?: string | null;
+    };
+    PcgCardEffect: {
+      name?: string | null;
+      text?: string | null;
+      type: components['schemas']['PcgEffectType'];
+    };
+    PcgDataPrintTranslation: {
+      abilities: components['schemas']['PcgCardAbility'][];
+      attacks: components['schemas']['PcgCardAttack'][];
+      effects: components['schemas']['PcgCardEffect'][];
+      flavorText?: string | null;
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataCardImageUrls'] | null;
+      name: string;
+      reminder: string[];
+      texts: string[];
+    };
+    PcgDataPrint: {
+      artTags?: string[] | null;
+      /** Format: uuid */
+      cardId: string;
+      collectorNumber: string;
+      /** Format: uuid */
+      id: string;
+      identifier?: components['schemas']['PcgPrintIdentifier'] | null;
+      illustrators: string[];
+      mechanicTags?: string[] | null;
+      propertyTags?: string[] | null;
+      rarity: components['schemas']['PcgRarity'];
+      regulationMark?: string | null;
+      relations: components['schemas']['PcgDataPrintRelation'][];
+      setCode?: string | null;
+      /** Format: uuid */
+      setId: string;
+      setReference: components['schemas']['PcgDataSetReference'];
+      tags: ('team_plasma' | 'shiny' | 'rainbow' | 'full_art_pokemon' | 'prime')[];
+      translations: {
+        [key: string]: components['schemas']['PcgDataPrintTranslation'];
+      };
+    };
+    PcgDataCard: {
+      abilityTypes: ('ability' | 'poke_power' | 'pokemon_power' | 'poke_body')[];
+      /** @description Array of reprint references. Is empty for search queries. */
+      allPrints: components['schemas']['PcgDataPrintReference'][];
+      effectTypes: ('held_item' | 'ancient_trait' | 'tera')[];
+      evolutionStage?: components['schemas']['PcgEvolutionStage'] | null;
+      evolvesFrom?: string | null;
+      hp?: number | null;
+      /** Format: uuid */
+      id: string;
+      name: string;
+      print: components['schemas']['PcgDataPrint'];
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      resistanceModifier?: string | null;
+      resistanceTypes: (
+        | 'grass'
+        | 'fire'
+        | 'water'
+        | 'lightning'
+        | 'fighting'
+        | 'psychic'
+        | 'colorless'
+        | 'darkness'
+        | 'metal'
+        | 'dragon'
+        | 'fairy'
+        | 'free'
+      )[];
+      retreatCost?: number | null;
+      ruleTypes: (
+        | 'pokemon_ex'
+        | 'mega_evolution'
+        | 'primal_reversion'
+        | 'break_evolution'
+        | 'pokemon_gx'
+        | 'tag_team'
+        | 'prism_star'
+        | 'pokemon_v'
+        | 'pokemon_vmax'
+        | 'pokemon_vunion'
+        | 'pokemon_vstar'
+        | 'radiant_pokemon'
+        | 'pokemon_ex_sv'
+      )[];
+      subTypes: string[];
+      superType: components['schemas']['PcgCardSuperType'];
+      types: (
+        | 'grass'
+        | 'fire'
+        | 'water'
+        | 'lightning'
+        | 'fighting'
+        | 'psychic'
+        | 'colorless'
+        | 'darkness'
+        | 'metal'
+        | 'dragon'
+        | 'fairy'
+        | 'free'
+      )[];
+      weaknessModifier?: string | null;
+      weaknessTypes: (
+        | 'grass'
+        | 'fire'
+        | 'water'
+        | 'lightning'
+        | 'fighting'
+        | 'psychic'
+        | 'colorless'
+        | 'darkness'
+        | 'metal'
+        | 'dragon'
+        | 'fairy'
+        | 'free'
+      )[];
+    };
+    'CardSearchResult-PcgDataCard': {
+      /** @description The card that matches the search query. */
+      card: components['schemas']['PcgDataCard'];
+      /** @description The index of the face that matched the search query. This is the face that should be used to display the card by default. Only provided for TCGs that support having multiple faces per card. */
+      preferredDisplayFaceIndex?: number | null;
+      /** @description The language this card matched the search query in. This is the language that should be used to display the card by default. */
+      preferredDisplayLanguage: string;
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse': {
+      data: components['schemas']['DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-PcgDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-PcgDataCard': {
+      data: components['schemas']['PcgDataCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    PcgSetType:
+      | 'main_expansion'
+      | 'special_expansion'
+      | 'promotional'
+      | 'deck'
+      | 'trainer_deck_kits'
+      | 'energies'
+      | 'unspecified';
+    PcgDataEraReference: {
+      /** Format: uuid */
+      id: string;
+      name: string;
+    };
+    PcgDataSetTranslation: {
+      /** Format: uuid */
+      id: string;
+      imageUrls?: components['schemas']['DataSetImageUrls'] | null;
+      name: string;
+    };
+    PcgDataSet: {
+      code?: string | null;
+      /** Format: uuid */
+      eraId: string;
+      eraReference: components['schemas']['PcgDataEraReference'];
+      /** Format: uuid */
+      id: string;
+      /** Format: int32 */
+      prints: number;
+      /** Format: int32 */
+      printsAvailable: number;
+      /** Format: int32 */
+      publicPrints: number;
+      region: components['schemas']['PcgRegion'];
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      releaseEndDate?: string | null;
+      releaseStartDate?: string | null;
+      translations: {
+        [key: string]: components['schemas']['PcgDataSetTranslation'];
+      };
+      type: components['schemas']['PcgSetType'];
+    };
+    'Page-PcgDataSet': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['PcgDataSet'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-Page-PcgDataSet': {
+      data: components['schemas']['Page-PcgDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-PcgDataSet': {
+      data: components['schemas']['PcgDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    PcgDataSetSummary: {
+      cards: components['schemas']['CardSearchResult-PcgDataCard'][];
+      categories: components['schemas']['DataSetCategoryQuery'][];
+      queryExplanation?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      set: components['schemas']['PcgDataSet'];
+      subsets: components['schemas']['PcgDataSet'][];
+    };
+    'DataApiResponse-PcgDataSetSummary': {
+      data: components['schemas']['PcgDataSetSummary'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-List-PcgDataSet': {
+      data: components['schemas']['PcgDataSet'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    PcgDataEraTranslation: {
+      name: string;
+    };
+    PcgDataEra: {
+      from?: string | null;
+      /** Format: uuid */
+      id: string;
+      relatedQueries: components['schemas']['DataSearchQuery'][];
+      setIds: string[];
+      sets?: components['schemas']['PcgDataSet'][] | null;
+      to?: string | null;
+      translations: {
+        [key: string]: components['schemas']['PcgDataEraTranslation'];
+      };
+    };
+    'Page-PcgDataEra': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['PcgDataEra'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'DataApiResponse-Page-PcgDataEra': {
+      data: components['schemas']['Page-PcgDataEra'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-PcgDataEra': {
+      data: components['schemas']['PcgDataEra'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DataUser: {
+      admin: boolean;
+      avatarUrl?: string | null;
+      /** Format: date-time */
+      createdAt: string;
+      displayName: string;
+      /** Format: uuid */
+      id: string;
+      lastActivityAt?: string | null;
+      username: string;
+    };
+    'DataApiResponse-DataUser': {
+      data: components['schemas']['DataUser'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    AuthType: 'anonymous' | 'user' | 'token';
+    UserSavedSearch: {
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      /** Format: uuid */
+      queryId: string;
+      /** Format: date-time */
+      savedAt: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    SearchQueryStatistics: {
+      /** Format: int32 */
+      attempt: number;
+      authIdentifier?: string | null;
+      authType: components['schemas']['AuthType'];
+      cached: boolean;
+      /** Format: date-time */
+      createdAt: string;
+      distinctMode: string;
+      /** Format: int64 */
+      executionTime: number;
+      flags: string[];
+      /** Format: uuid */
+      id: string;
+      language: string;
+      origin?: string | null;
+      /** Format: uuid */
+      queryId: string;
+      rawQuery: string;
+      /** Format: int32 */
+      results: number;
+      searchMode: string;
+      sortDirection: components['schemas']['Order'];
+      sortMode: string;
+      strippedQuery: string;
+      userAgent?: string | null;
+    };
+    UserSearchHistoryEntry: {
+      clusterSize?: number | null;
+      savedSearch?: components['schemas']['UserSavedSearch'] | null;
+      search: components['schemas']['SearchQueryStatistics'];
+      totalCount?: number | null;
+    };
+    'SimplePage-UserSearchHistoryEntry': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['UserSearchHistoryEntry'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-UserSearchHistoryEntry': {
+      data: components['schemas']['SimplePage-UserSearchHistoryEntry'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    ResolvedUserSavedSearch: {
+      firstSearch: components['schemas']['SearchQueryStatistics'];
+      lastSearch?: components['schemas']['SearchQueryStatistics'] | null;
+      lastTotalCount?: number | null;
+      savedSearch: components['schemas']['UserSavedSearch'];
+    };
+    'SimplePage-ResolvedUserSavedSearch': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['ResolvedUserSavedSearch'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-ResolvedUserSavedSearch': {
+      data: components['schemas']['SimplePage-ResolvedUserSavedSearch'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    SaveSearchesRequest: {
+      queryStatisticIds: string[];
+    };
+    'DataApiResponse-List-ResolvedUserSavedSearch': {
+      data: components['schemas']['ResolvedUserSavedSearch'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DeleteSavedSearchesRequest: {
+      savedSearchIds: string[];
+    };
+    'DataApiResponse-ResolvedUserSavedSearch': {
+      data: components['schemas']['ResolvedUserSavedSearch'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    UserSystemListType: 'favorites';
+    /** @enum {string} */
+    UserListVisibility: 'private' | 'public';
+    /** @enum {string} */
+    ListResourceType:
+      | 'card'
+      | 'deck'
+      | 'cube'
+      | 'USER_CARD'
+      | 'USER_DECK'
+      | 'USER_CUBE'
+      | 'USER_BINDER'
+      | 'user_search';
+    UserList: {
+      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
+      color?: string | null;
+      /** Format: date-time */
+      createdAt: string;
+      description: string;
+      /** Format: uuid */
+      id: string;
+      name: string;
+      slug: string;
+      systemListType?: components['schemas']['UserSystemListType'] | null;
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: uuid */
+      userId: string;
+      visibility?: components['schemas']['UserListVisibility'];
+    };
+    UserListResource: {
+      /** Format: date-time */
+      createdAt: string;
+      game?: components['schemas']['GameType'] | null;
+      /** Format: uuid */
+      listId: string;
+      /** Format: uuid */
+      resourceId: string;
+      resourceMeta?: components['schemas']['JsonObject'] | null;
+      resourceType: components['schemas']['ListResourceType'];
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    ResolvedUserListResource: {
+      listResource: components['schemas']['UserListResource'];
+      resourceData: components['schemas']['JsonObject'];
+    };
+    UserListWithResources: {
+      list: components['schemas']['UserList'];
+      resources?: null | {
+        [key: string]: components['schemas']['ResolvedUserListResource'][];
+      };
+      size?: number | null;
+    };
+    'SimplePage-UserListWithResources': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['UserListWithResources'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-UserListWithResources': {
+      data: components['schemas']['SimplePage-UserListWithResources'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    CreateUserListRequest: {
+      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
+      color?: string | null;
+      description?: string | null;
+      name: string;
+      visibility?: components['schemas']['UserListVisibility'] | null;
+    };
+    'DataApiResponse-UserList': {
+      data: components['schemas']['UserList'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    UserListUpdate: {
+      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
+      color?: string | null;
+      description?: string | null;
+      /** Format: uuid */
+      id: string;
+      name?: string | null;
+      resetAllowedTcg?: boolean | null;
+      visibility?: components['schemas']['UserListVisibility'] | null;
+    };
+    UpdateUserListsRequest: {
+      listUpdates: components['schemas']['UserListUpdate'][];
+    };
+    DeleteUserListsRequest: {
+      listIds: string[];
+    };
+    'SimplePage-ResolvedUserListResource': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['ResolvedUserListResource'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-ResolvedUserListResource': {
+      data: components['schemas']['SimplePage-ResolvedUserListResource'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    UserListResourcesRequestResource: {
+      /** Format: uuid */
+      id: string;
+    };
+    UserListResourcesRequest: {
+      game?: components['schemas']['GameType'] | null;
+      isRaw?: boolean | null;
+      resourceIds: components['schemas']['UserListResourcesRequestResource'][];
+    };
+    'DataApiResponse-List-UserListResource': {
+      data: components['schemas']['UserListResource'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    RemoveListResourcesRequest: {
+      resourceIds: string[];
+    };
+    'DataApiResponse-Map-String-List-ResolvedUserListResource': {
+      data: {
+        [key: string]: components['schemas']['ResolvedUserListResource'][];
+      };
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DuplicateUserListRequest: {
+      newName: string;
+      withResources?: boolean | null;
+    };
+    GetListedResourcesRequest: {
+      game: components['schemas']['GameType'];
+      resourceIds: string[];
+    };
+    GetListedResourcesResponse: {
+      lists: {
+        [key: string]: components['schemas']['UserList'];
+      };
+      resourceInfos: {
+        [key: string]: string[];
+      };
+    };
+    'DataApiResponse-GetListedResourcesResponse': {
+      data: components['schemas']['GetListedResourcesResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    BinderType: 'binder' | 'deckbox' | 'storagebox' | 'other';
+    UserCardBinder: {
+      /** Format: date-time */
+      createdAt: string;
+      description?: string;
+      /** Format: uuid */
+      id: string;
+      isDefault?: boolean;
+      name: string;
+      tags?: string[];
+      type?: components['schemas']['BinderType'];
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    'SimplePage-UserCardBinder': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['UserCardBinder'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-UserCardBinder': {
+      data: components['schemas']['SimplePage-UserCardBinder'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    CreateUserCardBinderRequest: {
+      binderType?: components['schemas']['BinderType'] | null;
+      description?: string | null;
+      isDefault?: boolean | null;
+      name: string;
+      tags?: string[] | null;
+    };
+    'DataApiResponse-UserCardBinder': {
+      data: components['schemas']['UserCardBinder'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    UserCardBinderUpdate: {
+      description?: string | null;
+      /** Format: uuid */
+      id: string;
+      isDefault?: boolean | null;
+      name?: string | null;
+      tags?: string[] | null;
+    };
+    UpdateUserCardBindersRequest: {
+      binderUpdates: components['schemas']['UserCardBinderUpdate'][];
+    };
+    DeleteUserCardBindersRequest: {
+      binderIds: string[];
+    };
+    /** @enum {string} */
+    DeckType: 'user' | 'precon' | 'external';
+    /** @enum {string} */
+    DeckVisibility: 'private' | 'unlisted' | 'public';
+    Deck: {
+      /** Format: date-time */
+      createdAt: string;
+      deletedAt?: string | null;
+      description: string;
+      format: string;
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      name: string;
+      sourceMetadata?: components['schemas']['JsonObject'] | null;
+      subType: string;
+      type: components['schemas']['DeckType'];
+      /** Format: date-time */
+      updatedAt: string;
+      visibility: components['schemas']['DeckVisibility'];
+    };
+    UserDeck: {
+      /** Format: uuid */
+      deckId: string;
+      /** Format: uuid */
+      id: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    ResolvedUserDeck: {
+      deck: components['schemas']['Deck'];
+      userDeck: components['schemas']['UserDeck'];
+    };
+    'SimplePage-ResolvedUserDeck': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['ResolvedUserDeck'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-ResolvedUserDeck': {
+      data: components['schemas']['SimplePage-ResolvedUserDeck'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    CreateUserDeckRequest: {
+      description?: string | null;
+      format?: string | null;
+      gameType: components['schemas']['GameType'];
+      name: string;
+    };
+    CreateUserDeckResponse: {
+      resolved: components['schemas']['ResolvedUserDeck'];
+    };
+    'DataApiResponse-CreateUserDeckResponse': {
+      data: components['schemas']['CreateUserDeckResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-ResolvedUserDeck': {
+      data: components['schemas']['ResolvedUserDeck'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    UpdateUserDeckRequest: {
+      description?: string | null;
+      format?: string | null;
+      name?: string | null;
+    };
+    DeckCardToAdd: {
+      category: string;
+      /** Format: int32 */
+      copies?: number;
+      /** Format: uuid */
+      printId: string;
+      tags: string[];
+    };
+    AddDeckCardsRequest: {
+      cards: components['schemas']['DeckCardToAdd'][];
+    };
+    DeckCard: {
+      /** Format: uuid */
+      cardId: string;
+      category: string;
+      /** Format: int32 */
+      copies: number;
+      /** Format: uuid */
+      deckId: string;
+      /** Format: uuid */
+      id: string;
+      /** Format: uuid */
+      printId: string;
+      tags: string[];
+    };
+    'DataApiResponse-List-DeckCard': {
+      data: components['schemas']['DeckCard'][];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    UnspecificResolvedDeckCard: {
+      dataCard: components['schemas']['JsonObject'];
+      deckCard: components['schemas']['DeckCard'];
+    };
+    'SimplePage-UnspecificResolvedDeckCard': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['UnspecificResolvedDeckCard'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-UnspecificResolvedDeckCard': {
+      data: components['schemas']['SimplePage-UnspecificResolvedDeckCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DeckCardToUpdate: {
+      category?: string | null;
+      copies?: number | null;
+      /** Format: uuid */
+      deckCardId: string;
+      printId?: string | null;
+      tags?: string[] | null;
+    };
+    UpdateDeckCardsRequest: {
+      updates: components['schemas']['DeckCardToUpdate'][];
+    };
+    DeleteDeckCardsRequest: {
+      deckCardIds: string[];
+    };
+    'DataApiResponse-DeckCard': {
+      data: components['schemas']['DeckCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    ImportableType: 'tags' | 'lists' | 'binders' | 'cards' | 'decks';
+    /** @enum {string} */
+    DataFormatType: 'csv' | 'json' | 'txt_moxfield_decks';
+    DataFormatExplainFieldParser: {
+      name: string;
+    };
+    DataFormatExplainField: {
+      name: string;
+      nullable: boolean;
+      requireGroup?: string | null;
+      requireSubGroup?: string | null;
+      toKey: string;
+    };
+    DataFormatExplainJsonMapping: {
+      fromKey: string;
+      parserByTcg?: {
+        [key: string]: components['schemas']['DataFormatExplainFieldParser'];
+      };
+      toKey: string;
+    };
+    DataFormatExplainJson: {
+      defaultParser: {
+        [key: string]: components['schemas']['DataFormatExplainFieldParser'];
+      };
+      defaultValues: {
+        [key: string]: {
+          [key: string]: string;
+        };
+      };
+      fields: components['schemas']['DataFormatExplainField'][];
+      mappingsByFormat: {
+        [key: string]: components['schemas']['DataFormatExplainJsonMapping'][];
+      };
+      parserOverrides: {
+        [key: string]: {
+          [key: string]: components['schemas']['DataFormatExplainFieldParser'];
+        };
+      };
+      requireCompounds: string[][];
+    };
+    GetImportableResponse: {
+      availableDataFormats: ('csv' | 'json' | 'txt_moxfield_decks')[];
+      explain: components['schemas']['DataFormatExplainJson'];
+    };
+    'DataApiResponse-GetImportableResponse': {
+      data: components['schemas']['GetImportableResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    UserImport: {
+      data?: components['schemas']['ByteArray'] | null;
+      deletedAt?: string | null;
+      finishedAt?: string | null;
+      format?: components['schemas']['DataFormatType'] | null;
+      formatOptions?: Record<string, never> | null;
+      game?: components['schemas']['GameType'] | null;
+      generalOptions: components['schemas']['JsonObject'];
+      /** Format: uuid */
+      id: string;
+      resourceOptions?: components['schemas']['JsonObject'] | null;
+      /** Format: date-time */
+      startedAt: string;
+      type: components['schemas']['ImportableType'];
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    ByteArray: Record<string, never>;
+    'SimplePage-UserImport': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['UserImport'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-UserImport': {
+      data: components['schemas']['SimplePage-UserImport'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    ValidateParsePosition: {
+      column?: string | null;
+      /** Format: int32 */
+      index: number;
+      value?: string | null;
+    };
+    UserImportEvaluationError: {
+      data?: components['schemas']['JsonObject'] | null;
+      position?: components['schemas']['ValidateParsePosition'] | null;
+      typeClass: string;
+    };
+    UserImportEvaluation: {
+      /** Format: int32 */
+      entryCount: number;
+      errors: components['schemas']['UserImportEvaluationError'][];
+      fields: string[];
+      mappings: {
+        [key: string]: string;
+      };
+      primaryMapping?: string | null;
+    };
+    CreateImportResponse: {
+      evaluation: components['schemas']['UserImportEvaluation'];
+      userImport?: components['schemas']['UserImport'] | null;
+    };
+    'DataApiResponse-CreateImportResponse': {
+      data: components['schemas']['CreateImportResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-UserImport': {
+      data: components['schemas']['UserImport'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    ImportMode: 'add_only' | 'add_with_merge' | 'add_with_replace' | 'replace_all';
+    UserImportOptions: {
+      defaults: {
+        [key: string]: string;
+      };
+      ignoreInvalids: boolean;
+      mode: components['schemas']['ImportMode'];
+      remappings: {
+        [key: string]: string;
+      };
+    };
+    UpdateImportRequest: {
+      format?: components['schemas']['DataFormatType'] | null;
+      formatOptions?: Record<string, never> | null;
+      generalOptions?: components['schemas']['UserImportOptions'] | null;
+      resetFormat?: boolean | null;
+      resetGeneralOptions?: boolean | null;
+      resetResourceOptions?: boolean | null;
+      resourceOptions?: Record<string, never> | null;
+    };
+    'DataApiResponse-UserImportEvaluation': {
+      data: components['schemas']['UserImportEvaluation'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    FinishImportResponseStatus: 'evaluation_failed' | 'finishing_failed' | 'finished';
+    FinishImportError: {
+      description?: string | null;
+      errorKey?: string | null;
+      position?: string | null;
+    };
+    FinishImportResponse: {
+      /** Format: int32 */
+      entriesSuccessful: number;
+      errors: components['schemas']['FinishImportError'][];
+      evaluation: components['schemas']['UserImportEvaluation'];
+      status: components['schemas']['FinishImportResponseStatus'];
+    };
+    'DataApiResponse-FinishImportResponse': {
+      data: components['schemas']['FinishImportResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    CreateExportRequest: {
+      targetId?: string | null;
+    };
+    'DataApiResponse-String': {
+      data: string;
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    TcgDumpType: 'allcards' | 'allsets' | 'alldata' | 'allimagedata';
+    ReducedDumpling: {
+      downloadUrl: string;
+      encoding: string;
+      tcg?: components['schemas']['GameType'] | null;
+      type: components['schemas']['TcgDumpType'];
+      /** Format: int32 */
+      versionMajor: number;
+      /** Format: int32 */
+      versionMinor: number;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;

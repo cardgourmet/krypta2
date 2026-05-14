@@ -1,14 +1,14 @@
-import {ActionIcon, Button, Group, Modal, Tooltip} from '@mantine/core';
-import {useDisclosure} from '@mantine/hooks';
-import {IconPencil, IconPencilOff} from '@tabler/icons-react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {updateList} from '@/parcels/lists/api.ts';
-import {ListValuesForm} from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
-import {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
-import type {UserList} from '@/parcels/lists/types.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
+import { ActionIcon, Button, Group, Modal, Tooltip } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconPencil, IconPencilOff } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { updateList } from '@/parcels/lists/api.ts';
+import { ListValuesForm } from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
+import { useListForm } from '@/parcels/lists/ListsOverview/useListForm.ts';
+import type { UserList } from '@/parcels/lists/types.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import styles from './EditListButton.module.css';
 
 export function EditListButton({ list, onSuccess }: { list: UserList; onSuccess?: (list: UserList) => void }) {

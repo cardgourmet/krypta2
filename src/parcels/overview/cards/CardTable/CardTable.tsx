@@ -1,17 +1,21 @@
-import {useCallback, useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {GourmetTable, type GourmetTableData, type GourmetTableDataRow,} from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
-import {TableRowHorizontal} from '@/parcels/overview/cards/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
-import {TableRowVertical} from '@/parcels/overview/cards/CardTable/TableRowHorizontal/TableRowVertical.tsx';
-import type {DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard} from '@/parcels/tcg/dlc/api.ts';
-import {useConstructDlcCardTableData} from '@/parcels/tcg/dlc/overview/useConstructDlcCardTableData.tsx';
-import type {MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard} from '@/parcels/tcg/mtg/api.ts';
-import {useConstructMtgCardTableData} from '@/parcels/tcg/mtg/overview/useConstructMtgCardTableData.tsx';
-import type {PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard} from '@/parcels/tcg/pcg/api.ts';
-import {useConstructPcgCardTableData} from '@/parcels/tcg/pcg/overview/useConstructPcgCardTableData.tsx';
-import type {TcgSearchDataCard} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {
+  GourmetTable,
+  type GourmetTableData,
+  type GourmetTableDataRow,
+} from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
+import { TableRowHorizontal } from '@/parcels/overview/cards/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
+import { TableRowVertical } from '@/parcels/overview/cards/CardTable/TableRowHorizontal/TableRowVertical.tsx';
+import type { DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import { useConstructDlcCardTableData } from '@/parcels/tcg/dlc/overview/useConstructDlcCardTableData.tsx';
+import type { MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import { useConstructMtgCardTableData } from '@/parcels/tcg/mtg/overview/useConstructMtgCardTableData.tsx';
+import type { PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import { useConstructPcgCardTableData } from '@/parcels/tcg/pcg/overview/useConstructPcgCardTableData.tsx';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type CardTableProps = {
   tcg: Tcg;

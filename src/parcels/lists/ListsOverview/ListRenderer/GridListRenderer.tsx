@@ -1,12 +1,12 @@
-import {Center, Group, Loader, Stack} from '@mantine/core';
-import {IconCards, IconSearch} from '@tabler/icons-react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
-import {ListElementHeader} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
-import {RendererCardResources} from '@/parcels/lists/ListsOverview/ListRenderer/RendererCardResources/RendererCardResources.tsx';
-import {RendererSearchResources} from '@/parcels/lists/ListsOverview/ListRenderer/RendererSearchResources/RendererSearchResources.tsx';
-import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
+import { Center, Group, Loader, Stack } from '@mantine/core';
+import { IconCards, IconSearch } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
+import { ListElementHeader } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
+import { RendererCardResources } from '@/parcels/lists/ListsOverview/ListRenderer/RendererCardResources/RendererCardResources.tsx';
+import { RendererSearchResources } from '@/parcels/lists/ListsOverview/ListRenderer/RendererSearchResources/RendererSearchResources.tsx';
+import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import styles from './GridListRenderer.module.css';
 
 export function GridListRenderer({

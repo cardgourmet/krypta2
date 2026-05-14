@@ -1,4 +1,4 @@
-import {createTheme, type DefaultMantineColor, type MantineColorsTuple, virtualColor} from '@mantine/core';
+import { createTheme, type DefaultMantineColor, type MantineColorsTuple, virtualColor } from '@mantine/core';
 
 type ExtendedCustomColors = 'neutral' | DefaultMantineColor;
 

@@ -1,11 +1,11 @@
-import {Group, Stack} from '@mantine/core';
-import {startTransition, useCallback, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import {type SortDirection, sortDirections, type TcgSetGroupBy} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import type {ApplyFn} from '@/parcels/types.ts';
+import { Group, Stack } from '@mantine/core';
+import { startTransition, useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import { type SortDirection, sortDirections, type TcgSetGroupBy } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 
 export type OverviewSettings = {
   groupBy: TcgSetGroupBy;

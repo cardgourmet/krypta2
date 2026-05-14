@@ -1,11 +1,11 @@
-import {Group, NumberInput, Stack} from '@mantine/core';
-import type {UseFormReturnType} from '@mantine/form';
-import {useContext} from 'react';
-import {useTranslation} from 'react-i18next';
-import type {AdvancedFormProps} from '@/parcels/search/advanced/form/types.ts';
-import {AdvancedFilterContext} from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
+import { Group, NumberInput, Stack } from '@mantine/core';
+import type { UseFormReturnType } from '@mantine/form';
+import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { AdvancedFormProps } from '@/parcels/search/advanced/form/types.ts';
+import { AdvancedFilterContext } from '@/parcels/search/advanced/overview/AdvancedFiltersOverview.tsx';
 import styles from '@/parcels/search/advanced/styled/mantineStyles.module.css';
-import {StyledSelect} from '@/parcels/search/advanced/styled/StyledSelect.tsx';
+import { StyledSelect } from '@/parcels/search/advanced/styled/StyledSelect.tsx';
 
 type NumberCompareProps = AdvancedFormProps & {};
 

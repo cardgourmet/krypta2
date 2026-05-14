@@ -1,14 +1,23 @@
-import {Button, type ButtonProps, Divider, Group, Stack, Text} from '@mantine/core';
-import {IconHistory, IconList, IconLogin, IconLogout, IconQuestionMark, IconSettings, IconStar, IconX,} from '@tabler/icons-react';
-import {Link, useNavigate} from '@tanstack/react-router';
-import {forwardRef, type ReactElement} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {MobileLanguageSelector} from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
-import {MobileThemeSelector} from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
-import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
-import {historyParamDefaults} from '@/routes/me/history';
-import {paramDefaults} from '@/routes/me/lists';
+import { Button, type ButtonProps, Divider, Group, Stack, Text } from '@mantine/core';
+import {
+  IconHistory,
+  IconList,
+  IconLogin,
+  IconLogout,
+  IconQuestionMark,
+  IconSettings,
+  IconStar,
+  IconX,
+} from '@tabler/icons-react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { forwardRef, type ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { MobileLanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
+import { MobileThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { historyParamDefaults } from '@/routes/me/history';
+import { paramDefaults } from '@/routes/me/lists';
 import styles from './MobileUserMenu.module.css';
 
 export function MobileUserMenu({ close }: { close: () => void }) {

@@ -1,10 +1,10 @@
-import {DlcInkAmber} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
-import {DlcInkAmethyst} from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
-import {DlcInkEmerald} from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
-import {DlcInkRuby} from '@/parcels/tcg/dlc/icons/ink/DlcInkRuby.tsx';
-import {DlcInkSapphire} from '@/parcels/tcg/dlc/icons/ink/DlcInkSapphire.tsx';
-import {DlcInkSteel} from '@/parcels/tcg/dlc/icons/ink/DlcInkSteel.tsx';
-import type {components as c} from '@/schema/api';
+import { DlcInkAmber } from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
+import { DlcInkAmethyst } from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
+import { DlcInkEmerald } from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
+import { DlcInkRuby } from '@/parcels/tcg/dlc/icons/ink/DlcInkRuby.tsx';
+import { DlcInkSapphire } from '@/parcels/tcg/dlc/icons/ink/DlcInkSapphire.tsx';
+import { DlcInkSteel } from '@/parcels/tcg/dlc/icons/ink/DlcInkSteel.tsx';
+import type { components as c } from '@/schema/api';
 
 type DlcInkSymbol = c['schemas']['DlcDataCard']['inkTypes'][number];
 

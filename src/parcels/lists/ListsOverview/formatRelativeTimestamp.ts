@@ -1,5 +1,5 @@
-import {formatDistanceToNow} from 'date-fns';
-import {de, enUS} from 'date-fns/locale';
+import { formatDistanceToNow } from 'date-fns';
+import { de, enUS } from 'date-fns/locale';
 
 export function formatRelativeTimestamp(dateString: string, locale: string): string {
   let date = new Date(dateString);

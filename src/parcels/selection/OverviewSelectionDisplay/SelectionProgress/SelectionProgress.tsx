@@ -1,7 +1,7 @@
-import {ActionIcon, Group, Popover, Progress, Stack} from '@mantine/core';
-import {IconAlertSquareRounded} from '@tabler/icons-react';
-import {Trans, useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { ActionIcon, Group, Popover, Progress, Stack } from '@mantine/core';
+import { IconAlertSquareRounded } from '@tabler/icons-react';
+import { Trans, useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './SelectionProgress.module.css';
 
 export function SelectionProgress({ sections, current, max }: { sections: number; current: number; max: number }) {

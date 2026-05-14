@@ -1,17 +1,17 @@
-import {Group, Stack} from '@mantine/core';
-import {IconSearch} from '@tabler/icons-react';
-import {useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import {ListDetailsCardGrid} from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
-import {ListDetailsHeader} from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
-import {ListDetailsSettings} from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
-import {SearchRenderer} from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
-import type {ResolvedUserListResource, UserList, UserListWithResources} from '@/parcels/lists/types.ts';
-import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
-import {Route} from '@/routes/me/lists/$listId.tsx';
+import { Group, Stack } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
+import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
+import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
+import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
+import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { Route } from '@/routes/me/lists/$listId.tsx';
 
 export function ListDetails() {
   const { t } = useTranslation('lists');

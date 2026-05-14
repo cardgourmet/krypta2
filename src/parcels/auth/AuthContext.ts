@@ -1,5 +1,5 @@
-import {createContext, useContext} from 'react';
-import type {AuthApiUserIntegration, DataAuthUser} from '@/parcels/auth/api.ts';
+import { createContext, useContext } from 'react';
+import type { AuthApiUserIntegration, DataAuthUser } from '@/parcels/auth/api.ts';
 
 export const AuthContext = createContext<AuthData | null>(null);
 

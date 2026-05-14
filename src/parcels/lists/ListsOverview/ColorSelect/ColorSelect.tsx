@@ -1,5 +1,5 @@
-import {Group, Stack, UnstyledButton} from '@mantine/core';
-import {useEffect, useState} from 'react';
+import { Group, Stack, UnstyledButton } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import styles from './ColorSelect.module.css';
 
 export function ColorSelect({ value, onChange }: { value: string | undefined; onChange: (v?: string) => void }) {

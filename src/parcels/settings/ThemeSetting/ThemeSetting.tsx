@@ -1,5 +1,5 @@
-import {Group, type MantineColorScheme, Radio, RadioGroup, Stack, useMantineColorScheme} from '@mantine/core';
-import {useTranslation} from 'react-i18next';
+import { Group, type MantineColorScheme, Radio, RadioGroup, Stack, useMantineColorScheme } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
 export function ThemeSetting() {
   const { t } = useTranslation('auth', { keyPrefix: 'settings.groups.general.theme' });

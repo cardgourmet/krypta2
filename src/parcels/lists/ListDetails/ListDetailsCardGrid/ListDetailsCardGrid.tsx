@@ -1,13 +1,13 @@
-import {Group, SimpleGrid, Stack} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {IconCards} from '@tabler/icons-react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Group, SimpleGrid, Stack } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { IconCards } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import CardRenderer from '@/parcels/lists/ListDetails/CardRenderer.tsx';
-import type {ResolvedUserListResource, UserList, UserListWithResources} from '@/parcels/lists/types.ts';
-import {useTcg} from '@/parcels/tcg/TcgProvider.tsx';
-import {Route} from '@/routes/me/lists/$listId.tsx';
-import type {components} from '@/schema/api';
+import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { Route } from '@/routes/me/lists/$listId.tsx';
+import type { components } from '@/schema/api';
 
 export function ListDetailsCardGrid({
   list,

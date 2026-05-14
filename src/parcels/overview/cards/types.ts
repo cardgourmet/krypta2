@@ -1,4 +1,4 @@
-import type {DisplayMode, SortDirection} from '@/parcels/tcg/types.ts';
+import type { DisplayMode, SortDirection } from '@/parcels/tcg/types.ts';
 
 export type CardSearchParams = {
   query?: string;

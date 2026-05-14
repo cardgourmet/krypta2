@@ -1,15 +1,15 @@
-import {Button, Drawer, Group} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {IconSettings} from '@tabler/icons-react';
-import {useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import type {OverviewSettings} from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
-import {DesktopOverviewSettings} from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/DesktopOverviewSettings/DesktopOverviewSettings.tsx';
-import {MobileOverviewSettings} from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/MobileOverviewSettings/MobileOverviewSettings.tsx';
-import {dlcSortBys, dlcUniqueBys} from '@/parcels/tcg/dlc/types.ts';
-import {mtgSortBys, mtgUniqueBys} from '@/parcels/tcg/mtg/types.ts';
-import {pcgSortBys, pcgUniqueBys} from '@/parcels/tcg/pcg/types.ts';
+import { Button, Drawer, Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { IconSettings } from '@tabler/icons-react';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import type { OverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
+import { DesktopOverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/DesktopOverviewSettings/DesktopOverviewSettings.tsx';
+import { MobileOverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/MobileOverviewSettings/MobileOverviewSettings.tsx';
+import { dlcSortBys, dlcUniqueBys } from '@/parcels/tcg/dlc/types.ts';
+import { mtgSortBys, mtgUniqueBys } from '@/parcels/tcg/mtg/types.ts';
+import { pcgSortBys, pcgUniqueBys } from '@/parcels/tcg/pcg/types.ts';
 import {
   type SortDirection,
   sortDirections,
@@ -19,8 +19,8 @@ import {
   type TcgSortBy,
   type TcgUniqueBy,
 } from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import type {ApplyFn} from '@/parcels/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 import styles from './CardOverviewSettings.module.css';
 
 export type CardOverviewSettingsProps = {

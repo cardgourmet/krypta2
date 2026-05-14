@@ -1,6 +1,6 @@
-import {Menu} from '@mantine/core';
-import type {Dispatch, PropsWithChildren, SetStateAction} from 'react';
-import {ViewSelectionPages} from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionPages/ViewSelectionPages.tsx';
+import { Menu } from '@mantine/core';
+import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
+import { ViewSelectionPages } from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionPages/ViewSelectionPages.tsx';
 import styles from './ViewSelectionMenu.module.css';
 
 export function ViewSelectionMenu({

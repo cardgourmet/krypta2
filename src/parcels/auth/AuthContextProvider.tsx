@@ -1,8 +1,14 @@
-import {useLocalStorage} from '@mantine/hooks';
-import {type PropsWithChildren, useCallback, useEffect, useMemo, useState} from 'react';
-import {AuthContext, type UserSession} from '@/parcels/auth/AuthContext.ts';
-import {type AuthApiUserIntegration, type DataAuthUser, getCurrentLoggedInUser, listUserIntegrations, logout as doLogout,} from '@/parcels/auth/api.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
+import { useLocalStorage } from '@mantine/hooks';
+import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import { AuthContext, type UserSession } from '@/parcels/auth/AuthContext.ts';
+import {
+  type AuthApiUserIntegration,
+  type DataAuthUser,
+  logout as doLogout,
+  getCurrentLoggedInUser,
+  listUserIntegrations,
+} from '@/parcels/auth/api.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 
 export const CGM_USER_SESSION = 'cgm-user-session';
 export const CGM_USER = 'cgm-user';

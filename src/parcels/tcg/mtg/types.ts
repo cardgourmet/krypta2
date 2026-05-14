@@ -1,5 +1,9 @@
-import type {CardSearchDisplaySettings, CardSearchParams, CardSearchQuerySettings,} from '@/parcels/overview/cards/types.ts';
-import type {DisplayMode, SortDirection} from '@/parcels/tcg/types.ts';
+import type {
+  CardSearchDisplaySettings,
+  CardSearchParams,
+  CardSearchQuerySettings,
+} from '@/parcels/overview/cards/types.ts';
+import type { DisplayMode, SortDirection } from '@/parcels/tcg/types.ts';
 
 export const mtgSortBys = [
   'name',

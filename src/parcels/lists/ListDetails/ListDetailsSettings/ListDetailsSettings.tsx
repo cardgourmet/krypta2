@@ -1,17 +1,17 @@
-import {Group, Stack} from '@mantine/core';
-import {useNavigate} from '@tanstack/react-router';
-import {startTransition, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import type {UserList} from '@/parcels/lists/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from '@/routes/me/lists/$listId.tsx';
+import { Group, Stack } from '@mantine/core';
+import { useNavigate } from '@tanstack/react-router';
+import { startTransition, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import type { UserList } from '@/parcels/lists/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { Route } from '@/routes/me/lists/$listId.tsx';
 
-export function ListDetailsSettings({list}: { list: UserList }) {
-  const {t} = useTranslation('lists', {keyPrefix: 'details.settings'});
-  const {t: t2} = useTranslation('lists', {keyPrefix: 'details.settings.sortBy'});
-  const {t: t3} = useTranslation('lists', {keyPrefix: 'details.settings.sortDir'});
+export function ListDetailsSettings({ list }: { list: UserList }) {
+  const { t } = useTranslation('lists', { keyPrefix: 'details.settings' });
+  const { t: t2 } = useTranslation('lists', { keyPrefix: 'details.settings.sortBy' });
+  const { t: t3 } = useTranslation('lists', { keyPrefix: 'details.settings.sortDir' });
   const search = Route.useSearch();
 
   const [selectedTcg, setSelectedTcg] = useState<Tcg>(search.tcg ?? 'mtg');
@@ -44,7 +44,7 @@ export function ListDetailsSettings({list}: { list: UserList }) {
                   params: {
                     listId: list.slug,
                   },
-                  search: (prev) => ({...prev, tcg: sel as Tcg}),
+                  search: (prev) => ({ ...prev, tcg: sel as Tcg }),
                   replace: true,
                 });
               });
@@ -74,7 +74,7 @@ export function ListDetailsSettings({list}: { list: UserList }) {
                   params: {
                     listId: list.slug,
                   },
-                  search: () => ({...search, sort: sel as 'name' | 'addedAt'}),
+                  search: () => ({ ...search, sort: sel as 'name' | 'addedAt' }),
                   replace: true,
                 });
               });
@@ -99,7 +99,7 @@ export function ListDetailsSettings({list}: { list: UserList }) {
                   params: {
                     listId: list.slug,
                   },
-                  search: () => ({...search, order: sel as 'asc' | 'desc' | 'auto'}),
+                  search: () => ({ ...search, order: sel as 'asc' | 'desc' | 'auto' }),
                   replace: true,
                 });
               });

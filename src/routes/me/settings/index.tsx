@@ -1,5 +1,5 @@
-import {createFileRoute, redirect} from '@tanstack/react-router';
-import {SettingsOverview} from '@/parcels/settings/SettingsOverview.tsx';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { SettingsOverview } from '@/parcels/settings/SettingsOverview.tsx';
 
 export const Route = createFileRoute('/me/settings/')({
   component: RouteComponent,

@@ -1,4 +1,4 @@
-import type {RefObject} from 'react';
+import type { RefObject } from 'react';
 import styles from './FlipImage.module.css';
 
 export function FlipImage({

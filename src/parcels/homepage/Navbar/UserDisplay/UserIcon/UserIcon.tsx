@@ -1,7 +1,7 @@
-import {Group} from '@mantine/core';
-import {IconQuestionMark} from '@tabler/icons-react';
-import {forwardRef} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import { Group } from '@mantine/core';
+import { IconQuestionMark } from '@tabler/icons-react';
+import { forwardRef } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from './UserIcon.module.css';
 
 export const UserIcon = forwardRef<HTMLButtonElement, { onClick?: () => void }>(({ onClick }, ref) => {

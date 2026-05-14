@@ -1,13 +1,13 @@
-import {ActionIcon, Grid, Group, Popover, Stack} from '@mantine/core';
-import {IconInfoCircle, IconLabelFilled} from '@tabler/icons-react';
-import {useState} from 'react';
-import {Trans, useTranslation} from 'react-i18next';
-import {GourmetMultiSelect} from '@/parcels/generic/mantine/GourmetMultiSelect/GourmetMultiSelect.tsx';
-import {GourmetSelect} from '@/parcels/generic/mantine/GourmetSelect/GourmetSelect.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {GourmetTextInput} from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
-import {ColorSelect} from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
-import type {useListForm} from '@/parcels/lists/ListsOverview/useListForm.ts';
+import { ActionIcon, Grid, Group, Popover, Stack } from '@mantine/core';
+import { IconInfoCircle, IconLabelFilled } from '@tabler/icons-react';
+import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { GourmetMultiSelect } from '@/parcels/generic/mantine/GourmetMultiSelect/GourmetMultiSelect.tsx';
+import { GourmetSelect } from '@/parcels/generic/mantine/GourmetSelect/GourmetSelect.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
+import { ColorSelect } from '@/parcels/lists/ListsOverview/ColorSelect/ColorSelect.tsx';
+import type { useListForm } from '@/parcels/lists/ListsOverview/useListForm.ts';
 import styles from './ListValuesForm.module.css';
 
 export type ListValues = {

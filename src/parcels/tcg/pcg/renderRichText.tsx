@@ -1,6 +1,6 @@
-import type {ReactElement, ReactNode} from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import reactStringReplace from 'react-string-replace';
-import {type PcgSymbol, PcgSymbolSVG} from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
+import { type PcgSymbol, PcgSymbolSVG } from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
 
 export function renderRichPcgText(line: string, useFont?: boolean): ReactElement {
   let formattedLine: ReactNode[] = [line];

@@ -1,17 +1,17 @@
-import {ActionIcon, Tooltip} from '@mantine/core';
-import {IconBook, IconBook2} from '@tabler/icons-react';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
-import {formatRelativeTimestamp} from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
-import {deleteSavedSearches, saveSearches} from '@/parcels/search/api.ts';
-import {useSearchHistory} from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import { ActionIcon, Tooltip } from '@mantine/core';
+import { IconBook, IconBook2 } from '@tabler/icons-react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
+import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
+import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
-import type {PagedUserSearchHistoryEntry} from '@/parcels/search/types.ts';
-import {Route} from '@/routes/me/history';
+import type { PagedUserSearchHistoryEntry } from '@/parcels/search/types.ts';
+import { Route } from '@/routes/me/history';
 
 export function useTableData({
   historyData,

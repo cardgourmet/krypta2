@@ -1,24 +1,31 @@
-import {Center, Loader, Overlay} from '@mantine/core';
-import {IconBrush, IconMeteorFilled, IconNumbers, IconSparkles, IconTextSize, IconUserScan,} from '@tabler/icons-react';
-import {useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
-import {AdvancedFilterCategory} from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
-import {AdvancedFormMultiCheckbox} from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
-import {AdvancedFormMultiSelect} from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
-import {AdvancedFormNumberCompare} from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
-import {AdvancedFormText} from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
-import {getFilterValue, useFilterValue, useFilterValues} from '@/parcels/search/filter/useFilterValues.ts';
-import {PcgEnergyColorless} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
-import {PcgEnergyDarkness} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
-import {PcgEnergyDragon} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
-import {PcgEnergyFairy} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFairy.tsx';
-import {PcgEnergyFighting} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFighting.tsx';
-import {PcgEnergyFire} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFire.tsx';
-import {PcgEnergyGrass} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyGrass.tsx';
-import {PcgEnergyLightning} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyLightning.tsx';
-import {PcgEnergyMetal} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyMetal.tsx';
-import {PcgEnergyPsychic} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.tsx';
-import {PcgEnergyWater} from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
+import { Center, Loader, Overlay } from '@mantine/core';
+import {
+  IconBrush,
+  IconMeteorFilled,
+  IconNumbers,
+  IconSparkles,
+  IconTextSize,
+  IconUserScan,
+} from '@tabler/icons-react';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AdvancedFilterCategory } from '@/parcels/search/advanced/form/AdvancedFilterCategory.tsx';
+import { AdvancedFormMultiCheckbox } from '@/parcels/search/advanced/form/AdvancedFormMultiCheckbox.tsx';
+import { AdvancedFormMultiSelect } from '@/parcels/search/advanced/form/AdvancedFormMultiSelect.tsx';
+import { AdvancedFormNumberCompare } from '@/parcels/search/advanced/form/AdvancedFormNumberCompare.tsx';
+import { AdvancedFormText } from '@/parcels/search/advanced/form/AdvancedFormText.tsx';
+import { getFilterValue, useFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
+import { PcgEnergyColorless } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
+import { PcgEnergyDarkness } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
+import { PcgEnergyDragon } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
+import { PcgEnergyFairy } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFairy.tsx';
+import { PcgEnergyFighting } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFighting.tsx';
+import { PcgEnergyFire } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyFire.tsx';
+import { PcgEnergyGrass } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyGrass.tsx';
+import { PcgEnergyLightning } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyLightning.tsx';
+import { PcgEnergyMetal } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyMetal.tsx';
+import { PcgEnergyPsychic } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.tsx';
+import { PcgEnergyWater } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
 
 export function PcgAdvancedFilters() {
   const { t } = useTranslation('advanced', { keyPrefix: 'pcg' });

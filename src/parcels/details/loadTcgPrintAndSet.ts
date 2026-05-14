@@ -1,9 +1,9 @@
-import {notFound, redirect} from '@tanstack/react-router';
-import {slugify} from '@/parcels/slugify.ts';
-import {fetchDlcPrint, fetchDlcSet} from '@/parcels/tcg/dlc/api.ts';
-import {fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import {fetchPcgPrint, fetchPcgSet} from '@/parcels/tcg/pcg/api.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { notFound, redirect } from '@tanstack/react-router';
+import { slugify } from '@/parcels/slugify.ts';
+import { fetchDlcPrint, fetchDlcSet } from '@/parcels/tcg/dlc/api.ts';
+import { fetchMtgPrint, fetchMtgSet, type MtgDataCard, type MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import { fetchPcgPrint, fetchPcgSet } from '@/parcels/tcg/pcg/api.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type TcgDetailParams = {
   setCode: string;

@@ -1,5 +1,5 @@
-import {useLocation} from '@tanstack/react-router';
-import {useMemo} from 'react';
+import { useLocation } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 export type Tcg = 'dlc' | 'pcg' | 'mtg';
 

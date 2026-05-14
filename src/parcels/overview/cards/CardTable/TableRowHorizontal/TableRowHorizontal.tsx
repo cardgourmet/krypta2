@@ -1,11 +1,11 @@
-import {ActionIcon, Checkbox, Group} from '@mantine/core';
-import {IconDotsVertical} from '@tabler/icons-react';
-import {Activity, type ReactElement, useMemo} from 'react';
-import type {TcgDataCard} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {ExistsInListsBadge} from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
+import { ActionIcon, Checkbox, Group } from '@mantine/core';
+import { IconDotsVertical } from '@tabler/icons-react';
+import { Activity, type ReactElement, useMemo } from 'react';
+import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import styles from '@/parcels/overview/cards/CardTable/CardTable.module.css';
-import {useCardMenuStore} from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import {useTcgOverviewWorkStore} from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 
 export function TableRowHorizontal({
   card,

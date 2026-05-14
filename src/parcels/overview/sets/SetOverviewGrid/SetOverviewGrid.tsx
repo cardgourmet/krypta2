@@ -1,10 +1,10 @@
-import {SimpleGrid, Stack} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {SetCard} from '@/parcels/overview/sets/SetCard.tsx';
-import type {PcgDataEra} from '@/parcels/tcg/pcg/api.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { SimpleGrid, Stack } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { SetCard } from '@/parcels/overview/sets/SetCard.tsx';
+import type { PcgDataEra } from '@/parcels/tcg/pcg/api.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SetOverviewGrid({
   tcg,

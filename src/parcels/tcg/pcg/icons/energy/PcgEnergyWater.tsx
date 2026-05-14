@@ -1,5 +1,5 @@
+import { rem } from '@mantine/core';
 import type React from 'react';
-import {rem} from '@mantine/core';
 
 interface PcgEnergyIconProps extends React.ComponentPropsWithoutRef<'svg'> {
   size?: number | string;

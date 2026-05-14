@@ -1,14 +1,14 @@
-import {Center, Group, Stack} from '@mantine/core';
-import {Link} from '@tanstack/react-router';
-import {useTranslation} from 'react-i18next';
-import type {TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Center, Group, Stack } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from '@/parcels/overview/sets/SetsOverview.module.css';
-import type {DlcDataSet} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgDataSet} from '@/parcels/tcg/pcg/api.ts';
-import {TcgSetIcon} from '@/parcels/tcg/TcgSetIcon.tsx';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import type { DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import { TcgSetIcon } from '@/parcels/tcg/TcgSetIcon.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SetCard({ tcg, set }: { tcg: Tcg; set: TcgDataSet }) {
   const { t } = useTranslation('sets', { keyPrefix: 'overview.card' });

@@ -1,7 +1,7 @@
-import {createContext, type PropsWithChildren, useCallback, useMemo, useState} from 'react';
-import {useAddSelection} from '@/parcels/selection/useAddSelection.ts';
-import {useRemoveSelection} from '@/parcels/selection/useRemoveSelection.ts';
-import type {TcgSearchCardsResult, TcgSearchDataCard} from '@/parcels/tcg/types.ts';
+import { createContext, type PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { useAddSelection } from '@/parcels/selection/useAddSelection.ts';
+import { useRemoveSelection } from '@/parcels/selection/useRemoveSelection.ts';
+import type { TcgSearchCardsResult, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 
 export const TcgOverviewWorkContext = createContext<TcgOverviewWorkSpace | null>(null);
 

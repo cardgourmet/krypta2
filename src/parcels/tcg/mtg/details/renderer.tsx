@@ -1,10 +1,10 @@
-import type {ReactElement} from 'react';
-import type {TcgDetailParams} from '@/parcels/details/loadTcgPrintAndSet.ts';
-import type {TcgDataCard, TcgDataSet} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {slugify} from '@/parcels/slugify.ts';
-import type {MtgDataCard, MtgDataSet} from '@/parcels/tcg/mtg/api.ts';
-import {MtgPrintFaceContentRenderer} from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
-import {MtgPrintMetaRenderer} from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
+import type { ReactElement } from 'react';
+import type { TcgDetailParams } from '@/parcels/details/loadTcgPrintAndSet.ts';
+import type { TcgDataCard, TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { slugify } from '@/parcels/slugify.ts';
+import type { MtgDataCard, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
+import { MtgPrintFaceContentRenderer } from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
+import { MtgPrintMetaRenderer } from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 
 export function findMtgParamsByLanguage(cardWithPrints: TcgDataCard, lang: string): TcgDetailParams {
   const card = cardWithPrints as MtgDataCard;

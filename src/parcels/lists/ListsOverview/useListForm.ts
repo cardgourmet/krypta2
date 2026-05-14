@@ -1,7 +1,7 @@
-import {useForm} from '@mantine/form';
-import {useEffect} from 'react';
-import {validate} from 'uuid';
-import type {UserList} from '@/parcels/lists/types.ts';
+import { useForm } from '@mantine/form';
+import { useEffect } from 'react';
+import { validate } from 'uuid';
+import type { UserList } from '@/parcels/lists/types.ts';
 
 export function useListForm(props?: { list?: Partial<UserList> }) {
   const form = useForm({

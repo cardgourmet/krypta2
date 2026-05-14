@@ -1,4 +1,4 @@
-import {type MutableRefObject, useEffect, useRef} from "react"; // noinspection JSDeprecatedSymbols
+import { type MutableRefObject, useEffect, useRef } from 'react'; // noinspection JSDeprecatedSymbols
 
 // noinspection JSDeprecatedSymbols
 /**

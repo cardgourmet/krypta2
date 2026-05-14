@@ -1,10 +1,10 @@
-import {Center, Combobox, Group, UnstyledButton, useCombobox} from '@mantine/core';
-import {useLocalStorage} from '@mantine/hooks';
-import {IconCheck, IconLanguage} from '@tabler/icons-react';
-import {startTransition, useCallback, useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {CGM_THEME} from '@/parcels/auth/AuthContextProvider.tsx';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Center, Combobox, Group, UnstyledButton, useCombobox } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
+import { IconCheck, IconLanguage } from '@tabler/icons-react';
+import { startTransition, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { CGM_THEME } from '@/parcels/auth/AuthContextProvider.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './LanguageSelector.module.css';
 
 export function LanguageSelector() {

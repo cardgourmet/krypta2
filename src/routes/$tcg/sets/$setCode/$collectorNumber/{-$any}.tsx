@@ -1,12 +1,27 @@
-import {createFileRoute, notFound, stripSearchParams} from '@tanstack/react-router';
-import {useMemo} from 'react';
-import {cardDetailDefaults, cardDetailSearchSchema} from '@/parcels/details/CardDetailsSearch.ts';
-import {loadTcgPrintAndSet} from '@/parcels/details/loadTcgPrintAndSet.ts';
-import {TcgPrintDetails} from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import {constructDlcPageTitle, constructDlcPrintFaces, constructDlcPrintMeta, findDlcParamsByLanguage,} from '@/parcels/tcg/dlc/details/renderer.tsx';
-import {constructMtgPageTitle, constructMtgPrintFaces, constructMtgPrintMeta, findMtgParamsByLanguage,} from '@/parcels/tcg/mtg/details/renderer.tsx';
-import {constructPcgPageTitle, constructPcgPrintFaces, constructPcgPrintMeta, findPcgParamsByLanguage,} from '@/parcels/tcg/pcg/details/renderer.tsx';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
+import { useMemo } from 'react';
+import { cardDetailDefaults, cardDetailSearchSchema } from '@/parcels/details/CardDetailsSearch.ts';
+import { loadTcgPrintAndSet } from '@/parcels/details/loadTcgPrintAndSet.ts';
+import { TcgPrintDetails } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import {
+  constructDlcPageTitle,
+  constructDlcPrintFaces,
+  constructDlcPrintMeta,
+  findDlcParamsByLanguage,
+} from '@/parcels/tcg/dlc/details/renderer.tsx';
+import {
+  constructMtgPageTitle,
+  constructMtgPrintFaces,
+  constructMtgPrintMeta,
+  findMtgParamsByLanguage,
+} from '@/parcels/tcg/mtg/details/renderer.tsx';
+import {
+  constructPcgPageTitle,
+  constructPcgPrintFaces,
+  constructPcgPrintMeta,
+  findPcgParamsByLanguage,
+} from '@/parcels/tcg/pcg/details/renderer.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const Route = createFileRoute('/$tcg/sets/$setCode/$collectorNumber/{-$any}')({
   component: RouteComponent,

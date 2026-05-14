@@ -1,4 +1,4 @@
-import {createFileRoute, redirect, stripSearchParams} from '@tanstack/react-router';
+import { createFileRoute, redirect, stripSearchParams } from '@tanstack/react-router';
 import z from 'zod';
 import ListsOverview from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
 

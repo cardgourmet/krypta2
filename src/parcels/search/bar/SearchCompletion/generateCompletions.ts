@@ -1,12 +1,12 @@
-import {quickScore} from 'quick-score';
-import type {GourmetApiResponse} from '@/parcels/api/handleApiCall.ts';
-import type {FilterValuesByKeyword} from '@/parcels/search/filter/FilterCacheStore.tsx';
-import {levenshtein} from '@/parcels/search/levenshtein.ts';
-import type {DlcSearchFilter} from '@/parcels/tcg/dlc/api.ts';
-import type {MtgSearchFilter} from '@/parcels/tcg/mtg/api.ts';
-import type {PcgSearchFilter} from '@/parcels/tcg/pcg/api.ts';
-import type {SearchQueryExecutorFilter, TcgFilterOperator} from '@/parcels/tcg/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { quickScore } from 'quick-score';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import type { FilterValuesByKeyword } from '@/parcels/search/filter/FilterCacheStore.tsx';
+import { levenshtein } from '@/parcels/search/levenshtein.ts';
+import type { DlcSearchFilter } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgSearchFilter } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgSearchFilter } from '@/parcels/tcg/pcg/api.ts';
+import type { SearchQueryExecutorFilter, TcgFilterOperator } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type SearchFilterStore = {
   pcg: PcgSearchFilter[];

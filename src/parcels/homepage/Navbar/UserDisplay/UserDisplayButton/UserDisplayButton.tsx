@@ -1,9 +1,9 @@
-import {Group, Stack, Text, UnstyledButton} from '@mantine/core';
-import {IconAlertHexagonFilled, IconUser} from '@tabler/icons-react';
-import {forwardRef} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
+import { IconAlertHexagonFilled, IconUser } from '@tabler/icons-react';
+import { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './UserDisplayButton.module.css';
 
 export const UserDisplayButton = forwardRef<HTMLButtonElement, { toggle: () => void }>(({ toggle }, ref) => {

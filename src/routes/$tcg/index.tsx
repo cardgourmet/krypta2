@@ -1,5 +1,5 @@
-import {createFileRoute, notFound, redirect} from '@tanstack/react-router';
-import type {TcgSearchParams} from '@/parcels/tcg/types.ts';
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router';
+import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 
 export const Route = createFileRoute('/$tcg/')({
   beforeLoad: ({ params }) => {

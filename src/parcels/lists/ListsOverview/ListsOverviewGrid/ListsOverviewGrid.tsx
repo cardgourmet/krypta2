@@ -1,8 +1,8 @@
-import {Loader, SimpleGrid} from '@mantine/core';
-import {useMediaQuery} from '@mantine/hooks';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {GridListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
-import type {UserListWithResources} from '@/parcels/lists/types.ts';
+import { Loader, SimpleGrid } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { GridListRenderer } from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
+import type { UserListWithResources } from '@/parcels/lists/types.ts';
 
 export function ListsOverviewGrid({
   isLoading,

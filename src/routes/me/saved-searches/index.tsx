@@ -1,6 +1,6 @@
-import {createFileRoute, redirect, stripSearchParams} from '@tanstack/react-router'
-import z from "zod";
-import {SavedSearchesOverview} from "@/parcels/search/saved/SavedSearchesOverview.tsx";
+import { createFileRoute, redirect, stripSearchParams } from '@tanstack/react-router';
+import z from 'zod';
+import { SavedSearchesOverview } from '@/parcels/search/saved/SavedSearchesOverview.tsx';
 
 export const savedSearchesParamDefaults = {
   sortDir: 'desc' as 'asc' | 'desc',

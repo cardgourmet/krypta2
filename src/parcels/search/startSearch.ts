@@ -1,7 +1,7 @@
-import {useNavigate} from '@tanstack/react-router';
-import {useCallback} from 'react';
-import type {DlcSearchParams} from '@/parcels/tcg/dlc/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { useNavigate } from '@tanstack/react-router';
+import { useCallback } from 'react';
+import type { DlcSearchParams } from '@/parcels/tcg/dlc/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function useStartSearch(tcg: Tcg, query: string) {
   const navigate = useNavigate();

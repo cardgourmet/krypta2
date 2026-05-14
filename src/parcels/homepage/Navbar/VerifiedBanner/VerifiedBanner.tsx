@@ -1,7 +1,7 @@
-import {Group, Modal, Text, UnstyledButton} from '@mantine/core';
-import {useDisclosure, useMediaQuery} from '@mantine/hooks';
-import {IconChecks, IconX} from '@tabler/icons-react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import { Group, Modal, Text, UnstyledButton } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { IconChecks, IconX } from '@tabler/icons-react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from './VerifiedBanner.module.css';
 
 export function VerifiedBanner() {

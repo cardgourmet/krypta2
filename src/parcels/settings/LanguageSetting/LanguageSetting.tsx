@@ -1,10 +1,10 @@
-import {ActionIcon, Combobox, Group, Loader, Stack, UnstyledButton, useCombobox} from '@mantine/core';
-import {IconCaretDownFilled, IconCheck, IconEdit, IconX} from '@tabler/icons-react';
-import {startTransition, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {updateUserSettings} from '@/parcels/auth/api.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import { ActionIcon, Combobox, Group, Loader, Stack, UnstyledButton, useCombobox } from '@mantine/core';
+import { IconCaretDownFilled, IconCheck, IconEdit, IconX } from '@tabler/icons-react';
+import { startTransition, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { updateUserSettings } from '@/parcels/auth/api.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './LanguageSetting.module.css';
 
 export function LanguageSetting({

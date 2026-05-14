@@ -1,9 +1,9 @@
-import {createContext, type ReactNode, useCallback, useEffect, useMemo, useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {useGourmetNotification} from '@/parcels/notification/useGourmetNotification.ts';
-import {fetchSearchHistory} from '@/parcels/search/api.ts';
-import type {ExplainSearchQuery} from '@/parcels/search/types.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { createContext, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { fetchSearchHistory } from '@/parcels/search/api.ts';
+import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export const SearchHistoryContext = createContext<SearchHistory | null>(null);
 

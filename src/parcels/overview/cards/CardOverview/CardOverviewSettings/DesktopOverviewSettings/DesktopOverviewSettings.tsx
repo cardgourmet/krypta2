@@ -1,14 +1,14 @@
-import {Center, Group, SegmentedControl, UnstyledButton} from '@mantine/core';
-import {IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off} from '@tabler/icons-react';
-import type {TFunction} from 'i18next';
-import {startTransition, useEffect, useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import type {OverviewSettings} from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
+import { Center, Group, SegmentedControl, UnstyledButton } from '@mantine/core';
+import { IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off } from '@tabler/icons-react';
+import type { TFunction } from 'i18next';
+import { startTransition, useEffect, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import type { OverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
 import styles from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/CardOverviewSettings.module.css';
-import type {DisplayMode, SortDirection, TcgSearchParams, TcgSortBy, TcgUniqueBy} from '@/parcels/tcg/types.ts';
-import type {ApplyFn} from '@/parcels/types.ts';
+import type { DisplayMode, SortDirection, TcgSearchParams, TcgSortBy, TcgUniqueBy } from '@/parcels/tcg/types.ts';
+import type { ApplyFn } from '@/parcels/types.ts';
 
 export function DesktopOverviewSettings({
   t,

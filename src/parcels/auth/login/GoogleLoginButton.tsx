@@ -1,12 +1,12 @@
-import {Button, Group, Loader, Stack} from '@mantine/core';
-import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
-import {IconBrandGoogleFilled} from '@tabler/icons-react';
-import {useNavigate} from '@tanstack/react-router';
-import {startTransition, useState} from 'react';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {loginUsingOAuth} from '@/parcels/auth/api.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {Route} from '@/routes/login';
+import { Button, Group, Loader, Stack } from '@mantine/core';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import { IconBrandGoogleFilled } from '@tabler/icons-react';
+import { useNavigate } from '@tanstack/react-router';
+import { startTransition, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { loginUsingOAuth } from '@/parcels/auth/api.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Route } from '@/routes/login';
 
 export function GoogleLoginButton() {
   return (

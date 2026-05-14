@@ -1,8 +1,8 @@
-import type {DlcSearchDataCard} from "@/parcels/tcg/dlc/api.ts";
-import type {MtgSearchDataCard} from "@/parcels/tcg/mtg/api.ts";
-import type {PcgSearchDataCard} from "@/parcels/tcg/pcg/api.ts";
-import type {TcgSearchDataCard} from "@/parcels/tcg/types.ts";
-import type {Tcg} from "@/parcels/tcg/useTcgByLocation.ts";
+import type { DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type CardProperties = {
   id: string;

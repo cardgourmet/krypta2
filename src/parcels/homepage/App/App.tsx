@@ -1,11 +1,11 @@
-import {NavigationProgress, nprogress} from '@mantine/nprogress';
-import {Outlet, useRouter} from '@tanstack/react-router';
-import {useState} from 'react';
-import {Footer} from '@/parcels/homepage/Footer/Footer.tsx';
+import { NavigationProgress, nprogress } from '@mantine/nprogress';
+import { Outlet, useRouter } from '@tanstack/react-router';
+import { useState } from 'react';
+import { Footer } from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import {TcgOverviewWorkContextProvider} from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
+import { TcgOverviewWorkContextProvider } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
 import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './App.module.css';
 

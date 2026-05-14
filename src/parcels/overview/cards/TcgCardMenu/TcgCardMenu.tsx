@@ -1,18 +1,18 @@
-import {Group, Menu, Stack} from '@mantine/core';
-import {useDisclosure} from '@mantine/hooks';
-import {IconLink, IconStar} from '@tabler/icons-react';
-import {Activity, type Ref, useCallback, useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useAuth} from '@/parcels/auth/AuthContext.ts';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {ListAddMenuItem} from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
-import {ListMenuItem} from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import {ListRemoveMenuItem} from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
-import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
-import {CreateListModal} from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import {useCardMenuStore} from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import {slugify} from '@/parcels/slugify.ts';
-import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
+import { Group, Menu, Stack } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconLink, IconStar } from '@tabler/icons-react';
+import { Activity, type Ref, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
+import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
+import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
+import { slugify } from '@/parcels/slugify.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './TcgCardMenu.module.css';
 
 export function TcgCardMenu({

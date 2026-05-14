@@ -1,6 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
-import {calculateCardRange} from '@/parcels/overview/cards/calculateCardRange.ts';
-import {parseSearchExplanation} from '@/parcels/search/parseSearchExplanation.ts';
+import { calculateCardRange } from '@/parcels/overview/cards/calculateCardRange.ts';
+import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
 import styles from './QueryExplanation.module.css';
 
 type QueryExplanationProps = {

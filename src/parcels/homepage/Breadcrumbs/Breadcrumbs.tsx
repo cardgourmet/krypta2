@@ -1,8 +1,8 @@
-import {Group, Stack} from '@mantine/core';
-import {IconChefHat, IconSlash} from '@tabler/icons-react';
-import {Link} from '@tanstack/react-router';
-import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
-import {useTcgByLocation} from '@/parcels/tcg/useTcgByLocation.ts';
+import { Group, Stack } from '@mantine/core';
+import { IconChefHat, IconSlash } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
