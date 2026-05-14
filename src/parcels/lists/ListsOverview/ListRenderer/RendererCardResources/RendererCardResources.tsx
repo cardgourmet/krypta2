@@ -19,7 +19,7 @@ export function RendererCardResources({ resources }: { resources: ResolvedUserLi
         } as TcgSearchDataCard);
 
         return (
-          <ImageCard key={resource.listResource.resourceId} tcg={cardTcg} prop={prop} style={{ height: '100%' }} />
+          <ImageCard key={resource.listResource.resourceId} tcg={cardTcg} prop={prop} style={{ height: '8rem' }} />
         );
       })}
     </>

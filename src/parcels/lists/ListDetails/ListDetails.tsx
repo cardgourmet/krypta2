@@ -1,11 +1,11 @@
-import {Group, SimpleGrid, Stack} from '@mantine/core';
-import {IconCards, IconSearch} from '@tabler/icons-react';
+import {Group, Stack} from '@mantine/core';
+import {IconSearch} from '@tabler/icons-react';
 import {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import {CardRenderer} from '@/parcels/lists/ListDetails/CardRenderer.tsx';
+import {ListDetailsCardGrid} from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
 import {ListDetailsHeader} from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
 import {ListDetailsSettings} from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import {SearchRenderer} from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
@@ -146,41 +146,13 @@ export function ListDetails() {
           )}
 
           {sortedCardResoures.length > 0 && (
-            <Stack>
-              <Group gap={'0.5rem'}>
-                <IconCards size={22} color={list.color ?? 'var(--gourmet-neutral-9)'} />
-                <GourmetText cgmff={'title'} c={list.color ?? 'var(--gourmet-neutral-9)'} fz={'h3'}>
-                  {t('details.cards')}
-                </GourmetText>
-                <GourmetText cgmff={'ui'}>({sortedCardResoures.length})</GourmetText>
-              </Group>
-
-              <SimpleGrid cols={6}>
-                {sortedCardResoures.map((data) => {
-                  return (
-                    <CardRenderer
-                      key={data.listResource.resourceId}
-                      list={listWithResources}
-                      tcg={search.tcg ?? tcg}
-                      data={data}
-                      onRemoveFromList={(listId) => {
-                        if (listId !== list.id) return;
-
-                        const newCardResources = [...cardResources];
-                        for (let i = 0; i < newCardResources.length; i++) {
-                          if (newCardResources[i].listResource.resourceId === data.listResource.resourceId) {
-                            newCardResources.splice(i, 1);
-                            break;
-                          }
-                        }
-
-                        setCardResources(newCardResources);
-                      }}
-                    />
-                  );
-                })}
-              </SimpleGrid>
-            </Stack>
+            <ListDetailsCardGrid
+              list={list}
+              sortedCardResoures={sortedCardResoures}
+              cardResources={cardResources}
+              setCardResources={setCardResources}
+              listWithResources={listWithResources}
+            />
           )}
         </Stack>
       )}

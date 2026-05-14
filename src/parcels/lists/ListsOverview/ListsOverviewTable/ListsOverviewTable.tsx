@@ -12,7 +12,7 @@ import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader
 import {VisibilityBadge} from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type {UserList, UserListWithResources} from '@/parcels/lists/types.ts';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
-import {Route} from "@/routes/me/lists";
+import {Route} from '@/routes/me/lists';
 
 export function ListsOverviewTable({
   isLoading,
@@ -87,7 +87,11 @@ export function ListsOverviewTable({
             lastUpdated: (
               <GourmetText cgmff={'ui'}>{formatRelativeTimestamp(list.list.updatedAt, i18n.language)}</GourmetText>
             ),
-            visibility: <VisibilityBadge visibility={list.list.visibility} />,
+            visibility: (
+              <div style={{ maxWidth: '8rem' }}>
+                <VisibilityBadge visibility={list.list.visibility} />
+              </div>
+            ),
             size: <GourmetText cgmff={'ui'}>{list.size}/100</GourmetText>,
             color: (
               <Group>
@@ -177,7 +181,7 @@ function VerTableRow({
   onCreate?: (list: UserList) => void;
   onDelete?: (id: string) => void;
 }) {
-  const { t } = useTranslation('lists', { keyPrefix: 'table.cols' });
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
 
   return (
     <>

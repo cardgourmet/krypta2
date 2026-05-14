@@ -35,7 +35,7 @@ export function RendererSearchResources({ resources }: { resources: ResolvedUser
             }}
           >
             <UnstyledButton h={'2rem'} w={'100%'} className={styles.searchButton}>
-              <Group h={'100%'} w={'100%'} justify={'space-between'}>
+              <Group h={'100%'} w={'100%'} justify={'space-between'} wrap={'nowrap'}>
                 <Tooltip label={search.firstSearch.rawQuery} openDelay={1000}>
                   <GourmetText
                     cgmff={'monospace'}
@@ -51,8 +51,10 @@ export function RendererSearchResources({ resources }: { resources: ResolvedUser
                   </GourmetText>
                 </Tooltip>
 
-                <Group h={'100%'} gap={'0.5rem'}>
-                  <GourmetText cgmff={'ui'}>{search.lastTotalCount} cards</GourmetText>
+                <Group h={'100%'} gap={'0.5rem'} wrap={'nowrap'}>
+                  <GourmetText cgmff={'ui'} style={{ textWrap: 'nowrap' }}>
+                    {search.lastTotalCount} cards
+                  </GourmetText>
                   <SpeedGauge execTime={search.lastSearch?.executionTime ?? search.firstSearch.executionTime} />
                 </Group>
               </Group>

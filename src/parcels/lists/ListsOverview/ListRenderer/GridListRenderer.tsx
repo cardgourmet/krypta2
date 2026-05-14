@@ -86,7 +86,7 @@ export function GridListRenderer({
                   </Group>
                 )}
                 {cardResources.length > 0 && (
-                  <Group wrap={'nowrap'} h={'8rem'} gap={'0'} align={'start'}>
+                  <Group wrap={'nowrap'} gap={'0'} align={'start'}>
                     <div
                       style={{
                         justifySelf: 'start',
@@ -100,7 +100,7 @@ export function GridListRenderer({
                         <IconCards size={20} />
                       </Center>
                     </div>
-                    <Group wrap={'nowrap'} h={'100%'} gap={'0.25rem'}>
+                    <Group gap={'0.25rem'}>
                       <RendererCardResources resources={cardResources} />
                     </Group>
                   </Group>

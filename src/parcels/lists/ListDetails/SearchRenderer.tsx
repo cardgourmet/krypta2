@@ -42,13 +42,22 @@ export function SearchRenderer({
         borderRadius: '0.25rem',
       }}
       p={'0.5rem'}
+      wrap={'nowrap'}
     >
-      <GourmetText cgmff={'monospace'} cgmc={'neutral-9'}>
+      <GourmetText
+        cgmff={'monospace'}
+        cgmc={'neutral-9'}
+        style={{
+          textWrap: 'nowrap',
+          overflowX: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
         {search.rawQuery}
       </GourmetText>
 
-      <Group>
-        <GourmetText cgmff={'ui'}>
+      <Group wrap={'nowrap'}>
+        <GourmetText cgmff={'ui'} style={{ textWrap: 'nowrap' }}>
           {t('details.searchCards', { count: resolvedSavedSearch.lastTotalCount ?? 0 })}
         </GourmetText>
 

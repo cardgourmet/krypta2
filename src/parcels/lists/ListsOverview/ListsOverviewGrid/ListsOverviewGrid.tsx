@@ -1,4 +1,5 @@
 import {Loader, SimpleGrid} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import {GridListRenderer} from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
@@ -12,10 +13,11 @@ export function ListsOverviewGrid({
   isPreviewsLoading: boolean;
   userLists: UserListWithResources[];
 }) {
+  const smallScreen = useMediaQuery('(max-width: 830px)');
   const { lists: localUserLists, setLists } = useUserLists();
 
   return (
-    <SimpleGrid cols={2} spacing={'2.5rem'}>
+    <SimpleGrid cols={smallScreen ? 1 : 2} spacing={'2.5rem'}>
       {userLists.length === 0 && isLoading && <Loader color="var(--gourmet-blue-1)" size={'sm'} />}
       {userLists.map((list) => {
         return (

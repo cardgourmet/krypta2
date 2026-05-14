@@ -1,4 +1,6 @@
-import {Divider, Group, Stack} from '@mantine/core';
+import {Button, Divider, Drawer, Group, Stack, Text} from '@mantine/core';
+import {useMediaQuery} from '@mantine/hooks';
+import {IconSettings, IconX} from '@tabler/icons-react';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
@@ -7,7 +9,7 @@ import {useBreadcrumbs} from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx'
 import {fetchListsPreview} from '@/parcels/lists/api.ts';
 import {useUserLists} from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
-import {DesktopListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/DesktopListOverviewSettings.tsx';
+import {ListOverviewSettings} from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/ListOverviewSettings.tsx';
 import {ListsOverviewGrid} from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import {ListsOverviewTable} from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type {UserListWithResources} from '@/parcels/lists/types.ts';
@@ -101,6 +103,9 @@ export default function ListsOverview() {
     setScrollToListId(null);
   }, [scrollToListId]);
 
+  const smallScreen = useMediaQuery('(max-width: 800px)');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
     <div>
       <title>{`${t('pageTitle')} – Cardgourmet`}</title>
@@ -134,7 +139,40 @@ export default function ListsOverview() {
         <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
       </Stack>
 
-      <DesktopListOverviewSettings />
+      <Drawer
+        position={'left'}
+        style={{ backgroundColor: 'var(--gourmet-neutral-0)' }}
+        size="100%"
+        opened={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        withCloseButton={false}
+      >
+        <Stack>
+          <Group justify={'space-between'}>
+            <Text ff={'var(--cgm-content-font-family)'} tt={'uppercase'} fw={'bold'}>
+              {t('settings.title')}
+            </Text>
+            <Button onClick={() => setIsSidebarOpen(false)} style={{ padding: 0, border: 'none', background: 'none' }}>
+              <IconX size={18} color={'var(--gourmet-neutral-8)'} />
+            </Button>
+          </Group>
+
+          <ListOverviewSettings onChange={() => setIsSidebarOpen(false)} />
+        </Stack>
+      </Drawer>
+      {!smallScreen && <ListOverviewSettings />}
+      {smallScreen && (
+        <Button
+          onClick={() => setIsSidebarOpen(true)}
+          color={'var(--gourmet-neutral-2)'}
+          leftSection={
+            <Group gap={'0.5rem'}>
+              <IconSettings size={20} color={'var(--gourmet-neutral-9)'} />
+              <GourmetText cgmff={'ui'}>{t('settings.title')}</GourmetText>
+            </Group>
+          }
+        />
+      )}
 
       <Stack mt={'xl'} mb={'2.5rem'}>
         {search.display === 'grid' && (

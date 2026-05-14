@@ -7,9 +7,9 @@ import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import {TextDropdown} from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import type {Tcg} from '@/parcels/tcg/useTcgByLocation.ts';
 import {Route} from '@/routes/me/lists';
-import styles from './../ListsOverview.module.css';
+import styles from './ListOverviewSettings.module.css';
 
-export function DesktopListOverviewSettings() {
+export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
   const search = Route.useSearch();
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ export function DesktopListOverviewSettings() {
     updatedAt: 'Last Updated',
     size: 'Size',
   };
-
   const sortDirItems = {
     asc: 'Ascending',
     desc: 'Descending',
@@ -40,6 +39,8 @@ export function DesktopListOverviewSettings() {
               transPrefix={'sortby'}
               defaultSelected={search.sortBy}
               onSelect={(sel) => {
+                if (onChange) onChange();
+
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
                   from: '/me/lists/',
@@ -54,6 +55,8 @@ export function DesktopListOverviewSettings() {
               transPrefix={'sortdir'}
               defaultSelected={search.sortDir}
               onSelect={(sel) => {
+                if (onChange) onChange();
+
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
                   from: '/me/lists/',
@@ -77,6 +80,8 @@ export function DesktopListOverviewSettings() {
               t={t}
               defaultSelected={search.tcg}
               onSelect={(sel) => {
+                if (onChange) onChange();
+
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
                   from: '/me/lists/',
@@ -89,7 +94,7 @@ export function DesktopListOverviewSettings() {
           </Group>
         </Group>
 
-        <Searchbar />
+        <Searchbar onChange={onChange} />
       </Group>
 
       <Group justify={'end'}>
@@ -100,6 +105,8 @@ export function DesktopListOverviewSettings() {
           transitionTimingFunction={'linear'}
           value={search.display}
           onChange={(sel) => {
+            if (onChange) onChange();
+
             // noinspection JSIgnoredPromiseFromCall
             navigate({
               from: '/me/lists/',
@@ -133,7 +140,7 @@ export function DesktopListOverviewSettings() {
   );
 }
 
-function Searchbar() {
+function Searchbar({ onChange }: { onChange?: () => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
 
   const search = Route.useSearch();
@@ -149,6 +156,8 @@ function Searchbar() {
         onChange={(event) => setSearchQuery(event.currentTarget.value)}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
+            if (onChange) onChange();
+
             // noinspection JSIgnoredPromiseFromCall
             navigate({
               to: '/me/lists',
@@ -161,6 +170,8 @@ function Searchbar() {
         className={styles.searchBarButton}
         color={'var(--gourmet-blue-1)'}
         onClick={() => {
+          if (onChange) onChange();
+
           // noinspection JSIgnoredPromiseFromCall
           navigate({
             to: '/me/lists',
