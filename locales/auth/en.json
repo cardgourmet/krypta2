@@ -33,12 +33,20 @@
       "title": "Settings"
     },
     "pageTitle": "Account Settings",
+    "edit": "Edit",
+    "verificationLinkSent": "A verification link has been sent to your new email.",
+    "noPassword": "You have no password set, since you've created your account with Google.",
     "groups": {
       "general": {
         "title": "General",
         "theme": {
           "title": "Theme",
-          "description": "This setting applies only to this browser."
+          "description": "This setting applies only to this browser.",
+          "values": {
+            "light": "Light",
+            "dark": "Dark",
+            "auto": "Auto"
+          }
         }
       },
       "account": {
@@ -49,11 +57,14 @@
         },
         "email": {
           "title": "Email Adress",
-          "description": ""
+          "description": "",
+          "password": "Password"
         },
         "password": {
           "title": "Password",
-          "description": ""
+          "description": "",
+          "fieldLabel": "New Password",
+          "fieldLabelConfirm": "Confirm New Password"
         }
       },
       "language": {
@@ -79,7 +90,10 @@
         "title": "Integrations",
         "google": {
           "title": "Google",
-          "description": "You can use Google to log in with it later."
+          "description": "You can use Google to log in with it later.",
+          "connect": "Connect with Google",
+          "disconnect": "Disconnect from Google",
+          "cantRemove": "You can't remove this integration, since you have created your account with it."
         }
       }
     },

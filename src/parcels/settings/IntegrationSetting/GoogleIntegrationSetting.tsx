@@ -1,11 +1,12 @@
-import { Group, Loader, Stack } from '@mantine/core';
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import { IconAlertCircle } from '@tabler/icons-react';
-import { startTransition, useEffect, useState } from 'react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { connectOAuth, disconnectOAuth } from '@/parcels/auth/api.ts';
+import { Group, Loader, Stack} from '@mantine/core';
+import {GoogleOAuthProvider, useGoogleLogin} from '@react-oauth/google';
+import {IconAlertCircle} from '@tabler/icons-react';
+import {startTransition, useEffect, useState} from 'react';
+import {useAuth} from '@/parcels/auth/AuthContext.ts';
+import {connectOAuth, disconnectOAuth} from '@/parcels/auth/api.ts';
+import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
+import {useTranslation} from 'react-i18next';
 import { Button } from '@/parcels/generic/Button/Button';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export function GoogleIntegrationSetting() {
   return (
@@ -16,6 +17,7 @@ export function GoogleIntegrationSetting() {
 }
 
 function GoogleIntegration() {
+  const { t } = useTranslation('auth', { keyPrefix: 'settings.groups.integrations.google' });
   const { user, integrations, loadIntegrations } = useAuth();
 
   const [connected, setConnected] = useState((integrations?.map((i) => i.provider) ?? []).includes('google'));
@@ -75,7 +77,7 @@ function GoogleIntegration() {
             }}
             size="sm"
           >
-            Connect with Google
+            {t('connect')}
           </Button>
         )}
         {connected && (
@@ -103,7 +105,7 @@ function GoogleIntegration() {
             }}
             size="sm"
           >
-            Disconnect from Google
+            {t('disconnect')}
           </Button>
         )}
         {loading && <Loader size={18} />}
@@ -112,7 +114,7 @@ function GoogleIntegration() {
         <Group gap={'0.5rem'} wrap={'nowrap'}>
           <IconAlertCircle size={20} color={'var(--gourmet-neutral-6)'} />
           <GourmetText c={'var(--gourmet-neutral-6)'} maw={'32rem'}>
-            You can't remove this integration, since you have created your account with it.
+            {t('cantRemove')}
           </GourmetText>
         </Group>
       )}

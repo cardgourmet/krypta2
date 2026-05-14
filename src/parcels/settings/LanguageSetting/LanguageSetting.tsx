@@ -59,7 +59,7 @@ export function LanguageSetting({
               <Group gap={'0.5rem'}>
                 <IconEdit size={18} color={'var(--gourmet-blue-1)'} />
                 <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
-                  Bearbeiten
+                  {t('edit')}
                 </GourmetText>
               </Group>
             </UnstyledButton>

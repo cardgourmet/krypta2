@@ -32,12 +32,20 @@
       "title": "Einstellungen"
     },
     "pageTitle": "Account Einstellungen",
+    "edit": "Bearbeiten",
+    "verificationLinkSent": "Ein Verifizierungslink wurde zu deiner Email-Adresse gesendet.",
+    "noPassword": "Du hast kein Passwort gesetzt, weil du deinen Account über Google erstellt hast.",
     "groups": {
       "general": {
         "title": "Allgemein",
         "theme": {
           "title": "Thema",
-          "description": "Diese Einstellung gilt nur für diesen Browser."
+          "description": "Diese Einstellung gilt nur für diesen Browser.",
+          "values": {
+            "light": "Hell",
+            "dark": "Dunkel",
+            "auto": "Auto"
+          }
         }
       },
       "account": {
@@ -48,11 +56,14 @@
         },
         "email": {
           "title": "E-Mail-Adresse",
-          "description": ""
+          "description": "",
+          "password": "Passwort"
         },
         "password": {
           "title": "Passwort",
-          "description": ""
+          "description": "",
+          "fieldLabel": "Neues Passwort",
+          "fieldLabelConfirm": "Neues Passwort bestätigen"
         }
       },
       "language": {
@@ -78,7 +89,10 @@
         "title": "Integrationen",
         "google": {
           "title": "Google",
-          "description": "Du kannst Google verwenden, um dich später damit einzuloggen."
+          "description": "Du kannst Google verwenden, um dich später damit einzuloggen.",
+          "connect": "Verbinden mit Google",
+          "disconnect": "Verbindung mit Google trennen",
+          "cantRemove": "Du kannst diese Integration nicht trennen, weil du deinen Account damit erstellt hast."
         }
       }
     },

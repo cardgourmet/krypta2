@@ -1,6 +1,7 @@
 import {ActionIcon, Group, Loader, Stack, UnstyledButton} from '@mantine/core';
 import {IconAlertCircle, IconCheck, IconEdit, IconX} from '@tabler/icons-react';
 import {startTransition, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useAuth} from '@/parcels/auth/AuthContext.ts';
 import {updateUserPassword} from '@/parcels/auth/api.ts';
 import {GourmetPasswordInput} from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
@@ -8,6 +9,8 @@ import {GourmetText} from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from '@/routes/me/settings/index.module.css';
 
 export function PasswordSetting() {
+  const { t } = useTranslation('auth', { keyPrefix: 'settings' });
+  const { t: t2 } = useTranslation('auth', { keyPrefix: 'settings.groups.account.password' });
   const { user } = useAuth();
 
   const [edit, setEdit] = useState(false);
@@ -36,7 +39,7 @@ export function PasswordSetting() {
               <Group gap={'0.5rem'}>
                 <IconEdit size={18} color={'var(--gourmet-blue-1)'} />
                 <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
-                  Bearbeiten
+                  {t('edit')}
                 </GourmetText>
               </Group>
             </UnstyledButton>
@@ -107,13 +110,13 @@ export function PasswordSetting() {
             </Group>
 
             <GourmetPasswordInput
-              label={'New Password'}
+              label={t2('fieldLabel')}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               autoComplete="new-password"
             />
             <GourmetPasswordInput
-              label={'Confirm New Password'}
+              label={t2('fieldLabelConfirm')}
               value={newPassword2}
               onChange={(e) => setNewPassword2(e.target.value)}
               autoComplete="new-password"
@@ -124,9 +127,7 @@ export function PasswordSetting() {
       {user?.isPasswordEmpty && (
         <Group gap={'0.25rem'}>
           <IconAlertCircle size={20} color={'var(--gourmet-neutral-6)'} />
-          <GourmetText c={'var(--gourmet-neutral-6)'}>
-            You have no password set, since you've created your account with Google.
-          </GourmetText>
+          <GourmetText c={'var(--gourmet-neutral-6)'}>{t('noPassword')}</GourmetText>
         </Group>
       )}
 
