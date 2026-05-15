@@ -2,9 +2,9 @@ import { SimpleGrid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { SetCard } from '@/parcels/overview/sets/SetCard.tsx';
 import type { PcgDataEra } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import { SetCard } from '../SetCard/SetCard';
 
 export function SetOverviewGrid({
   tcg,
@@ -43,7 +43,7 @@ export function SetOverviewGrid({
 
             <SimpleGrid cols={smallestScreen ? 1 : smallerScreen ? 2 : smallScreen ? 3 : 4}>
               {e.sets.map((set) => (
-                <SetCard key={set.id} tcg={tcg as Tcg} set={set} />
+                <SetCard key={set.id} set={set} tcg={tcg as Tcg} />
               ))}
             </SimpleGrid>
           </Stack>

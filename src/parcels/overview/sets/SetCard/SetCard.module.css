@@ -1,0 +1,75 @@
+@layer structures {
+  .base {
+    background-color: var(--cgm-background-surface);
+    border: 1px solid var(--cgm-border-secondary);
+    border-radius: 0.75rem;
+    box-shadow: var(--cgm-shadow-xs);
+    display: flex;
+    flex-direction: column;
+    overflow: clip;
+    position: relative;
+  }
+
+  .content {
+    align-items: stretch;
+    background-color: var(--cgm-background-surface);
+    border: 1px solid var(--cgm-border-secondary);
+    border-radius: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: -1px;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .link {
+    border-radius: inherit;
+    inset: 0;
+    position: absolute;
+
+    &:focus-visible {
+      outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
+      outline-offset: calc(-1 * var(--cgm-outline-width));
+    }
+  }
+
+  .logoContainer {
+    background-color: color-mix(in oklab, var(--cgm-background-surface), transparent 50%);
+    backdrop-filter: blur(128px) saturate(2);
+    display: grid;
+    min-height: 6rem;
+    padding: 1rem 2rem 2rem;
+    place-items: center;
+  }
+
+  .logo {
+    height: auto;
+    max-height: 4rem;
+    max-width: 100%;
+    width: auto;
+  }
+
+  .metadata {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    margin-top: auto;
+  }
+
+  .stage {
+    background-image: var(--set-card-logo-src);
+    background-position: center;
+    background-size: cover;
+    margin: 0;
+    margin-bottom: -1rem;
+    width: 100%;
+  }
+
+  .title {
+    align-items: flex-start;
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+}
