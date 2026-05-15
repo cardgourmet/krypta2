@@ -1,4 +1,5 @@
 import { Center, Group, Stack } from '@mantine/core';
+import { IconDeviceVisionPro } from '@tabler/icons-react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 
@@ -24,15 +25,27 @@ export function Home() {
       </Center>
 
       <Center style={{ marginTop: '1rem' }}>
-        <Searchbar
-          inputStyles={{
-            fontSize: '1.25rem',
-            height: '3rem',
-          }}
-          modalStyles={{
-            '--shift-top': '4rem',
-          }}
-        />
+        <Stack gap={'0.15rem'}>
+          <Searchbar
+            inputStyles={{
+              fontSize: '1.25rem',
+              height: '3rem',
+            }}
+            modalStyles={{
+              '--shift-top': '4rem',
+            }}
+            omitHelp
+            iconSize={22}
+            caretIconSize={16}
+          />
+
+          <Group justify={'end'}>
+            <Group gap={'0.25rem'}>
+              <IconDeviceVisionPro size={18} color={'var(--gourmet-blue-1)'} />
+              <GourmetText c={'var(--gourmet-blue-1)'}>Advanced Search</GourmetText>
+            </Group>
+          </Group>
+        </Stack>
       </Center>
     </Stack>
   );
