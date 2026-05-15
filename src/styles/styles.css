@@ -12,6 +12,7 @@
     --cgm-background-surface: light-dark(#fff, #161a1d);
     --cgm-background-primary: #f7f8f9;
     --cgm-border-highlight: light-dark(#ffffff1f, #ffffff2e);
+    --cgm-border-offset: -0.0625rem;
     --cgm-border-primary: #0000002e;
     --cgm-border-secondary: light-dark(#0000002e, #ffffff2e);
     --cgm-border-width: 0.0625rem;
