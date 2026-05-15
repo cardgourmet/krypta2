@@ -18,13 +18,13 @@ import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/Quer
 import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
-import { MtgSetIcon } from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 import type { TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
 import { Route } from '@/routes/$tcg/cards';
 import styles from './CardOverview.module.css';
+import { SetBanner } from './SetBanner/SetBanner';
 
 export type OverviewSettings = Required<TcgSearchParams>;
 
@@ -82,11 +82,11 @@ export function CardOverview() {
   return (
     <div ref={scrollbackRef}>
       {set === null && (
-        <title>{`${(params.query?.length ?? 0) === 0 ? 'Card Database' : params.query} 
+        <title>{`${(params.query?.length ?? 0) === 0 ? 'Card Database' : params.query}
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
       {set !== null && (
-        <title>{`${set.translations.en.name} (${set.code?.toUpperCase()}) 
+        <title>{`${set.translations.en.name} (${set.code?.toUpperCase()})
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
 
@@ -134,34 +134,7 @@ export function CardOverview() {
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
 
-        {set !== null && (
-          <Stack
-            p={'0.75rem 2rem'}
-            style={{
-              borderRadius: '0.5rem',
-              backgroundColor: 'var(--gourmet-blue-05)',
-            }}
-            mb={'0.5rem'}
-          >
-            <Group>
-              <MtgSetIcon setCode={set.code!.toLowerCase()} fontSize={'2.5rem'} color={'var(--gourmet-neutral-0)'} />
-
-              <Stack gap={'0rem'}>
-                <Group gap={'0.5rem'}>
-                  <GourmetText fz={'1.5rem'} cgmff={'ui'} cgmc={'neutral-0'} fw={500}>
-                    {set.translations.en.name}
-                  </GourmetText>
-                  <GourmetText fz={'1.15rem'} cgmff={'ui'} cgmc={'neutral-0'}>
-                    ({set.code})
-                  </GourmetText>
-                </Group>
-                <GourmetText fz={'1.15rem'} cgmff={'ui'} cgmc={'neutral-1'}>
-                  {set.printsAvailable} prints
-                </GourmetText>
-              </Stack>
-            </Group>
-          </Stack>
-        )}
+        {set && <SetBanner className={styles.setBanner} set={set} tcg={tcg} />}
 
         <CardOverviewSettings
           tcg={tcg}
