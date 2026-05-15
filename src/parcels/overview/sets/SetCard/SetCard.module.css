@@ -1,4 +1,4 @@
-@layer structures {
+@layer components {
   .base {
     background-color: var(--cgm-background-surface);
     border: var(--cgm-border-width) solid var(--cgm-border-secondary);
@@ -67,6 +67,10 @@
     grid-auto-columns: 1fr;
     grid-auto-flow: column;
     margin-top: auto;
+  }
+
+  .setName:not(:first-child) {
+    margin-top: 0.125rem;
   }
 
   .stage {

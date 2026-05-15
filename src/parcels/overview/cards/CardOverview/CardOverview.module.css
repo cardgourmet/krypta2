@@ -1,27 +1,33 @@
-.root {
-  width: 50%;
+@layer views {
+  .root {
+    width: 50%;
 
-  @media (max-width: 800px) {
-    width: 100%;
-  }
-}
-
-.item {
-  margin: 0 0 2rem 1rem;
-  border: none;
-
-  p {
-    margin: 0;
-    color: var(--gourmet-neutral-9);
+    @media (max-width: 800px) {
+      width: 100%;
+    }
   }
 
-  button {
-    border-radius: 5px;
+  .item {
+    margin: 0 0 2rem 1rem;
     border: none;
-    color: var(--gourmet-orange-1);
-    background-color: var(--gourmet-orange-2);
 
-    height: fit-content;
-    padding: 0 1rem 0 1rem;
+    p {
+      margin: 0;
+      color: var(--gourmet-neutral-9);
+    }
+
+    button {
+      border-radius: 5px;
+      border: none;
+      color: var(--gourmet-orange-1);
+      background-color: var(--gourmet-orange-2);
+
+      height: fit-content;
+      padding: 0 1rem 0 1rem;
+    }
+  }
+
+  .setBanner {
+    margin-bottom: 1rem;
   }
 }
