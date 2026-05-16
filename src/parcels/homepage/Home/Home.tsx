@@ -3,6 +3,7 @@ import { IconArrowRight, IconDeviceVisionPro } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { Badge } from '@/parcels/generic/Badge/Badge.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { TcgStatisticsCarousel } from '@/parcels/homepage/Home/TcgStatisticsCarousel.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -71,9 +72,7 @@ export function Home() {
         <Stack>
           <GourmetText>TCG Overviews</GourmetText>
 
-          <GourmetText fs={'italic'}>
-            carousel with stats for each tcg (amount of cards, sets, prints) and link to latest set
-          </GourmetText>
+          <TcgStatisticsCarousel />
         </Stack>
       </SimpleGrid>
     </Stack>
