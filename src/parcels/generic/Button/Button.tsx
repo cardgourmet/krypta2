@@ -1,6 +1,7 @@
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import clsx from 'clsx';
 import { decorateSlottable } from '@/parcels/composition/decorateSlottable';
+import type { ComponentIdentity } from '@/parcels/composition/withPropsApplied';
 import { maybe } from '@/utils/maybe';
 import styles from './Button.module.css';
 import type { ButtonProps } from './types';
@@ -51,3 +52,6 @@ export const Button = ({
     </Component>
   );
 };
+
+export type ButtonIdentity = ComponentIdentity<ButtonProps, 'button'>;
+Button.identity = undefined! as ButtonIdentity;

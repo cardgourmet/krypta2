@@ -1,13 +1,5 @@
 body {
   background-color: var(--gourmet-neutral-0);
-
-  h1,
-  h2,
-  h3,
-  p {
-    color: var(--gourmet-neutral-8);
-    font-family: "Montserrat", sans-serif;
-  }
 }
 
 /*button {

@@ -71,7 +71,7 @@
     &[data-cgm-size="md"] {
       --badge-font-size: 0.875rem;
       --badge-gap: 0.25rem;
-      --badge-icon-size: 0.75rem;
+      --badge-icon-size: 0.875rem;
       --badge-padding-x: 0.375rem;
       --badge-padding-y: 0.125rem;
       --badge-radius: 0.375rem;

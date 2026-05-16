@@ -5,6 +5,7 @@ import { createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import type { useAuth } from '@/parcels/auth/AuthContext.ts';
 import App from '@/parcels/homepage/App/App.tsx';
+import { ModalContextProvider } from '@/parcels/modals/Modal.context';
 import { theme } from '../theme';
 
 type RouterContext = {
@@ -15,8 +16,10 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <MantineProvider defaultColorScheme="auto" theme={theme}>
-        <Notifications />
-        <App />
+        <ModalContextProvider modals={{}}>
+          <Notifications />
+          <App />
+        </ModalContextProvider>
 
         <TanStackDevtools
           config={{
