@@ -1,0 +1,40 @@
+@layer components {
+  .base {
+    align-items: center;
+    background-color: var(--cgm-background-surface);
+    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    border-radius: 0.375rem;
+    display: flex;
+    gap: 0.1875rem;
+    padding: 0.125rem 0.25rem;
+
+    &:has(.button) {
+      padding-right: 0.1875rem;
+    }
+  }
+
+  .button {
+    border-radius: 0.1875rem;
+    color: var(--cgm-foreground-tertiary);
+    display: grid;
+    height: 1rem;
+    place-items: center;
+    width: 1rem;
+
+    & > svg {
+      opacity: 0.8;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--cgm-background-primary);
+      }
+    }
+  }
+}
+
+@layer structures {
+  .content {
+    line-height: calc(18 / 14);
+  }
+}
