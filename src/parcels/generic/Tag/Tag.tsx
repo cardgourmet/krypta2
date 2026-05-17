@@ -13,7 +13,7 @@ export const Tag = ({ children, className, onRemove, ...props }: TagProps) => {
       </Typeset>
 
       {onRemove && (
-        <UnstyledButton className={styles.button}>
+        <UnstyledButton className={styles.button} onClick={onRemove}>
           <IconX height={12} width={12} />
         </UnstyledButton>
       )}

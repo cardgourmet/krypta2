@@ -6,6 +6,7 @@ import { Button } from '@/parcels/generic/Button/Button';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Input } from '@/parcels/generic/Input/Input';
 import { RadioGroup } from '@/parcels/generic/RadioGroup/RadioGroup';
+import { TagSelect } from '@/parcels/generic/TagSelect/TagSelect';
 import { Modal } from '@/parcels/modals/Modal';
 import { modals } from '@/parcels/modals/modals.events';
 import type { ExtendModalProps } from '@/parcels/modals/types';
@@ -65,6 +66,14 @@ const TestModal = ({ innerProps, ...props }: ExtendModalProps) => {
             <RadioGroup.Item hint="Die Liste ist über einen Link sichtbar für alle.">Unlisted</RadioGroup.Item>
             <RadioGroup.Item hint="Die Liste ist sichtbar für alle.">Public</RadioGroup.Item>
           </RadioGroup>
+          <TagSelect
+            data={['DLC', 'MTG', 'PCG']}
+            hidePickedOptions
+            hint="Du kannst die Spiele beschränken, deren Karten dieser Liste hinzugefügt werden dürfen."
+            label="TCGs"
+            placeholder="Suchen…"
+            searchable
+          />
         </Stack>
       </Modal.Content>
       <Modal.Footer>
