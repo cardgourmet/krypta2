@@ -1,8 +1,13 @@
 .newHereBanner {
   border-radius: 0.25rem;
-  background-color: color-mix(in srgb, var(--gourmet-blue-3), white 30%);
+  background-color: color-mix(in srgb, var(--gourmet-orange-1), white 30%);
 
   width: 60rem;
+}
+
+.newHereButton {
+  background-color: color-mix(in srgb, var(--gourmet-orange-1), white 20%);
+  border-radius: 0 0 0.25rem 0.25rem;
 }
 
 .newHereNumber {

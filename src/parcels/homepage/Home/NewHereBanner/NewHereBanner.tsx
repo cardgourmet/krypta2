@@ -67,11 +67,11 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
         </Activity>
       </Stack>
 
-      <Stack style={{ backgroundColor: 'var(--gourmet-blue-2-soft)', borderRadius: '0 0 0.25rem 0.25rem' }} w={'100%'}>
+      <Stack w={'100%'} className={styles.newHereButton}>
         <UnstyledButton w={'100%'} onClick={() => setOpened(!opened)}>
           <Center>
-            {opened && <IconCaretUpFilled color={'var(--gourmet-blue-4)'} />}
-            {!opened && <IconCaretDownFilled color={'var(--gourmet-blue-4)'} />}
+            {opened && <IconCaretUpFilled color={'color-mix(in srgb, var(--gourmet-orange-1), black 40%)'} />}
+            {!opened && <IconCaretDownFilled color={'color-mix(in srgb, var(--gourmet-orange-1), black 40%)'} />}
           </Center>
         </UnstyledButton>
       </Stack>

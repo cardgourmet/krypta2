@@ -1,5 +1,5 @@
 import { Center, Group, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
-import { IconDeviceVisionPro } from '@tabler/icons-react';
+import { IconBowlChopsticks } from '@tabler/icons-react';
 import { useState } from 'react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { LatestUpdatesView } from '@/parcels/homepage/Home/LatestUpdatesView/LatestUpdatesView.tsx';
@@ -43,8 +43,8 @@ export function Home() {
 
           <Group justify={'end'}>
             <Group gap={'0.25rem'}>
-              <IconDeviceVisionPro size={18} color={'var(--gourmet-blue-1)'} />
-              <GourmetText c={'var(--gourmet-blue-1)'}>Advanced Search</GourmetText>
+              <IconBowlChopsticks size={18} color={'var(--gourmet-blue-1)'} />
+              <GourmetText c={'var(--gourmet-blue-1)'}>Search Cooker</GourmetText>
             </Group>
           </Group>
         </Stack>
