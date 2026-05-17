@@ -1,0 +1,41 @@
+.slideButton {
+  position: relative;
+  overflow: hidden;
+
+  border: 2px solid var(--gourmet-neutral-8);
+  border-radius: 0.5rem;
+  width: 1.25rem;
+  height: 0.75rem;
+
+  &[data-active="true"] {
+    width: 2.5rem;
+  }
+}
+
+.slideButton::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: var(--gourmet-neutral-8);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.slideButton[data-active="true"][data-running="true"]::before {
+  /*noinspection CssUnresolvedCustomProperty*/
+  animation: fillSlideButton var(--slide-button-fill-duration) linear forwards;
+}
+
+.slideButton[data-active="true"][data-running="false"]::before {
+  transform: scaleX(1);
+}
+
+@keyframes fillSlideButton {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
