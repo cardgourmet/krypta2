@@ -1,9 +1,11 @@
-import { UnstyledButton } from '@mantine/core';
+import { Stack, UnstyledButton } from '@mantine/core';
 import { IconCards, IconExchange, IconPhoto, IconPlaylistAdd, IconShoppingBagHeart } from '@tabler/icons-react';
 import { createFileRoute } from '@tanstack/react-router';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Button } from '@/parcels/generic/Button/Button';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
+import { Input } from '@/parcels/generic/Input/Input';
+import { RadioGroup } from '@/parcels/generic/RadioGroup/RadioGroup';
 import { Modal } from '@/parcels/modals/Modal';
 import { modals } from '@/parcels/modals/modals.events';
 import type { ExtendModalProps } from '@/parcels/modals/types';
@@ -54,6 +56,16 @@ const TestModal = ({ innerProps, ...props }: ExtendModalProps) => {
             </Badge>
           </div>
         </div>
+
+        <Stack gap="0.75rem" mt="1.25rem">
+          <Input label="Name" placeholder="Chef's Recommendations" required />
+          <Input label="Description" />
+          <RadioGroup label="Visibility">
+            <RadioGroup.Item hint="Die Liste ist nur für dich sichtbar.">Private</RadioGroup.Item>
+            <RadioGroup.Item hint="Die Liste ist über einen Link sichtbar für alle.">Unlisted</RadioGroup.Item>
+            <RadioGroup.Item hint="Die Liste ist sichtbar für alle.">Public</RadioGroup.Item>
+          </RadioGroup>
+        </Stack>
       </Modal.Content>
       <Modal.Footer>
         <Modal.SecondaryButton>Abbrechen</Modal.SecondaryButton>

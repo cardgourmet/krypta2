@@ -88,8 +88,11 @@
   }
 
   .footer {
+    background-color: var(--cgm-background-primary);
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
+    border-top: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    box-shadow: var(--cgm-shadow-skeuomorphic);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
