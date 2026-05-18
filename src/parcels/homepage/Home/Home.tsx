@@ -32,6 +32,9 @@ export function Home() {
       <Center style={{ marginTop: '1rem' }}>
         <Stack gap={'0.15rem'}>
           <Searchbar
+            styles={{
+              '--modal-layer': 'var(--overlay-layer)',
+            }}
             inputStyles={{
               fontSize: '1.25rem',
               height: '3rem',

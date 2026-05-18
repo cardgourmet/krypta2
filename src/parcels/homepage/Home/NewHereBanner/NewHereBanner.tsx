@@ -43,15 +43,17 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
                   2
                 </GourmetText>
                 <GourmetText cgmc={'neutral-1'}>
-                  Use the{' '}
-                  <Link
-                    to={'/$tcg/advanced'}
-                    params={{ tcg: tcg }}
-                    style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
-                  >
-                    TCG specific search cooker
-                  </Link>{' '}
-                  and construct your query without having to type anything.
+                  <Trans i18nKey="newHere.2" t={t}>
+                    Use the
+                    <Link
+                      to={'/$tcg/advanced'}
+                      params={{ tcg: tcg }}
+                      style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+                    >
+                      TCG specific search cooker
+                    </Link>
+                    and construct your query without having to type anything.
+                  </Trans>
                 </GourmetText>
               </Group>
 
@@ -60,9 +62,9 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
                   3
                 </GourmetText>
                 <GourmetText cgmc={'neutral-1'}>
-                  <Trans i18nKey={'newHere.3'}>
+                  <Trans i18nKey={'newHere.3'} t={t}>
                     Try to use the most basic filters first. Such as <code>name:</code> or <code>text:</code> and build
-                    your way from there. For a list of filters, you can go{' '}
+                    your way from there. For a list of filters, you can go
                     <Link to={'/'} style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}>
                       here
                     </Link>
@@ -73,29 +75,30 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
             </SimpleGrid>
 
             <GourmetText cgmc={'neutral-1'}>
-              If you're still unsure, go visit our help page at{' '}
-              <a
-                href={'https://help.cardgourmet.com'}
-                style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
-              >
-                https://help.cardgourmet.com
-              </a>
-              <br />
-              For questions and anything else, feel free to contact us via{' '}
-              <a
-                href={'mailto:help@cardgourmet.com'}
-                style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
-              >
-                email
-              </a>{' '}
-              or on our{' '}
-              <a
-                href={'https://discord.gg/5KQ6fh3nus'}
-                style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
-              >
-                Discord
-              </a>
-              .
+              <Trans i18nKey={'newHere.footer'} t={t} components={{ br: <br /> }}>
+                If you're still unsure, go visit our help page at
+                <a
+                  href={'https://help.cardgourmet.com'}
+                  style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+                >
+                  https://help.cardgourmet.com
+                </a>
+                For questions and anything else, feel free to contact us via
+                <a
+                  href={'mailto:help@cardgourmet.com'}
+                  style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+                >
+                  email
+                </a>
+                or on our
+                <a
+                  href={'https://discord.gg/5KQ6fh3nus'}
+                  style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+                >
+                  Discord
+                </a>
+                .
+              </Trans>
             </GourmetText>
           </Stack>
         </Activity>

@@ -14,15 +14,17 @@ import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import { useClickOutsideWithRegistry } from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
-import styles from './Searchbar.module.css';
+import cssStyles from './Searchbar.module.css';
 
 export default function Searchbar({
+  styles,
   inputStyles,
   modalStyles,
   omitHelp,
   iconSize,
   caretIconSize,
 }: {
+  styles?: CSSProperties;
   inputStyles?: CSSProperties;
   modalStyles?: CSSProperties;
   omitHelp?: boolean;
@@ -102,12 +104,12 @@ export default function Searchbar({
 
   return (
     <>
-      <div className={`${styles.searchOverlay} ${!isOpened ? styles.hidden : ''}`} />
+      <div className={`${cssStyles.searchOverlay} ${!isOpened ? cssStyles.hidden : ''}`} />
 
-      <div className={styles.searchbar} ref={mergedSearchRef}>
-        <div className={styles.searchInputWrapper}>
+      <div className={cssStyles.searchbar} ref={mergedSearchRef} style={styles}>
+        <div className={cssStyles.searchInputWrapper}>
           <div
-            className={styles.searchIcon}
+            className={cssStyles.searchIcon}
             style={{
               '--height': omitHelp ? '2.25rem' : '1.75rem',
             }}
@@ -115,7 +117,7 @@ export default function Searchbar({
             <TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} iconSize={iconSize} iconCaretSize={caretIconSize} />
           </div>
           <input
-            className={styles.searchInput}
+            className={cssStyles.searchInput}
             type="text"
             ref={searchInputRef}
             value={currentQuery.query}
@@ -142,7 +144,7 @@ export default function Searchbar({
             style={inputStyles}
           />
           <button
-            className={`${styles.deleteSearchIcon} ${currentQuery.query.length === 0 ? styles.hidden : ''}`}
+            className={`${cssStyles.deleteSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
             type={'button'}
             onClick={() => {
               setCurrentQuery({ query: '', isByUser: false });
@@ -154,16 +156,16 @@ export default function Searchbar({
         </div>
 
         {!omitHelp && (
-          <button type="button" className={styles.helpButton}>
+          <button type="button" className={cssStyles.helpButton}>
             <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
           </button>
         )}
 
-        <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`} style={modalStyles}>
-          <div className={styles.content}>
+        <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
+          <div className={cssStyles.content}>
             {!omitHelp && (
               <div
-                className={styles.advancedSearch}
+                className={cssStyles.advancedSearch}
                 style={{
                   marginRight: omitHelp ? '0' : '3rem',
                 }}
@@ -177,7 +179,7 @@ export default function Searchbar({
 
             {omitHelp && <Space h={'0.25rem'} />}
 
-            <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
+            <div className={`${cssStyles.typingInfo} ${isCaptainOfTheShip ? cssStyles.hidden : ''}`}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 
