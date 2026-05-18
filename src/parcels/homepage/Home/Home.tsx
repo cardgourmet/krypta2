@@ -1,13 +1,16 @@
 import { Center, Group, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
 import { IconBowlChopsticks } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { LatestUpdatesView } from '@/parcels/homepage/Home/LatestUpdatesView/LatestUpdatesView.tsx';
 import { NewHereBanner } from '@/parcels/homepage/Home/NewHereBanner/NewHereBanner.tsx';
 import { TcgStatisticsCarousel } from '@/parcels/homepage/Home/TcgStatisticsCarousel/TcgStatisticsCarousel.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
 export function Home() {
+  const { tcg } = useTcg();
   const [newHere, setNewHere] = useState(true);
 
   return (
@@ -42,10 +45,12 @@ export function Home() {
           />
 
           <Group justify={'end'}>
-            <Group gap={'0.25rem'}>
-              <IconBowlChopsticks size={18} color={'var(--gourmet-blue-1)'} />
-              <GourmetText c={'var(--gourmet-blue-1)'}>Search Cooker</GourmetText>
-            </Group>
+            <Link to={'/$tcg/advanced'} params={{ tcg: tcg }} style={{ textDecoration: 'none' }}>
+              <Group gap={'0.25rem'}>
+                <IconBowlChopsticks size={18} color={'var(--gourmet-blue-1)'} />
+                <GourmetText c={'var(--gourmet-blue-1)'}>Search Cooker</GourmetText>
+              </Group>
+            </Link>
           </Group>
         </Stack>
       </Center>

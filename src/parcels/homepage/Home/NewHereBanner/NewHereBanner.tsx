@@ -1,10 +1,15 @@
 import { Center, Group, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
 import { IconCaretDownFilled, IconCaretUpFilled, IconX } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import { Activity, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './NewHereBanner.module.css';
 
 export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) => void }) {
+  const { tcg } = useTcg();
+  const { t } = useTranslation('home');
   const [opened, setOpened] = useState(false);
 
   return (
@@ -12,7 +17,7 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
       <Stack p={'0.5rem 1rem'}>
         <Group justify={'space-between'} w={'100%'}>
           <GourmetText cgmc={'neutral-1'} fz={'1.25rem'} fw={'500'} cgmff={'title'}>
-            New here?
+            {t('newHere.title')}
           </GourmetText>
           <UnstyledButton onClick={() => setNewHere(false)}>
             <IconX size={18} color={'var(--gourmet-neutral-1'} />
@@ -20,10 +25,7 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
         </Group>
 
         <Stack mr={'1rem'}>
-          <GourmetText cgmc={'neutral-1'}>
-            Our search engine is really powerful, but might feel overwhelming. To help you get started, you can do one
-            of the following:
-          </GourmetText>
+          <GourmetText cgmc={'neutral-1'}>{t('newHere.hook')}</GourmetText>
         </Stack>
 
         <Activity mode={opened ? 'visible' : 'hidden'}>
@@ -33,9 +35,7 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
                 <GourmetText cgmc={'neutral-1'} className={styles.newHereNumber} fw={500} cgmff={'monospace'}>
                   1
                 </GourmetText>
-                <GourmetText cgmc={'neutral-1'}>
-                  Just use the search without filters. This will default to searching by card names.
-                </GourmetText>
+                <GourmetText cgmc={'neutral-1'}>{t('newHere.1')}</GourmetText>
               </Group>
 
               <Group wrap={'nowrap'} align={'start'}>
@@ -43,7 +43,15 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
                   2
                 </GourmetText>
                 <GourmetText cgmc={'neutral-1'}>
-                  Use the TCG specific search builder and construct your query without having to type anything.
+                  Use the{' '}
+                  <Link
+                    to={'/$tcg/advanced'}
+                    params={{ tcg: tcg }}
+                    style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+                  >
+                    TCG specific search cooker
+                  </Link>{' '}
+                  and construct your query without having to type anything.
                 </GourmetText>
               </Group>
 
@@ -52,16 +60,42 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
                   3
                 </GourmetText>
                 <GourmetText cgmc={'neutral-1'}>
-                  Try to use the most basic filters first. Such as: `name:` or `text:` and build your way from there.
-                  For a list of filters, you can go _here_.
+                  <Trans i18nKey={'newHere.3'}>
+                    Try to use the most basic filters first. Such as <code>name:</code> or <code>text:</code> and build
+                    your way from there. For a list of filters, you can go{' '}
+                    <Link to={'/'} style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}>
+                      here
+                    </Link>
+                    .
+                  </Trans>
                 </GourmetText>
               </Group>
             </SimpleGrid>
 
             <GourmetText cgmc={'neutral-1'}>
-              If you're still unsure, go visit our help page at https://help.cardgourmet.com
+              If you're still unsure, go visit our help page at{' '}
+              <a
+                href={'https://help.cardgourmet.com'}
+                style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+              >
+                https://help.cardgourmet.com
+              </a>
               <br />
-              For questions and anything else, feel free to contact us via email or on our Discord.
+              For questions and anything else, feel free to contact us via{' '}
+              <a
+                href={'mailto:help@cardgourmet.com'}
+                style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+              >
+                email
+              </a>{' '}
+              or on our{' '}
+              <a
+                href={'https://discord.gg/5KQ6fh3nus'}
+                style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
+              >
+                Discord
+              </a>
+              .
             </GourmetText>
           </Stack>
         </Activity>

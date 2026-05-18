@@ -24,7 +24,6 @@ interface NavbarProps {
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const location = useLocation();
   const locationHref = location.href;
-  console.log(locationHref);
 
   const smallScreen = useMediaQuery('(max-width: 800px)');
   const { user, wasVerified, emailWasChanged } = useAuth();
