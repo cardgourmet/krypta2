@@ -30,6 +30,8 @@
       var(--cgm-shadow-xs);
     font-family: var(--cgm-ui-font-family);
     font-size: 1rem;
+    height: auto;
+    line-height: 1.5;
     padding: 0.5rem 0.75rem;
     padding-right: 2rem;
     transition: box-shadow 0.2s;
@@ -41,11 +43,6 @@
     }
   }
 
-  .inputField {
-    height: auto;
-    line-height: 1.5;
-  }
-
   .option {
     color: var(--cgm-foreground-primary);
 
@@ -53,49 +50,6 @@
       background-color: var(--cgm-background-primary);
       outline: var(--cgm-border-width) solid var(--cgm-color-brand);
       outline-offset: var(--cgm-border-offset);
-    }
-  }
-
-  .tag {
-    align-items: center;
-    background-color: var(--cgm-background-surface);
-    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
-    border-radius: 0.375rem;
-    color: var(--cgm-foreground-secondary);
-    display: flex;
-    font-size: 0.875rem;
-    font-weight: 500;
-    gap: 0.1875rem;
-    padding: 0.125rem 0.25rem;
-    padding-right: 0.1875rem;
-
-    & > button {
-      --cb-icon-size: 0.75rem;
-      border-radius: 0.1875rem;
-      color: var(--cgm-foreground-tertiary);
-      display: grid;
-      height: 1rem;
-      flex: 0 0 auto;
-      margin: 0;
-      min-width: unset;
-      padding: 0;
-      place-items: center;
-      width: 1rem;
-
-      & > svg {
-        opacity: 0.8;
-      }
-
-      @media (hover: hover) {
-        &:hover {
-          background-color: var(--cgm-background-primary);
-        }
-      }
-    }
-
-    & > span {
-      height: auto;
-      line-height: calc(18 / 14);
     }
   }
 }

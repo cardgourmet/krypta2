@@ -1,23 +1,12 @@
-import { MultiSelect } from '@mantine/core';
+import { Select as MantineSelect } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
-import clsx from 'clsx';
 import { useId } from 'react';
 import { SelectOption } from '../SelectOption/SelectOption';
 import { Typeset } from '../Typeset/Typeset';
-import styles from './TagSelect.module.css';
-import type { TagSelectProps } from './types';
+import styles from './Select.module.css';
+import type { SelectProps } from './types';
 
-export const TagSelect = ({
-  'aria-describedby': ariaDescribedBy,
-  checkIconPosition = 'right',
-  className,
-  hint,
-  id: _id,
-  label,
-  optionDecorations,
-  ...props
-}: TagSelectProps) => {
-  const hintId = useId();
+export const Select = ({ checkIconPosition = 'right', id: _id, label, optionDecorations, ...props }: SelectProps) => {
   const randomId = useId();
   const id = _id ?? randomId;
 
@@ -36,17 +25,10 @@ export const TagSelect = ({
         </Typeset>
       )}
 
-      <MultiSelect
-        aria-describedby={[!!hint && hintId, ariaDescribedBy].filter(Boolean).join(' ')}
+      <MantineSelect
         checkIconPosition={checkIconPosition}
-        className={clsx(styles.box, className)}
-        classNames={{
-          dropdown: styles.dropdown,
-          input: styles.input,
-          inputField: styles.inputField,
-          option: styles.option,
-          pill: styles.tag,
-        }}
+        className={styles.box}
+        classNames={{ dropdown: styles.dropdown, input: styles.input, option: styles.option }}
         comboboxProps={{
           offset: 4,
           position: 'bottom',
@@ -66,12 +48,6 @@ export const TagSelect = ({
         withScrollArea
         {...props}
       />
-
-      {hint && (
-        <Typeset id={hintId} size="sm" variant="tertiary">
-          {hint}
-        </Typeset>
-      )}
     </div>
   );
 };

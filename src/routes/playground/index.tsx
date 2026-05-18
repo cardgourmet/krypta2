@@ -1,11 +1,20 @@
 import { Stack, UnstyledButton } from '@mantine/core';
-import { IconCards, IconExchange, IconPhoto, IconPlaylistAdd, IconShoppingBagHeart } from '@tabler/icons-react';
+import {
+  IconCards,
+  IconExchange,
+  IconEyeOff,
+  IconPhoto,
+  IconPlaylistAdd,
+  IconShieldShare,
+  IconShoppingBagHeart,
+  IconWorld,
+} from '@tabler/icons-react';
 import { createFileRoute } from '@tanstack/react-router';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Button } from '@/parcels/generic/Button/Button';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Input } from '@/parcels/generic/Input/Input';
-import { RadioGroup } from '@/parcels/generic/RadioGroup/RadioGroup';
+import { Select } from '@/parcels/generic/Select/Select';
 import { TagSelect } from '@/parcels/generic/TagSelect/TagSelect';
 import { Modal } from '@/parcels/modals/Modal';
 import { modals } from '@/parcels/modals/modals.events';
@@ -20,6 +29,18 @@ function RouteComponent() {
     <div>
       <div style={{ alignItems: 'center', display: 'flex', gap: '0.5rem' }}>
         <Button onClick={() => modals.request('test', { component: TestModal })}>Modal anzeigen</Button>
+        <Input placeholder="Test" />
+        <Select
+          data={['test 1', 'test 2', 'test 3']}
+          optionDecorations={{
+            'test 1': {
+              icon: <IconShoppingBagHeart />,
+            },
+            'test 2': {
+              description: 'Das ist ein Test.',
+            },
+          }}
+        />
       </div>
     </div>
   );
@@ -61,16 +82,40 @@ const TestModal = ({ innerProps, ...props }: ExtendModalProps) => {
         <Stack gap="0.75rem" mt="1.25rem">
           <Input label="Name" placeholder="Chef's Recommendations" required />
           <Input label="Description" />
-          <RadioGroup label="Visibility">
-            <RadioGroup.Item hint="Die Liste ist nur für dich sichtbar.">Private</RadioGroup.Item>
-            <RadioGroup.Item hint="Die Liste ist über einen Link sichtbar für alle.">Unlisted</RadioGroup.Item>
-            <RadioGroup.Item hint="Die Liste ist sichtbar für alle.">Public</RadioGroup.Item>
-          </RadioGroup>
+          <Select
+            data={['Private', 'Unlisted', 'Public']}
+            optionDecorations={{
+              Private: {
+                description: 'Die Liste ist nur für dich sichtbar.',
+                icon: <IconEyeOff />,
+              },
+              Unlisted: {
+                description: 'Die Liste ist über einen Link sichtbar für alle.',
+                icon: <IconShieldShare />,
+              },
+              Public: {
+                description: 'Die Liste ist sichtbar für alle.',
+                icon: <IconWorld />,
+              },
+            }}
+            label="Visibility"
+          />
           <TagSelect
-            data={['DLC', 'MTG', 'PCG']}
+            data={['Disney Lorcana', 'Magic: The Gathering', 'Pokémon TCG']}
             hidePickedOptions
-            hint="Du kannst die Spiele beschränken, deren Karten dieser Liste hinzugefügt werden dürfen."
+            hint="Du kannst beschränken, aus welchen Spielen dieser Liste Karten hinzugefügt werden dürfen."
             label="TCGs"
+            optionDecorations={{
+              'Disney Lorcana': {
+                supportingText: 'DLC',
+              },
+              'Magic: The Gathering': {
+                supportingText: 'MTG',
+              },
+              'Pokémon TCG': {
+                supportingText: 'PCG',
+              },
+            }}
             placeholder="Suchen…"
             searchable
           />

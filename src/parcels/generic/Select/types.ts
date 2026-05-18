@@ -1,13 +1,12 @@
-import type { MultiSelect } from '@mantine/core';
+import type { Select } from '@mantine/core';
 import type { ReactNode } from 'react';
 import type { Extend } from '@/parcels/composition/extend';
 import type { SelectOptionProps } from '../SelectOption/types';
 
-export type TagSelectProps = Omit<
+export type SelectProps = Omit<
   Extend<
-    typeof MultiSelect,
+    typeof Select,
     {
-      hint?: ReactNode;
       label?: ReactNode;
       optionDecorations?: Record<
         string,
