@@ -88,7 +88,7 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
               }}
             >
               {presets.map((preset) => (
-                <Badge asChild leadingIcon={preset.icon} key={preset.name}>
+                <Badge asChild interactive leadingIcon={preset.icon} key={preset.name}>
                   <UnstyledButton
                     onClick={() =>
                       form.setValues({

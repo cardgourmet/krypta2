@@ -13,10 +13,22 @@
     padding-block: var(--badge-padding-y);
     padding-inline: var(--badge-padding-x);
 
+    @media (hover: hover) {
+      &.isInteractive:hover {
+        background-color: color-mix(in oklab, var(--cgm-background-surface), var(--cgm-background-hover) 6%);
+      }
+    }
+
     &[data-cgm-color] {
       background-color: color-mix(in oklab, var(--badge-color), var(--cgm-background-surface) 90%);
       border-color: color-mix(in oklab, var(--badge-color), transparent 64%);
       color: var(--badge-color);
+
+      @media (hover: hover) {
+        &.isInteractive:hover {
+          background-color: color-mix(in oklab, var(--badge-color), var(--cgm-background-surface) 80%);
+        }
+      }
     }
 
     &[data-cgm-color="red"] {
