@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.19",
+    "@gsap/react": "^2.1.2",
     "@mantine/core": "8.3.11",
     "@mantine/form": "^8.3.18",
     "@mantine/hooks": "8.3.11",
@@ -31,6 +32,7 @@
     "clsx": "^2.1.1",
     "csstype": "^3.2.3",
     "date-fns": "^4.1.0",
+    "gsap": "^3.15.0",
     "i18next": "^25.10.10",
     "keyrune": "^3.19.0",
     "openapi-fetch": "^0.15.2",

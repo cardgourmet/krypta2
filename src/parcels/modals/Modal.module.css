@@ -115,8 +115,9 @@
   }
 
   .overlay {
+    --modal-overlay-blur: 4px;
     background-color: #212432a3;
-    /* backdrop-filter: blur(var(--enc-component-overlay-blur)); */
+    backdrop-filter: blur(var(---modal-overlay-blur));
     inset: 0;
     position: fixed;
     z-index: 99; /* TODO */

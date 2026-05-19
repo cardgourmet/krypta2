@@ -1,12 +1,79 @@
 import { Dialog, DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogTitle } from '@radix-ui/react-dialog';
 import { IconX } from '@tabler/icons-react';
 import clsx from 'clsx';
+import gsap from 'gsap';
+import { type PresenceAnimations, useAnimatePresence } from '../animation/useAnimatePresence';
+import { useAnimateVisibility } from '../animation/useAnimateVisibility';
 import { withPropsApplied } from '../composition/withPropsApplied';
 import { Button, type ButtonIdentity } from '../generic/Button/Button';
 import { Typeset } from '../generic/Typeset/Typeset';
 import { MODAL_DISMISSED_REASON } from './consts';
 import styles from './Modal.module.css';
 import type { ModalContentProps, ModalFooterProps, ModalProps, ModalTitleProps } from './types';
+
+type BreakpointMap<T> = {
+  desktop: T;
+  mobile: T;
+};
+
+function matchBreakpoint<T>(values: BreakpointMap<T>): T {
+  return window.matchMedia('(max-width: 48em)').matches ? values.mobile : values.desktop;
+}
+
+const modalAnimation: PresenceAnimations = {
+  onEnter: (el) =>
+    gsap.fromTo(
+      el,
+      {
+        ...matchBreakpoint<GSAPTweenVars>({
+          mobile: {
+            y: 64,
+          },
+          desktop: {
+            scale: 0.9,
+          },
+        }),
+        opacity: 0,
+      },
+      {
+        ...matchBreakpoint<GSAPTweenVars>({
+          mobile: { y: 0 },
+          desktop: {},
+        }),
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: 'back.out(1.4)',
+      },
+    ),
+  onExit: (el) =>
+    gsap.to(el, {
+      ...matchBreakpoint<GSAPTweenVars>({
+        mobile: { y: 64 },
+        desktop: { scale: 0.9 },
+      }),
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+    }),
+};
+
+const overlayAnimation: PresenceAnimations = {
+  onEnter: (el) =>
+    gsap.from(el, {
+      '--modal-overlay-blur': 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'back.out(1.4)',
+    }),
+  onExit: (el) =>
+    gsap.to(el, {
+      '--modal-overlay-blur': 0,
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+    }),
+};
 
 const Root = ({
   active,
@@ -23,6 +90,10 @@ const Root = ({
   visible,
   ...props
 }: ModalProps) => {
+  const modalRef = useAnimatePresence<HTMLDivElement>({ onExit: modalAnimation.onExit });
+  const overlayRef = useAnimatePresence<HTMLDivElement>(overlayAnimation);
+  useAnimateVisibility(modalRef, visible, modalAnimation);
+
   return (
     <Dialog
       onOpenChange={
@@ -38,16 +109,25 @@ const Root = ({
       <DialogPortal>
         {!noOverlay && (
           <DialogOverlay asChild>
-            <div className={styles.overlay} />
+            <div className={styles.overlay} ref={overlayRef} />
           </DialogOverlay>
         )}
 
-        <DialogContent aria-describedby={undefined} asChild>
+        <DialogContent
+          aria-describedby={undefined}
+          asChild
+          onOpenAutoFocus={() => {
+            if (modalRef.current && modalAnimation.onEnter) {
+              modalAnimation.onEnter(modalRef.current);
+            }
+          }}
+        >
           <div
             className={styles.base}
             data-cgm-debug-id={modalId}
             data-cgm-debug-name={modalName}
             data-cgm-size={size}
+            ref={modalRef}
             {...props}
           >
             {!undismissable && (

@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { Presence } from '../animation/Presence';
 import { useModalsEvents } from './modals.events';
 import type { ModalContextProviderProps, ModalContextValue } from './types';
 import { useModalQueue } from './useModalQueue';
@@ -25,22 +26,24 @@ export const ModalContextProvider = ({ children, modals }: ModalContextProviderP
     >
       {children}
 
-      {queue
-        .filter((modal) => modal.active)
-        .map(({ Component, ...modal }) => (
-          <Component
-            active
-            innerProps={modal.innerProps}
-            key={modal.id}
-            modalId={modal.id}
-            modalName={modal.name}
-            noOverlay={modal.interrupting}
-            onClose={() => closeModal(modal.id)}
-            onReject={modal.reject}
-            onResolve={modal.resolve}
-            visible={modal.visible}
-          />
-        ))}
+      <Presence>
+        {queue
+          .filter((modal) => modal.active)
+          .map(({ Component, ...modal }) => (
+            <Component
+              active
+              innerProps={modal.innerProps}
+              key={modal.id}
+              modalId={modal.id}
+              modalName={modal.name}
+              noOverlay={modal.interrupting}
+              onClose={() => closeModal(modal.id)}
+              onReject={modal.reject}
+              onResolve={modal.resolve}
+              visible={modal.visible}
+            />
+          ))}
+      </Presence>
     </ModalContext>
   );
 };

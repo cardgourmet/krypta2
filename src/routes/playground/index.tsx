@@ -122,7 +122,9 @@ const TestModal = ({ innerProps, ...props }: ExtendModalProps) => {
         </Stack>
       </Modal.Content>
       <Modal.Footer>
-        <Modal.SecondaryButton>Abbrechen</Modal.SecondaryButton>
+        <Modal.SecondaryButton onClick={() => modals.request('test', { component: TestModal, nested: true })}>
+          Abbrechen
+        </Modal.SecondaryButton>
         <Modal.PrimaryButton>Liste erstellen</Modal.PrimaryButton>
       </Modal.Footer>
     </Modal>
