@@ -3,6 +3,7 @@ import { Notifications } from '@mantine/notifications';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { modalRegistry } from '@/modals.consts';
 import type { useAuth } from '@/parcels/auth/AuthContext.ts';
 import App from '@/parcels/homepage/App/App.tsx';
 import { ModalContextProvider } from '@/parcels/modals/Modal.context';
@@ -16,7 +17,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <MantineProvider defaultColorScheme="auto" theme={theme}>
-        <ModalContextProvider modals={{}}>
+        <ModalContextProvider modals={modalRegistry}>
           <Notifications />
           <App />
         </ModalContextProvider>

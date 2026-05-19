@@ -32,11 +32,16 @@
   .input {
     background: transparent;
     border: none;
+    color: var(--mantine-color-text);
     flex-grow: 1;
     font-size: 1rem;
     line-height: 1.5;
     outline: none;
     padding: 0.5rem 0.75rem;
+
+    &::placeholder {
+      color: var(--mantine-color-placeholder);
+    }
   }
 }
 

@@ -1,8 +1,12 @@
 import type { FunctionComponent, ReactNode } from 'react';
+import type { modalRegistry } from '@/modals.consts';
 import type { Extend, StructureWithChildren } from '../composition/extend';
 
 // biome-ignore lint/suspicious/noExplicitAny: this is valid
 type AnyModalComponent = FunctionComponent<ExtendModalProps<any>>;
+
+export type DefinedModalNames = keyof typeof modalRegistry;
+export type ModalName = DefinedModalNames | (string & {});
 
 export type ExtendModalProps<
   // biome-ignore lint/complexity/noBannedTypes: this is valid
@@ -15,7 +19,7 @@ export type ModalContentProps = Extend<StructureWithChildren>;
 export type ModalContextValue = {
   closeModal: (id: number) => void;
   // biome-ignore lint/suspicious/noConfusingVoidType: this is valid
-  requestModal: <T = unknown>(name: string, data?: ModalRequest) => Promise<T> | void;
+  requestModal: <T = unknown>(name: ModalName, data?: ModalRequest) => Promise<T> | void;
 };
 
 export type ModalContextProviderProps = {
@@ -40,13 +44,12 @@ export type ModalProps<T = unknown> = {
   active: boolean;
   children?: ReactNode;
   modalId?: number;
-  modalName?: string;
+  modalName?: ModalName;
   noOverlay?: boolean;
   onClose?: () => void;
   onReject?: (reason?: unknown) => void;
   onResolve?: (value: T) => void;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  title?: ReactNode;
   undismissable?: boolean;
   visible: boolean;
 };
@@ -57,7 +60,7 @@ export type ModalQueueItem = {
   id: number;
   innerProps?: object;
   interrupting: boolean;
-  name: string;
+  name: ModalName;
   reject?: (reason?: unknown) => void;
   resolve?: (value: unknown) => void;
   visible: boolean;

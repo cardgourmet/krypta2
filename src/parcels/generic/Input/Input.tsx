@@ -7,7 +7,7 @@ import type { InputProps } from './types';
 export const Input = ({
   'aria-describedby': ariaDescribedBy,
   className,
-  errorMessage,
+  error,
   hint,
   id: _id,
   label,
@@ -36,17 +36,17 @@ export const Input = ({
 
       <div className={clsx(styles.box, className)} style={style}>
         <input
-          aria-describedby={[!!errorMessage && errorId, !!hint && hintId, ariaDescribedBy].filter(Boolean).join(' ')}
-          aria-invalid={!!errorMessage}
+          aria-describedby={[!!error && errorId, !!hint && hintId, ariaDescribedBy].filter(Boolean).join(' ')}
+          aria-invalid={!!error}
           className={styles.input}
           id={id}
           {...props}
         />
       </div>
 
-      {errorMessage && (
+      {error && (
         <Typeset className={styles.errorMessage} id={errorId} size="sm">
-          {errorMessage}
+          {error}
         </Typeset>
       )}
 

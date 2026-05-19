@@ -85,7 +85,6 @@ const Root = ({
   onReject,
   onResolve,
   size = 'sm',
-  title,
   undismissable = false,
   visible,
   ...props

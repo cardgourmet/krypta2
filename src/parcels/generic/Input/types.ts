@@ -4,7 +4,7 @@ import type { Extend } from '@/parcels/composition/extend';
 export type InputProps = Extend<
   'input',
   {
-    errorMessage?: string;
+    error?: string;
     hint?: ReactNode;
     label?: ReactNode;
   }
