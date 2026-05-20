@@ -39,7 +39,7 @@ const presets: { color: string; icon: ReactNode; name: string }[] = [
 export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
   const auth = useAuth();
   const form = useListPropertiesForm();
-  const notify = useGourmetNotification();
+  const noti = useGourmetNotification();
 
   const handleSubmit = (values: ListPropertiesFormValues) => {
     if (!auth.user) return;
@@ -52,11 +52,11 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
     createList(auth.user.id, list).then(({ data, error }) => {
       if (error) {
         console.error('Error creating list', error.error?.message);
-        notify.show('Unknown error', `${error.error?.message}`, 'error');
+        noti.show('Unknown error', `${error.error?.message}`, 'error');
         return;
       }
 
-      notify.show('List Created', `\`${data?.name}\` has been created`, 'success');
+      noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
 
       props.onResolve?.(data as UserList);
       props.onClose?.();
