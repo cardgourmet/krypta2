@@ -1,0 +1,135 @@
+/** biome-ignore-all lint/suspicious/noDuplicateProperties: progressive enhancements */
+
+@layer structures {
+  .base {
+    --modal-margin: 0rem;
+    --modal-padding: 1rem;
+    --modal-safe-area-inset-left: calc(var(--modal-margin) + env(safe-area-inset-left, 0));
+    --modal-safe-area-inset-right: calc(var(--modal-margin) + env(safe-area-inset-right, 0));
+    --modal-safe-area-inset-top: max(3rem, env(safe-area-inset-right, 0));
+    background-color: var(--cgm-background-surface);
+    border: 1px solid var(--cgm-border-secondary);
+    border-radius: 1rem 1rem 0 0;
+    bottom: calc(var(--modal-margin) + env(safe-area-inset-bottom, 0));
+    box-shadow: var(--cgm-shadow-skeuomorphic), var(--cgm-shadow-xs);
+    display: flex;
+    flex-direction: column;
+    left: var(--modal-safe-area-inset-left);
+    margin-inline: auto;
+    max-height: calc(100dvh - (2 * var(--modal-margin)) - var(--modal-safe-area-inset-top));
+    overflow: clip;
+    position: fixed;
+    right: var(--modal-safe-area-inset-right);
+    width: min(
+      calc(100dvw - var(--modal-safe-area-inset-left) - var(--modal-safe-area-inset-right)),
+      var(--modal-width)
+    );
+    z-index: 100; /* TODO */
+
+    &[data-cgm-size="xs"] {
+      --modal-width: 22rem;
+    }
+
+    &[data-cgm-size="sm"] {
+      --modal-width: 30rem;
+    }
+
+    &[data-cgm-size="md"] {
+      --modal-width: 44rem;
+    }
+
+    &[data-cgm-size="lg"] {
+      --modal-width: 58rem;
+    }
+
+    &[data-cgm-size="xl"] {
+      --modal-width: 82rem;
+    }
+
+    @media (width > 48em) {
+      --modal-margin: 2rem;
+      --modal-safe-area-inset-top: 0px;
+      border-radius: 1rem;
+      bottom: unset;
+      left: 50%;
+      margin-inline: unset;
+      right: unset;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+
+      &:not([data-cgm-size="xs"]) {
+        --modal-padding: 1.5rem;
+      }
+
+      &:is([data-cgm-size="xs"], [data-cgm-size="sm"]) .modalButton {
+        flex: 1 1 0;
+      }
+    }
+  }
+
+  .closeButton {
+    pointer-events: all;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+
+  .content {
+    color: var(--cgm-foreground-secondary);
+    flex-grow: 1;
+    font-size: 1rem;
+    font-weight: 400;
+    overflow-y: auto;
+    padding: var(--modal-padding);
+
+    :is(h1, h2, h3) {
+      color: var(--cgm-foreground-primary);
+    }
+  }
+
+  .footer {
+    background-color: var(--cgm-background-primary);
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    border-top: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    box-shadow: var(--cgm-shadow-skeuomorphic);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 0.75rem;
+    padding: 1rem;
+
+    @container (width > 29rem) {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+
+  .footerWrapper {
+    border-radius: 0;
+    container-type: inline-size;
+  }
+
+  .modalButton {
+    min-width: 6rem;
+  }
+
+  .overlay {
+    --modal-overlay-blur: 4px;
+    background-color: #212432a3;
+    backdrop-filter: blur(var(--modal-overlay-blur));
+    inset: 0;
+    position: fixed;
+    z-index: 99; /* TODO */
+  }
+
+  .title {
+    font-family: var(--cgm-title-font-family);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
+  }
+}

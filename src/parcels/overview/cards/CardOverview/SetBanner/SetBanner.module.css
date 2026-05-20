@@ -55,8 +55,9 @@
   }
 
   .contentCutout {
-    background-color: var(--cgm-background-surface);
+    background-color: color-mix(in oklab, var(--cgm-background-surface), transparent 25%);
     border: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    border-bottom: none;
     border-radius: 0.75rem 0.75rem 0 0;
     box-shadow: var(--cgm-shadow-skeuomorphic);
     margin-bottom: var(--cgm-border-offset);

@@ -14,6 +14,12 @@ export type Composable<B, T = {}> =
 // biome-ignore lint/complexity/noBannedTypes: this is valid
 export type Extend<B, T = {}> = T & Omit<B extends ElementType ? ComponentProps<B> : B, keyof T>;
 
+export type InputLike<T> = {
+  defaultValue?: T;
+  onChange?: (value: T) => void;
+  value?: T;
+};
+
 export type Structure = {
   className?: string;
   id?: string;

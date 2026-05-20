@@ -6,6 +6,7 @@ export type BadgeProps = Composable<
   {
     className?: string;
     color?: 'red' | 'orange' | 'yellow' | 'lime' | 'green' | 'teal' | 'blue' | 'purple' | 'magenta';
+    interactive?: boolean;
     leadingIcon?: ReactNode;
     shape?: 'pill' | 'rectangular';
     size?: 'sm' | 'md' | 'lg';

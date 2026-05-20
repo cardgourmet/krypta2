@@ -1,0 +1,55 @@
+@layer components {
+  .base {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .box {
+    --tag-select-border-color: var(--cgm-border-secondary);
+    --tag-select-border-color-focus: var(--cgm-color-brand);
+  }
+
+  .chevron {
+    color: var(--cgm-foreground-tertiary);
+    opacity: 0.8;
+  }
+
+  .dropdown {
+    background-color: var(--cgm-background-surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--cgm-shadow-lg);
+  }
+
+  .input {
+    background-color: var(--cgm-background-surface);
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow:
+      inset 0 0 0 var(--cgm-border-width) var(--tag-select-border-color),
+      var(--cgm-shadow-xs);
+    font-family: var(--cgm-ui-font-family);
+    font-size: 1rem;
+    height: auto;
+    line-height: 1.5;
+    padding: 0.5rem 0.75rem;
+    padding-right: 2rem;
+    transition: box-shadow 0.2s;
+
+    &:focus-within {
+      box-shadow:
+        inset 0 0 0 calc(2 * var(--cgm-border-width)) var(--tag-select-border-color-focus),
+        var(--cgm-shadow-xs);
+    }
+  }
+
+  .option {
+    color: var(--cgm-foreground-primary);
+
+    &[data-combobox-selected="true"] {
+      background-color: var(--cgm-background-primary);
+      outline: var(--cgm-border-width) solid var(--cgm-color-brand);
+      outline-offset: var(--cgm-border-offset);
+    }
+  }
+}

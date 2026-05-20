@@ -1,0 +1,52 @@
+@layer components {
+  .base {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .box {
+    --input-border-color: var(--cgm-border-secondary);
+    --input-border-color-focus: var(--cgm-color-brand);
+    align-items: stretch;
+    background-color: var(--cgm-background-surface);
+    border-radius: 0.5rem;
+    box-shadow:
+      inset 0 0 0 var(--cgm-border-width) var(--input-border-color),
+      var(--cgm-shadow-xs);
+    display: flex;
+    transition: box-shadow 0.2s;
+
+    &:has(.input[aria-invalid="true"]) {
+      --input-border-color: var(--cgm-color-negative);
+      --input-border-color-focus: var(--cgm-color-negative);
+    }
+
+    &:focus-within {
+      box-shadow:
+        inset 0 0 0 calc(2 * var(--cgm-border-width)) var(--input-border-color-focus),
+        var(--cgm-shadow-xs);
+    }
+  }
+
+  .input {
+    background: transparent;
+    border: none;
+    color: var(--mantine-color-text);
+    flex-grow: 1;
+    font-size: 1rem;
+    line-height: 1.5;
+    outline: none;
+    padding: 0.5rem 0.75rem;
+
+    &::placeholder {
+      color: var(--mantine-color-placeholder);
+    }
+  }
+}
+
+@layer structures {
+  .errorMessage {
+    color: var(--cgm-color-negative);
+  }
+}

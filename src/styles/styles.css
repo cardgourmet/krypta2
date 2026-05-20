@@ -10,13 +10,14 @@
     /* new variables */
     --cgm-background-hover: light-dark(#000, #fff);
     --cgm-background-surface: light-dark(#fff, #161a1d);
-    --cgm-background-primary: #f7f8f9;
+    --cgm-background-primary: light-dark(#f7f8f9, #1d2125);
     --cgm-border-highlight: light-dark(#ffffff1f, #ffffff2e);
     --cgm-border-offset: -0.0625rem;
     --cgm-border-primary: #0000002e;
     --cgm-border-secondary: light-dark(#0000002e, #ffffff2e);
     --cgm-border-width: 0.0625rem;
     --cgm-color-brand: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
+    --cgm-color-complementary: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));
     --cgm-color-negative: light-dark(oklch(49.99% 0.1663 28.93), oklch(64% 0.199 28.932));
     --cgm-color-neutral: light-dark(#44546f, #b6c2cf);
     --cgm-foreground-primary: light-dark(#2c3e5d, #ffffff);
@@ -26,6 +27,7 @@
     --cgm-outline-width: 0.125rem;
     --cgm-shadow-skeuomorphic: 0 -1px 0 0 #0000000d inset;
     --cgm-shadow-xs: 0 1px 2px #0000000d;
+    --cgm-shadow-lg: 0px 12px 16px -4px #00000014, 0px 4px 6px -2px #00000008, 0px 2px 2px -1px #0000000a;
   }
 
   body {
@@ -44,6 +46,10 @@
     --cgm-accent: var(--cgm-color-brand);
   }
 
+  [data-cgm-accent="complementary"] {
+    --cgm-accent: var(--cgm-color-complementary);
+  }
+
   [data-cgm-accent="negative"] {
     --cgm-accent: var(--cgm-color-negative);
   }
@@ -60,6 +66,14 @@
       "Open Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  :is(h1, h2, h3, h4, h5, h6, p) {
+    font-family:
+      "Supreme", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+      "Open Sans", "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 0;
   }
 }
 
