@@ -52,7 +52,7 @@ export const RadioGroupItem = ({ children, className, hint, ...props }: RadioGro
   const { name } = use(RadioGroupContext);
 
   return (
-    <label className={clsx(styles.item, className)}>
+    <label className={clsx(styles.item, className)} {...props}>
       <VisuallyHidden>
         <input className={styles.input} name={name} type="radio" />
       </VisuallyHidden>
