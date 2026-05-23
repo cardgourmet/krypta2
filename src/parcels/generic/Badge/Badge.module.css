@@ -13,10 +13,22 @@
     padding-block: var(--badge-padding-y);
     padding-inline: var(--badge-padding-x);
 
+    @media (hover: hover) {
+      &.isInteractive:hover {
+        background-color: color-mix(in oklab, var(--cgm-background-surface), var(--cgm-background-hover) 6%);
+      }
+    }
+
     &[data-cgm-color] {
       background-color: color-mix(in oklab, var(--badge-color), var(--cgm-background-surface) 90%);
       border-color: color-mix(in oklab, var(--badge-color), transparent 64%);
       color: var(--badge-color);
+
+      @media (hover: hover) {
+        &.isInteractive:hover {
+          background-color: color-mix(in oklab, var(--badge-color), var(--cgm-background-surface) 80%);
+        }
+      }
     }
 
     &[data-cgm-color="red"] {
@@ -71,7 +83,7 @@
     &[data-cgm-size="md"] {
       --badge-font-size: 0.875rem;
       --badge-gap: 0.25rem;
-      --badge-icon-size: 0.75rem;
+      --badge-icon-size: 0.875rem;
       --badge-padding-x: 0.375rem;
       --badge-padding-y: 0.125rem;
       --badge-radius: 0.375rem;

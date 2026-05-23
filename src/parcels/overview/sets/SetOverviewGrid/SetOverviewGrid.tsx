@@ -1,10 +1,10 @@
-import { SimpleGrid, Stack } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Stack } from '@mantine/core';
 import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import type { PcgDataEra } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { SetCard } from '../SetCard/SetCard';
+import styles from './SetOverviewGrid.module.css';
 
 export function SetOverviewGrid({
   tcg,
@@ -25,28 +25,30 @@ export function SetOverviewGrid({
       }[];
   erasById: Record<string, PcgDataEra>;
 }) {
-  const smallScreen = useMediaQuery('(max-width: 1100px)');
-  const smallerScreen = useMediaQuery('(max-width: 800px)');
-  const smallestScreen = useMediaQuery('(max-width: 565px)');
-
   return (
-    <Stack gap={'2rem'}>
+    <Stack gap="2rem">
       {sortedSets.map((e) => {
         const era: PcgDataEra | undefined = erasById[e.era ?? ''];
+        const eraId = `era-${e?.year ?? era.id}`;
         const eraName = era?.translations?.en?.name;
 
         return (
-          <Stack key={e?.year ?? e.era} gap={'0.5rem'}>
-            <GourmetText cgmff={'ui'} cgmc={'neutral-9'} fw={400} fz={'1.2rem'}>
-              {e?.year ?? eraName}
-            </GourmetText>
+          <section aria-labelledby={eraId} key={eraId}>
+            <Typeset
+              asChild
+              size="lg"
+              style={{ fontFamily: 'var(--cgm-title-font-family)', margin: '0 0 0.5rem' }}
+              weight={600}
+            >
+              <h2 id={eraId}>{e?.year ?? eraName}</h2>
+            </Typeset>
 
-            <SimpleGrid cols={smallestScreen ? 1 : smallerScreen ? 2 : smallScreen ? 3 : 4}>
+            <div className={styles.grid}>
               {e.sets.map((set) => (
                 <SetCard key={set.id} set={set} tcg={tcg as Tcg} />
               ))}
-            </SimpleGrid>
-          </Stack>
+            </div>
+          </section>
         );
       })}
     </Stack>

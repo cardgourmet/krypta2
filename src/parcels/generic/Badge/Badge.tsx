@@ -9,6 +9,7 @@ export const Badge = ({
   children,
   className,
   color,
+  interactive = false,
   leadingIcon,
   shape = 'rectangular',
   size = 'md',
@@ -19,7 +20,7 @@ export const Badge = ({
 
   return (
     <Component
-      className={clsx(styles.base, className)}
+      className={clsx(styles.base, interactive && styles.isInteractive, className)}
       data-cgm-color={color}
       data-cgm-shape={shape}
       data-cgm-size={size}

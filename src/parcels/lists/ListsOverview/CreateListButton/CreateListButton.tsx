@@ -1,23 +1,30 @@
-import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
+import { use } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/parcels/generic/Button/Button';
-import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
+import { ModalContext } from '@/parcels/modals/Modal.context';
 
 export default function CreateListButton({ onSuccess }: { onSuccess?: (list: UserList) => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.create' });
 
-  const disclosure = useDisclosure(false);
-  const [_, { open }] = disclosure;
+  const { requestModal } = use(ModalContext);
 
   return (
-    <>
-      <CreateListModal disclosure={disclosure} onSuccess={onSuccess} />
+    <Button
+      leadingIcon={<IconPlus />}
+      onClick={async () => {
+        try {
+          const list = await requestModal<UserList>('createList', { async: true });
 
-      <Button leadingIcon={<IconPlus />} onClick={open} size="sm">
-        {t('title')}
-      </Button>
-    </>
+          if (list && onSuccess) {
+            onSuccess(list);
+          }
+        } catch {}
+      }}
+      size="sm"
+    >
+      {t('title')}
+    </Button>
   );
 }

@@ -1,48 +1,54 @@
 import { Group, Stack, UnstyledButton } from '@mantine/core';
+import { useUncontrolled } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import styles from './ColorSelect.module.css';
+import type { ColorSelectProps } from './types';
 
-export function ColorSelect({ value, onChange }: { value: string | undefined; onChange: (v?: string) => void }) {
-  //const colors = ['FFADAD', 'FFD6A5', 'FDFFB6', 'CAFFBF', '9BF6FF', 'A0C4FF', 'BDB2FF', 'FFC6FF'];
-  const colors = ['#e6261f', '#eb7532', '#f7d038', '#a3e048', '#49da9a', '#34bbe6', '#4355db', '#d23be7'];
-  const [_, setCurrentSelected] = useState<string | undefined>(value);
+const colors = ['#e6261f', '#eb7532', '#f7d038', '#a3e048', '#49da9a', '#34bbe6', '#4355db', '#d23be7'];
+
+export function ColorSelect({ defaultValue, onChange, value, ...props }: ColorSelectProps) {
+  const [internalValue, handleChange] = useUncontrolled({
+    defaultValue,
+    finalValue: 'default',
+    onChange,
+    value,
+  });
 
   const [sliderPosition, setSliderPosition] = useState(0);
+
   useEffect(() => {
-    if (!value) {
+    if (!internalValue) {
       setSliderPosition(0);
       return;
     }
 
-    const exactIndex = colors.findIndex((color) => color.toLowerCase() === value.toLowerCase());
+    const exactIndex = colors.findIndex((color) => color.toLowerCase() === internalValue.toLowerCase());
     if (exactIndex !== -1) {
       setSliderPosition(exactIndex);
     }
-  }, [value]);
+  }, [internalValue]);
 
   return (
-    <Stack gap={'1rem'}>
+    <Stack gap={'1rem'} {...props}>
       <Group gap={'0.5rem'} justify={'space-between'}>
         {colors.map((color, i) => {
-          const isSelected = value === color;
+          const isSelected = internalValue === color;
 
           return (
             <UnstyledButton
+              className={styles.colorSelectButton}
+              data-selected={isSelected}
+              key={i}
               onClick={() => {
                 if (isSelected) {
-                  setCurrentSelected(undefined);
-                  onChange(undefined);
+                  handleChange('default');
                   setSliderPosition(0);
                 } else {
-                  setCurrentSelected(color);
-                  onChange(color);
+                  handleChange(color);
                   setSliderPosition(i);
                 }
               }}
-              key={i}
               style={{ color: `${color}` }}
-              className={styles.colorSelectButton}
-              data-selected={isSelected}
             />
           );
         })}
@@ -56,12 +62,12 @@ export function ColorSelect({ value, onChange }: { value: string | undefined; on
         value={sliderPosition}
         style={{
           background: `linear-gradient(90deg, ${colors.join(', ')})`,
-          '--thumb-color': value,
+          '--thumb-color': internalValue === 'default' ? undefined : internalValue,
         }}
         onChange={(event) => {
           const position = Number(event.currentTarget.value);
           setSliderPosition(position);
-          onChange(interpolatePaletteColor(colors, position));
+          handleChange(interpolatePaletteColor(colors, position));
         }}
         className={styles.colorSlider}
         aria-label="Choose custom color"

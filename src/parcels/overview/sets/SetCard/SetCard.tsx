@@ -46,6 +46,7 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
 
           <Typeset
             block
+            className={styles.setName}
             size="md"
             style={{ fontFamily: 'var(--cgm-content-font-family)', marginTop: '0.125rem' }}
             weight={600}

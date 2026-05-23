@@ -1,0 +1,88 @@
+@layer components {
+  .base {
+    align-items: center;
+    border-radius: var(--featured-icon-radius);
+    display: inline-flex;
+    font-size: var(--featured-icon-icon-size);
+    height: var(--featured-icon-size);
+    justify-content: center;
+    width: var(--featured-icon-size);
+
+    &[data-cgm-size="sm"] {
+      --featured-icon-icon-size: 1rem;
+      --featured-icon-radius: 0.375rem;
+      --featured-icon-size: 2rem;
+    }
+
+    &[data-cgm-size="md"] {
+      --featured-icon-icon-size: 1.25rem;
+      --featured-icon-radius: 0.5rem;
+      --featured-icon-size: 2.5rem;
+    }
+
+    &[data-cgm-size="lg"] {
+      --featured-icon-icon-size: 1.5rem;
+      --featured-icon-radius: 0.625rem;
+      --featured-icon-size: 3rem;
+    }
+
+    &[data-cgm-size="xl"] {
+      --featured-icon-icon-size: 1.75rem;
+      --featured-icon-radius: 0.75rem;
+      --featured-icon-size: 3.5rem;
+    }
+
+    &[data-cgm-variant="primary"] {
+      background-color: var(--cgm-accent);
+      border: var(--cgm-border-width) solid var(--cgm-border-primary);
+      color: var(--cgm-foreground-primary-inverse);
+      position: relative;
+
+      &::before {
+        border: var(--cgm-border-width) solid var(--cgm-border-highlight);
+        border-radius: calc(var(--featured-icon-radius) - var(--cgm-border-width));
+        content: "";
+        inset: 0;
+        mask-image: linear-gradient(to bottom, black, transparent);
+        pointer-events: none;
+        position: absolute;
+      }
+    }
+
+    &[data-cgm-variant="secondary"] {
+      background-color: var(--cgm-background-surface);
+      border: var(--cgm-border-width) solid var(--cgm-border-secondary);
+      box-shadow: var(--cgm-shadow-skeuomorphic), var(--cgm-shadow-xs);
+      color: var(--cgm-accent);
+    }
+
+    &[data-cgm-variant="outline"] {
+      border-radius: 9999rem;
+      color: var(--cgm-accent);
+      position: relative;
+
+      &::after,
+      &::before {
+        aspect-ratio: 1;
+        border-radius: inherit;
+        content: "";
+        position: absolute;
+      }
+
+      &::before {
+        box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--cgm-accent), transparent 33%);
+        height: calc(0.25rem + var(--featured-icon-icon-size));
+      }
+
+      &::after {
+        box-shadow: 0 0 0 0.125rem color-mix(in oklab, var(--cgm-accent), transparent 66%);
+        height: calc(3 * 0.25rem + 0.125rem + var(--featured-icon-icon-size));
+      }
+    }
+
+    & > svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
+}

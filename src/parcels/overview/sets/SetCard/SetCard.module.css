@@ -1,24 +1,24 @@
-@layer structures {
+@layer components {
   .base {
     background-color: var(--cgm-background-surface);
-    border: 1px solid var(--cgm-border-secondary);
+    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
     border-radius: 0.75rem;
     box-shadow: var(--cgm-shadow-xs);
     display: flex;
     flex-direction: column;
-    overflow: clip;
     position: relative;
   }
 
   .content {
     align-items: stretch;
     background-color: var(--cgm-background-surface);
-    border: 1px solid var(--cgm-border-secondary);
+    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
     border-radius: inherit;
+    box-shadow: var(--cgm-shadow-skeuomorphic);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    margin: -1px;
+    margin: var(--cgm-border-offset);
     padding: 1rem;
     position: relative;
   }
@@ -30,7 +30,7 @@
 
     &:focus-visible {
       outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
-      outline-offset: calc(-1 * var(--cgm-outline-width));
+      outline-offset: var(--cgm-outline-width);
     }
   }
 
@@ -38,9 +38,21 @@
     background-color: color-mix(in oklab, var(--cgm-background-surface), transparent 50%);
     backdrop-filter: blur(128px) saturate(2);
     display: grid;
-    min-height: 6rem;
+    min-height: 7rem;
     padding: 1rem 2rem 2rem;
     place-items: center;
+    position: relative;
+
+    &::before {
+      border: var(--cgm-border-width) solid var(--cgm-border-highlight);
+      border-radius: calc(0.75rem - var(--cgm-border-width) - var(--cgm-border-width));
+      content: "";
+      inset: var(--cgm-border-width);
+      mask-image: linear-gradient(to bottom, black, transparent);
+      opacity: 0.5;
+      pointer-events: none;
+      position: absolute;
+    }
   }
 
   .logo {
@@ -57,12 +69,18 @@
     margin-top: auto;
   }
 
+  .setName:not(:first-child) {
+    margin-top: 0.125rem;
+  }
+
   .stage {
     background-image: var(--set-card-logo-src);
     background-position: center;
     background-size: cover;
+    border-radius: calc(0.75rem - var(--cgm-border-width)) calc(0.75rem - var(--cgm-border-width)) 0 0;
     margin: 0;
     margin-bottom: -1rem;
+    overflow: clip;
     width: 100%;
   }
 
