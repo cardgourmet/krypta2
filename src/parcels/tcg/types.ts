@@ -57,6 +57,7 @@ export type TcgSearchDisplaySettings = MtgSearchDisplaySettings | DlcSearchDispl
 
 export type TcgDataPrint = MtgDataPrint | DlcDataPrint | PcgDataPrint;
 export type TcgDataSets = MtgDataSets | DlcDataSets | PcgDataSets;
+export type TcgStatistics = c['schemas']['TcgStatistics'];
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];

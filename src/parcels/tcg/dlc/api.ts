@@ -5,6 +5,7 @@ import type {
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
+  TcgStatistics,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -25,6 +26,7 @@ export type DlcDataCard = c['schemas']['DlcDataCard'];
 export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 export type DlcDataSets = c['schemas']['Page-DlcDataSet'];
+export type DlcStatistics = TcgStatistics & { lastSet?: DlcDataSet };
 
 // /v1/dlc/sets/search
 export async function searchDlcSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet[]>> {
@@ -287,4 +289,13 @@ export async function fetchDlcPrintById(
     }
     return { error: error };
   }
+}
+
+// /v1/dlc/stats
+export async function getDlcStatistics(abort?: AbortController): Promise<GourmetApiResponse<DlcStatistics>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/stats`, {
+      signal: abort?.signal,
+    });
+  });
 }
