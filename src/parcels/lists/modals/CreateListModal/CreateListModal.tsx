@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
+import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import { Modal } from '@/parcels/modals/Modal';
 import type { ExtendModalProps } from '@/parcels/modals/types';
 import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification';
@@ -74,9 +75,9 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
 
             <Modal.Title>Neue Liste erstellen</Modal.Title>
 
-            <div style={{ textWrap: 'balance' }}>
+            {/* <div style={{ textWrap: 'balance' }}>
               Nutze unsere praktischen Vorschläge oder konfiguriere eine Liste individuell nach deinen Wünschen.
-            </div>
+            </div> */}
 
             <div
               style={{
@@ -87,6 +88,9 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
                 marginTop: '1.25rem',
               }}
             >
+              <Typeset weight={500} variant="tertiary">
+                e.g.
+              </Typeset>
               {presets.map((preset) => (
                 <Badge asChild interactive leadingIcon={preset.icon} key={preset.name}>
                   <UnstyledButton

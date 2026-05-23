@@ -47,7 +47,7 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
 
           <Modal.Title>Liste bearbeiten</Modal.Title>
 
-          <ListPropertiesFormFields form={form} style={{ marginTop: '1.25rem' }} />
+          <ListPropertiesFormFields advancedDefaultExpanded form={form} style={{ marginTop: '1.25rem' }} />
         </Modal.Content>
         <Modal.Footer>
           <Modal.SecondaryButton

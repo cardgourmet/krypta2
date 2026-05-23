@@ -1,0 +1,46 @@
+@layer components {
+  .base {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: clip;
+    transition: grid-template-rows 0.2s;
+
+    &.isExpanded {
+      grid-template-rows: 1fr;
+      overflow: unset;
+    }
+  }
+
+  .content {
+    min-height: 0;
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      visibility 0.2s;
+    visibility: hidden;
+  }
+
+  .toggle {
+    --expander-chevron-scale: 1;
+    margin-top: 0;
+    transition: margin-top 0.2s;
+    user-select: none;
+
+    svg {
+      transform: scaleY(var(--expander-chevron-scale));
+      transition: transform 0.2s;
+    }
+  }
+
+  .base.isExpanded {
+    & > .content {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    & + .toggle {
+      --expander-chevron-scale: -1;
+      margin-top: 0.5rem;
+    }
+  }
+}
