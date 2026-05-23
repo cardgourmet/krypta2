@@ -1,1 +1,6 @@
-{}
+{
+  "welcome":  {
+    "title": "Willkommen bei <1>Cardgourmet</1>",
+    "subtitle": "Ein TCG Karten Browser"
+  }
+}
