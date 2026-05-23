@@ -1,4 +1,5 @@
 import { Center, Group, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconCaretDownFilled, IconCaretUpFilled, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { Activity, useState } from 'react';
@@ -11,6 +12,8 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
   const { tcg } = useTcg();
   const { t } = useTranslation('home');
   const [opened, setOpened] = useState(false);
+
+  const smallScreen = useMediaQuery('(max-width: 800px)');
 
   return (
     <Stack className={styles.newHereBanner} gap={'0.25rem'}>
@@ -30,7 +33,7 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
 
         <Activity mode={opened ? 'visible' : 'hidden'}>
           <Stack>
-            <SimpleGrid cols={3}>
+            <SimpleGrid cols={smallScreen ? 1 : 3}>
               <Group wrap={'nowrap'} align={'start'}>
                 <GourmetText cgmc={'neutral-1'} className={styles.newHereNumber} fw={500} cgmff={'monospace'}>
                   1

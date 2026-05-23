@@ -18,6 +18,7 @@ import cssStyles from './Searchbar.module.css';
 
 export default function Searchbar({
   styles,
+  inputWrapperStyles,
   inputStyles,
   modalStyles,
   omitHelp,
@@ -25,6 +26,7 @@ export default function Searchbar({
   caretIconSize,
 }: {
   styles?: CSSProperties;
+  inputWrapperStyles?: CSSProperties;
   inputStyles?: CSSProperties;
   modalStyles?: CSSProperties;
   omitHelp?: boolean;
@@ -107,7 +109,7 @@ export default function Searchbar({
       <div className={`${cssStyles.searchOverlay} ${!isOpened ? cssStyles.hidden : ''}`} />
 
       <div className={cssStyles.searchbar} ref={mergedSearchRef} style={styles}>
-        <div className={cssStyles.searchInputWrapper}>
+        <div className={cssStyles.searchInputWrapper} style={inputWrapperStyles}>
           <div
             className={cssStyles.searchIcon}
             style={{

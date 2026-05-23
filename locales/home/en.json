@@ -1,4 +1,19 @@
 {
+  "welcome":  {
+    "title": "Welcome to <1>Cardgourmet</1>",
+    "subtitle": "A TCG Card Browser"
+  },
+  "latest": {
+    "posts": {
+      "title": "Latest Posts"
+    },
+    "updates": {
+      "title": "Latest Updates"
+    },
+    "tcgOverviews": {
+      "title": "TCG Overviews"
+    }
+  },
   "searchBar": {
     "cooker": "Search Cooker"
   },

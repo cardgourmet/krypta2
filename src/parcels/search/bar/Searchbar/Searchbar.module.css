@@ -34,10 +34,6 @@
     &:focus-visible {
       outline: 2px solid var(--gourmet-blue-2);
     }
-
-    @media (max-width: 1111px) {
-      min-width: 42dvw;
-    }
   }
 
   & > button {
