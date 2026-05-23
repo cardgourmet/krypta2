@@ -1,17 +1,23 @@
 import { Center, Group, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import { IconBowlChopsticks } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { useState } from 'react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { LatestUpdatesView } from '@/parcels/homepage/Home/LatestUpdatesView/LatestUpdatesView.tsx';
+import { LatestPostsView } from '@/parcels/homepage/Home/LatestUpdatesView/LatestPostsView.tsx';
 import { NewHereBanner } from '@/parcels/homepage/Home/NewHereBanner/NewHereBanner.tsx';
 import { TcgStatisticsCarousel } from '@/parcels/homepage/Home/TcgStatisticsCarousel/TcgStatisticsCarousel.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
+export const CGM_NEW_HERE = 'cgm-new-here';
+
 export function Home() {
   const { tcg } = useTcg();
-  const [newHere, setNewHere] = useState(true);
+  const [newHere, setNewHere] = useLocalStorage({
+    key: CGM_NEW_HERE,
+    defaultValue: true,
+    getInitialValueInEffect: true,
+  });
 
   return (
     <Stack>
@@ -69,7 +75,7 @@ export function Home() {
           <GourmetText>Latest Posts</GourmetText>
 
           <ScrollArea h={'420'} offsetScrollbars scrollbarSize={4}>
-            <LatestUpdatesView types={['blog']} />
+            <LatestPostsView types={['blog']} />
           </ScrollArea>
         </Stack>
 
@@ -77,7 +83,7 @@ export function Home() {
           <GourmetText>Latest Updates</GourmetText>
 
           <ScrollArea h={'420'} offsetScrollbars scrollbarSize={4}>
-            <LatestUpdatesView types={['release', 'changelog']} />
+            <LatestPostsView types={['release', 'changelog']} />
           </ScrollArea>
         </Stack>
 
