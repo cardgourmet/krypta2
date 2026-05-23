@@ -1,7 +1,7 @@
 import { Drawer, Group } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconMenu2, IconSearch, IconUser } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation } from '@tanstack/react-router';
 import { useRef } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { EmailChangedBanner } from '@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx';
@@ -22,6 +22,9 @@ interface NavbarProps {
 }
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
+  const location = useLocation();
+  const locationHref = location.href;
+
   const smallScreen = useMediaQuery('(max-width: 800px)');
   const { user, wasVerified, emailWasChanged } = useAuth();
 
@@ -65,9 +68,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
           {wasVerified && <VerifiedBanner />}
           {!wasVerified && user?.state === 'unverified' && <UnverifiedBanner user={user} />}
           <nav className={styles.navbar}>
-            <div className={styles.navbarSearch}>
-              <Searchbar />
-            </div>
+            <div className={styles.navbarSearch}>{locationHref !== '/' && <Searchbar />}</div>
 
             <div className={styles.navbarRight}>
               <Group gap={'0.25rem'}>

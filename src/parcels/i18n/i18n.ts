@@ -8,6 +8,8 @@ import cardsDE from '@/../locales/cards/de.json';
 import cardsEN from '@/../locales/cards/en.json';
 import historyDE from '@/../locales/history/de.json';
 import historyEN from '@/../locales/history/en.json';
+import homeDE from '@/../locales/home/de.json';
+import homeEN from '@/../locales/home/en.json';
 import listsDE from '@/../locales/lists/de.json';
 import listsEN from '@/../locales/lists/en.json';
 import navDE from '@/../locales/nav/de.json';
@@ -33,6 +35,7 @@ const resources = {
     saved: savedEN,
     advanced: advancedEN,
     sets: setsEN,
+    home: homeEN,
   },
   de: {
     auth: authDE,
@@ -45,6 +48,7 @@ const resources = {
     saved: savedDE,
     advanced: advancedDE,
     sets: setsDE,
+    home: homeDE,
   },
 };
 
@@ -52,7 +56,7 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: 'en',
-  ns: ['cards', 'search', 'nav', 'auth', 'selection'],
+  ns: ['auth', 'cards', 'nav', 'search', 'selection', 'lists', 'history', 'saved', 'advanced', 'sets', 'home'],
   defaultNS: 'cards',
   interpolation: {
     escapeValue: false,

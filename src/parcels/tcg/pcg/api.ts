@@ -5,6 +5,7 @@ import type {
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
+  TcgStatistics,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -27,6 +28,7 @@ export type PcgDataSet = c['schemas']['PcgDataSet'];
 export type PcgDataSets = c['schemas']['Page-PcgDataSet'];
 export type PcgDataEra = c['schemas']['PcgDataEra'];
 export type PcgDataEras = c['schemas']['Page-PcgDataEra'];
+export type PcgStatistics = TcgStatistics & { lastSet?: PcgDataSet };
 
 // /v1/pcg/sets/search
 export async function searchPcgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet[]>> {
@@ -304,4 +306,13 @@ export async function fetchPcgPrintById(
     }
     return { error: error };
   }
+}
+
+// /v1/pcg/stats
+export async function getPcgStatistics(abort?: AbortController): Promise<GourmetApiResponse<PcgStatistics>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/stats`, {
+      signal: abort?.signal,
+    });
+  });
 }

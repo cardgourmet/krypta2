@@ -5,6 +5,7 @@ import type {
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
+  TcgStatistics,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -23,6 +24,7 @@ export type MtgDataPrintReference = c['schemas']['MtgDataPrintReference'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
 export type MtgDataSets = c['schemas']['Page-MtgDataSet'];
 export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
+export type MtgStatistics = TcgStatistics & { lastSet?: MtgDataSet };
 
 export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
@@ -290,4 +292,13 @@ export async function fetchMtgPrintById(
     }
     return { error: error };
   }
+}
+
+// /v1/mtg/stats
+export async function getMtgStatistics(abort?: AbortController): Promise<GourmetApiResponse<MtgStatistics>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/stats`, {
+      signal: abort?.signal,
+    });
+  });
 }

@@ -10,10 +10,14 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 export type TcgSelectorProps = {
   selectedTcg: Tcg;
   setSelectedTcg: (selectedTcg: Tcg) => void;
+  iconSize?: number;
+  iconCaretSize?: number;
 };
 
-export function TcgSelector({ selectedTcg, setSelectedTcg }: TcgSelectorProps) {
+export function TcgSelector({ selectedTcg, setSelectedTcg, iconSize, iconCaretSize }: TcgSelectorProps) {
   const combobox = useCombobox();
+  const mustIconSize = iconSize ?? 20;
+  const mustIconCaretSize = iconCaretSize ?? 14;
 
   return (
     <Combobox
@@ -34,10 +38,20 @@ export function TcgSelector({ selectedTcg, setSelectedTcg }: TcgSelectorProps) {
             combobox.toggleDropdown();
           }}
         >
-          {selectedTcg === 'dlc' && <DLCIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-          {selectedTcg === 'mtg' && <MTGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-          {selectedTcg === 'pcg' && <PCGIcon width={20} height={20} color={'var(--gourmet-neutral-8)'} />}
-          <IconCaretDownFilled width={14} height={14} color={'var(--gourmet-neutral-8)'} />
+          {selectedTcg === 'dlc' && (
+            <DLCIcon width={mustIconSize} height={mustIconSize} color={'var(--gourmet-neutral-8)'} />
+          )}
+          {selectedTcg === 'mtg' && (
+            <MTGIcon width={mustIconSize} height={mustIconSize} color={'var(--gourmet-neutral-8)'} />
+          )}
+          {selectedTcg === 'pcg' && (
+            <PCGIcon width={mustIconSize} height={mustIconSize} color={'var(--gourmet-neutral-8)'} />
+          )}
+          <IconCaretDownFilled
+            width={mustIconCaretSize}
+            height={mustIconCaretSize}
+            color={'var(--gourmet-neutral-8)'}
+          />
         </Button>
       </Combobox.Target>
 

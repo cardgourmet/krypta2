@@ -1,7 +1,8 @@
+import { Space } from '@mantine/core';
 import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
 import { IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useNavigate, useRouter } from '@tanstack/react-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
@@ -13,9 +14,23 @@ import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import { useClickOutsideWithRegistry } from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
-import styles from './Searchbar.module.css';
+import cssStyles from './Searchbar.module.css';
 
-export default function Searchbar() {
+export default function Searchbar({
+  styles,
+  inputStyles,
+  modalStyles,
+  omitHelp,
+  iconSize,
+  caretIconSize,
+}: {
+  styles?: CSSProperties;
+  inputStyles?: CSSProperties;
+  modalStyles?: CSSProperties;
+  omitHelp?: boolean;
+  iconSize?: number;
+  caretIconSize?: number;
+}) {
   const { tcg, setTcg } = useTcg();
   const { t } = useTranslation('search');
 
@@ -89,63 +104,82 @@ export default function Searchbar() {
 
   return (
     <>
-      <div className={`${styles.searchOverlay} ${!isOpened ? styles.hidden : ''}`} />
+      <div className={`${cssStyles.searchOverlay} ${!isOpened ? cssStyles.hidden : ''}`} />
 
-      <div className={styles.searchbar} ref={mergedSearchRef}>
-        <div className={styles.searchIcon}>
-          <TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />
+      <div className={cssStyles.searchbar} ref={mergedSearchRef} style={styles}>
+        <div className={cssStyles.searchInputWrapper}>
+          <div
+            className={cssStyles.searchIcon}
+            style={{
+              '--height': omitHelp ? '2.25rem' : '1.75rem',
+            }}
+          >
+            <TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} iconSize={iconSize} iconCaretSize={caretIconSize} />
+          </div>
+          <input
+            className={cssStyles.searchInput}
+            type="text"
+            ref={searchInputRef}
+            value={currentQuery.query}
+            placeholder={t('search-placeholder')}
+            onFocus={() => setIsOpened(true)}
+            onClick={() => setIsOpened(true)}
+            onChange={(event) => {
+              const newQuery = event.target.value;
+              if (isCaptainOfTheShip && newQuery.length === 0) {
+                setHistoryIndex(0);
+                setCurrentQuery({ query: '', isByUser: false });
+              } else if (!isCaptainOfTheShip && newQuery.length === 0) {
+                setHistoryIndex(0);
+                setCurrentQuery({ query: '', isByUser: false });
+              } else if (!isCaptainOfTheShip && newQuery.length > 0) {
+                setSuggestionIndex(0);
+                setCurrentQuery({ query: event.target.value, isByUser: true });
+              } else if (isCaptainOfTheShip && newQuery.length > 0) {
+                setSuggestionIndex(0);
+                setCurrentQuery({ query: event.target.value, isByUser: true });
+              }
+            }}
+            data-autofocus
+            style={inputStyles}
+          />
+          <button
+            className={`${cssStyles.deleteSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
+            type={'button'}
+            onClick={() => {
+              setCurrentQuery({ query: '', isByUser: false });
+              searchInputRef.current?.focus();
+            }}
+          >
+            <IconX size={omitHelp ? 18 : 16} color={'var(--gourmet-neutral-8)'} />
+          </button>
         </div>
-        <input
-          className={styles.searchInput}
-          type="text"
-          ref={searchInputRef}
-          value={currentQuery.query}
-          placeholder={t('search-placeholder')}
-          onFocus={() => setIsOpened(true)}
-          onClick={() => setIsOpened(true)}
-          onChange={(event) => {
-            const newQuery = event.target.value;
-            if (isCaptainOfTheShip && newQuery.length === 0) {
-              setHistoryIndex(0);
-              setCurrentQuery({ query: '', isByUser: false });
-            } else if (!isCaptainOfTheShip && newQuery.length === 0) {
-              setHistoryIndex(0);
-              setCurrentQuery({ query: '', isByUser: false });
-            } else if (!isCaptainOfTheShip && newQuery.length > 0) {
-              setSuggestionIndex(0);
-              setCurrentQuery({ query: event.target.value, isByUser: true });
-            } else if (isCaptainOfTheShip && newQuery.length > 0) {
-              setSuggestionIndex(0);
-              setCurrentQuery({ query: event.target.value, isByUser: true });
-            }
-          }}
-          data-autofocus
-        />
-        <button
-          className={`${styles.deleteSearchIcon} ${currentQuery.query.length === 0 ? styles.hidden : ''}`}
-          type={'button'}
-          onClick={() => {
-            setCurrentQuery({ query: '', isByUser: false });
-            searchInputRef.current?.focus();
-          }}
-        >
-          <IconX size={16} color={'var(--gourmet-neutral-8)'} />
-        </button>
 
-        <button type="button" className={styles.helpButton}>
-          <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
-        </button>
+        {!omitHelp && (
+          <button type="button" className={cssStyles.helpButton}>
+            <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
+          </button>
+        )}
 
-        <div className={`${styles.searchModal} ${!isOpened ? styles.hidden : ''}`}>
-          <div className={styles.content}>
-            <div className={styles.advancedSearch}>
-              <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
-                <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
-                {t('advanced')}
-              </Link>
-            </div>
+        <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
+          <div className={cssStyles.content}>
+            {!omitHelp && (
+              <div
+                className={cssStyles.advancedSearch}
+                style={{
+                  marginRight: omitHelp ? '0' : '3rem',
+                }}
+              >
+                <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
+                  <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
+                  {t('advanced')}
+                </Link>
+              </div>
+            )}
 
-            <div className={`${styles.typingInfo} ${isCaptainOfTheShip ? styles.hidden : ''}`}>
+            {omitHelp && <Space h={'0.25rem'} />}
+
+            <div className={`${cssStyles.typingInfo} ${isCaptainOfTheShip ? cssStyles.hidden : ''}`}>
               <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
             </div>
 

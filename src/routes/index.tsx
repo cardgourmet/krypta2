@@ -1,12 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router';
-import styles from './index.module.css';
+import { Home } from '@/parcels/homepage/Home/Home.tsx';
 
 export const Route = createFileRoute('/')({
-  component: Home,
+  component: RouteComponent,
 });
 
-function Home() {
-  return (
+function RouteComponent() {
+  return <Home />;
+  /*return (
     <div className={styles.homepage}>
       <div style={{ marginTop: '6rem', marginBottom: '2rem' }}>
         <h1>Willkommen bei Cardgourmet!</h1>
@@ -42,5 +43,5 @@ function Home() {
         </div>
       </div>
     </div>
-  );
+  );*/
 }
