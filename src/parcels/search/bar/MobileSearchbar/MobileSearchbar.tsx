@@ -65,10 +65,10 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           <IconHelpHexagon size={16} color={'var(--cgm-sidebar-button-bg)'} />
           <Text>{t('help')}</Text>
         </div>
-        <div className={styles.advancedSearch}>
-          <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
+        <div className={styles.cuisine}>
+          <Link to={`/$tcg/cuisine`} params={{ tcg: tcg }}>
             <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
-            {t('advanced')}
+            {t('cuisine')}
           </Link>
         </div>
       </Group>

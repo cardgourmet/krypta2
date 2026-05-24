@@ -1,7 +1,5 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import advancedDE from '@/../locales/advanced/de.json';
-import advancedEN from '@/../locales/advanced/en.json';
 import authDE from '@/../locales/auth/de.json';
 import authEN from '@/../locales/auth/en.json';
 import cardsDE from '@/../locales/cards/de.json';
@@ -22,6 +20,8 @@ import selectionDE from '@/../locales/selection/de.json';
 import selectionEN from '@/../locales/selection/en.json';
 import setsDE from '@/../locales/sets/de.json';
 import setsEN from '@/../locales/sets/en.json';
+import cuisineDE from '../../../locales/cuisine/de.json';
+import cuisineEN from '../../../locales/cuisine/en.json';
 
 const resources = {
   en: {
@@ -33,7 +33,7 @@ const resources = {
     lists: listsEN,
     history: historyEN,
     saved: savedEN,
-    advanced: advancedEN,
+    cuisine: cuisineEN,
     sets: setsEN,
     home: homeEN,
   },
@@ -46,7 +46,7 @@ const resources = {
     lists: listsDE,
     history: historyDE,
     saved: savedDE,
-    advanced: advancedDE,
+    cuisine: cuisineDE,
     sets: setsDE,
     home: homeDE,
   },
@@ -56,7 +56,7 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: 'en',
-  ns: ['auth', 'cards', 'nav', 'search', 'selection', 'lists', 'history', 'saved', 'advanced', 'sets', 'home'],
+  ns: ['auth', 'cards', 'nav', 'search', 'selection', 'lists', 'history', 'saved', 'cuisine', 'sets', 'home'],
   defaultNS: 'cards',
   interpolation: {
     escapeValue: false,

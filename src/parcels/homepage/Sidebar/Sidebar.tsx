@@ -159,10 +159,10 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
                 <GourmetText>Cards</GourmetText>
               </Group>
             </Link>
-            <Link to="/$tcg/advanced" params={{ tcg: tcg }} className={styles.submenuItem}>
+            <Link to="/$tcg/cuisine" params={{ tcg: tcg }} className={styles.submenuItem}>
               <Group gap={'0.75rem'}>
                 <IconDeviceVisionPro size={22} />
-                <GourmetText>Advanced Search</GourmetText>
+                <GourmetText>Search Cuisine</GourmetText>
               </Group>
             </Link>
           </Stack>

@@ -167,14 +167,14 @@ export default function Searchbar({
           <div className={cssStyles.content}>
             {!omitHelp && (
               <div
-                className={cssStyles.advancedSearch}
+                className={cssStyles.cuisine}
                 style={{
                   marginRight: omitHelp ? '0' : '3rem',
                 }}
               >
-                <Link to={`/$tcg/advanced`} params={{ tcg: tcg }}>
+                <Link to={`/$tcg/cuisine`} params={{ tcg: tcg }}>
                   <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
-                  {t('advanced')}
+                  {t('cuisine')}
                 </Link>
               </div>
             )}

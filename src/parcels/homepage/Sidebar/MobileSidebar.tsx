@@ -78,10 +78,10 @@ function TcgButton({ tcg, activeTcg, close }: { tcg: Tcg; activeTcg: Tcg | undef
                 <GourmetText>Cards</GourmetText>
               </Group>
             </Link>
-            <Link to={'/$tcg/advanced'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
+            <Link to={'/$tcg/cuisine'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
               <Group gap={'0.75rem'}>
                 <IconDeviceVisionPro size={22} />
-                <GourmetText>Advanced Search</GourmetText>
+                <GourmetText>Search Cuisine</GourmetText>
               </Group>
             </Link>
           </Stack>
