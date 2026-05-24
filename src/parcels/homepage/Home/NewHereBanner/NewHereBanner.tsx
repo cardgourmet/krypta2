@@ -49,7 +49,7 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
                   <Trans i18nKey="newHere.2" t={t}>
                     Use the
                     <Link
-                      to={'/$tcg/advanced'}
+                      to={'/$tcg/cuisine'}
                       params={{ tcg: tcg }}
                       style={{ textDecoration: 'underline', color: 'var(--gourmet-neutral-1)' }}
                     >

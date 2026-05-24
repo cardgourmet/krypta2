@@ -20,8 +20,8 @@ import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-sear
 import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
 import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
 import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
+import { Route as TcgCuisineIndexRouteImport } from './routes/$tcg/cuisine/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
-import { Route as TcgAdvancedIndexRouteImport } from './routes/$tcg/advanced/index'
 import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
 import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
@@ -84,14 +84,14 @@ const TcgSetsIndexRoute = TcgSetsIndexRouteImport.update({
   path: '/$tcg/sets/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TcgCuisineIndexRoute = TcgCuisineIndexRouteImport.update({
+  id: '/$tcg/cuisine/',
+  path: '/$tcg/cuisine/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
   id: '/$tcg/cards/',
   path: '/$tcg/cards/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TcgAdvancedIndexRoute = TcgAdvancedIndexRouteImport.update({
-  id: '/$tcg/advanced/',
-  path: '/$tcg/advanced/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeListsListIdRoute = MeListsListIdRouteImport.update({
@@ -137,8 +137,8 @@ export interface FileRoutesByFullPath {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
-  '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/$tcg/cuisine/': typeof TcgCuisineIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
   '/me/history/': typeof MeHistoryIndexRoute
   '/me/lists/': typeof MeListsIndexRoute
@@ -158,8 +158,8 @@ export interface FileRoutesByTo {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
-  '/$tcg/advanced': typeof TcgAdvancedIndexRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
+  '/$tcg/cuisine': typeof TcgCuisineIndexRoute
   '/$tcg/sets': typeof TcgSetsIndexRoute
   '/me/history': typeof MeHistoryIndexRoute
   '/me/lists': typeof MeListsIndexRoute
@@ -180,8 +180,8 @@ export interface FileRoutesById {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
-  '/$tcg/advanced/': typeof TcgAdvancedIndexRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/$tcg/cuisine/': typeof TcgCuisineIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
   '/me/history/': typeof MeHistoryIndexRoute
   '/me/lists/': typeof MeListsIndexRoute
@@ -203,8 +203,8 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/me/lists/$listId'
-    | '/$tcg/advanced/'
     | '/$tcg/cards/'
+    | '/$tcg/cuisine/'
     | '/$tcg/sets/'
     | '/me/history/'
     | '/me/lists/'
@@ -224,8 +224,8 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/me/lists/$listId'
-    | '/$tcg/advanced'
     | '/$tcg/cards'
+    | '/$tcg/cuisine'
     | '/$tcg/sets'
     | '/me/history'
     | '/me/lists'
@@ -245,8 +245,8 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/me/lists/$listId'
-    | '/$tcg/advanced/'
     | '/$tcg/cards/'
+    | '/$tcg/cuisine/'
     | '/$tcg/sets/'
     | '/me/history/'
     | '/me/lists/'
@@ -267,8 +267,8 @@ export interface RootRouteChildren {
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   AuthEmailTokenRoute: typeof AuthEmailTokenRoute
   MeListsListIdRoute: typeof MeListsListIdRoute
-  TcgAdvancedIndexRoute: typeof TcgAdvancedIndexRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
+  TcgCuisineIndexRoute: typeof TcgCuisineIndexRoute
   TcgSetsIndexRoute: typeof TcgSetsIndexRoute
   MeHistoryIndexRoute: typeof MeHistoryIndexRoute
   MeListsIndexRoute: typeof MeListsIndexRoute
@@ -357,18 +357,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TcgSetsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$tcg/cuisine/': {
+      id: '/$tcg/cuisine/'
+      path: '/$tcg/cuisine'
+      fullPath: '/$tcg/cuisine/'
+      preLoaderRoute: typeof TcgCuisineIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$tcg/cards/': {
       id: '/$tcg/cards/'
       path: '/$tcg/cards'
       fullPath: '/$tcg/cards/'
       preLoaderRoute: typeof TcgCardsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$tcg/advanced/': {
-      id: '/$tcg/advanced/'
-      path: '/$tcg/advanced'
-      fullPath: '/$tcg/advanced/'
-      preLoaderRoute: typeof TcgAdvancedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/lists/$listId': {
@@ -427,8 +427,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   AuthEmailTokenRoute: AuthEmailTokenRoute,
   MeListsListIdRoute: MeListsListIdRoute,
-  TcgAdvancedIndexRoute: TcgAdvancedIndexRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
+  TcgCuisineIndexRoute: TcgCuisineIndexRoute,
   TcgSetsIndexRoute: TcgSetsIndexRoute,
   MeHistoryIndexRoute: MeHistoryIndexRoute,
   MeListsIndexRoute: MeListsIndexRoute,
