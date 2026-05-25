@@ -4,15 +4,9 @@ import { confirmEmailAddress } from '@/parcels/auth/api.ts';
 const UUID_REGEX = /^[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$/;
 
 export const Route = createFileRoute('/auth/confirm/$token')({
-  beforeLoad: ({ params, context }) => {
+  beforeLoad: ({ params }) => {
     const token = params.token;
     if (!UUID_REGEX.test(token)) {
-      throw redirect({
-        to: '/',
-      });
-    }
-
-    if (context.auth.user?.state !== 'unverified') {
       throw redirect({
         to: '/',
       });
@@ -27,7 +21,9 @@ export const Route = createFileRoute('/auth/confirm/$token')({
     }
 
     // verify success, please relogin
-    context.auth.logout();
+    if (context.auth.user) {
+      context.auth.logout();
+    }
     context.auth.verify();
 
     throw redirect({
