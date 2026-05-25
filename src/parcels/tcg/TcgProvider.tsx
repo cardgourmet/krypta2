@@ -14,6 +14,7 @@ export default function TcgProvider({ children }: { children: ReactNode }) {
   const [tcgInStorage, setTcgInStorage] = useLocalStorage<Tcg | null>({
     key: CGM_LAST_TCG,
     getInitialValueInEffect: true,
+    defaultValue: 'mtg',
   });
   const tcgByLocation = useTcgByLocation();
   const previousTcgByLocation = usePrevious(tcgByLocation);
