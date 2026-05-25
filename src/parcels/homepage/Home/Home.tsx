@@ -73,10 +73,10 @@ export function Home() {
           </Stack>
 
           <Group justify={'end'}>
-            <Link to={'/$tcg/cuisine'} params={{ tcg: tcg }} style={{ textDecoration: 'none' }}>
+            <Link to={'/$tcg/kitchen'} params={{ tcg: tcg }} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
                 <IconBowlChopsticks size={18} color={'var(--gourmet-blue-1)'} />
-                <GourmetText c={'var(--gourmet-blue-1)'}>Search Cuisine</GourmetText>
+                <GourmetText c={'var(--gourmet-blue-1)'}>{t('searchBar.cuisine')}</GourmetText>
               </Group>
             </Link>
           </Group>

@@ -25,5 +25,8 @@
     "logout": "Abmelden",
     "login": "Anmelden",
     "guest": "Gast"
-  }
+  },
+  "cards": "Karten",
+  "sets": "Sets",
+  "cuisine": "Suchküche"
 }

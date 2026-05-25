@@ -66,7 +66,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           <Text>{t('help')}</Text>
         </div>
         <div className={styles.cuisine}>
-          <Link to={`/$tcg/cuisine`} params={{ tcg: tcg }}>
+          <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
             <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
             {t('cuisine')}
           </Link>

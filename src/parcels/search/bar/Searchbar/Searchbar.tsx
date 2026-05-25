@@ -172,7 +172,7 @@ export default function Searchbar({
                   marginRight: omitHelp ? '0' : '3rem',
                 }}
               >
-                <Link to={`/$tcg/cuisine`} params={{ tcg: tcg }}>
+                <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
                   <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
                   {t('cuisine')}
                 </Link>

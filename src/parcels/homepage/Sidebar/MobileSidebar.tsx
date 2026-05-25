@@ -1,6 +1,7 @@
 import { Accordion, Button, Group, Stack, Text } from '@mantine/core';
 import { IconCards, IconDeviceVisionPro, IconFolders, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
@@ -33,6 +34,7 @@ export function MobileSidebar({ close }: { close: () => void }) {
 }
 
 function TcgButton({ tcg, activeTcg, close }: { tcg: Tcg; activeTcg: Tcg | undefined; close: () => void }) {
+  const { t } = useTranslation('nav');
   const isActive = tcg === activeTcg;
   const iconSize = 26;
 
@@ -78,10 +80,10 @@ function TcgButton({ tcg, activeTcg, close }: { tcg: Tcg; activeTcg: Tcg | undef
                 <GourmetText>Cards</GourmetText>
               </Group>
             </Link>
-            <Link to={'/$tcg/cuisine'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
+            <Link to={'/$tcg/kitchen'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
               <Group gap={'0.75rem'}>
                 <IconDeviceVisionPro size={22} />
-                <GourmetText>Search Cuisine</GourmetText>
+                <GourmetText>{t('cuisine')}</GourmetText>
               </Group>
             </Link>
           </Stack>

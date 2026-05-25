@@ -2,5 +2,19 @@
   "welcome":  {
     "title": "Willkommen bei <1>Cardgourmet</1>",
     "subtitle": "Ein TCG Karten Browser"
+  },
+  "latest": {
+    "posts": {
+      "title": "Letzte Posts"
+    },
+    "updates": {
+      "title": "Letzte Updates"
+    },
+    "tcgOverviews": {
+      "title": "TCG Übersicht"
+    }
+  },
+  "searchBar": {
+    "cuisine": "Suchküche"
   }
 }

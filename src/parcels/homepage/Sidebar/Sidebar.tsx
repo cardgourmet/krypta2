@@ -1,9 +1,10 @@
 import { offset, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
 import { Drawer, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconCards, IconDeviceVisionPro, IconFolders } from '@tabler/icons-react';
+import { IconBowlChopsticks, IconCards, IconFolders } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
@@ -83,6 +84,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 }
 
 function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | undefined }) {
+  const { t } = useTranslation('nav');
   const [isOpen, setIsOpen] = useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -145,7 +147,7 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
             >
               <Group gap={'0.75rem'}>
                 <IconFolders size={22} />
-                <GourmetText>Sets</GourmetText>
+                <GourmetText>{t('sets')}</GourmetText>
               </Group>
             </Link>
             <Link
@@ -156,20 +158,20 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
             >
               <Group gap={'0.75rem'}>
                 <IconCards size={22} />
-                <GourmetText>Cards</GourmetText>
+                <GourmetText>{t('cards')}</GourmetText>
               </Group>
             </Link>
-            <Link to="/$tcg/cuisine" params={{ tcg: tcg }} className={styles.submenuItem}>
+            <Link to="/$tcg/kitchen" params={{ tcg: tcg }} className={styles.submenuItem}>
               <Group gap={'0.75rem'}>
-                <IconDeviceVisionPro size={22} />
-                <GourmetText>Search Cuisine</GourmetText>
+                <IconBowlChopsticks size={22} />
+                <GourmetText>{t('cuisine')}</GourmetText>
               </Group>
             </Link>
           </Stack>
         </div>
       </div>
     );
-  }, [floatingStyles, getFloatingProps, isOpen, refs.setFloating, tcg, refs]);
+  }, [floatingStyles, getFloatingProps, isOpen, refs.setFloating, tcg, refs, t]);
 
   return { button, submenu };
 }

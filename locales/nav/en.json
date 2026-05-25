@@ -25,5 +25,8 @@
     "logout": "Logout",
     "login": "Login",
     "guest": "Guest"
-  }
+  },
+  "cards": "Cards",
+  "sets": "Sets",
+  "cuisine": "Search Kitchen"
 }
