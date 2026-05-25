@@ -1,5 +1,5 @@
 import { Group, Stack } from '@mantine/core';
-import { IconEyeOff, IconLabelFilled, IconShieldShare, IconWorld } from '@tabler/icons-react';
+import { IconEyeOff, IconLabelFilled, IconWorld } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Expander } from '@/parcels/generic/Expander/Expander';
 import { Input } from '@/parcels/generic/Input/Input';
@@ -43,7 +43,6 @@ export const ListPropertiesFormFields = ({
           <Select
             data={[
               { label: 'Private', value: 'private' },
-              { label: 'Unlisted', value: 'unlisted' },
               { label: 'Public', value: 'public' },
             ]}
             key={form.key('visibility')}
@@ -52,10 +51,6 @@ export const ListPropertiesFormFields = ({
               private: {
                 description: 'Die Liste ist nur für dich sichtbar.',
                 icon: <IconEyeOff />,
-              },
-              unlisted: {
-                description: 'Die Liste ist über einen Link sichtbar für alle.',
-                icon: <IconShieldShare />,
               },
               public: {
                 description: 'Die Liste ist sichtbar für alle.',

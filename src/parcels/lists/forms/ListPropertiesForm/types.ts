@@ -15,5 +15,5 @@ export type ListPropertiesFormValues = {
   color: 'default' | (string & {});
   description: string;
   name: string;
-  visibility: 'private' | 'public' | 'unlisted';
+  visibility: 'private' | 'public';
 };

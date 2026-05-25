@@ -59,8 +59,7 @@
       "noDescription": "No description set.",
       "visibility": {
         "public": "Public",
-        "private": "Private",
-        "unlisted": "Unlisted"
+        "private": "Private"
       },
       "listEmpty": "This list is empty.",
       "noResources": "No resources found.",
@@ -80,7 +79,6 @@
       },
       "visibilityExplain": {
         "private": "<strong>Private</strong> lists can only be seen by you.",
-        "unlisted": "<strong>Unlisted</strong> can be seen by everybody who has the link to your list.",
         "public": "<strong>Public</strong> can be seen by everybody."
       },
       "allowedTcgsExplain": "If empty, all TCGs are allowed.",

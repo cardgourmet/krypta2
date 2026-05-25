@@ -58,8 +58,7 @@
       "noDescription": "Keine Beschreibung gesetzt.",
       "visibility": {
         "public": "Öffentlich",
-        "private": "Privat",
-        "unlisted": "Ungelistet"
+        "private": "Privat"
       },
       "listEmpty": "Diese Liste ist leer.",
       "noResources": "Keine Ressourcen gefunden.",
@@ -79,7 +78,6 @@
       },
       "visibilityExplain": {
         "private": "<strong>Private</strong> Listen kannst nur du sehen.",
-        "unlisted": "<strong>Ungelistete</strong> Listen können von allen gesehen werden, die einen Link zu deiner Liste haben.",
         "public": "<strong>Öffentliche</strong> Listen kann jeder sehen."
       },
       "allowedTcgsExplain": "Leer lassen, um alle TCGs zu erlauben.",

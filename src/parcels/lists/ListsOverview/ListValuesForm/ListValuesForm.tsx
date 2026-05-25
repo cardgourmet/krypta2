@@ -22,7 +22,6 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
   const { t } = useTranslation('lists', { keyPrefix: 'overview.form' });
   const visibilityData = [
     { value: 'private', label: 'Private' },
-    { value: 'unlisted', label: 'Unlisted' },
     { value: 'public', label: 'Public' },
   ];
   const allowedTcgsData = [
@@ -78,8 +77,6 @@ export function ListValuesForm({ form }: { form: ReturnType<typeof useListForm> 
               <Popover.Dropdown style={{ pointerEvents: 'none' }}>
                 <GourmetText size="sm">
                   <Trans t={t} i18nKey={'visibilityExplain.private'} /> <br />
-                  <br />
-                  <Trans t={t} i18nKey={'visibilityExplain.unlisted'} /> <br />
                   <br />
                   <Trans t={t} i18nKey={'visibilityExplain.public'} />
                 </GourmetText>

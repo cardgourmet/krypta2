@@ -1,5 +1,5 @@
 import { Divider, Group, Stack } from '@mantine/core';
-import { IconLabelFilled, IconLink, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
+import { IconLabelFilled, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -107,12 +107,13 @@ export function VisibilityBadge({ visibility }: { visibility: 'private' | 'publi
 
   return (
     <Group gap={'0.2rem'} className={styles.visibilityBadge} wrap={'nowrap'}>
-      {visibility === 'private' && <IconLock size={18} color={'var(--gourmet-neutral-7'} />}
+      {(visibility === 'private' || visibility === undefined) && (
+        <IconLock size={18} color={'var(--gourmet-neutral-7'} />
+      )}
       {visibility === 'public' && <IconWorld size={18} color={'var(--gourmet-neutral-7'} />}
-      {visibility === undefined && <IconLink size={18} color={'var(--gourmet-neutral-7'} />}
 
       <GourmetText fz={'0.9rem'} c={'var(--gourmet-neutral-7'}>
-        {visibility ? t(`visibility.${visibility}`) : t('unlisted')}
+        {visibility ? t(`visibility.${visibility}`) : t('visibility.private')}
       </GourmetText>
     </Group>
   );
