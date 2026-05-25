@@ -11,11 +11,11 @@
       "title": "Latest Updates"
     },
     "tcgOverviews": {
-      "title": "TCG Overviews"
+      "title": "TCG Overview"
     }
   },
   "searchBar": {
-    "cooker": "Search Cuisine"
+    "cuisine": "Search Kitchen"
   },
   "newHere": {
     "title": "New here?",
