@@ -2,6 +2,10 @@
   "search": {
     "aliasFor": "Alias für"
   },
+  "breadcrumbs": {
+    "database": "Kartendatenbank",
+    "sets": "Sets"
+  },
   "dlc": {
     "common": {
       "sortby": "Sortieren nach",

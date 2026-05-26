@@ -2,6 +2,10 @@
   "search": {
     "aliasFor": "alias for"
   },
+  "breadcrumbs": {
+    "database": "Card Database",
+    "sets": "Sets"
+  },
   "table": {
     "cols": {
       "Set": "Set",

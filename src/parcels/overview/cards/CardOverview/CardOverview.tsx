@@ -3,7 +3,9 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconAlertCircleFilled, IconClock } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
 import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -29,20 +31,21 @@ export type OverviewSettings = Required<TcgSearchParams>;
 
 export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSearch: TcgSearchParams }) {
   const tcg = useTcgByLocation() as Tcg;
+  const { t } = useTranslation('cards');
+  const [lang] = useLanguage();
 
-  // TODO: translate breadcrumbs (also maybe use language from set translations)
   const { component, title } = useBreadcrumbs(
     set === undefined
-      ? { subpage: 'Kartendatenbank' }
+      ? { subpage: t('breadcrumbs.database') }
       : {
           subpage: '',
           moreSubpages: [
             {
-              label: 'Sets',
+              label: t('breadcrumbs.sets'),
               href: `/${tcg}/sets`,
             },
             {
-              label: set.translations.en.name,
+              label: set.translations?.[lang]?.name ?? set.translations.en.name,
             },
           ],
         },
@@ -103,11 +106,11 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   return (
     <div ref={scrollbackRef}>
       {set === undefined && (
-        <title>{`${(params.query?.length ?? 0) === 0 ? 'Card Database' : params.query}
+        <title>{`${(params.query?.length ?? 0) === 0 ? t('breadcrumbs.database') : params.query}
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
       {set !== undefined && (
-        <title>{`${set.translations.en.name} (${set.code?.toUpperCase()})
+        <title>{`${set.translations?.[lang]?.name ?? set.translations.en.name} (${set.code?.toUpperCase()})
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
 
