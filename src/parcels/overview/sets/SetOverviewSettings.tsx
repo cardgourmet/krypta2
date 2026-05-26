@@ -1,15 +1,18 @@
 import { Group, Stack } from '@mantine/core';
+import { useNavigate } from '@tanstack/react-router';
 import { startTransition, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import { type SortDirection, sortDirections, type TcgSetGroupBy } from '@/parcels/tcg/types.ts';
+import { SimpleSearchbar } from '@/parcels/search/bar/SimpleSearchbar/SimpleSearchbar.tsx';
+import { type SortDirection, sortDirections, type TcgSetGroupBy, tcgSetsParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 
 export type OverviewSettings = {
-  groupBy: TcgSetGroupBy;
+  group: TcgSetGroupBy;
   order: SortDirection;
+  q: string;
 };
 
 export function SetOverviewSettings({
@@ -44,11 +47,12 @@ export function SetOverviewSettings({
   }, [tcg, fillTranslation]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
 
+  const navigate = useNavigate();
   const [settings, setSettings] = useState<OverviewSettings>({ ...overviewSettings });
 
   return (
     <Stack>
-      <Group gap={'1rem'}>
+      <Group gap={'1rem'} justify={'space-between'}>
         <Group gap={'0.25rem'}>
           <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
             {t('common.groupBy')}
@@ -57,13 +61,13 @@ export function SetOverviewSettings({
             items={groupByItems}
             t={t}
             transPrefix={'groupBy'}
-            defaultSelected={settings.groupBy}
+            defaultSelected={settings.group}
             onSelect={(sel) => {
-              setSettings({ ...settings, groupBy: sel as TcgSetGroupBy });
+              setSettings({ ...settings, group: sel as TcgSetGroupBy });
 
               startTransition(() => {
                 setOverviewSettings((prev) => {
-                  return { ...prev, groupBy: sel as TcgSetGroupBy };
+                  return { ...prev, group: sel as TcgSetGroupBy };
                 });
               });
             }}
@@ -84,6 +88,19 @@ export function SetOverviewSettings({
             }}
           />
         </Group>
+
+        <SimpleSearchbar
+          onChange={(searchQuery) => {
+            // noinspection JSIgnoredPromiseFromCall
+            navigate({
+              to: '/$tcg/sets',
+              params: {
+                tcg: tcg,
+              },
+              search: { ...tcgSetsParamsDefaults, q: searchQuery },
+            });
+          }}
+        />
       </Group>
     </Stack>
   );

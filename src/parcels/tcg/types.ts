@@ -126,11 +126,13 @@ export const tcgSetGroupBys = ['year', 'era'] as const;
 export type TcgSetGroupBy = (typeof tcgSetGroupBys)[number];
 
 export const tcgSetsParamsDefaults = {
-  groupBy: 'year' as TcgSetGroupBy,
+  group: 'year' as TcgSetGroupBy,
   order: 'desc' as SortDirection,
+  q: '',
 };
 
 export const tcgSetsParamsSchema = z.object({
-  groupBy: z.enum(tcgSetGroupBys).catch(tcgSetsParamsDefaults.groupBy),
+  group: z.enum(tcgSetGroupBys).catch(tcgSetsParamsDefaults.group),
   order: z.enum(sortDirections).catch(tcgSetsParamsDefaults.order),
+  q: z.string().catch(tcgSetsParamsDefaults.q),
 });
