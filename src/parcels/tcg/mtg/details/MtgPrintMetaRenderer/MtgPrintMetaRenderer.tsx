@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
 import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
+import { tcgSetParamsDefaults } from '@/routes/$tcg/sets/$setCode';
 import styles from './MtgPrintMetaRenderer.module.css';
 
 export function MtgPrintMetaRenderer({
@@ -75,6 +76,7 @@ export function MtgPrintMetaRenderer({
       <Link
         to={'/$tcg/sets/$setCode'}
         params={{ tcg: 'mtg', setCode: set.code.toLowerCase() }}
+        search={{ ...tcgSetParamsDefaults }}
         className={styles.setLink}
       >
         <Group gap={'xs'} wrap={'nowrap'} align={'start'}>

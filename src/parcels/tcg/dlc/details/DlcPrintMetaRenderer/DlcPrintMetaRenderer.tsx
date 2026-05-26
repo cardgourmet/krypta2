@@ -8,6 +8,7 @@ import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
 import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgDataCard, PcgDataPrint, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
 import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
+import { tcgSetParamsDefaults } from '@/routes/$tcg/sets/$setCode';
 import styles from './DlcPrintMetaRenderer.module.css';
 
 export function DlcPrintMetaRenderer({
@@ -79,6 +80,7 @@ export function DlcPrintMetaRenderer({
         <Link
           to={`/$tcg/sets/$setCode`}
           params={{ tcg: 'dlc', setCode: (set as DlcDataSet).code.toLowerCase() }}
+          search={{ ...tcgSetParamsDefaults }}
           className={styles.setLink}
         >
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>

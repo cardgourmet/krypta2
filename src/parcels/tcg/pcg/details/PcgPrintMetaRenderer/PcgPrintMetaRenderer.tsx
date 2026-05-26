@@ -7,6 +7,7 @@ import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/ap
 import type { PcgDataCard, PcgDataPrint, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
 import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
 import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
+import { tcgSetParamsDefaults } from '@/routes/$tcg/sets/$setCode';
 import styles from './PcgPrintMetaRenderer.module.css';
 
 export function PcgPrintMetaRenderer({
@@ -78,6 +79,7 @@ export function PcgPrintMetaRenderer({
         <Link
           to={`/$tcg/sets/$setCode`}
           params={{ tcg: 'pcg', setCode: (set as PcgDataSet).code?.toLowerCase() ?? '???' }}
+          search={{ ...tcgSetParamsDefaults }}
           className={styles.setLink}
         >
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>

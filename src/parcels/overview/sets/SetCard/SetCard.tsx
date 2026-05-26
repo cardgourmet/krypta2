@@ -8,6 +8,7 @@ import type { DlcDataSet } from '@/parcels/tcg/dlc/api';
 import type { MtgDataSet } from '@/parcels/tcg/mtg/api';
 import type { PcgDataSet } from '@/parcels/tcg/pcg/api';
 import { TcgSetIcon } from '@/parcels/tcg/TcgSetIcon';
+import { tcgSetParamsDefaults } from '@/routes/$tcg/sets/$setCode';
 import styles from './SetCard.module.css';
 import type { SetCardProps } from './types';
 
@@ -79,7 +80,12 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
         </div>
       </div>
 
-      <Link className={styles.link} params={{ tcg: tcg, setCode: set.code ?? '?' }} to={'/$tcg/sets/$setCode'} />
+      <Link
+        className={styles.link}
+        params={{ tcg: tcg, setCode: set.code ?? '?' }}
+        to={'/$tcg/sets/$setCode'}
+        search={{ ...tcgSetParamsDefaults }}
+      />
     </article>
   );
 };

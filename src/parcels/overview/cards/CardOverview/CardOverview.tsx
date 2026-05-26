@@ -29,6 +29,8 @@ export type OverviewSettings = Required<TcgSearchParams>;
 
 export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSearch: TcgSearchParams }) {
   const tcg = useTcgByLocation() as Tcg;
+
+  // TODO: translate breadcrumbs (also maybe use language from set translations)
   const { component, title } = useBreadcrumbs(
     set === undefined
       ? { subpage: 'Kartendatenbank' }
