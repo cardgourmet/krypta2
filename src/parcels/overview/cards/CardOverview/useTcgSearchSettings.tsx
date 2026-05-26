@@ -1,30 +1,7 @@
-import { useNavigate } from '@tanstack/react-router';
-import { useEffect, useMemo } from 'react';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
-import type { TcgSearchDisplaySettings, TcgSearchQuerySettings } from '@/parcels/tcg/types.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/$tcg/cards';
+import { useMemo } from 'react';
+import type { TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings } from '@/parcels/tcg/types.ts';
 
-export function useTcgSearchSettings(set?: TcgDataSet) {
-  const tcg = useTcgByLocation() as Tcg;
-  const search = Route.useSearch();
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!set) return;
-    if (!tcg) return;
-
-    navigate({
-      to: '/$tcg/cards',
-      // @ts-expect-error it's stupid
-      search: (prev) => ({ ...prev, sortBy: 'set', uniqueBy: 'prints' }),
-      params: {
-        tcg: tcg,
-      },
-      replace: true,
-    });
-  }, [set, navigate, tcg]);
-
+export function useTcgSearchSettings(search: TcgSearchParams) {
   const searchQuerySettings = useMemo(() => {
     return {
       page: search.page,

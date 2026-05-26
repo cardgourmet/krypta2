@@ -1,8 +1,9 @@
-import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
+import { createFileRoute, notFound, redirect, stripSearchParams } from '@tanstack/react-router';
 import { CardOverview } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
 import { getSetSpecificQuery } from '@/parcels/overview/cards/getSetSpecificQuery.ts';
 import { fetchSetByQuery } from '@/parcels/tcg/fetchSetByQuery.ts';
 import { tcgSearchParamsDefaults, tcgSearchParamsSchema } from '@/parcels/tcg/types.ts';
+import { tcgSetParamsDefaults } from '@/routes/$tcg/sets/$setCode';
 
 export const Route = createFileRoute('/$tcg/cards/')({
   component: RouteComponent,
@@ -20,8 +21,16 @@ export const Route = createFileRoute('/$tcg/cards/')({
     const { tcg } = params;
     const setRes = await fetchSetByQuery(tcg, deps.query);
     if (!setRes || setRes.error) return null;
+    if (!setRes?.data?.code) return null;
 
-    return setRes.data ?? null;
+    throw redirect({
+      to: '/$tcg/sets/$setCode',
+      search: { ...tcgSetParamsDefaults },
+      params: {
+        tcg: params.tcg,
+        setCode: setRes.data.code!,
+      },
+    });
   },
   shouldReload: false, // only reload when `loaderDeps` change (i.e., the query)
   validateSearch: tcgSearchParamsSchema,
@@ -31,5 +40,5 @@ export const Route = createFileRoute('/$tcg/cards/')({
 });
 
 function RouteComponent() {
-  return <CardOverview />;
+  return <CardOverview routeSearch={Route.useSearch()} />;
 }
