@@ -10,7 +10,8 @@
   },
   "settings": {
     "common": {
-      "groupBy": "Gruppieren nach"
+      "groupBy": "Gruppieren nach",
+      "sortBy": "Sortieren nach"
     },
     "groupBy": {
       "year": "Jahr",
@@ -20,6 +21,11 @@
       "auto": "Auto",
       "asc": "Aufsteigend",
       "desc": "Absteigend"
+    },
+    "sortBy": {
+      "released": "Released",
+      "prints": "Prints",
+      "name": "Name"
     }
   },
   "overview": {

@@ -125,14 +125,21 @@ export const tcgSearchParamsSchema = z.object({
 export const tcgSetGroupBys = ['year', 'era'] as const;
 export type TcgSetGroupBy = (typeof tcgSetGroupBys)[number];
 
+export const tcgSetSortBys = ['released', 'prints', 'name'] as const;
+export type TcgSetSortBy = (typeof tcgSetSortBys)[number];
+
 export const tcgSetsParamsDefaults = {
   group: 'year' as TcgSetGroupBy,
   order: 'desc' as SortDirection,
   q: '',
+  sort: 'released' as TcgSetSortBy,
+  sortOrder: 'desc' as SortDirection,
 };
 
 export const tcgSetsParamsSchema = z.object({
   group: z.enum(tcgSetGroupBys).catch(tcgSetsParamsDefaults.group),
   order: z.enum(sortDirections).catch(tcgSetsParamsDefaults.order),
   q: z.string().catch(tcgSetsParamsDefaults.q),
+  sort: z.enum(tcgSetSortBys).catch(tcgSetsParamsDefaults.sort),
+  sortOrder: z.enum(sortDirections).catch(tcgSetsParamsDefaults.sortOrder),
 });
