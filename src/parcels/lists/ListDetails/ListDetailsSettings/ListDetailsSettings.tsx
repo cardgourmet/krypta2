@@ -1,5 +1,4 @@
 import { Group, Stack } from '@mantine/core';
-import { useNavigate } from '@tanstack/react-router';
 import { startTransition, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -18,7 +17,7 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
   const [sortBy, setSortBy] = useState<string>(search.sort ?? 'addedAt');
   const [sortDir, setSortDir] = useState<string>(search.order ?? 'auto');
 
-  const navigate = useNavigate();
+  const navigate = Route.useNavigate();
   return (
     <Stack mb={'1.5rem'}>
       <Group>
