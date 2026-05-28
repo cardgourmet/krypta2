@@ -68,7 +68,15 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
           {wasVerified && <VerifiedBanner />}
           {!wasVerified && user?.state === 'unverified' && <UnverifiedBanner user={user} />}
           <nav className={styles.navbar}>
-            <div className={styles.navbarSearch}>{locationHref !== '/' && <Searchbar />}</div>
+            <div className={styles.navbarSearch}>
+              {locationHref !== '/' && (
+                <Searchbar
+                  inputStyles={{
+                    minWidth: '32dvw',
+                  }}
+                />
+              )}
+            </div>
 
             <div className={styles.navbarRight}>
               <Group gap={'0.25rem'}>

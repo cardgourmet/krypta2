@@ -1,7 +1,8 @@
 import { Center, Combobox, Group, UnstyledButton, useCombobox } from '@mantine/core';
 import { IconCheck, IconLanguage } from '@tabler/icons-react';
-import { startTransition, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
 import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './LanguageSelector.module.css';
@@ -53,14 +54,8 @@ export function LanguageSelector() {
         setLocalLanguage(optionValue);
         combobox.closeDropdown();
 
-        // "If one frame is still not enough, use a double requestAnimationFrame"
-        // - and so I did. (it actually works, with only one it doesn't)
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            startTransition(() => {
-              setLanguage(optionValue as 'de' | 'en');
-            });
-          });
+        requestAnimationFrameTransition(() => {
+          setLanguage(optionValue as 'de' | 'en');
         });
       }}
       store={combobox}

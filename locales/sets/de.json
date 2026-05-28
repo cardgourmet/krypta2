@@ -1,8 +1,8 @@
 {
   "header": {
-    "title": "Alle Sets"
+    "title": "Sets"
   },
-  "pageTitle": "Alle Sets Übersicht",
+  "pageTitle": "Sets Übersicht",
   "tcg": {
     "mtg": "Magic: The Gathering",
     "pcg": "Pokémon Card Game",
@@ -10,16 +10,23 @@
   },
   "settings": {
     "common": {
-      "groupBy": "Gruppieren nach"
+      "groupBy": "Gruppieren nach",
+      "sortBy": "Sortieren nach"
     },
     "groupBy": {
       "year": "Jahr",
-      "era": "Ära"
+      "era": "Ära",
+      "none": "Nichts"
     },
     "sortdir": {
       "auto": "Auto",
       "asc": "Aufsteigend",
       "desc": "Absteigend"
+    },
+    "sortBy": {
+      "released": "Released",
+      "prints": "Prints",
+      "name": "Name"
     }
   },
   "overview": {

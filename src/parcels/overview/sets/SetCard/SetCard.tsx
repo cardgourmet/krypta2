@@ -1,6 +1,7 @@
 import { IconCalendarWeekFilled, IconCardsFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
+import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
@@ -61,7 +62,7 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
         </div>
 
         <Typeset block style={{ marginBottom: '1.25rem' }} variant="secondary">
-          {set.type}
+          {capitalizeFirstLetter(set.type)}
         </Typeset>
 
         <div className={styles.metadata}>

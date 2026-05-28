@@ -1,6 +1,6 @@
 import { Space } from '@mantine/core';
 import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
-import { IconDeviceVisionPro, IconQuestionMark, IconX } from '@tabler/icons-react';
+import { IconBowlChopsticks, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useNavigate, useRouter } from '@tanstack/react-router';
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -173,7 +173,7 @@ export default function Searchbar({
                 }}
               >
                 <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
-                  <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
+                  <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
                   {t('cuisine')}
                 </Link>
               </div>
