@@ -48,7 +48,9 @@ export function FilterButton({
           </Center>
         </UnstyledButton>
       </Popover.Target>
-      <Popover.Dropdown>
+      <Popover.Dropdown
+        style={{ backgroundColor: 'var(--gourmet-neutral-2)', borderColor: 'var(--gourmet-neutral-4)' }}
+      >
         <Stack>
           <Group justify={'space-between'}>
             <GourmetText cgmff={'ui'} fw={600} fz={'1.2rem'}>
