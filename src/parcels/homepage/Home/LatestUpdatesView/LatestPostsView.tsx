@@ -43,8 +43,6 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
     loadPosts();
   }, [types]);
 
-  console.log(posts);
-
   return (
     <Stack gap={'0.5rem'}>
       {loading && (
