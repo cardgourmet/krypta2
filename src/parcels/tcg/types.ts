@@ -122,7 +122,7 @@ export const tcgSearchParamsSchema = z.object({
   sortBy: z.enum(tcgSortBys).catch(tcgSearchParamsDefaults.sortBy),
 });
 
-export const tcgSetGroupBys = ['year', 'era'] as const;
+export const tcgSetGroupBys = ['year', 'era', 'none'] as const;
 export type TcgSetGroupBy = (typeof tcgSetGroupBys)[number];
 
 export const tcgSetSortBys = ['released', 'prints', 'name'] as const;

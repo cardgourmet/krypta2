@@ -7,12 +7,22 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { getReleaseDate, groupByEra, groupByYear } from '@/parcels/overview/sets/helpers.ts';
 import { SetOverviewGrid } from '@/parcels/overview/sets/SetOverviewGrid/SetOverviewGrid.tsx';
-import { type OverviewSettings, SetOverviewSettings } from '@/parcels/overview/sets/SetOverviewSettings.tsx';
+import {
+  SetOverviewLoader,
+  useSetOverviewLoaderStore,
+} from '@/parcels/overview/sets/SetOverviewLoader/SetOverviewLoader.tsx';
+import {
+  type OverviewSettings,
+  SetOverviewSettings,
+} from '@/parcels/overview/sets/SetOverviewSettings/SetOverviewSettings.tsx';
+import { deserializeFilterString } from '@/parcels/overview/sets/SetOverviewSettings/setFilters.ts';
 import type { PcgDataEra, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
 import { Route } from '@/routes/$tcg/sets';
+
+export type GroupedSet = { era?: string; year?: number; sets: TcgDataSet[] };
 
 export function SetsOverview() {
   const { t } = useTranslation('sets');
@@ -27,16 +37,21 @@ export function SetsOverview() {
       }, {}) ?? {}
     );
   }, [erasData?.data?.items]);
+  const setTypes = useMemo(() => {
+    return [...new Set(data?.data?.items?.map((s) => s.type) ?? [])];
+  }, [data?.data?.items]);
   const search = Route.useSearch();
 
   const [settings, setSettings] = useState<OverviewSettings>(search);
   const prevSettings = usePrevious(settings);
   const navigate = useNavigate();
+  const setIsLoading = useSetOverviewLoaderStore((s) => s.setLoading);
   useEffect(() => {
     if (!settings) return;
     if (!tcg) return;
     if (!prevSettings || prevSettings === settings) return;
 
+    // noinspection JSIgnoredPromiseFromCall
     navigate({
       to: '/$tcg/sets',
       search: () => ({ ...settings }),
@@ -45,44 +60,24 @@ export function SetsOverview() {
       },
       replace: true,
     });
-  }, [settings, navigate, tcg, prevSettings]);
+
+    setIsLoading(false);
+  }, [settings, navigate, tcg, prevSettings, setIsLoading]);
+
   const setSettingsWrapper = useCallback(
     (apply: ApplyFn<OverviewSettings>) => {
-      setSettings(apply(settings));
-      //setIsDisplayLoading(false);
+      const newSettings = apply(settings);
+      setSettings(newSettings);
     },
     [settings],
   );
 
   const { component, title } = useBreadcrumbs({ subpage: t('header.title') });
-  const sortedSets = useMemo(() => {
+  const sortedSets: GroupedSet[] = useMemo(() => {
     if (!data?.data) return [];
 
-    let filteredSets = data.data.items as TcgDataSet[];
-    if (tcg === 'pcg') {
-      filteredSets =
-        filteredSets?.filter((set) => {
-          const s = set as PcgDataSet;
-
-          return ['main_expansion', 'special_expansion', 'energies'].includes(s.type);
-        }) ?? [];
-    }
-    // always sort the sets by date first before grouping.
-    filteredSets.sort((a, b) => {
-      const dateA = getReleaseDate(tcg as Tcg, a)?.getTime() ?? 0;
-      const dateB = getReleaseDate(tcg as Tcg, b)?.getTime() ?? 0;
-
-      if (settings.order === 'asc') return dateA - dateB;
-      return (dateA - dateB) * -1;
-    });
-
-    if (settings.group === 'year') {
-      return groupByYear(tcg as Tcg, filteredSets, settings.order);
-    } else if (settings.group === 'era') {
-      return groupByEra(tcg as Tcg, filteredSets, settings.order, erasById);
-    }
-    return [];
-  }, [data?.data, tcg, settings.group, erasById, settings.order]);
+    return filterAndSortSets(tcg as Tcg, settings, data.data.items as TcgDataSet[], erasById);
+  }, [data?.data, tcg, settings.group, erasById, settings]);
 
   return (
     <>
@@ -111,11 +106,84 @@ export function SetsOverview() {
         </Stack>
 
         <Stack mb={'1.5rem'}>
-          <SetOverviewSettings tcg={tcg as Tcg} overviewSettings={search} setOverviewSettings={setSettingsWrapper} />
+          <SetOverviewSettings
+            tcg={tcg as Tcg}
+            overviewSettings={search}
+            setOverviewSettings={setSettingsWrapper}
+            metaData={{
+              types: setTypes,
+            }}
+          />
         </Stack>
 
-        <SetOverviewGrid tcg={tcg} sortedSets={sortedSets} erasById={erasById} />
+        <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
+          <SetOverviewLoader />
+
+          <SetOverviewGrid tcg={tcg} groupedSets={sortedSets} erasById={erasById} />
+        </div>
       </div>
     </>
   );
+}
+
+function filterAndSortSets(
+  tcg: Tcg,
+  settings: OverviewSettings,
+  sets: TcgDataSet[],
+  erasById: Record<string, PcgDataEra>,
+) {
+  let filteredSets = sets;
+  if (tcg === 'pcg') {
+    filteredSets =
+      filteredSets?.filter((set) => {
+        const s = set as PcgDataSet;
+
+        return ['main_expansion', 'special_expansion', 'energies'].includes(s.type);
+      }) ?? [];
+  }
+
+  // now filter by the search query
+  const setFilters = deserializeFilterString(settings.q);
+  if (setFilters.name.length > 0) {
+    filteredSets = filteredSets.filter((s) => {
+      const name = s.translations.en.name;
+
+      return name.toLowerCase().includes(setFilters.name.toLowerCase());
+    });
+  }
+  if (setFilters.types.length > 0) {
+    filteredSets = filteredSets.filter((set) => {
+      return setFilters.types.includes(set.type);
+    });
+  }
+
+  // always sort the sets first before grouping.
+  filteredSets.sort((a, b) => {
+    if (settings.sort === 'released') {
+      const dateA = getReleaseDate(tcg as Tcg, a)?.getTime() ?? 0;
+      const dateB = getReleaseDate(tcg as Tcg, b)?.getTime() ?? 0;
+
+      if (settings.sortOrder === 'asc') return dateA - dateB;
+      return (dateA - dateB) * -1;
+    } else if (settings.sort === 'prints') {
+      if (settings.sortOrder === 'asc') return a.printsAvailable - b.printsAvailable;
+      return (a.printsAvailable - b.printsAvailable) * -1;
+    } else if (settings.sort === 'name') {
+      const nameA = a.translations.en.name;
+      const nameB = b.translations.en.name;
+
+      if (settings.sortOrder === 'asc') return nameA.localeCompare(nameB);
+      return nameA.localeCompare(nameB) * -1;
+    }
+    return 0;
+  });
+
+  if (settings.group === 'year') {
+    return groupByYear(tcg as Tcg, filteredSets, settings.order);
+  } else if (settings.group === 'era') {
+    return groupByEra(tcg as Tcg, filteredSets, settings.order, erasById);
+  } else if (settings.group === 'none') {
+    return [{ sets: filteredSets }];
+  }
+  return [];
 }

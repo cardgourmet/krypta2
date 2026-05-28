@@ -26,7 +26,6 @@
     background-color: var(--cgm-button-bg);
     border: solid 2px var(--cgm-button-border);
     border-radius: 0.2rem;
-    min-width: 32dvw;
     padding: 0.25rem 3rem 0.25rem 3.25rem;
 
     color: var(--cgm-text-color);

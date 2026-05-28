@@ -15,7 +15,8 @@
     },
     "groupBy": {
       "year": "Year",
-      "era": "Era"
+      "era": "Era",
+      "none": "None"
     },
     "sortdir": {
       "auto": "Auto",
