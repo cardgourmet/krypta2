@@ -1,6 +1,8 @@
 import { Group } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import { type ReactElement, useCallback, useMemo } from 'react';
+import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
+import { getImagesByTcgCard } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { PcgDataCard, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
 import { PcgSymbolSVG } from '@/parcels/tcg/pcg/details/PcgSymbolSVG.tsx';
@@ -12,18 +14,20 @@ export function useConstructPcgCardTableData(cardItems: PcgSearchDataCard[]) {
       Set: <>{card.print.setCode}</>,
       Number: <>{card.print.collectorNumber}</>,
       Name: (
-        <Link
-          to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
-          params={{
-            tcg: 'pcg',
-            setCode: card.print.setCode?.toLowerCase() as string,
-            collectorNumber: card.print.collectorNumber?.toLowerCase() as string,
-            any: slugify(card.name ?? ''),
-          }}
-          preload={false}
-        >
-          {card.name}
-        </Link>
+        <CursorImageHover images={getImagesByTcgCard('pcg', card)}>
+          <Link
+            to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
+            params={{
+              tcg: 'pcg',
+              setCode: card.print.setCode?.toLowerCase() as string,
+              collectorNumber: card.print.collectorNumber?.toLowerCase() as string,
+              any: slugify(card.name ?? ''),
+            }}
+            preload={false}
+          >
+            {card.name}
+          </Link>
+        </CursorImageHover>
       ),
       Energy: (
         <Group align={'center'}>

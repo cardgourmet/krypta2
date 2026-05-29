@@ -1,6 +1,8 @@
 import { Group } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import { type ReactElement, useCallback, useMemo } from 'react';
+import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
+import { getImagesByTcgCard } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { MtgDataCard, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
@@ -12,18 +14,20 @@ export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
       Set: <>{card.print.setCode}</>,
       Number: <>{card.print.collectorNumber}</>,
       Name: (
-        <Link
-          to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
-          params={{
-            tcg: 'mtg',
-            setCode: card.print.setCode?.toLowerCase() as string,
-            collectorNumber: card.print.collectorNumber?.toLowerCase() as string,
-            any: slugify(card.name ?? ''),
-          }}
-          preload={false}
-        >
-          <span title={card.name}>{card.name}</span>
-        </Link>
+        <CursorImageHover images={getImagesByTcgCard('mtg', card)}>
+          <Link
+            to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
+            params={{
+              tcg: 'mtg',
+              setCode: card.print.setCode?.toLowerCase() as string,
+              collectorNumber: card.print.collectorNumber?.toLowerCase() as string,
+              any: slugify(card.name ?? ''),
+            }}
+            preload={false}
+          >
+            <span title={card.name}>{card.name}</span>
+          </Link>
+        </CursorImageHover>
       ),
       Cost: (
         <Group wrap={'nowrap'} gap={'0'}>
