@@ -3,22 +3,19 @@ import { IconArrowRight, IconRefresh } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo, useRef, useState } from 'react';
 import { FlippableCard } from '@/parcels/details/FlippableCard/FlippableCard.tsx';
+import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { slugify } from '@/parcels/slugify.ts';
-import type { DlcDataCard, DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
+import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
+import type { MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
-import type { PcgDataCard, PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
+import type { PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
 import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Button } from '../generic/Button/Button';
 
-export function TcgPrintImageRenderer({
-  tcg,
-  card,
-  ...others
-}: { tcg: Tcg; card: MtgDataCard | PcgDataCard | DlcDataCard } & StackProps) {
+export function TcgPrintImageRenderer({ tcg, card, ...others }: { tcg: Tcg; card: TcgDataCard } & StackProps) {
   const frontUrl = useMemo(() => {
     if (tcg === 'mtg') return (card.print as MtgDataPrint).faces[0].translations.en.imageUrls?.full ?? '';
     else if (tcg === 'pcg') return (card.print as PcgDataPrint).translations.en.imageUrls?.full ?? '';

@@ -1,13 +1,16 @@
 import { Divider, Flex, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
-import { type ReactElement, useCallback } from 'react';
+import { useCallback } from 'react';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
-import type { TcgDetailParams } from '@/parcels/details/loadTcgPrintAndSet.ts';
+import { TcgPrintContent } from '@/parcels/details/TcgPrintDetails/TcgPrintContent/TcgPrintContent.tsx';
+import { TcgPrintMeta } from '@/parcels/details/TcgPrintDetails/TcgPrintMeta/TcgPrintMeta.tsx';
 import { TcgPrintImageRenderer } from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataCard, DlcDataSet, DlcDataSetSummary } from '@/parcels/tcg/dlc/api.ts';
+import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
 import type { MtgDataCard, MtgDataSet, MtgDataSetSummary } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgDataCard, PcgDataSet, PcgDataSetSummary } from '@/parcels/tcg/pcg/api.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -16,34 +19,22 @@ export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
 export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
 
-type TcgPrintDetailsPage = {
-  findParamsByLanguage: (card: TcgDataCard, lang: string) => TcgDetailParams;
-  constructPageTitle: (card: TcgDataCard, set: TcgDataSet, lang: string) => ReactElement;
-  constructPrintFaces: (card: TcgDataCard, lang: string) => ReactElement[];
-  constructPrintMeta: (
-    card: TcgDataCard,
-    set: TcgDataSet,
-    lang: string,
-    setLanguage: (l: string, _: string) => void,
-  ) => ReactElement;
-};
-
-export function TcgPrintDetails({
-  findParamsByLanguage,
-  constructPageTitle,
-  constructPrintFaces,
-  constructPrintMeta,
-}: TcgPrintDetailsPage) {
+export function TcgPrintDetails() {
   const tcg = useTcgByLocation() as Tcg;
 
   const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
-  const { print: cardWithPrints, set } = routeApi.useLoaderData();
+  const { print: card, set } = routeApi.useLoaderData();
   const { lang: printLanguage } = routeApi.useSearch() as CardDetailsSearch;
 
   const navigate = useNavigate();
   const setLanguage = useCallback(
     (lang: string, _: string) => {
-      const specificParams = findParamsByLanguage(cardWithPrints, lang);
+      const specificPrint = card.allPrints.find((print) => print.supportedLanguages.includes(lang)) ?? card.print;
+      const specificParams = {
+        setCode: specificPrint.setCode.toLowerCase(),
+        collectorNumber: specificPrint.collectorNumber.toLowerCase(),
+        any: slugify(card.name),
+      };
 
       // noinspection JSIgnoredPromiseFromCall
       navigate({
@@ -54,7 +45,7 @@ export function TcgPrintDetails({
         },
       });
     },
-    [navigate, cardWithPrints, tcg, findParamsByLanguage],
+    [navigate, card, tcg],
   );
 
   const { component, title } = useBreadcrumbs({
@@ -69,16 +60,15 @@ export function TcgPrintDetails({
         href: `/${tcg}/sets/${set.code.toLowerCase()}`,
       },
       {
-        label: cardWithPrints.name,
+        label: card.name,
       },
     ],
   });
 
-  const smallerScreen = useMediaQuery('(max-width: 1110px)');
   const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
     <div>
-      {constructPageTitle(cardWithPrints, set, printLanguage)}
+      <title>{`${card.name} (${set.translations?.en?.name} #${card.print.collectorNumber}) – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
       {component}
 
       <Stack
@@ -111,36 +101,14 @@ export function TcgPrintDetails({
         >
           <TcgPrintImageRenderer
             tcg={tcg}
-            card={cardWithPrints}
+            card={card}
             w={smallScreen ? '100%' : ''}
             align={smallScreen ? 'center' : 'start'}
           />
-          <Flex
-            align={smallScreen ? 'center' : 'start'}
-            wrap={'nowrap'}
-            style={{ flexShrink: 10_000 }}
-            direction={smallerScreen ? 'column' : 'row'}
-            w={smallScreen ? '100%' : ''}
-          >
-            {constructPrintFaces(cardWithPrints, printLanguage).map((e, index) => {
-              return (
-                <Group key={index} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'}>
-                  {e}
-                </Group>
-              );
-            })}
-          </Flex>
-          <Group
-            align={'start'}
-            ml={smallScreen ? '' : 'auto'}
-            maw={smallScreen ? '' : '16rem'}
-            miw={'12rem'}
-            mih={'32rem'}
-            w={smallScreen ? '100%' : ''}
-            justify={smallScreen ? 'center' : 'start'}
-          >
-            {constructPrintMeta(cardWithPrints, set, printLanguage, setLanguage)}
-          </Group>
+
+          <TcgPrintContent tcg={tcg} card={card} lang={printLanguage} />
+
+          <TcgPrintMeta tcg={tcg} card={card} set={set} lang={printLanguage} setLang={setLanguage} />
         </Flex>
       </Group>
     </div>
