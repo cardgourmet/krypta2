@@ -1,8 +1,9 @@
-import { Code, Group, Select, type SelectProps, Stack, Text } from '@mantine/core';
+import { Code, Group, Select, type SelectProps, Stack } from '@mantine/core';
 import { IconBrush, IconCaretDownFilled, IconCheck, IconDiamond, IconLanguage, IconNumber } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { DlcDataCard, DlcDataPrint, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
 import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
 import type { MtgDataCard, MtgDataPrint, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
@@ -86,12 +87,12 @@ export function DlcPrintMetaRenderer({
           <Group gap={'xs'} wrap={'nowrap'} align={'start'}>
             <PcgSetIcon setCode={(set as DlcDataSet).code.toLowerCase()} />
             <Stack gap={'0.25rem'}>
-              <Text ff={'var(--cgm-content-font-family)'} fz={'1rem'} c={'var(--gourmet-neutral-9)'}>
+              <GourmetText fz={'1rem'} c={'var(--gourmet-neutral-9)'}>
                 {set.translations.en.name}
-              </Text>
-              <Text ff={'var(--cgm-content-font-family)'} fz={'xs'} c={'var(--gourmet-neutral-7)'}>
+              </GourmetText>
+              <GourmetText fz={'xs'} c={'var(--gourmet-neutral-7)'}>
                 {set.code} &#x2022; {set.printsAvailable} Karten &#x2022; {(set as DlcDataSet).releaseDate}
-              </Text>
+              </GourmetText>
             </Stack>
           </Group>
         </Link>
@@ -133,7 +134,7 @@ export function DlcPrintMetaRenderer({
               Collector Number
             </Kicker>
 
-            <Text ff={'var(--cgm-content-font-family)'}>#{print.collectorNumber}</Text>
+            <GourmetText>#{print.collectorNumber}</GourmetText>
           </Stack>
 
           <Stack gap="0.125rem">
@@ -154,7 +155,7 @@ export function DlcPrintMetaRenderer({
                 textUnderlineOffset: '2px',
               }}
             >
-              <Text ff={'var(--cgm-content-font-family)'}>{print.rarity}</Text>
+              <GourmetText>{print.rarity}</GourmetText>
             </Link>
           </Stack>
 
@@ -177,7 +178,7 @@ export function DlcPrintMetaRenderer({
                   textUnderlineOffset: '2px',
                 }}
               >
-                <Text ff={'var(--cgm-content-font-family)'}>{(print as DlcDataPrint).artist}</Text>
+                <GourmetText>{(print as DlcDataPrint).artist}</GourmetText>
               </Link>
             </Stack>
           )}

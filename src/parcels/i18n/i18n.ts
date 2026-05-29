@@ -22,6 +22,8 @@ import setsDE from '@/../locales/sets/de.json';
 import setsEN from '@/../locales/sets/en.json';
 import cuisineDE from '../../../locales/cuisine/de.json';
 import cuisineEN from '../../../locales/cuisine/en.json';
+import detailsDE from '../../../locales/details/de.json';
+import detailsEN from '../../../locales/details/en.json';
 
 const resources = {
   en: {
@@ -36,6 +38,7 @@ const resources = {
     cuisine: cuisineEN,
     sets: setsEN,
     home: homeEN,
+    details: detailsEN,
   },
   de: {
     auth: authDE,
@@ -49,6 +52,7 @@ const resources = {
     cuisine: cuisineDE,
     sets: setsDE,
     home: homeDE,
+    details: detailsDE,
   },
 };
 

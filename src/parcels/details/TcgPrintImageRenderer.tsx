@@ -1,9 +1,10 @@
-import { Group, Image, Stack, type StackProps } from '@mantine/core';
+import { Center, Group, Image, Stack, type StackProps } from '@mantine/core';
 import { IconArrowRight, IconRefresh } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlippableCard } from '@/parcels/details/FlippableCard/FlippableCard.tsx';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
@@ -12,27 +13,44 @@ import type { MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
 import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Button } from '../generic/Button/Button';
 
-export function TcgPrintImageRenderer({ tcg, card, ...others }: { tcg: Tcg; card: TcgDataCard } & StackProps) {
+export function TcgPrintImageRenderer({
+  tcg,
+  card,
+  lang,
+  ...others
+}: { tcg: Tcg; card: TcgDataCard; lang?: string } & StackProps) {
+  const { t } = useTranslation('details');
+  const printLanguage = lang ?? 'en';
+
   const frontUrl = useMemo(() => {
-    if (tcg === 'mtg') return (card.print as MtgDataPrint).faces[0].translations.en.imageUrls?.full ?? '';
-    else if (tcg === 'pcg') return (card.print as PcgDataPrint).translations.en.imageUrls?.full ?? '';
-    else if (tcg === 'dlc') return (card.print as DlcDataPrint).translations.en.imageUrls?.full ?? '';
+    if (tcg === 'mtg') return (card.print as MtgDataPrint).faces[0].translations?.[printLanguage].imageUrls?.full ?? '';
+    else if (tcg === 'pcg') return (card.print as PcgDataPrint).translations?.[printLanguage].imageUrls?.full ?? '';
+    else if (tcg === 'dlc') return (card.print as DlcDataPrint).translations?.[printLanguage].imageUrls?.full ?? '';
     return undefined;
-  }, [tcg, card]);
+  }, [tcg, card, printLanguage]);
   const backUrl = useMemo(() => {
-    if (tcg === 'mtg') return (card.print as MtgDataPrint).faces[1]?.translations?.en?.imageUrls?.full ?? '';
+    if (tcg === 'mtg')
+      return (card.print as MtgDataPrint).faces[1]?.translations?.[printLanguage]?.imageUrls?.full ?? '';
     return undefined;
-  }, [tcg, card]);
+  }, [tcg, card, printLanguage]);
 
   const [flipped, setFlipped] = useState(false);
   const flipRef = useRef<HTMLDivElement>(null);
 
-  const otherPrints = card.allPrints.filter((c) => {
-    return c.id !== card.print.id && c.setCode === card.print.setCode;
-  });
+  const otherPrints = card.allPrints
+    .filter((c) => {
+      return c.id !== card.print.id;
+    })
+    .sort((a, b) => {
+      const releaseA = new Date(a.releaseDate ?? '').getTime();
+      const releaseB = new Date(b.releaseDate ?? '').getTime();
+
+      return (releaseA - releaseB) * -1;
+    });
   const searchParamsDefault = useMemo(() => {
     return tcg === 'mtg' ? mtgSearchParamsDefaults : tcg === 'dlc' ? dlcSearchParamsDefaults : pcgSearchParamsDefaults;
   }, [tcg]);
@@ -64,7 +82,7 @@ export function TcgPrintImageRenderer({ tcg, card, ...others }: { tcg: Tcg; card
 
       {otherPrints.length > 0 && (
         <Group gap={'0.5rem'} maw={'18rem'} w={'100%'}>
-          {otherPrints.map((print) => {
+          {otherPrints.slice(0, 7).map((print) => {
             return (
               <Link
                 key={print.id}
@@ -85,6 +103,22 @@ export function TcgPrintImageRenderer({ tcg, card, ...others }: { tcg: Tcg; card
               </Link>
             );
           })}
+          {otherPrints.length > 7 && (
+            <div
+              style={{
+                width: '4rem',
+                borderRadius: '4px',
+                border: '1px solid var(--gourmet-neutral-3)',
+                height: '89px',
+              }}
+            >
+              <Center w={'100%'} h={'100%'}>
+                <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+                  +{otherPrints.length - 7}
+                </GourmetText>
+              </Center>
+            </div>
+          )}
         </Group>
       )}
       {card.allPrints.length > 1 && (
@@ -95,13 +129,13 @@ export function TcgPrintImageRenderer({ tcg, card, ...others }: { tcg: Tcg; card
             }}
             search={{
               ...searchParamsDefault,
-              query: `cardid:"${card.id}"`,
+              query: `cardid:"${card.id}" include:extras`,
               uniqueBy: 'prints',
             }}
             style={{ marginLeft: '-0.5rem' }}
             to="/$tcg/cards"
           >
-            Alle {card.allPrints.length} Prints ansehen
+            {t('image.showAll', { count: card.allPrints.length })}
           </Link>
         </Button>
       )}

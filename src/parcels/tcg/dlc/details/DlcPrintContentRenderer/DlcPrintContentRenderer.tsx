@@ -1,4 +1,5 @@
 import { Divider, Group, Stack, Text } from '@mantine/core';
+import { usePrintDetailsContext } from '@/parcels/details/TcgPrintDetails/TcgPrintDetailsContext.tsx';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
@@ -9,15 +10,8 @@ import { renderRichDlcText } from '@/parcels/tcg/dlc/renderRichText.tsx';
 import { dlcTransClassifications } from '@/parcels/tcg/dlc/translations/classifications.ts';
 import { dlcTransType } from '@/parcels/tcg/dlc/translations/type.ts';
 
-export function DlcPrintContentRenderer({
-  card,
-  print,
-  lang,
-}: {
-  card: DlcDataCard;
-  print: DlcDataPrint;
-  lang?: string;
-}) {
+export function DlcPrintContentRenderer({ card, print }: { card: DlcDataCard; print: DlcDataPrint }) {
+  const { lang } = usePrintDetailsContext();
   const trans = print.translations[lang ?? 'en'] ?? print.translations.en;
 
   const stats = [

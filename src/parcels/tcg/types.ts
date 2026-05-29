@@ -4,6 +4,8 @@ import type { CardSearchParams } from '@/parcels/overview/cards/types.ts';
 import type {
   DlcDataCard,
   DlcDataPrint,
+  DlcDataSet,
+  DlcDataSetSummary,
   DlcDataSets,
   DlcSearchCards,
   DlcSearchCardsResult,
@@ -18,6 +20,8 @@ import {
 import type {
   MtgDataCard,
   MtgDataPrint,
+  MtgDataSet,
+  MtgDataSetSummary,
   MtgDataSets,
   MtgSearchCards,
   MtgSearchCardsResult,
@@ -32,6 +36,8 @@ import {
 import type {
   PcgDataCard,
   PcgDataPrint,
+  PcgDataSet,
+  PcgDataSetSummary,
   PcgDataSets,
   PcgSearchCards,
   PcgSearchCardsResult,
@@ -58,6 +64,10 @@ export type TcgSearchDisplaySettings = MtgSearchDisplaySettings | DlcSearchDispl
 export type TcgDataPrint = MtgDataPrint | DlcDataPrint | PcgDataPrint;
 export type TcgDataSets = MtgDataSets | DlcDataSets | PcgDataSets;
 export type TcgStatistics = c['schemas']['TcgStatistics'];
+
+export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
+export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
+export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];

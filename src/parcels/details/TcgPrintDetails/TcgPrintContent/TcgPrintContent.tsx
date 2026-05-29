@@ -1,16 +1,16 @@
 import { Flex, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { type ReactElement, useMemo } from 'react';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import type { DlcDataCard } from '@/parcels/tcg/dlc/api.ts';
 import { DlcPrintContentRenderer } from '@/parcels/tcg/dlc/details/DlcPrintContentRenderer/DlcPrintContentRenderer.tsx';
 import type { MtgDataCard } from '@/parcels/tcg/mtg/api.ts';
 import { MtgPrintFaceContentRenderer } from '@/parcels/tcg/mtg/details/MtgPrintFaceContentRenderer.tsx';
 import type { PcgDataCard } from '@/parcels/tcg/pcg/api.ts';
 import { PcgPrintContentRenderer } from '@/parcels/tcg/pcg/details/PcgPrintContentRenderer/PcgPrintContentRenderer.tsx';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function TcgPrintContent({ tcg, card, lang }: { tcg: Tcg; card: TcgDataCard; lang: string }) {
+export function TcgPrintContent({ tcg, card }: { tcg: Tcg; card: TcgDataCard }) {
   const renderer = useMemo(() => {
     if (tcg === 'mtg') {
       const cardWithPrints = card as MtgDataCard;
@@ -48,11 +48,11 @@ export function TcgPrintContent({ tcg, card, lang }: { tcg: Tcg; card: TcgDataCa
     } else if (tcg === 'dlc') {
       const cardWithPrints = card as DlcDataCard;
 
-      return [<DlcPrintContentRenderer key={card.id} card={cardWithPrints} print={cardWithPrints.print} lang={lang} />];
+      return [<DlcPrintContentRenderer key={card.id} card={cardWithPrints} print={cardWithPrints.print} />];
     }
 
     return [];
-  }, [tcg, card, lang]);
+  }, [tcg, card]);
 
   const smallerScreen = useMediaQuery('(max-width: 1110px)');
   const smallScreen = useMediaQuery('(max-width: 950px)');

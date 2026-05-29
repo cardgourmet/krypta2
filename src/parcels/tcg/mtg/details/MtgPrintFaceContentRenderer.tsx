@@ -1,5 +1,6 @@
 import { Divider, Group, Stack, type StackProps, Text } from '@mantine/core';
 import { useMemo } from 'react';
+import { usePrintDetailsContext } from '@/parcels/details/TcgPrintDetails/TcgPrintDetailsContext.tsx';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import type { MtgDataPrintFace } from '@/parcels/tcg/mtg/api.ts';
@@ -8,7 +9,8 @@ import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSV
 import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
 
 export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDataPrintFace } & StackProps) {
-  const trans = print.translations.en;
+  const { lang } = usePrintDetailsContext();
+  const trans = print.translations[lang] ?? print.translations.en;
   const colorIndicator = print.colorIndicator.map((d) => `{${d}}`).join('/');
 
   const stats = [

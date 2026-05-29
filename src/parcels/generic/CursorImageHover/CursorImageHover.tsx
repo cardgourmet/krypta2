@@ -42,7 +42,7 @@ export function CursorImageHover({ children, images }: CursorImageHoverProps) {
                 left: position.x + 32 + index * 240,
                 top: position.y - 32,
                 width: `240px`,
-                borderRadius: '0.5rem',
+                borderRadius: '1rem',
                 boxShadow: '0 0.5rem 1.5rem rgba(0, 0, 0, 0.35)',
                 pointerEvents: 'none',
                 zIndex: 9999,

@@ -120,7 +120,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         {component}
 
         <OverviewHeader title={title?.label}>
-          {set === null && (
+          {set === undefined && (
             <Pagination
               currentPage={cards?.data?.currentPage}
               lastPage={cards?.data?.pageCount}
@@ -163,7 +163,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <TcgCardMenu tcg={tcg} />
         </div>
 
-        {set === null && (
+        {set === undefined && (
           <Pagination
             currentPage={cards?.data?.currentPage}
             lastPage={cards?.data?.pageCount}
