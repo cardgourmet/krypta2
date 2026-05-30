@@ -7,9 +7,10 @@ export function FlippableCard(props: {
   backUrl?: string;
   backupUrl: string;
   flipRef: RefObject<HTMLDivElement | null>;
+  cardRef: RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} ref={props.cardRef}>
       <div className={styles.flippableContent} ref={props.flipRef}>
         <div>
           <Image src={props.frontUrl} style={{ borderRadius: '14px' }} fallbackSrc={props.backupUrl} />

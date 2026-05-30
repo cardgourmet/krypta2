@@ -1,5 +1,5 @@
 import { Center, Group, Image, Stack, type StackProps } from '@mantine/core';
-import { IconArrowRight, IconRefresh } from '@tabler/icons-react';
+import { IconArrowRight, IconRefresh, IconRotate2, IconRotateClockwise2 } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,9 +7,9 @@ import { FlippableCard } from '@/parcels/details/FlippableCard/FlippableCard.tsx
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { slugify } from '@/parcels/slugify.ts';
-import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
+import type { DlcDataCard, DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
+import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
 import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
@@ -40,6 +40,7 @@ export function TcgPrintImageRenderer({
 
   const [flipped, setFlipped] = useState(false);
   const flipRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const otherPrints = card.allPrints
     .filter((c) => {
@@ -55,6 +56,23 @@ export function TcgPrintImageRenderer({
     return tcg === 'mtg' ? mtgSearchParamsDefaults : tcg === 'dlc' ? dlcSearchParamsDefaults : pcgSearchParamsDefaults;
   }, [tcg]);
 
+  const [rotated, setRotated] = useState(false);
+  const isRotateable = useMemo(() => {
+    if (tcg === 'mtg') {
+      const rotateableMtgTypes = ['siege'];
+      const c = card as MtgDataCard;
+
+      return rotateableMtgTypes.some((t) => c.print.faces[0]?.subTypes.includes(t));
+    } else if (tcg === 'dlc') {
+      const rotateableDlcTypes = ['location'];
+      const c = card as DlcDataCard;
+
+      return rotateableDlcTypes.some((t) => c.classifications.includes(t));
+    }
+
+    return false;
+  }, [tcg, card]);
+
   return (
     <Stack {...others}>
       <FlippableCard
@@ -62,23 +80,43 @@ export function TcgPrintImageRenderer({
         backUrl={backUrl ?? undefined}
         backupUrl={backupImageUrl}
         flipRef={flipRef}
+        cardRef={cardRef}
       />
-      {backUrl && (
-        <Button
-          leadingIcon={<IconRefresh />}
-          onClick={() => {
-            const newFlipped = !flipped;
 
-            flipRef.current?.setAttribute('flipped', `${newFlipped}`);
-            setFlipped(newFlipped);
-          }}
-          size="sm"
-          style={{ width: 'min(100%, 18rem)' }}
-          variant="secondary"
-        >
-          Transform
-        </Button>
-      )}
+      <Group w={'100%'} gap={'0.25rem'} wrap={'nowrap'}>
+        {backUrl && (
+          <Button
+            leadingIcon={<IconRefresh />}
+            onClick={() => {
+              const newFlipped = !flipped;
+
+              flipRef.current?.setAttribute('flipped', `${newFlipped}`);
+              setFlipped(newFlipped);
+            }}
+            style={{ width: '100%' }}
+            size="sm"
+            variant="secondary"
+          >
+            Transform
+          </Button>
+        )}
+        {isRotateable && (
+          <Button
+            leadingIcon={rotated ? <IconRotate2 /> : <IconRotateClockwise2 />}
+            onClick={() => {
+              const newRotated = !rotated;
+
+              cardRef.current?.setAttribute('data-rotated', `${newRotated}`);
+              setRotated(newRotated);
+            }}
+            style={{ width: '100%' }}
+            size="sm"
+            variant="secondary"
+          >
+            Rotate
+          </Button>
+        )}
+      </Group>
 
       {otherPrints.length > 0 && (
         <Group gap={'0.5rem'} maw={'18rem'} w={'100%'}>
