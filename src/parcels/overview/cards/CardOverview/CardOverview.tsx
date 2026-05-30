@@ -6,7 +6,6 @@ import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { CardGrid } from '@/parcels/overview/cards/CardGrid/CardGrid.tsx';
@@ -21,7 +20,7 @@ import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
 import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
-import type { TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
+import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';

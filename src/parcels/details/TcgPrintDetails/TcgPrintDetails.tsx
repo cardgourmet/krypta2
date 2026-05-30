@@ -3,6 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import { useCallback } from 'react';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
+import { QuickActionButtons } from '@/parcels/details/TcgPrintDetails/QuickActionButtons/QuickActionButtons.tsx';
 import { TcgPrintContent } from '@/parcels/details/TcgPrintDetails/TcgPrintContent/TcgPrintContent.tsx';
 import { TcgPrintDetailsContext } from '@/parcels/details/TcgPrintDetails/TcgPrintDetailsContext.tsx';
 import { TcgPrintMeta } from '@/parcels/details/TcgPrintDetails/TcgPrintMeta/TcgPrintMeta.tsx';
@@ -113,6 +114,8 @@ export function TcgPrintDetails() {
             <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
               {title?.label}
             </GourmetText>
+
+            <QuickActionButtons />
           </Group>
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>

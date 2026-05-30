@@ -1,8 +1,8 @@
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import type { CursorImage } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
 import type { DlcDataCard } from '@/parcels/tcg/dlc/api.ts';
 import type { MtgDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function getImagesByTcgCard(tcg: Tcg, c: TcgDataCard): CursorImage[] {
