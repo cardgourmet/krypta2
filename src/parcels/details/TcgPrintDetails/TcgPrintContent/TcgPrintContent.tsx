@@ -1,4 +1,4 @@
-import { Flex, Group } from '@mantine/core';
+import { Group, SimpleGrid } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { type ReactElement, useMemo } from 'react';
 import type { DlcDataCard } from '@/parcels/tcg/dlc/api.ts';
@@ -14,30 +14,11 @@ export function TcgPrintContent({ tcg, card }: { tcg: Tcg; card: TcgDataCard }) 
   const renderer = useMemo(() => {
     if (tcg === 'mtg') {
       const cardWithPrints = card as MtgDataCard;
-      const frontFace = cardWithPrints.print.faces[0];
-      const backFace = cardWithPrints.print.faces[1];
 
       const elements: ReactElement[] = [];
-      elements.push(
-        <MtgPrintFaceContentRenderer
-          print={frontFace}
-          maw={'26rem'}
-          miw={'16rem'}
-          align={'start'}
-          gap={'lg'}
-          p={'sm'}
-        />,
-      );
-      if (backFace) {
+      for (const face of cardWithPrints.print.faces) {
         elements.push(
-          <MtgPrintFaceContentRenderer
-            print={backFace}
-            maw={'26rem'}
-            miw={'16rem'}
-            align={'start'}
-            gap={'lg'}
-            p={'sm'}
-          />,
+          <MtgPrintFaceContentRenderer print={face} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'} />,
         );
       }
       return elements;
@@ -55,22 +36,19 @@ export function TcgPrintContent({ tcg, card }: { tcg: Tcg; card: TcgDataCard }) 
   }, [tcg, card]);
 
   const smallerScreen = useMediaQuery('(max-width: 1110px)');
-  const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
-    <Flex
-      align={smallScreen ? 'center' : 'start'}
-      wrap={'nowrap'}
-      style={{ flexShrink: 10_000 }}
-      direction={smallerScreen ? 'column' : 'row'}
-      w={smallScreen ? '100%' : ''}
-    >
+    <SimpleGrid cols={smallerScreen ? 1 : 2}>
       {renderer.map((e, index) => {
         return (
-          <Group key={index} maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'}>
+          <Group
+            key={index}
+            p={'sm'}
+            align={'start'} /* maw={'26rem'} miw={'16rem'} align={'start'} gap={'lg'} p={'sm'}*/
+          >
             {e}
           </Group>
         );
       })}
-    </Flex>
+    </SimpleGrid>
   );
 }
