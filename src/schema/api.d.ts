@@ -1988,7 +1988,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-MtgDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-MtgDataSet'];
           };
         };
       };
@@ -2920,7 +2920,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-DlcDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-DlcDataSet'];
           };
         };
       };
@@ -3715,7 +3715,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-PcgDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-PcgDataSet'];
           };
         };
       };
@@ -7165,8 +7165,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-MtgDataSet': {
-      data: components['schemas']['MtgDataSet'][];
+    'TcgSetSearchResult-MtgDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['MtgDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-MtgDataSet': {
+      data: components['schemas']['TcgSetSearchResult-MtgDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7374,8 +7378,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-DlcDataSet': {
-      data: components['schemas']['DlcDataSet'][];
+    'TcgSetSearchResult-DlcDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['DlcDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-DlcDataSet': {
+      data: components['schemas']['TcgSetSearchResult-DlcDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7757,8 +7765,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-PcgDataSet': {
-      data: components['schemas']['PcgDataSet'][];
+    'TcgSetSearchResult-PcgDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['PcgDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-PcgDataSet': {
+      data: components['schemas']['TcgSetSearchResult-PcgDataSet'];
       /** Format: int32 */
       statusCode: number;
     };

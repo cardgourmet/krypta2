@@ -10,6 +10,7 @@ import type {
   DlcSearchCards,
   DlcSearchCardsResult,
   DlcSearchDataCard,
+  DlcSetSearchResult,
 } from '@/parcels/tcg/dlc/api.ts';
 import {
   type DlcSearchDisplaySettings,
@@ -26,6 +27,7 @@ import type {
   MtgSearchCards,
   MtgSearchCardsResult,
   MtgSearchDataCard,
+  MtgSetSearchResult,
 } from '@/parcels/tcg/mtg/api.ts';
 import {
   type MtgSearchDisplaySettings,
@@ -42,6 +44,7 @@ import type {
   PcgSearchCards,
   PcgSearchCardsResult,
   PcgSearchDataCard,
+  PcgSetSearchResult,
 } from '@/parcels/tcg/pcg/api.ts';
 import {
   type PcgSearchDisplaySettings,
@@ -68,6 +71,7 @@ export type TcgStatistics = c['schemas']['TcgStatistics'];
 export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
 export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
+export type TcgSetSearchResult = MtgSetSearchResult | DlcSetSearchResult | PcgSetSearchResult;
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];

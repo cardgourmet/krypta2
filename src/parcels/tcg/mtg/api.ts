@@ -25,13 +25,17 @@ export type MtgDataSet = c['schemas']['MtgDataSet'];
 export type MtgDataSets = c['schemas']['Page-MtgDataSet'];
 export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
 export type MtgStatistics = TcgStatistics & { lastSet?: MtgDataSet };
+export type MtgSetSearchResult = c['schemas']['TcgSetSearchResult-MtgDataSet'];
 
 export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
 
 // /v1/mtg/sets/search
-export async function searchMtgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<MtgDataSet[]>> {
+export async function searchMtgSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<MtgSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/sets/search`, {
       params: {

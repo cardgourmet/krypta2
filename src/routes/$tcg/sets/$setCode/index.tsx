@@ -41,10 +41,11 @@ export const Route = createFileRoute('/$tcg/sets/$setCode/')({
     const query = `set="${setCode}"`;
 
     const setRes = await fetchSetByQuery(tcg, query);
+    console.log(setRes);
     if (!setRes || !setRes.data || setRes.error) {
       throw notFound();
     }
-    return setRes.data;
+    return setRes.data.set;
   },
   validateSearch: tcgSetParamsSchema,
   search: {

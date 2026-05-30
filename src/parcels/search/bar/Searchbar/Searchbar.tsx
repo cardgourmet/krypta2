@@ -1,7 +1,7 @@
 import { Space } from '@mantine/core';
 import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
 import { IconBowlChopsticks, IconQuestionMark, IconX } from '@tabler/icons-react';
-import { Link, useNavigate, useRouter } from '@tanstack/react-router';
+import { Link, useLocation, useNavigate, useRouter } from '@tanstack/react-router';
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
@@ -72,6 +72,7 @@ export default function Searchbar({
     [setCurrentQuery, isOpened],
   );
 
+  const location = useLocation();
   useEffect(() => {
     if (!searchContainerRef.current) return;
 
@@ -83,6 +84,7 @@ export default function Searchbar({
       currentQuery: currentQuery.query,
       navigate: navigate,
       hasActiveSuggestion: hasActiveSuggestion,
+      locationHref: location.href,
     });
 
     document.addEventListener('keydown', handle);
@@ -90,7 +92,7 @@ export default function Searchbar({
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [tcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
+  }, [tcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion, location.href]);
 
   const registerRef = useClickOutsideWithRegistry(() => setIsOpened(false), isOpened);
 
