@@ -5,7 +5,7 @@ import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImage
 import { getImagesByTcgCard } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { MtgDataCard, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
+import { renderRichMtgText } from '@/parcels/tcg/mtg/renderRichMtgText.tsx';
 import type { TcgCardTableData } from '@/parcels/tcg/types.ts';
 
 export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
@@ -31,7 +31,7 @@ export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
       ),
       Cost: (
         <Group wrap={'nowrap'} gap={'0'}>
-          {renderRichText(card.print.faces[0].manaDisplay ?? '')}
+          {renderRichMtgText(card.print.faces[0].manaDisplay ?? '')}
         </Group>
       ),
       Type: (

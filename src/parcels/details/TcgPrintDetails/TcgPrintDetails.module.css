@@ -1,0 +1,16 @@
+.legality {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: -0.25rem;
+}
+
+.legalityPill {
+  padding: 0.05rem 0.35rem;
+  background-color: var(--gourmet-neutral-2);
+  border-radius: 1rem;
+  border: 1px solid var(--gourmet-neutral-0);
+  margin-right: -0.5rem;
+  z-index: 1;
+}

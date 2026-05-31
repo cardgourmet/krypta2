@@ -1,13 +1,13 @@
 import { Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useMemo } from 'react';
-import type { TcgDataCard, TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import type { DlcDataCard, DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
 import { DlcPrintMetaRenderer } from '@/parcels/tcg/dlc/details/DlcPrintMetaRenderer/DlcPrintMetaRenderer.tsx';
 import type { MtgDataCard, MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
 import { MtgPrintMetaRenderer } from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
 import type { PcgDataCard, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
 import { PcgPrintMetaRenderer } from '@/parcels/tcg/pcg/details/PcgPrintMetaRenderer/PcgPrintMetaRenderer.tsx';
+import type { TcgDataCard, TcgDataSet } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function TcgPrintMeta({
@@ -69,7 +69,7 @@ export function TcgPrintMeta({
       align={'start'}
       ml={smallScreen ? '' : 'auto'}
       maw={smallScreen ? '' : '16rem'}
-      miw={'12rem'}
+      miw={'19rem'}
       mih={'32rem'}
       w={smallScreen ? '100%' : ''}
       justify={smallScreen ? 'center' : 'start'}

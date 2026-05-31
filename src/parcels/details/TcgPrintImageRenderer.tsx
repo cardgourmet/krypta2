@@ -1,4 +1,4 @@
-import { Center, Group, Image, Stack, type StackProps } from '@mantine/core';
+import { Center, Group, Image, Stack, type StackProps, UnstyledButton } from '@mantine/core';
 import { IconArrowRight, IconRefresh, IconRotate2, IconRotateClockwise2 } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo, useRef, useState } from 'react';
@@ -16,6 +16,7 @@ import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Button } from '../generic/Button/Button';
+import styles from './TcgPrintImageRenderer.module.css';
 
 export function TcgPrintImageRenderer({
   tcg,
@@ -83,40 +84,42 @@ export function TcgPrintImageRenderer({
         cardRef={cardRef}
       />
 
-      <Group w={'100%'} gap={'0.25rem'} wrap={'nowrap'}>
-        {backUrl && (
-          <Button
-            leadingIcon={<IconRefresh />}
-            onClick={() => {
-              const newFlipped = !flipped;
+      {(backUrl || isRotateable) && (
+        <Group w={'100%'} gap={'0.25rem'} wrap={'nowrap'}>
+          {backUrl && (
+            <Button
+              leadingIcon={<IconRefresh />}
+              onClick={() => {
+                const newFlipped = !flipped;
 
-              flipRef.current?.setAttribute('flipped', `${newFlipped}`);
-              setFlipped(newFlipped);
-            }}
-            style={{ width: '100%' }}
-            size="sm"
-            variant="secondary"
-          >
-            Transform
-          </Button>
-        )}
-        {isRotateable && (
-          <Button
-            leadingIcon={rotated ? <IconRotate2 /> : <IconRotateClockwise2 />}
-            onClick={() => {
-              const newRotated = !rotated;
+                flipRef.current?.setAttribute('flipped', `${newFlipped}`);
+                setFlipped(newFlipped);
+              }}
+              style={{ width: '100%' }}
+              size="sm"
+              variant="secondary"
+            >
+              Transform
+            </Button>
+          )}
+          {isRotateable && (
+            <Button
+              leadingIcon={rotated ? <IconRotate2 /> : <IconRotateClockwise2 />}
+              onClick={() => {
+                const newRotated = !rotated;
 
-              cardRef.current?.setAttribute('data-rotated', `${newRotated}`);
-              setRotated(newRotated);
-            }}
-            style={{ width: '100%' }}
-            size="sm"
-            variant="secondary"
-          >
-            Rotate
-          </Button>
-        )}
-      </Group>
+                cardRef.current?.setAttribute('data-rotated', `${newRotated}`);
+                setRotated(newRotated);
+              }}
+              style={{ width: '100%' }}
+              size="sm"
+              variant="secondary"
+            >
+              Rotate
+            </Button>
+          )}
+        </Group>
+      )}
 
       {otherPrints.length > 0 && (
         <Group gap={'0.5rem'} maw={'18rem'} w={'100%'}>
@@ -142,12 +145,16 @@ export function TcgPrintImageRenderer({
             );
           })}
           {otherPrints.length > 7 && (
-            <div
+            <UnstyledButton
               style={{
                 width: '4rem',
                 borderRadius: '4px',
                 border: '1px solid var(--gourmet-neutral-3)',
                 height: '89px',
+              }}
+              className={styles.moreReprintsButton}
+              onClick={() => {
+                // TODO: open modal to show all prints in a list (to switch to)
               }}
             >
               <Center w={'100%'} h={'100%'}>
@@ -155,7 +162,7 @@ export function TcgPrintImageRenderer({
                   +{otherPrints.length - 7}
                 </GourmetText>
               </Center>
-            </div>
+            </UnstyledButton>
           )}
         </Group>
       )}

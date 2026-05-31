@@ -6,7 +6,7 @@ import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import type { MtgDataPrintFace } from '@/parcels/tcg/mtg/api.ts';
 import { MtgColorIndicator } from '@/parcels/tcg/mtg/details/MtgColorIndicator/MtgColorIndicator.tsx';
 import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
-import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
+import { renderRichMtgText } from '@/parcels/tcg/mtg/renderRichMtgText.tsx';
 
 export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDataPrintFace } & StackProps) {
   const { lang } = usePrintDetailsContext();
@@ -66,7 +66,7 @@ export function MtgPrintFaceContentRenderer({ print, ...styles }: { print: MtgDa
       <Stack gap={'sm'}>
         {trans.oracleText?.split('\n').map((line, i) => (
           <Text ff={'var(--cgm-content-font-family)'} key={i}>
-            {renderRichText(line)}
+            {renderRichMtgText(line)}
           </Text>
         ))}
       </Stack>
