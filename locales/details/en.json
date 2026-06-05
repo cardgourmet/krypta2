@@ -1,4 +1,10 @@
 {
+  "meta": {
+    "language": {
+      "printIn": "See this print in",
+      "reprintIn": "See a reprint in"
+    }
+  },
   "image": {
     "showAll": "Show all {{count}} prints"
   }

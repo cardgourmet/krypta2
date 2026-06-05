@@ -1,5 +1,5 @@
 import { Center, Group, Image, Stack, type StackProps, UnstyledButton } from '@mantine/core';
-import { IconArrowRight, IconRefresh, IconRotate2, IconRotateClockwise2 } from '@tabler/icons-react';
+import { IconArrowRight, IconBrush, IconRefresh, IconRotate2, IconRotateClockwise2 } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
 import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
-import type { TcgDataCard } from '@/parcels/tcg/types.ts';
+import { type TcgDataCard, type TcgDataPrint, tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Button } from '../generic/Button/Button';
 import styles from './TcgPrintImageRenderer.module.css';
@@ -74,15 +74,46 @@ export function TcgPrintImageRenderer({
     return false;
   }, [tcg, card]);
 
+  const printArtists = useMemo(() => {
+    if (tcg === 'pcg') {
+      return (card.print as PcgDataPrint).illustrators;
+    }
+    return [(card.print as Exclude<TcgDataPrint, PcgDataPrint>).artist];
+  }, [card.print, tcg]);
+
   return (
     <Stack {...others}>
-      <FlippableCard
-        frontUrl={frontUrl ?? ''}
-        backUrl={backUrl ?? undefined}
-        backupUrl={backupImageUrl}
-        flipRef={flipRef}
-        cardRef={cardRef}
-      />
+      <Stack gap={0}>
+        <FlippableCard
+          frontUrl={frontUrl ?? ''}
+          backUrl={backUrl ?? undefined}
+          backupUrl={backupImageUrl}
+          flipRef={flipRef}
+          cardRef={cardRef}
+        />
+
+        <Group gap={'0.25rem'} justify={'end'} mr={'0.5rem'}>
+          <IconBrush size={16} color={'var(--gourmet-neutral-5)'} />
+
+          <Link
+            to={'/$tcg/cards'}
+            params={{
+              tcg: tcg,
+            }}
+            search={{
+              ...tcgSearchParamsDefaults,
+              query: `artist="${printArtists}"`,
+            }}
+            style={{
+              textDecoration: 'none',
+            }}
+          >
+            <GourmetText c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
+              {printArtists}
+            </GourmetText>
+          </Link>
+        </Group>
+      </Stack>
 
       {(backUrl || isRotateable) && (
         <Group w={'100%'} gap={'0.25rem'} wrap={'nowrap'}>

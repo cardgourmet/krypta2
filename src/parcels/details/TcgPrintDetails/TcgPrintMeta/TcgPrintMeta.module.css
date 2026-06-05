@@ -1,20 +1,10 @@
-.setLink {
-  text-decoration: none;
-  background-color: var(--gourmet-neutral-1);
-  border: 1px solid var(--gourmet-neutral-3);
-  border-bottom: 2px solid var(--gourmet-neutral-3);
+.printSummary {
   border-radius: 0.25rem;
+  padding: 0.75rem 0.75rem;
+  background-color: var(--gourmet-neutral-2);
 
-  &:hover {
-    background-color: var(--gourmet-neutral-2);
-  }
-
-  > div {
-    padding: 0.5rem;
-  }
-
-  svg {
-    color: var(--gourmet-neutral-7);
+  a {
+    text-decoration: none;
   }
 }
 
