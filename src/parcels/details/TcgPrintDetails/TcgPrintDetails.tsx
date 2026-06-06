@@ -1,6 +1,6 @@
-import { Center, Divider, Flex, Group, Stack } from '@mantine/core';
+import { Center, Divider, Flex, Group, Button as MantineButton, Stack, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconAlertCircle, IconCircleCheck, IconCircleX, IconEdit } from '@tabler/icons-react';
+import { IconAlertCircle, IconCircleCheck, IconCircleX, IconEdit, IconX } from '@tabler/icons-react';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
@@ -144,6 +144,43 @@ export function TcgPrintDetails() {
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
 
+        <Stack
+          w={'65%'}
+          p={'1rem 1rem'}
+          style={{
+            backgroundColor: 'var(--gourmet-blue-1)',
+            borderRadius: '0.25rem',
+            position: 'relative',
+          }}
+          mb={'1rem'}
+        >
+          <UnstyledButton
+            style={{
+              position: 'absolute',
+              right: '0.5rem',
+              top: '0.5rem',
+            }}
+          >
+            <Center>
+              <IconX size={18} color={'var(--gourmet-neutral-1)'} />
+            </Center>
+          </UnstyledButton>
+
+          <Stack gap={'0.25rem'}>
+            <GourmetText cgmc={'neutral-1'}>
+              We have forwarded you to the details page, since your search resulted in only one card or print.
+            </GourmetText>
+            <GourmetText cgmc={'neutral-1'}>
+              Do you want us to continue doing so? You can change your decision in your settings any time.
+            </GourmetText>
+          </Stack>
+
+          <Group justify={'end'} gap={'0.5rem'}>
+            <MantineButton color={'var(--gourmet-neutral-4)'}>Disable it</MantineButton>
+            <MantineButton color={'var(--gourmet-neutral-2)'}>Keep forwarding</MantineButton>
+          </Group>
+        </Stack>
+
         <Group justify={smallScreen ? 'center' : 'start'}>
           <Flex
             align={'start'}
@@ -172,10 +209,6 @@ export function TcgPrintDetails() {
 
           {rulings.length > 0 && <RulingsDisplay rulings={rulings} />}
         </Group>
-
-        <Stack>
-          <pre style={{ wordBreak: 'break-all', overflow: 'hidden' }}>{JSON.stringify(card, null, 2)}</pre>
-        </Stack>
       </div>
     </TcgPrintDetailsContext>
   );

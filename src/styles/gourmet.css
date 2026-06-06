@@ -30,6 +30,8 @@
 
   --gourmet-green-1: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
 
+  --gourmet-purple-1: light-dark(oklch(49.14% 0.1541 287.02), oklch(78.15% 0.1047 291.21));
+
   --gourmet-white-1: #f9f6ee;
   --gourmet-black-1: #0b0c0c;
   --gourmet-black-2: #191d21;

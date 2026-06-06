@@ -1,4 +1,21 @@
-.mechanicPill > span {
+.mechanicButton {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+
+  svg {
+    transition: transform 0.25s ease-in-out;
+  }
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.mechanicPill span {
   &:hover {
     background-color: var(--gourmet-neutral-3);
     cursor: pointer;

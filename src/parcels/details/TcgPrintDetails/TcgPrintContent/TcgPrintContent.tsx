@@ -1,5 +1,6 @@
-import { Group, Pill, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
+import { Center, Group, Pill, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { IconCarFanFilled } from '@tabler/icons-react';
 import { type ReactElement, useMemo } from 'react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { DlcDataCard } from '@/parcels/tcg/dlc/api.ts';
@@ -83,14 +84,22 @@ export function TcgPrintContent({ tcg, card }: { tcg: Tcg; card: TcgDataCard }) 
 
       <Stack p={'0 0.5rem'}>
         <Group gap={'0.25rem'}>
+          <UnstyledButton className={styles.mechanicButton}>
+            <Center>
+              <IconCarFanFilled size={20} color={'var(--gourmet-purple-1)'} />
+            </Center>
+          </UnstyledButton>
+
           {mechanicTags.map((m) => {
             return (
               <UnstyledButton key={m} className={styles.mechanicPill}>
-                <Pill>
-                  <GourmetText cgmff={'ui'} fz={'0.9rem'}>
-                    {m}
-                  </GourmetText>
-                </Pill>
+                <Center>
+                  <Pill>
+                    <GourmetText cgmff={'ui'} fz={'0.9rem'}>
+                      {m}
+                    </GourmetText>
+                  </Pill>
+                </Center>
               </UnstyledButton>
             );
           })}
