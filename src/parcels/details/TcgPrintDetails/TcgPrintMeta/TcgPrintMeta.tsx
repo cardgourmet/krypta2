@@ -1,11 +1,23 @@
 import { Code, Group, Select, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconCaretDownFilled, IconCheck, IconDiamond, IconHash, IconLanguage, IconPlayCard } from '@tabler/icons-react';
+import {
+  IconCaretDownFilled,
+  IconCheck,
+  IconDeviceImacSearch,
+  IconDiamond,
+  IconHash,
+  IconLanguage,
+  IconSparkles,
+} from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/parcels/generic/Button/Button.tsx';
+import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
+import { getImagesByTcgCardRelated } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import type { MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
+import { slugify } from '@/parcels/slugify.ts';
+import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { TcgSetIcon } from '@/parcels/tcg/TcgSetIcon.tsx';
 import { type TcgDataCard, type TcgDataPrint, type TcgDataSet, tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -102,18 +114,33 @@ function TcgPrintMetaRenderer({
     return { thisPrintLanguages, otherPrintLanguages: otherPrintLanguagesUniq };
   }, [card, supportedLanguages, tcg]);
 
+  const relatedQueries = useMemo(() => {
+    const c = card as TcgDataCard;
+
+    return c.relatedQueries;
+  }, [card]);
+  const relatedCards = useMemo(() => {
+    if (tcg === 'mtg') {
+      const c = card as MtgDataCard;
+
+      return c.relatedCards as MtgDataCard['relatedCards'];
+    }
+    return [];
+  }, [card, tcg]);
+
   return (
     <Stack gap={'xs'} w={'100%'}>
-      <Group gap={'xs'} wrap={'nowrap'} align={'start'} className={styles.printSummary}>
-        <Link
-          to={'/$tcg/sets/$setCode'}
-          params={{ tcg: tcg, setCode: set.code!.toLowerCase() }}
-          search={{ ...tcgSetParamsDefaults }}
-          className={styles.setLink}
-        >
-          <TcgSetIcon tcg={tcg} setCode={set.code ?? '?'} />
-        </Link>
-        <Stack gap={'0.75rem'}>
+      <Stack gap={'md'} className={styles.printSummary}>
+        <Group align={'start'} wrap={'nowrap'} gap={'0.75rem'}>
+          <Link
+            to={'/$tcg/sets/$setCode'}
+            params={{ tcg: tcg, setCode: set.code!.toLowerCase() }}
+            search={{ ...tcgSetParamsDefaults }}
+            className={styles.setLink}
+          >
+            <TcgSetIcon tcg={tcg} setCode={set.code ?? '?'} />
+          </Link>
+
           <Link
             to={'/$tcg/sets/$setCode'}
             params={{ tcg: tcg, setCode: set.code!.toLowerCase() }}
@@ -126,40 +153,39 @@ function TcgPrintMetaRenderer({
               </GourmetText>
             </Group>
           </Link>
-
-          <Group style={{ rowGap: '0.25rem' }}>
-            <Group gap={'0.25rem'}>
-              <IconHash size={18} color={'var(--gourmet-neutral-6)'} />
-              <GourmetText size={'0.85rem'}>{card.print.collectorNumber}</GourmetText>
-            </Group>
-
-            <Group gap={'0.25rem'}>
-              <IconDiamond size={18} color={'var(--gourmet-neutral-6)'} />
-
-              <Link
-                to={'/$tcg/cards'}
-                params={{ tcg: tcg }}
-                search={{
-                  ...tcgSearchParamsDefaults,
-                  query: `rarity:"${card.print.rarity}"`,
-                }}
-                style={{
-                  textDecoration: 'underline',
-                  textDecorationColor: 'var(--gourmet-blue-1)',
-                  textUnderlineOffset: '2px',
-                }}
-              >
-                <GourmetText size={'0.85rem'}>{card.print.rarity}</GourmetText>
-              </Link>
-            </Group>
-
-            <Group gap={'0.25rem'}>
-              <IconPlayCard size={18} color={'var(--gourmet-neutral-6)'} />
-              <GourmetText size={'0.85rem'}>{printFinishes.join(', ')}</GourmetText>
-            </Group>
+        </Group>
+        <Group style={{ rowGap: '0.25rem' }}>
+          <Group gap={'0.25rem'}>
+            <IconHash size={18} color={'var(--gourmet-neutral-6)'} />
+            <GourmetText size={'0.85rem'}>{card.print.collectorNumber}</GourmetText>
           </Group>
-        </Stack>
-      </Group>
+
+          <Group gap={'0.25rem'}>
+            <IconDiamond size={18} color={'var(--gourmet-neutral-6)'} />
+
+            <Link
+              to={'/$tcg/cards'}
+              params={{ tcg: tcg }}
+              search={{
+                ...tcgSearchParamsDefaults,
+                query: `rarity:"${card.print.rarity}"`,
+              }}
+              style={{
+                textDecoration: 'underline',
+                textDecorationColor: 'var(--gourmet-blue-1)',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              <GourmetText size={'0.85rem'}>{card.print.rarity}</GourmetText>
+            </Link>
+          </Group>
+
+          <Group gap={'0.25rem'}>
+            <IconSparkles size={18} color={'var(--gourmet-neutral-6)'} />
+            <GourmetText size={'0.85rem'}>{printFinishes.join(', ')}</GourmetText>
+          </Group>
+        </Group>
+      </Stack>
 
       <Select
         classNames={{
@@ -196,6 +222,112 @@ function TcgPrintMetaRenderer({
         )}
         disabled={thisPrintLanguages.length + otherPrintLanguages.length === 1}
       />
+
+      <Stack gap={'0.25rem'} mt={'0.75rem'}>
+        <Group gap={'0.25rem'}>
+          <GourmetText cgmff={'ui'} fz={'1.15rem'} fw={500}>
+            Related
+          </GourmetText>
+
+          {/*<UnstyledButton>
+            <Center>
+              <IconInfoCircle size={18} color={'var(--gourmet-neutral-6)'} />
+            </Center>
+          </UnstyledButton>*/}
+        </Group>
+
+        <Stack gap={'0.25rem'}>
+          {relatedCards.map((relatedCard) => {
+            const translation = relatedCard.translations.en;
+            const name = translation.map((t) => t.name).join(' // ');
+
+            return (
+              <CursorImageHover
+                key={relatedCard.printId}
+                images={getImagesByTcgCardRelated(tcg, relatedCard, language)}
+              >
+                <Link
+                  to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
+                  params={{
+                    tcg: tcg,
+                    setCode: relatedCard.setCode.toLowerCase() as string,
+                    collectorNumber: relatedCard.collectorNumber as string,
+                    any: slugify(name ?? ''),
+                  }}
+                  preload={false}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Group
+                    w={'100%'}
+                    style={{ border: '1px solid var(--gourmet-neutral-2)', borderRadius: '0.25rem' }}
+                    p={'0.15rem 0.5rem'}
+                    align={'start'}
+                    wrap={'nowrap'}
+                    className={styles.relatedItem}
+                  >
+                    <GourmetText
+                      fz={'0.9rem'}
+                      cgmc={'neutral-8'}
+                      style={{
+                        textWrap: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {name}
+                    </GourmetText>
+                    <Group gap={'0.25rem'} wrap={'nowrap'}>
+                      <GourmetText cgmc={'neutral-7'} fz={'0.9rem'}>
+                        {relatedCard.setCode}
+                      </GourmetText>
+                      <GourmetText cgmc={'neutral-6'} fz={'0.9rem'}>
+                        #{relatedCard.collectorNumber}
+                      </GourmetText>
+                    </Group>
+                  </Group>
+                </Link>
+              </CursorImageHover>
+            );
+          })}
+        </Stack>
+
+        <Stack gap={'0.25rem'}>
+          {relatedQueries.map((query) => {
+            return (
+              <Link
+                key={query.id}
+                to={'/$tcg/cards'}
+                params={{ tcg: tcg }}
+                search={{
+                  ...tcgSearchParamsDefaults,
+                  query: query.query,
+                }}
+                style={{ textDecoration: 'none' }}
+              >
+                <Stack
+                  w={'100%'}
+                  style={{ border: '1px solid var(--gourmet-neutral-2)', borderRadius: '0.25rem' }}
+                  p={'0.15rem 0.5rem'}
+                  justify={'space-between'}
+                  gap={'0'}
+                  className={styles.relatedItem}
+                >
+                  <GourmetText fz={'0.9rem'} cgmc={'neutral-8'}>
+                    {query.name}
+                  </GourmetText>
+                  <GourmetText cgmff={'monospace'} cgmc={'neutral-6'} fz={'0.85rem'} ml={'0.5rem'}>
+                    {query.query}
+                  </GourmetText>
+                </Stack>
+              </Link>
+            );
+          })}
+        </Stack>
+
+        <Button accent="brand" size="sm" leadingIcon={<IconDeviceImacSearch />} variant="tertiary">
+          Show more related searches
+        </Button>
+      </Stack>
     </Stack>
   );
 }

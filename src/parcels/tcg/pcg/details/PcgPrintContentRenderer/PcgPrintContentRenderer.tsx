@@ -14,7 +14,7 @@ export function PcgPrintContentRenderer({ card, print }: { card: PcgDataCard; pr
   const trans = print.translations[lang] ?? print.translations.en;
 
   return (
-    <Stack w={'28rem'} align={'start'} gap={'lg'} p={'sm'}>
+    <Stack w={'28rem'} align={'start'} gap={'lg'}>
       <Stack gap={'xs'} style={{ width: '100%' }}>
         <PcgPrintContentName card={card} />
         <PcgPrintContentTypeline card={card} />

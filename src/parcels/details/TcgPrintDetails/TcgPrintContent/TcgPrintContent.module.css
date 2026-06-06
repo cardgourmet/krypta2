@@ -1,0 +1,6 @@
+.mechanicPill > span {
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+    cursor: pointer;
+  }
+}

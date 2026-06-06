@@ -20,7 +20,7 @@ import { getTranslatedName } from '@/parcels/tcg/helpers.ts';
 import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { renderRichMtgText } from '@/parcels/tcg/mtg/renderRichMtgText.tsx';
 import type { PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
-import type { TcgDataCard, TcgDataPrint } from '@/parcels/tcg/types.ts';
+import type { TcgDataPrint } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './TcgPrintDetails.module.css';
 
@@ -116,19 +116,6 @@ export function TcgPrintDetails() {
     }
     return [];
   }, [card, tcg]);
-  const relatedQueries = useMemo(() => {
-    const c = card as TcgDataCard;
-
-    return c.relatedQueries;
-  }, [card]);
-  const relatedCards = useMemo(() => {
-    if (tcg === 'mtg') {
-      const c = card as MtgDataCard;
-
-      return c.relatedCards as MtgDataCard['relatedCards'];
-    }
-    return [];
-  }, [card, tcg]);
 
   const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
@@ -184,77 +171,6 @@ export function TcgPrintDetails() {
           {legalities.length > 0 && <LegalityDisplay legalities={legalities} />}
 
           {rulings.length > 0 && <RulingsDisplay rulings={rulings} />}
-
-          <Stack maw={'19rem'} miw={'19rem'} gap={'0.25rem'} pos={'relative'}>
-            <Center>
-              <GourmetText cgmff={'title'} fz={'1.25rem'} fw={500}>
-                Related
-              </GourmetText>
-            </Center>
-
-            <Stack
-              gap={'0.75rem'}
-              h={'20rem'}
-              style={{
-                border: '1px solid var(--gourmet-neutral-3)',
-                borderRadius: '0.5rem',
-                padding: '1rem 1.5rem',
-                overflow: 'scroll',
-              }}
-            >
-              <Stack gap={'0.25rem'}>
-                <GourmetText cgmff={'ui'} fw={'bold'}>
-                  CARDS
-                </GourmetText>
-                <Stack>
-                  {relatedCards.map((relatedCard) => {
-                    const translation = relatedCard.translations.en[0];
-                    const name = translation.name;
-
-                    return (
-                      <Group
-                        key={relatedCard.printId}
-                        w={'100%'}
-                        style={{ border: '1px solid var(--gourmet-neutral-2)', borderRadius: '0.25rem' }}
-                        p={'0.15rem 0.5rem'}
-                      >
-                        <GourmetText>{name}</GourmetText>
-                        <Group gap={'0.25rem'}>
-                          <GourmetText cgmc={'neutral-7'}>{relatedCard.setCode}</GourmetText>
-                          <GourmetText cgmc={'neutral-6'}>#{relatedCard.collectorNumber}</GourmetText>
-                        </Group>
-                      </Group>
-                    );
-                  })}
-                </Stack>
-              </Stack>
-
-              <Stack gap={'0.25rem'}>
-                <GourmetText cgmff={'ui'} fw={'bold'}>
-                  SEARCHES
-                </GourmetText>
-                <Stack>
-                  {relatedQueries.map((query) => {
-                    return (
-                      <Stack
-                        key={query.id}
-                        w={'100%'}
-                        style={{ border: '1px solid var(--gourmet-neutral-2)', borderRadius: '0.25rem' }}
-                        p={'0.15rem 0.5rem'}
-                        justify={'space-between'}
-                        gap={'0'}
-                      >
-                        <GourmetText>{query.name}</GourmetText>
-                        <GourmetText cgmff={'monospace'} c={'var(--gourmet-blue-1)'} fz={'0.95rem'} ml={'0.5rem'}>
-                          {query.query}
-                        </GourmetText>
-                      </Stack>
-                    );
-                  })}
-                </Stack>
-              </Stack>
-            </Stack>
-          </Stack>
         </Group>
 
         <Stack>

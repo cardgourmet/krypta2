@@ -34,7 +34,7 @@ export function DlcPrintContentRenderer({ card, print }: { card: DlcDataCard; pr
   ];
 
   return (
-    <Stack w={'28rem'} align={'start'} gap={'lg'} p={'sm'}>
+    <Stack w={'28rem'} align={'start'} gap={'lg'}>
       <Stack gap={'xs'} style={{ width: '100%' }}>
         <Group align={'start'} justify={'space-between'} style={{ width: '100%' }} wrap={'nowrap'}>
           <Stack gap={'0.1rem'}>

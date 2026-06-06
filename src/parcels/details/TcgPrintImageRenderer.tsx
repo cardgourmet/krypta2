@@ -4,6 +4,8 @@ import { Link } from '@tanstack/react-router';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlippableCard } from '@/parcels/details/FlippableCard/FlippableCard.tsx';
+import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
+import { getImagesByTcgPrintRef } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { slugify } from '@/parcels/slugify.ts';
@@ -156,23 +158,25 @@ export function TcgPrintImageRenderer({
         <Group gap={'0.5rem'} maw={'18rem'} w={'100%'}>
           {otherPrints.slice(0, 7).map((print) => {
             return (
-              <Link
-                key={print.id}
-                to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
-                params={{
-                  tcg: tcg,
-                  setCode: print.setCode?.toLowerCase() ?? '???',
-                  collectorNumber: print.collectorNumber.toLowerCase(),
-                  any: slugify(card.name),
-                }}
-              >
-                <Image
+              <CursorImageHover key={print.id} images={getImagesByTcgPrintRef(print, card.name)}>
+                <Link
                   key={print.id}
-                  src={print.imageUrls?.full}
-                  style={{ width: '4rem', borderRadius: '4px' }}
-                  fallbackSrc={backupImageUrl}
-                />
-              </Link>
+                  to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
+                  params={{
+                    tcg: tcg,
+                    setCode: print.setCode?.toLowerCase() ?? '???',
+                    collectorNumber: print.collectorNumber.toLowerCase(),
+                    any: slugify(card.name),
+                  }}
+                >
+                  <Image
+                    key={print.id}
+                    src={print.imageUrls?.full}
+                    style={{ width: '4rem', borderRadius: '4px' }}
+                    fallbackSrc={backupImageUrl}
+                  />
+                </Link>
+              </CursorImageHover>
             );
           })}
           {otherPrints.length > 7 && (

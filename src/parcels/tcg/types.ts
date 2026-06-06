@@ -65,6 +65,10 @@ export type TcgSearchQuerySettings = MtgSearchQuerySettings | DlcSearchQuerySett
 export type TcgSearchDisplaySettings = MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
 
 export type TcgDataPrint = MtgDataPrint | DlcDataPrint | PcgDataPrint;
+export type TcgDataPrintReference =
+  | c['schemas']['MtgDataPrintReference']
+  | c['schemas']['DlcDataPrintReference']
+  | c['schemas']['PcgDataPrintReference'];
 export type TcgDataSets = MtgDataSets | DlcDataSets | PcgDataSets;
 export type TcgStatistics = c['schemas']['TcgStatistics'];
 
