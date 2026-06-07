@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useEffectEvent, useState } from 'react';
 import type { GourmetError } from '@/parcels/api/handleApiCall.ts';
-import type { TcgDataSet, TcgDataSetSummary } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { fetchTcgCards } from '@/parcels/tcg/fetchTcgCards.tsx';
 import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
-import type { TcgSearchCards, TcgSearchCardsResult, TcgSearchQuerySettings } from '@/parcels/tcg/types.ts';
+import type {
+  TcgDataSet,
+  TcgDataSetSummary,
+  TcgSearchCards,
+  TcgSearchCardsResult,
+  TcgSearchQuerySettings,
+} from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
 

@@ -69,6 +69,8 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     if (!tcg) return;
     if (!prevOverviewSettings || prevOverviewSettings === overviewSettings) return;
 
+    const pageChanged = prevOverviewSettings.page !== overviewSettings.page;
+
     if (set !== undefined) {
       navigate({
         to: '/$tcg/sets/$setCode',
@@ -77,7 +79,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           tcg: tcg,
           setCode: set.code!,
         },
-        replace: true,
+        replace: !pageChanged,
       });
     } else {
       navigate({
@@ -86,7 +88,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         params: {
           tcg: tcg,
         },
-        replace: true,
+        replace: !pageChanged,
       });
     }
   }, [overviewSettings, navigate, tcg, prevOverviewSettings, set]);
