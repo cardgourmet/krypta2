@@ -2,6 +2,7 @@ import { Center, type MantineColor, Menu, Tooltip, UnstyledButton } from '@manti
 import { IconCopy, IconLink, IconShare2 } from '@tabler/icons-react';
 import { getRouteApi } from '@tanstack/react-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from '@/parcels/details/TcgPrintDetails/QuickActionButtons/QuickActionButtons.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { slugify } from '@/parcels/slugify.ts';
@@ -10,6 +11,8 @@ import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
 
 export function ShareMenu() {
+  const { t } = useTranslation('details', { keyPrefix: 'share' });
+
   const tcg = useTcgByLocation() as Tcg;
   const [opened, setOpened] = useState(false);
 
@@ -53,7 +56,7 @@ export function ShareMenu() {
             try {
               await navigator.clipboard.writeText(card.name);
 
-              setTooltipLabel('Copied name to clipboard');
+              setTooltipLabel(t('success.copied'));
               setTooltipOpened(true);
               setTooltipColor('green');
 
@@ -65,7 +68,7 @@ export function ShareMenu() {
             }
           }}
         >
-          <GourmetText cgmff={'ui'}>Copy name</GourmetText>
+          <GourmetText cgmff={'ui'}>{t('options.copyName')}</GourmetText>
         </Menu.Item>
         {tcg === 'mtg' && (
           <Menu.Item
@@ -77,12 +80,20 @@ export function ShareMenu() {
 
               try {
                 await navigator.clipboard.writeText(`1 ${card.name} (${setCode.toUpperCase()}) ${cn}`);
+
+                setTooltipLabel(t('success.copied'));
+                setTooltipOpened(true);
+                setTooltipColor('green');
+
+                setTimeout(() => {
+                  setTooltipOpened(false);
+                }, 3000);
               } catch (e) {
                 console.error(e);
               }
             }}
           >
-            <GourmetText cgmff={'ui'}>Copy name for MTGA</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('options.copyNameMTGA')}</GourmetText>
           </Menu.Item>
         )}
         <Menu.Item
@@ -96,12 +107,20 @@ export function ShareMenu() {
               await navigator.clipboard.writeText(
                 `${window.location.origin}/${tcg}/sets/${set}/${cn}/${slugify(card.name)}`,
               );
+
+              setTooltipLabel(t('success.copied'));
+              setTooltipOpened(true);
+              setTooltipColor('green');
+
+              setTimeout(() => {
+                setTooltipOpened(false);
+              }, 3000);
             } catch (e) {
               console.error(e);
             }
           }}
         >
-          <GourmetText cgmff={'ui'}>Copy link</GourmetText>
+          <GourmetText cgmff={'ui'}>{t('options.copyLink')}</GourmetText>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item
@@ -121,12 +140,19 @@ export function ShareMenu() {
             try {
               // use native share option if available
               await navigator.share(shareData);
-            } catch (e) {
-              console.error(e);
+            } catch (_) {
+              // not available, just ignore.
+              setTooltipLabel(t('failure.shareNotAvailable'));
+              setTooltipOpened(true);
+              setTooltipColor('red');
+
+              setTimeout(() => {
+                setTooltipOpened(false);
+              }, 3000);
             }
           }}
         >
-          <GourmetText cgmff={'ui'}>Share with others ...</GourmetText>
+          <GourmetText cgmff={'ui'}>{t('options.shareWith')}</GourmetText>
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

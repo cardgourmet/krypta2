@@ -29,7 +29,12 @@ export function QuickActionButtons() {
       <Group gap={'0.15rem'}>
         <ShareMenu />
         {user && (
-          <UnstyledButton className={styles.quickActionButton}>
+          <UnstyledButton
+            className={styles.quickActionButton}
+            onClick={() => {
+              // TODO: open submenu to report the page
+            }}
+          >
             <Center>
               <IconBug size={22} color={'var(--gourmet-neutral-8)'} />
             </Center>

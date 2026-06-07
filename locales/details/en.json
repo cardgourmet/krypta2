@@ -7,5 +7,19 @@
   },
   "image": {
     "showAll": "Show all {{count}} prints"
+  },
+  "share": {
+    "options": {
+      "copyName": "Copy name",
+      "copyNameMTGA": "Copy name (MTGA)",
+      "copyLink": "Copy link",
+      "shareWith": "Share with ..."
+    },
+    "success": {
+      "copied": "Copied to clipboard"
+    },
+    "failure": {
+      "shareNotAvailable": "Native share not available"
+    }
   }
 }
