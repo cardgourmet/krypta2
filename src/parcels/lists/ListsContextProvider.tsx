@@ -35,7 +35,7 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
       const lists = res.data?.items ?? [];
       setListsSorted(lists);
     });
-  }, [auth.user, noti.show, setListsSorted]);
+  }, [auth.user?.id, auth.user?.state, noti.show, setListsSorted]);
 
   useEffect(() => {
     refetchLists();

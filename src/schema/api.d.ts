@@ -6426,9 +6426,13 @@ export interface components {
       collectionVisibility?: components['schemas']['Visibility'];
       profileVisibility?: components['schemas']['Visibility'];
     };
+    SearchSettings: {
+      forwardToDetailPage?: boolean;
+    };
     UserSettings: {
       preferredLanguages?: components['schemas']['PreferredLanguageSettings'];
       privacy?: components['schemas']['PrivacySettings'];
+      search?: components['schemas']['SearchSettings'];
     };
     DataAuthUser: {
       admin: boolean;

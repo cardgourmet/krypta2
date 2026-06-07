@@ -15,6 +15,7 @@ import { VerifiedBanner } from '@/parcels/homepage/Navbar/VerifiedBanner/Verifie
 import { Logo } from '@/parcels/Logo.tsx';
 import { MobileSearchbar } from '@/parcels/search/bar/MobileSearchbar/MobileSearchbar.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import styles from './Navbar.module.css';
 
 interface NavbarProps {
@@ -26,7 +27,9 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const locationHref = location.href;
 
   const smallScreen = useMediaQuery('(max-width: 800px)');
-  const { user, wasVerified, emailWasChanged } = useAuth();
+  const { user } = useAuth();
+  const emailWasChanged = useLocalUserStateStore((state) => state.emailWasChanged);
+  const wasVerified = useLocalUserStateStore((state) => state.wasVerified);
 
   const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
   const containerRef = useRef<HTMLDivElement | null>(null);

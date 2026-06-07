@@ -1,12 +1,12 @@
 import { Group, Modal, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconChecks, IconX } from '@tabler/icons-react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import styles from './EmailChangedBanner.module.css';
 
 export function EmailChangedBanner() {
   const smallScreen = useMediaQuery('(max-width: 800px)');
-  const { removeEmailWasChanged } = useAuth();
+  const removeEmailWasChanged = useLocalUserStateStore((state) => state.removeEmailWasChanged);
   const [opened, { open, close }] = useDisclosure(false);
 
   return (

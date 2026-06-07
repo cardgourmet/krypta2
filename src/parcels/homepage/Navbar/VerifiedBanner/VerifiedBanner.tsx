@@ -1,12 +1,12 @@
 import { Group, Modal, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconChecks, IconX } from '@tabler/icons-react';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import styles from './VerifiedBanner.module.css';
 
 export function VerifiedBanner() {
   const smallScreen = useMediaQuery('(max-width: 800px)');
-  const { removeVerified } = useAuth();
+  const removeVerified = useLocalUserStateStore((state) => state.removeVerified);
   const [opened, { open, close }] = useDisclosure(false);
 
   return (

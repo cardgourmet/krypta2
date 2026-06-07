@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { confirmUpdateUserEmail } from '@/parcels/auth/api.ts';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 
 const UUID_REGEX = /^[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$/;
 
@@ -24,7 +25,7 @@ export const Route = createFileRoute('/auth/email/$token')({
     if (context.auth.user) {
       context.auth.logout();
     }
-    context.auth.setEmailHasChanged();
+    useLocalUserStateStore.getState().setEmailHasChanged();
 
     throw redirect({
       to: '/login',

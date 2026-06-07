@@ -1,6 +1,5 @@
 import createClient, { type Middleware } from 'openapi-fetch';
-import type { UserSession } from '@/parcels/auth/AuthContext.ts';
-import { CGM_USER_SESSION } from '@/parcels/auth/AuthContextProvider.tsx';
+import { useLocalUserStore } from '@/parcels/state/LocalUserStore.tsx';
 import type { paths } from '@/schema/api';
 
 const umoriClient = createClient<paths>({
@@ -8,7 +7,7 @@ const umoriClient = createClient<paths>({
 });
 const authMiddleware: Middleware = {
   onRequest({ request }) {
-    const session = JSON.parse(localStorage.getItem(CGM_USER_SESSION) ?? 'null') as UserSession | null;
+    const session = useLocalUserStore.getState().session;
     if (session?.token) {
       request.headers.set('x-user-session', session.token);
     }

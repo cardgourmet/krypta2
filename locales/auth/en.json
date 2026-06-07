@@ -67,6 +67,13 @@
           "fieldLabelConfirm": "Confirm New Password"
         }
       },
+      "search": {
+        "title": "Search",
+        "forwardDetails": {
+          "title": "Forward to Details",
+          "description": "If enabled, will forward to the details page, if the search result is just one card or print."
+        }
+      },
       "language": {
         "title": "Language",
         "notifications": {

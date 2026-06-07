@@ -3,6 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconAlertCircle, IconCircleCheck, IconCircleX, IconEdit, IconX } from '@tabler/icons-react';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
 import { QuickActionButtons } from '@/parcels/details/TcgPrintDetails/QuickActionButtons/QuickActionButtons.tsx';
@@ -14,6 +15,7 @@ import { Button } from '@/parcels/generic/Button/Button.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { slugify } from '@/parcels/slugify.ts';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
 import { getTranslatedName } from '@/parcels/tcg/helpers.ts';
@@ -144,6 +146,48 @@ export function TcgPrintDetails() {
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
         </Stack>
 
+        <ForwardedToDetailsBanner />
+
+        <Group justify={smallScreen ? 'center' : 'start'}>
+          <Flex
+            align={'start'}
+            wrap={'nowrap'}
+            direction={smallScreen ? 'column' : 'row'}
+            gap={smallScreen ? '1rem' : '0.1rem'}
+            w={'100%'}
+            maw={smallScreen ? '26rem' : ''}
+          >
+            <TcgPrintImageRenderer
+              tcg={tcg}
+              card={card}
+              w={smallScreen ? '100%' : ''}
+              align={smallScreen ? 'center' : 'start'}
+              lang={printLanguage}
+            />
+
+            <TcgPrintContent tcg={tcg} card={card} />
+
+            <TcgPrintMeta tcg={tcg} card={card} set={set} lang={printLanguage} setLang={setLanguage} />
+          </Flex>
+        </Group>
+
+        <Group wrap={'nowrap'} align={'start'}>
+          {legalities.length > 0 && <LegalityDisplay legalities={legalities} />}
+
+          {rulings.length > 0 && <RulingsDisplay rulings={rulings} />}
+        </Group>
+      </div>
+    </TcgPrintDetailsContext>
+  );
+}
+
+function ForwardedToDetailsBanner() {
+  const wasForwarded = useLocalUserStateStore((state) => state.wasDetailsForwarded);
+  const { user } = useAuth();
+
+  return (
+    <>
+      {wasForwarded && user?.settings?.search?.forwardToDetailPage && (
         <Stack
           w={'65%'}
           p={'1rem 1rem'}
@@ -180,37 +224,8 @@ export function TcgPrintDetails() {
             <MantineButton color={'var(--gourmet-neutral-2)'}>Keep forwarding</MantineButton>
           </Group>
         </Stack>
-
-        <Group justify={smallScreen ? 'center' : 'start'}>
-          <Flex
-            align={'start'}
-            wrap={'nowrap'}
-            direction={smallScreen ? 'column' : 'row'}
-            gap={smallScreen ? '1rem' : '0.1rem'}
-            w={'100%'}
-            maw={smallScreen ? '26rem' : ''}
-          >
-            <TcgPrintImageRenderer
-              tcg={tcg}
-              card={card}
-              w={smallScreen ? '100%' : ''}
-              align={smallScreen ? 'center' : 'start'}
-              lang={printLanguage}
-            />
-
-            <TcgPrintContent tcg={tcg} card={card} />
-
-            <TcgPrintMeta tcg={tcg} card={card} set={set} lang={printLanguage} setLang={setLanguage} />
-          </Flex>
-        </Group>
-
-        <Group wrap={'nowrap'} align={'start'}>
-          {legalities.length > 0 && <LegalityDisplay legalities={legalities} />}
-
-          {rulings.length > 0 && <RulingsDisplay rulings={rulings} />}
-        </Group>
-      </div>
-    </TcgPrintDetailsContext>
+      )}
+    </>
   );
 }
 
