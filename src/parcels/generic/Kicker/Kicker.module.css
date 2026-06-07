@@ -6,7 +6,7 @@
     text-transform: uppercase;
 
     &[data-cgm-size="xs"] {
-      --kicker-gap: 0.375rem;
+      --kicker-gap: 0.25rem;
       --kicker-icon-size: 0.875rem;
     }
 

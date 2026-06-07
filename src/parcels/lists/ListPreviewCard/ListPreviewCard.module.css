@@ -1,0 +1,34 @@
+@layer structures {
+  .base {
+    background-color: var(--cgm-background-surface);
+    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    border-radius: 0.75rem;
+    box-shadow: var(--cgm-shadow-skeuomorphic), var(--cgm-shadow-xs);
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .header {
+    align-self: stretch;
+    background-color: color-mix(in oklab, var(--list-color), var(--cgm-background-surface) 95%);
+    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    border-radius: 0.75rem;
+    box-shadow: var(--cgm-shadow-skeuomorphic), var(--cgm-shadow-xs);
+    margin: var(--cgm-border-offset);
+    padding: 1rem;
+    position: relative;
+
+    &::before {
+      border: var(--cgm-border-width) solid var(--list-color);
+      border-radius: calc(0.75rem - var(--cgm-border-width) - var(--cgm-border-width));
+      content: "";
+      inset: var(--cgm-border-width);
+      mask-image: linear-gradient(to bottom, black, transparent);
+      opacity: 0.5;
+      pointer-events: none;
+      position: absolute;
+    }
+  }
+}
