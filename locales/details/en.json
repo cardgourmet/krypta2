@@ -21,5 +21,10 @@
     "failure": {
       "shareNotAvailable": "Native share not available"
     }
+  },
+  "report": {
+    "options": {
+      "createReport": "Report this page"
+    }
   }
 }

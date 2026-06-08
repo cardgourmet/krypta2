@@ -1,8 +1,9 @@
 import { Center, Group, UnstyledButton } from '@mantine/core';
-import { IconBug, IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
+import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { getRouteApi } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { ReportMenu } from '@/parcels/details/TcgPrintDetails/QuickActionButtons/ReportMenu/ReportMenu.tsx';
 import { ShareMenu } from '@/parcels/details/TcgPrintDetails/QuickActionButtons/ShareMenu/ShareMenu.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import styles from './QuickActionButtons.module.css';
@@ -28,18 +29,7 @@ export function QuickActionButtons() {
     <Group p={'0 1rem'} gap={'0.5rem'}>
       <Group gap={'0.15rem'}>
         <ShareMenu />
-        {user && (
-          <UnstyledButton
-            className={styles.quickActionButton}
-            onClick={() => {
-              // TODO: open submenu to report the page
-            }}
-          >
-            <Center>
-              <IconBug size={22} color={'var(--gourmet-neutral-8)'} />
-            </Center>
-          </UnstyledButton>
-        )}
+        {user && <ReportMenu />}
       </Group>
       {user && (
         <Group className={styles.quickActionGroup} gap={'0.15rem'}>
