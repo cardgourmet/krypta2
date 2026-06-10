@@ -1,4 +1,4 @@
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
 import { getSetSpecificQuery } from '@/parcels/overview/cards/getSetSpecificQuery.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { searchDlcSets } from '@/parcels/tcg/dlc/api.ts';

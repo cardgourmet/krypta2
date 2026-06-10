@@ -3,6 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconSettings, IconX } from '@tabler/icons-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -13,13 +14,11 @@ import { ListOverviewSettings } from '@/parcels/lists/ListsOverview/DesktopListO
 import { ListsOverviewGrid } from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import { ListsOverviewTable } from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation';
 import { Route } from '@/routes/me/lists';
 
 export default function ListsOverview() {
   const { user } = useAuth();
-  const noti = useGourmetNotification();
   const { t } = useTranslation('lists', { keyPrefix: 'overview' });
 
   const { component, title } = useBreadcrumbs({
@@ -64,7 +63,7 @@ export default function ListsOverview() {
         setIsPreviewsLoading(false);
 
         if (res.error) {
-          noti.show('Unknown error', `${res.error}`, 'error');
+          sendErrorNotification(res.error);
           return;
         }
         if (!res.data) return;
@@ -79,7 +78,7 @@ export default function ListsOverview() {
         setUserListsWithResources(appliedLists);
       },
     );
-  }, [user?.id, search.tcg, noti, processedLocalUserLists]);
+  }, [user?.id, search.tcg, processedLocalUserLists]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     // only refetch the content if the user lists change in any way (order, filter, etc.)

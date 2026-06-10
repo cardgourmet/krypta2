@@ -1,5 +1,7 @@
-import { Divider, Flex, Group, Stack } from '@mantine/core';
+import { Button, Divider, Flex, Group, Image, Stack, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import { IconArrowRight } from '@tabler/icons-react';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import { useCallback, useMemo } from 'react';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
@@ -13,6 +15,7 @@ import { TcgPrintMeta } from '@/parcels/details/TcgPrintDetails/TcgPrintMeta/Tcg
 import { TcgPrintImageRenderer } from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
@@ -172,6 +175,56 @@ export function TcgPrintDetails() {
 
           {rulings.length > 0 && <RulingsDisplay rulings={rulings} />}
         </Group>
+
+        {/* TODO */}
+        <Button
+          onClick={() => {
+            notifications.show({
+              autoClose: 5_000,
+              color: 'var(--gourmet-green-1)',
+              message: (
+                <Group wrap={'nowrap'} align={'stretch'}>
+                  <Flex>
+                    <div
+                      style={{
+                        aspectRatio: '672 / 936',
+                        width: '4rem',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Image
+                        src={
+                          card.print.faces[0].translations.en.imageUrls?.thumbnail
+                          ?? card.print.faces[0].translations.en.imageUrls?.full
+                        }
+                        style={{ borderRadius: '0.25rem' }}
+                        fallbackSrc={backupImageUrl}
+                      />
+                    </div>
+                  </Flex>
+                  <Stack justify={'start'} gap={'0.25rem'}>
+                    <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
+                      Added to Favorites
+                    </GourmetText>
+                    <GourmetText fz={'0.9rem'}>
+                      We've added <i>{card.name}</i> to the list.{' '}
+                      <UnstyledButton>
+                        <Group gap={'0.25rem'}>
+                          <GourmetText cgmc={'neutral-9'} fz={'0.9rem'}>
+                            Go there now
+                          </GourmetText>
+                          <IconArrowRight size={16} color={'var(--gourmet-neutral-9)'} />
+                        </Group>
+                      </UnstyledButton>
+                    </GourmetText>
+                  </Stack>
+                </Group>
+              ),
+            });
+          }}
+        >
+          Test Success
+        </Button>
       </div>
     </TcgPrintDetailsContext>
   );

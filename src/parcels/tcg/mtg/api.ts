@@ -1,4 +1,4 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy } from '@/parcels/tcg/mtg/types.ts';
 import type {
   SearchQueryExecutorFilter,

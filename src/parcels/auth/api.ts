@@ -5,7 +5,7 @@ import {
   handleApiCall,
   handleApiError,
   handleUncaughtError,
-} from '@/parcels/api/handleApiCall.ts';
+} from '@/parcels/api/handleApiCall.tsx';
 import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
 
@@ -187,7 +187,7 @@ export async function logout(abort?: AbortController): Promise<{ data?: number; 
 export async function getCurrentLoggedInUser(
   token?: string,
   abort?: AbortController,
-): Promise<{ data?: DataAuthUser; error?: Error; statusCode?: number }> {
+): Promise<{ data?: DataAuthUser; error?: GourmetError; statusCode?: number }> {
   try {
     const res = await umoriClient.GET(`/v1/auth/user`, {
       headers: {
@@ -197,21 +197,17 @@ export async function getCurrentLoggedInUser(
     });
 
     if (!res.response.ok) {
-      return { error: new Error(res.response.statusText), statusCode: res.response.status };
+      const apiError = handleApiError(res.error);
+
+      if (!apiError) return { error: errorFrom(new Error(res.response.statusText)) };
+      return { error: errorFrom(new Error(apiError.error.key), apiError.error.key) };
     }
     if (!res.data) {
-      return { error: new Error('Received invalid data') };
+      return { error: errorFrom(new Error('Received invalid data')) };
     }
     return { data: res.data.data, statusCode: res.response.status };
   } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
+    return handleUncaughtError(error);
   }
 }
 

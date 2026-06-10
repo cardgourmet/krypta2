@@ -1,5 +1,5 @@
 import { create } from 'zustand/react';
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
 import { fetchDlcFilters, fetchDlcFiltersValues } from '@/parcels/tcg/dlc/api.ts';
 import { fetchMtgFilters, fetchMtgFiltersValues } from '@/parcels/tcg/mtg/api.ts';
 import { fetchPcgFilters, fetchPcgFiltersValues } from '@/parcels/tcg/pcg/api.ts';

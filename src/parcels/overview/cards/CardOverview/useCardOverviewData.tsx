@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useEffectEvent, useState } from 'react';
-import type { GourmetError } from '@/parcels/api/handleApiCall.ts';
+import type { GourmetError } from '@/parcels/api/handleApiCall.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { fetchTcgCards } from '@/parcels/tcg/fetchTcgCards.tsx';

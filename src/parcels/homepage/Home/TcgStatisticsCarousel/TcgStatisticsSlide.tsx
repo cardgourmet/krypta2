@@ -1,6 +1,6 @@
 import { Center, Group, Loader, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { SetCard } from '@/parcels/overview/sets/SetCard/SetCard.tsx';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
@@ -31,7 +31,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
 
         if (!res) return;
         if (res.error) {
-          console.error(`Failed to load ${tcg} stats`, res.error);
+          sendErrorNotification(res.error);
           return;
         }
 

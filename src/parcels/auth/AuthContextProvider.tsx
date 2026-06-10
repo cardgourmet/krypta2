@@ -1,4 +1,5 @@
 import { type PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { AuthContext, type UserSession } from '@/parcels/auth/AuthContext.ts';
 import {
   type DataAuthUser,
@@ -6,13 +7,10 @@ import {
   getCurrentLoggedInUser,
   listUserIntegrations,
 } from '@/parcels/auth/api.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import { useLocalUserStore } from '@/parcels/state/LocalUserStore.tsx';
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
-  const noti = useGourmetNotification();
-
   const session = useLocalUserStore((state) => state.session);
   const setSession = useLocalUserStore((state) => state.setSession);
 
@@ -73,7 +71,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
             return;
           }
 
-          noti.show('Unknown error', `${res.error}`, 'error');
+          sendErrorNotification(res.error);
           return;
         }
         if (!res.data) return;
@@ -84,7 +82,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         setUser(res.data);
       });
     },
-    [setSession, setUser, removeWasVerified, noti.show, removeEmailWasChanged],
+    [setSession, setUser, removeWasVerified, removeEmailWasChanged],
   );
   const logout = useCallback(() => {
     // noinspection JSIgnoredPromiseFromCall

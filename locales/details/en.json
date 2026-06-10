@@ -23,8 +23,31 @@
     }
   },
   "report": {
+    "knownIssues_one": "There is {{count}} known issues for this print. Displayed data might not be accurate.",
+    "knownIssues_other": "There are {{count}} known issues for this print. Displayed data might not be accurate.",
+    "title": "Report Page",
     "options": {
       "createReport": "Report this page"
+    },
+    "reportSent": {
+      "title": "Report Sent",
+      "description": "Thank you for the report! It might take time until we get to handle it."
+    },
+    "form": {
+      "subject": "Subject",
+      "severity": {
+        "title": "Severity",
+        "unknown": "Unknown",
+        "minor": "Minor",
+        "medium": "Medium",
+        "major": "Major"
+      },
+      "note": {
+        "title": "Note",
+        "placeholder": "Describe the issue in more detail..."
+      },
+      "cancel": "Cancel",
+      "sendReport": "Send report"
     }
   }
 }

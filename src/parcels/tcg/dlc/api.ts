@@ -1,4 +1,4 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy } from '@/parcels/tcg/dlc/types.ts';
 import type {
   SearchQueryExecutorFilter,

@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
 import { SetsOverview } from '@/parcels/overview/sets/SetsOverview.tsx';
 import { fetchDlcSets } from '@/parcels/tcg/dlc/api.ts';
 import { fetchMtgSets } from '@/parcels/tcg/mtg/api.ts';

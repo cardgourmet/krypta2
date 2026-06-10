@@ -1,9 +1,11 @@
-import { Button, Center, Group, Menu, Modal, Stack, Textarea, UnstyledButton } from '@mantine/core';
+import { Button, Center, Flex, Group, Indicator, Menu, Modal, Stack, Textarea, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { IconBug, IconMessageReportFilled } from '@tabler/icons-react';
 import { getRouteApi, useLocation } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import styles from '@/parcels/details/TcgPrintDetails/QuickActionButtons/QuickActionButtons.module.css';
@@ -47,12 +49,29 @@ export function ReportMenu() {
   const [newReport, setNewReport] = useState<CreateUserReportRequest>({});
   const [reportModalOpened, { open: openReportModal, close: closeReportModal }] = useDisclosure(false);
 
+  function onReportSentSuccess() {
+    notifications.show({
+      autoClose: 5_000,
+      color: 'var(--gourmet-green-1)',
+      message: (
+        <Group wrap={'nowrap'} align={'stretch'}>
+          <Stack justify={'start'} gap={'0.25rem'}>
+            <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
+              {t('reportSent.title')}
+            </GourmetText>
+            <GourmetText fz={'0.9rem'}>{t('reportSent.description')}</GourmetText>
+          </Stack>
+        </Group>
+      ),
+    });
+  }
+
   return (
     <>
-      <Modal opened={reportModalOpened} onClose={closeReportModal} title="Report Page" closeOnClickOutside={false}>
+      <Modal opened={reportModalOpened} onClose={closeReportModal} title={t('title')} closeOnClickOutside={false}>
         <Stack>
           <GourmetSelect
-            label={'Subject'}
+            label={t('form.subject')}
             data={subjectByTypes.print.map((s) => {
               return { label: capitalizeFirstLetter(s), value: s };
             })}
@@ -62,9 +81,9 @@ export function ReportMenu() {
             }}
           />
           <GourmetSelect
-            label={'Severity'}
+            label={t('form.severity.title')}
             data={['unknown', 'minor', 'medium', 'major'].map((s) => {
-              return { label: capitalizeFirstLetter(s), value: s };
+              return { label: t(`form.severity.${s}`), value: s };
             })}
             value={newReport.severity}
             onChange={(option) => {
@@ -73,8 +92,9 @@ export function ReportMenu() {
           />
 
           <Textarea
-            label={'Note'}
-            placeholder={'Describe the issue in more detail...'}
+            required
+            label={t('form.note.title')}
+            placeholder={t('form.note.placeholder')}
             value={newReport.note}
             autosize
             minRows={4}
@@ -87,10 +107,11 @@ export function ReportMenu() {
           <Group justify={'end'}>
             <Button color={'var(--gourmet-neutral-7)'} onClick={closeReportModal}>
               <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'}>
-                Cancel
+                {t('form.cancel')}
               </GourmetText>
             </Button>
             <Button
+              disabled={(newReport.note?.length ?? 0) === 0}
               color={'var(--gourmet-blue-1)'}
               onClick={() => {
                 if (user?.state !== 'verified') return;
@@ -104,14 +125,16 @@ export function ReportMenu() {
                   newReport,
                 ).then((data) => {
                   if (data.error) {
+                    sendErrorNotification(data.error);
                     return;
                   }
                   closeReportModal();
+                  onReportSentSuccess();
                 });
               }}
             >
               <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'} fw={500}>
-                Send report
+                {t('form.sendReport')}
               </GourmetText>
             </Button>
           </Group>
@@ -129,19 +152,21 @@ export function ReportMenu() {
       >
         <Menu.Target>
           <UnstyledButton className={styles.quickActionButton}>
-            <Center>
-              <IconBug size={22} color={'var(--gourmet-neutral-8)'} />
-            </Center>
+            <Indicator color="var(--gourmet-orange-1)" size={8} disabled={(openPublicReports?.length ?? 0) === 0}>
+              <Center>
+                <IconBug size={22} color={'var(--gourmet-neutral-8)'} />
+              </Center>
+            </Indicator>
           </UnstyledButton>
         </Menu.Target>
 
         <Menu.Dropdown style={{ backgroundColor: 'var(--gourmet-neutral-1)', borderColor: 'var(--gourmet-neutral-3)' }}>
           {(openPublicReports?.length ?? 0) > 0 && (
-            <>
-              <GourmetText style={{ wordBreak: 'break-all' }}>{JSON.stringify(openPublicReports)}</GourmetText>
-
-              <Menu.Divider />
-            </>
+            <Flex p={'0.25rem'}>
+              <GourmetText cgmff={'ui'} c={'var(--gourmet-orange-1)'}>
+                {t('knownIssues', { count: openPublicReports?.length })}
+              </GourmetText>
+            </Flex>
           )}
 
           <Menu.Item

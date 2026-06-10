@@ -1,6 +1,7 @@
 import { Group, Menu, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconMinus, IconPlus } from '@tabler/icons-react';
 import { type ReactElement, useMemo } from 'react';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -8,7 +9,6 @@ import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -51,7 +51,6 @@ export function ListMenuItem({
   const addToListCount = useMemo(() => {
     return !listResourceIds.includes(ressourceId) ? 1 : 0;
   }, [listResourceIds, ressourceId]);
-  const noti = useGourmetNotification();
 
   return (
     <Menu.Item
@@ -61,7 +60,7 @@ export function ListMenuItem({
         if (action === 'add') {
           addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type, raw).then((res) => {
             if (res.error) {
-              noti.show('Unknown error', `${res.error}`, 'error');
+              sendErrorNotification(res.error);
               return;
             }
             refetchLists();
@@ -74,7 +73,7 @@ export function ListMenuItem({
         if (action === 'remove') {
           removeResourcesFromList(user?.id, list.id, mustTcg, [ressourceId], type).then((res) => {
             if (res.error) {
-              noti.show('Unknown error', `${res.error}`, 'error');
+              sendErrorNotification(res.error);
               return;
             }
 

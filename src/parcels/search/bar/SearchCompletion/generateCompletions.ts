@@ -1,5 +1,5 @@
 import { quickScore } from 'quick-score';
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
 import type { FilterValuesByKeyword } from '@/parcels/search/filter/FilterCacheStore.tsx';
 import { levenshtein } from '@/parcels/search/levenshtein.ts';
 import type { DlcSearchFilter } from '@/parcels/tcg/dlc/api.ts';

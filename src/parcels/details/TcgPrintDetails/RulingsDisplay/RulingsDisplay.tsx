@@ -45,9 +45,9 @@ export function RulingsDisplay({ rulings }: { rulings: { date: string; text: str
           overflow: 'hidden',
         }}
       >
-        {rulings.map((r) => {
+        {rulings.map((r, index) => {
           return (
-            <Stack key={r.date} gap={'0'}>
+            <Stack key={`${r.date}_${index}`} gap={'0'}>
               <GourmetText cgmff={'content'} lh={'1.25rem'}>
                 {renderRichMtgText(r.text)}
               </GourmetText>

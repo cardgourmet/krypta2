@@ -1,5 +1,5 @@
 // /v1/dlc/sets/search
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
