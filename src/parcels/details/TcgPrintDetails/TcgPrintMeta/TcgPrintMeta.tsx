@@ -324,7 +324,7 @@ function TcgPrintMetaRenderer({
           })}
         </Stack>
 
-        <Button accent="brand" size="sm" leadingIcon={<IconDeviceImacSearch />} variant="tertiary">
+        <Button accent="brand" size="sm" leadingIcon={<IconDeviceImacSearch />} variant="tertiary" disabled>
           Show more related searches
         </Button>
       </Stack>

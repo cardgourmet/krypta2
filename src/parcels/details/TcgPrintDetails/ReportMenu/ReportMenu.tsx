@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
-import styles from '@/parcels/details/TcgPrintDetails/QuickActionButtons/QuickActionButtons.module.css';
 import { GourmetSelect } from '@/parcels/generic/mantine/GourmetSelect/GourmetSelect.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import {
@@ -19,6 +18,7 @@ import {
   type PublicDataIssueReport,
 } from '@/parcels/reports/api.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './ReportMenu.module.css';
 
 const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
 

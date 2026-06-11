@@ -1,0 +1,18 @@
+.quickActionButton {
+  padding: 0.4rem 0.45rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-2);
+    border-radius: 0.25rem;
+  }
+}
+
+.menuItem {
+  background-color: var(--cgm-sidebar-bg);
+
+  &:not([data-disabled="true"]) {
+    &:hover {
+      background-color: var(--cgm-sidebar-border);
+    }
+  }
+}

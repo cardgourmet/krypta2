@@ -49,5 +49,20 @@
       "cancel": "Cancel",
       "sendReport": "Send report"
     }
+  },
+  "legality": {
+    "notLegalByDefault": "Everything not listed here is not legal by default."
+  },
+  "notifications": {
+    "addToList": {
+      "title": "Added to {{name}}",
+      "weveAdded": "We've added {{name}} to the list.",
+      "goThere": "Go there now"
+    },
+    "removeFromList": {
+      "title": "Removed from {{name}}",
+      "weveRemoved": "We've removed {{name}} from the list.",
+      "goThere": "Go there anyway"
+    }
   }
 }

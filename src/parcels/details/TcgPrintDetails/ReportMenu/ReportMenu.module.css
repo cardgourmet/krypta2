@@ -7,11 +7,6 @@
   }
 }
 
-.quickActionGroup {
-  border-radius: 0.25rem;
-  border: 1px solid var(--gourmet-neutral-3);
-}
-
 .menuItem {
   background-color: var(--cgm-sidebar-bg);
 

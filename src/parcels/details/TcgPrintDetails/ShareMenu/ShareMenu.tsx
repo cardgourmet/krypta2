@@ -3,10 +3,10 @@ import { IconCopy, IconLink, IconShare2 } from '@tabler/icons-react';
 import { getRouteApi } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from '@/parcels/details/TcgPrintDetails/QuickActionButtons/QuickActionButtons.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { slugify } from '@/parcels/slugify.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './ShareMenu.module.css';
 
 const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
 

@@ -1,5 +1,6 @@
 import { Center, Group, Stack } from '@mantine/core';
 import { IconAlertCircle, IconCircleCheck, IconCircleX, IconEdit } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import styles from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.module.css';
 import { Button } from '@/parcels/generic/Button/Button.tsx';
@@ -11,6 +12,8 @@ export type Legality = {
 };
 
 export function LegalityDisplay({ legalities }: { legalities: Legality[] }) {
+  const { t } = useTranslation('details', { keyPrefix: 'legality' });
+
   return (
     <Stack maw={'28rem'} gap={'0.25rem'}>
       <Center>
@@ -46,17 +49,9 @@ export function LegalityDisplay({ legalities }: { legalities: Legality[] }) {
             })}
         </Group>
         <Stack gap={'0'}>
-          <GourmetText cgmff={'ui'}>Everything not listed here is not legal by default.</GourmetText>
+          <GourmetText cgmff={'ui'}>{t('notLegalByDefault')}</GourmetText>
 
-          <Button
-            accent="brand"
-            size="sm"
-            leadingIcon={<IconEdit />}
-            variant="tertiary"
-            onClick={() => {
-              // TODO: open menu to edit displayed formats
-            }}
-          >
+          <Button accent="brand" size="sm" leadingIcon={<IconEdit />} variant="tertiary" onClick={() => {}} disabled>
             <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
               Edit displayed formats
             </GourmetText>

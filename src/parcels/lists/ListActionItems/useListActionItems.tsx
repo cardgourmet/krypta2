@@ -14,8 +14,8 @@ type ListActionItemsProps = {
   tcg: Tcg;
   resourceId?: string;
   rawResourceId: string;
-  onSearchSaved?: (id: string) => void;
-  onRemoveFromList?: (listId: string) => void;
+  onAddedToList?: (id: string, listId: string) => void;
+  onRemovedFromList?: (listId: string) => void;
   type: 'card' | 'user_search';
   listContext?: UserListWithResources;
 } & { ref?: Ref<HTMLDivElement> };
@@ -24,8 +24,8 @@ export function useListActionItems({
   tcg,
   resourceId,
   rawResourceId,
-  onSearchSaved,
-  onRemoveFromList,
+  onAddedToList,
+  onRemovedFromList,
   type,
   ref,
   listContext,
@@ -68,13 +68,13 @@ export function useListActionItems({
 
                 const action = existsInLists.includes(list.list.id) ? 'remove' : 'add';
                 if (action === 'add') {
-                  if (onSearchSaved) onSearchSaved(res.resourceId);
+                  if (onAddedToList) onAddedToList(res.resourceId, list.list.id);
                 } else if (action === 'remove') {
-                  if (onRemoveFromList) onRemoveFromList(list.list.id);
+                  if (onRemovedFromList) onRemovedFromList(list.list.id);
                 }
               }}
               icon={<IconStar size={18} />}
-              buttonText={listContext !== undefined ? t('favoriteCopy') : t(`favorite${inList ? '-remove' : ''}`)}
+              buttonText={listContext !== undefined ? t('favoriteCopy') : t(`favorite${inList ? 'Remove' : ''}`)}
             />
           );
         })}
@@ -89,7 +89,7 @@ export function useListActionItems({
           buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
           onSuccess={(res) => {
             if (res) {
-              if (onSearchSaved) onSearchSaved(res.resourceId);
+              if (onAddedToList) onAddedToList(res.resourceId, res.listId);
             }
           }}
         />
@@ -106,7 +106,7 @@ export function useListActionItems({
             onSuccess={(res) => {
               if (!res) return;
 
-              if (onRemoveFromList) onRemoveFromList(listContext.list.id);
+              if (onRemovedFromList) onRemovedFromList(listContext.list.id);
             }}
             icon={<IconList size={18} />}
             buttonText={'Remove from list'}
@@ -121,7 +121,7 @@ export function useListActionItems({
             tcg={tcg}
             onSuccess={(res) => {
               if (res) {
-                if (onRemoveFromList) onRemoveFromList(res.listId);
+                if (onRemovedFromList) onRemovedFromList(res.listId);
               }
             }}
           />
@@ -131,8 +131,8 @@ export function useListActionItems({
   }, [
     disclosure,
     existsInLists.includes,
-    onRemoveFromList,
-    onSearchSaved,
+    onRemovedFromList,
+    onAddedToList,
     rawResourceId,
     ref,
     resourceId,

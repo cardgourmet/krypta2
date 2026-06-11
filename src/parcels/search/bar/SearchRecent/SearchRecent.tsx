@@ -202,7 +202,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
             <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
           </ActionIcon>
         }
-        onSearchSaved={(id) => {
+        onAddedToList={(id) => {
           // adjust local storage and add all with that queryId
           history.markQueries(query.rawQuery as string, id);
         }}

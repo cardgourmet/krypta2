@@ -1,1 +1,68 @@
-{}
+{
+  "meta": {
+    "language": {
+      "printIn": "Diesen Print ansehen in",
+      "reprintIn": "Einen Reprint ansehen in"
+    }
+  },
+  "image": {
+    "showAll": "Zeige alle {{count}} Prints"
+  },
+  "share": {
+    "options": {
+      "copyName": "Namen kopieren",
+      "copyNameMTGA": "Namen kopieren (MTGA)",
+      "copyLink": "Link kopieren",
+      "shareWith": "Teilen mit ..."
+    },
+    "success": {
+      "copied": "In die Zwischenablage kopiert"
+    },
+    "failure": {
+      "shareNotAvailable": "Natives Teilen nicht unterstützt"
+    }
+  },
+  "report": {
+    "knownIssues_one": "Es gibt ein bekanntes Problem mit diesem Print. Angezeigte Daten könnten inkorrekt sein.",
+    "knownIssues_other": "Es gibt {{count}} bekannte Probleme mit diesem Print. Angezeigte Daten könnten inkorrekt sein.",
+    "title": "Seite melden",
+    "options": {
+      "createReport": "Diese Seite melden"
+    },
+    "reportSent": {
+      "title": "Meldung gesendet",
+      "description": "Danke für deine Meldung! Es könnte sein, dass es Zeit braucht, bis wir dem nachgehen können."
+    },
+    "form": {
+      "subject": "Subjekt",
+      "severity": {
+        "title": "Prädikat",
+        "unknown": "Unbekannt",
+        "minor": "Moll",
+        "medium": "Medium",
+        "major": "Dur"
+      },
+      "note": {
+        "title": "Object",
+        "placeholder": "Gib uns ein paar Details zu dem Problem..."
+      },
+      "cancel": "Abbrechen",
+      "sendReport": "Meldung senden"
+    }
+  },
+  "legality": {
+    "notLegalByDefault": "Alles hier nicht gelistete ist automatisch nicht legal."
+  },
+  "notifications": {
+    "addToList": {
+      "title": "Hinzugefügt zu {{name}}",
+      "weveAdded": "Wir haben {{name}} zur Liste hinzugefügt.",
+      "goThere": "Gehe dorthin"
+    },
+    "removeFromList": {
+      "title": "Entfernt von {{name}}",
+      "weveRemoved": "Wir haben {{name}} von der Liste entfernt.",
+      "goThere": "Gehe dorthin"
+    }
+  }
+}
