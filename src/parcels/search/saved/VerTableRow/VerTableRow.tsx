@@ -60,7 +60,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
                 }
                 menuOpened={menuOpened}
                 setMenuOpened={setMenuOpened}
-                onSearchSaved={(id) => {
+                onAddedToList={(id) => {
                   if (onSearchSaved) onSearchSaved(id);
                 }}
               />

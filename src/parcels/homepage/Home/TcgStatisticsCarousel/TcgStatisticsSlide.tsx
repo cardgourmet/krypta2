@@ -1,16 +1,15 @@
 import { Center, Group, Loader, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
-import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import { type GourmetApiResponse, sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { SetCard } from '@/parcels/overview/sets/SetCard/SetCard.tsx';
+import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import { getDlcStatistics } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
 import { getMtgStatistics } from '@/parcels/tcg/mtg/api.ts';
 import { getPcgStatistics } from '@/parcels/tcg/pcg/api.ts';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
-import type { TcgStatistics } from '@/parcels/tcg/types.ts';
+import type { TcgDataSet, TcgStatistics } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
@@ -32,7 +31,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
 
         if (!res) return;
         if (res.error) {
-          console.error(`Failed to load ${tcg} stats`, res.error);
+          sendErrorNotification(res.error);
           return;
         }
 
@@ -48,7 +47,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
     loadStatistics();
   }, [tcg]);
 
-  const [lang] = useLanguage();
+  const [lang] = useUserLanguage();
   const locale = lang === 'de' ? 'de-DE' : 'en-US';
 
   return (

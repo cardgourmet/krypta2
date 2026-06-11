@@ -6,6 +6,7 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { DisplayNameSetting } from '@/parcels/settings/DisplayNameSetting/DisplayNameSetting.tsx';
 import { EmailSetting } from '@/parcels/settings/EmailSetting/EmailSetting.tsx';
+import { ForwardDetailsSetting } from '@/parcels/settings/ForwardDetailsSetting/ForwardDetailsSetting.tsx';
 import { GoogleIntegrationSetting } from '@/parcels/settings/IntegrationSetting/GoogleIntegrationSetting.tsx';
 import { LanguageSetting } from '@/parcels/settings/LanguageSetting/LanguageSetting.tsx';
 import { PasswordSetting } from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
@@ -124,6 +125,19 @@ export function SettingsOverview() {
           </Group>
         </Stack>
         <Stack>
+          <GroupTitle text={t('groups.search.title')} />
+
+          <Group align={'start'}>
+            <GroupSettingTitle
+              title={t('groups.search.forwardDetails.title')}
+              description={t('groups.search.forwardDetails.description')}
+            />
+
+            <ForwardDetailsSetting />
+          </Group>
+        </Stack>
+
+        <Stack>
           <GroupTitle text={t('groups.language.title')} />
 
           <Group align={'start'}>
@@ -193,7 +207,7 @@ function GroupSettingTitle({ title, description }: { title: string; description?
       </GourmetText>
 
       {description && (
-        <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+        <GourmetText cgmff={'ui'} cgmc={'neutral-6'} maw={'32rem'}>
           {description}
         </GourmetText>
       )}

@@ -1,5 +1,5 @@
 import { create } from 'zustand/react';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 
 export type MenuControls<T> = {
   opened: boolean;

@@ -1,4 +1,4 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy } from '@/parcels/tcg/dlc/types.ts';
 import type {
   SearchQueryExecutorFilter,
@@ -27,9 +27,13 @@ export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 export type DlcDataSets = c['schemas']['Page-DlcDataSet'];
 export type DlcStatistics = TcgStatistics & { lastSet?: DlcDataSet };
+export type DlcSetSearchResult = c['schemas']['TcgSetSearchResult-DlcDataSet'];
 
 // /v1/dlc/sets/search
-export async function searchDlcSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet[]>> {
+export async function searchDlcSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DlcSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/sets/search`, {
       params: {

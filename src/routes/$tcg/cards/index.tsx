@@ -21,14 +21,17 @@ export const Route = createFileRoute('/$tcg/cards/')({
     const { tcg } = params;
     const setRes = await fetchSetByQuery(tcg, deps.query);
     if (!setRes || setRes.error) return null;
-    if (!setRes?.data?.code) return null;
+    if (!setRes?.data?.set?.code) return null;
+
+    // only redirect if the query _only_ contains set filter
+    if ((setRes.data.explain?.filters?.length ?? 0) !== 1) return null;
 
     throw redirect({
       to: '/$tcg/sets/$setCode',
       search: { ...tcgSetParamsDefaults },
       params: {
         tcg: params.tcg,
-        setCode: setRes.data.code!,
+        setCode: setRes.data.set.code!,
       },
     });
   },

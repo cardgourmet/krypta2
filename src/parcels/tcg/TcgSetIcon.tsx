@@ -1,4 +1,4 @@
-import { MtgSetIcon } from '@/parcels/tcg/mtg/details/MtgPrintMetaRenderer/MtgPrintMetaRenderer.tsx';
+import { MtgSetIcon } from '@/parcels/tcg/mtg/details/MtgSetIcon.tsx';
 import { PcgSetIcon } from '@/parcels/tcg/pcg/details/PcgSetIcon.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 

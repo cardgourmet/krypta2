@@ -1,6 +1,6 @@
 import type { UseNavigateResult } from '@tanstack/react-router';
 import type { RefObject } from 'react';
-import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
+import { type TcgSearchParams, tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function handleKeydown({
@@ -11,6 +11,7 @@ export function handleKeydown({
   currentQuery,
   navigate,
   hasActiveSuggestion,
+  locationHref,
 }: {
   tcg: Tcg;
   searchInputRef: RefObject<HTMLInputElement | null>;
@@ -19,6 +20,7 @@ export function handleKeydown({
   currentQuery: string;
   navigate: UseNavigateResult<string>;
   hasActiveSuggestion: boolean;
+  locationHref: string;
 }) {
   return (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -44,7 +46,10 @@ export function handleKeydown({
             tcg: tcg,
           },
           search: (prev) => {
-            return { ...prev, query: currentQuery, page: 1 } as Required<TcgSearchParams>;
+            if (locationHref.startsWith(`/${tcg}/cards`)) {
+              return { ...prev, query: currentQuery, page: 1 } as Required<TcgSearchParams>;
+            }
+            return { ...tcgSearchParamsDefaults, query: currentQuery, page: 1 } as Required<TcgSearchParams>;
           },
         });
       }

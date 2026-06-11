@@ -5,8 +5,6 @@ import { useNavigate } from '@tanstack/react-router';
 import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { CardGrid } from '@/parcels/overview/cards/CardGrid/CardGrid.tsx';
@@ -21,7 +19,8 @@ import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
 import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
-import type { TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
+import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
+import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
@@ -32,7 +31,7 @@ export type OverviewSettings = Required<TcgSearchParams>;
 export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSearch: TcgSearchParams }) {
   const tcg = useTcgByLocation() as Tcg;
   const { t } = useTranslation('cards');
-  const [lang] = useLanguage();
+  const [lang] = useUserLanguage();
 
   const { component, title } = useBreadcrumbs(
     set === undefined
@@ -70,6 +69,8 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     if (!tcg) return;
     if (!prevOverviewSettings || prevOverviewSettings === overviewSettings) return;
 
+    const pageChanged = prevOverviewSettings.page !== overviewSettings.page;
+
     if (set !== undefined) {
       navigate({
         to: '/$tcg/sets/$setCode',
@@ -78,7 +79,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           tcg: tcg,
           setCode: set.code!,
         },
-        replace: true,
+        replace: !pageChanged,
       });
     } else {
       navigate({
@@ -87,7 +88,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         params: {
           tcg: tcg,
         },
-        replace: true,
+        replace: !pageChanged,
       });
     }
   }, [overviewSettings, navigate, tcg, prevOverviewSettings, set]);
@@ -120,7 +121,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         {component}
 
         <OverviewHeader title={title?.label}>
-          {set === null && (
+          {set === undefined && (
             <Pagination
               currentPage={cards?.data?.currentPage}
               lastPage={cards?.data?.pageCount}
@@ -163,7 +164,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <TcgCardMenu tcg={tcg} />
         </div>
 
-        {set === null && (
+        {set === undefined && (
           <Pagination
             currentPage={cards?.data?.currentPage}
             lastPage={cards?.data?.pageCount}

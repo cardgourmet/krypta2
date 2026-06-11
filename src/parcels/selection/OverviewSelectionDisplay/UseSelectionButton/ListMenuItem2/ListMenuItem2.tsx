@@ -2,13 +2,13 @@ import { Group, Menu, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconMinus, IconPlus, IconStar } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { addResourcesToList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListMenuItem2.module.css';
@@ -34,7 +34,6 @@ export function ListMenuItem2({
   const addToListCount = useMemo(() => {
     return selectedPrintIds.filter((id) => !listResourceIds.includes(id)).length;
   }, [listResourceIds, selectedPrintIds]);
-  const noti = useGourmetNotification();
 
   return (
     <Menu.Item
@@ -48,7 +47,7 @@ export function ListMenuItem2({
           }),
         ]).then((res) => {
           if (res.error) {
-            noti.show('Unknown error', `${res.error}`, 'error');
+            sendErrorNotification(res.error);
             return;
           }
 

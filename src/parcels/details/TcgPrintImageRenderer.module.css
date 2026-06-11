@@ -1,0 +1,5 @@
+.moreReprintsButton {
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}

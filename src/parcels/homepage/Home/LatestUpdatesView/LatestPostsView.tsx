@@ -1,6 +1,7 @@
 import { Center, Group, Loader, Stack, Tooltip } from '@mantine/core';
 import { IconArrowRight } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { Badge } from '@/parcels/generic/Badge/Badge.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { type DataPost, getPosts, type PostType } from '@/parcels/homepage/Home/api.ts';
@@ -16,7 +17,7 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
       try {
         const res = await getPosts(types, 10);
         if (res.error) {
-          console.error(`Failed to load ${types.join(',')} posts`, res.error);
+          sendErrorNotification(res.error);
           return;
         }
 

@@ -1,5 +1,8 @@
+import { Group, Stack } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 // @ts-expect-error
 import type { FetchResponse } from 'openapi-fetch/src';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export async function handleApiCall<R>(
   call: () => Promise<FetchResponse<unknown, unknown, unknown>>,
@@ -48,6 +51,28 @@ export type GourmetError = {
   key: string;
   error?: Error;
 };
+
+export function sendErrorNotification(error: GourmetError) {
+  notifications.show({
+    autoClose: 5_000,
+    color: 'var(--gourmet-red-01)',
+    message: (
+      <Group wrap={'nowrap'} align={'stretch'}>
+        <Stack justify={'start'} gap={'0.25rem'}>
+          <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-red-01)'}>
+            Unexpected Error
+          </GourmetText>
+          <GourmetText fz={'0.9rem'}>
+            An unexpected error has occured, please try again later and report it to us if it happens again.
+          </GourmetText>
+          <GourmetText fz={'0.9rem'}>
+            Code: <code>{error.key}</code>
+          </GourmetText>
+        </Stack>
+      </Group>
+    ),
+  });
+}
 
 export function errorFrom(error: Error, key?: string): GourmetError {
   return { key: key ?? 'unknown', error };

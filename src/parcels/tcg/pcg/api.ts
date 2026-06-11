@@ -1,4 +1,4 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { PcgSearchQuerySettings, PcgSortBy, PcgUniqueBy } from '@/parcels/tcg/pcg/types.ts';
 import type {
   SearchQueryExecutorFilter,
@@ -29,9 +29,13 @@ export type PcgDataSets = c['schemas']['Page-PcgDataSet'];
 export type PcgDataEra = c['schemas']['PcgDataEra'];
 export type PcgDataEras = c['schemas']['Page-PcgDataEra'];
 export type PcgStatistics = TcgStatistics & { lastSet?: PcgDataSet };
+export type PcgSetSearchResult = c['schemas']['TcgSetSearchResult-PcgDataSet'];
 
 // /v1/pcg/sets/search
-export async function searchPcgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet[]>> {
+export async function searchPcgSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<PcgSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/sets/search`, {
       params: {

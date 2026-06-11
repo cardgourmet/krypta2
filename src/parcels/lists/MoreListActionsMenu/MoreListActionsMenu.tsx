@@ -1,3 +1,4 @@
+import type { MenuProps } from '@mantine/core';
 import type { Dispatch, PropsWithChildren, ReactElement, Ref, SetStateAction } from 'react';
 import { MoreActionsMenu } from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
@@ -10,9 +11,10 @@ type MoreListActionsMenuProps = {
   menuOpened?: boolean;
   setMenuOpened?: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
-  onSearchSaved?: (id: string) => void;
-  onRemoveFromList?: (listId: string) => void;
+  onAddedToList?: (id: string, listId: string) => void;
+  onRemovedFromList?: (listId: string) => void;
   type: 'card' | 'user_search';
+  menuProps?: MenuProps;
 } & { ref?: Ref<HTMLDivElement> };
 
 export function MoreListActionsMenu({
@@ -22,18 +24,19 @@ export function MoreListActionsMenu({
   menuOpened,
   setMenuOpened,
   target,
-  onSearchSaved,
-  onRemoveFromList,
+  onAddedToList,
+  onRemovedFromList,
   type,
   children,
   ref,
+  menuProps,
 }: PropsWithChildren<MoreListActionsMenuProps>) {
   const { modal, entries } = useListActionItems({
     tcg,
     resourceId,
     rawResourceId,
-    onSearchSaved,
-    onRemoveFromList,
+    onAddedToList: onAddedToList,
+    onRemovedFromList: onRemovedFromList,
     type,
     ref,
   });
@@ -42,7 +45,13 @@ export function MoreListActionsMenu({
     <>
       {modal}
 
-      <MoreActionsMenu target={target} menuOpened={menuOpened} setMenuOpened={setMenuOpened} ref={ref}>
+      <MoreActionsMenu
+        target={target}
+        menuOpened={menuOpened}
+        setMenuOpened={setMenuOpened}
+        ref={ref}
+        menuProps={menuProps}
+      >
         {entries}
         {children}
       </MoreActionsMenu>

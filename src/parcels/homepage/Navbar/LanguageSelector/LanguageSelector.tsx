@@ -3,15 +3,15 @@ import { IconCheck, IconLanguage } from '@tabler/icons-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
-import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import styles from './LanguageSelector.module.css';
 
 export function LanguageSelector() {
   const { i18n } = useTranslation();
   const { t } = useTranslation('nav', { keyPrefix: 'language' });
 
-  const [language, setLanguage] = useLanguage();
+  const [language, setLanguage] = useUserLanguage();
   const [localLanguage, setLocalLanguage] = useState<string>(language);
 
   const switchLanguage = useCallback(

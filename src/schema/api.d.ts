@@ -1988,7 +1988,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-MtgDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-MtgDataSet'];
           };
         };
       };
@@ -2920,7 +2920,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-DlcDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-DlcDataSet'];
           };
         };
       };
@@ -3715,7 +3715,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-PcgDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-PcgDataSet'];
           };
         };
       };
@@ -6306,6 +6306,126 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/{userId}/direports': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        userId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get data issue reports
+     * @description Get reports on data issues created by logged in user.
+     */
+    get: {
+      parameters: {
+        query?: {
+          tcg?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          type?: 'card' | 'print' | 'set' | 'search';
+          subjectId?: string;
+        };
+        header?: never;
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ReducedDataIssueReport'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Report a data issue
+     * @description Reports that some data (card, set) has an issue.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CreateReportRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-CreateReportResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/direports': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get data issue reports
+     * @description Get public available reports on data issues created for a resource
+     */
+    get: {
+      parameters: {
+        query: {
+          tcg: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          type: 'card' | 'print' | 'set' | 'search';
+          subjectId: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-PublicDataIssueReport'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -6413,6 +6533,8 @@ export interface components {
       name: string;
       /** Format: date-time */
       updatedAt: string;
+      /** Format: int32 */
+      weight: number;
     };
     PreferredLanguageSettings: {
       dlc?: components['schemas']['DlcLanguage'];
@@ -6426,9 +6548,13 @@ export interface components {
       collectionVisibility?: components['schemas']['Visibility'];
       profileVisibility?: components['schemas']['Visibility'];
     };
+    SearchSettings: {
+      forwardToDetailPage?: boolean;
+    };
     UserSettings: {
       preferredLanguages?: components['schemas']['PreferredLanguageSettings'];
       privacy?: components['schemas']['PrivacySettings'];
+      search?: components['schemas']['SearchSettings'];
     };
     DataAuthUser: {
       admin: boolean;
@@ -7165,8 +7291,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-MtgDataSet': {
-      data: components['schemas']['MtgDataSet'][];
+    'TcgSetSearchResult-MtgDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['MtgDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-MtgDataSet': {
+      data: components['schemas']['TcgSetSearchResult-MtgDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7374,8 +7504,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-DlcDataSet': {
-      data: components['schemas']['DlcDataSet'][];
+    'TcgSetSearchResult-DlcDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['DlcDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-DlcDataSet': {
+      data: components['schemas']['TcgSetSearchResult-DlcDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7757,8 +7891,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-PcgDataSet': {
-      data: components['schemas']['PcgDataSet'][];
+    'TcgSetSearchResult-PcgDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['PcgDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-PcgDataSet': {
+      data: components['schemas']['TcgSetSearchResult-PcgDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -8505,6 +8643,88 @@ export interface components {
       versionMajor: number;
       /** Format: int32 */
       versionMinor: number;
+    };
+    /** @enum {string} */
+    DataIssueReportSeverity: 'unknown' | 'minor' | 'medium' | 'major';
+    /** @enum {string} */
+    DataIssueReportSubjectType: 'card' | 'print' | 'set' | 'search';
+    CreateReportRequest: {
+      gameType: components['schemas']['GameType'];
+      note?: string | null;
+      severity?: components['schemas']['DataIssueReportSeverity'] | null;
+      subject?: string | null;
+      /** Format: uuid */
+      subjectId: string;
+      subjectType: components['schemas']['DataIssueReportSubjectType'];
+      url: string;
+    };
+    /** @enum {string} */
+    DataIssueReportStatus: 'reported' | 'accepted' | 'ongoing' | 'resolved' | 'blocked' | 'not_accepted';
+    ReducedDataIssueReport: {
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      note?: string | null;
+      /** Format: date-time */
+      reportedAt: string;
+      resolvedAt?: string | null;
+      severity: components['schemas']['DataIssueReportSeverity'];
+      status: components['schemas']['DataIssueReportStatus'];
+      subject: string;
+      /** Format: uuid */
+      subjectId: string;
+      subjectType: components['schemas']['DataIssueReportSubjectType'];
+      url: string;
+    };
+    CreateReportResponse: {
+      report: components['schemas']['ReducedDataIssueReport'];
+    };
+    'DataApiResponse-CreateReportResponse': {
+      data: components['schemas']['CreateReportResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'SimplePage-ReducedDataIssueReport': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['ReducedDataIssueReport'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-ReducedDataIssueReport': {
+      data: components['schemas']['SimplePage-ReducedDataIssueReport'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    PublicDataIssueReport: {
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      resolvedAt?: string | null;
+      severity: components['schemas']['DataIssueReportSeverity'];
+      status: components['schemas']['DataIssueReportStatus'];
+      subject: string;
+      /** Format: uuid */
+      subjectId: string;
+      subjectType: components['schemas']['DataIssueReportSubjectType'];
+    };
+    'SimplePage-PublicDataIssueReport': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['PublicDataIssueReport'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-PublicDataIssueReport': {
+      data: components['schemas']['SimplePage-PublicDataIssueReport'];
+      /** Format: int32 */
+      statusCode: number;
     };
   };
   responses: never;

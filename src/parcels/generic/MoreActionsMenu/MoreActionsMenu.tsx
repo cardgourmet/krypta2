@@ -1,4 +1,4 @@
-import { Menu } from '@mantine/core';
+import { Menu, type MenuProps } from '@mantine/core';
 import {
   type Dispatch,
   type PropsWithChildren,
@@ -13,6 +13,7 @@ type MoreActionsMenuProps = {
   menuOpened?: boolean;
   setMenuOpened?: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
+  menuProps?: MenuProps;
 } & { ref?: Ref<HTMLDivElement> };
 
 export function MoreActionsMenu({
@@ -21,17 +22,19 @@ export function MoreActionsMenu({
   target,
   children,
   ref,
+  menuProps,
 }: PropsWithChildren<MoreActionsMenuProps>) {
   const [backupMenuOpened, setBackupMenuOpened] = useState(false);
 
   return (
     <Menu
       width={260}
-      position="top"
+      position={menuProps?.position ?? 'top'}
       opened={menuOpened ?? backupMenuOpened}
       onChange={setMenuOpened ?? setBackupMenuOpened}
       withArrow
       classNames={{ dropdown: styles.menuDropdown }}
+      {...menuProps}
     >
       <Menu.Target>{target}</Menu.Target>
 

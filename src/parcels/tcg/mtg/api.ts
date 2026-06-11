@@ -1,4 +1,4 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy } from '@/parcels/tcg/mtg/types.ts';
 import type {
   SearchQueryExecutorFilter,
@@ -20,18 +20,21 @@ export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValue
 export type MtgDataCard = c['schemas']['MtgDataCard'];
 export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
 export type MtgDataPrint = c['schemas']['MtgDataPrint'];
-export type MtgDataPrintReference = c['schemas']['MtgDataPrintReference'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
 export type MtgDataSets = c['schemas']['Page-MtgDataSet'];
 export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
 export type MtgStatistics = TcgStatistics & { lastSet?: MtgDataSet };
+export type MtgSetSearchResult = c['schemas']['TcgSetSearchResult-MtgDataSet'];
 
 export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
 
 // /v1/mtg/sets/search
-export async function searchMtgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<MtgDataSet[]>> {
+export async function searchMtgSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<MtgSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/sets/search`, {
       params: {

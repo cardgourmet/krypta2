@@ -3,7 +3,6 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical, IconLink } from '@tabler/icons-react';
 import { Activity, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
 import type { ResolvedUserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
@@ -11,7 +10,7 @@ import { createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/cre
 import styles from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { slugify } from '@/parcels/slugify.ts';
-import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 function CardRenderer({

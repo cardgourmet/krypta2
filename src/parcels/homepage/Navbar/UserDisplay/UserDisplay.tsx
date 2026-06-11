@@ -1,7 +1,9 @@
+import { Avatar, Style } from '@dicebear/core';
+import definition from '@dicebear/styles/glyphs.json';
 import { Group, Menu, Stack } from '@mantine/core';
 import { IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
 import { Link, useRouter } from '@tanstack/react-router';
-import { type CSSProperties, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -20,13 +22,23 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
   const [opened, setOpened] = useState(false);
 
   const router = useRouter();
+  const avatarFallback = useMemo(() => {
+    if (!user || user?.avatarUrl) return;
+
+    const style = new Style(definition);
+    const avatar = new Avatar(style, {
+      seed: user!.id,
+    });
+
+    return avatar.toString();
+  }, [user]);
 
   return (
     <div style={style}>
       {user && (
         <Menu shadow="md" position={'bottom-end'} opened={opened} onChange={setOpened} width={240}>
           <Menu.Target>
-            <UserDisplayButton toggle={() => setOpened(!opened)} />
+            <UserDisplayButton toggle={() => setOpened(!opened)} avatarFallback={avatarFallback ?? ''} />
           </Menu.Target>
 
           <Menu.Dropdown
@@ -42,6 +54,12 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
                 <Group w={'2.5rem'} h={'2.5rem'}>
                   <div className={styles.userIcon}>
                     {user.avatarUrl && <img src={user.avatarUrl ?? ''} alt={user.displayName} />}
+                    {!user.avatarUrl && (
+                      <img
+                        src={`data:image/svg+xml,${encodeURIComponent(avatarFallback ?? '')}`}
+                        alt={user.displayName}
+                      />
+                    )}
                   </div>
                 </Group>
 
@@ -162,7 +180,7 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
       {!user && (
         <Menu shadow="md" position={'bottom-end'} opened={opened} onChange={setOpened} width={240}>
           <Menu.Target>
-            <UserDisplayButton toggle={() => setOpened(!opened)} />
+            <UserDisplayButton toggle={() => setOpened(!opened)} avatarFallback={avatarFallback ?? ''} />
           </Menu.Target>
 
           <Menu.Dropdown
