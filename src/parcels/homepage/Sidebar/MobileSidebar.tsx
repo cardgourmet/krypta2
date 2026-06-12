@@ -1,5 +1,5 @@
 import { Accordion, Button, Group, Stack, Text } from '@mantine/core';
-import { IconCards, IconDeviceVisionPro, IconFolders, IconX } from '@tabler/icons-react';
+import { IconBowlChopsticks, IconCards, IconFolders, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -82,7 +82,7 @@ function TcgButton({ tcg, activeTcg, close }: { tcg: Tcg; activeTcg: Tcg | undef
             </Link>
             <Link to={'/$tcg/kitchen'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
               <Group gap={'0.75rem'}>
-                <IconDeviceVisionPro size={22} />
+                <IconBowlChopsticks size={22} />
                 <GourmetText>{t('cuisine')}</GourmetText>
               </Group>
             </Link>

@@ -1,4 +1,4 @@
-import { Divider, Flex, Group, Stack } from '@mantine/core';
+import { Divider, Flex, Group, Space, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import { useCallback, useMemo } from 'react';
@@ -136,13 +136,24 @@ export function TcgPrintDetails() {
           }}
           mb={'1rem'}
         >
-          <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
-            <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
+          <Group justify={'space-between'} align={'end'} p={'0.5rem 0'} mih={'3.5rem'} wrap={'nowrap'}>
+            <GourmetText
+              cgmc={'neutral-9'}
+              cgmff={'title'}
+              fz={'1.75rem'}
+              fw={'500'}
+              lh={'1.25'}
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'clip',
+                textWrap: 'nowrap',
+              }}
+            >
               {title?.label}
             </GourmetText>
 
-            <Group p={'0 1rem'} gap={'0.5rem'}>
-              <Group gap={'0.15rem'}>
+            <Group p={'0 1rem'} gap={'0.5rem'} wrap={'nowrap'}>
+              <Group gap={'0.15rem'} wrap={'nowrap'}>
                 <ShareMenu />
                 {user && <ReportMenu />}
               </Group>
@@ -177,11 +188,18 @@ export function TcgPrintDetails() {
           </Flex>
         </Group>
 
-        <Group wrap={'nowrap'} align={'start'}>
+        <Space h={'1.5rem'} />
+
+        <Flex
+          wrap={'nowrap'}
+          align={smallScreen ? 'center' : 'start'}
+          direction={smallScreen ? 'column' : 'row'}
+          gap={smallScreen ? '2rem' : undefined}
+        >
           {legalities.length > 0 && <LegalityDisplay legalities={legalities} />}
 
           {rulings.length > 0 && <RulingsDisplay rulings={rulings} />}
-        </Group>
+        </Flex>
       </div>
     </TcgPrintDetailsContext>
   );

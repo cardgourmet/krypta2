@@ -105,7 +105,7 @@ export function ListButtons() {
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
   return (
-    <Group className={styles.quickActionGroup} gap={'0.15rem'}>
+    <Group className={styles.quickActionGroup} gap={'0.15rem'} wrap={'nowrap'}>
       <UnstyledButton
         disabled={(favoriteList && !checkListLimits(favoriteList, 1)) || isListLoading}
         className={styles.quickActionButton}
