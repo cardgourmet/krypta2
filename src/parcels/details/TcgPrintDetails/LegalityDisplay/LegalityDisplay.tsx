@@ -18,7 +18,7 @@ export function LegalityDisplay({ legalities }: { legalities: Legality[] }) {
     <Stack maw={'28rem'} gap={'0.25rem'}>
       <Center>
         <GourmetText cgmff={'title'} fz={'1.25rem'} fw={500}>
-          Legalities
+          {t('title')}
         </GourmetText>
       </Center>
 

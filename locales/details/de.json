@@ -51,6 +51,7 @@
     }
   },
   "legality": {
+    "title": "Legalitäten",
     "notLegalByDefault": "Alles hier nicht gelistete ist automatisch nicht legal."
   },
   "notifications": {
@@ -64,5 +65,9 @@
       "weveRemoved": "Wir haben {{name}} von der Liste entfernt.",
       "goThere": "Gehe dorthin"
     }
+  },
+  "rulings": {
+    "title": "Notizen und Rulings",
+    "showAll": "Alle anzeigen"
   }
 }

@@ -194,7 +194,7 @@ export function TcgPrintDetails() {
           wrap={'nowrap'}
           align={smallScreen ? 'center' : 'start'}
           direction={smallScreen ? 'column' : 'row'}
-          gap={smallScreen ? '2rem' : undefined}
+          gap={smallScreen ? '2rem' : '1rem'}
         >
           {legalities.length > 0 && <LegalityDisplay legalities={legalities} />}
 
