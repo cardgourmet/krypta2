@@ -1,16 +1,9 @@
+import { Avatar, Style } from '@dicebear/core';
+import definition from '@dicebear/styles/glyphs.json';
 import { Button, type ButtonProps, Divider, Group, Stack, Text } from '@mantine/core';
-import {
-  IconHistory,
-  IconList,
-  IconLogin,
-  IconLogout,
-  IconQuestionMark,
-  IconSettings,
-  IconStar,
-  IconX,
-} from '@tabler/icons-react';
+import { IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar, IconX } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { forwardRef, type ReactElement } from 'react';
+import { forwardRef, type ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { MobileLanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
@@ -26,6 +19,16 @@ export function MobileUserMenu({ close }: { close: () => void }) {
   const navigate = useNavigate();
 
   const { tcg } = useTcg();
+  const avatarFallback = useMemo(() => {
+    if (!user || user?.avatarUrl) return;
+
+    const style = new Style(definition);
+    const avatar = new Avatar(style, {
+      seed: user!.id,
+    });
+
+    return avatar.toString();
+  }, [user]);
 
   return (
     <>
@@ -60,18 +63,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
             <div className={styles.avatarIcon}>
               {user.avatarUrl && <img src={user.avatarUrl} alt={user.displayName} />}
               {!user.avatarUrl && (
-                <Group
-                  justify={'center'}
-                  align={'center'}
-                  style={{
-                    backgroundColor: 'var(--gourmet-neutral-3)',
-                    borderRadius: '50%',
-                    width: '100%',
-                    height: '100%',
-                  }}
-                >
-                  <IconQuestionMark color={'var(--gourmet-neutral-8)'} />
-                </Group>
+                <img src={`data:image/svg+xml,${encodeURIComponent(avatarFallback ?? '')}`} alt={user.displayName} />
               )}
             </div>
             <Stack gap={'0'} p={'0.25rem 0.75rem'}>

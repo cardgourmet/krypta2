@@ -51,6 +51,7 @@
     }
   },
   "legality": {
+    "title": "Legalities",
     "notLegalByDefault": "Everything not listed here is not legal by default."
   },
   "notifications": {
@@ -64,5 +65,9 @@
       "weveRemoved": "We've removed {{name}} from the list.",
       "goThere": "Go there anyway"
     }
+  },
+  "rulings": {
+    "title": "Notes and Rulings",
+    "showAll": "Show all"
   }
 }

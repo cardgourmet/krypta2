@@ -44,7 +44,7 @@ export function TcgPrintMeta({
       ml={smallScreen ? '' : 'auto'}
       maw={smallScreen ? '' : '16rem'}
       miw={'19rem'}
-      mih={'32rem'}
+      /*mih={'32rem'}*/
       w={smallScreen ? '100%' : ''}
       justify={smallScreen ? 'center' : 'start'}
     >
