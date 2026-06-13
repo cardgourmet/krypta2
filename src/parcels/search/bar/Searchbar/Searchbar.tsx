@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useRouter } from '@tanstack/react-route
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
@@ -108,8 +109,13 @@ export default function Searchbar({
     });
   });
 
+  // TODO: help
+  const [helpOpened, setHelpOpened] = useState(false);
+
   return (
     <>
+      <NewHereModal opened={helpOpened} setOpened={setHelpOpened} />
+
       <div className={`${cssStyles.searchOverlay} ${!isOpened ? cssStyles.hidden : ''}`} />
 
       <div className={cssStyles.searchbar} ref={mergedSearchRef} style={styles}>
@@ -162,7 +168,7 @@ export default function Searchbar({
         </div>
 
         {!omitHelp && (
-          <button type="button" className={cssStyles.helpButton}>
+          <button type="button" className={cssStyles.helpButton} onClick={() => setHelpOpened(true)}>
             <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
           </button>
         )}

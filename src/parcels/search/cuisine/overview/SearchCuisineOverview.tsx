@@ -1,11 +1,12 @@
-import { Button, Group, Text } from '@mantine/core';
+import { Button, Flex, Group, Stack, Text } from '@mantine/core';
 import { type UseFormReturnType, useForm } from '@mantine/form';
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
 import { createContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { create } from 'zustand/react';
-import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import styles from '@/parcels/search/cuisine/FilterOverview.module.css';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';
@@ -65,9 +66,31 @@ export function SearchCuisineOverview() {
     },
   });
 
+  const { component, title } = useBreadcrumbs({
+    subpage: t('title'),
+  });
+
   return (
     <div className={styles.mainContent}>
-      <Breadcrumbs subpage={t('title')} />
+      {component}
+      <Stack
+        gap={'0'}
+        style={{
+          position: 'sticky',
+          top: 'var(--navbar-height)',
+          zIndex: 'var(--sticky-layer)',
+          backgroundColor: 'var(--gourmet-neutral-0)',
+        }}
+        mb={'1rem'}
+      >
+        <Flex justify={'space-between'} p={'0.5rem 0'} direction={'row'}>
+          <Group gap={'0.1rem'}>
+            <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
+              {title?.label}
+            </GourmetText>
+          </Group>
+        </Flex>
+      </Stack>
 
       <div className={styles.cuisine}>
         <div className={styles.header}>
