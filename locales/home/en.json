@@ -22,7 +22,7 @@
     "hook": "Our search engine is really powerful, but might feel overwhelming. To help you get started, you can do one of the following:",
     "1": "Just use the search without filters. This will default to searching by card names.",
     "2": "Use the <1>TCG specific search builder</1> and construct your query without having to type anything.",
-    "3": "Try to use the most basic filters first. Such as <1>name:</1> or <3>text:</3> and build your way from there. For a list of filters, you can go <5>here</5>.",
+    "3": "Try to use the most basic filters first. Such as <1>name:</1> or <3>text:</3> and build your way from there. For a list of filters, you can click <5>here</5>.",
     "footer": "For questions and anything else, feel free to contact us via <1>email</1> or on our <3>Discord</3>."
   },
   "mtg": "Magic: The Gathering",
