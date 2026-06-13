@@ -1,6 +1,6 @@
 import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconDeviceVisionPro, IconHelpHexagon, IconX } from '@tabler/icons-react';
+import { IconBowlChopsticks, IconHelpHexagon, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCo
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
+import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
 import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './MobileSearchbar.module.css';
@@ -48,7 +49,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           }}
           ref={inputRef}
           value={currentQuery.query}
-          placeholder={t('search-placeholder')}
+          placeholder={t('searchPlaceholder')}
           leftSection={<TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />}
           onChange={(event) => {
             const newQuery = event.target.value;
@@ -67,16 +68,17 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
         </div>
         <div className={styles.cuisine}>
           <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
-            <IconDeviceVisionPro size={16} color={'var(--cgm-sidebar-button-bg)'} />
+            <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
             {t('cuisine')}
           </Link>
         </div>
+        <FilterGlossary />
       </Group>
 
       <Stack gap={'sm'}>
         {currentQuery.query.length === 0 && (
           <div className={`${styles.typingInfo}`}>
-            <p>{t('start-typing')}</p>
+            <p>{t('startTyping')}</p>
           </div>
         )}
         {currentQuery.query.length > 0 && (

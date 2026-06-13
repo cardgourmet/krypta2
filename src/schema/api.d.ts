@@ -1354,7 +1354,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+            'application/json': components['schemas']['DataApiResponse-List-TranslatedSearchQueryFilter'];
           };
         };
       };
@@ -2360,7 +2360,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+            'application/json': components['schemas']['DataApiResponse-List-TranslatedSearchQueryFilter'];
           };
         };
       };
@@ -3144,7 +3144,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+            'application/json': components['schemas']['DataApiResponse-List-TranslatedSearchQueryFilter'];
           };
         };
       };
@@ -6568,6 +6568,7 @@ export interface components {
       isPasswordEmpty: boolean;
       /** Format: date-time */
       lastActivityAt: string;
+      limits: components['schemas']['JsonObject'];
       roles: components['schemas']['UserRole'][];
       settings: components['schemas']['UserSettings'];
       state?: components['schemas']['UserState'];
@@ -7163,8 +7164,18 @@ export interface components {
       providesValues: boolean;
       strictValues: boolean;
     };
-    'DataApiResponse-List-SearchQueryExecutorSearchQueryFilter': {
-      data: components['schemas']['SearchQueryExecutorSearchQueryFilter'][];
+    TranslatedSearchQueryFilterTranslation: {
+      description: string;
+      title: string;
+    };
+    TranslatedSearchQueryFilter: {
+      filter: components['schemas']['SearchQueryExecutorSearchQueryFilter'];
+      translations: {
+        [key: string]: components['schemas']['TranslatedSearchQueryFilterTranslation'];
+      };
+    };
+    'DataApiResponse-List-TranslatedSearchQueryFilter': {
+      data: components['schemas']['TranslatedSearchQueryFilter'][];
       /** Format: int32 */
       statusCode: number;
     };

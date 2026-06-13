@@ -134,7 +134,7 @@ export default function SearchRecent({
       <div className={styles.moreRecents}>
         <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">
           <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }}>
-            {t('to-history')}
+            {t('toHistory')}
           </Link>
         </Button>
       </div>

@@ -4,9 +4,9 @@ import { fetchDlcFilters, fetchDlcFiltersValues } from '@/parcels/tcg/dlc/api.ts
 import { fetchMtgFilters, fetchMtgFiltersValues } from '@/parcels/tcg/mtg/api.ts';
 import { fetchPcgFilters, fetchPcgFiltersValues } from '@/parcels/tcg/pcg/api.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValue,
   SearchQueryExecutorFilterValues,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -20,7 +20,7 @@ export type FilterCacheStore = {
     operator?: string,
   ) => Promise<GourmetApiResponse<FilterValuesByKeyword>>;
 
-  filters: Record<Tcg, SearchQueryExecutorFilter[]>;
+  filters: Record<Tcg, TransSearchQueryExecutorFilter[]>;
   loadFilters: (tcg: Tcg) => void;
 };
 
@@ -89,7 +89,7 @@ export const useFilterCacheStore = create<FilterCacheStore>((set, get) => ({
     const filters = get().filters;
     if (filters[tcg].length > 0) return;
 
-    let res: GourmetApiResponse<SearchQueryExecutorFilter[]> | undefined;
+    let res: GourmetApiResponse<TransSearchQueryExecutorFilter[]> | undefined;
     if (tcg === 'mtg') {
       res = await fetchMtgFilters();
     } else if (tcg === 'pcg') {

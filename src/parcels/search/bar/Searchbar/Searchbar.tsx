@@ -1,9 +1,10 @@
-import { Space } from '@mantine/core';
+import { Group, Space } from '@mantine/core';
 import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
 import { IconBowlChopsticks, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useLocation, useNavigate, useRouter } from '@tanstack/react-router';
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
@@ -12,6 +13,7 @@ import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/Se
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import { useClickOutsideWithRegistry } from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
+import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import cssStyles from './Searchbar.module.css';
@@ -125,7 +127,7 @@ export default function Searchbar({
             type="text"
             ref={searchInputRef}
             value={currentQuery.query}
-            placeholder={t('search-placeholder')}
+            placeholder={t('searchPlaceholder')}
             onFocus={() => setIsOpened(true)}
             onClick={() => setIsOpened(true)}
             onChange={(event) => {
@@ -168,17 +170,22 @@ export default function Searchbar({
         <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
           <div className={cssStyles.content}>
             {!omitHelp && (
-              <div
-                className={cssStyles.cuisine}
-                style={{
-                  marginRight: omitHelp ? '0' : '3rem',
-                }}
-              >
-                <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
-                  <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
-                  {t('cuisine')}
+              <Group justify={'end'} align={'center'}>
+                <FilterGlossary ref={registerRef} />
+
+                <Link
+                  to={`/$tcg/kitchen`}
+                  params={{ tcg: tcg }}
+                  style={{ textDecoration: 'none', marginRight: omitHelp ? '0' : '3rem' }}
+                >
+                  <Group gap={'0.15rem'}>
+                    <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
+                    <GourmetText cgmff={'ui'} fz={'0.875rem'} c={'var(--cgm-sidebar-button-bg)'}>
+                      {t('cuisine')}
+                    </GourmetText>
+                  </Group>
                 </Link>
-              </div>
+              </Group>
             )}
 
             {omitHelp && <Space h={'0.25rem'} />}

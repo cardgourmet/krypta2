@@ -5,7 +5,7 @@ import { levenshtein } from '@/parcels/search/levenshtein.ts';
 import type { DlcSearchFilter } from '@/parcels/tcg/dlc/api.ts';
 import type { MtgSearchFilter } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgSearchFilter } from '@/parcels/tcg/pcg/api.ts';
-import type { SearchQueryExecutorFilter, TcgFilterOperator } from '@/parcels/tcg/types.ts';
+import type { TcgFilterOperator, TransSearchQueryExecutorFilter } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type SearchFilterStore = {
@@ -49,7 +49,7 @@ export type FindOrFetchFn = (
 export async function generateCompletions(
   tcg: Tcg,
   currentQuery: string,
-  filters: SearchQueryExecutorFilter[],
+  filters: TransSearchQueryExecutorFilter[],
   max: number = 5,
   findOrFetchValues: FindOrFetchFn,
 ): Promise<SearchCompletionState> {
@@ -70,7 +70,7 @@ export async function generateCompletions(
       return { mode: 'invalid', completions: [] };
     }
 
-    const matchedFilter = filters.find((f) => f.keywords.includes(filter));
+    const matchedFilter = filters.find(({ filter: f }) => f.keywords.includes(filter));
     if (!matchedFilter) {
       return { mode: 'invalid', completions: [] };
     }
@@ -102,7 +102,7 @@ export async function generateCompletions(
   const [_, filter, operator, value] = matches[0];
   if (filter.length === 0) return { mode: 'invalid', completions: [] };
 
-  const matchedFilter = filters.find((f) => f.keywords.includes(filter));
+  const matchedFilter = filters.find(({ filter: f }) => f.keywords.includes(filter));
   if (!matchedFilter) return { mode: 'invalid', completions: [] };
 
   // `mode: value`, find matches with `value` and `operator`
@@ -119,7 +119,7 @@ export async function generateCompletions(
 // async since it's doing a fetch call
 async function generateFilterValueCompletions(
   tcg: Tcg,
-  filter: PcgSearchFilter | DlcSearchFilter | MtgSearchFilter,
+  { filter }: PcgSearchFilter | DlcSearchFilter | MtgSearchFilter,
   operator: TcgFilterOperator,
   currentValue: string,
   max: number,
@@ -177,7 +177,7 @@ async function generateFilterValueCompletions(
 
 export function generateFilterCompletions(
   currentWord: string,
-  filters: SearchQueryExecutorFilter[],
+  filters: TransSearchQueryExecutorFilter[],
   max: number,
 ): SearchCompletionState {
   if (currentWord.length === 0) {
@@ -189,7 +189,7 @@ export function generateFilterCompletions(
   // get all keywords that start with the currentWord
   // and calculate the levenshtein distance for them (for sorting).
   const potentialMatches: { filter: string; aliasOf?: string; distance: number }[] = [];
-  for (const filter of filters) {
+  for (const { filter } of filters) {
     if (filter.keywords.length === 0) continue;
 
     const primary = filter.keywords[0];

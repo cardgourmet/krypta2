@@ -173,3 +173,11 @@
   /* biome-ignore lint/complexity/noImportantStyles: _ */
   display: none !important;
 }
+
+.glossaryContent {
+  background-color: var(--gourmet-neutral-1);
+}
+
+.glossaryHeader {
+  background-color: var(--gourmet-neutral-1);
+}

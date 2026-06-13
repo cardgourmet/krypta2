@@ -1,11 +1,11 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy } from '@/parcels/tcg/dlc/types.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
   TcgStatistics,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -18,7 +18,7 @@ export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 export type DlcSearchCards = c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
-export type DlcSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type DlcSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type DlcDataSetSummary = c['schemas']['DlcDataSetSummary'];
 
@@ -161,7 +161,7 @@ export async function fetchDlcCards(
 // /v1/dlc/cards/search/filters
 export async function fetchDlcFilters(
   abort?: AbortController,
-): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+): Promise<GourmetApiResponse<TransSearchQueryExecutorFilter[]>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/cards/search/filters`, {
       signal: abort?.signal,

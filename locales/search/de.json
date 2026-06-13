@@ -5,8 +5,22 @@
   "start": "Suche starten",
   "close": "Schließen",
   "help": "Hilfe",
-  "start-typing": "Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.",
+  "startTyping": "Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.",
   "recent": "Zuletzt",
-  "to-history": "Zur gesamten Historie",
-  "search-placeholder": "Suche nach Karten.."
+  "toHistory": "Zur gesamten Historie",
+  "searchPlaceholder": "Suche nach Karten..",
+  "glossary": {
+    "title": "Filter Glossar",
+    "clickForDetails": "Klick auf einen Filter für mehr Details",
+    "goBack": "Zurück zur Übersicht",
+    "noFilters": "Keinen Filter gefunden.",
+    "strict": "STRIKT",
+    "inverted": "INVERTIERT",
+    "keywordsTitle": "Schlüsselwörter um diesen Filter zu benutzen",
+    "descriptionTitle": "Beschreibung",
+    "operatorTitle": "Erlaubte Operatoren",
+    "mtg": "Magic: The Gathering",
+    "dlc": "Disney Lorcana",
+    "pcg": "Pokémon Card Game"
+  }
 }

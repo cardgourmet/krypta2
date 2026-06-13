@@ -8,6 +8,7 @@ import { LatestPostsView } from '@/parcels/homepage/Home/LatestUpdatesView/Lates
 import { NewHereBanner } from '@/parcels/homepage/Home/NewHereBanner/NewHereBanner.tsx';
 import { TcgStatisticsCarousel } from '@/parcels/homepage/Home/TcgStatisticsCarousel/TcgStatisticsCarousel.tsx';
 import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
+import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
 export const CGM_NEW_HERE = 'cgm-new-here';
@@ -73,10 +74,13 @@ export function Home() {
           </Stack>
 
           <Group justify={'end'}>
+            <FilterGlossary size={'md'} />
             <Link to={'/$tcg/kitchen'} params={{ tcg: tcg }} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
                 <IconBowlChopsticks size={18} color={'var(--gourmet-blue-1)'} />
-                <GourmetText c={'var(--gourmet-blue-1)'}>{t('searchBar.cuisine')}</GourmetText>
+                <GourmetText c={'var(--gourmet-blue-1)'} cgmff={'ui'}>
+                  {t('searchBar.cuisine')}
+                </GourmetText>
               </Group>
             </Link>
           </Group>

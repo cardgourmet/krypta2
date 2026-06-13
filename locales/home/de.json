@@ -16,5 +16,8 @@
   },
   "searchBar": {
     "cuisine": "Suchküche"
-  }
+  },
+  "mtg": "Magic: The Gathering",
+  "dlc": "Disney Lorcana",
+  "pcg": "Pokémon Card Game"
 }

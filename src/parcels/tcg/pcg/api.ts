@@ -1,11 +1,11 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { PcgSearchQuerySettings, PcgSortBy, PcgUniqueBy } from '@/parcels/tcg/pcg/types.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
   TcgStatistics,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -14,7 +14,7 @@ export type PcgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
 export type PcgSearchCards = c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
 export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
-export type PcgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type PcgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type PcgDataSetSummary = c['schemas']['PcgDataSetSummary'];
 
@@ -178,7 +178,7 @@ export async function fetchPcgCards(
 // /v1/pcg/cards/search/filters
 export async function fetchPcgFilters(
   abort?: AbortController,
-): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+): Promise<GourmetApiResponse<TransSearchQueryExecutorFilter[]>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/cards/search/filters`, {
       signal: abort?.signal,

@@ -1,5 +1,6 @@
 .dropdownTextButton:hover {
-  --hover-color: color-mix(in srgb, var(--gourmet-blue-1), black 10%);
+  --color: var(--gourmet-blue-1);
+  --hover-color: color-mix(in srgb, var(--color), black 10%);
 
   p {
     color: var(--hover-color) !important;

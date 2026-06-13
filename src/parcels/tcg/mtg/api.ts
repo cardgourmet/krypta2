@@ -1,11 +1,11 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy } from '@/parcels/tcg/mtg/types.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
   TcgStatistics,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -15,7 +15,7 @@ export type MtgSearchCardsResult =
 export type MtgSearchCards = c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
 
 export type MtgSearchDataCard = c['schemas']['CardSearchResult-MtgDataCard'];
-export type MtgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type MtgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type MtgDataCard = c['schemas']['MtgDataCard'];
 export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
@@ -163,7 +163,7 @@ export async function fetchMtgCards(
 // /v1/mtg/cards/search/filters
 export async function fetchMtgFilters(
   abort?: AbortController,
-): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+): Promise<GourmetApiResponse<TransSearchQueryExecutorFilter[]>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/cards/search/filters`, {
       signal: abort?.signal,

@@ -57,6 +57,7 @@ import type { components as c } from '@/schema/api';
 export type SearchQueryExecutorFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type SearchQueryExecutorFilterValue = c['schemas']['SearchQueryExecutorFilterValue'];
 export type SearchQueryExecutorFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type TransSearchQueryExecutorFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type TcgSearchCardsResult = MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult;
 export type TcgSearchCards = MtgSearchCards | DlcSearchCards | PcgSearchCards;
 export type TcgSearchDataCard = MtgSearchDataCard | DlcSearchDataCard | PcgSearchDataCard;

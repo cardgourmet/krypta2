@@ -15,9 +15,20 @@ export type TextDropdownProps = {
   onSelect?: (selected: string) => void;
 
   miw?: StyleProp<Property.MinWidth<string | number> | undefined>;
+  color?: 'blue' | 'grey';
+  trim?: boolean;
 };
 
-export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect, miw }: TextDropdownProps) {
+export function TextDropdown({
+  items,
+  t,
+  transPrefix,
+  defaultSelected,
+  onSelect,
+  miw,
+  color,
+  trim,
+}: TextDropdownProps) {
   const combobox = useCombobox();
   const [selectedValue, setSelectedValue] = useState<string | undefined>(defaultSelected);
   useEffect(() => {
@@ -59,12 +70,21 @@ export function TextDropdown({ items, t, transPrefix, defaultSelected, onSelect,
             else combobox.openDropdown();
           }}
           classNames={{ root: styles.dropdownTextButton }}
+          style={{
+            '--color': (color ?? 'blue') === 'blue' ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-6)',
+          }}
         >
-          <Group gap={'0.25rem'} pl={'0.25rem'}>
-            <GourmetText cgmff="ui" c={'var(--gourmet-blue-1)'}>
+          <Group gap={'0.25rem'} pl={trim === true ? undefined : '0.25rem'}>
+            <GourmetText
+              cgmff="ui"
+              c={(color ?? 'blue') === 'blue' ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-6)'}
+            >
               {t(`${transPrefix ? `${transPrefix}.` : ''}${selectedValue}`)}
             </GourmetText>
-            <IconCaretDownFilled size={14} color={'var(--gourmet-blue-1)'} />
+            <IconCaretDownFilled
+              size={14}
+              color={(color ?? 'blue') === 'blue' ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-6)'}
+            />
           </Group>
         </UnstyledButton>
       </Combobox.Target>
