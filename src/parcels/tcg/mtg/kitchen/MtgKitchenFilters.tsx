@@ -25,7 +25,7 @@ export function MtgKitchenFilters() {
   const { filterValues, isLoading } = useFilterValues('mtg', targetFilters);
 
   const setNamesMapped = useFilterValue(filterValues, 'setname');
-  const typesMapped = useFilterValue(filterValues, 'type', (d) => d.type === 'sub_type');
+  const typesMapped = useFilterValue(filterValues, 'type');
   const keywordsMapped = useFilterValue(filterValues, 'keyword');
   const colors = getFilterValue(filterValues, 'color', (d) => d.type === 'color');
   const rarities = getFilterValue(filterValues, 'rarity');

@@ -25,7 +25,7 @@ export function KitchenFormMultiSelect({ k, data, dropdownPlaceholder, withoutLi
             placeholder={dropdownPlaceholder}
             searchable
             limit={withoutLimit ? 10_000 : 10}
-            value={f.field.value}
+            {...f.field}
           />
         );
       }}
