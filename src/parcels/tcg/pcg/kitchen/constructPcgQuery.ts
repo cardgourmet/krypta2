@@ -4,13 +4,13 @@ export const constructPcgQuery = (formData: PcgKitchenFormData) => {
   const filters: string[] = [];
 
   // IDENTITY
-  const selectedBasetypes = Object.entries(formData.basetype.values)
+  const selectedBasetypes = Object.entries(formData.basetype.strictValues)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedBasetypes.length > 0) {
     filters.push(constructArrayFilter('basetype', selectedBasetypes, false));
   }
-  const selectedEnergies = Object.entries(formData.energy.values)
+  const selectedEnergies = Object.entries(formData.energy.strictValues)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedEnergies.length > 0) {

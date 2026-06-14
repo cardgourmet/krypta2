@@ -7,7 +7,7 @@ export const constructMtgQuery = (formData: MtgKitchenFormData) => {
   if (formData.type.values.length > 0) {
     filters.push(constructArrayFilter('type', formData.type.values, formData.type.exact));
   }
-  const selectedColors = Object.entries(formData.color.values)
+  const selectedColors = Object.entries(formData.color.strictValues)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedColors.length > 0) {

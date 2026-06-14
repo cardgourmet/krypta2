@@ -7,7 +7,7 @@ export const constructDlcQuery = (formData: DlcKitchenFormData) => {
   if (formData.type.values.length > 0) {
     filters.push(constructArrayFilter('type', formData.type.values, formData.type.exact));
   }
-  const selectedInks = Object.entries(formData.ink.values)
+  const selectedInks = Object.entries(formData.ink.strictValues)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedInks.length > 0) {
@@ -43,7 +43,7 @@ export const constructDlcQuery = (formData: DlcKitchenFormData) => {
   if (formData.sets.values.length > 0) {
     filters.push(constructArrayFilter('sets', formData.sets.values, false));
   }
-  const selectedRarities = Object.entries(formData.rarity.values)
+  const selectedRarities = Object.entries(formData.rarity.strictValues)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
   if (selectedRarities.length > 0) {

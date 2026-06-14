@@ -1,18 +1,15 @@
-import { Button, Flex, Group, Stack, Text } from '@mantine/core';
-import { type UseFormReturnType, useForm } from '@mantine/form';
-import { useDebouncedValue } from '@mantine/hooks';
-import { IconSearch } from '@tabler/icons-react';
-import { createContext, useMemo } from 'react';
+import { Flex, Group, Stack } from '@mantine/core';
+import { createContext, useEffect, useMemo } from 'react';
+import { type UseFormReturn, useForm as useForm2 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { create } from 'zustand/react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import styles from '@/parcels/search/kitchen/FilterOverview.module.css';
-import { useStartSearch } from '@/parcels/search/startSearch.ts';
+import { QueryRenderer } from '@/parcels/search/kitchen/overview/QueryRenderer.tsx';
+import { useKitchenFilterStore } from '@/parcels/search/kitchen/useKitchenFilterStore.ts';
 import { constructDlcQuery } from '@/parcels/tcg/dlc/kitchen/constructDlcQuery.ts';
 import { DlcKitchenFilters } from '@/parcels/tcg/dlc/kitchen/DlcKitchenFilters.tsx';
 import { createDefaultDlcFormData, type DlcKitchenFormData } from '@/parcels/tcg/dlc/kitchen/formData.ts';
+import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
 import { constructMtgQuery } from '@/parcels/tcg/mtg/kitchen/constructMtgQuery.ts';
 import { createDefaultMtgFormData, type MtgKitchenFormData } from '@/parcels/tcg/mtg/kitchen/formData.ts';
 import { MtgKitchenFilters } from '@/parcels/tcg/mtg/kitchen/MtgKitchenFilters.tsx';
@@ -20,25 +17,14 @@ import { constructPcgQuery } from '@/parcels/tcg/pcg/kitchen/constructPcgQuery.t
 import { createDefaultPcgFormData, type PcgKitchenFormData } from '@/parcels/tcg/pcg/kitchen/formData.ts';
 import { PcgKitchenFilters } from '@/parcels/tcg/pcg/kitchen/PcgKitchenFilters.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './SearchKitchenOverview.module.css';
 
-export type TcgCuisineFilterFormData = PcgKitchenFormData | DlcKitchenFormData | MtgKitchenFormData;
-export const SearchKitchenContext = createContext<UseFormReturnType<TcgCuisineFilterFormData> | null>(null);
+export type TcgKitchenFormData = PcgKitchenFormData | DlcKitchenFormData | MtgKitchenFormData;
 
-export type CuisineFilterStore = {
-  constructedQueryFilters: string[];
-  setConstructedQueryFilters: (filters: string[]) => void;
-};
-export const useCuisineFilterStore = create<CuisineFilterStore>((set) => ({
-  constructedQueryFilters: [],
-  setConstructedQueryFilters: (filters: string[]) => {
-    set((state) => {
-      return { ...state, constructedQueryFilters: filters };
-    });
-  },
-}));
+export const SearchKitchenContext2 = createContext<UseFormReturn<TcgKitchenFormData> | null>(null);
 
 export function SearchKitchenOverview() {
-  const { t } = useTranslation('cuisine');
+  const { t } = useTranslation('kitchen');
 
   const tcg = useTcgByLocation() as Tcg;
   const defaultFormData = useMemo(() => {
@@ -51,20 +37,29 @@ export function SearchKitchenOverview() {
     }
   }, [tcg]);
 
-  const setConstructedQueryFilters = useCuisineFilterStore((state) => state.setConstructedQueryFilters);
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: defaultFormData,
-    onValuesChange: (values) => {
-      if (tcg === 'pcg') {
-        setConstructedQueryFilters(constructPcgQuery(values as unknown as PcgKitchenFormData));
-      } else if (tcg === 'dlc') {
-        setConstructedQueryFilters(constructDlcQuery(values as unknown as DlcKitchenFormData));
-      } else if (tcg === 'mtg') {
-        setConstructedQueryFilters(constructMtgQuery(values as unknown as MtgKitchenFormData));
-      }
-    },
+  const setConstructedQueryFilters = useKitchenFilterStore((state) => state.setConstructedQueryFilters);
+
+  const form2 = useForm2<TcgKitchenFormData>({
+    defaultValues: defaultFormData,
   });
+  useEffect(() => {
+    const callback = form2.subscribe({
+      formState: {
+        values: true,
+      },
+      callback: ({ values }) => {
+        if (tcg === 'pcg') {
+          setConstructedQueryFilters(constructPcgQuery(values as unknown as PcgKitchenFormData));
+        } else if (tcg === 'dlc') {
+          setConstructedQueryFilters(constructDlcQuery(values as unknown as DlcKitchenFormData));
+        } else if (tcg === 'mtg') {
+          setConstructedQueryFilters(constructMtgQuery(values as unknown as MtgKitchenFormData));
+        }
+      },
+    });
+
+    return () => callback();
+  }, [form2.subscribe, setConstructedQueryFilters, tcg]);
 
   const { component, title } = useBreadcrumbs({
     subpage: t('title'),
@@ -72,6 +67,8 @@ export function SearchKitchenOverview() {
 
   return (
     <div className={styles.mainContent}>
+      <title>{`Search Kitchen – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
+
       {component}
       <Stack
         gap={'0'}
@@ -92,64 +89,23 @@ export function SearchKitchenOverview() {
         </Flex>
       </Stack>
 
-      <div className={styles.cuisine}>
+      <div className={styles.kitchen}>
         <div className={styles.header}>
-          <QueryRenderer form={form} />
+          <QueryRenderer form2={form2} />
         </div>
 
-        <div className={styles.searchOptions}>
-          <SearchKitchenContext value={form}>
-            {tcg === 'mtg' && <MtgKitchenFilters />}
-            {tcg === 'pcg' && <PcgKitchenFilters />}
-            {tcg === 'dlc' && <DlcKitchenFilters />}
-          </SearchKitchenContext>
-        </div>
+        <Stack>
+          <SearchKitchenContext2 value={form2}>
+            {form2.control && (
+              <>
+                {tcg === 'mtg' && <MtgKitchenFilters />}
+                {tcg === 'pcg' && <PcgKitchenFilters />}
+                {tcg === 'dlc' && <DlcKitchenFilters />}
+              </>
+            )}
+          </SearchKitchenContext2>
+        </Stack>
       </div>
     </div>
-  );
-}
-
-function QueryRenderer({ form }: { form: UseFormReturnType<TcgCuisineFilterFormData> }) {
-  const { t } = useTranslation('cuisine');
-  const tcg = useTcgByLocation() as Tcg;
-
-  const constructedQueryFilters = useCuisineFilterStore((state) => state.constructedQueryFilters);
-  const constructedQuery = useMemo<string>(() => {
-    if (constructedQueryFilters.length === 1) {
-      return constructedQueryFilters[0];
-    }
-    return constructedQueryFilters.map((f) => `(${f})`).join(' ');
-  }, [constructedQueryFilters]);
-  const [debouncedQuery] = useDebouncedValue(constructedQuery, 300);
-
-  const startSearch = useStartSearch(tcg, constructedQuery);
-
-  return (
-    <Group justify={'space-between'}>
-      <div style={{ width: '50%' }}>
-        {constructedQueryFilters.length === 0 && <Text fs={'italic'}>{t('subtitle')}</Text>}
-        {constructedQueryFilters.length > 0 && <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />}
-      </div>
-      <Group>
-        {constructedQueryFilters.length > 0 && (
-          <Button
-            color={'var(--gourmet-neutral-3)'}
-            onClick={() => {
-              form.reset();
-            }}
-          >
-            {t('resetButton', { count: constructedQueryFilters.length })}
-          </Button>
-        )}
-        <Button
-          color={'var(--gourmet-blue-2)'}
-          disabled={constructedQueryFilters.length === 0}
-          leftSection={<IconSearch size={18} />}
-          onClick={startSearch}
-        >
-          {t('startSearch')}
-        </Button>
-      </Group>
-    </Group>
   );
 }

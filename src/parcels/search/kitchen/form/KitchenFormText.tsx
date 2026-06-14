@@ -1,29 +1,44 @@
 import { Stack } from '@mantine/core';
-import type { UseFormReturnType } from '@mantine/form';
 import { useContext } from 'react';
+import { Controller } from 'react-hook-form';
 import type { KitchenFormProps } from '@/parcels/search/kitchen/form/types.ts';
-import { SearchKitchenContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
+import { SearchKitchenContext2 } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
 import { StyledCheckbox } from '@/parcels/search/kitchen/styled/StyledCheckbox.tsx';
 import { StyledTextInput } from '@/parcels/search/kitchen/styled/StyledTextInput.tsx';
 
-type KitchenFormTextProps = KitchenFormProps & {
+type KitchenFormTextProps = KitchenFormProps<{ value: string; exact: boolean }> & {
   inputPlaceholder?: string;
   checkboxLabel?: string;
   withCheckbox: boolean;
 };
 
 export function KitchenFormText({ k, inputPlaceholder, checkboxLabel, withCheckbox }: KitchenFormTextProps) {
-  const form = useContext(SearchKitchenContext) as UseFormReturnType<unknown>;
+  const form2 = useContext(SearchKitchenContext2);
 
   return (
     <Stack>
-      <StyledTextInput
-        placeholder={inputPlaceholder}
-        key={form.key(`${k}.value`)}
-        {...form?.getInputProps(`${k}.value`)}
+      <Controller
+        control={form2?.control}
+        render={(f) => {
+          return <StyledTextInput placeholder={inputPlaceholder} {...f.field} />;
+        }}
+        name={`${k}.value`}
       />
       {withCheckbox && (
-        <StyledCheckbox label={checkboxLabel} key={form.key(`${k}.exact`)} {...form?.getInputProps(`${k}.exact`)} />
+        <Controller
+          control={form2?.control}
+          render={(f) => {
+            return (
+              <StyledCheckbox
+                label={checkboxLabel}
+                checked={f.field.value}
+                onChange={f.field.onChange}
+                onBlur={f.field.onBlur}
+              />
+            );
+          }}
+          name={`${k}.exact`}
+        />
       )}
     </Stack>
   );

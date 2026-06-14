@@ -12,7 +12,7 @@ export type DlcKitchenFormData = {
     exact: boolean;
   };
   ink: {
-    values: Record<string, boolean>;
+    strictValues: Record<string, boolean>;
     mode: 'contains' | 'exact';
   };
   strength: {
@@ -35,7 +35,8 @@ export type DlcKitchenFormData = {
     values: string[];
   };
   rarity: {
-    values: Record<string, boolean>;
+    strictValues: Record<string, boolean>;
+    mode: 'contains' | 'exact';
   };
   artist: {
     value: string;
@@ -54,11 +55,31 @@ export const createDefaultDlcFormData: () => DlcKitchenFormData = () => ({
   artist: { exact: false, value: '' },
   flavortext: { exact: false, value: '' },
   franchise: { values: [] },
-  ink: { mode: 'contains', values: {} },
+  ink: {
+    mode: 'contains',
+    strictValues: {
+      amber: false,
+      amethyst: false,
+      emerald: false,
+      ruby: false,
+      sapphire: false,
+      steel: false,
+    },
+  },
   lore: { operator: '=', value: '' },
   movecost: { operator: '=', value: '' },
   name: { exact: false, value: '' },
-  rarity: { values: {} },
+  rarity: {
+    mode: 'exact',
+    strictValues: {
+      common: false,
+      uncommon: false,
+      rare: false,
+      super_rare: false,
+      legendary: false,
+      enchanted: false,
+    },
+  },
   sets: { values: [] },
   strength: { operator: '=', value: '' },
   text: { exact: false, value: '' },

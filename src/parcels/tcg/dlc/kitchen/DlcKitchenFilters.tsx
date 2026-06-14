@@ -4,10 +4,10 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
 import { KitchenCategory } from '@/parcels/search/kitchen/form/KitchenCategory.tsx';
+import { KitchenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchenFormMultiCheckbox.tsx';
 import { KitchenFormMultiSelect } from '@/parcels/search/kitchen/form/KitchenFormMultiSelect.tsx';
 import { KitchenFormNumberCompare } from '@/parcels/search/kitchen/form/KitchenFormNumberCompare.tsx';
 import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.tsx';
-import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { DlcInkAmber } from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
 import { DlcInkAmethyst } from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
 import { DlcInkEmerald } from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
@@ -22,8 +22,8 @@ import { DlcRaritySuperRare } from '@/parcels/tcg/dlc/icons/rarity/DlcRaritySupe
 import { DlcRarityUncommon } from '@/parcels/tcg/dlc/icons/rarity/DlcRarityUncommon.tsx';
 
 export function DlcKitchenFilters() {
-  const { t } = useTranslation('cuisine', { keyPrefix: 'dlc' });
-  const { t: ft } = useTranslation('cuisine', { keyPrefix: 'dlc.filters' });
+  const { t } = useTranslation('kitchen', { keyPrefix: 'dlc' });
+  const { t: ft } = useTranslation('kitchen', { keyPrefix: 'dlc.filters' });
 
   const targetFilters = useMemo(() => ['type', 'ink', 'rarity', 'setname', 'franchise'], []);
   const { filterValues, isLoading } = useFilterValues('dlc', targetFilters);
@@ -64,7 +64,7 @@ export function DlcKitchenFilters() {
           ]}
           dropdownPlaceholder={ft('type.placeholder')}
         />
-        <KitchhenFormMultiCheckbox
+        <KitchenFormMultiCheckbox
           k={'ink'}
           title={ft('ink.title')}
           description={ft('ink.description')}
@@ -145,7 +145,7 @@ export function DlcKitchenFilters() {
           data={setnames}
           dropdownPlaceholder={ft('sets.placeholder')}
         />
-        <KitchhenFormMultiCheckbox
+        <KitchenFormMultiCheckbox
           k={'rarity'}
           title={ft('rarity.title')}
           description={ft('rarity.description')}

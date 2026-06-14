@@ -1,11 +1,11 @@
-import type { UseFormReturnType } from '@mantine/form';
 import { useContext } from 'react';
+import { Controller } from 'react-hook-form';
 import type { KitchenFormProps } from '@/parcels/search/kitchen/form/types.ts';
-import { SearchKitchenContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
+import { SearchKitchenContext2 } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
 import { StyledMultiSelect } from '@/parcels/search/kitchen/styled/StyledMultiSelect.tsx';
 
 type ValueLabel = { value: string; label: string };
-type KitchenFormMultiSelectProps = KitchenFormProps & {
+type KitchenFormMultiSelectProps = KitchenFormProps<{ values: string[] }> & {
   data: ValueLabel[] | { group: string; items: ValueLabel[] }[];
   dropdownPlaceholder?: string;
   withExactDropdown?: boolean;
@@ -13,16 +13,23 @@ type KitchenFormMultiSelectProps = KitchenFormProps & {
 };
 
 export function KitchenFormMultiSelect({ k, data, dropdownPlaceholder, withoutLimit }: KitchenFormMultiSelectProps) {
-  const form = useContext(SearchKitchenContext) as UseFormReturnType<unknown>;
+  const form2 = useContext(SearchKitchenContext2);
 
   return (
-    <StyledMultiSelect
-      data={data}
-      placeholder={dropdownPlaceholder}
-      searchable
-      limit={withoutLimit ? 10_000 : 10}
-      key={form.key(`${k}.values`)}
-      {...form?.getInputProps(`${k}.values`)}
+    <Controller
+      control={form2?.control}
+      render={(f) => {
+        return (
+          <StyledMultiSelect
+            data={data}
+            placeholder={dropdownPlaceholder}
+            searchable
+            limit={withoutLimit ? 10_000 : 10}
+            value={f.field.value}
+          />
+        );
+      }}
+      name={`${k}.values`}
     />
   );
 }

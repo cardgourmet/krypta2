@@ -11,15 +11,15 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getFilterValue, useFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
 import { KitchenCategory } from '@/parcels/search/kitchen/form/KitchenCategory.tsx';
+import { KitchenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchenFormMultiCheckbox.tsx';
 import { KitchenFormMultiSelect } from '@/parcels/search/kitchen/form/KitchenFormMultiSelect.tsx';
 import { KitchenFormNumberCompare } from '@/parcels/search/kitchen/form/KitchenFormNumberCompare.tsx';
 import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.tsx';
-import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
 export function MtgKitchenFilters() {
-  const { t } = useTranslation('cuisine', { keyPrefix: 'mtg' });
-  const { t: ft } = useTranslation('cuisine', { keyPrefix: 'mtg.filters' });
+  const { t } = useTranslation('kitchen', { keyPrefix: 'mtg' });
+  const { t: ft } = useTranslation('kitchen', { keyPrefix: 'mtg.filters' });
 
   const targetFilters = useMemo(() => ['type', 'color', 'keyword', 'rarity', 'format', 'game', 'setname'], []);
   const { filterValues, isLoading } = useFilterValues('mtg', targetFilters);
@@ -52,7 +52,7 @@ export function MtgKitchenFilters() {
           data={typesMapped}
           dropdownPlaceholder={ft('type.placeholder')}
         />
-        <KitchhenFormMultiCheckbox
+        <KitchenFormMultiCheckbox
           k={'color'}
           title={ft('color.title')}
           description={ft('color.description')}

@@ -3,10 +3,11 @@ import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 export type PcgKitchenFormData = {
   /* IDENTITY */
   basetype: {
-    values: Record<string, boolean>;
+    strictValues: Record<string, boolean>;
+    mode: 'contains' | 'exact';
   };
   energy: {
-    values: Record<string, boolean>;
+    strictValues: Record<string, boolean>;
     mode: 'contains' | 'exact';
   };
   subtype: {
@@ -79,9 +80,31 @@ export const createDefaultPcgFormData: () => PcgKitchenFormData = () => ({
   ability: { mode: 'contains', values: [] },
   artist: { exact: false, value: '' },
   attack: { exact: false, value: '' },
-  basetype: { values: {} },
+  basetype: {
+    strictValues: {
+      energy: false,
+      pokemon: false,
+      trainer: false,
+    },
+    mode: 'exact',
+  },
   effect: { mode: 'contains', values: [] },
-  energy: { mode: 'contains', values: {} },
+  energy: {
+    mode: 'contains',
+    strictValues: {
+      colorless: false,
+      darkness: false,
+      dragon: false,
+      fairy: false,
+      fighting: false,
+      fire: false,
+      grass: false,
+      lightning: false,
+      metal: false,
+      psychic: false,
+      water: false,
+    },
+  },
   evolves: { mode: 'contains', values: [] },
   flavortext: { exact: false, value: '' },
   hp: { operator: '=', value: '' },

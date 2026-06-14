@@ -4,7 +4,7 @@ export type MtgKitchenFormData = {
     exact: boolean;
   };
   color: {
-    values: Record<string, boolean>;
+    strictValues: Record<string, boolean>;
     mode: 'contains' | 'exact';
   };
   name: {
@@ -65,7 +65,17 @@ export type MtgKitchenFormData = {
 export const createDefaultMtgFormData: () => MtgKitchenFormData = () => ({
   artist: { exact: false, value: '' },
   cmc: { operator: '=', value: '' },
-  color: { mode: 'contains', values: {} },
+  color: {
+    mode: 'contains',
+    strictValues: {
+      colorless: false,
+      black: false,
+      blue: false,
+      red: false,
+      white: false,
+      green: false,
+    },
+  },
   defense: { operator: '=', value: '' },
   flavortext: { exact: false, value: '' },
   format: { exact: false, values: [] },

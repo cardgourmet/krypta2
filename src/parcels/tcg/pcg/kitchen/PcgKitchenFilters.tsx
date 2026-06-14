@@ -11,10 +11,10 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getFilterValue, useFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
 import { KitchenCategory } from '@/parcels/search/kitchen/form/KitchenCategory.tsx';
+import { KitchenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchenFormMultiCheckbox.tsx';
 import { KitchenFormMultiSelect } from '@/parcels/search/kitchen/form/KitchenFormMultiSelect.tsx';
 import { KitchenFormNumberCompare } from '@/parcels/search/kitchen/form/KitchenFormNumberCompare.tsx';
 import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.tsx';
-import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { PcgEnergyColorless } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
 import { PcgEnergyDarkness } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
 import { PcgEnergyDragon } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
@@ -28,8 +28,8 @@ import { PcgEnergyPsychic } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychi
 import { PcgEnergyWater } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
 
 export function PcgKitchenFilters() {
-  const { t } = useTranslation('cuisine', { keyPrefix: 'pcg' });
-  const { t: ft } = useTranslation('cuisine', { keyPrefix: 'pcg.filters' });
+  const { t } = useTranslation('kitchen', { keyPrefix: 'pcg' });
+  const { t: ft } = useTranslation('kitchen', { keyPrefix: 'pcg.filters' });
 
   const targetFilters = useMemo(
     () => ['basetype', 'energy', 'subtype', 'stage', 'ability', 'effect', 'rarity', 'setname', 'evolvesFrom'],
@@ -59,14 +59,14 @@ export function PcgKitchenFilters() {
         </div>
       )}
       <KitchenCategory title={t('categories.identity')} icon={<IconUserScan />}>
-        <KitchhenFormMultiCheckbox
+        <KitchenFormMultiCheckbox
           k={'basetype'}
           title={ft('basetype.title')}
           description={ft('basetype.description')}
           filter={'basetype'}
           data={basetypes}
         />
-        <KitchhenFormMultiCheckbox
+        <KitchenFormMultiCheckbox
           k={'energy'}
           title={ft('energy.title')}
           description={ft('energy.description')}
