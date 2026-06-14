@@ -8,7 +8,7 @@ import { create } from 'zustand/react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import styles from '@/parcels/search/cuisine/FilterOverview.module.css';
+import styles from '@/parcels/search/kitchen/FilterOverview.module.css';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';
 import { constructDlcQuery } from '@/parcels/tcg/dlc/cuisine/constructDlcQuery.ts';
 import { DlcCuisineFilters } from '@/parcels/tcg/dlc/cuisine/DlcCuisineFilters.tsx';
@@ -37,7 +37,7 @@ export const useCuisineFilterStore = create<CuisineFilterStore>((set) => ({
   },
 }));
 
-export function SearchCuisineOverview() {
+export function SearchKitchenOverview() {
   const { t } = useTranslation('cuisine');
 
   const tcg = useTcgByLocation() as Tcg;

@@ -2,12 +2,12 @@ import { Center, Loader, Overlay } from '@mantine/core';
 import { IconBrush, IconMeteorFilled, IconNumbers, IconTextSize, IconUserScan } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CuisineCategory } from '@/parcels/search/cuisine/form/CuisineCategory.tsx';
-import { CuisineFormMultiCheckbox } from '@/parcels/search/cuisine/form/CuisineFormMultiCheckbox.tsx';
-import { CuisineFormMultiSelect } from '@/parcels/search/cuisine/form/CuisineFormMultiSelect.tsx';
-import { CuisineFormNumberCompare } from '@/parcels/search/cuisine/form/CuisineFormNumberCompare.tsx';
-import { CuisineFormText } from '@/parcels/search/cuisine/form/CuisineFormText.tsx';
 import { getFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
+import { KitchenCategory } from '@/parcels/search/kitchen/form/KitchenCategory.tsx';
+import { KitchenFormMultiSelect } from '@/parcels/search/kitchen/form/KitchenFormMultiSelect.tsx';
+import { KitchenFormNumberCompare } from '@/parcels/search/kitchen/form/KitchenFormNumberCompare.tsx';
+import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.tsx';
+import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { DlcInkAmber } from '@/parcels/tcg/dlc/icons/ink/DlcInkAmber.tsx';
 import { DlcInkAmethyst } from '@/parcels/tcg/dlc/icons/ink/DlcInkAmethyst.tsx';
 import { DlcInkEmerald } from '@/parcels/tcg/dlc/icons/ink/DlcInkEmerald.tsx';
@@ -46,8 +46,8 @@ export function DlcCuisineFilters() {
           </Overlay>
         </div>
       )}
-      <CuisineCategory title={t('categories.identity')} icon={<IconUserScan />}>
-        <CuisineFormMultiSelect
+      <KitchenCategory title={t('categories.identity')} icon={<IconUserScan />}>
+        <KitchenFormMultiSelect
           k={'type'}
           title={ft('type.title')}
           description={ft('type.description')}
@@ -64,7 +64,7 @@ export function DlcCuisineFilters() {
           ]}
           dropdownPlaceholder={ft('type.placeholder')}
         />
-        <CuisineFormMultiCheckbox
+        <KitchhenFormMultiCheckbox
           k={'ink'}
           title={ft('ink.title')}
           description={ft('ink.description')}
@@ -80,9 +80,9 @@ export function DlcCuisineFilters() {
           }}
           exactDropdownValues={{ exact: ft('ink.exact'), contains: ft('ink.contains') }}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.text')} icon={<IconTextSize />}>
-        <CuisineFormText
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.text')} icon={<IconTextSize />}>
+        <KitchenFormText
           k={'name'}
           title={ft('name.title')}
           description={ft('name.description')}
@@ -91,7 +91,7 @@ export function DlcCuisineFilters() {
           checkboxLabel={ft('name.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'text'}
           title={ft('text.title')}
           description={ft('text.description')}
@@ -100,7 +100,7 @@ export function DlcCuisineFilters() {
           checkboxLabel={ft('text.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'flavortext'}
           title={ft('flavortext.title')}
           description={ft('flavortext.description')}
@@ -109,35 +109,35 @@ export function DlcCuisineFilters() {
           checkboxLabel={ft('flavortext.checkboxLabel')}
           withCheckbox
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.stats')} icon={<IconNumbers />}>
-        <CuisineFormNumberCompare
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.stats')} icon={<IconNumbers />}>
+        <KitchenFormNumberCompare
           k={'strength'}
           title={ft('strength.title')}
           description={ft('strength.description')}
           filter={'strength'}
         />
-        <CuisineFormNumberCompare
+        <KitchenFormNumberCompare
           k={'willpower'}
           title={ft('willpower.title')}
           description={ft('willpower.description')}
           filter={'willpower'}
         />
-        <CuisineFormNumberCompare
+        <KitchenFormNumberCompare
           k={'movecost'}
           title={ft('movecost.title')}
           description={ft('movecost.description')}
           filter={'movecost'}
         />
-        <CuisineFormNumberCompare
+        <KitchenFormNumberCompare
           k={'lore'}
           title={ft('lore.title')}
           description={ft('lore.description')}
           filter={'lore'}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.release')} icon={<IconMeteorFilled />}>
-        <CuisineFormMultiSelect
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.release')} icon={<IconMeteorFilled />}>
+        <KitchenFormMultiSelect
           k={'sets'}
           title={ft('sets.title')}
           description={ft('sets.description')}
@@ -145,7 +145,7 @@ export function DlcCuisineFilters() {
           data={setnames}
           dropdownPlaceholder={ft('sets.placeholder')}
         />
-        <CuisineFormMultiCheckbox
+        <KitchhenFormMultiCheckbox
           k={'rarity'}
           title={ft('rarity.title')}
           description={ft('rarity.description')}
@@ -160,9 +160,9 @@ export function DlcCuisineFilters() {
             enchanted: <DlcRarityEnchanted size={20} />,
           }}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.artist')} icon={<IconBrush />}>
-        <CuisineFormText
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.artist')} icon={<IconBrush />}>
+        <KitchenFormText
           k={'artist'}
           title={ft('artist.title')}
           description={ft('artist.description')}
@@ -171,7 +171,7 @@ export function DlcCuisineFilters() {
           checkboxLabel={ft('artist.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'franchise'}
           title={ft('franchise.title')}
           description={ft('franchise.description')}
@@ -180,7 +180,7 @@ export function DlcCuisineFilters() {
           withoutLimit
           dropdownPlaceholder={ft('franchise.placeholder')}
         />
-      </CuisineCategory>
+      </KitchenCategory>
     </>
   );
 }

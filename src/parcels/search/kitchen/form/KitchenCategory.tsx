@@ -1,9 +1,9 @@
 import { Accordion, Code, Grid, Group, Stack, Text } from '@mantine/core';
 import { Children, isValidElement, type PropsWithChildren, type ReactNode } from 'react';
-import type { CuisineFormProps } from '@/parcels/search/cuisine/form/types.ts';
+import type { CuisineFormProps } from '@/parcels/search/kitchen/form/types.ts';
 import styles from './CuisineCategory.module.css';
 
-export function CuisineCategory({
+export function KitchenCategory({
   title,
   icon,
   children,

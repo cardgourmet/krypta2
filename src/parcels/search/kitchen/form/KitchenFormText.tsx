@@ -1,10 +1,10 @@
 import { Stack } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form';
 import { useContext } from 'react';
-import type { CuisineFormProps } from '@/parcels/search/cuisine/form/types.ts';
-import { SearchCuisineContext } from '@/parcels/search/cuisine/overview/SearchCuisineOverview.tsx';
-import { StyledCheckbox } from '@/parcels/search/cuisine/styled/StyledCheckbox.tsx';
-import { StyledTextInput } from '@/parcels/search/cuisine/styled/StyledTextInput.tsx';
+import type { CuisineFormProps } from '@/parcels/search/kitchen/form/types.ts';
+import { SearchCuisineContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
+import { StyledCheckbox } from '@/parcels/search/kitchen/styled/StyledCheckbox.tsx';
+import { StyledTextInput } from '@/parcels/search/kitchen/styled/StyledTextInput.tsx';
 
 type CuisineFormTextProps = CuisineFormProps & {
   inputPlaceholder?: string;
@@ -12,7 +12,7 @@ type CuisineFormTextProps = CuisineFormProps & {
   withCheckbox: boolean;
 };
 
-export function CuisineFormText({ k, inputPlaceholder, checkboxLabel, withCheckbox }: CuisineFormTextProps) {
+export function KitchenFormText({ k, inputPlaceholder, checkboxLabel, withCheckbox }: CuisineFormTextProps) {
   const form = useContext(SearchCuisineContext) as UseFormReturnType<unknown>;
 
   return (

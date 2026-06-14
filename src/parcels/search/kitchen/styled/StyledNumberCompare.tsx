@@ -1,5 +1,5 @@
 import { Group, NumberInput, Stack } from '@mantine/core';
-import { StyledSelect } from '@/parcels/search/cuisine/styled/StyledSelect.tsx';
+import { StyledSelect } from '@/parcels/search/kitchen/styled/StyledSelect.tsx';
 import styles from './mantineStyles.module.css';
 
 export type NumberCompareOperator = '>=' | '>' | '<' | '<=' | '=';

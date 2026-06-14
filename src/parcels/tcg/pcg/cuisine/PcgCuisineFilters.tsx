@@ -9,12 +9,12 @@ import {
 } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CuisineCategory } from '@/parcels/search/cuisine/form/CuisineCategory.tsx';
-import { CuisineFormMultiCheckbox } from '@/parcels/search/cuisine/form/CuisineFormMultiCheckbox.tsx';
-import { CuisineFormMultiSelect } from '@/parcels/search/cuisine/form/CuisineFormMultiSelect.tsx';
-import { CuisineFormNumberCompare } from '@/parcels/search/cuisine/form/CuisineFormNumberCompare.tsx';
-import { CuisineFormText } from '@/parcels/search/cuisine/form/CuisineFormText.tsx';
 import { getFilterValue, useFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
+import { KitchenCategory } from '@/parcels/search/kitchen/form/KitchenCategory.tsx';
+import { KitchenFormMultiSelect } from '@/parcels/search/kitchen/form/KitchenFormMultiSelect.tsx';
+import { KitchenFormNumberCompare } from '@/parcels/search/kitchen/form/KitchenFormNumberCompare.tsx';
+import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.tsx';
+import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { PcgEnergyColorless } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyColorless.tsx';
 import { PcgEnergyDarkness } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDarkness.tsx';
 import { PcgEnergyDragon } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyDragon.tsx';
@@ -58,15 +58,15 @@ export function PcgCuisineFilters() {
           </Overlay>
         </div>
       )}
-      <CuisineCategory title={t('categories.identity')} icon={<IconUserScan />}>
-        <CuisineFormMultiCheckbox
+      <KitchenCategory title={t('categories.identity')} icon={<IconUserScan />}>
+        <KitchhenFormMultiCheckbox
           k={'basetype'}
           title={ft('basetype.title')}
           description={ft('basetype.description')}
           filter={'basetype'}
           data={basetypes}
         />
-        <CuisineFormMultiCheckbox
+        <KitchhenFormMultiCheckbox
           k={'energy'}
           title={ft('energy.title')}
           description={ft('energy.description')}
@@ -87,7 +87,7 @@ export function PcgCuisineFilters() {
           }}
           exactDropdownValues={{ exact: ft('energy.exact'), contains: ft('energy.contains') }}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'subtype'}
           title={ft('subtype.title')}
           description={ft('subtype.description')}
@@ -95,7 +95,7 @@ export function PcgCuisineFilters() {
           data={subtypes}
           dropdownPlaceholder={ft('subtype.placeholder')}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'stage'}
           title={ft('stage.title')}
           description={ft('stage.description')}
@@ -103,7 +103,7 @@ export function PcgCuisineFilters() {
           data={evoStages}
           dropdownPlaceholder={ft('stage.placeholder')}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'evolves'}
           title={ft('evolves.title')}
           description={ft('evolves.description')}
@@ -111,9 +111,9 @@ export function PcgCuisineFilters() {
           data={evolvesFromMapped}
           dropdownPlaceholder={ft('evolves.placeholder')}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.text')} icon={<IconTextSize />}>
-        <CuisineFormText
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.text')} icon={<IconTextSize />}>
+        <KitchenFormText
           k={'name'}
           title={ft('name.title')}
           description={ft('name.description')}
@@ -122,7 +122,7 @@ export function PcgCuisineFilters() {
           checkboxLabel={ft('name.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'text'}
           title={ft('text.title')}
           description={ft('text.description')}
@@ -131,7 +131,7 @@ export function PcgCuisineFilters() {
           checkboxLabel={ft('text.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'flavortext'}
           title={ft('flavortext.title')}
           description={ft('flavortext.description')}
@@ -140,9 +140,9 @@ export function PcgCuisineFilters() {
           checkboxLabel={ft('flavortext.checkboxLabel')}
           withCheckbox
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.effect')} icon={<IconSparkles />}>
-        <CuisineFormMultiSelect
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.effect')} icon={<IconSparkles />}>
+        <KitchenFormMultiSelect
           k={'ability'}
           title={ft('ability.title')}
           description={ft('ability.description')}
@@ -150,7 +150,7 @@ export function PcgCuisineFilters() {
           data={abilityTypes}
           dropdownPlaceholder={ft('ability.placeholder')}
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'attack'}
           title={ft('attack.title')}
           description={ft('attack.description')}
@@ -159,7 +159,7 @@ export function PcgCuisineFilters() {
           checkboxLabel={ft('attack.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'effect'}
           title={ft('effect.title')}
           description={ft('effect.description')}
@@ -167,18 +167,18 @@ export function PcgCuisineFilters() {
           data={effectTypes}
           dropdownPlaceholder={ft('effect.placeholder')}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.stats')} icon={<IconNumbers />}>
-        <CuisineFormNumberCompare k={'hp'} title={ft('hp.title')} description={ft('hp.description')} filter={'hp'} />
-        <CuisineFormNumberCompare
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.stats')} icon={<IconNumbers />}>
+        <KitchenFormNumberCompare k={'hp'} title={ft('hp.title')} description={ft('hp.description')} filter={'hp'} />
+        <KitchenFormNumberCompare
           k={'retreat'}
           title={ft('retreat.title')}
           description={ft('retreat.description')}
           filter={'retreat'}
         />
-      </CuisineCategory>
-      <CuisineCategory title={'release'} icon={<IconMeteorFilled />}>
-        <CuisineFormMultiSelect
+      </KitchenCategory>
+      <KitchenCategory title={'release'} icon={<IconMeteorFilled />}>
+        <KitchenFormMultiSelect
           k={'sets'}
           title={ft('sets.title')}
           description={ft('sets.description')}
@@ -186,7 +186,7 @@ export function PcgCuisineFilters() {
           data={setNamesMapped}
           dropdownPlaceholder={ft('sets.placeholder')}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'rarity'}
           title={ft('rarity.title')}
           description={ft('rarity.description')}
@@ -195,9 +195,9 @@ export function PcgCuisineFilters() {
           withoutLimit
           dropdownPlaceholder={ft('rarity.placeholder')}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.artwork')} icon={<IconBrush />}>
-        <CuisineFormText
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.artwork')} icon={<IconBrush />}>
+        <KitchenFormText
           k={'artist'}
           title={ft('artist.title')}
           description={ft('artist.description')}
@@ -206,7 +206,7 @@ export function PcgCuisineFilters() {
           checkboxLabel={ft('artist.checkboxLabel')}
           withCheckbox
         />
-      </CuisineCategory>
+      </KitchenCategory>
     </>
   );
 }

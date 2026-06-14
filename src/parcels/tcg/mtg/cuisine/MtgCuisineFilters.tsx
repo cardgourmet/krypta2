@@ -9,12 +9,12 @@ import {
 } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CuisineCategory } from '@/parcels/search/cuisine/form/CuisineCategory.tsx';
-import { CuisineFormMultiCheckbox } from '@/parcels/search/cuisine/form/CuisineFormMultiCheckbox.tsx';
-import { CuisineFormMultiSelect } from '@/parcels/search/cuisine/form/CuisineFormMultiSelect.tsx';
-import { CuisineFormNumberCompare } from '@/parcels/search/cuisine/form/CuisineFormNumberCompare.tsx';
-import { CuisineFormText } from '@/parcels/search/cuisine/form/CuisineFormText.tsx';
 import { getFilterValue, useFilterValue, useFilterValues } from '@/parcels/search/filter/useFilterValues.ts';
+import { KitchenCategory } from '@/parcels/search/kitchen/form/KitchenCategory.tsx';
+import { KitchenFormMultiSelect } from '@/parcels/search/kitchen/form/KitchenFormMultiSelect.tsx';
+import { KitchenFormNumberCompare } from '@/parcels/search/kitchen/form/KitchenFormNumberCompare.tsx';
+import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.tsx';
+import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
 export function MtgCuisineFilters() {
@@ -43,8 +43,8 @@ export function MtgCuisineFilters() {
           </Overlay>
         </div>
       )}
-      <CuisineCategory title={t('categories.identity')} icon={<IconUserScan />}>
-        <CuisineFormMultiSelect
+      <KitchenCategory title={t('categories.identity')} icon={<IconUserScan />}>
+        <KitchenFormMultiSelect
           k={'type'}
           title={ft('type.title')}
           description={ft('type.description')}
@@ -52,7 +52,7 @@ export function MtgCuisineFilters() {
           data={typesMapped}
           dropdownPlaceholder={ft('type.placeholder')}
         />
-        <CuisineFormMultiCheckbox
+        <KitchhenFormMultiCheckbox
           k={'color'}
           title={ft('color.title')}
           description={ft('color.description')}
@@ -68,9 +68,9 @@ export function MtgCuisineFilters() {
           }}
           exactDropdownValues={{ exact: ft('color.exact'), contains: ft('color.contains') }}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.text')} icon={<IconTextSize />}>
-        <CuisineFormText
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.text')} icon={<IconTextSize />}>
+        <KitchenFormText
           k={'name'}
           title={ft('name.title')}
           description={ft('name.description')}
@@ -79,7 +79,7 @@ export function MtgCuisineFilters() {
           checkboxLabel={ft('name.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'text'}
           title={ft('text.title')}
           description={ft('text.description')}
@@ -88,7 +88,7 @@ export function MtgCuisineFilters() {
           checkboxLabel={ft('text.checkboxLabel')}
           withCheckbox
         />
-        <CuisineFormText
+        <KitchenFormText
           k={'flavortext'}
           title={ft('flavortext.title')}
           description={ft('flavortext.description')}
@@ -97,9 +97,9 @@ export function MtgCuisineFilters() {
           checkboxLabel={ft('flavortext.checkboxLabel')}
           withCheckbox
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.effect')} icon={<IconSparkles />}>
-        <CuisineFormMultiSelect
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.effect')} icon={<IconSparkles />}>
+        <KitchenFormMultiSelect
           k={'keyword'}
           title={ft('keyword.title')}
           description={ft('keyword.description')}
@@ -107,36 +107,36 @@ export function MtgCuisineFilters() {
           data={keywordsMapped}
           dropdownPlaceholder={ft('keyword.placeholder')}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.stats')} icon={<IconNumbers />}>
-        <CuisineFormNumberCompare k={'cmc'} title={ft('cmc.title')} description={ft('cmc.title')} filter={'cmc'} />
-        <CuisineFormNumberCompare
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.stats')} icon={<IconNumbers />}>
+        <KitchenFormNumberCompare k={'cmc'} title={ft('cmc.title')} description={ft('cmc.title')} filter={'cmc'} />
+        <KitchenFormNumberCompare
           k={'power'}
           title={ft('power.title')}
           description={ft('power.description')}
           filter={'power'}
         />
-        <CuisineFormNumberCompare
+        <KitchenFormNumberCompare
           k={'toughness'}
           title={ft('toughness.title')}
           description={ft('toughness.description')}
           filter={'toughness'}
         />
-        <CuisineFormNumberCompare
+        <KitchenFormNumberCompare
           k={'loyalty'}
           title={ft('loyalty.title')}
           description={ft('loyalty.description')}
           filter={'loyalty'}
         />
-        <CuisineFormNumberCompare
+        <KitchenFormNumberCompare
           k={'defense'}
           title={ft('defense.title')}
           description={ft('defense.description')}
           filter={'defense'}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.release')} icon={<IconMeteorFilled />}>
-        <CuisineFormMultiSelect
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.release')} icon={<IconMeteorFilled />}>
+        <KitchenFormMultiSelect
           k={'sets'}
           title={ft('sets.title')}
           description={ft('sets.description')}
@@ -144,7 +144,7 @@ export function MtgCuisineFilters() {
           data={setNamesMapped}
           dropdownPlaceholder={ft('sets.placeholder')}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'rarity'}
           title={ft('rarity.title')}
           description={ft('rarity.description')}
@@ -153,7 +153,7 @@ export function MtgCuisineFilters() {
           withoutLimit
           dropdownPlaceholder={ft('rarity.placeholder')}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'format'}
           title={ft('format.title')}
           description={ft('format.description')}
@@ -161,7 +161,7 @@ export function MtgCuisineFilters() {
           data={formats}
           dropdownPlaceholder={ft('format.placeholder')}
         />
-        <CuisineFormMultiSelect
+        <KitchenFormMultiSelect
           k={'games'}
           title={ft('games.title')}
           description={ft('games.description')}
@@ -169,9 +169,9 @@ export function MtgCuisineFilters() {
           data={games}
           dropdownPlaceholder={ft('games.placeholder')}
         />
-      </CuisineCategory>
-      <CuisineCategory title={t('categories.artwork')} icon={<IconBrush />}>
-        <CuisineFormText
+      </KitchenCategory>
+      <KitchenCategory title={t('categories.artwork')} icon={<IconBrush />}>
+        <KitchenFormText
           k={'artist'}
           title={ft('artist.title')}
           description={ft('artist.description')}
@@ -180,7 +180,7 @@ export function MtgCuisineFilters() {
           checkboxLabel={ft('artist.checkboxLabel')}
           withCheckbox
         />
-      </CuisineCategory>
+      </KitchenCategory>
     </>
   );
 }
