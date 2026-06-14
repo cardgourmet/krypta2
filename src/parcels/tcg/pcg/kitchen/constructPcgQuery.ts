@@ -1,6 +1,6 @@
-import type { PcgCuisineFormData } from '@/parcels/tcg/pcg/cuisine/formData.ts';
+import type { PcgKitchenFormData } from '@/parcels/tcg/pcg/kitchen/formData.ts';
 
-export const constructPcgQuery = (formData: PcgCuisineFormData) => {
+export const constructPcgQuery = (formData: PcgKitchenFormData) => {
   const filters: string[] = [];
 
   // IDENTITY

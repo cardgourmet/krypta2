@@ -27,7 +27,7 @@ import { PcgEnergyMetal } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyMetal.ts
 import { PcgEnergyPsychic } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyPsychic.tsx';
 import { PcgEnergyWater } from '@/parcels/tcg/pcg/icons/energy/PcgEnergyWater.tsx';
 
-export function PcgCuisineFilters() {
+export function PcgKitchenFilters() {
   const { t } = useTranslation('cuisine', { keyPrefix: 'pcg' });
   const { t: ft } = useTranslation('cuisine', { keyPrefix: 'pcg.filters' });
 

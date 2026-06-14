@@ -17,7 +17,7 @@ import { KitchenFormText } from '@/parcels/search/kitchen/form/KitchenFormText.t
 import { KitchhenFormMultiCheckbox } from '@/parcels/search/kitchen/form/KitchhenFormMultiCheckbox.tsx';
 import { MtgSymbolSVG } from '@/parcels/tcg/mtg/details/MtgSymbolSVG/MtgSymbolSVG.tsx';
 
-export function MtgCuisineFilters() {
+export function MtgKitchenFilters() {
   const { t } = useTranslation('cuisine', { keyPrefix: 'mtg' });
   const { t: ft } = useTranslation('cuisine', { keyPrefix: 'mtg.filters' });
 

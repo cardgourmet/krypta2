@@ -1,7 +1,7 @@
 import { Accordion, Code, Grid, Group, Stack, Text } from '@mantine/core';
 import { Children, isValidElement, type PropsWithChildren, type ReactNode } from 'react';
-import type { CuisineFormProps } from '@/parcels/search/kitchen/form/types.ts';
-import styles from './CuisineCategory.module.css';
+import type { KitchenFormProps } from '@/parcels/search/kitchen/form/types.ts';
+import styles from './KitchenCategory.module.css';
 
 export function KitchenCategory({
   title,
@@ -18,7 +18,7 @@ export function KitchenCategory({
       defaultValue={title}
       classNames={{
         item: styles.accordionItem,
-        panel: styles.accordionPanel,
+        content: styles.accordionContent,
         control: styles.accordionControl,
       }}
     >
@@ -40,7 +40,7 @@ export function KitchenCategory({
               .filter(isValidElement)
               .filter((child) => child.props && 'k' in (child.props as object))
               .map((child) => {
-                const props = child.props as CuisineFormProps;
+                const props = child.props as KitchenFormProps;
                 const { k, title, description, filter } = props;
 
                 return (

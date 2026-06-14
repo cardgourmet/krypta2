@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
 
-export type CuisineFilterCategory = {
+export type KitchenFilterCategory = {
   icon: ReactElement;
-  filters: CuisineFilter[];
+  filters: KitchenFilter[];
 };
-export type CuisineFilter = {
+export type KitchenFilter = {
   key: string;
   title: string;
   description?: string;

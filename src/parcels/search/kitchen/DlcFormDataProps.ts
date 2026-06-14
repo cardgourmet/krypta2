@@ -1,13 +1,13 @@
 import type { SetStateAction } from 'react';
-import type { DlcCuisineFormData } from '@/parcels/tcg/dlc/cuisine/formData.ts';
-import type { PcgCuisineFormData } from '@/parcels/tcg/pcg/cuisine/formData.ts';
+import type { DlcKitchenFormData } from '@/parcels/tcg/dlc/kitchen/formData.ts';
+import type { PcgKitchenFormData } from '@/parcels/tcg/pcg/kitchen/formData.ts';
 
 export type DlcFormDataProps = {
-  formData: DlcCuisineFormData;
-  setFormData: (value: SetStateAction<DlcCuisineFormData>) => void;
+  formData: DlcKitchenFormData;
+  setFormData: (value: SetStateAction<DlcKitchenFormData>) => void;
 };
 
 export type PcgFormDataProps = {
-  formData: PcgCuisineFormData;
-  setFormData: (value: SetStateAction<PcgCuisineFormData>) => void;
+  formData: PcgKitchenFormData;
+  setFormData: (value: SetStateAction<PcgKitchenFormData>) => void;
 };

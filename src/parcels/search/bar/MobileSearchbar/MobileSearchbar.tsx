@@ -80,10 +80,10 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
               </Group>
             </UnstyledButton>
           </div>
-          <div className={styles.cuisine}>
+          <div className={styles.kitchen}>
             <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
               <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
-              {t('cuisine')}
+              {t('kitchen')}
             </Link>
           </div>
           <FilterGlossary />

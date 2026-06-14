@@ -1,19 +1,19 @@
 import type { UseFormReturnType } from '@mantine/form';
 import { useContext } from 'react';
-import type { CuisineFormProps } from '@/parcels/search/kitchen/form/types.ts';
-import { SearchCuisineContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
+import type { KitchenFormProps } from '@/parcels/search/kitchen/form/types.ts';
+import { SearchKitchenContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
 import { StyledMultiSelect } from '@/parcels/search/kitchen/styled/StyledMultiSelect.tsx';
 
 type ValueLabel = { value: string; label: string };
-type CuisineFormMultiSelectProps = CuisineFormProps & {
+type KitchenFormMultiSelectProps = KitchenFormProps & {
   data: ValueLabel[] | { group: string; items: ValueLabel[] }[];
   dropdownPlaceholder?: string;
   withExactDropdown?: boolean;
   withoutLimit?: boolean;
 };
 
-export function KitchenFormMultiSelect({ k, data, dropdownPlaceholder, withoutLimit }: CuisineFormMultiSelectProps) {
-  const form = useContext(SearchCuisineContext) as UseFormReturnType<unknown>;
+export function KitchenFormMultiSelect({ k, data, dropdownPlaceholder, withoutLimit }: KitchenFormMultiSelectProps) {
+  const form = useContext(SearchKitchenContext) as UseFormReturnType<unknown>;
 
   return (
     <StyledMultiSelect

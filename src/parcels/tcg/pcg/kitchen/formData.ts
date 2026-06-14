@@ -1,6 +1,6 @@
 import type { TcgFilterOperator } from '@/parcels/tcg/types.ts';
 
-export type PcgCuisineFormData = {
+export type PcgKitchenFormData = {
   /* IDENTITY */
   basetype: {
     values: Record<string, boolean>;
@@ -75,7 +75,7 @@ export type PcgCuisineFormData = {
   };
 };
 
-export const createDefaultPcgFormData: () => PcgCuisineFormData = () => ({
+export const createDefaultPcgFormData: () => PcgKitchenFormData = () => ({
   ability: { mode: 'contains', values: [] },
   artist: { exact: false, value: '' },
   attack: { exact: false, value: '' },

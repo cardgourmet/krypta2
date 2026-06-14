@@ -20,10 +20,10 @@ import selectionDE from '@/../locales/selection/de.json';
 import selectionEN from '@/../locales/selection/en.json';
 import setsDE from '@/../locales/sets/de.json';
 import setsEN from '@/../locales/sets/en.json';
-import cuisineDE from '../../../locales/cuisine/de.json';
-import cuisineEN from '../../../locales/cuisine/en.json';
 import detailsDE from '../../../locales/details/de.json';
 import detailsEN from '../../../locales/details/en.json';
+import kitchenDE from '../../../locales/kitchen/de.json';
+import kitchenEN from '../../../locales/kitchen/en.json';
 
 const resources = {
   en: {
@@ -35,7 +35,7 @@ const resources = {
     lists: listsEN,
     history: historyEN,
     saved: savedEN,
-    cuisine: cuisineEN,
+    kitchen: kitchenEN,
     sets: setsEN,
     home: homeEN,
     details: detailsEN,
@@ -49,7 +49,7 @@ const resources = {
     lists: listsDE,
     history: historyDE,
     saved: savedDE,
-    cuisine: cuisineDE,
+    kitchen: kitchenDE,
     sets: setsDE,
     home: homeDE,
     details: detailsDE,
@@ -60,7 +60,7 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: 'en',
-  ns: ['auth', 'cards', 'nav', 'search', 'selection', 'lists', 'history', 'saved', 'cuisine', 'sets', 'home'],
+  ns: ['auth', 'cards', 'nav', 'search', 'selection', 'lists', 'history', 'saved', 'kitchen', 'sets', 'home'],
   defaultNS: 'cards',
   interpolation: {
     escapeValue: false,

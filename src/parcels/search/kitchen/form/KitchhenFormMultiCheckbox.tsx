@@ -1,19 +1,19 @@
 import { Group, Stack, Text } from '@mantine/core';
 import type { UseFormReturnType } from '@mantine/form';
 import { type ReactElement, useContext } from 'react';
-import type { CuisineFormProps } from '@/parcels/search/kitchen/form/types.ts';
-import { SearchCuisineContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
+import type { KitchenFormProps } from '@/parcels/search/kitchen/form/types.ts';
+import { SearchKitchenContext } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
 import { StyledCheckbox } from '@/parcels/search/kitchen/styled/StyledCheckbox.tsx';
 import { StyledSelect } from '@/parcels/search/kitchen/styled/StyledSelect.tsx';
 
-type CuisineFormMultiCheckboxProps = CuisineFormProps & {
+type KitchenFormMultiCheckboxProps = KitchenFormProps & {
   data: { value: string; label: string }[];
   iconsMap?: Record<string, ReactElement>;
   exactDropdownValues?: Record<'exact' | 'contains', string>;
 };
 
-export function KitchhenFormMultiCheckbox({ k, data, iconsMap, exactDropdownValues }: CuisineFormMultiCheckboxProps) {
-  const form = useContext(SearchCuisineContext) as UseFormReturnType<unknown>;
+export function KitchhenFormMultiCheckbox({ k, data, iconsMap, exactDropdownValues }: KitchenFormMultiCheckboxProps) {
+  const form = useContext(SearchKitchenContext) as UseFormReturnType<unknown>;
 
   return (
     <Stack>

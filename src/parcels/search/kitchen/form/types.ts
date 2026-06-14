@@ -1,9 +1,9 @@
-import type { DlcCuisineFormData } from '@/parcels/tcg/dlc/cuisine/formData.ts';
-import type { MtgCuisineFormData } from '@/parcels/tcg/mtg/cuisine/formData.ts';
-import type { PcgCuisineFormData } from '@/parcels/tcg/pcg/cuisine/formData.ts';
+import type { DlcKitchenFormData } from '@/parcels/tcg/dlc/kitchen/formData.ts';
+import type { MtgKitchenFormData } from '@/parcels/tcg/mtg/kitchen/formData.ts';
+import type { PcgKitchenFormData } from '@/parcels/tcg/pcg/kitchen/formData.ts';
 
-export type CuisineFormProps = {
-  k: keyof (PcgCuisineFormData & DlcCuisineFormData & MtgCuisineFormData);
+export type KitchenFormProps = {
+  k: keyof (PcgKitchenFormData & DlcKitchenFormData & MtgKitchenFormData);
   title: string;
   description: string;
   filter: string;

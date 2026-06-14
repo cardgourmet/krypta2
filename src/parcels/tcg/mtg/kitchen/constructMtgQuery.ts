@@ -1,6 +1,6 @@
-import type { MtgCuisineFormData } from '@/parcels/tcg/mtg/cuisine/formData.ts';
+import type { MtgKitchenFormData } from '@/parcels/tcg/mtg/kitchen/formData.ts';
 
-export const constructMtgQuery = (formData: MtgCuisineFormData) => {
+export const constructMtgQuery = (formData: MtgKitchenFormData) => {
   const filters: string[] = [];
 
   // IDENTITY

@@ -1,4 +1,4 @@
-export type DlcCuisineFormData = {
+export type DlcKitchenFormData = {
   name: {
     value: string;
     exact: boolean;
@@ -50,7 +50,7 @@ export type DlcCuisineFormData = {
   };
 };
 
-export const createDefaultDlcFormData: () => DlcCuisineFormData = () => ({
+export const createDefaultDlcFormData: () => DlcKitchenFormData = () => ({
   artist: { exact: false, value: '' },
   flavortext: { exact: false, value: '' },
   franchise: { values: [] },

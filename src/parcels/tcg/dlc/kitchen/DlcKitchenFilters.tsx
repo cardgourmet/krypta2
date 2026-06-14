@@ -21,7 +21,7 @@ import { DlcRarityRare } from '@/parcels/tcg/dlc/icons/rarity/DlcRarityRare.tsx'
 import { DlcRaritySuperRare } from '@/parcels/tcg/dlc/icons/rarity/DlcRaritySuperRare.tsx';
 import { DlcRarityUncommon } from '@/parcels/tcg/dlc/icons/rarity/DlcRarityUncommon.tsx';
 
-export function DlcCuisineFilters() {
+export function DlcKitchenFilters() {
   const { t } = useTranslation('cuisine', { keyPrefix: 'dlc' });
   const { t: ft } = useTranslation('cuisine', { keyPrefix: 'dlc.filters' });
 

@@ -1,4 +1,4 @@
-export type MtgCuisineFormData = {
+export type MtgKitchenFormData = {
   type: {
     values: string[];
     exact: boolean;
@@ -62,7 +62,7 @@ export type MtgCuisineFormData = {
   };
 };
 
-export const createDefaultMtgFormData: () => MtgCuisineFormData = () => ({
+export const createDefaultMtgFormData: () => MtgKitchenFormData = () => ({
   artist: { exact: false, value: '' },
   cmc: { operator: '=', value: '' },
   color: { mode: 'contains', values: {} },

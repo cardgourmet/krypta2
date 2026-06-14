@@ -1,6 +1,6 @@
-import type { DlcCuisineFormData } from '@/parcels/tcg/dlc/cuisine/formData.ts';
+import type { DlcKitchenFormData } from '@/parcels/tcg/dlc/kitchen/formData.ts';
 
-export const constructDlcQuery = (formData: DlcCuisineFormData) => {
+export const constructDlcQuery = (formData: DlcKitchenFormData) => {
   const filters: string[] = [];
 
   // IDENTITY

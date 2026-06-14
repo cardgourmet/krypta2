@@ -10,19 +10,19 @@ import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.ts
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
 import styles from '@/parcels/search/kitchen/FilterOverview.module.css';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';
-import { constructDlcQuery } from '@/parcels/tcg/dlc/cuisine/constructDlcQuery.ts';
-import { DlcCuisineFilters } from '@/parcels/tcg/dlc/cuisine/DlcCuisineFilters.tsx';
-import { createDefaultDlcFormData, type DlcCuisineFormData } from '@/parcels/tcg/dlc/cuisine/formData.ts';
-import { constructMtgQuery } from '@/parcels/tcg/mtg/cuisine/constructMtgQuery.ts';
-import { createDefaultMtgFormData, type MtgCuisineFormData } from '@/parcels/tcg/mtg/cuisine/formData.ts';
-import { MtgCuisineFilters } from '@/parcels/tcg/mtg/cuisine/MtgCuisineFilters.tsx';
-import { constructPcgQuery } from '@/parcels/tcg/pcg/cuisine/constructPcgQuery.ts';
-import { createDefaultPcgFormData, type PcgCuisineFormData } from '@/parcels/tcg/pcg/cuisine/formData.ts';
-import { PcgCuisineFilters } from '@/parcels/tcg/pcg/cuisine/PcgCuisineFilters.tsx';
+import { constructDlcQuery } from '@/parcels/tcg/dlc/kitchen/constructDlcQuery.ts';
+import { DlcKitchenFilters } from '@/parcels/tcg/dlc/kitchen/DlcKitchenFilters.tsx';
+import { createDefaultDlcFormData, type DlcKitchenFormData } from '@/parcels/tcg/dlc/kitchen/formData.ts';
+import { constructMtgQuery } from '@/parcels/tcg/mtg/kitchen/constructMtgQuery.ts';
+import { createDefaultMtgFormData, type MtgKitchenFormData } from '@/parcels/tcg/mtg/kitchen/formData.ts';
+import { MtgKitchenFilters } from '@/parcels/tcg/mtg/kitchen/MtgKitchenFilters.tsx';
+import { constructPcgQuery } from '@/parcels/tcg/pcg/kitchen/constructPcgQuery.ts';
+import { createDefaultPcgFormData, type PcgKitchenFormData } from '@/parcels/tcg/pcg/kitchen/formData.ts';
+import { PcgKitchenFilters } from '@/parcels/tcg/pcg/kitchen/PcgKitchenFilters.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export type TcgCuisineFilterFormData = PcgCuisineFormData | DlcCuisineFormData | MtgCuisineFormData;
-export const SearchCuisineContext = createContext<UseFormReturnType<TcgCuisineFilterFormData> | null>(null);
+export type TcgCuisineFilterFormData = PcgKitchenFormData | DlcKitchenFormData | MtgKitchenFormData;
+export const SearchKitchenContext = createContext<UseFormReturnType<TcgCuisineFilterFormData> | null>(null);
 
 export type CuisineFilterStore = {
   constructedQueryFilters: string[];
@@ -57,11 +57,11 @@ export function SearchKitchenOverview() {
     initialValues: defaultFormData,
     onValuesChange: (values) => {
       if (tcg === 'pcg') {
-        setConstructedQueryFilters(constructPcgQuery(values as unknown as PcgCuisineFormData));
+        setConstructedQueryFilters(constructPcgQuery(values as unknown as PcgKitchenFormData));
       } else if (tcg === 'dlc') {
-        setConstructedQueryFilters(constructDlcQuery(values as unknown as DlcCuisineFormData));
+        setConstructedQueryFilters(constructDlcQuery(values as unknown as DlcKitchenFormData));
       } else if (tcg === 'mtg') {
-        setConstructedQueryFilters(constructMtgQuery(values as unknown as MtgCuisineFormData));
+        setConstructedQueryFilters(constructMtgQuery(values as unknown as MtgKitchenFormData));
       }
     },
   });
@@ -98,11 +98,11 @@ export function SearchKitchenOverview() {
         </div>
 
         <div className={styles.searchOptions}>
-          <SearchCuisineContext value={form}>
-            {tcg === 'mtg' && <MtgCuisineFilters />}
-            {tcg === 'pcg' && <PcgCuisineFilters />}
-            {tcg === 'dlc' && <DlcCuisineFilters />}
-          </SearchCuisineContext>
+          <SearchKitchenContext value={form}>
+            {tcg === 'mtg' && <MtgKitchenFilters />}
+            {tcg === 'pcg' && <PcgKitchenFilters />}
+            {tcg === 'dlc' && <DlcKitchenFilters />}
+          </SearchKitchenContext>
         </div>
       </div>
     </div>

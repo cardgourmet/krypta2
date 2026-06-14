@@ -4,14 +4,14 @@ import { IconSearch } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import Breadcrumbs from '@/parcels/homepage/Breadcrumbs/Breadcrumbs.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import type { CuisineFilterCategory } from '@/parcels/search/kitchen/types.ts';
+import type { KitchenFilterCategory } from '@/parcels/search/kitchen/types.ts';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './FilterOverview.module.css';
 
 type FilterOverviewProps = {
   tcg: Tcg;
-  filtersByCategory: Record<string, CuisineFilterCategory>;
+  filtersByCategory: Record<string, KitchenFilterCategory>;
   constructedQueryFilters: string[];
   resetFilters: () => void;
 };
@@ -31,7 +31,7 @@ export function FilterOverview({ tcg, filtersByCategory, constructedQueryFilters
     <div className={styles.mainContent}>
       <Breadcrumbs subpage={'Erweiterte Suche'} />
 
-      <div className={styles.cuisine}>
+      <div className={styles.kitchen}>
         <div className={styles.header}>
           <Group justify={'space-between'}>
             <div style={{ width: '50%' }}>
