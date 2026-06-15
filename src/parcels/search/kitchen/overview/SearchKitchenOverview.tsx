@@ -66,7 +66,7 @@ export function SearchKitchenOverview() {
   });
 
   return (
-    <div className={styles.mainContent}>
+    <div>
       <title>{`Search Kitchen – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
 
       {component}
