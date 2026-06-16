@@ -1,4 +1,5 @@
 import { Center, Loader, Overlay } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   IconBrush,
   IconMeteorFilled,
@@ -40,13 +41,18 @@ export function PcgKitchenFilters() {
   const setNamesMapped = useFilterValue(filterValues, 'setname');
   const evolvesFromMapped = useFilterValue(filterValues, 'evolvesFrom');
   const basetypes = getFilterValue(filterValues, 'basetype');
-  const energyTypes = getFilterValue(filterValues, 'energy', (d) => d.value !== 'free');
+  // const energyTypes = getFilterValue(filterValues, 'energy', (d) => d.value !== 'free');
   const subtypes = getFilterValue(filterValues, 'subtype');
   const evoStages = getFilterValue(filterValues, 'stage', (d) => d.value === 'evolution_stage');
   const abilityTypes = getFilterValue(filterValues, 'ability');
   const effectTypes = getFilterValue(filterValues, 'effect');
   const rarities = getFilterValue(filterValues, 'rarity');
 
+  // naming is inconsistent, liebe grüße
+  const mediumScreen = useMediaQuery('(max-width: 1300px)');
+  const smallerScreen = useMediaQuery('(max-width: 1110px)');
+  const smallScreen = useMediaQuery('(max-width: 900px)');
+  const smallestScreen = useMediaQuery('(max-width: 800px)');
   return (
     <>
       {isLoading && (
@@ -71,21 +77,37 @@ export function PcgKitchenFilters() {
           title={ft('energy.title')}
           description={ft('energy.description')}
           filter={'energy'}
-          data={energyTypes}
+          data={[
+            'grass',
+            'fire',
+            'water',
+            'lightning',
+            'fighting',
+            'psychic',
+            'colorless',
+            'darkness',
+            'metal',
+            'dragon',
+            'fairy',
+          ].map((t) => {
+            return { value: t, label: t };
+          })}
           iconsMap={{
-            colorless: <PcgEnergyColorless size={22} />,
-            darkness: <PcgEnergyDarkness size={22} />,
-            dragon: <PcgEnergyDragon size={22} />,
-            fairy: <PcgEnergyFairy size={22} />,
-            fighting: <PcgEnergyFighting size={22} />,
-            fire: <PcgEnergyFire size={22} />,
-            grass: <PcgEnergyGrass size={22} />,
-            lightning: <PcgEnergyLightning size={22} />,
-            metal: <PcgEnergyMetal size={22} />,
-            psychic: <PcgEnergyPsychic size={22} />,
-            water: <PcgEnergyWater size={22} />,
+            colorless: <PcgEnergyColorless size={20} />,
+            darkness: <PcgEnergyDarkness size={20} />,
+            dragon: <PcgEnergyDragon size={20} />,
+            fairy: <PcgEnergyFairy size={20} />,
+            fighting: <PcgEnergyFighting size={20} />,
+            fire: <PcgEnergyFire size={20} />,
+            grass: <PcgEnergyGrass size={20} />,
+            lightning: <PcgEnergyLightning size={20} />,
+            metal: <PcgEnergyMetal size={20} />,
+            psychic: <PcgEnergyPsychic size={20} />,
+            water: <PcgEnergyWater size={20} />,
           }}
           exactDropdownValues={{ exact: ft('energy.exact'), contains: ft('energy.contains') }}
+          asGrid
+          gridCols={smallestScreen ? 2 : smallScreen ? 3 : smallerScreen ? 4 : mediumScreen ? 5 : 6}
         />
         <KitchenFormMultiSelect
           k={'subtype'}

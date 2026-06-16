@@ -11,6 +11,9 @@
     ">": "größer als",
     ">=": "größer oder gleich"
   },
+  "filterDetails": {
+    "show": "Zeige Filter Details"
+  },
   "pcg": {
     "categories": {
       "identity": "Identität",
@@ -262,7 +265,9 @@
       },
       "rarity": {
         "title": "Seltenheit",
-        "description": "Seltenheit, mit der die Karte in einem Set gedruckt wurde"
+        "description": "Seltenheit, mit der die Karte in einem Set gedruckt wurde",
+        "exact": "Genau diese Seltenheiten",
+        "contains": "Enthält eine dieser Seltenheiten"
       },
       "artist": {
         "title": "Künstler:in",

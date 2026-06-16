@@ -17,6 +17,7 @@ import { constructPcgQuery } from '@/parcels/tcg/pcg/kitchen/constructPcgQuery.t
 import { createDefaultPcgFormData, type PcgKitchenFormData } from '@/parcels/tcg/pcg/kitchen/formData.ts';
 import { PcgKitchenFilters } from '@/parcels/tcg/pcg/kitchen/PcgKitchenFilters.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { usePrevious } from '@/parcels/usePrevious.ts';
 import styles from './SearchKitchenOverview.module.css';
 
 export type TcgKitchenFormData = PcgKitchenFormData | DlcKitchenFormData | MtgKitchenFormData;
@@ -27,6 +28,8 @@ export function SearchKitchenOverview() {
   const { t } = useTranslation('kitchen');
 
   const tcg = useTcgByLocation() as Tcg;
+  const previousTcg = usePrevious(tcg);
+
   const defaultFormData = useMemo(() => {
     if (tcg === 'pcg') {
       return createDefaultPcgFormData();
@@ -60,6 +63,11 @@ export function SearchKitchenOverview() {
 
     return () => callback();
   }, [form2.subscribe, setConstructedQueryFilters, tcg]);
+  useEffect(() => {
+    if (previousTcg !== tcg) {
+      form2?.reset();
+    }
+  }, [tcg, form2?.reset, previousTcg]);
 
   const { component, title } = useBreadcrumbs({
     subpage: t('title'),

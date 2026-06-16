@@ -55,14 +55,16 @@ export function QueryRenderer({ form2 }: { form2: UseFormReturn<TcgKitchenFormDa
               <GourmetText cgmff={'ui'} cgmc={'neutral-9'}>
                 {constructedQuery}
 
-                <UnstyledButton
-                  style={{
-                    marginLeft: '0.25rem',
-                  }}
-                  onClick={() => setExplanationModalOpen(true)}
-                >
-                  <IconMessage size={20} color={'var(--gourmet-neutral-7)'} />
-                </UnstyledButton>
+                {smallestScreen && (
+                  <UnstyledButton
+                    style={{
+                      marginLeft: '0.25rem',
+                    }}
+                    onClick={() => setExplanationModalOpen(true)}
+                  >
+                    <IconMessage size={20} color={'var(--gourmet-neutral-7)'} />
+                  </UnstyledButton>
+                )}
               </GourmetText>
             </Group>
           )}

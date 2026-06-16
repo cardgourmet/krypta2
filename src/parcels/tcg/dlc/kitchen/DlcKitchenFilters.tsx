@@ -31,7 +31,7 @@ export function DlcKitchenFilters() {
   const types = getFilterValue(filterValues, 'type', (d) => d.type === 'type', 'type');
   const classifications = getFilterValue(filterValues, 'type', (d) => d.type === 'classification', 'class');
   const inks = getFilterValue(filterValues, 'ink', (d) => d.value !== 'none');
-  const rarities = getFilterValue(filterValues, 'rarity');
+  // const rarities = getFilterValue(filterValues, 'rarity');
   const setnames = getFilterValue(filterValues, 'setname');
   const franchises = getFilterValue(filterValues, 'franchise', (d) => d.type === 'name');
 
@@ -71,12 +71,12 @@ export function DlcKitchenFilters() {
           filter={'ink'}
           data={inks}
           iconsMap={{
-            amber: <DlcInkAmber size={32} color={'#f0b11d'} />,
-            amethyst: <DlcInkAmethyst size={32} color={'#80397b'} />,
-            emerald: <DlcInkEmerald size={32} color={'#2b8a42'} />,
-            ruby: <DlcInkRuby size={32} color={'#d02031'} />,
-            sapphire: <DlcInkSapphire size={32} color={'#0b87c1'} />,
-            steel: <DlcInkSteel size={32} color={'#9da7b1'} />,
+            amber: <DlcInkAmber size={22} color={'#f0b11d'} />,
+            amethyst: <DlcInkAmethyst size={22} color={'#80397b'} />,
+            emerald: <DlcInkEmerald size={22} color={'#2b8a42'} />,
+            ruby: <DlcInkRuby size={22} color={'#d02031'} />,
+            sapphire: <DlcInkSapphire size={22} color={'#0b87c1'} />,
+            steel: <DlcInkSteel size={22} color={'#9da7b1'} />,
           }}
           exactDropdownValues={{ exact: ft('ink.exact'), contains: ft('ink.contains') }}
         />
@@ -150,7 +150,9 @@ export function DlcKitchenFilters() {
           title={ft('rarity.title')}
           description={ft('rarity.description')}
           filter={'rarity'}
-          data={rarities}
+          data={['common', 'uncommon', 'rare', 'super_rare', 'legendary', 'enchanted'].map((t) => {
+            return { value: t, label: t };
+          })}
           iconsMap={{
             common: <DlcRarityCommon size={20} />,
             uncommon: <DlcRarityUncommon size={20} />,
@@ -159,6 +161,7 @@ export function DlcKitchenFilters() {
             legendary: <DlcRarityLegendary size={20} />,
             enchanted: <DlcRarityEnchanted size={20} />,
           }}
+          exactDropdownValues={{ exact: ft('rarity.exact'), contains: ft('rarity.contains') }}
         />
       </KitchenCategory>
       <KitchenCategory title={t('categories.artist')} icon={<IconBrush />}>

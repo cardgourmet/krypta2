@@ -16,7 +16,7 @@ export function KitchenFormText({ k, inputPlaceholder, checkboxLabel, withCheckb
   const form2 = useContext(SearchKitchenContext2);
 
   return (
-    <Stack>
+    <Stack maw={'50%'}>
       <Controller
         control={form2?.control}
         render={(f) => {

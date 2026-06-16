@@ -11,6 +11,9 @@
     ">": "greater than",
     ">=": "greater than or equals"
   },
+  "filterDetails": {
+    "show": "Show filter details"
+  },
   "pcg": {
     "categories": {
       "identity": "Identity",
@@ -262,7 +265,9 @@
       },
       "rarity": {
         "title": "Rarity",
-        "description": "The rarity with which the card was printed in a set"
+        "description": "The rarity with which the card was printed in a set",
+        "exact": "Exactly these rarities",
+        "contains": "Contains one of these rarities"
       },
       "artist": {
         "title": "Artist",

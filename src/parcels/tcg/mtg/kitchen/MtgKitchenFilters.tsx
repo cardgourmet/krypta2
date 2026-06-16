@@ -27,7 +27,7 @@ export function MtgKitchenFilters() {
   const setNamesMapped = useFilterValue(filterValues, 'setname');
   const typesMapped = useFilterValue(filterValues, 'type');
   const keywordsMapped = useFilterValue(filterValues, 'keyword');
-  const colors = getFilterValue(filterValues, 'color', (d) => d.type === 'color');
+  // const colors = getFilterValue(filterValues, 'color', (d) => d.type === 'color');
   const rarities = getFilterValue(filterValues, 'rarity');
   const formats = getFilterValue(filterValues, 'format');
   const games = getFilterValue(filterValues, 'game');
@@ -57,14 +57,16 @@ export function MtgKitchenFilters() {
           title={ft('color.title')}
           description={ft('color.description')}
           filter={'color'}
-          data={colors}
+          data={['white', 'blue', 'black', 'red', 'green', 'colorless'].map((t) => {
+            return { value: t, label: t };
+          })}
           iconsMap={{
-            colorless: <MtgSymbolSVG symbol={'{C}'} size={24} />,
-            black: <MtgSymbolSVG symbol={'{B}'} size={24} />,
-            blue: <MtgSymbolSVG symbol={'{U}'} size={24} />,
-            red: <MtgSymbolSVG symbol={'{R}'} size={24} />,
-            white: <MtgSymbolSVG symbol={'{W}'} size={24} />,
-            green: <MtgSymbolSVG symbol={'{G}'} size={24} />,
+            colorless: <MtgSymbolSVG symbol={'{C}'} size={20} />,
+            black: <MtgSymbolSVG symbol={'{B}'} size={20} />,
+            blue: <MtgSymbolSVG symbol={'{U}'} size={20} />,
+            red: <MtgSymbolSVG symbol={'{R}'} size={20} />,
+            white: <MtgSymbolSVG symbol={'{W}'} size={20} />,
+            green: <MtgSymbolSVG symbol={'{G}'} size={20} />,
           }}
           exactDropdownValues={{ exact: ft('color.exact'), contains: ft('color.contains') }}
         />

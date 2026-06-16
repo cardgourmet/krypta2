@@ -1,3 +1,4 @@
+import { Flex } from '@mantine/core';
 import { useContext } from 'react';
 import { Controller } from 'react-hook-form';
 import type { KitchenFormProps } from '@/parcels/search/kitchen/form/types.ts';
@@ -16,20 +17,23 @@ export function KitchenFormMultiSelect({ k, data, dropdownPlaceholder, withoutLi
   const form2 = useContext(SearchKitchenContext2);
 
   return (
-    <Controller
-      control={form2?.control}
-      render={(f) => {
-        return (
-          <StyledMultiSelect
-            data={data}
-            placeholder={dropdownPlaceholder}
-            searchable
-            limit={withoutLimit ? 10_000 : 10}
-            {...f.field}
-          />
-        );
-      }}
-      name={`${k}.values`}
-    />
+    <Flex maw={'50%'}>
+      <Controller
+        control={form2?.control}
+        render={(f) => {
+          return (
+            <StyledMultiSelect
+              w={'100%'}
+              data={data}
+              placeholder={dropdownPlaceholder}
+              searchable
+              limit={withoutLimit ? 10_000 : 10}
+              {...f.field}
+            />
+          );
+        }}
+        name={`${k}.values`}
+      />
+    </Flex>
   );
 }
