@@ -31,10 +31,6 @@ body {
   max-width: 1280px;
 
   overflow: visible;
-
-  @media (max-width: 500px) {
-    padding: 1.5rem 0.75rem;
-  }
 }
 
 .footer {

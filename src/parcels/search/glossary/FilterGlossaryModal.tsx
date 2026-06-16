@@ -49,8 +49,8 @@ export function FilterGlossaryModal({
 
   const [selectedEntry, setSelectedEntry] = useState<TransSearchQueryExecutorFilter | null>(null);
 
-  const smallerScreen = useMediaQuery('(max-width: 1110px)');
-  const smallScreen = useMediaQuery('(max-width: 900px)');
+  const smallerScreen = useMediaQuery('(max-width: 1200px)');
+  const smallScreen = useMediaQuery('(max-width: 1000px)');
   const smallestScreen = useMediaQuery('(max-width: 800px)');
   const tinyScreen = useMediaQuery('(max-width: 600px)');
 
@@ -108,7 +108,7 @@ export function FilterGlossaryModal({
       >
         {showDetails && (
           <Stack
-            miw={smallestScreen ? undefined : '24rem'}
+            miw={smallestScreen ? undefined : '18rem'}
             maw={smallestScreen ? undefined : '24rem'}
             mah={smallestScreen ? undefined : '65vh'}
             h={smallestScreen ? '100%' : undefined}
@@ -211,7 +211,7 @@ export function FilterGlossaryModal({
   );
 }
 
-function FilterGlossaryDetails({ f }: { f: TransSearchQueryExecutorFilter }) {
+export function FilterGlossaryDetails({ f }: { f: TransSearchQueryExecutorFilter }) {
   const { t } = useTranslation('search', { keyPrefix: 'glossary' });
 
   const [lang] = useUserLanguage();

@@ -14,7 +14,7 @@ export function getImagesByTcgCard(tcg: Tcg, c: TcgDataCard): CursorImage[] {
       imageUrl: card.print.faces[0].translations.en.imageUrls?.full ?? '',
       alt: card.print.faces[0].translations.en.name ?? '',
     });
-    if (card.print.faces[0].propertyTags?.includes('double_faced_card')) {
+    if (card.print.faces.length > 1 && card.print.faces[0].propertyTags?.includes('double_faced_card')) {
       images.push({
         imageUrl: card.print.faces[1].translations.en.imageUrls?.thumbnail ?? '',
         alt: card.print.faces[1].translations.en.name ?? '',
@@ -51,7 +51,7 @@ export function getImagesByTcgPrintRef(c: TcgDataPrintReference, name?: string):
 
 export function getImagesByTcgCardRelated(_: Tcg, relatedCard: MtgDataCard['relatedCards'][0], lang: string) {
   const images: CursorImage[] = [];
-  const translations = relatedCard.translations[lang];
+  const translations = relatedCard.translations[lang] ?? relatedCard.translations.en;
 
   images.push({
     imageUrl: translations[0].imageUrls?.full ?? translations[0].imageUrls?.thumbnail ?? '',

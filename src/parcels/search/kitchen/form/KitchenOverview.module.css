@@ -1,0 +1,40 @@
+.queryExplanation {
+  code {
+    background-color: var(--gourmet-teal-1);
+    border-radius: 0.25rem;
+    color: var(--gourmet-blue-5);
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
+  }
+}
+
+.kitchen {
+  margin-top: 1rem;
+
+  .header {
+    position: sticky;
+    z-index: var(--sticky-layer);
+    top: var(--navbar-height);
+
+    padding: 1rem 0 1rem 0;
+    margin-bottom: 1rem;
+
+    background-color: var(--cgm-navbar-bg);
+    border-bottom: 1px solid var(--cgm-navbar-border);
+  }
+
+  .searchOptions {
+    padding: 1rem 1rem;
+
+    p {
+      font-family: var(--cgm-content-font-family), Monserrat, sans-serif;
+    }
+
+    code {
+      font-family: var(--cgm-monospace-font-family), monospace;
+    }
+  }
+}

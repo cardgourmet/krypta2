@@ -33,8 +33,6 @@ export function TcgStatisticsCarousel() {
     emblaApi.on('autoplay:timerstopped', () => {
       setIsTimerRunning(false);
     });
-
-    console.log('start playing');
     emblaApi.plugins().autoplay?.play();
   }, [emblaApi]);
 

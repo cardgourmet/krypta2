@@ -2,10 +2,12 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  --font-size: 1rem;
 
   p {
     margin: 0;
     color: var(--cgm-text-color-less-dimmed);
+    font-size: var(--font-size);
   }
 
   /* stolen from Krypta, without Mantine though (lol) */
@@ -14,7 +16,7 @@
     border-radius: 0.25rem;
     color: var(--gourmet-blue-5);
     font-family: var(--cgm-monospace-font-family), monospace;
-    font-size: 0.9rem;
+    font-size: calc(var(--font-size) - 0.1rem);
     font-weight: 300;
     padding: 2px calc(0.625rem / 2);
     white-space: nowrap;
