@@ -11,13 +11,13 @@ export function getImagesByTcgCard(tcg: Tcg, c: TcgDataCard): CursorImage[] {
     const card = c as MtgDataCard;
 
     images.push({
-      imageUrl: card.print.faces[0].translations.en.imageUrls?.full ?? '',
-      alt: card.print.faces[0].translations.en.name ?? '',
+      imageUrl: card.print.faces[0].translations?.en?.imageUrls?.full ?? '',
+      alt: card.print.faces[0].translations?.en?.name ?? '',
     });
     if (card.print.faces.length > 1 && card.print.faces[0].propertyTags?.includes('double_faced_card')) {
       images.push({
-        imageUrl: card.print.faces[1].translations.en.imageUrls?.thumbnail ?? '',
-        alt: card.print.faces[1].translations.en.name ?? '',
+        imageUrl: card.print.faces[1].translations?.en?.imageUrls?.thumbnail ?? '',
+        alt: card.print.faces[1].translations?.en?.name ?? '',
       });
     }
   } else if (tcg === 'pcg') {

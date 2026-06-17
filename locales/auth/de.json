@@ -68,9 +68,13 @@
       },
       "language": {
         "title": "Sprache",
-        "notifications": {
-          "title": "Benachrichtigungen",
-          "description": "Wir werden E-Mails an dich in dieser Sprache verschicken."
+        "global": {
+          "title": "Global",
+          "description": "Wir werden E-Mails an dich in dieser Sprache verschicken. Außerdem nutzen wir die Sprache für das UI."
+        },
+        "sync": {
+          "title": "Mit Global synchronisieren",
+          "description": "Falls aktiviert, werden die bevorzugten TCG Sprachen mit deiner globalen Sprache synchronisiert."
         },
         "mtg": {
           "title": "Magic: The Gathering",

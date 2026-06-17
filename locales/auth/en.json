@@ -76,9 +76,13 @@
       },
       "language": {
         "title": "Language",
-        "notifications": {
-          "title": "Notifications",
-          "description": "We will send you emails in this language."
+        "global": {
+          "title": "Global",
+          "description": "We will send you emails in this language. Also used for the UI."
+        },
+        "sync": {
+          "title": "Keep Sync with Global",
+          "description": "If enabled, will keep the tcg preferred languages in sync with your global language"
         },
         "mtg": {
           "title": "Magic: The Gathering",

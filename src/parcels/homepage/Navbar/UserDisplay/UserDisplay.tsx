@@ -36,7 +36,14 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
   return (
     <div style={style}>
       {user && (
-        <Menu shadow="md" position={'bottom-end'} opened={opened} onChange={setOpened} width={240}>
+        <Menu
+          shadow="md"
+          position={'bottom-end'}
+          opened={opened}
+          onChange={setOpened}
+          width={240}
+          transitionProps={{ transition: 'pop', duration: 100 }}
+        >
           <Menu.Target>
             <UserDisplayButton toggle={() => setOpened(!opened)} avatarFallback={avatarFallback ?? ''} />
           </Menu.Target>
@@ -178,7 +185,14 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
         </Menu>
       )}
       {!user && (
-        <Menu shadow="md" position={'bottom-end'} opened={opened} onChange={setOpened} width={240}>
+        <Menu
+          shadow="md"
+          position={'bottom-end'}
+          opened={opened}
+          onChange={setOpened}
+          width={240}
+          transitionProps={{ transition: 'pop', duration: 100 }}
+        >
           <Menu.Target>
             <UserDisplayButton toggle={() => setOpened(!opened)} avatarFallback={avatarFallback ?? ''} />
           </Menu.Target>

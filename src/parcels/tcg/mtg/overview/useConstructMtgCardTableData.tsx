@@ -35,7 +35,9 @@ export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
         </Group>
       ),
       Type: (
-        <span title={card.print.faces[0].translations.en.typeLine}>{card.print.faces[0].translations.en.typeLine}</span>
+        <span title={card.print.faces[0]?.translations?.en?.typeLine}>
+          {card.print.faces[0]?.translations?.en?.typeLine}
+        </span>
       ),
       Rarity: <>{card.print.rarity}</>,
       Artist: <span title={card.print.artist ?? ''}>{card.print.artist}</span>,

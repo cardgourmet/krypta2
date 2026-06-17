@@ -10,7 +10,9 @@ import { ForwardDetailsSetting } from '@/parcels/settings/ForwardDetailsSetting/
 import { GoogleIntegrationSetting } from '@/parcels/settings/IntegrationSetting/GoogleIntegrationSetting.tsx';
 import { LanguageSetting } from '@/parcels/settings/LanguageSetting/LanguageSetting.tsx';
 import { PasswordSetting } from '@/parcels/settings/PasswordSetting/PasswordSetting.tsx';
+import { SyncLanguageSetting } from '@/parcels/settings/SyncLanguageSetting/SyncLanguageSetting.tsx';
 import { ThemeSetting } from '@/parcels/settings/ThemeSetting/ThemeSetting.tsx';
+import styles from './SettingsOverview.module.css';
 
 export function SettingsOverview() {
   const { t } = useTranslation('auth', { keyPrefix: 'settings' });
@@ -142,16 +144,29 @@ export function SettingsOverview() {
 
           <Group align={'start'}>
             <GroupSettingTitle
-              title={t('groups.language.notifications.title')}
-              description={t('groups.language.notifications.description')}
+              title={t('groups.language.global.title')}
+              description={t('groups.language.global.description')}
             />
 
             <LanguageSetting field={'global'} languages={['en', 'de']} />
           </Group>
 
+          <Group align={'start'}>
+            <GroupSettingTitle
+              title={t('groups.language.sync.title')}
+              description={t('groups.language.sync.description')}
+            />
+
+            <SyncLanguageSetting />
+          </Group>
+
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
-          <Group align={'start'}>
+          <Group
+            align={'start'}
+            data-disabled={user?.settings?.preferredLanguages?.syncLanguages === true}
+            className={styles.disableable}
+          >
             <GroupSettingTitle
               title={t('groups.language.mtg.title')}
               description={t('groups.language.mtg.description')}
@@ -162,7 +177,11 @@ export function SettingsOverview() {
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
-          <Group align={'start'}>
+          <Group
+            align={'start'}
+            data-disabled={user?.settings?.preferredLanguages?.syncLanguages === true}
+            className={styles.disableable}
+          >
             <GroupSettingTitle
               title={t('groups.language.pcg.title')}
               description={t('groups.language.pcg.description')}
@@ -173,7 +192,11 @@ export function SettingsOverview() {
 
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} variant={'dashed'} />
 
-          <Group align={'start'}>
+          <Group
+            align={'start'}
+            data-disabled={user?.settings?.preferredLanguages?.syncLanguages === true}
+            className={styles.disableable}
+          >
             <GroupSettingTitle
               title={t('groups.language.dlc.title')}
               description={t('groups.language.dlc.description')}

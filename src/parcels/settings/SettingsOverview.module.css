@@ -1,0 +1,14 @@
+.disableable {
+  position: relative;
+
+  &[data-disabled="true"]::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: color-mix(in srgb, var(--gourmet-neutral-0) 55%, transparent);
+  }
+}

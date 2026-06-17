@@ -6541,6 +6541,7 @@ export interface components {
       global?: components['schemas']['UserLanguage'];
       mtg?: components['schemas']['MtgLanguage'];
       pcg?: components['schemas']['PcgLanguage'];
+      syncLanguages?: boolean;
       ygo?: components['schemas']['YgoLanguage'];
     };
     PrivacySettings: {
