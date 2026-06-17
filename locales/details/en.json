@@ -69,5 +69,27 @@
   "rulings": {
     "title": "Notes and Rulings",
     "showAll": "Show all"
+  },
+  "languages": {
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish",
+    "it": "Italian",
+    "pt": "Portuguese",
+    "ja": "Japanese",
+    "jp": "Japanese",
+    "ru": "Russian",
+    "zhs": "Simplified Chinese",
+    "zht": "Traditional Chinese",
+    "ko": "Korean",
+    "la": "Latin",
+    "ph": "Phyrexian",
+    "sa": "Sanskrit",
+    "qy": "Quenya",
+    "cmn": "Mandarin",
+    "yue": "Cantonese",
+    "th": "Thai",
+    "id": "Indonesian"
   }
 }

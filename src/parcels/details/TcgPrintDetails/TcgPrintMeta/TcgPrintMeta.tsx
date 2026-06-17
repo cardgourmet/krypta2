@@ -35,7 +35,7 @@ export function TcgPrintMeta({
   card: TcgDataCard;
   set: TcgDataSet;
   lang: string;
-  setLang: (lang: string, _: string) => void;
+  setLang: (lang: string, printId: string) => void;
 }) {
   const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
@@ -68,22 +68,6 @@ function TcgPrintMetaRenderer({
 }) {
   const { t } = useTranslation('details');
 
-  const supportedLanguages: Record<string, string> = useMemo(() => {
-    return {
-      en: 'English',
-      de: 'German',
-      fr: 'French',
-      es: 'Spanish',
-      it: 'Italian',
-      pt: 'Portuguese',
-      ja: 'Japanese',
-      ru: 'Russian',
-      zhs: 'Simplified Chinese',
-      zht: 'Traditional Chinese',
-      ko: 'Korean',
-    };
-  }, []);
-
   const printFinishes = useMemo(() => {
     if (tcg === 'mtg') {
       return (card.print as MtgDataPrint).finishes;
@@ -92,27 +76,30 @@ function TcgPrintMetaRenderer({
   }, [card.print, tcg]);
 
   const { thisPrintLanguages, otherPrintLanguages } = useMemo(() => {
-    const printLanguages = getPrintLanguages(tcg, card.print);
+    const printLanguagesKey = getPrintLanguages(tcg, card.print);
 
-    const thisPrintLanguages = printLanguages.map((l) => {
-      return { label: supportedLanguages[l] ?? l, value: l };
+    const thisPrintLanguages = printLanguagesKey.map((l) => {
+      return { label: t(`languages.${l}`), value: l };
     });
     const otherPrintLanguages = card.allPrints
       .filter((p) => p.id !== card.print.id)
       .flatMap((p) => {
         return p.supportedLanguages.map((l) => ({ language: l, printId: p.id }));
       })
-      .filter((o) => !printLanguages.includes(o.language));
+      .filter((o) => !printLanguagesKey.includes(o.language));
     const otherPrintLanguagesUniq = [
       ...new Map(
         otherPrintLanguages.map((item) => {
           return [item.language, item];
         }),
       ).values(),
-    ].map((o) => ({ label: supportedLanguages[o.language] ?? o.language, value: o.language }));
+    ].map((o) => ({ label: t(`languages.${o.language}`), value: o.language }));
 
-    return { thisPrintLanguages, otherPrintLanguages: otherPrintLanguagesUniq };
-  }, [card, supportedLanguages, tcg]);
+    const sortedThis = sortByPresorted(thisPrintLanguages, (t) => t.value, languageSorting);
+    const sortedOther = sortByPresorted(otherPrintLanguagesUniq, (t) => t.value, languageSorting);
+
+    return { thisPrintLanguages: sortedThis, otherPrintLanguages: sortedOther };
+  }, [card, tcg, t]);
 
   const relatedQueries = useMemo(() => {
     const c = card as TcgDataCard;
@@ -334,11 +321,55 @@ function TcgPrintMetaRenderer({
 
 function getPrintLanguages(tcg: Tcg, print: TcgDataPrint): string[] {
   if (tcg === 'mtg') {
-    const allLangs = (print as MtgDataPrint).faces.flatMap((f) => {
+    return (print as MtgDataPrint).supportedLanguages;
+
+    /*const allLangs = (print as MtgDataPrint).faces.flatMap((f) => {
       return Object.keys(f.translations);
     });
-    return [...new Set(allLangs)];
+    return [...new Set(allLangs)];*/
   }
   const elsePrint = print as Exclude<TcgDataPrint, MtgDataPrint>;
   return [...new Set(Object.keys(elsePrint.translations))];
 }
+
+function sortByPresorted<V, T>(toSort: V[], toSortValue: (v: V) => T, presorted: T[]): V[] {
+  if (!toSort || toSort.length === 0) return [];
+
+  const toSortValues = toSort.map(toSortValue);
+
+  const sorted = [];
+  for (const t of presorted) {
+    const index = toSortValues.indexOf(t);
+    if (index < 0) continue;
+
+    const val = toSort[index];
+    sorted.push(val);
+  }
+  return sorted;
+}
+
+const languageSorting = [
+  'en',
+  'de',
+  'fr',
+  'it',
+  'es',
+  'pt',
+  'el',
+  'ar',
+  'zhs',
+  'zht',
+  'he',
+  'jp',
+  'ja',
+  'ko',
+  'la',
+  'ph',
+  'ru',
+  'sa',
+  'qy',
+  'cmn',
+  'yue',
+  'th',
+  'id',
+];

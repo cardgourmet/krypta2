@@ -69,5 +69,27 @@
   "rulings": {
     "title": "Notizen und Rulings",
     "showAll": "Alle anzeigen"
+  },
+  "languages": {
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "it": "Italienisch",
+    "pt": "Portugiesisch",
+    "ja": "Japanisch",
+    "jp": "Japanisch",
+    "ru": "Russisch",
+    "zhs": "Vereinfachtes Chinesisch",
+    "zht": "Traditionelles Chinesisch",
+    "ko": "Koreanisch",
+    "la": "Latein",
+    "ph": "Phyrexian",
+    "sa": "Sanskrit",
+    "qy": "Quenya",
+    "cmn": "Mandarin",
+    "yue": "Kantonesisch",
+    "th": "Thai",
+    "id": "Indonesisch"
   }
 }
