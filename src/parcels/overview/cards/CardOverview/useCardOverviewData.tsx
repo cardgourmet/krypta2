@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useEffectEvent, useState } from 'react';
 import type { GourmetError } from '@/parcels/api/handleApiCall.tsx';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import { fetchTcgCards } from '@/parcels/tcg/fetchTcgCards.tsx';
 import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
 import type {
@@ -13,15 +15,19 @@ import type {
 } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
+import { Route } from '@/routes/$tcg/sets/$setCode/$collectorNumber/{-$any}.tsx';
 
 function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDataSet | null) {
   const tcg = useTcgByLocation() as Tcg;
   const prevQuerySettings = usePrevious(querySettings);
 
+  const { user } = useAuth();
   const [cards, setCards] = useState<null | TcgSearchCardsResult>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isQueryLoading, setIsQueryLoading] = useState(true);
 
+  const setWasForwarded = useLocalUserStateStore((state) => state.setDetailsForwarded);
+  const navigate = Route.useNavigate();
   const history = useSearchHistory(tcg);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
     history?.addQuery(query);
@@ -29,6 +35,23 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   const onCardsCallback = useCallback(({ data, error }: { data?: TcgSearchCards; error?: GourmetError }) => {
     if (error !== undefined) {
+      return;
+    }
+
+    const onlyOneCard = data?.items?.length === 1;
+    if (onlyOneCard && user?.settings.search?.forwardToDetailPage) {
+      const card = data.items[0].card;
+      setWasForwarded();
+
+      navigate({
+        to: '/$tcg/sets/$setCode/$collectorNumber/{-$any}',
+        params: {
+          tcg: tcg,
+          setCode: card.print.setCode!,
+          collectorNumber: card.print.collectorNumber,
+        },
+        replace: true,
+      });
       return;
     }
 

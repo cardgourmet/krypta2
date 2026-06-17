@@ -1,18 +1,24 @@
 import { Button, Center, Group, Stack, UnstyledButton } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconX } from '@tabler/icons-react';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { updateUserSettings } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 
 export function ForwardedToDetailsBanner() {
+  const showBanner = useLocalUserStateStore((state) => state.showForwardBanner);
+  const setShowBanner = useLocalUserStateStore((state) => state.setShowForwardBanner);
   const wasForwarded = useLocalUserStateStore((state) => state.wasDetailsForwarded);
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
+  const smallScreen = useMediaQuery('(max-width: 800px)');
   return (
     <>
-      {wasForwarded && user?.settings?.search?.forwardToDetailPage && (
+      {showBanner && wasForwarded && user?.settings?.search?.forwardToDetailPage && (
         <Stack
-          w={'65%'}
+          w={smallScreen ? '100%' : '65%'}
           p={'1rem 1rem'}
           style={{
             backgroundColor: 'var(--gourmet-blue-1)',
@@ -43,8 +49,39 @@ export function ForwardedToDetailsBanner() {
           </Stack>
 
           <Group justify={'end'} gap={'0.5rem'}>
-            <Button color={'var(--gourmet-neutral-4)'}>Disable it</Button>
-            <Button color={'var(--gourmet-neutral-2)'}>Keep forwarding</Button>
+            <Button
+              color={'var(--gourmet-neutral-4)'}
+              onClick={() => {
+                setShowBanner(false);
+
+                requestAnimationFrame(async () => {
+                  const res = await updateUserSettings({
+                    ...user?.settings,
+                    search: {
+                      ...user?.settings?.search,
+                      forwardToDetailPage: false,
+                    },
+                  });
+
+                  if (res.error) {
+                    sendErrorNotification(res.error);
+                    return;
+                  }
+
+                  if (res.data) updateUser(res.data);
+                });
+              }}
+            >
+              Disable it
+            </Button>
+            <Button
+              color={'var(--gourmet-neutral-2)'}
+              onClick={() => {
+                setShowBanner(false);
+              }}
+            >
+              Keep forwarding
+            </Button>
           </Group>
         </Stack>
       )}

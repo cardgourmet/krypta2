@@ -11,6 +11,9 @@ export type LocalUserStateStore = {
   setEmailHasChanged: () => void;
   removeEmailWasChanged: () => void;
 
+  showForwardBanner?: boolean;
+  setShowForwardBanner: (b: boolean) => void;
+
   wasDetailsForwarded?: boolean;
   setDetailsForwarded: () => void;
   removeDetailsForwarded: () => void;
@@ -32,6 +35,11 @@ export const useLocalUserStateStore = create<LocalUserStateStore>()(
       },
       removeEmailWasChanged: () => {
         set({ emailWasChanged: undefined });
+      },
+
+      showForwardBanner: true,
+      setShowForwardBanner: (f) => {
+        set({ showForwardBanner: f });
       },
 
       wasDetailsForwarded: undefined,

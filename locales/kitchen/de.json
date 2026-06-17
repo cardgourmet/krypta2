@@ -148,9 +148,9 @@
         "checkboxLabel": "Genaue Übereinstimmung"
       },
       "keyword": {
-        "title": "Schlüsselwörter",
-        "description": "Schlüsselwörter einer Karte, die als Kürzel für teils komplexere Mechaniken dienen",
-        "placeholder": "Gib ein Schlüsselwort ein oder wähle eins"
+        "title": "Stichwörter",
+        "description": "Stichwörter einer Karte, die als Kürzel für teils komplexere Mechaniken dienen",
+        "placeholder": "Gib ein Stichwort ein oder wähle eins"
       },
       "cmc": {
         "title": "Manakosten",
