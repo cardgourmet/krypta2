@@ -6,8 +6,14 @@
   "close": "Close",
   "help": "Help",
   "startTyping": "Start typing to get suggestions for filters and values.",
-  "recent": "Recent",
-  "toHistory": "To Full History",
+  "saved": {
+    "recent": "Saved",
+    "toHistory": "To All Saved Searches"
+  },
+  "history": {
+    "recent": "Recent",
+    "toHistory": "To Full History"
+  },
   "searchPlaceholder": "Search for cards..",
   "glossary": {
     "title": "Filter Glossary",

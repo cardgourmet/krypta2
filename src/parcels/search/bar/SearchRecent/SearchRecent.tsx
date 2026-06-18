@@ -1,109 +1,76 @@
 import { ActionIcon, Group, Tooltip } from '@mantine/core';
-import { IconArrowRight, IconBook, IconBook2, IconClockHour8, IconDotsVertical } from '@tabler/icons-react';
+import { IconArrowRight, IconBook, IconBook2, IconDotsVertical } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { type Ref, type RefObject, useEffect, useMemo, useState } from 'react';
+import { type ReactElement, type Ref, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Button } from '@/parcels/generic/Button/Button';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import { getFocusableElements } from '@/parcels/search/getFocusableElements.ts';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { historyParamDefaults } from '@/routes/me/history';
 import styles from './SearchRecent.module.css';
 
-type SearchRecentItemProps = {
+type SearchSavedItemProps = {
   tcg: Tcg;
   close: () => void;
   setQuery: (query: string, isByUser?: boolean) => void;
-  historyIndex: number;
-  setHistoryIndex: (historyIndex: number) => void;
-  searchContainerRef: RefObject<HTMLDivElement | null>;
-  searchInputRef: RefObject<HTMLInputElement | null>;
+  selectedIndex: number;
 };
 
 export default function SearchRecent({
   submenuRef,
+  recentQueries,
+  tPrefix,
+  icon,
+  maxPerPage,
   tcg,
   close,
-  setQuery,
-  historyIndex,
-  setHistoryIndex,
-  searchContainerRef,
-  searchInputRef,
-}: { submenuRef?: Ref<HTMLDivElement> } & SearchRecentItemProps) {
-  const { t } = useTranslation('search');
-  const history = useSearchHistory(tcg);
-  const recentQueries = history.pastQueries ?? [];
+  selectedIndex,
+}: {
+  submenuRef?: Ref<HTMLDivElement>;
+  recentQueries: HistoryEntry[];
+  tPrefix?: string;
+  icon?: ReactElement;
+  maxPerPage?: number;
+} & SearchSavedItemProps) {
+  const { user } = useAuth();
+  const { t } = useTranslation('search', { keyPrefix: tPrefix });
+
   const navigate = useNavigate();
 
-  const { user } = useAuth();
-
-  const suggestions = useMemo(() => {
-    const suggs = [...recentQueries].reverse().slice(0, 5);
-    suggs.unshift({} as HistoryEntry);
-    return suggs;
-  }, [recentQueries]);
   const reversedRecentQueries = useMemo(() => {
-    return [...recentQueries].reverse().slice(0, 5);
-  }, [recentQueries]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    if (!searchContainerRef.current) return;
-    const focusableElements = getFocusableElements(searchContainerRef.current);
-
-    const handle = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        if (document.activeElement !== searchInputRef.current) return event.preventDefault();
-
-        const suggestions: (HTMLElement | null)[] = focusableElements.filter(
-          (el) => el?.parentElement instanceof HTMLLIElement,
-        );
-        suggestions.unshift(null);
-
-        if (suggestions.length === 0) return;
-        const arrowUp = event.key === 'ArrowUp';
-
-        let newIndex = arrowUp ? historyIndex - 1 : historyIndex + 1;
-        if (newIndex < 0) newIndex = suggestions.length - 1;
-        if (newIndex >= suggestions.length) newIndex = 0;
-        setHistoryIndex(newIndex);
-
-        return event.preventDefault();
-      }
-    };
-
-    document.addEventListener('keydown', handle);
-    return () => {
-      document.removeEventListener('keydown', handle);
-    };
-  }, [historyIndex]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    let currentSugg = { rawQuery: '' } as HistoryEntry;
-    if (historyIndex > 0) {
-      currentSugg = suggestions[historyIndex];
-    }
-    setQuery(currentSugg.rawQuery, false);
-  }, [historyIndex]);
+    return [...recentQueries].reverse().slice(0, maxPerPage ?? 5);
+  }, [recentQueries, maxPerPage]);
 
   return (
     <div className={styles.recent}>
-      <p style={{ textTransform: 'uppercase' }}>{t('recent')}</p>
+      <Group gap={'0.25rem'}>
+        {icon}
+        <GourmetText
+          cgmff={'ui'}
+          style={{ textTransform: 'uppercase' }}
+          fw={500}
+          fz={'0.8rem'}
+          m={0}
+          c={'var(--gourmet-blue-1)'}
+        >
+          {t('recent')}
+        </GourmetText>
+      </Group>
       <ul>
         {reversedRecentQueries.map((query, index) => (
           <li key={index}>
             <button
               type="button"
               tabIndex={0}
-              className={index + 1 === historyIndex ? styles.suggestionHighlighted : ''}
+              className={index === selectedIndex ? styles.suggestionHighlighted : ''}
               onClick={() => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
@@ -117,7 +84,6 @@ export default function SearchRecent({
               }}
             >
               <div className={styles.recentItemLeft}>
-                <IconClockHour8 size={20} color={'var(--gourmet-neutral-7)'} />
                 <Tooltip label={query.rawQuery} openDelay={500}>
                   <p data-extended={!user?.id}>{query.rawQuery}</p>
                 </Tooltip>

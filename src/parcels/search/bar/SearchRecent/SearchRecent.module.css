@@ -40,14 +40,6 @@
     }
   }
 
-  & > p {
-    margin: 0;
-
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--cgm-sidebar-button-bg);
-  }
-
   .recentItemLeft {
     display: flex;
     flex-direction: row;

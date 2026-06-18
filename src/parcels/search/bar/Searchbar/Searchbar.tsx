@@ -11,8 +11,7 @@ import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
 import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
+import { SearchRecentSuggestions } from '@/parcels/search/bar/SearchRecent/SearchRecentSuggestions.tsx';
 import { useClickOutsideWithRegistry } from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
 import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
@@ -44,10 +43,7 @@ export default function Searchbar({
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  const history = useSearchHistory(tcg);
-  const recentQueries = history?.pastQueries ?? [];
-
-  const [historyIndex, setHistoryIndex] = useState(0);
+  const [selectionIndex, setSelectionIndex] = useState(0);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const hasActiveSuggestion = suggestionIndex > 0;
 
@@ -109,7 +105,6 @@ export default function Searchbar({
     });
   });
 
-  // TODO: help
   const [helpOpened, setHelpOpened] = useState(false);
 
   return (
@@ -139,10 +134,10 @@ export default function Searchbar({
             onChange={(event) => {
               const newQuery = event.target.value;
               if (isCaptainOfTheShip && newQuery.length === 0) {
-                setHistoryIndex(0);
+                setSelectionIndex(0);
                 setCurrentQuery({ query: '', isByUser: false });
               } else if (!isCaptainOfTheShip && newQuery.length === 0) {
-                setHistoryIndex(0);
+                setSelectionIndex(0);
                 setCurrentQuery({ query: '', isByUser: false });
               } else if (!isCaptainOfTheShip && newQuery.length > 0) {
                 setSuggestionIndex(0);
@@ -197,21 +192,22 @@ export default function Searchbar({
             {omitHelp && <Space h={'0.25rem'} />}
 
             <div className={`${cssStyles.typingInfo} ${isCaptainOfTheShip ? cssStyles.hidden : ''}`}>
-              <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
+              <p>{t('startTyping')}</p>
             </div>
 
-            {!isCaptainOfTheShip && recentQueries.length > 0 && (
-              <SearchRecent
-                submenuRef={registerRef}
-                tcg={tcg}
-                close={() => {
-                  setIsOpened(false);
+            {!isCaptainOfTheShip && (
+              <SearchRecentSuggestions
+                setIsOpened={setIsOpened}
+                selectionIndex={selectionIndex}
+                setSelectionIndex={setSelectionIndex}
+                setQueryWrapper={setQueryWrapper}
+                maxEntries={{
+                  saved: 3,
+                  history: 5,
                 }}
-                setQuery={setQueryWrapper}
-                historyIndex={historyIndex}
-                setHistoryIndex={setHistoryIndex}
-                searchContainerRef={searchContainerRef}
+                registerRef={registerRef}
                 searchInputRef={searchInputRef}
+                searchContainerRef={searchContainerRef}
               />
             )}
 
