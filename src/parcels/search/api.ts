@@ -69,6 +69,7 @@ export async function fetchSavedSearches(
         query: {
           game: game,
           search: search,
+          sortBy: 'savedAt',
           sortOrder: sortOrder,
           pageSize: pageSize ?? 10_000,
         },
@@ -87,9 +88,9 @@ export async function saveSearches(
   game: Tcg,
   searchStatisticIds: string[],
   abort?: AbortController,
-): Promise<{ data?: UserResolvedSavedSearch[]; error?: Error }> {
-  try {
-    const res = await umoriClient.POST(`/v1/users/{id}/searches`, {
+): Promise<GourmetApiResponse<UserResolvedSavedSearch[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/users/{id}/searches`, {
       params: {
         query: {
           game: game,
@@ -103,25 +104,7 @@ export async function saveSearches(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/:id/searches
@@ -130,9 +113,9 @@ export async function deleteSavedSearches(
   game: Tcg,
   savedSearchesIds: string[],
   abort?: AbortController,
-): Promise<{ error?: Error }> {
-  try {
-    const res = await umoriClient.DELETE(`/v1/users/{id}/searches`, {
+): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.DELETE(`/v1/users/{id}/searches`, {
       params: {
         query: {
           game: game,
@@ -147,23 +130,5 @@ export async function deleteSavedSearches(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-
-    return {};
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }

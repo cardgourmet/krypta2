@@ -1,5 +1,5 @@
-import { Group, Space } from '@mantine/core';
-import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
+import { Group, ScrollArea, Space } from '@mantine/core';
+import { useDebouncedValue, useFocusTrap, useMediaQuery, useMergedRef } from '@mantine/hooks';
 import { IconBowlChopsticks, IconQuestionMark, IconX } from '@tabler/icons-react';
 import { Link, useLocation, useNavigate, useRouter } from '@tanstack/react-router';
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
@@ -107,6 +107,8 @@ export default function Searchbar({
 
   const [helpOpened, setHelpOpened] = useState(false);
 
+  const thinScreen = useMediaQuery('(max-height: 825px)');
+
   return (
     <>
       <NewHereModal opened={helpOpened} setOpened={setHelpOpened} />
@@ -195,38 +197,40 @@ export default function Searchbar({
               <p>{t('startTyping')}</p>
             </div>
 
-            {!isCaptainOfTheShip && (
-              <SearchRecentSuggestions
-                setIsOpened={setIsOpened}
-                selectionIndex={selectionIndex}
-                setSelectionIndex={setSelectionIndex}
-                setQueryWrapper={setQueryWrapper}
-                maxEntries={{
-                  saved: 3,
-                  history: 5,
-                }}
-                registerRef={registerRef}
-                searchInputRef={searchInputRef}
-                searchContainerRef={searchContainerRef}
-              />
-            )}
-
-            {isCaptainOfTheShip && currentQuery.query.length > 0 && (
-              <>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
-                </div>
-                <SearchCompletion
-                  tcg={tcg}
-                  currentQuery={currentQuery.query}
-                  suggestionIndex={suggestionIndex}
-                  setSuggestionIndex={setSuggestionIndex}
-                  isOpened={isOpened}
-                  setQuery={setQueryWrapper}
+            <ScrollArea.Autosize mah={thinScreen ? 300 : 500} scrollbarSize={4}>
+              {!isCaptainOfTheShip && (
+                <SearchRecentSuggestions
+                  setIsOpened={setIsOpened}
+                  selectionIndex={selectionIndex}
+                  setSelectionIndex={setSelectionIndex}
+                  setQueryWrapper={setQueryWrapper}
+                  maxEntries={{
+                    saved: 3,
+                    history: 5,
+                  }}
+                  registerRef={registerRef}
                   searchInputRef={searchInputRef}
+                  searchContainerRef={searchContainerRef}
                 />
-              </>
-            )}
+              )}
+
+              {isCaptainOfTheShip && currentQuery.query.length > 0 && (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
+                  </div>
+                  <SearchCompletion
+                    tcg={tcg}
+                    currentQuery={currentQuery.query}
+                    suggestionIndex={suggestionIndex}
+                    setSuggestionIndex={setSuggestionIndex}
+                    isOpened={isOpened}
+                    setQuery={setQueryWrapper}
+                    searchInputRef={searchInputRef}
+                  />
+                </>
+              )}
+            </ScrollArea.Autosize>
           </div>
 
           <SearchFooter />

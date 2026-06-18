@@ -3,14 +3,15 @@ import { IconArrowRight, IconBook, IconBook2, IconDotsVertical } from '@tabler/i
 import { Link, useNavigate } from '@tanstack/react-router';
 import { type ReactElement, type Ref, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Button } from '@/parcels/generic/Button/Button';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import { useUserRecentSavedSearches } from '@/parcels/search/useUserRecentSavedSearches.ts';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -33,12 +34,16 @@ export default function SearchRecent({
   tcg,
   close,
   selectedIndex,
+  reversed,
+  forwardLink,
 }: {
   submenuRef?: Ref<HTMLDivElement>;
   recentQueries: HistoryEntry[];
   tPrefix?: string;
   icon?: ReactElement;
   maxPerPage?: number;
+  reversed?: boolean;
+  forwardLink: string;
 } & SearchSavedItemProps) {
   const { user } = useAuth();
   const { t } = useTranslation('search', { keyPrefix: tPrefix });
@@ -46,8 +51,9 @@ export default function SearchRecent({
   const navigate = useNavigate();
 
   const reversedRecentQueries = useMemo(() => {
-    return [...recentQueries].reverse().slice(0, maxPerPage ?? 5);
-  }, [recentQueries, maxPerPage]);
+    if (reversed === true) return [...recentQueries].reverse().slice(0, maxPerPage ?? 5);
+    return [...recentQueries].slice(0, maxPerPage ?? 5);
+  }, [recentQueries, maxPerPage, reversed]);
 
   return (
     <div className={styles.recent}>
@@ -99,7 +105,7 @@ export default function SearchRecent({
       </ul>
       <div className={styles.moreRecents}>
         <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">
-          <Link to={'/me/history'} search={{ ...historyParamDefaults, tcg: tcg }}>
+          <Link to={forwardLink} search={{ ...historyParamDefaults, tcg: tcg }}>
             {t('toHistory')}
           </Link>
         </Button>
@@ -114,7 +120,9 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
   const history = useSearchHistory(tcg);
 
   const [menuOpened, setMenuOpened] = useState(false);
-  const noti = useGourmetNotification();
+
+  const addSavedSearch = useUserRecentSavedSearches((s) => s.addSavedSearch);
+  const removeSavedSearch = useUserRecentSavedSearches((s) => s.removeSavedSearch);
 
   return (
     <Group gap={'0.2rem'}>
@@ -125,23 +133,26 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
           if (query.saved) {
             deleteSavedSearches(user?.id, tcg, [query.saved]).then(({ error }) => {
               if (error) {
-                noti.show('Unknown error', `${error}`, 'error');
+                sendErrorNotification(error);
                 return;
               }
 
               // adjust local storage and remove all with that queryId
+              removeSavedSearch(tcg, query.saved!);
               history.markQueries(query.rawQuery as string, undefined);
             });
             return;
           }
 
           saveSearches(user?.id, tcg, [query.id as string]).then(({ data, error }) => {
-            if (error || !data?.length) {
-              noti.show('Unknown error', `${error}`, 'error');
+            if (error) {
+              sendErrorNotification(error);
               return;
             }
+            if (!data?.length) return;
 
             // adjust local storage and add all with that queryId
+            addSavedSearch(tcg, data[0]);
             history.markQueries(query.rawQuery as string, data[0].savedSearch.id);
           });
         }}

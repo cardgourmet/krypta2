@@ -52,7 +52,7 @@ export function SearchRecentSuggestions({
   }, [savedSearches, tcg]);
 
   const allSuggestions = useMemo(() => {
-    const saved = recentSavedSearches.reverse().slice(0, maxEntries.saved ?? 5);
+    const saved = recentSavedSearches.slice(0, maxEntries.saved ?? 5);
     const recent = recentQueries.reverse().slice(0, maxEntries.history ?? 5);
 
     const suggs = [...saved, ...recent];
@@ -126,8 +126,6 @@ export function SearchRecentSuggestions({
     };
   }, [maxEntries, recentQueries.length, recentSavedSearches.length, selectionIndex]);
 
-  console.log(selectionIndexes);
-
   return (
     <>
       {recentSavedSearches.length > 0 && (
@@ -143,6 +141,7 @@ export function SearchRecentSuggestions({
           }}
           setQuery={setQueryWrapper}
           selectedIndex={selectionIndexes.saved}
+          forwardLink={'/me/saved-searches'}
         />
       )}
 
@@ -159,6 +158,8 @@ export function SearchRecentSuggestions({
           }}
           setQuery={setQueryWrapper}
           selectedIndex={selectionIndexes.history}
+          reversed
+          forwardLink={'/me/history'}
         />
       )}
     </>

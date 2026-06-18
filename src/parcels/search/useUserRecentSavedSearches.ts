@@ -39,12 +39,12 @@ export const useUserRecentSavedSearches = create<{
 
     const index = currentSaved.findIndex((s) => s.savedSearch.id === id);
     if (index < 0) return;
+    currentSaved.splice(index, 1);
 
-    const newSaved = currentSaved.splice(index, 1);
     set({
       savedSearches: {
         ...get().savedSearches,
-        [tcg]: newSaved,
+        [tcg]: currentSaved,
       },
     });
   },

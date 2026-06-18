@@ -20,7 +20,7 @@
     "cols": {
       "query": "Query",
       "cards": "Cards",
-      "time": "Time",
+      "time": "Last Executed",
       "speed": "Speed",
       "saved": "Saved",
       "inList": "In List"
