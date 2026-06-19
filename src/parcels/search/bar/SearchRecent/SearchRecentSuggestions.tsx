@@ -4,6 +4,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
+import type { SearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useUserRecentSavedSearches } from '@/parcels/search/useUserRecentSavedSearches.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
@@ -20,10 +21,10 @@ export function SearchRecentSuggestions({
   setIsOpened: (setIsOpened: boolean) => void;
   selectionIndex: number;
   setSelectionIndex: (index: number) => void;
-  setQueryWrapper: (query: string, isByUser?: boolean) => void;
+  setQueryWrapper: (query: SearchQuery) => void;
   maxEntries: { history: number; saved: number };
 } & {
-  registerRef: (el: HTMLElement | null) => void;
+  registerRef?: (el: HTMLElement | null) => void;
   searchContainerRef: RefObject<HTMLDivElement | null>;
   searchInputRef: RefObject<HTMLInputElement | null>;
 }) {
@@ -94,7 +95,7 @@ export function SearchRecentSuggestions({
       // we are selecting entries from saved
       currentSugg = allSuggestions[selectionIndex];
     }
-    setQueryWrapper(currentSugg.rawQuery, false);
+    setQueryWrapper({ query: currentSugg.rawQuery, isByUser: false });
   }, [selectionIndex]);
   const selectionIndexes = useMemo(() => {
     const normalizedSelectionIndex = selectionIndex - 1;
@@ -139,7 +140,6 @@ export function SearchRecentSuggestions({
           close={() => {
             setIsOpened(false);
           }}
-          setQuery={setQueryWrapper}
           selectedIndex={selectionIndexes.saved}
           forwardLink={'/me/saved-searches'}
         />
@@ -156,7 +156,6 @@ export function SearchRecentSuggestions({
           close={() => {
             setIsOpened(false);
           }}
-          setQuery={setQueryWrapper}
           selectedIndex={selectionIndexes.history}
           reversed
           forwardLink={'/me/history'}

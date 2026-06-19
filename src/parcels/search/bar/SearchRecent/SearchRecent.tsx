@@ -21,7 +21,6 @@ import styles from './SearchRecent.module.css';
 type SearchSavedItemProps = {
   tcg: Tcg;
   close: () => void;
-  setQuery: (query: string, isByUser?: boolean) => void;
   selectedIndex: number;
 };
 
