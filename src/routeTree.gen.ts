@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TermsOfUseIndexRouteImport } from './routes/terms-of-use/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
+import { Route as PrivacyPolicyIndexRouteImport } from './routes/privacy-policy/index'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as ImprintIndexRouteImport } from './routes/imprint/index'
 import { Route as ForgotIndexRouteImport } from './routes/forgot/index'
+import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
@@ -34,9 +38,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsOfUseIndexRoute = TermsOfUseIndexRouteImport.update({
+  id: '/terms-of-use/',
+  path: '/terms-of-use/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterIndexRoute = RegisterIndexRouteImport.update({
   id: '/register/',
   path: '/register/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyIndexRoute = PrivacyPolicyIndexRouteImport.update({
+  id: '/privacy-policy/',
+  path: '/privacy-policy/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
@@ -49,9 +63,19 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImprintIndexRoute = ImprintIndexRouteImport.update({
+  id: '/imprint/',
+  path: '/imprint/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForgotIndexRoute = ForgotIndexRouteImport.update({
   id: '/forgot/',
   path: '/forgot/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutIndexRoute = AboutIndexRouteImport.update({
+  id: '/about/',
+  path: '/about/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TcgIndexRoute = TcgIndexRouteImport.update({
@@ -129,10 +153,14 @@ const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/about/': typeof AboutIndexRoute
   '/forgot/': typeof ForgotIndexRoute
+  '/imprint/': typeof ImprintIndexRoute
   '/login/': typeof LoginIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/privacy-policy/': typeof PrivacyPolicyIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/terms-of-use/': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
@@ -150,10 +178,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$tcg': typeof TcgIndexRoute
+  '/about': typeof AboutIndexRoute
   '/forgot': typeof ForgotIndexRoute
+  '/imprint': typeof ImprintIndexRoute
   '/login': typeof LoginIndexRoute
   '/playground': typeof PlaygroundIndexRoute
+  '/privacy-policy': typeof PrivacyPolicyIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/terms-of-use': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
@@ -172,10 +204,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/about/': typeof AboutIndexRoute
   '/forgot/': typeof ForgotIndexRoute
+  '/imprint/': typeof ImprintIndexRoute
   '/login/': typeof LoginIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/privacy-policy/': typeof PrivacyPolicyIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/terms-of-use/': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
@@ -195,10 +231,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$tcg/'
+    | '/about/'
     | '/forgot/'
+    | '/imprint/'
     | '/login/'
     | '/playground/'
+    | '/privacy-policy/'
     | '/register/'
+    | '/terms-of-use/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
@@ -216,10 +256,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$tcg'
+    | '/about'
     | '/forgot'
+    | '/imprint'
     | '/login'
     | '/playground'
+    | '/privacy-policy'
     | '/register'
+    | '/terms-of-use'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
@@ -237,10 +281,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$tcg/'
+    | '/about/'
     | '/forgot/'
+    | '/imprint/'
     | '/login/'
     | '/playground/'
+    | '/privacy-policy/'
     | '/register/'
+    | '/terms-of-use/'
     | '/$tcg/cards/$printId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
@@ -259,10 +307,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TcgIndexRoute: typeof TcgIndexRoute
+  AboutIndexRoute: typeof AboutIndexRoute
   ForgotIndexRoute: typeof ForgotIndexRoute
+  ImprintIndexRoute: typeof ImprintIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute
+  PrivacyPolicyIndexRoute: typeof PrivacyPolicyIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
+  TermsOfUseIndexRoute: typeof TermsOfUseIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   AuthEmailTokenRoute: typeof AuthEmailTokenRoute
@@ -287,11 +339,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms-of-use/': {
+      id: '/terms-of-use/'
+      path: '/terms-of-use'
+      fullPath: '/terms-of-use/'
+      preLoaderRoute: typeof TermsOfUseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register/': {
       id: '/register/'
       path: '/register'
       fullPath: '/register/'
       preLoaderRoute: typeof RegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy/': {
+      id: '/privacy-policy/'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy/'
+      preLoaderRoute: typeof PrivacyPolicyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playground/': {
@@ -308,11 +374,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/imprint/': {
+      id: '/imprint/'
+      path: '/imprint'
+      fullPath: '/imprint/'
+      preLoaderRoute: typeof ImprintIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/forgot/': {
       id: '/forgot/'
       path: '/forgot'
       fullPath: '/forgot/'
       preLoaderRoute: typeof ForgotIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/': {
+      id: '/about/'
+      path: '/about'
+      fullPath: '/about/'
+      preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/': {
@@ -419,10 +499,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TcgIndexRoute: TcgIndexRoute,
+  AboutIndexRoute: AboutIndexRoute,
   ForgotIndexRoute: ForgotIndexRoute,
+  ImprintIndexRoute: ImprintIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
+  PrivacyPolicyIndexRoute: PrivacyPolicyIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
+  TermsOfUseIndexRoute: TermsOfUseIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   AuthEmailTokenRoute: AuthEmailTokenRoute,

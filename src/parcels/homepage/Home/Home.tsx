@@ -93,7 +93,7 @@ export function Home() {
         </Center>
       )}
 
-      <SimpleGrid cols={smallScreen ? 1 : 3} mt={'1.5rem'}>
+      <SimpleGrid cols={smallScreen ? 1 : 3} mt={'2.5rem'}>
         <Stack>
           <GourmetText cgmff={'ui'} fz={'1.1rem'} fw={500}>
             {t('latest.posts.title')}
