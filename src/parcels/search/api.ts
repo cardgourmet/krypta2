@@ -1,10 +1,11 @@
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx'; // /v1/users/:id/searches/history
 import type {
   PagedUserSavedSearch,
   PagedUserSearchHistoryEntry,
   UserResolvedSavedSearch,
 } from '@/parcels/search/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/:id/searches/history
+import umoriClient from '@/schema/umoriClient.ts';
 
 // /v1/users/:id/searches/history
 export async function fetchSearchHistory(
@@ -59,16 +60,18 @@ export async function fetchSavedSearches(
   game?: Tcg,
   search?: string,
   sortOrder?: 'asc' | 'desc',
+  pageSize?: number,
   abort?: AbortController,
-): Promise<{ data?: PagedUserSavedSearch; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/users/{id}/searches`, {
+): Promise<GourmetApiResponse<PagedUserSavedSearch>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/users/{id}/searches`, {
       params: {
         query: {
           game: game,
           search: search,
+          sortBy: 'savedAt',
           sortOrder: sortOrder,
-          pageSize: 10_000,
+          pageSize: pageSize ?? 10_000,
         },
         path: {
           id: userId,
@@ -76,25 +79,7 @@ export async function fetchSavedSearches(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/:id/searches
@@ -103,9 +88,9 @@ export async function saveSearches(
   game: Tcg,
   searchStatisticIds: string[],
   abort?: AbortController,
-): Promise<{ data?: UserResolvedSavedSearch[]; error?: Error }> {
-  try {
-    const res = await umoriClient.POST(`/v1/users/{id}/searches`, {
+): Promise<GourmetApiResponse<UserResolvedSavedSearch[]>> {
+  return handleApiCall(async () => {
+    return await umoriClient.POST(`/v1/users/{id}/searches`, {
       params: {
         query: {
           game: game,
@@ -119,25 +104,7 @@ export async function saveSearches(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
 // /v1/users/:id/searches
@@ -146,9 +113,9 @@ export async function deleteSavedSearches(
   game: Tcg,
   savedSearchesIds: string[],
   abort?: AbortController,
-): Promise<{ error?: Error }> {
-  try {
-    const res = await umoriClient.DELETE(`/v1/users/{id}/searches`, {
+): Promise<GourmetApiResponse<void>> {
+  return handleApiCall(async () => {
+    return await umoriClient.DELETE(`/v1/users/{id}/searches`, {
       params: {
         query: {
           game: game,
@@ -163,23 +130,5 @@ export async function deleteSavedSearches(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-
-    return {};
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }

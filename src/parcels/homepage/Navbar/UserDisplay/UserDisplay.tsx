@@ -81,7 +81,7 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
               {user.state === 'unverified' && (
                 <div>
                   <GourmetText mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
-                    {t('not-verified')
+                    {t('notVerified')
                       .split('\n')
                       .map((item, key) => (
                         <span key={key}>
@@ -206,9 +206,9 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             p={'0.5rem'}
           >
             <Stack p={'0.25rem'} gap={'0.1rem'}>
-              <GourmetText cgmc={'neutral-9'}>{t('not-logged-in')}</GourmetText>
+              <GourmetText cgmc={'neutral-9'}>{t('notLoggedIn')}</GourmetText>
               <GourmetText fz={'0.9rem'} cgmc={'neutral-7'}>
-                {t('more-features')}
+                {t('moreFeatures')}
               </GourmetText>
             </Stack>
 

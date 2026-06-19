@@ -8,10 +8,9 @@ import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
+import { SearchRecentSuggestions } from '@/parcels/search/bar/SearchRecent/SearchRecentSuggestions.tsx';
 import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
-import { useSearchQueryV2 } from '@/parcels/search/useSearchQueryV2.ts';
+import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './MobileSearchbar.module.css';
 
@@ -25,17 +24,15 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
   const { tcg, setTcg } = useTcg();
   const {
     currentQuery,
-    setCurrentQuery,
+    setQueryString,
+    setQueryWrapper,
     inputRef,
-    historyIndex,
-    setHistoryIndex,
+    selectionIndex,
+    setSelectionIndex,
     suggestionIndex,
     setSuggestionIndex,
     startSearch,
-  } = useSearchQueryV2(true, tcg, close);
-
-  const history = useSearchHistory(tcg);
-  const recentQueries = history?.pastQueries ?? [];
+  } = useSearchQuery(true, tcg, close);
 
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
 
@@ -59,7 +56,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
             leftSection={<TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} />}
             onChange={(event) => {
               const newQuery = event.target.value;
-              setCurrentQuery(newQuery);
+              setQueryString(newQuery);
             }}
           />
           <Button onClick={close} classNames={{ root: styles.closeButton }}>
@@ -120,18 +117,21 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
               suggestionIndex={suggestionIndex}
               setSuggestionIndex={setSuggestionIndex}
               isOpened={true}
-              setQuery={setCurrentQuery}
+              setQuery={setQueryWrapper}
               searchInputRef={inputRef}
             />
           )}
 
-          {!currentQuery.isByUser && recentQueries.length > 0 && (
-            <SearchRecent
-              tcg={tcg}
-              close={close}
-              setQuery={setCurrentQuery}
-              historyIndex={historyIndex}
-              setHistoryIndex={setHistoryIndex}
+          {!currentQuery.isByUser && (
+            <SearchRecentSuggestions
+              setIsOpened={() => close()}
+              selectionIndex={selectionIndex}
+              setSelectionIndex={setSelectionIndex}
+              setQueryWrapper={setQueryWrapper}
+              maxEntries={{
+                history: 5,
+                saved: 3,
+              }}
               searchContainerRef={containerRef}
               searchInputRef={inputRef}
             />

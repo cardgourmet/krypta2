@@ -1,7 +1,16 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/glyphs.json';
 import { Button, type ButtonProps, Divider, Group, Stack, Text } from '@mantine/core';
-import { IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar, IconX } from '@tabler/icons-react';
+import {
+  IconBook2,
+  IconHistory,
+  IconList,
+  IconLogin,
+  IconLogout,
+  IconSettings,
+  IconStar,
+  IconX,
+} from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { forwardRef, type ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -78,7 +87,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
           {user.state === 'unverified' && (
             <div>
               <Text mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
-                {t('not-verified')
+                {t('notVerified')
                   .split('\n')
                   .map((item, key) => (
                     <span key={key}>
@@ -99,6 +108,16 @@ export function MobileUserMenu({ close }: { close: () => void }) {
               onClick={() => close()}
             />
           </Link>
+          <Link to={'/me/saved-searches'} search={{ ...historyParamDefaults, tcg: tcg }}>
+            <ItemButton
+              title={t('savedSearches')}
+              icon={<IconBook2 size={18} color={'var(--gourmet-neutral-8)'} />}
+              onClick={() => close()}
+            />
+          </Link>
+
+          <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
+
           <Link to={'/me/lists/$listId'} params={{ listId: 'favorites' }}>
             <ItemButton
               title={t('favorites')}

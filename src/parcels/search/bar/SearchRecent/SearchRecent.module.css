@@ -16,6 +16,7 @@
   li {
     display: flex;
     align-items: center;
+    position: relative;
 
     .suggestionHighlighted {
       background-color: var(--gourmet-neutral-dark-4);
@@ -38,14 +39,6 @@
         background-color: var(--gourmet-neutral-dark-4);
       }
     }
-  }
-
-  & > p {
-    margin: 0;
-
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--cgm-sidebar-button-bg);
   }
 
   .recentItemLeft {
@@ -85,7 +78,7 @@
     align-items: center;
 
     position: absolute;
-    right: 1.75rem;
+    right: 0.75rem;
 
     button {
       display: flex;

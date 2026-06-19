@@ -11,6 +11,7 @@ import {
 } from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
 import { useFilterCacheStore } from '@/parcels/search/filter/FilterCacheStore.tsx';
 import { useFilters } from '@/parcels/search/filter/useFilters.ts';
+import type { SearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
 
@@ -21,7 +22,7 @@ type SearchCompletionProps = {
   suggestionIndex: number;
   setSuggestionIndex: (index: number) => void;
   searchInputRef: RefObject<HTMLInputElement | null>;
-  setQuery: (query: string, isByUser: boolean) => void;
+  setQuery: (query: SearchQuery) => void;
 };
 
 export function SearchCompletion({
@@ -57,7 +58,7 @@ export function SearchCompletion({
         if (suggestionIndex === 0) return;
 
         const currentSugg = suggestions[suggestionIndex].fullQuery;
-        setQuery(currentSugg, true);
+        setQuery({ query: currentSugg, isByUser: true });
         setSuggestionIndex(0);
 
         return event.preventDefault();
@@ -100,7 +101,7 @@ export function SearchCompletion({
                 data-state={selected ? 'selected' : ''}
                 onClick={() => {
                   const currentSugg = sugg.fullQuery;
-                  setQuery(currentSugg, true);
+                  setQuery({ query: currentSugg, isByUser: true });
                   setSuggestionIndex(0);
 
                   searchInputRef.current?.focus();

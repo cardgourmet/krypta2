@@ -89,7 +89,7 @@ export const UserDisplayButton = forwardRef<HTMLButtonElement, { toggle: () => v
                   lh={'1.25'}
                   style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
                 >
-                  {t('not-logged-in-short')}
+                  {t('notLoggedInShort')}
                 </Text>
               </>
             )}
