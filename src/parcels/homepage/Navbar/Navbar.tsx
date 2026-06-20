@@ -1,9 +1,11 @@
-import { Drawer, Group } from '@mantine/core';
+import { Divider, Drawer, Group } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconMenu2, IconSearch, IconUser } from '@tabler/icons-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { EmailChangedBanner } from '@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx';
 import { LanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
 import { ThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
@@ -23,6 +25,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
+  const { t } = useTranslation('nav');
   const location = useLocation();
   const locationHref = location.href;
 
@@ -70,19 +73,61 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
           {emailWasChanged && <EmailChangedBanner />}
           {wasVerified && <VerifiedBanner />}
           {!wasVerified && user?.state === 'unverified' && <UnverifiedBanner user={user} />}
-          <nav className={styles.navbar}>
-            <div className={styles.navbarSearch}>
-              {locationHref !== '/' && (
+          <nav
+            className={styles.navbar}
+            style={{
+              gridTemplateColumns: locationHref !== '/' ? '1fr auto 1fr' : '1fr 1fr auto',
+            }}
+          >
+            {locationHref !== '/' && (
+              <div className={styles.navbarSearch}>
                 <Searchbar
                   inputStyles={{
                     minWidth: '32dvw',
                   }}
                 />
-              )}
-            </div>
+              </div>
+            )}
 
             <div className={styles.navbarRight}>
-              <Group gap={'0.25rem'}>
+              {locationHref === '/' && (
+                <>
+                  <Group gap={'1.5rem'} wrap={'nowrap'}>
+                    <Link to={'/about'} style={{ textDecoration: 'none' }} className={styles.iconButton}>
+                      <GourmetText style={{ textWrap: 'nowrap' }}>{t('about')}</GourmetText>
+                    </Link>
+                    <a
+                      href={'https://games.cardgourmet.com'}
+                      style={{ textDecoration: 'none' }}
+                      className={styles.iconButton}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <GourmetText>Games</GourmetText>
+                    </a>
+                    <a
+                      href={'https://discord.gg/5KQ6fh3nus'}
+                      style={{ textDecoration: 'none' }}
+                      className={styles.iconButton}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <GourmetText>Discord</GourmetText>
+                    </a>
+                    <a
+                      href={'https://github.com/cardgourmet'}
+                      style={{ textDecoration: 'none' }}
+                      className={styles.iconButton}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <GourmetText>Github</GourmetText>
+                    </a>
+                  </Group>
+                  <Divider orientation={'vertical'} color={'var(--gourmet-neutral-4)'} ml={'2rem'} mr={'1rem'} />
+                </>
+              )}
+              <Group gap={'0.25rem'} wrap={'nowrap'}>
                 <LanguageSelector />
                 <ThemeSelector />
               </Group>
