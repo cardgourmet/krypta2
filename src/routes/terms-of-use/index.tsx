@@ -9,6 +9,7 @@ export const Route = createFileRoute('/terms-of-use/')({
 function RouteComponent() {
   return (
     <div className={styles.body}>
+      <title>{`Terms of Use – Cardgourmet`}</title>
       <Markdown>
         {`# TERMS OF USE
 ### Last updated June 19, 2026

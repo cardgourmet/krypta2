@@ -9,6 +9,7 @@ export const Route = createFileRoute('/privacy-policy/')({
 function RouteComponent() {
   return (
     <div className={styles.body}>
+      <title>{`Privacy Policy – Cardgourmet`}</title>
       <Markdown>
         {`# PRIVACY POLICY
 

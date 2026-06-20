@@ -8,6 +8,8 @@ export const Route = createFileRoute('/imprint/')({
 function RouteComponent() {
   return (
     <div className={styles.body}>
+      <title>{`Imprint – Cardgourmet`}</title>
+
       <h1>Impressum</h1>
       <h2>Angaben gemäß §5 TMG</h2>
 
