@@ -1,4 +1,5 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
+import type { SearchQueryTrigger } from '@/parcels/overview/cards/types.ts';
 import type { DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy } from '@/parcels/tcg/dlc/types.ts';
 import type {
   SearchQueryExecutorFilterValues,
@@ -53,6 +54,7 @@ export async function fetchDlcSetSummary(
   mode?: DlcUniqueBy,
   sortBy?: DlcSortBy,
   sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<DlcDataSetSummary>> {
   return handleApiCall(async () => {
@@ -63,6 +65,7 @@ export async function fetchDlcSetSummary(
           mode: `unique:${mode}`,
           sortBy: sortBy,
           sortDirection: sortDirection,
+          trigger: trigger,
         },
         path: {
           setId: setId,
@@ -132,6 +135,7 @@ export async function fetchDlcPrint(
   }
 }
 
+// /v1/dlc/cards/search
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,
   abort?: AbortController,

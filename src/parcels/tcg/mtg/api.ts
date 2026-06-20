@@ -1,4 +1,5 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
+import type { SearchQueryTrigger } from '@/parcels/overview/cards/types.ts';
 import type { MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy } from '@/parcels/tcg/mtg/types.ts';
 import type {
   SearchQueryExecutorFilterValues,
@@ -54,6 +55,7 @@ export async function fetchMtgSetSummary(
   mode?: MtgUniqueBy,
   sortBy?: MtgSortBy,
   sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<MtgDataSetSummary>> {
   return handleApiCall(async () => {
@@ -64,6 +66,7 @@ export async function fetchMtgSetSummary(
           mode: `unique:${mode}`,
           sortBy: sortBy,
           sortDirection: sortDirection,
+          trigger: trigger,
         },
         path: {
           setId: setId,

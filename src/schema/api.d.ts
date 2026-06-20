@@ -1185,6 +1185,8 @@ export interface paths {
           retries?: string;
           /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
           validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -1299,6 +1301,8 @@ export interface paths {
           flags?: string;
           /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
           retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -2191,6 +2195,8 @@ export interface paths {
           retries?: string;
           /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
           validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -2305,6 +2311,8 @@ export interface paths {
           flags?: string;
           /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
           retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -2975,6 +2983,8 @@ export interface paths {
           retries?: string;
           /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
           validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -3089,6 +3099,8 @@ export interface paths {
           flags?: string;
           /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
           retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -7980,6 +7992,8 @@ export interface components {
     };
     /** @enum {string} */
     AuthType: 'internal' | 'anonymous' | 'user' | 'token';
+    /** @enum {string} */
+    SearchQueryTrigger: 'search' | 'system' | 'unknown';
     UserSavedSearch: {
       game: components['schemas']['GameType'];
       /** Format: uuid */
@@ -8016,6 +8030,7 @@ export interface components {
       sortDirection: components['schemas']['Order'];
       sortMode: string;
       strippedQuery: string;
+      trigger?: components['schemas']['SearchQueryTrigger'] | null;
       userAgent?: string | null;
     };
     UserSearchHistoryEntry: {

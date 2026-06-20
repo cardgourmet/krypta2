@@ -4,6 +4,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
+import { useLocalUserTransientStore } from '@/parcels/state/LocalUserTransientStore.tsx';
 import { fetchTcgCards } from '@/parcels/tcg/fetchTcgCards.tsx';
 import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
 import type {
@@ -26,11 +27,20 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   const [isLoading, setIsLoading] = useState(true);
   const [isQueryLoading, setIsQueryLoading] = useState(true);
 
+  // true if the user manually send a query (needed for search history)
+  const manualQuery = useLocalUserTransientStore((state) => state.manualQuery);
+  const setManualQuery = useLocalUserTransientStore((state) => state.setManualQuery);
+
   const setWasForwarded = useLocalUserStateStore((state) => state.setDetailsForwarded);
   const navigate = Route.useNavigate();
   const history = useSearchHistory(tcg);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
-    history?.addQuery(query);
+    // only add to local history, when the search has been done manually
+    if (manualQuery) {
+      history?.addQuery(query);
+    }
+
+    setManualQuery(false);
   });
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   const onCardsCallback = useCallback(({ data, error }: { data?: TcgSearchCards; error?: GourmetError }) => {
@@ -91,6 +101,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
       setIsQueryLoading(true);
     }
     setIsLoading(true);
+    if (manualQuery) querySettings.trigger = 'search';
 
     const controller = new AbortController();
     if (set) {

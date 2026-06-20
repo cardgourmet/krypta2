@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useLocalUserTransientStore } from '@/parcels/state/LocalUserTransientStore.tsx';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -24,8 +25,11 @@ export function useSearchQuery(triggerEnabled: boolean, tcg: Tcg, close: () => v
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const navigate = useNavigate();
 
+  const setManualQuery = useLocalUserTransientStore((state) => state.setManualQuery);
+
   const startSearch = useCallback(() => {
     close();
+    setManualQuery(true);
 
     // noinspection JSIgnoredPromiseFromCall
     navigate({
@@ -37,12 +41,7 @@ export function useSearchQuery(triggerEnabled: boolean, tcg: Tcg, close: () => v
         return { ...prev, query: currentQuery.query, page: 1 } as Required<TcgSearchParams>;
       },
     });
-  }, [
-    close,
-    tcg,
-    currentQuery.query, // noinspection JSIgnoredPromiseFromCall
-    navigate,
-  ]);
+  }, [close, tcg, currentQuery.query, navigate, setManualQuery]);
 
   const setQueryWrapper = useCallback(
     ({ query, isByUser }: SearchQuery) => {
