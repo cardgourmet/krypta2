@@ -15,6 +15,7 @@ export function ListDetailsCardGrid({
   cardResources,
   setCardResources,
   listWithResources,
+  suggestAddCard,
 }: {
   list: UserList;
   sortedCardResoures: {
@@ -24,6 +25,7 @@ export function ListDetailsCardGrid({
   cardResources: ResolvedUserListResource[];
   setCardResources: (cardResources: ResolvedUserListResource[]) => void;
   listWithResources: UserListWithResources;
+  suggestAddCard?: boolean;
 }) {
   const { t } = useTranslation('lists');
   const search = Route.useSearch();
@@ -68,6 +70,7 @@ export function ListDetailsCardGrid({
             />
           );
         })}
+        {suggestAddCard && <div style={{ border: '1px solid gray' }}>Add card</div>}
       </SimpleGrid>
     </Stack>
   );
