@@ -32,6 +32,8 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   const setManualQuery = useLocalUserTransientStore((state) => state.setManualQuery);
 
   const setWasForwarded = useLocalUserStateStore((state) => state.setDetailsForwarded);
+  const removeDetailsForwarded = useLocalUserStateStore((state) => state.removeDetailsForwarded);
+
   const navigate = Route.useNavigate();
   const history = useSearchHistory(tcg);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
@@ -64,6 +66,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
       });
       return;
     }
+    removeDetailsForwarded();
 
     // write to history
     const explainedQuery = data?.details as ExplainSearchQuery | undefined;
