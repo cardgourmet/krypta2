@@ -18,6 +18,7 @@
   "glossary": {
     "title": "Filter Glossary",
     "clickForDetails": "Click on a filter to get more details",
+    "explanation": "See which filters you can use in our search",
     "goBack": "Go back",
     "noFilters": "No filters found.",
     "strict": "STRICT",
