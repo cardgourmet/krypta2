@@ -31,7 +31,7 @@ export function Footer() {
         Cardgourmet is not produced by, endorsed by, supported by, or affiliated with Disney or Ravensburger.
       </GourmetText>
 
-      <hr />
+      <div style={{ borderTop: '1px solid var(--gourmet-neutral-3)', margin: '0.25rem 0' }}></div>
 
       <Group justify={'space-between'}>
         <Stack gap={'0.25rem'}>
