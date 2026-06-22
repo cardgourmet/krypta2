@@ -7,6 +7,7 @@ import { ToolsOverlay } from '@/parcels/overview/cards/CardGrid/ToolsOverlay/Too
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
 import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './CardGridEntry.module.css';
@@ -52,6 +53,26 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
     );
   }, [card, openCardMenu, isCardMenuOpen]);
 
+  // currently only scryfall is supported
+  const dragData: { url: string; name: string; html: string } | undefined = useMemo(() => {
+    if (tcg !== 'mtg') return undefined;
+
+    const mtgCard = card as MtgSearchDataCard;
+    const scryfallId = mtgCard.card.print.identifiers?.scryfallId;
+    if (!scryfallId) return undefined;
+
+    const dragData = {
+      url: `https://cards.scryfall.io/large/front/${scryfallId[0]}/${scryfallId[1]}/${scryfallId}.jpg?1764118239`,
+      name: `${mtgCard.card.name} (${mtgCard.card.print.setCode} #${mtgCard.card.print.collectorNumber})`,
+    };
+
+    return {
+      url: dragData.url,
+      name: dragData.name,
+      html: `<img class="card dft border-black " title="${dragData.name}" alt="${dragData.name}" loading="eager" src="${dragData.url}">`,
+    };
+  }, [card, tcg]);
+
   return (
     <ImageCard
       tcg={tcg}
@@ -74,6 +95,13 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
       }}
       style={{
         zIndex: isSelected ? 1 : 0,
+      }}
+      onDragStart={(event) => {
+        if (!dragData) return;
+
+        event.dataTransfer.setData('text/plain', dragData.url);
+        event.dataTransfer.setData('text/uri-list', dragData.url);
+        event.dataTransfer.setData('text/html', dragData.html);
       }}
     >
       {isTouchDevice && (

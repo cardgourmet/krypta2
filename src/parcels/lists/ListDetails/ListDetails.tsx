@@ -3,6 +3,7 @@ import { IconSearch } from '@tabler/icons-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { type DroppedData, Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
@@ -11,6 +12,7 @@ import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSett
 import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Route } from '@/routes/me/lists/$listId.tsx';
 
 export function ListDetails() {
@@ -89,9 +91,26 @@ export function ListDetails() {
     });
   }, [cardResources, search.order, search.sort]);
 
+  const [isDraggedOver, setDraggedOver] = useState<boolean>(false);
+
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <title>{`${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${t('details.pageTitle')} – Cardgourmet`}</title>
+      <Dropzone
+        onEnter={() => {
+          setDraggedOver(true);
+        }}
+        onLeave={() => {
+          setDraggedOver(false);
+        }}
+        onDrop={(data) => {
+          console.log(data);
+          setDraggedOver(false);
+
+          const id = extractScryfallInfo(tcg, data);
+          console.log('found scryfall id', id);
+        }}
+      />
 
       {listRes.error !== undefined && <GourmetText>{listRes.error.key}</GourmetText>}
 
@@ -152,6 +171,7 @@ export function ListDetails() {
               cardResources={cardResources}
               setCardResources={setCardResources}
               listWithResources={listWithResources}
+              suggestAddCard={isDraggedOver}
             />
           )}
         </Stack>
@@ -159,3 +179,31 @@ export function ListDetails() {
     </div>
   );
 }
+
+function extractScryfallInfo(tcg: Tcg, data: DroppedData): string | undefined {
+  if (tcg !== 'mtg') return undefined;
+
+  const id = extractIdJustLikeMoxfieldDoes(data.html, data.uriList);
+  return id ?? undefined;
+}
+
+// Previously we had a custom extracting function, but as soon as we saw how Moxfield does it
+// we knew: We had to do it that way as well. The variable names are kept original.
+const extractIdJustLikeMoxfieldDoes = (t: string, o: string) => {
+  let n = null;
+
+  const r = new RegExp(/src="(.*?)"/gi).exec(t);
+
+  n = null == r ? void 0 : r[1];
+  const l = n !== null ? n : o;
+  if (l === null || l === undefined) return null;
+  if (l.length <= 0) return null;
+
+  const s = new RegExp(/\/([^/]*?)\.(jpg|png)\?/gi).exec(l);
+  const c = s === null ? undefined : s[1];
+  /*const d = new RegExp(/https:\/\/scryfall.com\/card\/(.+)\/(.+)\/.*!/gi).exec(l);
+  const u = d === null ? undefined : d[1];
+  const m = d === null ? undefined : d[2];*/
+
+  return c;
+};
