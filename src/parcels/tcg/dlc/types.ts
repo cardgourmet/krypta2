@@ -18,6 +18,7 @@ export const dlcSearchParamsDefaults = {
   display: 'grid' as DisplayMode,
   uniqueBy: 'cards' as DlcUniqueBy,
   sortBy: 'name' as DlcSortBy,
+  random: false,
 };
 
 export type DlcSearchParams = CardSearchParams & {
