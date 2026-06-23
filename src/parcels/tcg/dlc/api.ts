@@ -163,6 +163,34 @@ export async function fetchDlcCards(
   });
 }
 
+// /v1/dlc/cards/random
+export async function fetchRandomDlcCards(
+  settings: DlcSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<DlcSearchCards>> {
+  const query: DlcCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/dlc/cards/search/filters
 export async function fetchDlcFilters(
   abort?: AbortController,

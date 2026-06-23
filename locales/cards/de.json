@@ -6,6 +6,9 @@
     "database": "Kartendatenbank",
     "sets": "Sets"
   },
+  "explanation": {
+    "of": "von"
+  },
   "dlc": {
     "common": {
       "sortby": "Sortieren nach",

@@ -120,6 +120,7 @@ export const tcgSearchParamsDefaults = {
   display: 'grid' as DisplayMode,
   uniqueBy: 'cards' as TcgUniqueBy,
   sortBy: 'name' as TcgSortBy,
+  random: false,
 };
 
 export const tcgSortBys = [...dlcSortBys, ...mtgSortBys, ...pcgSortBys] as const;
@@ -140,6 +141,7 @@ export const tcgSearchParamsSchema = z.object({
   display: z.enum(displayModes).catch(tcgSearchParamsDefaults.display),
   uniqueBy: z.enum(tcgUniqueBys).catch(tcgSearchParamsDefaults.uniqueBy),
   sortBy: z.enum(tcgSortBys).catch(tcgSearchParamsDefaults.sortBy),
+  random: z.boolean().catch(tcgSearchParamsDefaults.random),
 });
 
 export const tcgSetGroupBys = ['year', 'era', 'none'] as const;

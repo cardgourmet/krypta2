@@ -9,6 +9,7 @@ export type CardSearchParams = {
   sortDirection?: SortDirection;
   display?: DisplayMode;
   trigger?: SearchQueryTrigger;
+  random?: boolean;
 };
 
 export type CardSearchQuerySettings<T extends CardSearchParams> = Required<Omit<T, 'display'>>;

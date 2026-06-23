@@ -6,6 +6,9 @@
     "database": "Card Database",
     "sets": "Sets"
   },
+  "explanation": {
+    "of": "of"
+  },
   "table": {
     "cols": {
       "Set": "Set",

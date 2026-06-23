@@ -179,6 +179,34 @@ export async function fetchPcgCards(
   });
 }
 
+// /v1/pcg/cards/random
+export async function fetchRandomPcgCards(
+  settings: PcgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<PcgSearchCards>> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/pcg/cards/search/filters
 export async function fetchPcgFilters(
   abort?: AbortController,

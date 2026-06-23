@@ -38,41 +38,45 @@ export function DesktopOverviewSettings({
   return (
     <Group justify={'space-between'}>
       <Group gap={'1rem'}>
-        <Group gap={'0.25rem'}>
-          <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
-            {t('common.sortby')}
-          </GourmetText>
-          <TextDropdown
-            items={items.sortBy}
-            t={t}
-            transPrefix={'sortby'}
-            defaultSelected={settings.sortBy}
-            onSelect={(sel) => {
-              setSettings({ ...settings, sortBy: sel as TcgSortBy });
+        {!settings.random && (
+          <Group gap={'0.25rem'}>
+            <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
+              {t('common.sortby')}
+            </GourmetText>
+            <TextDropdown
+              disabled={settings.random}
+              items={items.sortBy}
+              t={t}
+              transPrefix={'sortby'}
+              defaultSelected={settings.sortBy}
+              onSelect={(sel) => {
+                setSettings({ ...settings, sortBy: sel as TcgSortBy });
 
-              startTransition(() => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortBy: sel as TcgSortBy };
+                startTransition(() => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, sortBy: sel as TcgSortBy };
+                  });
                 });
-              });
-            }}
-          />
-          <TextDropdown
-            items={items.sortDir}
-            t={t}
-            transPrefix={'sortdir'}
-            defaultSelected={settings.sortDirection}
-            onSelect={(sel) => {
-              setSettings({ ...settings, sortDirection: sel as SortDirection });
+              }}
+            />
+            <TextDropdown
+              disabled={settings.random}
+              items={items.sortDir}
+              t={t}
+              transPrefix={'sortdir'}
+              defaultSelected={settings.sortDirection}
+              onSelect={(sel) => {
+                setSettings({ ...settings, sortDirection: sel as SortDirection });
 
-              startTransition(() => {
-                setSettingsWrapper((prev) => {
-                  return { ...prev, sortDirection: sel as SortDirection };
+                startTransition(() => {
+                  setSettingsWrapper((prev) => {
+                    return { ...prev, sortDirection: sel as SortDirection };
+                  });
                 });
-              });
-            }}
-          />
-        </Group>
+              }}
+            />
+          </Group>
+        )}
         <Group gap={'0.25rem'}>
           <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
             {t('common.show')}
