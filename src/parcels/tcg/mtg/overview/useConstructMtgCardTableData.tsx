@@ -1,4 +1,4 @@
-import { Group } from '@mantine/core';
+import { Group, Tooltip } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import { type ReactElement, useCallback, useMemo } from 'react';
 import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
@@ -12,8 +12,16 @@ import type { TcgCardTableData } from '@/parcels/tcg/types.ts';
 export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
   const constructMtgTableData = useCallback((card: MtgDataCard) => {
     return {
-      Set: <GourmetText cgmc={'neutral-9'}>{card.print.setCode}</GourmetText>,
-      Number: <GourmetText cgmc={'neutral-9'}>{card.print.collectorNumber}</GourmetText>,
+      Set: (
+        <Tooltip label={card.print.setCode} openDelay={500}>
+          <GourmetText cgmc={'neutral-9'}>{card.print.setCode}</GourmetText>
+        </Tooltip>
+      ),
+      Number: (
+        <Tooltip label={card.print.collectorNumber} openDelay={500}>
+          <GourmetText cgmc={'neutral-9'}>{card.print.collectorNumber}</GourmetText>
+        </Tooltip>
+      ),
       Name: (
         <CursorImageHover images={getImagesByTcgCard('mtg', card)}>
           <Link

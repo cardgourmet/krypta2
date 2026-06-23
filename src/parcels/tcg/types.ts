@@ -97,6 +97,7 @@ export type TcgCardQuery = {
   forbiddenFilters?: string;
   allowedValueTypes?: string;
   retries?: string;
+  trigger?: 'search' | 'system' | 'unknown';
 };
 
 export const filterOperatorsRegex = '[=:><]';

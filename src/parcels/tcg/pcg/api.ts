@@ -163,6 +163,7 @@ export async function fetchPcgCards(
     pageSize: pageSize ?? 60,
     mode: `unique:${settings.uniqueBy}`,
     sortBy: settings.sortBy,
+    trigger: settings.trigger,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;

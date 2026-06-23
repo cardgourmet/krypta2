@@ -33,6 +33,7 @@ export const Route = createFileRoute('/$tcg/cards/')({
         tcg: params.tcg,
         setCode: setRes.data.set.code!,
       },
+      replace: true,
     });
   },
   shouldReload: false, // only reload when `loaderDeps` change (i.e., the query)

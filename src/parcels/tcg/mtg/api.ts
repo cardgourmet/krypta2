@@ -148,6 +148,7 @@ export async function fetchMtgCards(
     pageSize: pageSize ?? 60,
     sortBy: settings.sortBy,
     mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;
