@@ -1,6 +1,12 @@
-import { Group, ScrollArea, Space } from '@mantine/core';
+import { Center, Group, ScrollArea, Space, UnstyledButton } from '@mantine/core';
 import { useDebouncedValue, useFocusTrap, useMediaQuery, useMergedRef } from '@mantine/hooks';
-import { IconBowlChopsticks, IconQuestionMark, IconX } from '@tabler/icons-react';
+import {
+  IconArrowBigRightFilled,
+  IconArrowsShuffle,
+  IconBowlChopsticks,
+  IconQuestionMark,
+  IconX,
+} from '@tabler/icons-react';
 import { Link, useRouter } from '@tanstack/react-router';
 import { type CSSProperties, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +45,7 @@ export default function Searchbar({
 
   const [isOpened, setIsOpened] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
+  const [doRandomize, setDoRandomize] = useState(false);
 
   const {
     currentQuery,
@@ -49,7 +56,8 @@ export default function Searchbar({
     setSelectionIndex,
     suggestionIndex,
     setSuggestionIndex,
-  } = useSearchQuery(isOpened, tcg, () => setIsOpened(false));
+    startSearch,
+  } = useSearchQuery(isOpened, tcg, () => setIsOpened(false), doRandomize);
 
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
@@ -101,16 +109,39 @@ export default function Searchbar({
             data-autofocus
             style={inputStyles}
           />
-          <button
-            className={`${cssStyles.deleteSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
-            type={'button'}
-            onClick={() => {
-              setQueryWrapper({ query: '', isByUser: false });
-              inputRef.current?.focus();
-            }}
-          >
-            <IconX size={omitHelp ? 18 : 16} color={'var(--gourmet-neutral-8)'} />
-          </button>
+          <Group className={cssStyles.rightSide} gap={'0.25rem'}>
+            <button
+              className={`${cssStyles.deleteSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
+              type={'button'}
+              title={'Clear search'}
+              onClick={() => {
+                setQueryWrapper({ query: '', isByUser: false });
+                inputRef.current?.focus();
+              }}
+            >
+              <Center>
+                <IconX
+                  size={omitHelp ? 18 : 16}
+                  color={isOpened ? 'var(--gourmet-neutral-7)' : 'var(--gourmet-neutral-5)'}
+                />
+              </Center>
+            </button>
+            <button
+              className={`${cssStyles.sendItSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
+              type={'button'}
+              title={'Send it'}
+              onClick={() => {
+                startSearch();
+              }}
+            >
+              <Center>
+                <IconArrowBigRightFilled
+                  size={omitHelp ? 18 : 16}
+                  color={isOpened ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-5)'}
+                />
+              </Center>
+            </button>
+          </Group>
         </div>
 
         {!omitHelp && (
@@ -121,24 +152,49 @@ export default function Searchbar({
 
         <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
           <div className={cssStyles.content}>
-            {!omitHelp && (
-              <Group justify={'end'} align={'center'}>
-                <FilterGlossary ref={registerRef} />
+            <Group justify={'space-between'} align={'center'}>
+              <UnstyledButton
+                className={cssStyles.randomizeButton}
+                onClick={() => {
+                  setDoRandomize(!doRandomize);
+                }}
+                data-selected={doRandomize}
+              >
+                <Group gap={'0.25rem'}>
+                  <IconArrowsShuffle
+                    size={16}
+                    color={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
+                  />
+                  <GourmetText
+                    cgmff={'ui'}
+                    fz={'0.875rem'}
+                    c={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
+                    fw={doRandomize ? 500 : undefined}
+                  >
+                    Randomize
+                  </GourmetText>
+                </Group>
+              </UnstyledButton>
 
-                <Link
-                  to={`/$tcg/kitchen`}
-                  params={{ tcg: tcg }}
-                  style={{ textDecoration: 'none', marginRight: omitHelp ? '0' : '3rem' }}
-                >
-                  <Group gap={'0.15rem'}>
-                    <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
-                    <GourmetText cgmff={'ui'} fz={'0.875rem'} c={'var(--cgm-sidebar-button-bg)'}>
-                      {t('kitchen')}
-                    </GourmetText>
-                  </Group>
-                </Link>
-              </Group>
-            )}
+              {!omitHelp && (
+                <Group justify={'end'} align={'center'}>
+                  <FilterGlossary ref={registerRef} />
+
+                  <Link
+                    to={`/$tcg/kitchen`}
+                    params={{ tcg: tcg }}
+                    style={{ textDecoration: 'none', marginRight: omitHelp ? '0' : '3rem' }}
+                  >
+                    <Group gap={'0.15rem'}>
+                      <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
+                      <GourmetText cgmff={'ui'} fz={'0.875rem'} c={'var(--cgm-sidebar-button-bg)'}>
+                        {t('kitchen')}
+                      </GourmetText>
+                    </Group>
+                  </Link>
+                </Group>
+              )}
+            </Group>
 
             {omitHelp && <Space h={'0.25rem'} />}
 

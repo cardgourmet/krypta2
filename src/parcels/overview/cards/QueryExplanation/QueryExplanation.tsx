@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Skeleton from 'react-loading-skeleton';
 import { calculateCardRange } from '@/parcels/overview/cards/calculateCardRange.ts';
 import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
@@ -12,6 +13,8 @@ type QueryExplanationProps = {
 };
 
 export function QueryExplanation({ isLoading, currentPage, pageSize, cardCount, explanation }: QueryExplanationProps) {
+  const { t } = useTranslation('cards', { keyPrefix: 'explanation' });
+
   return (
     <div className={styles.queryExplanation}>
       {isLoading && (
@@ -22,7 +25,7 @@ export function QueryExplanation({ isLoading, currentPage, pageSize, cardCount, 
       {!isLoading && (
         <p>
           {calculateCardRange(currentPage, Number(pageSize)).from}–
-          {calculateCardRange(currentPage, Number(pageSize), cardCount).to} von{' '}
+          {calculateCardRange(currentPage, Number(pageSize), cardCount).to} {t('of')}{' '}
           <span
             // biome-ignore lint/security/noDangerouslySetInnerHtml: _
             dangerouslySetInnerHTML={{

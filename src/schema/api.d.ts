@@ -1934,6 +1934,8 @@ export interface paths {
           sortDirection?: 'asc' | 'desc';
           /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
           lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path: {
@@ -2870,6 +2872,8 @@ export interface paths {
           sortDirection?: 'asc' | 'desc';
           /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
           lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path: {
@@ -3669,6 +3673,8 @@ export interface paths {
           sortDirection?: 'asc' | 'desc';
           /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
           lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path: {

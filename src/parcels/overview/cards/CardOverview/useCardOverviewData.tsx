@@ -32,6 +32,8 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   const setManualQuery = useLocalUserTransientStore((state) => state.setManualQuery);
 
   const setWasForwarded = useLocalUserStateStore((state) => state.setDetailsForwarded);
+  const removeDetailsForwarded = useLocalUserStateStore((state) => state.removeDetailsForwarded);
+
   const navigate = Route.useNavigate();
   const history = useSearchHistory(tcg);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
@@ -64,6 +66,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
       });
       return;
     }
+    removeDetailsForwarded();
 
     // write to history
     const explainedQuery = data?.details as ExplainSearchQuery | undefined;
@@ -95,32 +98,40 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     [onCardsCallback],
   );
 
+  // TODO: make callback for refetch and return that
+  const fetchCards = useCallback(
+    (controller?: AbortController) => {
+      if (querySettings.query !== prevQuerySettings?.query) {
+        setIsQueryLoading(true);
+      }
+      setIsLoading(true);
+      if (manualQuery) querySettings.trigger = 'search';
+
+      if (set) {
+        const setQuerySettings = {
+          ...querySettings,
+          query: `set="${set.code}"`,
+        };
+
+        fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller)?.then(onSetCardsCallback);
+      } else {
+        fetchTcgCards(tcg, querySettings, controller)?.then(onCardsCallback);
+      }
+    },
+    [querySettings, tcg, set, manualQuery, onCardsCallback, onSetCardsCallback, prevQuerySettings?.query],
+  );
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
-    if (querySettings.query !== prevQuerySettings?.query) {
-      setIsQueryLoading(true);
-    }
-    setIsLoading(true);
-    if (manualQuery) querySettings.trigger = 'search';
-
     const controller = new AbortController();
-    if (set) {
-      const setQuerySettings = {
-        ...querySettings,
-        query: `set="${set.code}"`,
-      };
-
-      fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller)?.then(onSetCardsCallback);
-    } else {
-      fetchTcgCards(tcg, querySettings, controller)?.then(onCardsCallback);
-    }
+    fetchCards(controller);
 
     return () => {
       controller.abort();
     };
   }, [querySettings, tcg, set]);
 
-  return { cards, isLoading, isQueryLoading };
+  return { cards, isLoading, isQueryLoading, fetchCards };
 }
 
 export default useCardOverviewData;

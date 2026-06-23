@@ -143,7 +143,8 @@ export function FilterGlossaryModal({
 
         {(!smallestScreen || !showDetails) && (
           <Stack w={'100%'}>
-            <Group justify={'end'} w={'100%'}>
+            <Group justify={'space-between'} w={'100%'}>
+              <GourmetText cgmff={'ui'}>{t('explanation')}</GourmetText>
               <SimpleSearchbar
                 onChange={(q) => {
                   setGlossarySearch(q);

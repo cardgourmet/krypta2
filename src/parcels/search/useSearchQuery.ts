@@ -17,7 +17,12 @@ export type SearchQueryController = {
   startSearch: () => void;
 };
 
-export function useSearchQuery(triggerEnabled: boolean, tcg: Tcg, close: () => void): SearchQueryController {
+export function useSearchQuery(
+  triggerEnabled: boolean,
+  tcg: Tcg,
+  close: () => void,
+  randomize?: boolean,
+): SearchQueryController {
   const [currentQuery, setCurrentQuery] = useState<SearchQuery>({ query: '', isByUser: false });
   const isCaptain = currentQuery.isByUser;
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -38,10 +43,10 @@ export function useSearchQuery(triggerEnabled: boolean, tcg: Tcg, close: () => v
         tcg: tcg,
       },
       search: (prev) => {
-        return { ...prev, query: currentQuery.query, page: 1 } as Required<TcgSearchParams>;
+        return { ...prev, query: currentQuery.query, page: 1, random: randomize } as Required<TcgSearchParams>;
       },
     });
-  }, [close, tcg, currentQuery.query, navigate, setManualQuery]);
+  }, [close, tcg, currentQuery.query, navigate, setManualQuery, randomize]);
 
   const setQueryWrapper = useCallback(
     ({ query, isByUser }: SearchQuery) => {

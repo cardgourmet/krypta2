@@ -82,29 +82,31 @@ export function TcgPrintContent({ tcg, card }: { tcg: Tcg; card: TcgDataCard }) 
         })}
       </SimpleGrid>
 
-      <Stack p={'0 0.5rem'}>
-        <Group gap={'0.25rem'}>
-          <UnstyledButton className={styles.mechanicButton}>
-            <Center>
-              <IconCarFanFilled size={20} color={'var(--gourmet-purple-1)'} />
-            </Center>
-          </UnstyledButton>
+      {mechanicTags.length > 0 && (
+        <Stack p={'0 0.5rem'}>
+          <Group gap={'0.25rem'}>
+            <UnstyledButton className={styles.mechanicButton}>
+              <Center>
+                <IconCarFanFilled size={20} color={'var(--gourmet-purple-1)'} />
+              </Center>
+            </UnstyledButton>
 
-          {mechanicTags.map((m) => {
-            return (
-              <UnstyledButton key={m} className={styles.mechanicPill}>
-                <Center>
-                  <Pill>
-                    <GourmetText cgmff={'ui'} fz={'0.9rem'}>
-                      {m}
-                    </GourmetText>
-                  </Pill>
-                </Center>
-              </UnstyledButton>
-            );
-          })}
-        </Group>
-      </Stack>
+            {mechanicTags.map((m) => {
+              return (
+                <UnstyledButton key={m} className={styles.mechanicPill}>
+                  <Center>
+                    <Pill>
+                      <GourmetText cgmff={'ui'} fz={'0.9rem'}>
+                        {m}
+                      </GourmetText>
+                    </Pill>
+                  </Center>
+                </UnstyledButton>
+              );
+            })}
+          </Group>
+        </Stack>
+      )}
     </Stack>
   );
 }

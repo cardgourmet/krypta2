@@ -10,5 +10,9 @@
 .languageIcon {
   &:hover {
     border: 2px solid var(--gourmet-blue-1) !important;
+
+    svg {
+      filter: grayscale(0) !important;
+    }
   }
 }

@@ -1,6 +1,6 @@
-import { Accordion, Divider, Flex, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { Accordion, Divider, Flex, Group, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconAlertCircleFilled, IconClock } from '@tabler/icons-react';
+import { IconAlertCircleFilled, IconArrowsShuffle, IconClock } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -52,7 +52,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   const { user } = useAuth();
 
   const { params, querySettings, displaySettings } = useTcgSearchSettings(routeSearch);
-  const { cards, isLoading, isQueryLoading } = useCardOverviewData(querySettings, set);
+  const { cards, isLoading, isQueryLoading, fetchCards } = useCardOverviewData(querySettings, set);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
@@ -103,6 +103,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   );
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
+  const isRandomized = querySettings.random;
 
   return (
     <div ref={scrollbackRef}>
@@ -121,7 +122,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         {component}
 
         <OverviewHeader title={title?.label}>
-          {set === undefined && (
+          {set === undefined && !isRandomized && (
             <Pagination
               currentPage={cards?.data?.currentPage}
               lastPage={cards?.data?.pageCount}
@@ -131,6 +132,28 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           )}
         </OverviewHeader>
         {set && <SetBanner className={styles.setBanner} set={set} tcg={tcg} />}
+        {isRandomized && (
+          <Stack style={{ margin: '0.25rem 0' }}>
+            <Group
+              style={{ borderRadius: '0.25rem', backgroundColor: 'var(--gourmet-purple-1)', padding: '0.25rem 0.5rem' }}
+              gap={'0.5rem'}
+            >
+              <IconArrowsShuffle size={18} color={'var(--gourmet-neutral-1)'} />
+              <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'}>
+                The search result has been randomized. Sorting and pagination is disabled.
+              </GourmetText>
+              <UnstyledButton
+                onClick={() => {
+                  fetchCards();
+                }}
+              >
+                <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'} fw={500}>
+                  Repeat this search
+                </GourmetText>
+              </UnstyledButton>
+            </Group>
+          </Stack>
+        )}
 
         <CardOverviewSettings
           tcg={tcg}
@@ -164,7 +187,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <TcgCardMenu tcg={tcg} />
         </div>
 
-        {set === undefined && (
+        {set === undefined && !isRandomized && (
           <Pagination
             currentPage={cards?.data?.currentPage}
             lastPage={cards?.data?.pageCount}

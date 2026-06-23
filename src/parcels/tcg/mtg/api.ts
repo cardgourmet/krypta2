@@ -148,6 +148,7 @@ export async function fetchMtgCards(
     pageSize: pageSize ?? 60,
     sortBy: settings.sortBy,
     mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;
@@ -155,6 +156,34 @@ export async function fetchMtgCards(
 
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/cards/search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/mtg/cards/random
+export async function fetchRandomMtgCards(
+  settings: MtgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<MtgSearchCards>> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/random`, {
       params: {
         query: query,
       },

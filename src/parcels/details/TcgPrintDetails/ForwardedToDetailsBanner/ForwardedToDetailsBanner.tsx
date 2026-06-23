@@ -33,6 +33,9 @@ export function ForwardedToDetailsBanner() {
               right: '0.5rem',
               top: '0.5rem',
             }}
+            onClick={() => {
+              setShowBanner(false);
+            }}
           >
             <Center>
               <IconX size={18} color={'var(--gourmet-neutral-1)'} />

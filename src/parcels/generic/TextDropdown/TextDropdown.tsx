@@ -17,6 +17,7 @@ export type TextDropdownProps = {
   miw?: StyleProp<Property.MinWidth<string | number> | undefined>;
   color?: 'blue' | 'grey';
   trim?: boolean;
+  disabled?: boolean;
 };
 
 export function TextDropdown({
@@ -28,6 +29,7 @@ export function TextDropdown({
   miw,
   color,
   trim,
+  disabled,
 }: TextDropdownProps) {
   const combobox = useCombobox();
   const [selectedValue, setSelectedValue] = useState<string | undefined>(defaultSelected);
@@ -62,6 +64,7 @@ export function TextDropdown({
         if (onSelect) onSelect(val);
       }}
       position={'bottom-start'}
+      disabled={disabled}
     >
       <Combobox.Target>
         <UnstyledButton
@@ -70,6 +73,8 @@ export function TextDropdown({
             else combobox.openDropdown();
           }}
           classNames={{ root: styles.dropdownTextButton }}
+          data-disabled={disabled}
+          disabled={disabled}
           style={{
             '--color': (color ?? 'blue') === 'blue' ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-6)',
           }}
@@ -77,13 +82,25 @@ export function TextDropdown({
           <Group gap={'0.25rem'} pl={trim === true ? undefined : '0.25rem'}>
             <GourmetText
               cgmff="ui"
-              c={(color ?? 'blue') === 'blue' ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-6)'}
+              c={
+                disabled
+                  ? 'var(--gourmet-neutral-5)'
+                  : (color ?? 'blue') === 'blue'
+                    ? 'var(--gourmet-blue-1)'
+                    : 'var(--gourmet-neutral-6)'
+              }
             >
               {t(`${transPrefix ? `${transPrefix}.` : ''}${selectedValue}`)}
             </GourmetText>
             <IconCaretDownFilled
               size={14}
-              color={(color ?? 'blue') === 'blue' ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-6)'}
+              color={
+                disabled
+                  ? 'var(--gourmet-neutral-5)'
+                  : (color ?? 'blue') === 'blue'
+                    ? 'var(--gourmet-blue-1)'
+                    : 'var(--gourmet-neutral-6)'
+              }
             />
           </Group>
         </UnstyledButton>
