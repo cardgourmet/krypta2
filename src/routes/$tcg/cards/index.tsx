@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, redirect, stripSearchParams } from '@tanstack/react-router';
 import { CardOverview } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
-import { getSetSpecificQuery } from '@/parcels/overview/cards/getSetSpecificQuery.ts';
+import { queryContainsSetFilter } from '@/parcels/overview/cards/queryContainsSetFilter.ts';
 import { fetchSetByQuery } from '@/parcels/tcg/fetchSetByQuery.ts';
 import { tcgSearchParamsDefaults, tcgSearchParamsSchema } from '@/parcels/tcg/types.ts';
 import { tcgSetParamsDefaults } from '@/routes/$tcg/sets/$setCode';
@@ -15,7 +15,7 @@ export const Route = createFileRoute('/$tcg/cards/')({
     if (!allowed.includes(params.tcg)) throw notFound({ data: { tcg: params.tcg } });
   },
   loader: async ({ deps, params }) => {
-    const setFilter = getSetSpecificQuery(deps.query);
+    const setFilter = queryContainsSetFilter(deps.query);
     if (!setFilter) return null;
 
     const { tcg } = params;
