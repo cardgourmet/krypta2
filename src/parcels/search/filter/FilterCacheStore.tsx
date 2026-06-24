@@ -30,14 +30,11 @@ export const useFilterCacheStore = create<FilterCacheStore>((set, get) => ({
     pcg: {},
     dlc: {},
   },
-  findValues: (tcg: Tcg, keyword: string, operator?: string): SearchQueryExecutorFilterValue[] | undefined => {
+  findValues: (tcg: Tcg, keyword: string, _?: string): SearchQueryExecutorFilterValue[] | undefined => {
     const possibleValues = get().valuesByKeyword[tcg]?.[keyword];
     if (possibleValues === undefined) return undefined;
 
-    return possibleValues.filter((v) => {
-      if (!operator || !v.resolvesToOperator) return true;
-      return operator === v.resolvesToOperator;
-    });
+    return possibleValues;
   },
   findOrFetchValues: async (
     tcg: Tcg,

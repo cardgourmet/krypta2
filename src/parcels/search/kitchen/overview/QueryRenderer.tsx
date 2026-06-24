@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
+import { SearchQueryExplanation } from '@/parcels/search/completion/SearchQueryExplanation.tsx';
 import type { TcgKitchenFormData } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
 import { useKitchenFilterStore } from '@/parcels/search/kitchen/useKitchenFilterStore.ts';
 import { useStartSearch } from '@/parcels/search/startSearch.ts';

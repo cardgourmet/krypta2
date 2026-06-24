@@ -1,5 +1,6 @@
 import { quickScore } from 'quick-score';
 import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
+import type { SearchSuggestion } from '@/parcels/search/completion/transformCompletions.ts';
 import type { FilterValuesByKeyword } from '@/parcels/search/filter/FilterCacheStore.tsx';
 import { levenshtein } from '@/parcels/search/levenshtein.ts';
 import type { DlcSearchFilter } from '@/parcels/tcg/dlc/api.ts';
@@ -30,7 +31,7 @@ export type GeneratedSearchCompletion = {
 };
 
 export type SearchCompletionState = {
-  mode: 'filter' | 'value' | 'none' | 'invalid';
+  mode: 'filter' | 'operator' | 'value' | 'none' | 'invalid';
   userInput?: {
     filter?: string;
     operator?: string;
@@ -52,6 +53,7 @@ export async function generateCompletions(
   filters: TransSearchQueryExecutorFilter[],
   max: number = 5,
   findOrFetchValues: FindOrFetchFn,
+  acceptedSuggestion?: SearchSuggestion,
 ): Promise<SearchCompletionState> {
   if (currentQuery.length === 0) return { mode: 'filter', completions: [] }; // mode: filter
   if (currentQuery.trim().length === 0) return { mode: 'filter', completions: [] }; // mode: filter
@@ -97,6 +99,10 @@ export async function generateCompletions(
   const matches = Array.from(currentPart.matchAll(QUERY_REGEX));
   if (matches.length > 1) return { mode: 'invalid', completions: [] };
   if (matches.length === 0) {
+    if (acceptedSuggestion) {
+      return generateFilterOperatorCompletions(filters, acceptedSuggestion, currentPart);
+    }
+
     return generateFilterCompletions(currentPart, filters, max);
   }
   const [_, filter, operator, value] = matches[0];
@@ -172,6 +178,41 @@ async function generateFilterValueCompletions(
       value: currentValue,
     },
     completions: matches,
+  };
+}
+
+function generateFilterOperatorCompletions(
+  filters: TransSearchQueryExecutorFilter[],
+  acceptedSuggestion: SearchSuggestion,
+  currentPart: string,
+): SearchCompletionState {
+  const currentFilter = filters.find(({ filter }) => {
+    return filter.keywords.includes(acceptedSuggestion.completion?.value ?? '');
+  });
+  if (!currentFilter) return { mode: 'operator', completions: [] };
+
+  const allOperators = [...new Set(currentFilter.filter.properties.flatMap((p) => p.operators))];
+  const operatorToProperties: Record<string, typeof currentFilter.filter.properties> = allOperators.reduce(
+    (acc, operator) => {
+      acc[operator] = currentFilter.filter.properties.filter((p) => p.operators.includes(operator));
+      return acc;
+    },
+    {} as Record<string, typeof currentFilter.filter.properties>,
+  );
+
+  const completions = allOperators.map(
+    (o) =>
+      ({
+        value: o,
+        types: operatorToProperties[o]?.map((p) => p.key),
+      }) as GeneratedSearchCompletion,
+  );
+  return {
+    mode: 'operator',
+    completions: completions,
+    userInput: {
+      filter: currentPart,
+    },
   };
 }
 

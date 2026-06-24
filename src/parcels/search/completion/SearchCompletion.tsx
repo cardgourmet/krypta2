@@ -1,16 +1,8 @@
 import { Group, Highlight } from '@mantine/core';
-import { Fragment, type RefObject, useCallback, useEffect, useState } from 'react';
+import { Fragment, type RefObject, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  type GeneratedSearchCompletion,
-  generateCompletions,
-} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
-import {
-  type SearchSuggestion,
-  transformCompletions,
-} from '@/parcels/search/bar/SearchCompletion/transformCompletions.ts';
-import { useFilterCacheStore } from '@/parcels/search/filter/FilterCacheStore.tsx';
-import { useFilters } from '@/parcels/search/filter/useFilters.ts';
+import type { GeneratedSearchCompletion } from '@/parcels/search/completion/generateCompletions.ts';
+import { useSearchCompletions } from '@/parcels/search/completion/useSearchCompletions.tsx';
 import type { SearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './SearchCompletion.module.css';
@@ -30,14 +22,12 @@ export function SearchCompletion({
   currentQuery,
   suggestionIndex,
   setSuggestionIndex,
-  isOpened,
   searchInputRef,
   setQuery,
 }: SearchCompletionProps) {
   const { t } = useTranslation('search');
 
-  const filters = useFilters(tcg);
-  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const { suggestions, acceptSuggestion } = useSearchCompletions(tcg, currentQuery);
 
   const handleKeydown = useCallback(
     (event: KeyboardEvent) => {
@@ -57,14 +47,14 @@ export function SearchCompletion({
       if (event.key === 'Enter') {
         if (suggestionIndex === 0) return;
 
-        const currentSugg = suggestions[suggestionIndex].fullQuery;
+        const currentSugg = acceptSuggestion(suggestions[suggestionIndex]);
         setQuery({ query: currentSugg, isByUser: true });
         setSuggestionIndex(0);
 
         return event.preventDefault();
       }
     },
-    [suggestionIndex, setSuggestionIndex, searchInputRef.current, setQuery, suggestions],
+    [suggestionIndex, setSuggestionIndex, searchInputRef.current, setQuery, suggestions, acceptSuggestion],
   );
   useEffect(() => {
     document.addEventListener('keydown', handleKeydown);
@@ -72,17 +62,6 @@ export function SearchCompletion({
       document.removeEventListener('keydown', handleKeydown);
     };
   }, [handleKeydown]);
-
-  const findOrFetchValues = useFilterCacheStore((state) => state.findOrFetchValues);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: _
-  useEffect(() => {
-    if (!isOpened) return;
-
-    generateCompletions(tcg, currentQuery, filters, 5, findOrFetchValues).then((state) => {
-      const suggestions = transformCompletions(currentQuery, state);
-      setSuggestions([{ fullQuery: currentQuery }, ...suggestions]);
-    });
-  }, [tcg, currentQuery, isOpened, findOrFetchValues]);
 
   return (
     <div className={styles.main}>
@@ -100,7 +79,8 @@ export function SearchCompletion({
                 key={`${completion.value}_${completion.type}`}
                 data-state={selected ? 'selected' : ''}
                 onClick={() => {
-                  const currentSugg = sugg.fullQuery;
+                  const currentSugg = acceptSuggestion(sugg);
+
                   setQuery({ query: currentSugg, isByUser: true });
                   setSuggestionIndex(0);
 

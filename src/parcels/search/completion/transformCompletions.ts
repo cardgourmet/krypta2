@@ -2,7 +2,7 @@ import { groupBy } from '@/parcels/groupBy.ts';
 import type {
   GeneratedSearchCompletion,
   SearchCompletionState,
-} from '@/parcels/search/bar/SearchCompletion/generateCompletions.ts';
+} from '@/parcels/search/completion/generateCompletions.ts';
 
 export type SearchSuggestion = {
   completion?: GeneratedSearchCompletion;
@@ -13,7 +13,7 @@ export type SearchSuggestion = {
 export function transformCompletions(currentQuery: string, state: SearchCompletionState) {
   const groupedCompletions = groupBy(state.completions, (c) => c.value ?? '');
   const completions = Object.entries(groupedCompletions).map(([_, arr]) => {
-    const types = arr.map((c) => c.type ?? '') ?? [];
+    const types = arr.flatMap((c) => [c.type ?? '', ...(c.types ?? [])]) ?? [];
 
     return { ...arr[0], types: types };
   });
@@ -37,6 +37,11 @@ export function transformCompletions(currentQuery: string, state: SearchCompleti
         fullQuery: replaceLast(currentQuery, state.userInput?.filter as string, compl.value),
         userInput: state.userInput?.filter,
       } as SearchSuggestion;
+    } else if (state.mode === 'operator') {
+      return {
+        completion: compl,
+        fullQuery: currentQuery + compl.value,
+      };
     }
     return {
       completion: compl,
