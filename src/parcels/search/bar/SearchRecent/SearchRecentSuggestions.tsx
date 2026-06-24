@@ -54,7 +54,7 @@ export function SearchRecentSuggestions({
 
   const allSuggestions = useMemo(() => {
     const saved = recentSavedSearches.slice(0, maxEntries.saved ?? 5);
-    const recent = recentQueries.reverse().slice(0, maxEntries.history ?? 5);
+    const recent = [...recentQueries].reverse().slice(0, maxEntries.history ?? 5);
 
     const suggs = [...saved, ...recent];
     suggs.unshift({} as HistoryEntry);
