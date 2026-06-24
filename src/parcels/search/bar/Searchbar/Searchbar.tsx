@@ -152,7 +152,7 @@ export default function Searchbar({
 
         <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
           <div className={cssStyles.content}>
-            <Group justify={'space-between'} align={'center'}>
+            <Group justify={'space-between'} align={'center'} mt={omitHelp ? '0.2rem' : undefined}>
               <UnstyledButton
                 className={cssStyles.randomizeButton}
                 onClick={() => {
@@ -162,12 +162,12 @@ export default function Searchbar({
               >
                 <Group gap={'0.25rem'}>
                   <IconArrowsShuffle
-                    size={16}
+                    size={omitHelp ? 18 : 16}
                     color={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
                   />
                   <GourmetText
                     cgmff={'ui'}
-                    fz={'0.875rem'}
+                    fz={omitHelp ? '1rem' : '0.875rem'}
                     c={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
                     fw={doRandomize ? 500 : undefined}
                   >

@@ -171,6 +171,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           pageSize={set === undefined ? 60 : (cards?.data?.details?.count ?? 0)}
           cardCount={cards?.data?.details?.count ?? 0}
           explanation={cards?.data.details?.explanation ?? ''}
+          randomized={isRandomized}
         />
         <QueryIgnoredDisplay queryDetails={cards?.data?.details} />
 
