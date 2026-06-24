@@ -67,7 +67,7 @@ export function Home() {
               modalStyles={{
                 '--shift-top': '4rem',
               }}
-              omitHelp
+              heroSize
               iconSize={22}
               caretIconSize={16}
             />

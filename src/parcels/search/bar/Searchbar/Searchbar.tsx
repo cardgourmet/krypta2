@@ -12,6 +12,7 @@ import { type CSSProperties, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
+import { useNavbarStore } from '@/parcels/homepage/Navbar/Navbar.tsx';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
 import { SearchRecentSuggestions } from '@/parcels/search/bar/SearchRecent/SearchRecentSuggestions.tsx';
@@ -28,7 +29,7 @@ export default function Searchbar({
   inputWrapperStyles,
   inputStyles,
   modalStyles,
-  omitHelp,
+  heroSize,
   iconSize,
   caretIconSize,
 }: {
@@ -36,7 +37,7 @@ export default function Searchbar({
   inputWrapperStyles?: CSSProperties;
   inputStyles?: CSSProperties;
   modalStyles?: CSSProperties;
-  omitHelp?: boolean;
+  heroSize?: boolean;
   iconSize?: number;
   caretIconSize?: number;
 }) {
@@ -76,7 +77,10 @@ export default function Searchbar({
 
   const [helpOpened, setHelpOpened] = useState(false);
 
+  const smallScreen = useMediaQuery('(max-width: 800px)');
   const thinScreen = useMediaQuery('(max-height: 825px)');
+
+  const { mobileSearchOpen, setMobileSearchOpen } = useNavbarStore();
 
   return (
     <>
@@ -89,7 +93,7 @@ export default function Searchbar({
           <div
             className={cssStyles.searchIcon}
             style={{
-              '--height': omitHelp ? '2.25rem' : '1.75rem',
+              '--height': heroSize ? '2.25rem' : '1.75rem',
             }}
           >
             <TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} iconSize={iconSize} iconCaretSize={caretIconSize} />
@@ -100,8 +104,28 @@ export default function Searchbar({
             ref={inputRef}
             value={currentQuery.query}
             placeholder={t('searchPlaceholder')}
-            onFocus={() => setIsOpened(true)}
-            onClick={() => setIsOpened(true)}
+            onFocus={() => {
+              if (heroSize && smallScreen && !mobileSearchOpen) {
+                setMobileSearchOpen(true);
+                setIsOpened(false);
+                inputRef.current?.blur();
+                return;
+              }
+              if (mobileSearchOpen) return;
+
+              setIsOpened(true);
+            }}
+            onClick={() => {
+              if (heroSize && smallScreen && !mobileSearchOpen) {
+                setMobileSearchOpen(true);
+                setIsOpened(false);
+                inputRef.current?.blur();
+                return;
+              }
+              if (mobileSearchOpen) return;
+
+              setIsOpened(true);
+            }}
             onChange={(event) => {
               const newQuery = event.target.value;
               setQueryString(newQuery);
@@ -121,7 +145,7 @@ export default function Searchbar({
             >
               <Center>
                 <IconX
-                  size={omitHelp ? 18 : 16}
+                  size={heroSize ? 18 : 16}
                   color={isOpened ? 'var(--gourmet-neutral-7)' : 'var(--gourmet-neutral-5)'}
                 />
               </Center>
@@ -136,7 +160,7 @@ export default function Searchbar({
             >
               <Center>
                 <IconArrowBigRightFilled
-                  size={omitHelp ? 18 : 16}
+                  size={heroSize ? 18 : 16}
                   color={isOpened ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-5)'}
                 />
               </Center>
@@ -144,7 +168,7 @@ export default function Searchbar({
           </Group>
         </div>
 
-        {!omitHelp && (
+        {!heroSize && (
           <button type="button" className={cssStyles.helpButton} onClick={() => setHelpOpened(true)}>
             <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
           </button>
@@ -152,7 +176,7 @@ export default function Searchbar({
 
         <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
           <div className={cssStyles.content}>
-            <Group justify={'space-between'} align={'center'} mt={omitHelp ? '0.2rem' : undefined}>
+            <Group justify={'space-between'} align={'center'} mt={heroSize ? '0.2rem' : undefined}>
               <UnstyledButton
                 className={cssStyles.randomizeButton}
                 onClick={() => {
@@ -162,12 +186,12 @@ export default function Searchbar({
               >
                 <Group gap={'0.25rem'}>
                   <IconArrowsShuffle
-                    size={omitHelp ? 18 : 16}
+                    size={heroSize ? 18 : 16}
                     color={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
                   />
                   <GourmetText
                     cgmff={'ui'}
-                    fz={omitHelp ? '1rem' : '0.875rem'}
+                    fz={heroSize ? '1rem' : '0.875rem'}
                     c={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
                     fw={doRandomize ? 500 : undefined}
                   >
@@ -176,14 +200,14 @@ export default function Searchbar({
                 </Group>
               </UnstyledButton>
 
-              {!omitHelp && (
+              {!heroSize && (
                 <Group justify={'end'} align={'center'}>
                   <FilterGlossary ref={registerRef} />
 
                   <Link
                     to={`/$tcg/kitchen`}
                     params={{ tcg: tcg }}
-                    style={{ textDecoration: 'none', marginRight: omitHelp ? '0' : '3rem' }}
+                    style={{ textDecoration: 'none', marginRight: heroSize ? '0' : '3rem' }}
                   >
                     <Group gap={'0.15rem'}>
                       <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
@@ -196,7 +220,7 @@ export default function Searchbar({
               )}
             </Group>
 
-            {omitHelp && <Space h={'0.25rem'} />}
+            {heroSize && <Space h={'0.25rem'} />}
 
             <div className={`${cssStyles.typingInfo} ${isCaptainOfTheShip ? cssStyles.hidden : ''}`}>
               <p>{t('startTyping')}</p>

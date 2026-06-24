@@ -2,9 +2,10 @@ import { Button, Divider, Group, Stack, Text, TextInput, UnstyledButton } from '
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconBowlChopsticks, IconHelpHexagon, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { type RefObject, useState } from 'react';
+import { type RefObject, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
+import { useNavbarStore } from '@/parcels/homepage/Navbar/Navbar.tsx';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
 import { SearchRecentSuggestions } from '@/parcels/search/bar/SearchRecent/SearchRecentSuggestions.tsx';
 import { SearchCompletion } from '@/parcels/search/completion/SearchCompletion.tsx';
@@ -37,6 +38,13 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
 
   const [helpOpened, setHelpOpened] = useState(false);
+
+  const mobileSearchOpen = useNavbarStore((s) => s.mobileSearchOpen);
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (mobileSearchOpen) inputRef.current?.focus();
+    });
+  }, [mobileSearchOpen, inputRef]);
 
   return (
     <>

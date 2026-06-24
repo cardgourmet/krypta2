@@ -4,6 +4,7 @@ import { IconMenu2, IconSearch, IconUser } from '@tabler/icons-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { create } from 'zustand/react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { EmailChangedBanner } from '@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx';
@@ -24,6 +25,15 @@ interface NavbarProps {
   setSidebarOpen: (open: boolean) => void;
 }
 
+export const useNavbarStore = create<{ mobileSearchOpen: boolean; setMobileSearchOpen: (b: boolean) => void }>(
+  (set) => ({
+    mobileSearchOpen: false,
+    setMobileSearchOpen: (b: boolean) => {
+      set({ mobileSearchOpen: b });
+    },
+  }),
+);
+
 export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const { t } = useTranslation('nav');
   const location = useLocation();
@@ -34,7 +44,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const emailWasChanged = useLocalUserStateStore((state) => state.emailWasChanged);
   const wasVerified = useLocalUserStateStore((state) => state.wasVerified);
 
-  const [mobileSearchOpened, { open: openSearch, close: closeSearch }] = useDisclosure(false);
+  const { mobileSearchOpen, setMobileSearchOpen } = useNavbarStore();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [mobileProfileOpened, { open: openProfile, close: closeProfile }] = useDisclosure(false);
@@ -48,11 +58,11 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
         }}
         ref={containerRef}
         size="100%"
-        opened={mobileSearchOpened}
-        onClose={openSearch}
+        opened={mobileSearchOpen}
+        onClose={() => setMobileSearchOpen(false)}
         withCloseButton={false}
       >
-        <MobileSearchbar close={closeSearch} containerRef={containerRef} />
+        <MobileSearchbar close={() => setMobileSearchOpen(false)} containerRef={containerRef} />
       </Drawer>
 
       <Drawer
@@ -151,7 +161,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               >
                 <IconMenu2 size={18} color={'var(--gourmet-neutral-8)'} />
               </button>
-              <button type="button" onClick={openSearch}>
+              <button type="button" onClick={() => setMobileSearchOpen(true)}>
                 <IconSearch size={18} color={'var(--gourmet-neutral-8)'} />
               </button>
             </div>
