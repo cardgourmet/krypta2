@@ -14,6 +14,7 @@ export function ImageCard({
   children,
   linkProps,
   imageDivProps,
+  className,
   ...others
 }: PropsWithChildren<
   {
@@ -45,7 +46,7 @@ export function ImageCard({
   }, []);
 
   return (
-    <div className={`${styles.card}`} {...others}>
+    <div className={`${styles.card} ${className ?? ''}`} {...others}>
       <Link
         to={'/$tcg/sets/$setCode/$collectorNumber/{-$any}'}
         params={{

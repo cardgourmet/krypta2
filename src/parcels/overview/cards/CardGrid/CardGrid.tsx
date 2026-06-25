@@ -1,3 +1,4 @@
+import { SimpleGrid } from '@mantine/core';
 import { useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/cards/CardGrid/CardGridEntry/CardGridEntry.tsx';
@@ -30,40 +31,52 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     return null;
   }, [tcg, cards]);
 
+  const isRotated = tcg === 'mtg';
   const cardElements = useMemo(() => {
     return (
       cardItems?.map((card, index) => {
-        return (
+        const entry = (
           <CardGridEntry
             key={`grid_${index}_${card.card.print.id}`}
             tcg={tcg}
             card={card}
             index={index}
             toolsEnabled={toolsEnabled}
+            rotated={isRotated}
           />
         );
+
+        if (isRotated) {
+          return (
+            <div key={entry.key} className={styles.cardRotateWrapper}>
+              {entry}
+            </div>
+          );
+        }
+        return entry;
       }) ?? []
     );
-  }, [cardItems, tcg, toolsEnabled]);
+  }, [cardItems, tcg, toolsEnabled, isRotated]);
 
   return (
-    <div className={styles.cardsOverview}>
+    <SimpleGrid cols={isRotated ? 4 : 6} spacing={isRotated ? '1rem' : '1rem'} verticalSpacing={'1rem'}>
       {isLoading
         && Array(60)
           .fill(0)
           .map((_, i) => (
-            <div key={i} className={styles.card}>
+            <div key={i}>
               <Skeleton
                 baseColor={'var(--gourmet-neutral-4)'}
                 highlightColor={'var(--gourmet-neutral-5)'}
-                height={'100%'}
-                style={{ borderRadius: '15px', aspectRatio: 672 / 936 }}
+                height={isRotated ? undefined : '100%'}
+                width={isRotated ? '100%' : undefined}
+                style={{ borderRadius: '15px', aspectRatio: isRotated ? 936 / 672 : 672 / 936 }}
               />
             </div>
           ))}
       {!isLoading && cardElements}
 
       <CardGridSelectionOverlay />
-    </div>
+    </SimpleGrid>
   );
 }

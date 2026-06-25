@@ -17,9 +17,10 @@ interface ImageCardProps {
   card: TcgSearchDataCard;
   index: number;
   toolsEnabled: boolean;
+  rotated: boolean;
 }
 
-export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageCardProps) {
+export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated }: ImageCardProps) {
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
@@ -95,6 +96,15 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled }: ImageC
       }}
       style={{
         zIndex: isSelected ? 1 : 0,
+        ...(rotated
+          ? {
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: `translate(-50%, -50%) rotate(90deg)`,
+              width: 'calc(100% * 672 / 936)',
+            }
+          : undefined),
       }}
       onDragStart={(event) => {
         if (!dragData) return;
