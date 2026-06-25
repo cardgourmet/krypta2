@@ -10,6 +10,12 @@
     "of": "von",
     "randomized": "zufällige"
   },
+  "descriptions": {
+    "cards": "Reprints zusammengefasst",
+    "prints": "Reprints werden separat gezählt",
+    "faces": "Jede Kartenseite wird separat gezählt",
+    "printfaces": "Reprints und deren Kartenseiten werden separat gezählt"
+  },
   "dlc": {
     "common": {
       "sortby": "Sortieren nach",
