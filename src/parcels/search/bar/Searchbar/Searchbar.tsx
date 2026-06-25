@@ -195,7 +195,7 @@ export default function Searchbar({
                     c={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
                     fw={doRandomize ? 500 : undefined}
                   >
-                    Randomize
+                    {t('randomize')}
                   </GourmetText>
                 </Group>
               </UnstyledButton>

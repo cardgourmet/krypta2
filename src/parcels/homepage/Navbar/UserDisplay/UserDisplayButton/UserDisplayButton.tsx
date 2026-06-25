@@ -20,8 +20,8 @@ export const UserDisplayButton = forwardRef<HTMLButtonElement, { toggle: () => v
             style={{
               backgroundColor: 'var(--gourmet-neutral-4)',
               borderRadius: '50%',
-              width: '1.9rem',
-              height: '1.9rem',
+              width: '1.875rem',
+              height: '1.875rem',
             }}
           >
             {user && (

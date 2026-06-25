@@ -17,7 +17,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
     <>
       {tableData.columns.map((column) => (
         <tr key={`${column}`} data-cell={'not-last'}>
-          <th style={{ width: '5.25rem' }}>{column}</th>
+          <th style={{ width: '5.25rem' }}>{t(`table.cols.${column}`)}</th>
           <td data-selected={false}>{data[column]}</td>
         </tr>
       ))}

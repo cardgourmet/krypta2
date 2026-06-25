@@ -170,12 +170,13 @@ function JumpToPageButton({
   currentPage?: number;
   switchPage: (n: number) => void;
 }) {
+  const [open, setOpen] = useState(false);
   const [switchPageNumber, setSwitchPageNumber] = useState<number | string>('');
 
   return (
-    <Menu shadow="md" position={'bottom'} withArrow>
+    <Menu shadow="md" position={'bottom'} withArrow opened={open} onClose={() => setOpen(false)}>
       <Menu.Target>
-        <Button leadingIcon={<IconDots />} size="sm" variant="tertiary" />
+        <Button leadingIcon={<IconDots />} size="sm" variant="tertiary" onClick={() => setOpen(!open)} />
       </Menu.Target>
 
       <Menu.Dropdown>
@@ -197,6 +198,8 @@ function JumpToPageButton({
             onClick={() => {
               setSwitchPageNumber('');
               switchPage(switchPageNumber as number);
+
+              setOpen(false);
             }}
             size="sm"
           >

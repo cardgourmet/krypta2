@@ -1,12 +1,14 @@
 import { Button, Divider, Group, Stack, Text, TextInput, UnstyledButton } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconBowlChopsticks, IconHelpHexagon, IconX } from '@tabler/icons-react';
+import { IconArrowsShuffle, IconBowlChopsticks, IconHelpHexagon, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { type RefObject, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
 import { useNavbarStore } from '@/parcels/homepage/Navbar/Navbar.tsx';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
+import cssStyles from '@/parcels/search/bar/Searchbar/Searchbar.module.css';
 import { SearchRecentSuggestions } from '@/parcels/search/bar/SearchRecent/SearchRecentSuggestions.tsx';
 import { SearchCompletion } from '@/parcels/search/completion/SearchCompletion.tsx';
 import { SearchQueryExplanation } from '@/parcels/search/completion/SearchQueryExplanation.tsx';
@@ -23,6 +25,8 @@ type MobileSearchbarProps = {
 export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
   const { t } = useTranslation('search');
   const { tcg, setTcg } = useTcg();
+
+  const [doRandomize, setDoRandomize] = useState(false);
   const {
     currentQuery,
     setQueryString,
@@ -33,7 +37,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
     suggestionIndex,
     setSuggestionIndex,
     startSearch,
-  } = useSearchQuery(true, tcg, close);
+  } = useSearchQuery(true, tcg, close, doRandomize);
 
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
 
@@ -86,7 +90,7 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
             </UnstyledButton>
           </div>
           <div className={styles.kitchen}>
-            <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
+            <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }} onClick={close}>
               <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
               {t('kitchen')}
             </Link>
@@ -102,19 +106,49 @@ export function MobileSearchbar({ close, containerRef }: MobileSearchbarProps) {
           )}
           {currentQuery.query.length > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
+              <SearchQueryExplanation tcg={tcg} query={debouncedQuery} fontSize={'0.9rem'} />
             </div>
           )}
 
-          <Stack>
+          <Stack gap={'0.5rem'}>
             <Button
               fz={'0.85rem'}
               color={'var(--gourmet-blue-1)'}
               onClick={startSearch}
               disabled={currentQuery.query.length === 0}
             >
-              {t('start')}
+              <GourmetText
+                cgmff={'ui'}
+                c={currentQuery.query.length === 0 ? 'var(--gourmet-neutral-6)' : 'var(--gourmet-neutral-1)'}
+                fw={500}
+              >
+                {t('start')}
+              </GourmetText>
             </Button>
+            <Group>
+              <UnstyledButton
+                className={cssStyles.randomizeButton}
+                onClick={() => {
+                  setDoRandomize(!doRandomize);
+                }}
+                data-selected={doRandomize}
+              >
+                <Group gap={'0.25rem'}>
+                  <IconArrowsShuffle
+                    size={16}
+                    color={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
+                  />
+                  <GourmetText
+                    cgmff={'ui'}
+                    fz={'0.875rem'}
+                    c={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
+                    fw={doRandomize ? 500 : undefined}
+                  >
+                    {t('randomize')}
+                  </GourmetText>
+                </Group>
+              </UnstyledButton>
+            </Group>
             <Divider my="xs" />
           </Stack>
 

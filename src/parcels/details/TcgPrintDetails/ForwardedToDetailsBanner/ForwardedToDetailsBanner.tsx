@@ -1,6 +1,6 @@
 import { Button, Center, Group, Stack, UnstyledButton } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { IconX } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { updateUserSettings } from '@/parcels/auth/api.ts';
@@ -8,17 +8,18 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 
 export function ForwardedToDetailsBanner() {
+  const { t } = useTranslation('details', { keyPrefix: 'forwarded' });
+
   const showBanner = useLocalUserStateStore((state) => state.showForwardBanner);
   const setShowBanner = useLocalUserStateStore((state) => state.setShowForwardBanner);
   const wasForwarded = useLocalUserStateStore((state) => state.wasDetailsForwarded);
   const { user, updateUser } = useAuth();
 
-  const smallScreen = useMediaQuery('(max-width: 800px)');
   return (
     <>
       {showBanner && wasForwarded && user?.settings?.search?.forwardToDetailPage && (
         <Stack
-          w={smallScreen ? '100%' : '65%'}
+          w={'100%'}
           p={'1rem 1rem'}
           style={{
             backgroundColor: 'var(--gourmet-blue-1)',
@@ -43,15 +44,11 @@ export function ForwardedToDetailsBanner() {
           </UnstyledButton>
 
           <Stack gap={'0.25rem'}>
-            <GourmetText cgmc={'neutral-1'}>
-              We have forwarded you to the details page, since your search resulted in only one card or print.
-            </GourmetText>
-            <GourmetText cgmc={'neutral-1'}>
-              Do you want us to continue doing so? You can change your decision in your settings any time.
-            </GourmetText>
+            <GourmetText cgmc={'neutral-1'}>{t('1')}</GourmetText>
+            <GourmetText cgmc={'neutral-1'}>{t('2')}</GourmetText>
           </Stack>
 
-          <Group justify={'end'} gap={'0.5rem'}>
+          <Group justify={'start'} gap={'0.5rem'}>
             <Button
               color={'var(--gourmet-neutral-4)'}
               onClick={() => {
@@ -75,7 +72,7 @@ export function ForwardedToDetailsBanner() {
                 });
               }}
             >
-              Disable it
+              {t('disable')}
             </Button>
             <Button
               color={'var(--gourmet-neutral-2)'}
@@ -83,7 +80,7 @@ export function ForwardedToDetailsBanner() {
                 setShowBanner(false);
               }}
             >
-              Keep forwarding
+              {t('keep')}
             </Button>
           </Group>
         </Stack>
