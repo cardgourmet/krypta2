@@ -1,4 +1,5 @@
 import { SimpleGrid } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/cards/CardGrid/CardGridEntry/CardGridEntry.tsx';
@@ -58,8 +59,28 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     );
   }, [cardItems, tcg, toolsEnabled, isRotated]);
 
+  const screen0 = useMediaQuery('(max-width: 1110px)');
+  const screen1 = useMediaQuery('(max-width: 930px)');
+  const screen2 = useMediaQuery('(max-width: 750px)');
+  const screen3 = useMediaQuery('(max-width: 565px)');
+
+  const cols = useMemo(() => {
+    if (isRotated) {
+      if (screen3) return 1;
+      else if (screen2) return 2;
+      else if (screen0) return 3;
+      else return 4;
+    } else {
+      if (screen3) return 2;
+      else if (screen2) return 3;
+      else if (screen1) return 4;
+      else if (screen0) return 5;
+      else return 6;
+    }
+  }, [isRotated, screen0, screen1, screen2, screen3]);
+
   return (
-    <SimpleGrid cols={isRotated ? 4 : 6} spacing={isRotated ? '1rem' : '1rem'} verticalSpacing={'1rem'}>
+    <SimpleGrid cols={cols} spacing={isRotated ? '1rem' : '1rem'} verticalSpacing={'1rem'}>
       {isLoading
         && Array(60)
           .fill(0)
