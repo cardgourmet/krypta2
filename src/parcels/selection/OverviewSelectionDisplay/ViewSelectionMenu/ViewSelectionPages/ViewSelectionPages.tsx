@@ -3,8 +3,7 @@ import { IconEyeSearch, IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { EntryImage } from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
-import type { TcgOverviewWorkData } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import { type TcgOverviewWorkData, useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ViewSelectionPages.module.css';
 
@@ -35,7 +34,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
       </Stack>
 
       <ScrollArea
-        h={'50dvh'}
+        h={'40dvh'}
         classNames={{ viewport: styles.scrollAreaViewport }}
         offsetScrollbars={'y'}
         scrollbarSize={'0.25rem'}

@@ -6,7 +6,7 @@ import { type CardProperties, createProps } from '@/parcels/overview/cards/CardG
 import { ToolsOverlay } from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';

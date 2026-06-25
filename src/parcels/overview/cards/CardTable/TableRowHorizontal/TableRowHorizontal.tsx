@@ -4,7 +4,7 @@ import { Activity, type ReactElement, useMemo } from 'react';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import styles from '@/parcels/overview/cards/CardTable/CardTable.module.css';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 
 export function TableRowHorizontal({

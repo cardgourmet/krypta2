@@ -1,5 +1,5 @@
 import { Center, Loader, Overlay } from '@mantine/core';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 
 export function CardOverviewLoader({ isDisplayLoading }: { isDisplayLoading: boolean }) {
   const isSelectionModeLoading = useTcgOverviewWorkStore((state) => state.isSelectionModeLoading);

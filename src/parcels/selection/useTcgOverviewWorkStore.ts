@@ -1,7 +1,21 @@
 import { create } from 'zustand/react';
 import { getIdsInRange } from '@/parcels/selection/getIdsInRange.ts';
-import type { TcgOverviewWorkData } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
 import type { TcgSearchCardsResult, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+
+export type TcgOverviewWorkData = {
+  search: {
+    query: string;
+    page: number;
+    result: TcgSearchCardsResult;
+  };
+  selection: {
+    elementIds: string[];
+    elementDataById: Record<string, TcgSearchDataCard>;
+    elementsByPage: Record<number, string[]>;
+    anchorIndex?: number;
+    anchorId?: string;
+  };
+};
 
 export type TcgOverviewWorkStore = {
   data: TcgOverviewWorkData | null;
@@ -57,7 +71,7 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     if (ids.length === 0) return { success: false, toggledMode: false };
 
     const current = workData?.selection?.elementIds.length ?? 0;
-    if (select && current + ids.length >= SELECTION_LIMIT) {
+    if (select && current + ids.length > SELECTION_LIMIT) {
       return { success: false, toggledMode: false };
     }
 
