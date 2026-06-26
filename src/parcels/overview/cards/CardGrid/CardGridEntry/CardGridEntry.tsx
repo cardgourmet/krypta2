@@ -86,6 +86,7 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
         <ImageCard
           tcg={tcg}
           prop={prop}
+          card={card.card}
           linkProps={{
             /* @ts-expect-error */
             'data-selected': isSelected,

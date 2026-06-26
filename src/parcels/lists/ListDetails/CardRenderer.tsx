@@ -87,7 +87,7 @@ function CardRenderer({
 
   return (
     <Stack gap={'0.25rem'}>
-      <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} style={{ height: '100%' }}>
+      <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} card={card} style={{ height: '100%' }}>
         <Activity mode={isTouchDevice ? 'hidden' : 'visible'}>
           <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
             <Group p={'1rem 1rem 0 1rem'} justify={'end'}>

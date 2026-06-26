@@ -1,4 +1,6 @@
 {
+  "transform": "Transform",
+  "rotate": "Rotate",
   "forwarded": {
     "1": "We have forwarded you to the details page, since your search resulted in only one card or print.",
     "2": "Do you want us to continue doing so? You can change your decision in your settings any time.",
