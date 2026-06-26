@@ -36,6 +36,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
 
   const navigate = Route.useNavigate();
   const history = useSearchHistory(tcg);
+  const [queryExplanation, setQueryExplanation] = useState<ExplainSearchQuery | null>(null);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
     // only add to local history, when the search has been done manually
     if (manualQuery) {
@@ -71,6 +72,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     // write to history
     const explainedQuery = data?.details as ExplainSearchQuery | undefined;
     if (explainedQuery !== undefined) {
+      setQueryExplanation(explainedQuery);
       onQueryChange(explainedQuery);
     }
     setCards({ data: data } as TcgSearchCardsResult);
@@ -98,7 +100,6 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     [onCardsCallback],
   );
 
-  // TODO: make callback for refetch and return that
   const fetchCards = useCallback(
     (controller?: AbortController) => {
       if (querySettings.query !== prevQuerySettings?.query) {
@@ -131,7 +132,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     };
   }, [querySettings, tcg, set]);
 
-  return { cards, isLoading, isQueryLoading, fetchCards };
+  return { cards, isLoading, isQueryLoading, fetchCards, queryExplanation };
 }
 
 export default useCardOverviewData;

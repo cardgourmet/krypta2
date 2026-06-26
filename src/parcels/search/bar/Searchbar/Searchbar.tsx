@@ -1,5 +1,5 @@
 import { Center, Group, ScrollArea, Space, UnstyledButton } from '@mantine/core';
-import { useDebouncedValue, useFocusTrap, useMediaQuery, useMergedRef } from '@mantine/hooks';
+import { useDebouncedValue, useFocusTrap, useHotkeys, useMediaQuery, useMergedRef } from '@mantine/hooks';
 import {
   IconArrowBigRightFilled,
   IconArrowsShuffle,
@@ -81,6 +81,22 @@ export default function Searchbar({
   const thinScreen = useMediaQuery('(max-height: 825px)');
 
   const { mobileSearchOpen, setMobileSearchOpen } = useNavbarStore();
+
+  useHotkeys(
+    [
+      [
+        'ctrl+K',
+        () => {
+          inputRef.current?.focus();
+
+          if (!isOpened) {
+            setIsOpened(true);
+          }
+        },
+      ],
+    ],
+    [],
+  );
 
   return (
     <>
