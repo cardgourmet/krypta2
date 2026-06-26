@@ -21,6 +21,12 @@
       "Artist": "Artist"
     }
   },
+  "descriptions": {
+    "cards": "Reprints grouped together",
+    "prints": "Reprints count as separate results",
+    "faces": "Each card face count as a separate result",
+    "printfaces": "Reprints and their faces count as separate results"
+  },
   "dlc": {
     "common": {
       "sortby": "Sort by",

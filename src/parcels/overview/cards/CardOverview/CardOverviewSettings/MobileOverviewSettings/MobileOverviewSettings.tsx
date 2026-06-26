@@ -3,7 +3,7 @@ import { IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off, 
 import type { TFunction } from 'i18next';
 import { startTransition, useState } from 'react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import { TextDropdown, type TextDropdownEntry } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import type { OverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
 import styles from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/CardOverviewSettings.module.css';
 import type { DisplayMode, SortDirection, TcgSearchParams, TcgSortBy, TcgUniqueBy } from '@/parcels/tcg/types.ts';
@@ -20,7 +20,11 @@ export function MobileOverviewSettings({
   setIsDisplayLoading,
 }: {
   t: TFunction<string>;
-  items: { sortBy: Record<string, string>; sortDir: Record<string, string>; uniqueBy: Record<string, string> };
+  items: {
+    sortBy: Record<string, string | TextDropdownEntry>;
+    sortDir: Record<string, string | TextDropdownEntry>;
+    uniqueBy: Record<string, string | TextDropdownEntry>;
+  };
   toolsEnabled: boolean;
   setToolsEnabled: (enabled: boolean) => void;
   setSettingsWrapper: (update: ApplyFn<TcgSearchParams>) => void;

@@ -14,6 +14,7 @@ export function ImageCard({
   children,
   linkProps,
   imageDivProps,
+  className,
   ...others
 }: PropsWithChildren<
   {
@@ -45,7 +46,7 @@ export function ImageCard({
   }, []);
 
   return (
-    <div className={`${styles.card}`} {...others}>
+    <div className={`${styles.card} ${className ?? ''}`} {...others}>
       <Link
         to={'/$tcg/sets/$setCode/$collectorNumber/{-$any}'}
         params={{
@@ -58,36 +59,34 @@ export function ImageCard({
         className={`${styles.cardLink}`}
         {...linkProps}
       >
-        <div>
-          {(!imageLoaded || !backfaceImageLoaded) && (
-            <Skeleton
-              className={styles.cardSkeleton}
-              baseColor={'var(--gourmet-neutral-4)'}
-              highlightColor={'var(--gourmet-neutral-5)'}
-              height={'100%'}
-              width={'100%'}
-            />
-          )}
+        {(!imageLoaded || !backfaceImageLoaded) && (
+          <Skeleton
+            className={styles.cardSkeleton}
+            baseColor={'var(--gourmet-neutral-4)'}
+            highlightColor={'var(--gourmet-neutral-5)'}
+            height={'100%'}
+            width={'100%'}
+          />
+        )}
 
-          <div {...imageDivProps}>
-            <FlipImage
-              frontFace={{
-                imageRef: imageRef,
-                name: prop.name,
-                thumbnailUrl: prop.thumbnailUrl ?? prop.backupImageUrl,
-                backupImageUrl: prop.backupImageUrl,
-                setImageLoaded: setImageLoaded,
-              }}
-              backFace={{
-                imageRef: backfaceImageRef,
-                name: prop.name,
-                thumbnailUrl: prop.backfaceThumbnailUrl ?? prop.backupImageUrl,
-                backupImageUrl: prop.backupImageUrl,
-                setImageLoaded: setBackfaceImageLoaded,
-              }}
-              flipRef={flipRef}
-            />
-          </div>
+        <div {...imageDivProps}>
+          <FlipImage
+            frontFace={{
+              imageRef: imageRef,
+              name: prop.name,
+              thumbnailUrl: prop.thumbnailUrl ?? prop.backupImageUrl,
+              backupImageUrl: prop.backupImageUrl,
+              setImageLoaded: setImageLoaded,
+            }}
+            backFace={{
+              imageRef: backfaceImageRef,
+              name: prop.name,
+              thumbnailUrl: prop.backfaceThumbnailUrl ?? prop.backupImageUrl,
+              backupImageUrl: prop.backupImageUrl,
+              setImageLoaded: setBackfaceImageLoaded,
+            }}
+            flipRef={flipRef}
+          />
         </div>
       </Link>
 
