@@ -1,4 +1,4 @@
-import { ActionIcon, Checkbox, Group } from '@mantine/core';
+import { ActionIcon, Checkbox, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical } from '@tabler/icons-react';
 import { Activity, useMemo } from 'react';
@@ -75,48 +75,88 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
   }, [card, tcg]);
 
   return (
-    <ImageCard
-      tcg={tcg}
-      prop={prop}
-      linkProps={{
-        /* @ts-expect-error */
-        'data-selected': isSelected,
-        onClick: (event) => {
-          if (!isSelectionMode) return;
+    <Stack gap={'0'}>
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '936 / 672',
+        }}
+      >
+        <ImageCard
+          tcg={tcg}
+          prop={prop}
+          linkProps={{
+            /* @ts-expect-error */
+            'data-selected': isSelected,
+            onClick: (event) => {
+              if (!isSelectionMode) return;
 
-          event.preventDefault(); // prevent the event from bubbling up
-          setSelectionWithCheck([thisId], !isSelected, event.shiftKey, thisId, index);
-        },
-        tabIndex: isSelectionMode ? 0 : undefined,
-        className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
-      }}
-      imageDivProps={{
-        /* @ts-expect-error */
-        'data-selected': isSelected,
-      }}
-      style={{
-        zIndex: isSelected ? 1 : 0,
-        ...(rotated
-          ? {
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%) rotate(90deg)`,
-              width: 'calc(100% * 672 / 936)',
-            }
-          : undefined),
-      }}
-      onDragStart={(event) => {
-        if (!dragData) return;
+              event.preventDefault(); // prevent the event from bubbling up
+              setSelectionWithCheck([thisId], !isSelected, event.shiftKey, thisId, index);
+            },
+            tabIndex: isSelectionMode ? 0 : undefined,
+            className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
+            style: rotated
+              ? {
+                  transform: `translate(-50%, -50%) rotate(90deg)`,
+                  top: '50%',
+                  left: '50%',
+                  width: 'calc(100% * 672 / 936)',
+                  height: 'calc(100% * 936 / 672)',
+                }
+              : undefined,
+          }}
+          imageDivProps={{
+            /* @ts-expect-error */
+            'data-selected': isSelected,
+          }}
+          style={{
+            zIndex: isSelected ? 1 : 0,
+            ...(rotated
+              ? {
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  maxWidth: 'none',
+                  maxHeight: 'none',
+                }
+              : undefined),
+          }}
+          onDragStart={(event) => {
+            if (!dragData) return;
 
-        event.dataTransfer.setData('text/plain', dragData.url);
-        event.dataTransfer.setData('text/uri-list', dragData.url);
-        event.dataTransfer.setData('text/html', dragData.html);
-      }}
-    >
+            event.dataTransfer.setData('text/plain', dragData.url);
+            event.dataTransfer.setData('text/uri-list', dragData.url);
+            event.dataTransfer.setData('text/html', dragData.html);
+          }}
+        >
+          {!isTouchDevice && (
+            <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
+              <ToolsOverlay
+                card={card.card}
+                checked={isSelected}
+                isSelectionMode={isSelected || isSelectionMode}
+                setSelection={(select) => {
+                  const thisId = card.card.print.id;
+                  setSelectionWithCheck([thisId], select, false, thisId, index);
+                }}
+                menuButton={cardMenuButton}
+              />
+            </Activity>
+          )}
+        </ImageCard>
+      </div>
+
       {isTouchDevice && (
         <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
-          <Group p={'0.5rem'} justify={'space-between'}>
+          <Group
+            p={'0.5rem'}
+            justify={'space-between'}
+            style={{
+              zIndex: isSelected ? 1 : 0,
+            }}
+          >
             <Checkbox
               style={{ pointerEvents: 'auto' }}
               onChange={(event) => {
@@ -129,21 +169,6 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
           </Group>
         </Activity>
       )}
-
-      {!isTouchDevice && (
-        <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
-          <ToolsOverlay
-            card={card.card}
-            checked={isSelected}
-            isSelectionMode={isSelected || isSelectionMode}
-            setSelection={(select) => {
-              const thisId = card.card.print.id;
-              setSelectionWithCheck([thisId], select, false, thisId, index);
-            }}
-            menuButton={cardMenuButton}
-          />
-        </Activity>
-      )}
-    </ImageCard>
+    </Stack>
   );
 }

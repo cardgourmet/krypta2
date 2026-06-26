@@ -23,6 +23,9 @@
   }
 }
 
+.cardWrapper {
+}
+
 .card:has(:focus-visible) [data-toggle-visibility="true"],
 .card:hover [data-toggle-visibility="true"] {
   visibility: visible;

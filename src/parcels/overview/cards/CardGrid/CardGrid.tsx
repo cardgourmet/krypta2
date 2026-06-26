@@ -5,11 +5,11 @@ import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/cards/CardGrid/CardGridEntry/CardGridEntry.tsx';
 import { CardGridSelectionOverlay } from '@/parcels/selection/OverviewSelectionDisplay/CardGridSelectionOverlay.tsx';
 import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
+import { shouldBeRotated } from '@/parcels/tcg/helpers.ts';
 import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
 import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './CardGrid.module.css';
 
 type CardGridProps = {
   tcg: Tcg;
@@ -32,7 +32,10 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     return null;
   }, [tcg, cards]);
 
-  const isRotated = tcg === 'mtg';
+  const isRotated = useMemo(() => {
+    return cardItems?.every((v) => shouldBeRotated(tcg, v)) ?? false;
+  }, [tcg, cardItems]);
+
   const cardElements = useMemo(() => {
     return (
       cardItems?.map((card, index) => {
@@ -47,14 +50,7 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
           />
         );
 
-        if (isRotated) {
-          return (
-            <div key={entry.key} className={styles.cardRotateWrapper}>
-              {entry}
-            </div>
-          );
-        }
-        return entry;
+        return <>{entry}</>;
       }) ?? []
     );
   }, [cardItems, tcg, toolsEnabled, isRotated]);
