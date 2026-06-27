@@ -18,6 +18,7 @@ export type DlcCardQuery = TcgCardQuery & {
 export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 export type DlcSearchCards = c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+export type DlcSearchCardsUser = c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
 export type DlcSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
@@ -163,6 +164,34 @@ export async function fetchDlcCards(
   });
 }
 
+// /v1/dlc/cards/user-search
+export async function fetchDlcCardsUser(
+  settings: DlcSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<DlcSearchCardsUser>> {
+  const query: DlcCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/user-search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/dlc/cards/random
 export async function fetchRandomDlcCards(
   settings: DlcSearchQuerySettings,
@@ -183,6 +212,34 @@ export async function fetchRandomDlcCards(
 
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/dlc/cards/user-random
+export async function fetchRandomDlcCardsUser(
+  settings: DlcSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<DlcSearchCardsUser>> {
+  const query: DlcCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/user-random`, {
       params: {
         query: query,
       },

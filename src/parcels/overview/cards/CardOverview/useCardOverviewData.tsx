@@ -10,9 +10,10 @@ import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
 import type {
   TcgDataSet,
   TcgDataSetSummary,
-  TcgSearchCards,
   TcgSearchCardsResult,
+  TcgSearchCardsUser,
   TcgSearchQuerySettings,
+  UserSearchCardsDetails,
 } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
@@ -36,7 +37,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
 
   const navigate = Route.useNavigate();
   const history = useSearchHistory(tcg);
-  const [queryExplanation, setQueryExplanation] = useState<ExplainSearchQuery | null>(null);
+  const [searchDetails, setSearchDetails] = useState<UserSearchCardsDetails | undefined>(undefined);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
     // only add to local history, when the search has been done manually
     if (manualQuery) {
@@ -46,7 +47,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     setManualQuery(false);
   });
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
-  const onCardsCallback = useCallback(({ data, error }: { data?: TcgSearchCards; error?: GourmetError }) => {
+  const onCardsCallback = useCallback(({ data, error }: { data?: TcgSearchCardsUser; error?: GourmetError }) => {
     if (error !== undefined) {
       return;
     }
@@ -69,10 +70,13 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     }
     removeDetailsForwarded();
 
+    if (data?.details) {
+      setSearchDetails(data.details);
+    }
+
     // write to history
-    const explainedQuery = data?.details as ExplainSearchQuery | undefined;
+    const explainedQuery = data?.details?.explain as ExplainSearchQuery | undefined;
     if (explainedQuery !== undefined) {
-      setQueryExplanation(explainedQuery);
       onQueryChange(explainedQuery);
     }
     setCards({ data: data } as TcgSearchCardsResult);
@@ -93,9 +97,11 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
         pageCount: 1,
         totalItemCount: searchCards.length,
         items: searchCards,
-        details: data.queryExplanation as ExplainSearchQuery | undefined,
+        details: {
+          explain: data.queryExplanation as ExplainSearchQuery | undefined,
+        },
       };
-      onCardsCallback({ data: cards as TcgSearchCards, error: error });
+      onCardsCallback({ data: cards as TcgSearchCardsUser, error: error });
     },
     [onCardsCallback],
   );
@@ -116,7 +122,9 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
 
         fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller)?.then(onSetCardsCallback);
       } else {
-        fetchTcgCards(tcg, querySettings, controller)?.then(onCardsCallback);
+        fetchTcgCards(tcg, querySettings, controller)?.then((res) => {
+          if (res !== null) onCardsCallback(res);
+        });
       }
     },
     [querySettings, tcg, set, manualQuery, onCardsCallback, onSetCardsCallback, prevQuerySettings?.query],
@@ -132,7 +140,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     };
   }, [querySettings, tcg, set]);
 
-  return { cards, isLoading, isQueryLoading, fetchCards, queryExplanation };
+  return { cards, isLoading, isQueryLoading, fetchCards, searchDetails };
 }
 
 export default useCardOverviewData;

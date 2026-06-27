@@ -19,7 +19,6 @@ import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
 import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
 import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
-import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
@@ -54,7 +53,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   const { user } = useAuth();
 
   const { params, querySettings, displaySettings } = useTcgSearchSettings(routeSearch);
-  const { cards, isLoading, isQueryLoading, fetchCards, queryExplanation } = useCardOverviewData(querySettings, set);
+  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails } = useCardOverviewData(querySettings, set);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
@@ -171,14 +170,12 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <QueryExplanation
             isLoading={isLoading}
             currentPage={cards?.data?.currentPage}
-            pageSize={set === undefined ? 60 : (cards?.data?.details?.count ?? 0)}
-            cardCount={cards?.data?.details?.count ?? 0}
-            explanation={cards?.data.details?.explanation ?? ''}
+            pageSize={set === undefined ? 60 : (searchDetails?.explain?.count ?? 0)}
+            cardCount={searchDetails?.explain?.count ?? 0}
+            explanation={searchDetails?.explain?.explanation ?? ''}
             randomized={isRandomized}
           />
-          {user && queryExplanation?.statisticsId && (
-            <QueryMenu query={queryExplanation as ExplainSearchQuery & { statisticsId: string }} />
-          )}
+          {user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
         </Stack>
         <QueryIgnoredDisplay queryDetails={cards?.data?.details} />
 

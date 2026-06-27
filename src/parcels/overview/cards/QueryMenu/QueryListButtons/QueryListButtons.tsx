@@ -10,19 +10,16 @@ import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreLis
 import { useCheckListLimits, useIsInList } from '@/parcels/lists/useInList.tsx';
 import { QueryAddToListNotification } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryAddToListNotification.tsx';
 import { QueryRemoveFromListNotification } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryRemoveFromListNotification.tsx';
-import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import type { UserSearchCardsDetails } from '@/parcels/tcg/types.ts';
 import styles from './QueryListButtons.module.css';
 
-export function QueryListButtons({
-  query,
-  size,
-}: {
-  query: ExplainSearchQuery & { statisticsId: string };
-  size?: number;
-}) {
+export function QueryListButtons({ details, size }: { details: UserSearchCardsDetails; size?: number }) {
   const { tcg } = useTcg();
   const { user } = useAuth();
+
+  const query = details.explain!;
+  const savedSearch = details.savedSearch?.savedSearch;
 
   const iconSize = size ?? 22;
 
@@ -32,7 +29,7 @@ export function QueryListButtons({
   const favoriteList = lists.find((l) => l.list.systemListType === 'favorites');
   const checkListLimits = useCheckListLimits();
 
-  const existsInLists = useIsInList(lists, query.statisticsId);
+  const existsInLists = useIsInList(lists, savedSearch?.id);
   const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
   useEffect(() => {
     setInListAmount(existsInLists.length);
@@ -57,23 +54,25 @@ export function QueryListButtons({
     setInListAmount(inListAmount + 1);
 
     startTransition(() => {
-      addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: query.statisticsId }], 'search').then((res) => {
-        setIsListLoading(false);
+      addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: query.statisticsId! }], 'search', true).then(
+        (res) => {
+          setIsListLoading(false);
 
-        if (res.error) {
-          setIsFavorite(false);
-          sendErrorNotification(res.error);
-          setInListAmount(inListAmount - 1);
-          return;
-        }
-        refetchLists();
+          if (res.error) {
+            setIsFavorite(false);
+            sendErrorNotification(res.error);
+            setInListAmount(inListAmount - 1);
+            return;
+          }
+          refetchLists();
 
-        notifications.show({
-          autoClose: 3_000,
-          color: 'var(--gourmet-green-1)',
-          message: <QueryAddToListNotification tcg={tcg} list={favoriteList.list} query={query} language={'en'} />,
-        });
-      });
+          notifications.show({
+            autoClose: 3_000,
+            color: 'var(--gourmet-green-1)',
+            message: <QueryAddToListNotification tcg={tcg} list={favoriteList.list} query={query} language={'en'} />,
+          });
+        },
+      );
     });
   }, [query, checkListLimits, inListAmount, isFavorite, lists, refetchLists, tcg, user?.id]);
 
@@ -89,7 +88,9 @@ export function QueryListButtons({
     setInListAmount(inListAmount - 1);
 
     startTransition(() => {
-      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [query.statisticsId], 'search').then((res) => {
+      if (!savedSearch?.id) return;
+
+      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [savedSearch.id], 'search').then((res) => {
         setIsListLoading(false);
 
         if (res.error) {
@@ -107,7 +108,7 @@ export function QueryListButtons({
         });
       });
     });
-  }, [query, isFavorite, lists, refetchLists, tcg, user?.id, inListAmount]);
+  }, [query, isFavorite, lists, refetchLists, tcg, user?.id, inListAmount, savedSearch?.id]);
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
@@ -134,7 +135,7 @@ export function QueryListButtons({
         type={'user_search'}
         tcg={tcg}
         resourceId={undefined}
-        rawResourceId={query.statisticsId}
+        rawResourceId={query.statisticsId!}
         target={
           <UnstyledButton disabled={isListLoading} className={styles.quickActionButton}>
             <div style={{ position: 'relative', display: 'flex' }}>
