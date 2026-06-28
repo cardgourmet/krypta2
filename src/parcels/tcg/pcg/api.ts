@@ -14,6 +14,7 @@ import umoriClient from '@/schema/umoriClient.ts';
 export type PcgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
 export type PcgSearchCards = c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+export type PcgSearchCardsUser = c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
 export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
 export type PcgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
@@ -179,6 +180,34 @@ export async function fetchPcgCards(
   });
 }
 
+// /v1/pcg/cards/user-search
+export async function fetchPcgCardsUser(
+  settings: PcgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<PcgSearchCardsUser>> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/user-search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/pcg/cards/random
 export async function fetchRandomPcgCards(
   settings: PcgSearchQuerySettings,
@@ -199,6 +228,34 @@ export async function fetchRandomPcgCards(
 
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/pcg/cards/user-random
+export async function fetchRandomPcgCardsUser(
+  settings: PcgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<PcgSearchCardsUser>> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/user-random`, {
       params: {
         query: query,
       },

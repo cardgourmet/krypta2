@@ -1,0 +1,8 @@
+.actionButton {
+  padding: 0.4rem 0.45rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-2);
+    border-radius: 0.25rem;
+  }
+}

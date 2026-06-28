@@ -9,9 +9,10 @@ import { getImagesByTcgPrintRef } from '@/parcels/generic/CursorImageHover/getIm
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { slugify } from '@/parcels/slugify.ts';
-import type { DlcDataCard, DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
+import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { dlcSearchParamsDefaults } from '@/parcels/tcg/dlc/types.ts';
-import type { MtgDataCard, MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
+import { shouldBeRotated, shouldBeTransformed } from '@/parcels/tcg/helpers.ts';
+import type { MtgDataPrint } from '@/parcels/tcg/mtg/api.ts';
 import { mtgSearchParamsDefaults } from '@/parcels/tcg/mtg/types.ts';
 import type { PcgDataPrint } from '@/parcels/tcg/pcg/api.ts';
 import { pcgSearchParamsDefaults } from '@/parcels/tcg/pcg/types.ts';
@@ -36,8 +37,11 @@ export function TcgPrintImageRenderer({
     return undefined;
   }, [tcg, card, printLanguage]);
   const backUrl = useMemo(() => {
-    if (tcg === 'mtg')
+    if (tcg === 'mtg') {
+      if (!shouldBeTransformed(tcg, card)) return '';
+
       return (card.print as MtgDataPrint).faces[1]?.translations?.[printLanguage]?.imageUrls?.full ?? '';
+    }
     return undefined;
   }, [tcg, card, printLanguage]);
 
@@ -60,21 +64,16 @@ export function TcgPrintImageRenderer({
   }, [tcg]);
 
   const [rotated, setRotated] = useState(false);
-  const isRotateable = useMemo(() => {
-    if (tcg === 'mtg') {
-      const rotateableMtgTypes = ['siege'];
-      const c = card as MtgDataCard;
-
-      return rotateableMtgTypes.some((t) => c.print.faces[0]?.subTypes.includes(t));
-    } else if (tcg === 'dlc') {
-      const rotateableDlcTypes = ['location'];
-      const c = card as DlcDataCard;
-
-      return rotateableDlcTypes.some((t) => c.classifications.includes(t));
-    }
-
-    return false;
+  const rotateableDegrees = useMemo(() => {
+    return shouldBeRotated(tcg, card);
   }, [tcg, card]);
+  const rotateIcon = useMemo(() => {
+    if (rotateableDegrees < 0) {
+      return !rotated ? <IconRotate2 /> : <IconRotateClockwise2 />;
+    } else {
+      return rotated ? <IconRotate2 /> : <IconRotateClockwise2 />;
+    }
+  }, [rotateableDegrees, rotated]);
 
   const printArtists = useMemo(() => {
     if (tcg === 'pcg') {
@@ -117,7 +116,7 @@ export function TcgPrintImageRenderer({
         </Group>
       </Stack>
 
-      {(backUrl || isRotateable) && (
+      {(backUrl || rotateableDegrees) && (
         <Group w={'100%'} gap={'0.25rem'} wrap={'nowrap'}>
           {backUrl && (
             <Button
@@ -132,23 +131,25 @@ export function TcgPrintImageRenderer({
               size="sm"
               variant="secondary"
             >
-              Transform
+              {t('transform')}
             </Button>
           )}
-          {isRotateable && (
+          {rotateableDegrees && (
             <Button
-              leadingIcon={rotated ? <IconRotate2 /> : <IconRotateClockwise2 />}
+              leadingIcon={rotateIcon}
               onClick={() => {
                 const newRotated = !rotated;
 
                 cardRef.current?.setAttribute('data-rotated', `${newRotated}`);
+                cardRef.current?.style?.setProperty('--rotation-degrees', `${rotateableDegrees}deg`);
+
                 setRotated(newRotated);
               }}
               style={{ width: '100%' }}
               size="sm"
               variant="secondary"
             >
-              Rotate
+              {t('rotate')}
             </Button>
           )}
         </Group>

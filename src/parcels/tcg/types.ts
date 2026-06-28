@@ -9,6 +9,7 @@ import type {
   DlcDataSets,
   DlcSearchCards,
   DlcSearchCardsResult,
+  DlcSearchCardsUser,
   DlcSearchDataCard,
   DlcSetSearchResult,
 } from '@/parcels/tcg/dlc/api.ts';
@@ -26,6 +27,7 @@ import type {
   MtgDataSets,
   MtgSearchCards,
   MtgSearchCardsResult,
+  MtgSearchCardsUser,
   MtgSearchDataCard,
   MtgSetSearchResult,
 } from '@/parcels/tcg/mtg/api.ts';
@@ -43,6 +45,7 @@ import type {
   PcgDataSets,
   PcgSearchCards,
   PcgSearchCardsResult,
+  PcgSearchCardsUser,
   PcgSearchDataCard,
   PcgSetSearchResult,
 } from '@/parcels/tcg/pcg/api.ts';
@@ -60,6 +63,7 @@ export type SearchQueryExecutorFilter = c['schemas']['SearchQueryExecutorSearchQ
 export type TransSearchQueryExecutorFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type TcgSearchCardsResult = MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult;
 export type TcgSearchCards = MtgSearchCards | DlcSearchCards | PcgSearchCards;
+export type TcgSearchCardsUser = MtgSearchCardsUser | DlcSearchCardsUser | PcgSearchCardsUser;
 export type TcgSearchDataCard = MtgSearchDataCard | DlcSearchDataCard | PcgSearchDataCard;
 
 export type TcgSearchQuerySettings = MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
@@ -77,6 +81,8 @@ export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
 export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
 export type TcgSetSearchResult = MtgSetSearchResult | DlcSetSearchResult | PcgSetSearchResult;
+
+export type UserSearchCardsDetails = c['schemas']['UserSearchCardsResponse'];
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];

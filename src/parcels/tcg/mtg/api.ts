@@ -14,6 +14,7 @@ import umoriClient from '@/schema/umoriClient.ts';
 export type MtgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
 export type MtgSearchCards = c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+export type MtgSearchCardsUser = c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
 
 export type MtgSearchDataCard = c['schemas']['CardSearchResult-MtgDataCard'];
 export type MtgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
@@ -164,6 +165,34 @@ export async function fetchMtgCards(
   });
 }
 
+// /v1/mtg/cards/user-search
+export async function fetchMtgCardsUser(
+  settings: MtgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<MtgSearchCardsUser>> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/user-search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/mtg/cards/random
 export async function fetchRandomMtgCards(
   settings: MtgSearchQuerySettings,
@@ -184,6 +213,34 @@ export async function fetchRandomMtgCards(
 
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/mtg/cards/random
+export async function fetchRandomMtgCardsUser(
+  settings: MtgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<MtgSearchCardsUser>> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/user-random`, {
       params: {
         query: query,
       },

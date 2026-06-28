@@ -1,16 +1,19 @@
 import { Link } from '@tanstack/react-router';
-import { type HTMLProps, type PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { type HTMLProps, type PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import type { CardProperties } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import { FlipButton } from '@/parcels/overview/cards/CardGrid/FlipButton/FlipButton.tsx';
 import { FlipImage } from '@/parcels/overview/cards/CardGrid/FlipImage/FlipImage.tsx';
 import { slugify } from '@/parcels/slugify.ts';
+import { shouldBeTransformed } from '@/parcels/tcg/helpers.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ImageCard.module.css';
 
 export function ImageCard({
   tcg,
   prop,
+  card,
   children,
   linkProps,
   imageDivProps,
@@ -20,6 +23,7 @@ export function ImageCard({
   {
     tcg: Tcg;
     prop: CardProperties;
+    card: TcgDataCard;
     linkProps?: Omit<HTMLProps<HTMLAnchorElement>, 'preload'>;
     imageDivProps?: HTMLProps<HTMLDivElement>;
   } & HTMLProps<HTMLDivElement>
@@ -44,6 +48,9 @@ export function ImageCard({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const shouldTransform = useMemo(() => {
+    return shouldBeTransformed(tcg, card);
+  }, [card, tcg]);
 
   return (
     <div className={`${styles.card} ${className ?? ''}`} {...others}>
@@ -92,7 +99,7 @@ export function ImageCard({
 
       {imageLoaded && backfaceImageLoaded && children}
 
-      {prop.backfaceThumbnailUrl && imageLoaded && backfaceImageLoaded && (
+      {shouldTransform && imageLoaded && backfaceImageLoaded && (
         <FlipButton flipped={flipped} setFlipped={setFlipped} flipRef={flipRef} />
       )}
     </div>

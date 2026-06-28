@@ -17,6 +17,7 @@ import { WorkContextReloader } from '@/parcels/overview/cards/CardOverview/WorkC
 import { CardTable } from '@/parcels/overview/cards/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
+import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
 import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
@@ -52,7 +53,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   const { user } = useAuth();
 
   const { params, querySettings, displaySettings } = useTcgSearchSettings(routeSearch);
-  const { cards, isLoading, isQueryLoading, fetchCards } = useCardOverviewData(querySettings, set);
+  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails } = useCardOverviewData(querySettings, set);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
@@ -165,14 +166,17 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           setIsDisplayLoading={setIsDisplayLoading}
         />
 
-        <QueryExplanation
-          isLoading={isLoading}
-          currentPage={cards?.data?.currentPage}
-          pageSize={set === undefined ? 60 : (cards?.data?.details?.count ?? 0)}
-          cardCount={cards?.data?.details?.count ?? 0}
-          explanation={cards?.data.details?.explanation ?? ''}
-          randomized={isRandomized}
-        />
+        <Stack gap={'0.25rem'} pt={'0.5rem'} pb={'0.5rem'}>
+          <QueryExplanation
+            isLoading={isLoading}
+            currentPage={cards?.data?.currentPage}
+            pageSize={set === undefined ? 60 : (searchDetails?.explain?.count ?? 0)}
+            cardCount={searchDetails?.explain?.count ?? 0}
+            explanation={searchDetails?.explain?.explanation ?? ''}
+            randomized={isRandomized}
+          />
+          {user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
+        </Stack>
         <QueryIgnoredDisplay queryDetails={cards?.data?.details} />
 
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>

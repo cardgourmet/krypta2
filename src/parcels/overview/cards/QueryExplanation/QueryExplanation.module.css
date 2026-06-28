@@ -3,8 +3,8 @@
   flex-direction: row;
 
   p {
-    margin: 1rem;
-    width: 50%;
+    margin-left: 1rem;
+    width: 100%;
     font-size: 1.05rem;
     font-family: var(--cgm-ui-font-family), ui-sans-serif;
 

@@ -33,13 +33,13 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
   }, [tcg, cards]);
 
   const isRotated = useMemo(() => {
-    return cardItems?.every((v) => shouldBeRotated(tcg, v)) ?? false;
+    return cardItems?.every((v) => shouldBeRotated(tcg, v.card)) ?? false;
   }, [tcg, cardItems]);
 
   const cardElements = useMemo(() => {
     return (
       cardItems?.map((card, index) => {
-        const entry = (
+        return (
           <CardGridEntry
             key={`grid_${index}_${card.card.print.id}`}
             tcg={tcg}
@@ -49,8 +49,6 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
             rotated={isRotated}
           />
         );
-
-        return <>{entry}</>;
       }) ?? []
     );
   }, [cardItems, tcg, toolsEnabled, isRotated]);
