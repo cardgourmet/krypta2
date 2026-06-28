@@ -63,6 +63,7 @@
     "notLegalByDefault": "Everything not listed here is not legal by default."
   },
   "notifications": {
+    "theQuery": "the query",
     "addToList": {
       "title": "Added to {{name}}",
       "weveAdded": "We've added {{name}} to the list.",

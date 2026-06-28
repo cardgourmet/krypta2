@@ -7,29 +7,39 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
-import { useCheckListLimits, useIsInList } from '@/parcels/lists/useInList.tsx';
+import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
 import { QueryAddToListNotification } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryAddToListNotification.tsx';
 import { QueryRemoveFromListNotification } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryRemoveFromListNotification.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import type { UserSearchCardsDetails } from '@/parcels/tcg/types.ts';
 import styles from './QueryListButtons.module.css';
 
-export function QueryListButtons({ details, size }: { details: UserSearchCardsDetails; size?: number }) {
+export function QueryListButtons({
+  details,
+  savedSearchId,
+  setSavedSearchId,
+  existsInLists,
+  size,
+}: {
+  details: UserSearchCardsDetails;
+  savedSearchId?: string;
+  setSavedSearchId: (savedSearchId: string | undefined) => void;
+  size?: number;
+  existsInLists: UserListWithResources[];
+}) {
   const { tcg } = useTcg();
   const { user } = useAuth();
 
   const query = details.explain!;
-  const savedSearch = details.savedSearch?.savedSearch;
 
   const iconSize = size ?? 22;
 
-  // TODO: we need info if the search has been saved
-
-  const { lists, refetchLists } = useUserLists();
+  const { lists } = useUserLists();
   const favoriteList = lists.find((l) => l.list.systemListType === 'favorites');
   const checkListLimits = useCheckListLimits();
 
-  const existsInLists = useIsInList(lists, savedSearch?.id);
+  //const existsInLists = useIsInList(lists, savedSearch?.id);
   const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
   useEffect(() => {
     setInListAmount(existsInLists.length);
@@ -59,12 +69,14 @@ export function QueryListButtons({ details, size }: { details: UserSearchCardsDe
           setIsListLoading(false);
 
           if (res.error) {
+            setSavedSearchId(undefined);
             setIsFavorite(false);
             sendErrorNotification(res.error);
             setInListAmount(inListAmount - 1);
             return;
           }
-          refetchLists();
+          setSavedSearchId(res.data?.[0]?.resourceId);
+          // refetchLists();
 
           notifications.show({
             autoClose: 3_000,
@@ -74,7 +86,7 @@ export function QueryListButtons({ details, size }: { details: UserSearchCardsDe
         },
       );
     });
-  }, [query, checkListLimits, inListAmount, isFavorite, lists, refetchLists, tcg, user?.id]);
+  }, [query, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id, setSavedSearchId]);
 
   const removeFromFavorites = useCallback(() => {
     if (!isFavorite) return;
@@ -88,9 +100,9 @@ export function QueryListButtons({ details, size }: { details: UserSearchCardsDe
     setInListAmount(inListAmount - 1);
 
     startTransition(() => {
-      if (!savedSearch?.id) return;
+      if (!savedSearchId) return;
 
-      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [savedSearch.id], 'search').then((res) => {
+      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [savedSearchId], 'search').then((res) => {
         setIsListLoading(false);
 
         if (res.error) {
@@ -99,7 +111,7 @@ export function QueryListButtons({ details, size }: { details: UserSearchCardsDe
           setInListAmount(inListAmount + 1);
           return;
         }
-        refetchLists();
+        // refetchLists();
 
         notifications.show({
           autoClose: 3_000,
@@ -108,7 +120,7 @@ export function QueryListButtons({ details, size }: { details: UserSearchCardsDe
         });
       });
     });
-  }, [query, isFavorite, lists, refetchLists, tcg, user?.id, inListAmount, savedSearch?.id]);
+  }, [query, isFavorite, lists, tcg, user?.id, inListAmount, savedSearchId]);
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
@@ -134,7 +146,7 @@ export function QueryListButtons({ details, size }: { details: UserSearchCardsDe
       <MoreListActionsMenu
         type={'user_search'}
         tcg={tcg}
-        resourceId={undefined}
+        resourceId={savedSearchId}
         rawResourceId={query.statisticsId!}
         target={
           <UnstyledButton disabled={isListLoading} className={styles.quickActionButton}>

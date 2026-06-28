@@ -122,12 +122,12 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
 
         fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller)?.then(onSetCardsCallback);
       } else {
-        fetchTcgCards(tcg, querySettings, controller)?.then((res) => {
+        fetchTcgCards(tcg, querySettings, controller, user?.id)?.then((res) => {
           if (res !== null) onCardsCallback(res);
         });
       }
     },
-    [querySettings, tcg, set, manualQuery, onCardsCallback, onSetCardsCallback, prevQuerySettings?.query],
+    [querySettings, tcg, set, manualQuery, onCardsCallback, onSetCardsCallback, prevQuerySettings?.query, user?.id],
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>

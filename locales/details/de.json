@@ -57,6 +57,7 @@
     "notLegalByDefault": "Alles hier nicht gelistete ist automatisch nicht legal."
   },
   "notifications": {
+    "theQuery": "die Suche",
     "addToList": {
       "title": "Hinzugefügt zu {{name}}",
       "weveAdded": "Wir haben {{name}} zur Liste hinzugefügt.",
