@@ -2,11 +2,11 @@ import { Checkbox, Group, Overlay, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { Activity, type ReactElement, useMemo } from 'react';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { useActiveUserLists } from '@/parcels/lists/ActiveListsContextProvider.tsx';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
-import styles from './ToolsOverlay.module.css';
+import styles from './CardGridToolsOverlay.module.css';
 
-export function ToolsOverlay({
+export function CardGridToolsOverlay({
   card,
   checked,
   isSelectionMode,
@@ -19,12 +19,13 @@ export function ToolsOverlay({
   setSelection: (s: boolean) => void;
   menuButton: ReactElement;
 }) {
-  const { lists } = useUserLists();
+  const { activeLists } = useActiveUserLists();
+
   const existsInLists = useMemo(() => {
-    return lists.filter((l) => {
+    return activeLists.filter((l) => {
       return l.resources?.card?.find((r) => r.listResource.resourceId === card.print.id);
     });
-  }, [lists, card.print.id]);
+  }, [activeLists, card.print.id]);
 
   return (
     <>

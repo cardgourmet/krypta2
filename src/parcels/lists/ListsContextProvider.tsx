@@ -25,7 +25,7 @@ export function ListsContextProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    fetchLists(id, undefined, undefined, undefined, 10_000, true).then((res) => {
+    fetchLists(id, undefined, undefined).then((res) => {
       if (res.error) {
         sendErrorNotification(res.error);
         return;

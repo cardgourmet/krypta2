@@ -7,7 +7,7 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
 import type { ResolvedUserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import styles from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
+import styles from '@/parcels/overview/cards/CardGrid/CardGridToolsOverlay/CardGridToolsOverlay.module.css';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { slugify } from '@/parcels/slugify.ts';
 import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';

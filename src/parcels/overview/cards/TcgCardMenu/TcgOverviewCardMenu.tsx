@@ -5,42 +5,46 @@ import { Activity, type Ref, useCallback, useEffect, useMemo, useState } from 'r
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useActiveUserLists } from '@/parcels/lists/ActiveListsContextProvider.tsx';
 import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
+import type { UserListResource } from '@/parcels/lists/types.ts';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './TcgCardMenu.module.css';
 
-export function TcgCardMenu({
+export function TcgOverviewCardMenu({
   tcg,
   onAddToList,
   onRemoveFromList,
   ref,
 }: {
   tcg: Tcg;
-  onAddToList?: (id: string) => void;
-  onRemoveFromList?: (listId: string) => void;
+  onAddToList?: (res: UserListResource) => void;
+  onRemoveFromList?: (res: UserListResource) => void;
 } & { ref?: Ref<HTMLDivElement> }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const { user } = useAuth();
 
   const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
   const resourceId = activeCard?.print?.id;
+
   const { lists, refetchLists } = useUserLists();
-  const { systemLists, existsInLists } = useMemo(() => {
-    const systemLists = lists.filter((l) => l.list.systemListType !== undefined);
-    const existsInLists = lists
-      .filter((list) => {
-        return list.resources?.card?.find((res) => res.listResource.resourceId === resourceId);
+  const systemLists = useMemo(() => {
+    return lists.filter((l) => l.list.systemListType !== undefined);
+  }, [lists]);
+  const { activeLists } = useActiveUserLists();
+  const existsInLists = useMemo(() => {
+    return activeLists
+      .filter((l) => {
+        return l.resources?.card?.find((r) => r.listResource.resourceId === resourceId);
       })
       .map((l) => l.list.id);
-
-    return { systemLists, existsInLists };
-  }, [lists, resourceId]);
+  }, [activeLists, resourceId]);
 
   // rerender on resize
   const [, forceRerender] = useState(0);
@@ -87,7 +91,12 @@ export function TcgCardMenu({
 
   return (
     <>
-      <CreateListModal disclosure={disclosure} onSuccess={() => refetchLists()} />
+      <CreateListModal
+        disclosure={disclosure}
+        onSuccess={() => {
+          refetchLists();
+        }}
+      />
 
       <Activity mode={user ? 'visible' : 'hidden'}>
         <Menu
@@ -140,7 +149,7 @@ export function TcgCardMenu({
                   tcg={tcg}
                   onSuccess={(res) => {
                     if (res) {
-                      if (onAddToList) onAddToList(res.resourceId);
+                      if (onAddToList) onAddToList(res);
                     }
                   }}
                   icon={<IconStar size={18} />}
@@ -158,7 +167,7 @@ export function TcgCardMenu({
               tcg={tcg}
               onSuccess={(res) => {
                 if (res) {
-                  if (onAddToList) onAddToList(res.resourceId);
+                  if (onAddToList) onAddToList(res);
                 }
 
                 closeMenu();
@@ -173,7 +182,7 @@ export function TcgCardMenu({
               tcg={tcg}
               onSuccess={(res) => {
                 if (res) {
-                  if (onRemoveFromList) onRemoveFromList(res.listId);
+                  if (onRemoveFromList) onRemoveFromList(res);
                 }
 
                 closeMenu();

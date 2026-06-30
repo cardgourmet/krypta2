@@ -1,4 +1,8 @@
 {
+  "randomized": {
+    "info": "Das Suchergebnis wurde zufälligirisiert. Sortierung und Paginierung sind deaktiviert.",
+    "repeat": "Suche wiederholen"
+  },
   "search": {
     "aliasFor": "Alias für"
   },
