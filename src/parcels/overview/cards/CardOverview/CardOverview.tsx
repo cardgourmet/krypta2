@@ -76,6 +76,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     const resources = searchDetails?.listResources;
     if (!resources) return;
     if (queryChanged) {
+      console.log('query changed');
       setResources(resources);
     } else {
       addResources(resources);

@@ -153,7 +153,7 @@ export function TcgOverviewCardMenu({
                     }
                   }}
                   icon={<IconStar size={18} />}
-                  buttonText={t(`favorite${existsInLists.includes(list.list.id) ? '-remove' : ''}`)}
+                  buttonText={t(`favorite${existsInLists.includes(list.list.id) ? 'Remove' : ''}`)}
                 />
               );
             })}

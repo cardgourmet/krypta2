@@ -59,13 +59,13 @@ export function useActiveUserListResources() {
 
   const setResources = useCallback(
     (resources: UserListResource[]) => {
-      setActiveLists(combineResources(activeLists, resources, true));
+      setActiveLists(combineResources(lists, resources, false));
     },
-    [activeLists],
+    [lists],
   );
   const addResources = useCallback(
     (resources: UserListResource[]) => {
-      setActiveLists(combineResources(activeLists, resources, false));
+      setActiveLists(combineResources(activeLists, resources, true));
     },
     [activeLists],
   );
@@ -131,7 +131,8 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
 
     const tcgListResources = groupBy(allListResources, (r) => r.listResource.resourceType as string);
     const listWithResources: UserListWithResources = {
-      ...list,
+      list: list.list,
+      size: list.size,
       resources: tcgListResources,
     };
     activeLists.push(listWithResources);
