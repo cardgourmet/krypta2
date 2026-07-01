@@ -116,7 +116,7 @@ export function TcgPrintImageRenderer({
         </Group>
       </Stack>
 
-      {(backUrl || rotateableDegrees) && (
+      {(backUrl || rotateableDegrees !== 0) && (
         <Group w={'100%'} gap={'0.25rem'} wrap={'nowrap'}>
           {backUrl && (
             <Button
@@ -134,7 +134,7 @@ export function TcgPrintImageRenderer({
               {t('transform')}
             </Button>
           )}
-          {rotateableDegrees && (
+          {rotateableDegrees !== 0 && (
             <Button
               leadingIcon={rotateIcon}
               onClick={() => {
