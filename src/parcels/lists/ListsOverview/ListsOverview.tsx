@@ -59,26 +59,24 @@ export default function ListsOverview() {
     if (!user?.id) return;
 
     setIsPreviewsLoading(true);
-    fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), undefined).then(
-      (res) => {
-        setIsPreviewsLoading(false);
+    fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 6).then((res) => {
+      setIsPreviewsLoading(false);
 
-        if (res.error) {
-          noti.show('Unknown error', `${res.error}`, 'error');
-          return;
-        }
-        if (!res.data) return;
+      if (res.error) {
+        noti.show('Unknown error', `${res.error}`, 'error');
+        return;
+      }
+      if (!res.data) return;
 
-        const appliedLists: UserListWithResources[] = processedLocalUserLists?.map((listWithRes) => {
-          const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
-          if (!newList) return listWithRes as UserListWithResources;
+      const appliedLists: UserListWithResources[] = processedLocalUserLists?.map((listWithRes) => {
+        const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
+        if (!newList) return listWithRes as UserListWithResources;
 
-          return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
-        });
+        return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
+      });
 
-        setUserListsWithResources(appliedLists);
-      },
-    );
+      setUserListsWithResources(appliedLists);
+    });
   }, [user?.id, search.tcg, noti, processedLocalUserLists]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {

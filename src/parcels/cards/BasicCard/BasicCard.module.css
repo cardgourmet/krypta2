@@ -1,0 +1,6 @@
+@layer components {
+  .base {
+    aspect-ratio: 640 / 891;
+    border-radius: 4.75% / 3.5%;
+  }
+}

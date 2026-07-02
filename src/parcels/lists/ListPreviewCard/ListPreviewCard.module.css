@@ -6,8 +6,34 @@
     box-shadow: var(--cgm-shadow-skeuomorphic), var(--cgm-shadow-xs);
   }
 
+  .card {
+    box-shadow: 0 0 0.25rem 0.0625rem #0000001a;
+    margin-bottom: -66%;
+    width: 100%;
+  }
+
+  .cardsShelfContent {
+    --min-card-width: 4rem;
+    display: grid;
+    gap: 0.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-card-width), 1fr));
+    margin-left: -0.5rem;
+    overflow: clip;
+    padding-inline: 0.5rem;
+    padding-top: 1rem;
+
+    @media (width > 48em) {
+      --min-card-width: 6rem;
+    }
+  }
+
   .content {
     padding: 1rem;
+  }
+
+  .croppedCard {
+    display: flex;
+    /* overflow: clip; */
   }
 
   .header {
@@ -30,5 +56,21 @@
       pointer-events: none;
       position: absolute;
     }
+  }
+
+  .shelf {
+    align-items: center;
+    border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+    display: flex;
+  }
+
+  .shelfLabel {
+    color: var(--cgm-foreground-tertiary);
+    display: grid;
+    flex-shrink: 0;
+    justify-content: center;
+    padding-block: 0.375rem;
+    text-align: center;
+    width: 3rem;
   }
 }

@@ -1,6 +1,7 @@
-import { Divider } from '@mantine/core';
 import { IconCalendarTime, IconCards, IconEyeOff, IconSearch } from '@tabler/icons-react';
 import clsx from 'clsx';
+import { BasicCard } from '@/parcels/cards/BasicCard/BasicCard';
+import type { AnyPrint } from '@/parcels/cards/types';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
@@ -54,11 +55,31 @@ export const ListPreviewCard = ({ className, list, resources, size, style }: Lis
       </header>
 
       <div className={styles.content}>
-        <Kicker leadingIcon={<IconSearch />}>Suchen</Kicker>
-        <Divider my="0.25rem" w="100%" />
-        <Kicker leadingIcon={<IconCards />}>Karten</Kicker>
+        <div className={styles.shelf}>
+          <div className={styles.shelfLabel}>
+            <IconSearch size={18} />
+            <Typeset variant="tertiary" weight={600}>
+              {resources?.user_search?.length ?? 0}
+            </Typeset>
+          </div>
+        </div>
 
-        {JSON.stringify(resources?.card?.at(0))}
+        <div className={styles.shelf}>
+          <div className={styles.shelfLabel}>
+            <IconCards size={18} />
+            <Typeset variant="tertiary" weight={600}>
+              {resources?.card?.length ?? 0}
+            </Typeset>
+          </div>
+
+          <div className={styles.cardsShelfContent}>
+            {resources?.card?.map((card) => (
+              <div className={styles.croppedCard} key={card.listResource.resourceId}>
+                <BasicCard className={styles.card} print={card.resourceData.print as AnyPrint} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </article>
   );

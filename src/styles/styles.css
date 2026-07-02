@@ -15,6 +15,7 @@
     --cgm-border-offset: -0.0625rem;
     --cgm-border-primary: #0000002e;
     --cgm-border-secondary: light-dark(#0000002e, #ffffff2e);
+    --cgm-border-tertiary: light-dark(#0000001a, #ffffff1a);
     --cgm-border-width: 0.0625rem;
     --cgm-color-brand: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
     --cgm-color-complementary: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));

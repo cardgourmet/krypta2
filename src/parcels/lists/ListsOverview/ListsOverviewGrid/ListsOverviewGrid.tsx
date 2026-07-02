@@ -19,7 +19,7 @@ export function ListsOverviewGrid({
 
   return (
     <>
-      <SimpleGrid cols={3} spacing="1rem">
+      <SimpleGrid cols={2} spacing="1rem">
         {userLists.map((list) => (
           <ListPreviewCard key={list.list.id} {...list} />
         ))}
