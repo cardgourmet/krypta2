@@ -71,7 +71,7 @@ export function ListsOverviewTable({
                       textWrap: 'nowrap',
                     }}
                   >
-                    {list.list.systemListType && t2(`system.${list.list.name}`)}
+                    {list.list.systemListType && t2(`overview.card.system.${list.list.name}`)}
                     {!list.list.systemListType && <>{list.list.name}</>}
                   </GourmetText>
                 </Link>

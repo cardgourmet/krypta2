@@ -1,8 +1,6 @@
 import { Group, Stack, Tooltip, UnstyledButton } from '@mantine/core';
-import { IconAlertTriangleFilled, IconCircleCheckFilled, IconGauge } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import styles from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.module.css';
 import type { ResolvedUserListResource } from '@/parcels/lists/types.ts';
 import type { UserResolvedSavedSearch } from '@/parcels/search/types.ts';
@@ -55,7 +53,6 @@ export function RendererSearchResources({ resources }: { resources: ResolvedUser
                   <GourmetText cgmff={'ui'} style={{ textWrap: 'nowrap' }}>
                     {search.lastTotalCount} cards
                   </GourmetText>
-                  <SpeedGauge execTime={search.lastSearch?.executionTime ?? search.firstSearch.executionTime} />
                 </Group>
               </Group>
             </UnstyledButton>
@@ -66,7 +63,7 @@ export function RendererSearchResources({ resources }: { resources: ResolvedUser
   );
 }
 
-function SpeedGauge({ execTime }: { execTime: number }) {
+/*function SpeedGauge({ execTime }: { execTime: number }) {
   let color: string;
   if (execTime <= 100) {
     color = 'var(--gourmet-green-1)';
@@ -92,4 +89,4 @@ function SpeedGauge({ execTime }: { execTime: number }) {
       />
     </Tooltip>
   );
-}
+}*/

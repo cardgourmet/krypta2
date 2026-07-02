@@ -24,6 +24,7 @@ export function RendererCardResources({ resources }: { resources: ResolvedUserLi
             prop={prop}
             card={data}
             style={{ height: '8rem' }}
+            linkProps={{ style: { borderRadius: '0.25rem' } }}
           />
         );
       })}
