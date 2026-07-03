@@ -13,7 +13,6 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function GridListRenderer({
   listWithResources,
-  isLoading,
   onUpdate,
   onDelete,
 }: {
@@ -26,6 +25,7 @@ export function GridListRenderer({
   const { list, size, resources: allResources } = listWithResources;
 
   const cardResources = allResources?.card ?? [];
+  const shouldLoad = (size ?? 0) > 0 && !(cardResources.length > 0);
 
   return (
     <Stack
@@ -52,7 +52,7 @@ export function GridListRenderer({
             {(list.allowedTcgs?.length ?? 0) > 0 && (
               <>
                 <GourmetText cgmff={'ui'} fz={'0.9rem'} cgmc={'neutral-6'}>
-                  allowed
+                  {t('card.allowed')}
                 </GourmetText>
                 <Group gap={'0.15rem'}>
                   {list.allowedTcgs?.map((tcg) => {
@@ -72,16 +72,16 @@ export function GridListRenderer({
             )}
             {(list.allowedTcgs?.length ?? 0) === 0 && (
               <GourmetText cgmff={'ui'} fz={'0.9rem'} cgmc={'neutral-6'}>
-                all TCGs allowed
+                {t('card.allowedAll')}
               </GourmetText>
             )}
           </Group>
         </Group>
       </Stack>
 
-      <Stack mt={'0.75rem'}>
+      <Stack mt={'0.75rem'} h={'100%'}>
         {(size ?? 0) === 0 && (
-          <Center>
+          <Center h={'100%'}>
             <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
               {t('card.listEmpty')}
             </GourmetText>
@@ -89,13 +89,13 @@ export function GridListRenderer({
         )}
         {(size ?? 0) > 0 && (
           <Stack>
-            {isLoading && (
+            {shouldLoad && (
               <Center>
                 <Loader color="var(--gourmet-blue-1)" size={'sm'} />
               </Center>
             )}
 
-            {!isLoading && (
+            {!shouldLoad && (
               <>
                 {cardResources.length === 0 && (
                   <Center>

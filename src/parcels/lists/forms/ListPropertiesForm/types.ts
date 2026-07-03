@@ -7,6 +7,7 @@ export type ListPropertiesFormFieldsProps = Extend<
   {
     advancedDefaultExpanded?: boolean;
     form: UseFormReturnType<ListPropertiesFormValues>;
+    isSystem?: boolean;
   }
 >;
 

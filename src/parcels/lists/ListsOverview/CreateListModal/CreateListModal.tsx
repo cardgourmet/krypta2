@@ -74,9 +74,9 @@ export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; o
 
         <Group gap={8} justify="end">
           <Button onClick={close} variant="secondary">
-            Cancel
+            {t('cancel')}
           </Button>
-          <Button type="submit">Create</Button>
+          <Button type="submit">{t('create')}</Button>
         </Group>
       </form>
     </Modal>

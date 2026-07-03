@@ -58,8 +58,6 @@ export default function ListsOverview() {
   const refetchListsContent = useCallback(() => {
     if (!user?.id) return;
 
-    console.log('refetchListsContent');
-
     setIsPreviewsLoading(true);
     startTransition(() => {
       fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 6).then((res) => {
@@ -181,11 +179,14 @@ export default function ListsOverview() {
         {user && localUserLists?.length > 0 && (
           <Stack gap={'0.25rem'}>
             <GourmetText cgmff={'ui'}>
-              You have {localUserLists.length}/{user.limits[USER_LIMIT_LISTS] ?? 0} lists with{' '}
-              {localUserLists.map((l) => l.size ?? 0).reduce((partialSum, a) => partialSum + a, 0)}/
-              {user.limits[USER_LIMIT_LIST_RESOURCES_TOTAL] ?? 0} resources.
+              {t('summary.youHave', {
+                listsCount: localUserLists.length,
+                listsMax: (user.limits[USER_LIMIT_LISTS] ?? 0) + 1,
+                resCount: localUserLists.map((l) => l.size ?? 0).reduce((partialSum, a) => partialSum + a, 0),
+                resMax: user.limits[USER_LIMIT_LIST_RESOURCES_TOTAL] ?? 0,
+              })}
             </GourmetText>
-            <GourmetText cgmff={'ui'}>Need more? Contact us.</GourmetText>
+            <GourmetText cgmff={'ui'}>{t('summary.needMore')}</GourmetText>
           </Stack>
         )}
 

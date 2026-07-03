@@ -1,6 +1,7 @@
 import { Group, Stack } from '@mantine/core';
 import { IconEyeOff, IconLabelFilled, IconWorld } from '@tabler/icons-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Expander } from '@/parcels/generic/Expander/Expander';
 import { Input } from '@/parcels/generic/Input/Input';
 import { Select } from '@/parcels/generic/Select/Select';
@@ -12,92 +13,120 @@ import type { ListPropertiesFormFieldsProps } from './types';
 export const ListPropertiesFormFields = ({
   advancedDefaultExpanded,
   form,
+  isSystem,
   ...props
 }: ListPropertiesFormFieldsProps) => {
+  const { t } = useTranslation('lists', { keyPrefix: 'modal' });
   const [color, setColor] = useState(form.values.color);
 
   form.watch('color', ({ value }) => setColor(value));
 
   return (
     <Stack gap="0.75rem" {...props}>
-      <Input
-        key={form.key('name')}
-        label="Name"
-        placeholder="e.g. Chef's Recommendations"
-        required
-        {...form.getInputProps('name')}
-      />
-
-      <Input
-        key={form.key('description')}
-        label="Description"
-        placeholder="e.g. Freshly unboxed at the local game store"
-        {...form.getInputProps('description')}
-      />
-
-      <Expander
-        defaultValue={advancedDefaultExpanded}
-        renderLabel={(isExpanded) => `${!isExpanded ? 'Show' : 'Hide'} advanced settings`}
-      >
-        <Stack gap="0.75rem">
-          <Select
-            data={[
-              { label: 'Private', value: 'private' },
-              { label: 'Public', value: 'public' },
-            ]}
-            key={form.key('visibility')}
-            label="Visibility"
-            optionDecorations={{
-              private: {
-                description: 'Die Liste ist nur für dich sichtbar.',
-                icon: <IconEyeOff />,
-              },
-              public: {
-                description: 'Die Liste ist sichtbar für alle.',
-                icon: <IconWorld />,
-              },
-            }}
-            {...form.getInputProps('visibility')}
+      {!isSystem && (
+        <>
+          <Input
+            key={form.key('name')}
+            label={t('fields.name.label')}
+            placeholder={t('fields.name.placeholder')}
+            required
+            {...form.getInputProps('name')}
           />
 
-          <TagSelect
-            data={[
-              { label: 'Disney Lorcana', value: 'dlc' },
-              { label: 'Magic: The Gathering', value: 'mtg' },
-              { label: 'Pokémon TCG', value: 'pcg' },
-            ]}
-            hidePickedOptions
-            hint="Du kannst beschränken, aus welchen Spielen dieser Liste Karten hinzugefügt werden dürfen."
-            key={form.key('allowedTcgs')}
-            label="TCGs"
-            optionDecorations={{
-              dlc: {
-                supportingText: 'DLC',
-              },
-              mtg: {
-                supportingText: 'MTG',
-              },
-              pcg: {
-                supportingText: 'PCG',
-              },
-            }}
-            placeholder="Suchen…"
-            searchable
-            {...form.getInputProps('allowedTcgs')}
+          <Input
+            key={form.key('description')}
+            label={t('fields.description.label')}
+            placeholder={t('fields.description.placeholder')}
+            {...form.getInputProps('description')}
           />
 
-          <Stack gap="0.25rem">
-            <Typeset size="sm" weight={500}>
-              Color
-            </Typeset>
+          <Expander
+            defaultValue={advancedDefaultExpanded}
+            renderLabel={(isExpanded) => `${!isExpanded ? 'Show' : 'Hide'} advanced settings`}
+          >
+            <Stack gap="0.75rem">
+              <Select
+                data={[
+                  { label: t('fields.visibility.private'), value: 'private' },
+                  { label: t('fields.visibility.public'), value: 'public' },
+                ]}
+                key={form.key('visibility')}
+                label={t('fields.visibility.label')}
+                optionDecorations={{
+                  private: {
+                    description: t('fields.visibility.privateDesc'),
+                    icon: <IconEyeOff />,
+                  },
+                  public: {
+                    description: t('fields.visibility.publicDesc'),
+                    icon: <IconWorld />,
+                  },
+                }}
+                {...form.getInputProps('visibility')}
+              />
 
-            <Group justify="space-between">
-              <IconLabelFilled style={{ color: color === 'default' ? 'var(--gourmet-neutral-8)' : color }} />
-              <ColorSelect key={form.key('color')} {...form.getInputProps('color')} />
-            </Group>
-          </Stack>
-        </Stack>
-      </Expander>
+              <TagSelect
+                data={[
+                  { label: 'Disney Lorcana', value: 'dlc' },
+                  { label: 'Magic: The Gathering', value: 'mtg' },
+                  { label: 'Pokémon TCG', value: 'pcg' },
+                ]}
+                hidePickedOptions
+                hint={t('fields.tcgs.desc')}
+                key={form.key('allowedTcgs')}
+                label="TCGs"
+                optionDecorations={{
+                  dlc: {
+                    supportingText: 'DLC',
+                  },
+                  mtg: {
+                    supportingText: 'MTG',
+                  },
+                  pcg: {
+                    supportingText: 'PCG',
+                  },
+                }}
+                placeholder={t('fields.tcgs.placeholder')}
+                searchable
+                {...form.getInputProps('allowedTcgs')}
+              />
+
+              <Stack gap="0.25rem">
+                <Typeset size="sm" weight={500}>
+                  {t('fields.color.label')}
+                </Typeset>
+
+                <Group justify="space-between">
+                  <IconLabelFilled style={{ color: color === 'default' ? 'var(--gourmet-neutral-8)' : color }} />
+                  <ColorSelect key={form.key('color')} {...form.getInputProps('color')} />
+                </Group>
+              </Stack>
+            </Stack>
+          </Expander>
+        </>
+      )}
+
+      {isSystem && (
+        <Select
+          data={[
+            { label: t('fields.visibility.private'), value: 'private' },
+            { label: t('fields.visibility.public'), value: 'public' },
+          ]}
+          key={form.key('visibility')}
+          label={t('fields.visibility.label')}
+          optionDecorations={{
+            private: {
+              description: t('fields.visibility.privateDesc'),
+              icon: <IconEyeOff />,
+            },
+            public: {
+              description: t('fields.visibility.publicDesc'),
+              icon: <IconWorld />,
+            },
+          }}
+          {...form.getInputProps('visibility')}
+        />
+      )}
     </Stack>
   );
 };
