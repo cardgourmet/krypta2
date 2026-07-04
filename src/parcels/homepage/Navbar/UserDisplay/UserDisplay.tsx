@@ -118,8 +118,8 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
             <Link
-              to={'/me/lists/$listId'}
-              params={{ listId: 'favorites' }}
+              to={`/@{$user}/lists/$listId`}
+              params={{ user: user.username, listId: 'favorites' }}
               style={{ textDecoration: 'none' }}
               preload={false}
             >

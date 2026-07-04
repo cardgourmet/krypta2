@@ -2,6 +2,7 @@ import { Button, Group, Menu, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
@@ -13,6 +14,7 @@ export function ExistsInListsBadge({
   resourceId: string | undefined;
   type: 'card' | 'user_search';
 }) {
+  const { user } = useAuth();
   const { lists } = useUserLists();
   const existsInLists = useMemo(() => {
     return lists.filter((l) => {
@@ -44,8 +46,8 @@ export function ExistsInListsBadge({
                 return (
                   <Link
                     key={l.list.id}
-                    to={'/me/lists/$listId'}
-                    params={{ listId: l.list.id }}
+                    to={'/@{$user}/lists/$listId'}
+                    params={{ user: user!.username, listId: l.list.id }}
                     style={{ textDecoration: 'none' }}
                     preload={false}
                   >

@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import CardRenderer from '@/parcels/lists/ListDetails/CardRenderer.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
-import { Route } from '@/routes/me/lists/$listId.tsx';
 import type { components } from '@/schema/api';
 
 export function ListDetailsCardGrid({
@@ -28,8 +26,6 @@ export function ListDetailsCardGrid({
   suggestAddCard?: boolean;
 }) {
   const { t } = useTranslation('lists');
-  const search = Route.useSearch();
-  const { tcg } = useTcg();
 
   const smallScreen = useMediaQuery('(max-width: 1100px)');
   const smallerScreen = useMediaQuery('(max-width: 930px)');
@@ -52,7 +48,6 @@ export function ListDetailsCardGrid({
             <CardRenderer
               key={data.listResource.resourceId}
               list={listWithResources}
-              tcg={search.tcg ?? tcg}
               data={data}
               onRemoveFromList={(listId) => {
                 if (listId !== list.id) return;

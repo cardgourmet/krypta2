@@ -29,6 +29,7 @@ import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
 import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
+import { Route as AtChar123userChar125ListsListIdRouteImport } from './routes/@{$user}/lists/$listId'
 import { Route as TcgCardsPrintIdRouteImport } from './routes/$tcg/cards/$printId'
 import { Route as TcgSetsSetCodeIndexRouteImport } from './routes/$tcg/sets/$setCode/index'
 import { Route as TcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/$tcg/sets/$setCode/$collectorNumber/{-$any}'
@@ -133,6 +134,12 @@ const AuthConfirmTokenRoute = AuthConfirmTokenRouteImport.update({
   path: '/auth/confirm/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AtChar123userChar125ListsListIdRoute =
+  AtChar123userChar125ListsListIdRouteImport.update({
+    id: '/@{$user}/lists/$listId',
+    path: '/@{$user}/lists/$listId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const TcgCardsPrintIdRoute = TcgCardsPrintIdRouteImport.update({
   id: '/$tcg/cards/$printId',
   path: '/$tcg/cards/$printId',
@@ -162,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/register/': typeof RegisterIndexRoute
   '/terms-of-use/': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
@@ -187,6 +195,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterIndexRoute
   '/terms-of-use': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
@@ -213,6 +222,7 @@ export interface FileRoutesById {
   '/register/': typeof RegisterIndexRoute
   '/terms-of-use/': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/me/lists/$listId': typeof MeListsListIdRoute
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/register/'
     | '/terms-of-use/'
     | '/$tcg/cards/$printId'
+    | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/me/lists/$listId'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/terms-of-use'
     | '/$tcg/cards/$printId'
+    | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/me/lists/$listId'
@@ -290,6 +302,7 @@ export interface FileRouteTypes {
     | '/register/'
     | '/terms-of-use/'
     | '/$tcg/cards/$printId'
+    | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/me/lists/$listId'
@@ -316,6 +329,7 @@ export interface RootRouteChildren {
   RegisterIndexRoute: typeof RegisterIndexRoute
   TermsOfUseIndexRoute: typeof TermsOfUseIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
+  AtChar123userChar125ListsListIdRoute: typeof AtChar123userChar125ListsListIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   AuthEmailTokenRoute: typeof AuthEmailTokenRoute
   MeListsListIdRoute: typeof MeListsListIdRoute
@@ -472,6 +486,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthConfirmTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/@{$user}/lists/$listId': {
+      id: '/@{$user}/lists/$listId'
+      path: '/@{$user}/lists/$listId'
+      fullPath: '/@{$user}/lists/$listId'
+      preLoaderRoute: typeof AtChar123userChar125ListsListIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$tcg/cards/$printId': {
       id: '/$tcg/cards/$printId'
       path: '/$tcg/cards/$printId'
@@ -508,6 +529,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterIndexRoute: RegisterIndexRoute,
   TermsOfUseIndexRoute: TermsOfUseIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
+  AtChar123userChar125ListsListIdRoute: AtChar123userChar125ListsListIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   AuthEmailTokenRoute: AuthEmailTokenRoute,
   MeListsListIdRoute: MeListsListIdRoute,

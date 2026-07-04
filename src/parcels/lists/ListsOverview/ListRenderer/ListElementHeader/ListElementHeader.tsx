@@ -3,6 +3,7 @@ import { IconLabelFilled, IconLock, IconStar, IconWorld } from '@tabler/icons-re
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -11,6 +12,7 @@ import styles from './ListElementHeader.module.css';
 
 export function ListElementHeader({ list }: { list: UserList }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.card' });
+  const { user } = useAuth();
 
   const search = Route.useSearch();
   const { tcg } = search;
@@ -35,8 +37,8 @@ export function ListElementHeader({ list }: { list: UserList }) {
             {list.systemListType === 'favorites' && <IconStar size={22} color={'var(--gourmet-neutral-9'} />}
 
             <Link
-              to={'/me/lists/$listId'}
-              params={{ listId: list.slug }}
+              to={'/@{$user}/lists/$listId'}
+              params={{ user: user!.username, listId: list.slug }}
               search={{ tcg: listTcg }}
               className={styles.link}
               preload={false}

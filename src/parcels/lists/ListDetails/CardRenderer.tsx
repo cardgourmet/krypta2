@@ -14,12 +14,10 @@ import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 function CardRenderer({
-  tcg,
   list,
   data,
   onRemoveFromList,
 }: {
-  tcg: Tcg;
   list: UserListWithResources;
   data: ResolvedUserListResource;
   onRemoveFromList?: (listId: string) => void;
@@ -27,6 +25,7 @@ function CardRenderer({
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const isTouchDevice = useMediaQuery('(hover: none)');
 
+  const tcg = data.listResource.game as Tcg;
   const card = data.resourceData as unknown as TcgDataCard;
   const prop = createProps(tcg, {
     card: card,

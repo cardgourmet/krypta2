@@ -118,7 +118,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
 
           <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
-          <Link to={'/me/lists/$listId'} params={{ listId: 'favorites' }}>
+          <Link to={`/@{$user}/lists/$listId`} params={{ user: user.username, listId: 'favorites' }}>
             <ItemButton
               title={t('favorites')}
               icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />}

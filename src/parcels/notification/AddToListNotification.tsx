@@ -3,6 +3,7 @@ import { IconArrowRight } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import { backupImageUrl } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
@@ -23,6 +24,7 @@ export function AddedToListNotification({
   language: string;
 }) {
   const { t } = useTranslation('details', { keyPrefix: 'notifications.addToList' });
+  const { user } = useAuth();
 
   const imageSrc = useMemo(() => {
     if (tcg === 'mtg') {
@@ -59,7 +61,7 @@ export function AddedToListNotification({
         </GourmetText>
         <GourmetText fz={'0.9rem'}>
           {t('weveAdded', { name: card.name })}{' '}
-          <Link to={'/me/lists/$listId'} params={{ listId: slugify(list.name) }}>
+          <Link to={'/@{$user}/lists/$listId'} params={{ user: user!.username, listId: slugify(list.name) }}>
             <Group gap={'0.25rem'} display={'inline-flex'}>
               <GourmetText cgmc={'neutral-9'} fz={'0.9rem'}>
                 {t('goThere')}

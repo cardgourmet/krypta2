@@ -2,6 +2,7 @@ import { Checkbox, Group, Overlay, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { Activity, type ReactElement, useMemo } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useActiveUserLists } from '@/parcels/lists/ActiveListsContextProvider.tsx';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import styles from './CardGridToolsOverlay.module.css';
@@ -19,6 +20,7 @@ export function CardGridToolsOverlay({
   setSelection: (s: boolean) => void;
   menuButton: ReactElement;
 }) {
+  const { user } = useAuth();
   const { activeLists } = useActiveUserLists();
 
   const existsInLists = useMemo(() => {
@@ -53,7 +55,11 @@ export function CardGridToolsOverlay({
             {existsInLists.slice(0, 5).map((l, index) => {
               return (
                 <div key={l.list.id} style={{ pointerEvents: 'auto' }}>
-                  <Link to={'/me/lists/$listId'} params={{ listId: l.list.slug }} className={styles.listLink}>
+                  <Link
+                    to={'/@{$user}/lists/$listId'}
+                    params={{ user: user!.username, listId: l.list.slug }}
+                    className={styles.listLink}
+                  >
                     <Tooltip label={l.list.name} openDelay={500}>
                       <IconLabelFilled
                         color={l.list.color ?? 'var(--gourmet-neutral-9)'}

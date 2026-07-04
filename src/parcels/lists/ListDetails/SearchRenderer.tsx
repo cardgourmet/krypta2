@@ -13,13 +13,11 @@ import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SearchRenderer({
-  tcg,
   list,
   data,
   onSearchSaved,
   onRemoveFromList,
 }: {
-  tcg: Tcg;
   list: UserListWithResources;
   data: ResolvedUserListResource;
   onSearchSaved?: (id: string) => void;
@@ -64,7 +62,7 @@ export function SearchRenderer({
         <Group wrap={'nowrap'} gap={'0.25rem'} justify={'end'} p={'0 0.25rem 0 0'}>
           <Link
             to={'/$tcg/cards'}
-            params={{ tcg: tcg }}
+            params={{ tcg: resolvedSavedSearch.savedSearch.game }}
             search={{
               ...tcgSearchParamsDefaults,
               query: resolvedSavedSearch.firstSearch.rawQuery,
@@ -72,6 +70,7 @@ export function SearchRenderer({
             target="_blank"
             rel="noreferrer noopener"
             style={{ padding: 0 }}
+            preload={false}
           >
             <Tooltip label={t('table.reExecute')} openDelay={500}>
               <ActionIcon style={{ pointerEvents: 'auto' }} className={styles.playButton}>
@@ -85,7 +84,7 @@ export function SearchRenderer({
               <ListDetailsActionMenu
                 type={'user_search'}
                 listContext={list}
-                tcg={tcg}
+                tcg={resolvedSavedSearch.savedSearch.game as Tcg}
                 resourceId={resolvedSavedSearch.savedSearch.id}
                 rawResourceId={resolvedSavedSearch.firstSearch.id}
                 target={

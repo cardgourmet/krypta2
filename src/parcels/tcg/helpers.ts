@@ -32,8 +32,9 @@ export function shouldBeTransformed(tcg: Tcg, card: TcgDataCard): boolean {
 
   const oneSideLayouts = ['split', 'aftermath'];
   if (oneSideLayouts.includes(card.layout)) return false;
+  if (!card?.print?.faces) return false;
 
-  return card.print.faces.length > 1;
+  return card.print.faces?.length > 1;
 }
 
 export function shouldBeRotated(tcg: Tcg, card: TcgDataCard): number {
