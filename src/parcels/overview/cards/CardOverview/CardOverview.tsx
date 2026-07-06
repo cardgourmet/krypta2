@@ -7,7 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { ActiveListsContextProvider, useActiveUserListResources } from '@/parcels/lists/ActiveListsContextProvider.tsx';
+import { ActiveListsContextProvider } from '@/parcels/lists/ActiveListsContextProvider.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { CardGrid } from '@/parcels/overview/cards/CardGrid/CardGrid.tsx';
 import { CardOverviewLoader } from '@/parcels/overview/cards/CardOverview/CardOverviewLoader.tsx';
 import CardOverviewSettings from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/CardOverviewSettings.tsx';
@@ -66,7 +67,9 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   });
   const prevOverviewSettings = usePrevious(overviewSettings);
 
-  const { addResources, removeResources, setResources, activeLists } = useActiveUserListResources();
+  const { addResources, removeResources, setResources, activeLists } = useActiveLists('main');
+  console.log('activeLists', activeLists);
+
   const previousSearchDetails = usePrevious(searchDetails);
   useEffect(() => {
     if (previousSearchDetails === searchDetails) return;
@@ -211,7 +214,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
             <TcgOverviewCardMenu
               tcg={tcg}
               onAddToList={(res) => {
-                addResources([res]);
+                addResources([res], true);
               }}
               onRemoveFromList={(res) => {
                 removeResources([res.resourceId]);

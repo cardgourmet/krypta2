@@ -1728,7 +1728,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
           };
         };
       };
@@ -2934,7 +2934,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
           };
         };
       };
@@ -3904,7 +3904,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
           };
         };
       };
@@ -7700,6 +7700,7 @@ export interface components {
       firstSearch: components['schemas']['SearchQueryStatistics'];
       lastSearch?: components['schemas']['SearchQueryStatistics'] | null;
       lastTotalCount?: number | null;
+      listResources?: components['schemas']['UserListResource'][] | null;
       savedSearch: components['schemas']['UserSavedSearch'];
     };
     UserSearchCardsResponse: {
@@ -8517,6 +8518,7 @@ export interface components {
     };
     UserSearchHistoryEntry: {
       clusterSize?: number | null;
+      listResources?: components['schemas']['UserListResource'][] | null;
       savedSearch?: components['schemas']['UserSavedSearch'] | null;
       search: components['schemas']['SearchQueryStatistics'];
       totalCount?: number | null;
@@ -8590,6 +8592,7 @@ export interface components {
     };
     ResolvedUserListResource: {
       listResource: components['schemas']['UserListResource'];
+      otherListResources?: components['schemas']['UserListResource'][] | null;
       resourceData: components['schemas']['JsonObject'];
     };
     UserListWithResources: {
@@ -8614,17 +8617,39 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
+    'DataApiResponse-UserList': {
+      data: components['schemas']['UserList'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'SimplePage-ResolvedUserListResource': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['ResolvedUserListResource'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-ResolvedUserListResource': {
+      data: components['schemas']['SimplePage-ResolvedUserListResource'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DataApiResponse-Map-String-List-ResolvedUserListResource': {
+      data: {
+        [key: string]: components['schemas']['ResolvedUserListResource'][];
+      };
+      /** Format: int32 */
+      statusCode: number;
+    };
     CreateUserListRequest: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
       color?: string | null;
       description?: string | null;
       name: string;
       visibility?: components['schemas']['UserListVisibility'] | null;
-    };
-    'DataApiResponse-UserList': {
-      data: components['schemas']['UserList'];
-      /** Format: int32 */
-      statusCode: number;
     };
     UserListUpdate: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
@@ -8642,21 +8667,6 @@ export interface components {
     DeleteUserListsRequest: {
       listIds: string[];
     };
-    'SimplePage-ResolvedUserListResource': {
-      /** Format: int32 */
-      currentPage: number;
-      hasNextPage: boolean;
-      items: components['schemas']['ResolvedUserListResource'][];
-      /** Format: int32 */
-      lastPage: number;
-      /** Format: int32 */
-      nextPage: number;
-    };
-    'DataApiResponse-SimplePage-ResolvedUserListResource': {
-      data: components['schemas']['SimplePage-ResolvedUserListResource'];
-      /** Format: int32 */
-      statusCode: number;
-    };
     UserListResourcesRequestResource: {
       /** Format: uuid */
       id: string;
@@ -8673,13 +8683,6 @@ export interface components {
     };
     RemoveListResourcesRequest: {
       resourceIds: string[];
-    };
-    'DataApiResponse-Map-String-List-ResolvedUserListResource': {
-      data: {
-        [key: string]: components['schemas']['ResolvedUserListResource'][];
-      };
-      /** Format: int32 */
-      statusCode: number;
     };
     DuplicateUserListRequest: {
       newName: string;
