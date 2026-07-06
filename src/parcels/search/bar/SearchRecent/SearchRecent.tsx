@@ -7,7 +7,6 @@ import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Button } from '@/parcels/generic/Button/Button';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { ActiveListsContextProvider } from '@/parcels/lists/ActiveListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
@@ -71,39 +70,37 @@ export default function SearchRecent({
         </GourmetText>
       </Group>
       <ul>
-        <ActiveListsContextProvider activeLists={[]}>
-          {reversedRecentQueries.map((query, index) => (
-            <li key={index}>
-              <button
-                type="button"
-                tabIndex={0}
-                className={index === selectedIndex ? styles.suggestionHighlighted : ''}
-                onClick={() => {
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/$tcg/cards',
-                    params: { tcg: tcg },
-                    search: (prev) => {
-                      return { ...prev, query: query.rawQuery, page: 1 } as Required<TcgSearchParams>;
-                    },
-                  });
-                  close();
-                }}
-              >
-                <div className={styles.recentItemLeft}>
-                  <Tooltip label={query.rawQuery} openDelay={500}>
-                    <p data-extended={!user?.id}>{query.rawQuery}</p>
-                  </Tooltip>
-                </div>
-              </button>
-              {user?.id && (
-                <div className={styles.recentItemRight}>
-                  <RecentItemTools query={query} tcg={tcg} submenuRef={submenuRef} />
-                </div>
-              )}
-            </li>
-          ))}
-        </ActiveListsContextProvider>
+        {reversedRecentQueries.map((query, index) => (
+          <li key={index}>
+            <button
+              type="button"
+              tabIndex={0}
+              className={index === selectedIndex ? styles.suggestionHighlighted : ''}
+              onClick={() => {
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  to: '/$tcg/cards',
+                  params: { tcg: tcg },
+                  search: (prev) => {
+                    return { ...prev, query: query.rawQuery, page: 1 } as Required<TcgSearchParams>;
+                  },
+                });
+                close();
+              }}
+            >
+              <div className={styles.recentItemLeft}>
+                <Tooltip label={query.rawQuery} openDelay={500}>
+                  <p data-extended={!user?.id}>{query.rawQuery}</p>
+                </Tooltip>
+              </div>
+            </button>
+            {user?.id && (
+              <div className={styles.recentItemRight}>
+                <RecentItemTools query={query} tcg={tcg} submenuRef={submenuRef} />
+              </div>
+            )}
+          </li>
+        ))}
       </ul>
       <div className={styles.moreRecents}>
         <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">

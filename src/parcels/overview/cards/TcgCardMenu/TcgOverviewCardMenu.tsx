@@ -5,7 +5,7 @@ import { Activity, type Ref, useCallback, useEffect, useMemo, useState } from 'r
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { useActiveUserLists } from '@/parcels/lists/ActiveListsContextProvider.tsx';
+import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
@@ -37,14 +37,11 @@ export function TcgOverviewCardMenu({
   const systemLists = useMemo(() => {
     return lists.filter((l) => l.list.systemListType !== undefined);
   }, [lists]);
-  const { activeLists } = useActiveUserLists();
-  const existsInLists = useMemo(() => {
-    return activeLists
-      .filter((l) => {
-        return l.resources?.card?.find((r) => r.listResource.resourceId === resourceId);
-      })
-      .map((l) => l.list.id);
-  }, [activeLists, resourceId]);
+
+  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, resourceId);
+  const existsInListsIds = useMemo(() => {
+    return existsInLists.map((l) => l.list.id);
+  }, [existsInLists]);
 
   // rerender on resize
   const [, forceRerender] = useState(0);
@@ -138,22 +135,33 @@ export function TcgOverviewCardMenu({
             )}
 
             {systemLists.map((list) => {
+              const isRemove = existsInListsIds.includes(list.list.id);
+
               return (
                 <ListMenuItem
                   key={list.list.id}
                   ressourceId={resourceId ?? ''}
                   raw={resourceId === undefined}
                   listWithResources={list}
-                  action={existsInLists.includes(list.list.id) ? 'remove' : 'add'}
+                  action={isRemove ? 'remove' : 'add'}
                   type={'card'}
                   tcg={tcg}
                   onSuccess={(res) => {
                     if (res) {
-                      if (onAddToList) onAddToList(res);
+                      if (isRemove) {
+                        if (onRemoveFromList)
+                          onRemoveFromList({
+                            listId: list.list.id,
+                            resourceId: resourceId,
+                            resourceType: 'card',
+                          } as UserListResource);
+                      } else {
+                        if (onAddToList) onAddToList(res);
+                      }
                     }
                   }}
                   icon={<IconStar size={18} />}
-                  buttonText={t(`favorite${existsInLists.includes(list.list.id) ? 'Remove' : ''}`)}
+                  buttonText={t(`favorite${existsInListsIds.includes(list.list.id) ? 'Remove' : ''}`)}
                 />
               );
             })}

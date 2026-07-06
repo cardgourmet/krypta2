@@ -1,9 +1,9 @@
 import { Checkbox, Group, Overlay, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { Activity, type ReactElement, useMemo } from 'react';
+import { Activity, type ReactElement } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { useActiveUserLists } from '@/parcels/lists/ActiveListsContextProvider.tsx';
+import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import styles from './CardGridToolsOverlay.module.css';
 
@@ -21,13 +21,7 @@ export function CardGridToolsOverlay({
   menuButton: ReactElement;
 }) {
   const { user } = useAuth();
-  const { activeLists } = useActiveUserLists();
-
-  const existsInLists = useMemo(() => {
-    return activeLists.filter((l) => {
-      return l.resources?.card?.find((r) => r.listResource.resourceId === card.print.id);
-    });
-  }, [activeLists, card.print.id]);
+  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
 
   return (
     <>

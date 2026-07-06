@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { create } from 'zustand/react';
 import { groupBy } from '@/parcels/groupBy.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
-import { usePrevious } from '@/parcels/usePrevious.ts';
+
+export const CONTEXT_LIST_MAIN = 'main';
 
 type ActiveListsState = {
   activeListsByContext: Record<string, UserListWithResources[]>;
@@ -12,13 +13,21 @@ type ActiveListsState = {
 
 type ActiveListsStateActions = {
   setLists: (context: string, data: UserListWithResources[]) => void;
-  removeLists: (listIds: string[]) => void;
   setResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => void;
   addResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => void;
   removeResources: (ressourceIds: string[]) => void;
+
+  removeLists: (listIds: string[]) => void;
   addLists: (lists: UserListWithResources[]) => void;
 };
 
+/**
+ * The difference between "active" lists and normal user lists here is that "active" lists
+ * are lists that have their list resources array filled with elements that match the current context.
+ * The normal user lists are just an array of all lists the user has, but without any resources in them to conserve memory space.
+ *
+ * For example: While searching through the card overview we put all resources that are part of any list into the active lists.
+ */
 export const useActiveListsState = create<ActiveListsState>((set, get) => ({
   activeListsByContext: {},
   actions: {
@@ -48,7 +57,10 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
 
       const newData: Record<string, UserListWithResources[]> = {};
       for (const context of Object.keys(current)) {
-        newData[context] = [...current[context], ...lists];
+        const currentListIds = new Set(current[context].map((i) => i.list.id) ?? []);
+        const toAppend = lists.filter((l) => !currentListIds.has(l.list.id));
+
+        newData[context] = [...current[context], ...toAppend];
       }
 
       set({
@@ -64,7 +76,8 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
       }
     },
     addResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => {
-      const targetContexts = sync ? new Set(Object.keys(get().activeListsByContext) + context) : new Set([context]);
+      const targetContexts = sync ? new Set([...Object.keys(get().activeListsByContext), context]) : new Set([context]);
+      console.log('addResources', targetContexts, get().activeListsByContext);
 
       for (const targetContext of targetContexts) {
         const currentContextData = get().activeListsByContext[targetContext];
@@ -85,6 +98,8 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
         newData[context] = removeResourcesByIds(current[context], ressourceIds);
       }
 
+      console.log('removedResources', Object.keys(current), newData);
+
       set({
         activeListsByContext: newData,
       });
@@ -94,10 +109,9 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
 
 export function useActiveLists(context: string) {
   const { lists } = useUserLists();
-  const previousLists = usePrevious(lists);
 
-  const allActiveLists = useActiveListsState((s) => s.activeListsByContext);
-  const { removeLists, addLists, setResources, addResources, removeResources } = useActiveListsState((s) => s.actions);
+  const allActiveLists = useActiveListsState((s) => s.activeListsByContext[context]) ?? [];
+  const { setResources, addResources, removeResources } = useActiveListsState((s) => s.actions);
 
   const setResourcesContext = useCallback(
     (res: UserListResource[], sync?: boolean) => {
@@ -118,51 +132,24 @@ export function useActiveLists(context: string) {
     [removeResources],
   );
 
-  // effect: when lists gets updated
-  useEffect(() => {
-    const previousListIds = previousLists?.map((l) => l.list.id) ?? [];
-    const previousListIdsSet = new Set(previousListIds);
-    const newListIds = lists?.map((l) => l.list.id) ?? [];
-    const newListIdsSet = new Set(newListIds);
-
-    const addedListIds = newListIds.filter((id) => !previousListIdsSet.has(id));
-    const removedListIds = previousListIds.filter((id) => !newListIdsSet.has(id));
-    if (removedListIds.length === 0 && addedListIds.length === 0) {
-      // nothing changed
-      return;
-    }
-
-    if (removedListIds.length > 0) {
-      removeLists(removedListIds);
-    }
-    if (addedListIds.length > 0) {
-      const listsToAdd = addedListIds
-        .map((listId) => lists.find((l) => l.list.id === listId))
-        .filter((l) => l !== undefined);
-
-      addLists(listsToAdd);
-    }
-  }, [lists, previousLists, removeLists, addLists]);
-
   return {
-    activeLists: allActiveLists[context] ?? [],
+    activeLists: allActiveLists,
     setResources: setResourcesContext,
     addResources: addResourcesContext,
     removeResources: removeResourcesContext,
   };
 }
 
-export function useActiveListsRessource(context: string, resourceId?: string) {
+export function useActiveListsResource(context: string, resourceId?: string) {
   const { activeLists } = useActiveLists(context);
   const existsInLists = useMemo(() => {
-    return activeLists
-      .filter((list) => {
-        if (!resourceId) return false;
-        if (!list.resources) return false;
+    // console.log('existsInLists (UPDATE)', resourceId, activeLists);
+    return activeLists.filter((list) => {
+      if (!resourceId) return false;
+      if (!list.resources) return false;
 
-        return Object.values(list.resources)?.some((l) => l.find((res) => res.listResource.resourceId === resourceId));
-      })
-      .map((l) => l.list.id);
+      return Object.values(list.resources)?.some((l) => l.find((res) => res.listResource.resourceId === resourceId));
+    });
   }, [activeLists, resourceId]);
 
   return { activeLists, existsInLists };
@@ -191,6 +178,9 @@ export function removeResourcesByIds(lists: UserListWithResources[], resourceIds
       ...activeList,
       resources: newResources,
     };
+
+    console.log('removeResourcesByIds', resourceIds, activeList.list.id, keys, newResources);
+
     newActiveLists.push(newActiveList);
   }
 

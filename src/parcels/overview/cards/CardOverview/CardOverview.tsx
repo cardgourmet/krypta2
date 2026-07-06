@@ -7,8 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { ActiveListsContextProvider } from '@/parcels/lists/ActiveListsContextProvider.tsx';
-import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { CardGrid } from '@/parcels/overview/cards/CardGrid/CardGrid.tsx';
 import { CardOverviewLoader } from '@/parcels/overview/cards/CardOverview/CardOverviewLoader.tsx';
 import CardOverviewSettings from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/CardOverviewSettings.tsx';
@@ -67,8 +66,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   });
   const prevOverviewSettings = usePrevious(overviewSettings);
 
-  const { addResources, removeResources, setResources, activeLists } = useActiveLists('main');
-  console.log('activeLists', activeLists);
+  const { addResources, removeResources, setResources } = useActiveLists(CONTEXT_LIST_MAIN);
 
   const previousSearchDetails = usePrevious(searchDetails);
   useEffect(() => {
@@ -79,7 +77,6 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     const resources = searchDetails?.listResources;
     if (!resources) return;
     if (queryChanged) {
-      console.log('query changed');
       setResources(resources);
     } else {
       addResources(resources);
@@ -203,24 +200,22 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
           <CardOverviewLoader isDisplayLoading={isDisplayLoading} />
 
-          <ActiveListsContextProvider activeLists={activeLists}>
-            {displaySettings.display === 'grid' && (
-              <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
-            )}
-            {displaySettings.display === 'table' && (
-              <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
-            )}
+          {displaySettings.display === 'grid' && (
+            <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
+          )}
+          {displaySettings.display === 'table' && (
+            <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
+          )}
 
-            <TcgOverviewCardMenu
-              tcg={tcg}
-              onAddToList={(res) => {
-                addResources([res], true);
-              }}
-              onRemoveFromList={(res) => {
-                removeResources([res.resourceId]);
-              }}
-            />
-          </ActiveListsContextProvider>
+          <TcgOverviewCardMenu
+            tcg={tcg}
+            onAddToList={(res) => {
+              addResources([res], true);
+            }}
+            onRemoveFromList={(res) => {
+              removeResources([res.resourceId]);
+            }}
+          />
         </div>
 
         {set === undefined && !isRandomized && (
