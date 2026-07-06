@@ -77,7 +77,6 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
     },
     addResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => {
       const targetContexts = sync ? new Set([...Object.keys(get().activeListsByContext), context]) : new Set([context]);
-      console.log('addResources', targetContexts, get().activeListsByContext);
 
       for (const targetContext of targetContexts) {
         const currentContextData = get().activeListsByContext[targetContext];
@@ -178,8 +177,6 @@ export function removeResourcesByIds(lists: UserListWithResources[], resourceIds
       ...activeList,
       resources: newResources,
     };
-
-    console.log('removeResourcesByIds', resourceIds, activeList.list.id, keys, newResources);
 
     newActiveLists.push(newActiveList);
   }

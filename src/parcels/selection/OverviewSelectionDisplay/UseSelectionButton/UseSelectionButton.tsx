@@ -4,10 +4,11 @@ import { IconChevronRight, IconList, IconPlus } from '@tabler/icons-react';
 import { use, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { SelectionListMenuItem } from '@/parcels/lists/SelectionListMenuItem/SelectionListMenuItem.tsx';
 import { ModalContext } from '@/parcels/modals/Modal.context';
-import { ListMenuItem2 } from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/ListMenuItem2/ListMenuItem2.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './UseSelectionButton.module.css';
 
@@ -22,10 +23,11 @@ export function UseSelectionButton() {
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
   const tcg = useTcgByLocation() as Tcg;
-  const { lists, refetchLists } = useUserLists();
+  const { refetchLists } = useUserLists();
+  const { activeLists } = useActiveLists(CONTEXT_LIST_MAIN);
   const { systemLists, nonSystemLists } = useMemo(() => {
-    const systemLists = lists.filter((l) => l.list.systemListType !== undefined);
-    const nonSystemLists = lists.filter((l) => {
+    const systemLists = activeLists.filter((l) => l.list.systemListType !== undefined);
+    const nonSystemLists = activeLists.filter((l) => {
       if (l.list.systemListType !== undefined) return false;
 
       // filter by tcg
@@ -34,7 +36,7 @@ export function UseSelectionButton() {
     });
 
     return { systemLists, nonSystemLists };
-  }, [lists, tcg]);
+  }, [activeLists, tcg]);
 
   return (
     <Menu
@@ -55,7 +57,7 @@ export function UseSelectionButton() {
 
       <Menu.Dropdown>
         {systemLists.map((list) => {
-          return <ListMenuItem2 key={list.list.id} listWithResources={list} action={'add'} />;
+          return <SelectionListMenuItem key={list.list.id} listWithResources={list} action={'add'} />;
         })}
 
         <Menu
@@ -94,14 +96,14 @@ export function UseSelectionButton() {
             }}
           >
             {nonSystemLists.map((list) => (
-              <ListMenuItem2 key={list.list.id} listWithResources={list} action={'add'} />
+              <SelectionListMenuItem key={list.list.id} listWithResources={list} action={'add'} />
             ))}
 
             <Menu.Divider />
 
             <Menu.Item
               onClick={async () => {
-                if (lists.length >= 10) return;
+                if (activeLists.length >= 10) return;
                 try {
                   await requestModal('createList', { async: true });
                   refetchLists();

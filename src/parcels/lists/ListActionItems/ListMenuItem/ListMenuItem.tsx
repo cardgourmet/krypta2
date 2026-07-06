@@ -7,7 +7,6 @@ import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -42,7 +41,6 @@ export function ListMenuItem({
   const mustTcg = tcg ?? (locationTcg as Tcg);
   const { user } = useAuth();
 
-  const { refetchLists } = useUserLists();
   const { list, resources, size } = listWithResources;
   const listResourceIds = useMemo(() => {
     if (type === 'card') return resources?.card?.map((r) => r.listResource.resourceId) ?? [];
@@ -63,7 +61,6 @@ export function ListMenuItem({
               sendErrorNotification(res.error);
               return;
             }
-            refetchLists();
 
             const data = res?.data;
             if (onSuccess && data) onSuccess(data[0]);
@@ -77,7 +74,6 @@ export function ListMenuItem({
               return;
             }
 
-            refetchLists();
             if (onSuccess) onSuccess({ listId: list.id } as UserListResource);
           });
           return;

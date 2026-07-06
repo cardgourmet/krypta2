@@ -95,7 +95,7 @@ export function useTableData({
               ),
               inList: (
                 <>
-                  <ExistsInListsBadge type={'user_search'} resourceId={i.savedSearch?.id} />
+                  <ExistsInListsBadge resourceId={i.savedSearch?.id} />
                 </>
               ),
             },

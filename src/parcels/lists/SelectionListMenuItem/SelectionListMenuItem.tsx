@@ -11,9 +11,9 @@ import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './ListMenuItem2.module.css';
+import styles from './SelectionListMenuItem.module.css';
 
-export function ListMenuItem2({
+export function SelectionListMenuItem({
   listWithResources,
   action,
 }: {
@@ -51,7 +51,6 @@ export function ListMenuItem2({
             return;
           }
 
-          console.log('success! added to list');
           refetchLists();
         });
         return;
