@@ -2,13 +2,13 @@ import { Center, Group, UnstyledButton } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { getRouteApi } from '@tanstack/react-router';
-import { startTransition, useCallback, useEffect, useState } from 'react';
+import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
-import { useCheckListLimits, useIsInList } from '@/parcels/lists/useInList.tsx';
+import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
 import { AddedToListNotification } from '@/parcels/notification/AddToListNotification.tsx';
 import { RemoveFromListNotification } from '@/parcels/notification/RemoveFromListNotification.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -20,12 +20,17 @@ export function ListButtons() {
   const { tcg } = useTcg();
   const { user } = useAuth();
 
-  const { print: card } = routeApi.useLoaderData();
-  const { lists, refetchLists } = useUserLists();
+  const { print: card, listResources } = routeApi.useLoaderData();
+  const { lists } = useUserLists();
   const favoriteList = lists.find((l) => l.list.systemListType === 'favorites');
   const checkListLimits = useCheckListLimits();
 
-  const existsInLists = useIsInList(lists, card.print.id);
+  const existsInLists = useMemo(() => {
+    const listIds = new Set(listResources?.map((r) => r.listId) ?? []);
+    if (!listIds) return [];
+
+    return lists.filter((l) => listIds.has(l.list.id));
+  }, [listResources, lists]);
   const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
   useEffect(() => {
     setInListAmount(existsInLists.length);
@@ -59,7 +64,6 @@ export function ListButtons() {
           setInListAmount(inListAmount - 1);
           return;
         }
-        refetchLists();
 
         notifications.show({
           autoClose: 3_000,
@@ -68,7 +72,7 @@ export function ListButtons() {
         });
       });
     });
-  }, [card, checkListLimits, inListAmount, isFavorite, lists, refetchLists, tcg, user?.id]);
+  }, [card, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id]);
 
   const removeFromFavorites = useCallback(() => {
     if (!isFavorite) return;
@@ -91,7 +95,6 @@ export function ListButtons() {
           setInListAmount(inListAmount + 1);
           return;
         }
-        refetchLists();
 
         notifications.show({
           autoClose: 3_000,
@@ -100,7 +103,7 @@ export function ListButtons() {
         });
       });
     });
-  }, [card, isFavorite, lists, refetchLists, tcg, user?.id, inListAmount]);
+  }, [card, isFavorite, lists, tcg, user?.id, inListAmount]);
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 

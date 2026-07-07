@@ -25,6 +25,7 @@ export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValue
 export type DlcDataSetSummary = c['schemas']['DlcDataSetSummary'];
 
 export type DlcDataCard = c['schemas']['DlcDataCard'];
+export type DlcDataCardUser = c['schemas']['FindCardResponse-DlcDataCard'];
 export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 export type DlcDataSets = c['schemas']['Page-DlcDataSet'];
@@ -105,9 +106,9 @@ export async function fetchDlcPrint(
   setCode: string,
   collectorNumber: string,
   abort?: AbortController,
-): Promise<{ data?: DlcDataCard; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/dlc/prints/{setCode}/{collectorNumber}`, {
+): Promise<GourmetApiResponse<DlcDataCard>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/prints/{setCode}/{collectorNumber}`, {
       params: {
         path: {
           setCode: setCode,
@@ -116,24 +117,26 @@ export async function fetchDlcPrint(
       },
       signal: abort?.signal,
     });
+  });
+}
 
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+// /v1/dlc/prints/user/{setCode}/{collectorNumber}
+export async function fetchDlcPrintUser(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DlcDataCardUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/prints/user/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
 }
 
 // /v1/dlc/cards/search
