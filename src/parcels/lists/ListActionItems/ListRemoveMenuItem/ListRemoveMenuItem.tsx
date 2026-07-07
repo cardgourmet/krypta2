@@ -11,30 +11,32 @@ import {
   type ListMenuItemRessourceProps,
 } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 
-export function ListRemoveMenuItem(props: ListMenuItemRessourceProps & TcgProps & { ref?: Ref<HTMLDivElement> }) {
-  const { ressourceId, type } = props;
+export function ListRemoveMenuItem(
+  props: { existsInLists: UserListWithResources[] } & ListMenuItemRessourceProps &
+    TcgProps & { ref?: Ref<HTMLDivElement> },
+) {
+  const { existsInLists } = props;
 
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
   const { lists } = useUserLists();
+
+  const existsInListsIds = useMemo(() => {
+    return existsInLists.map((l) => l.list.id);
+  }, [existsInLists]);
   const { removableLists } = useMemo(() => {
     const nonSystemLists = lists.filter((l) => l.list.systemListType === undefined);
-    const existsInLists = nonSystemLists
-      .filter((list) => {
-        if (type === 'card') return list.resources?.card?.find((res) => res.listResource.resourceId === ressourceId);
-        return list.resources?.user_search?.find((res) => res.listResource.resourceId === ressourceId);
-      })
-      .map((l) => l.list.id);
     const removableLists = nonSystemLists.filter((list) => {
-      return existsInLists.includes(list.list.id);
+      return existsInListsIds.includes(list.list.id);
     });
 
     return { removableLists };
-  }, [lists, ressourceId, type]);
+  }, [lists, existsInListsIds]);
 
   return (
     <>

@@ -190,8 +190,8 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
           // adjust local storage and add all with that queryId
           history.markQueries(query.rawQuery as string, res.resourceId);
         }}
-        onRemovedFromList={() => {
-          if (query.saved) removeResources([query.saved]);
+        onRemovedFromList={(listId) => {
+          if (query.saved) removeResources([query.saved], [listId]);
         }}
         activeListContext={CONTEXT_LIST_NAV}
       />

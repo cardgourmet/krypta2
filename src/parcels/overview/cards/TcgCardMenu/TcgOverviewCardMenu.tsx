@@ -140,7 +140,7 @@ export function TcgOverviewCardMenu({
               return (
                 <ListMenuItem
                   key={list.list.id}
-                  ressourceId={resourceId ?? ''}
+                  resourceId={resourceId ?? ''}
                   raw={resourceId === undefined}
                   listWithResources={list}
                   action={isRemove ? 'remove' : 'add'}
@@ -168,7 +168,7 @@ export function TcgOverviewCardMenu({
 
             <ListAddMenuItem
               ref={ref}
-              ressourceId={resourceId ?? ''}
+              resourceId={resourceId ?? ''}
               raw={resourceId === undefined}
               disclosure={disclosure}
               type={'card'}
@@ -181,10 +181,11 @@ export function TcgOverviewCardMenu({
                 closeMenu();
               }}
               buttonText={t('addToList')}
+              existsInLists={existsInLists}
             />
             <ListRemoveMenuItem
               ref={ref}
-              ressourceId={resourceId ?? ''}
+              resourceId={resourceId ?? ''}
               raw={resourceId === undefined}
               type={'card'}
               tcg={tcg}
@@ -195,6 +196,7 @@ export function TcgOverviewCardMenu({
 
                 closeMenu();
               }}
+              existsInLists={existsInLists}
             />
 
             <Menu.Divider />

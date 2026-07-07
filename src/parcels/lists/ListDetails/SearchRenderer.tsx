@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
-import type { ResolvedUserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type { UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
@@ -15,12 +15,12 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 export function SearchRenderer({
   list,
   data,
-  onSearchSaved,
+  onAddToList,
   onRemoveFromList,
 }: {
   list: UserListWithResources;
   data: ResolvedUserListResource;
-  onSearchSaved?: (id: string) => void;
+  onAddToList?: (res: UserListResource) => void;
   onRemoveFromList?: (listId: string) => void;
 }) {
   const { t } = useTranslation('lists');
@@ -98,12 +98,8 @@ export function SearchRenderer({
                 }
                 menuOpened={menuOpened}
                 setMenuOpened={setMenuOpened}
-                onSearchSaved={(id) => {
-                  if (onSearchSaved) onSearchSaved(id);
-                }}
-                onRemoveFromList={(listId) => {
-                  if (onRemoveFromList) onRemoveFromList(listId);
-                }}
+                onAddedToList={onAddToList}
+                onRemovedFromList={onRemoveFromList}
               />
             </Tooltip>
           )}

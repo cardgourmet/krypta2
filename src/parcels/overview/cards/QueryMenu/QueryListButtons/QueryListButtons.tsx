@@ -176,7 +176,7 @@ export function QueryListButtons({
           const list = lists.find((l) => l.list.id === listId);
           if (!list || !savedSearchId) return;
 
-          removeResources([savedSearchId]);
+          removeResources([savedSearchId], [list.list.id]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-red-01)',

@@ -213,7 +213,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
               addResources([res], true);
             }}
             onRemoveFromList={(res) => {
-              removeResources([res.resourceId]);
+              removeResources([res.resourceId], [res.listId]);
             }}
           />
         </div>

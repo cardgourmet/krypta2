@@ -95,7 +95,7 @@ export function ListButtons() {
           return;
         }
 
-        removeResources([card.print.id]);
+        removeResources([card.print.id], [favoriteList.list.id]);
         notifications.show({
           autoClose: 3_000,
           color: 'var(--gourmet-red-01)',
@@ -158,7 +158,7 @@ export function ListButtons() {
           const list = lists.find((l) => l.list.id === listId);
           if (!list) return;
 
-          removeResources([card.print.id]);
+          removeResources([card.print.id], [list.list.id]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-red-01)',

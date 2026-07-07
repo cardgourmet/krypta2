@@ -61,8 +61,8 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved, onSear
                 onAddedToList={(res) => {
                   if (onSearchSaved) onSearchSaved(res);
                 }}
-                onRemovedFromList={(resourceId) => {
-                  if (onSearchUnsaved) onSearchUnsaved(resourceId);
+                onRemovedFromList={(listId) => {
+                  if (onSearchUnsaved) onSearchUnsaved(listId);
                 }}
               />
             </Tooltip>

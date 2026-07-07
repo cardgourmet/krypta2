@@ -7,6 +7,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { getAllResourcesFromList } from '@/parcels/lists/api.ts';
 import { extractScryfallInfo } from '@/parcels/lists/ListDetails/extractScryfallInfo.ts';
 import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
@@ -27,6 +28,14 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const [localListWithResources, setLocalListWithResources] = useState<UserListWithResources>({
     list: list,
   });
+
+  const listResources = useMemo(() => {
+    return Object.values(localListWithResources.resources ?? {}).flatMap((v) => {
+      return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
+    });
+  }, [localListWithResources.resources]);
+  useActiveLists(undefined, listResources);
+
   useEffect(() => {
     setResourcesLoading(true);
     startTransition(async () => {

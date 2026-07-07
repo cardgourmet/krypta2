@@ -12,14 +12,14 @@ import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export type ListMenuItemRessourceProps = {
-  ressourceId: string;
+  resourceId: string;
   type?: 'card' | 'search';
   raw?: boolean;
   onSuccess?: (res?: UserListResource) => void;
 };
 
 export function ListMenuItem({
-  ressourceId,
+  resourceId,
   listWithResources,
   disabled,
   action,
@@ -47,8 +47,8 @@ export function ListMenuItem({
     return resources?.user_search?.map((r) => r.listResource.resourceId) ?? [];
   }, [resources, type]);
   const addToListCount = useMemo(() => {
-    return !listResourceIds.includes(ressourceId) ? 1 : 0;
-  }, [listResourceIds, ressourceId]);
+    return !listResourceIds.includes(resourceId) ? 1 : 0;
+  }, [listResourceIds, resourceId]);
 
   return (
     <Menu.Item
@@ -56,7 +56,7 @@ export function ListMenuItem({
         if (!user?.id) return;
 
         if (action === 'add') {
-          addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type, raw).then((res) => {
+          addResourcesToList(user?.id, list.id, mustTcg, [{ id: resourceId }], type, raw).then((res) => {
             if (res.error) {
               sendErrorNotification(res.error);
               return;
@@ -68,13 +68,13 @@ export function ListMenuItem({
           return;
         }
         if (action === 'remove') {
-          removeResourcesFromList(user?.id, list.id, mustTcg, [ressourceId], type).then((res) => {
+          removeResourcesFromList(user?.id, list.id, mustTcg, [resourceId], type).then((res) => {
             if (res.error) {
               sendErrorNotification(res.error);
               return;
             }
 
-            if (onSuccess) onSuccess({ listId: list.id } as UserListResource);
+            if (onSuccess) onSuccess({ listId: list.id, resourceId: resourceId } as UserListResource);
           });
           return;
         }

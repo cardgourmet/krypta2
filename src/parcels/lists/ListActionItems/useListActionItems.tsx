@@ -16,7 +16,7 @@ type ListActionItemsProps = {
   resourceId?: string;
   rawResourceId: string;
   onAddedToList?: (res: UserListResource) => void;
-  onRemovedFromList?: (listId: string) => void;
+  onRemovedFromList?: (listId: string, resourceId?: string) => void;
   type: 'card' | 'user_search';
   listContext?: UserListWithResources;
   activeListContext?: string;
@@ -42,8 +42,9 @@ export function useListActionItems({
   }, [existsInLists]);
 
   const systemLists = useMemo(() => {
+    if (listContext !== undefined) return [];
     return lists.filter((l) => l.list.systemListType !== undefined);
-  }, [lists]);
+  }, [lists, listContext?.list.id, listContext]);
   const disclosure = useDisclosure(false);
 
   const modal = useMemo(() => {
@@ -59,7 +60,7 @@ export function useListActionItems({
           return (
             <ListMenuItem
               key={list.list.id}
-              ressourceId={resourceId ?? rawResourceId}
+              resourceId={resourceId ?? rawResourceId}
               raw={resourceId === undefined}
               listWithResources={list}
               action={inList ? 'remove' : 'add'}
@@ -72,18 +73,18 @@ export function useListActionItems({
                 if (action === 'add') {
                   if (onAddedToList) onAddedToList(res);
                 } else if (action === 'remove') {
-                  if (onRemovedFromList) onRemovedFromList(list.list.id);
+                  if (onRemovedFromList) onRemovedFromList(list.list.id, resourceId);
                 }
               }}
               icon={<IconStar size={18} />}
-              buttonText={listContext !== undefined ? t('favoriteCopy') : t(`favorite${inList ? 'Remove' : ''}`)}
+              buttonText={t(`favorite${inList ? 'Remove' : ''}`)}
             />
           );
         })}
 
         <ListAddMenuItem
           ref={ref}
-          ressourceId={resourceId ?? rawResourceId}
+          resourceId={resourceId ?? rawResourceId}
           raw={resourceId === undefined}
           disclosure={disclosure}
           type={type === 'card' ? 'card' : 'search'}
@@ -94,12 +95,13 @@ export function useListActionItems({
               if (onAddedToList) onAddedToList(res);
             }
           }}
+          existsInLists={existsInLists}
         />
 
         {listContext !== undefined && (
           <ListMenuItem
             key={listContext.list.id}
-            ressourceId={resourceId ?? rawResourceId}
+            resourceId={resourceId ?? rawResourceId}
             raw={resourceId === undefined}
             listWithResources={listContext}
             action={'remove'}
@@ -108,7 +110,7 @@ export function useListActionItems({
             onSuccess={(res) => {
               if (!res) return;
 
-              if (onRemovedFromList) onRemovedFromList(listContext.list.id);
+              if (onRemovedFromList) onRemovedFromList(listContext.list.id, resourceId);
             }}
             icon={<IconList size={18} />}
             buttonText={'Remove from list'}
@@ -117,15 +119,16 @@ export function useListActionItems({
         {listContext === undefined && (
           <ListRemoveMenuItem
             ref={ref}
-            ressourceId={resourceId ?? rawResourceId}
+            resourceId={resourceId ?? rawResourceId}
             raw={resourceId === undefined}
             type={type === 'card' ? 'card' : 'search'}
             tcg={tcg}
             onSuccess={(res) => {
               if (res) {
-                if (onRemovedFromList) onRemovedFromList(res.listId);
+                if (onRemovedFromList) onRemovedFromList(res.listId, res.resourceId);
               }
             }}
+            existsInLists={existsInLists}
           />
         )}
       </>
@@ -138,11 +141,12 @@ export function useListActionItems({
     rawResourceId,
     ref,
     resourceId,
-    systemLists.map,
+    systemLists,
     tcg,
     type,
     t,
     listContext,
+    existsInLists,
   ]);
 
   return {

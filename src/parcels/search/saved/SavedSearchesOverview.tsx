@@ -154,8 +154,8 @@ export function SavedSearchesOverview() {
                 onSearchSaved={(res) => {
                   addResources([res]);
                 }}
-                onSearchUnsaved={() => {
-                  removeResources([entry.savedSearch.id]);
+                onSearchUnsaved={(listId) => {
+                  removeResources([entry.savedSearch.id], [listId]);
                 }}
               />
             )}
@@ -169,8 +169,8 @@ export function SavedSearchesOverview() {
                 onSearchSaved={(res) => {
                   addResources([res]);
                 }}
-                onSearchUnsaved={() => {
-                  removeResources([entry.savedSearch.id]);
+                onSearchUnsaved={(listId) => {
+                  removeResources([entry.savedSearch.id], [listId]);
                 }}
               />
             )}
@@ -187,7 +187,7 @@ export type TableEntryProps = {
   tableData: GourmetTableData<UserResolvedSavedSearch>;
   tcg: Tcg;
   onSearchSaved?: (res: UserListResource) => void;
-  onSearchUnsaved?: (resourceId: string) => void;
+  onSearchUnsaved?: (listId: string) => void;
 };
 
 function useTableData({
