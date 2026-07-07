@@ -4,6 +4,7 @@ import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { startTransition, useCallback, useEffect, useState } from 'react';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
@@ -38,6 +39,7 @@ export function QueryListButtons({
   const { lists } = useUserLists();
   const favoriteList = lists.find((l) => l.list.systemListType === 'favorites');
   const checkListLimits = useCheckListLimits();
+  const { addResources, removeResources } = useActiveLists();
 
   //const existsInLists = useIsInList(lists, savedSearch?.id);
   const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
@@ -87,7 +89,6 @@ export function QueryListButtons({
       );
     });
   }, [query, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id, setSavedSearchId]);
-
   const removeFromFavorites = useCallback(() => {
     if (!isFavorite) return;
     if (!user?.id) return;
@@ -160,10 +161,11 @@ export function QueryListButtons({
         }
         menuOpened={listMenuOpened}
         setMenuOpened={setListMenuOpened}
-        onAddedToList={(_, listId) => {
-          const list = lists.find((l) => l.list.id === listId);
+        onAddedToList={(res) => {
+          const list = lists.find((l) => l.list.id === res.listId);
           if (!list) return;
 
+          addResources([res]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-green-1)',
@@ -172,8 +174,9 @@ export function QueryListButtons({
         }}
         onRemovedFromList={(listId) => {
           const list = lists.find((l) => l.list.id === listId);
-          if (!list) return;
+          if (!list || !savedSearchId) return;
 
+          removeResources([savedSearchId]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-red-01)',

@@ -2,9 +2,10 @@ import { Center, Group, UnstyledButton } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { getRouteApi } from '@tanstack/react-router';
-import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
+import { startTransition, useCallback, useEffect, useState } from 'react';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
@@ -20,17 +21,14 @@ export function ListButtons() {
   const { tcg } = useTcg();
   const { user } = useAuth();
 
-  const { print: card, listResources } = routeApi.useLoaderData();
+  const { print: card } = routeApi.useLoaderData();
   const { lists } = useUserLists();
   const favoriteList = lists.find((l) => l.list.systemListType === 'favorites');
   const checkListLimits = useCheckListLimits();
 
-  const existsInLists = useMemo(() => {
-    const listIds = new Set(listResources?.map((r) => r.listId) ?? []);
-    if (!listIds) return [];
+  const { addResources, removeResources } = useActiveLists();
+  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
 
-    return lists.filter((l) => listIds.has(l.list.id));
-  }, [listResources, lists]);
   const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
   useEffect(() => {
     setInListAmount(existsInLists.length);
@@ -64,7 +62,9 @@ export function ListButtons() {
           setInListAmount(inListAmount - 1);
           return;
         }
+        if (!res.data) return;
 
+        addResources([res.data[0]]);
         notifications.show({
           autoClose: 3_000,
           color: 'var(--gourmet-green-1)',
@@ -72,8 +72,7 @@ export function ListButtons() {
         });
       });
     });
-  }, [card, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id]);
-
+  }, [card, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id, addResources]);
   const removeFromFavorites = useCallback(() => {
     if (!isFavorite) return;
     if (!user?.id) return;
@@ -96,6 +95,7 @@ export function ListButtons() {
           return;
         }
 
+        removeResources([card.print.id]);
         notifications.show({
           autoClose: 3_000,
           color: 'var(--gourmet-red-01)',
@@ -103,7 +103,7 @@ export function ListButtons() {
         });
       });
     });
-  }, [card, isFavorite, lists, tcg, user?.id, inListAmount]);
+  }, [card, isFavorite, lists, tcg, user?.id, inListAmount, removeResources]);
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
@@ -143,10 +143,11 @@ export function ListButtons() {
         }
         menuOpened={listMenuOpened}
         setMenuOpened={setListMenuOpened}
-        onAddedToList={(_, listId) => {
-          const list = lists.find((l) => l.list.id === listId);
+        onAddedToList={(res) => {
+          const list = lists.find((l) => l.list.id === res.listId);
           if (!list) return;
 
+          addResources([res]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-green-1)',
@@ -157,6 +158,7 @@ export function ListButtons() {
           const list = lists.find((l) => l.list.id === listId);
           if (!list) return;
 
+          removeResources([card.print.id]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-red-01)',

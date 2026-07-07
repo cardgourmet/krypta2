@@ -7,6 +7,7 @@ import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Button } from '@/parcels/generic/Button/Button';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { CONTEXT_LIST_NAV, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
@@ -123,6 +124,8 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
   const addSavedSearch = useUserRecentSavedSearches((s) => s.addSavedSearch);
   const removeSavedSearch = useUserRecentSavedSearches((s) => s.removeSavedSearch);
 
+  const { addResources, removeResources } = useActiveLists(CONTEXT_LIST_NAV);
+
   return (
     <Group gap={'0.2rem'}>
       <ActionIcon
@@ -134,6 +137,9 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
               if (error) {
                 sendErrorNotification(error);
                 return;
+              }
+              if (query.saved) {
+                removeResources([query.saved]);
               }
 
               // adjust local storage and remove all with that queryId
@@ -178,10 +184,16 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
             <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
           </ActionIcon>
         }
-        onAddedToList={(id) => {
+        onAddedToList={(res) => {
+          addResources([res], true);
+
           // adjust local storage and add all with that queryId
-          history.markQueries(query.rawQuery as string, id);
+          history.markQueries(query.rawQuery as string, res.resourceId);
         }}
+        onRemovedFromList={() => {
+          if (query.saved) removeResources([query.saved]);
+        }}
+        activeListContext={CONTEXT_LIST_NAV}
       />
     </Group>
   );

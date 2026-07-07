@@ -9,7 +9,7 @@ import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistory
 import type { TableEntryProps } from '@/parcels/search/saved/SavedSearchesOverview.tsx';
 import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 
-export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryProps) {
+export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved, onSearchUnsaved }: TableEntryProps) {
   const { t } = useTranslation('saved');
   const [menuOpened, setMenuOpened] = useState(false);
   const { user } = useAuth();
@@ -58,8 +58,11 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
                 }
                 menuOpened={menuOpened}
                 setMenuOpened={setMenuOpened}
-                onAddedToList={(id) => {
-                  if (onSearchSaved) onSearchSaved(id);
+                onAddedToList={(res) => {
+                  if (onSearchSaved) onSearchSaved(res);
+                }}
+                onRemovedFromList={(resourceId) => {
+                  if (onSearchUnsaved) onSearchUnsaved(resourceId);
                 }}
               />
             </Tooltip>

@@ -1,10 +1,11 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { create } from 'zustand/react';
 import { groupBy } from '@/parcels/groupBy.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 
 export const CONTEXT_LIST_MAIN = 'main';
+export const CONTEXT_LIST_NAV = 'nav';
 
 type ActiveListsState = {
   activeListsByContext: Record<string, UserListWithResources[]>;
@@ -97,8 +98,6 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
         newData[context] = removeResourcesByIds(current[context], ressourceIds);
       }
 
-      console.log('removedResources', Object.keys(current), newData);
-
       set({
         activeListsByContext: newData,
       });
@@ -106,8 +105,9 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
   },
 }));
 
-export function useActiveLists(context: string) {
+export function useActiveLists(context?: string, resources?: UserListResource[]) {
   const { lists } = useUserLists();
+  context = context ?? CONTEXT_LIST_MAIN;
 
   const allActiveLists = useActiveListsState((s) => s.activeListsByContext[context]) ?? [];
   const { setResources, addResources, removeResources } = useActiveListsState((s) => s.actions);
@@ -130,6 +130,11 @@ export function useActiveLists(context: string) {
     },
     [removeResources],
   );
+
+  useEffect(() => {
+    if (resources === undefined) return;
+    setResourcesContext(resources);
+  }, [setResourcesContext, resources]);
 
   return {
     activeLists: allActiveLists,

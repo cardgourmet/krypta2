@@ -1,12 +1,13 @@
 import { Divider, Group, Stack } from '@mantine/core';
 import { IconAlertSquareRoundedFilled } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { type ReactElement, useCallback, useEffect, useState } from 'react';
+import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetTable, type GourmetTableData } from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { fetchSearchHistory } from '@/parcels/search/api.ts';
@@ -38,6 +39,10 @@ export function SearchHistoryOverview() {
     ],
   });
   const [historyData, setHistoryData] = useState<PagedUserSearchHistoryEntry | undefined>(undefined);
+  const listResources = useMemo(() => {
+    return historyData?.items?.flatMap((i) => i.listResources ?? []) ?? [];
+  }, [historyData?.items]);
+  useActiveLists(undefined, listResources);
 
   const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);

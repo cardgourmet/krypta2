@@ -2,22 +2,24 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconList, IconStar } from '@tabler/icons-react';
 import { type Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type ListActionItemsProps = {
   tcg: Tcg;
   resourceId?: string;
   rawResourceId: string;
-  onAddedToList?: (id: string, listId: string) => void;
+  onAddedToList?: (res: UserListResource) => void;
   onRemovedFromList?: (listId: string) => void;
   type: 'card' | 'user_search';
   listContext?: UserListWithResources;
+  activeListContext?: string;
 } & { ref?: Ref<HTMLDivElement> };
 
 export function useListActionItems({
@@ -29,19 +31,19 @@ export function useListActionItems({
   type,
   ref,
   listContext,
+  activeListContext,
 }: ListActionItemsProps) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const { lists, refetchLists } = useUserLists();
-  const { systemLists, existsInLists } = useMemo(() => {
-    const systemLists = lists.filter((l) => l.list.systemListType !== undefined);
-    const existsInLists = lists
-      .filter((list) => {
-        return list.resources?.[type]?.find((res) => res.listResource.resourceId === resourceId);
-      })
-      .map((l) => l.list.id);
 
-    return { systemLists, existsInLists };
-  }, [lists, resourceId, type]);
+  const { existsInLists } = useActiveListsResource(activeListContext ?? CONTEXT_LIST_MAIN, resourceId);
+  const existsInListsIds = useMemo(() => {
+    return existsInLists.map((l) => l.list.id);
+  }, [existsInLists]);
+
+  const systemLists = useMemo(() => {
+    return lists.filter((l) => l.list.systemListType !== undefined);
+  }, [lists]);
   const disclosure = useDisclosure(false);
 
   const modal = useMemo(() => {
@@ -52,7 +54,7 @@ export function useListActionItems({
     return (
       <>
         {systemLists.map((list) => {
-          const inList = existsInLists.includes(list.list.id);
+          const inList = existsInListsIds.includes(list.list.id);
 
           return (
             <ListMenuItem
@@ -66,9 +68,9 @@ export function useListActionItems({
               onSuccess={(res) => {
                 if (!res) return;
 
-                const action = existsInLists.includes(list.list.id) ? 'remove' : 'add';
+                const action = existsInListsIds.includes(list.list.id) ? 'remove' : 'add';
                 if (action === 'add') {
-                  if (onAddedToList) onAddedToList(res.resourceId, list.list.id);
+                  if (onAddedToList) onAddedToList(res);
                 } else if (action === 'remove') {
                   if (onRemovedFromList) onRemovedFromList(list.list.id);
                 }
@@ -89,7 +91,7 @@ export function useListActionItems({
           buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
           onSuccess={(res) => {
             if (res) {
-              if (onAddedToList) onAddedToList(res.resourceId, res.listId);
+              if (onAddedToList) onAddedToList(res);
             }
           }}
         />
@@ -130,7 +132,7 @@ export function useListActionItems({
     );
   }, [
     disclosure,
-    existsInLists.includes,
+    existsInListsIds,
     onRemovedFromList,
     onAddedToList,
     rawResourceId,

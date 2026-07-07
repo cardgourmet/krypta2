@@ -1,12 +1,14 @@
 import { IconBook2, IconClockHour8 } from '@tabler/icons-react';
 import { type RefObject, useEffect, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { CONTEXT_LIST_NAV, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
 import type { SearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useUserRecentSavedSearches } from '@/parcels/search/useUserRecentSavedSearches.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SearchRecentSuggestions({
   setIsOpened,
@@ -34,6 +36,12 @@ export function SearchRecentSuggestions({
   const recentQueries = history?.pastQueries ?? [];
 
   const { savedSearches, refetchSavedSearches } = useUserRecentSavedSearches((s) => s);
+  const listResources = useMemo(() => {
+    return Object.keys(savedSearches).flatMap((key) => {
+      return savedSearches[key as Tcg]?.flatMap((e) => e.listResources ?? []) ?? [];
+    });
+  }, [savedSearches]);
+  useActiveLists(CONTEXT_LIST_NAV, listResources);
   useEffect(() => {
     if (!user?.id) return;
 

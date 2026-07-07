@@ -2,6 +2,7 @@ import type { MenuProps } from '@mantine/core';
 import type { Dispatch, PropsWithChildren, ReactElement, Ref, SetStateAction } from 'react';
 import { MoreActionsMenu } from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
+import type { UserListResource } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type MoreListActionsMenuProps = {
@@ -11,9 +12,10 @@ type MoreListActionsMenuProps = {
   menuOpened?: boolean;
   setMenuOpened?: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
-  onAddedToList?: (id: string, listId: string) => void;
+  onAddedToList?: (res: UserListResource) => void;
   onRemovedFromList?: (listId: string) => void;
   type: 'card' | 'user_search';
+  activeListContext?: string;
   menuProps?: MenuProps;
 } & { ref?: Ref<HTMLDivElement> };
 
@@ -29,6 +31,7 @@ export function MoreListActionsMenu({
   type,
   children,
   ref,
+  activeListContext,
   menuProps,
 }: PropsWithChildren<MoreListActionsMenuProps>) {
   const { modal, entries } = useListActionItems({
@@ -39,6 +42,7 @@ export function MoreListActionsMenu({
     onRemovedFromList: onRemovedFromList,
     type,
     ref,
+    activeListContext,
   });
 
   return (
