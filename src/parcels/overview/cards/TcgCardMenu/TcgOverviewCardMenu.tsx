@@ -1,14 +1,11 @@
 import { Group, Menu, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconLink, IconStar } from '@tabler/icons-react';
-import { Activity, type Ref, useCallback, useEffect, useMemo, useState } from 'react';
+import { IconLink } from '@tabler/icons-react';
+import { Activity, type Ref, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
-import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
-import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
+import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import type { UserListResource } from '@/parcels/lists/types.ts';
@@ -33,15 +30,7 @@ export function TcgOverviewCardMenu({
   const { data: activeCard, opened, target: activeTargetRef, closeMenu } = useCardMenuStore((state) => state);
   const resourceId = activeCard?.print?.id;
 
-  const { lists, refetchLists } = useUserLists();
-  const systemLists = useMemo(() => {
-    return lists.filter((l) => l.list.systemListType !== undefined);
-  }, [lists]);
-
-  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, resourceId);
-  const existsInListsIds = useMemo(() => {
-    return existsInLists.map((l) => l.list.id);
-  }, [existsInLists]);
+  const { refetchLists } = useUserLists();
 
   // rerender on resize
   const [, forceRerender] = useState(0);
@@ -85,6 +74,32 @@ export function TcgOverviewCardMenu({
     },
     [closeMenu],
   );
+
+  const { entries } = useListActionItems({
+    tcg,
+    resourceId,
+    rawResourceId: resourceId ?? '',
+    onAddedToList: (res) => {
+      if (res) {
+        if (onAddToList) onAddToList(res);
+      }
+
+      closeMenu();
+    },
+    onRemovedFromList: (listId, resourceId) => {
+      if (onRemoveFromList) {
+        onRemoveFromList({
+          listId: listId,
+          resourceId: resourceId,
+          resourceType: 'card',
+        } as UserListResource);
+      }
+
+      closeMenu();
+    },
+    type: 'card',
+    ref,
+  });
 
   return (
     <>
@@ -134,70 +149,7 @@ export function TcgOverviewCardMenu({
               </Stack>
             )}
 
-            {systemLists.map((list) => {
-              const isRemove = existsInListsIds.includes(list.list.id);
-
-              return (
-                <ListMenuItem
-                  key={list.list.id}
-                  resourceId={resourceId ?? ''}
-                  raw={resourceId === undefined}
-                  listWithResources={list}
-                  action={isRemove ? 'remove' : 'add'}
-                  type={'card'}
-                  tcg={tcg}
-                  onSuccess={(res) => {
-                    if (res) {
-                      if (isRemove) {
-                        if (onRemoveFromList)
-                          onRemoveFromList({
-                            listId: list.list.id,
-                            resourceId: resourceId,
-                            resourceType: 'card',
-                          } as UserListResource);
-                      } else {
-                        if (onAddToList) onAddToList(res);
-                      }
-                    }
-                  }}
-                  icon={<IconStar size={18} />}
-                  buttonText={t(`favorite${existsInListsIds.includes(list.list.id) ? 'Remove' : ''}`)}
-                />
-              );
-            })}
-
-            <ListAddMenuItem
-              ref={ref}
-              resourceId={resourceId ?? ''}
-              raw={resourceId === undefined}
-              disclosure={disclosure}
-              type={'card'}
-              tcg={tcg}
-              onSuccess={(res) => {
-                if (res) {
-                  if (onAddToList) onAddToList(res);
-                }
-
-                closeMenu();
-              }}
-              buttonText={t('addToList')}
-              existsInLists={existsInLists}
-            />
-            <ListRemoveMenuItem
-              ref={ref}
-              resourceId={resourceId ?? ''}
-              raw={resourceId === undefined}
-              type={'card'}
-              tcg={tcg}
-              onSuccess={(res) => {
-                if (res) {
-                  if (onRemoveFromList) onRemoveFromList(res);
-                }
-
-                closeMenu();
-              }}
-              existsInLists={existsInLists}
-            />
+            {entries}
 
             <Menu.Divider />
 
