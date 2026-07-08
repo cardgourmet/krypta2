@@ -1,24 +1,15 @@
 import { Button, Group, Menu, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 
-export function ExistsInListsBadge({
-  resourceId,
-  type,
-}: {
-  resourceId: string | undefined;
-  type: 'card' | 'user_search';
-}) {
-  const { lists } = useUserLists();
-  const existsInLists = useMemo(() => {
-    return lists.filter((l) => {
-      return l.resources?.[type]?.find((r) => r.listResource.resourceId === resourceId);
-    });
-  }, [lists, resourceId, type]);
+export function ExistsInListsBadge({ resourceId }: { resourceId: string | undefined }) {
+  const { user } = useAuth();
+
+  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, resourceId);
   const firstList = existsInLists?.at(0);
 
   return (
@@ -44,8 +35,8 @@ export function ExistsInListsBadge({
                 return (
                   <Link
                     key={l.list.id}
-                    to={'/me/lists/$listId'}
-                    params={{ listId: l.list.id }}
+                    to={'/@{$user}/lists/$listId'}
+                    params={{ user: user!.username, listId: l.list.id }}
                     style={{ textDecoration: 'none' }}
                     preload={false}
                   >

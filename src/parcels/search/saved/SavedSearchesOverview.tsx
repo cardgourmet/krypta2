@@ -7,8 +7,10 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetTable, type GourmetTableData } from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
+import type { UserListResource } from '@/parcels/lists/types.ts';
 import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { deleteSavedSearches, fetchSavedSearches } from '@/parcels/search/api.ts';
@@ -53,6 +55,12 @@ export function SavedSearchesOverview() {
   const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchesData, setSearchesData] = useState<PagedUserSavedSearch | undefined>(undefined);
+
+  const listResources = useMemo(() => {
+    return searchesData?.items?.flatMap((i) => i.listResources ?? []) ?? [];
+  }, [searchesData?.items]);
+  const { addResources, removeResources } = useActiveLists(undefined, listResources);
+
   useEffect(() => {
     if (!user?.id) return;
 
@@ -143,6 +151,12 @@ export function SavedSearchesOverview() {
                 data={data}
                 tableData={tableData}
                 tcg={search.tcg}
+                onSearchSaved={(res) => {
+                  addResources([res]);
+                }}
+                onSearchUnsaved={(listId) => {
+                  removeResources([entry.savedSearch.id], [listId]);
+                }}
               />
             )}
             constructVerTableRow={({ entry, data }) => (
@@ -152,6 +166,12 @@ export function SavedSearchesOverview() {
                 data={data}
                 tableData={tableData}
                 tcg={search.tcg}
+                onSearchSaved={(res) => {
+                  addResources([res]);
+                }}
+                onSearchUnsaved={(listId) => {
+                  removeResources([entry.savedSearch.id], [listId]);
+                }}
               />
             )}
           />
@@ -166,7 +186,8 @@ export type TableEntryProps = {
   data: Record<string, ReactElement>;
   tableData: GourmetTableData<UserResolvedSavedSearch>;
   tcg: Tcg;
-  onSearchSaved?: (resourceId: string) => void;
+  onSearchSaved?: (res: UserListResource) => void;
+  onSearchUnsaved?: (listId: string) => void;
 };
 
 function useTableData({
@@ -237,7 +258,7 @@ function useTableData({
               ),
               inList: (
                 <>
-                  <ExistsInListsBadge type={'user_search'} resourceId={i.savedSearch?.id} />
+                  <ExistsInListsBadge resourceId={i.savedSearch?.id} />
                 </>
               ),
             },

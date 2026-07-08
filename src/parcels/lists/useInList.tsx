@@ -1,16 +1,8 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import type { DataAuthUser } from '@/parcels/auth/api.ts';
-import { type ListsData, useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
-
-export function useIsInList(lists: ListsData['lists'], ressourceId?: string): ListsData['lists'] {
-  return useMemo(() => {
-    return lists.filter((l) => {
-      return l.resources?.card?.find((r) => r.listResource.resourceId === ressourceId);
-    });
-  }, [lists, ressourceId]);
-}
 
 type UserWithLimits = (DataAuthUser & { limits: object }) | undefined;
 const defaultLimits = {

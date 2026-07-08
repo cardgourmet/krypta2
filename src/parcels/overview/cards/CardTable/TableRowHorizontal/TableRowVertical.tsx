@@ -75,7 +75,7 @@ export function TableRowVertical({
             </Activity>
             <Activity mode={!toolsEnabled || isSelectionMode ? 'hidden' : 'visible'}>
               <Group justify={'end'} wrap={'nowrap'} gap={'0.2rem'}>
-                <ExistsInListsBadge type={'card'} resourceId={card.print.id} />
+                <ExistsInListsBadge resourceId={card.print.id} />
 
                 {actionIcon}
               </Group>

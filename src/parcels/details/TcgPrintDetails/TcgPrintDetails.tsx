@@ -16,6 +16,7 @@ import { TcgPrintMeta } from '@/parcels/details/TcgPrintDetails/TcgPrintMeta/Tcg
 import { TcgPrintImageRenderer } from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
@@ -30,8 +31,10 @@ export function TcgPrintDetails() {
   const { user } = useAuth();
 
   const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
-  const { print: card, set } = routeApi.useLoaderData();
+  const { print: card, set, listResources } = routeApi.useLoaderData();
   const { lang: printLanguage } = routeApi.useSearch() as CardDetailsSearch;
+
+  useActiveLists(undefined, listResources ?? []);
 
   const navigate = useNavigate();
   const setLanguage = useCallback(

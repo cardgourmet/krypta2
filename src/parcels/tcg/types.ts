@@ -3,6 +3,7 @@ import z from 'zod';
 import type { CardSearchParams } from '@/parcels/overview/cards/types.ts';
 import type {
   DlcDataCard,
+  DlcDataCardUser,
   DlcDataPrint,
   DlcDataSet,
   DlcDataSetSummary,
@@ -21,6 +22,7 @@ import {
 } from '@/parcels/tcg/dlc/types.ts';
 import type {
   MtgDataCard,
+  MtgDataCardUser,
   MtgDataPrint,
   MtgDataSet,
   MtgDataSetSummary,
@@ -39,6 +41,7 @@ import {
 } from '@/parcels/tcg/mtg/types.ts';
 import type {
   PcgDataCard,
+  PcgDataCardUser,
   PcgDataPrint,
   PcgDataSet,
   PcgDataSetSummary,
@@ -78,6 +81,7 @@ export type TcgDataSets = MtgDataSets | DlcDataSets | PcgDataSets;
 export type TcgStatistics = c['schemas']['TcgStatistics'];
 
 export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
+export type TcgDataCardUser = MtgDataCardUser | DlcDataCardUser | PcgDataCardUser;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
 export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
 export type TcgSetSearchResult = MtgSetSearchResult | DlcSetSearchResult | PcgSetSearchResult;

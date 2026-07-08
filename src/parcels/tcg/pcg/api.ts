@@ -25,6 +25,7 @@ export type PcgCardQuery = TcgCardQuery & {
 };
 
 export type PcgDataCard = c['schemas']['PcgDataCard'];
+export type PcgDataCardUser = c['schemas']['FindCardResponse-PcgDataCard'];
 export type PcgDataPrint = c['schemas']['PcgDataPrint'];
 export type PcgDataSet = c['schemas']['PcgDataSet'];
 export type PcgDataSets = c['schemas']['Page-PcgDataSet'];
@@ -121,9 +122,9 @@ export async function fetchPcgPrint(
   setCode: string,
   collectorNumber: string,
   abort?: AbortController,
-): Promise<{ data?: PcgDataCard; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/pcg/prints/{setCode}/{collectorNumber}`, {
+): Promise<GourmetApiResponse<PcgDataCard>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/prints/{setCode}/{collectorNumber}`, {
       params: {
         path: {
           setCode: setCode,
@@ -132,24 +133,26 @@ export async function fetchPcgPrint(
       },
       signal: abort?.signal,
     });
+  });
+}
 
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+// /v1/pcg/prints/user/{setCode}/{collectorNumber}
+export async function fetchPcgPrintUser(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<PcgDataCardUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/prints/user/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
 }
 
 // /v1/pcg/cards/search

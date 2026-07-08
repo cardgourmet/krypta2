@@ -53,7 +53,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     }
 
     const onlyOneCard = data?.items?.length === 1;
-    if (onlyOneCard && user?.settings.search?.forwardToDetailPage) {
+    if (onlyOneCard && (user?.settings.search?.forwardToDetailPage ?? true)) {
       const card = data.items[0].card;
       setWasForwarded();
 
@@ -138,7 +138,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     return () => {
       controller.abort();
     };
-  }, [querySettings, tcg, set]);
+  }, [querySettings, tcg, set, user?.id]);
 
   return { cards, isLoading, isQueryLoading, fetchCards, searchDetails };
 }

@@ -1,12 +1,13 @@
 import { Checkbox, Group, Overlay, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { Activity, type ReactElement, useMemo } from 'react';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { Activity, type ReactElement } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
-import styles from './ToolsOverlay.module.css';
+import styles from './CardGridToolsOverlay.module.css';
 
-export function ToolsOverlay({
+export function CardGridToolsOverlay({
   card,
   checked,
   isSelectionMode,
@@ -19,12 +20,8 @@ export function ToolsOverlay({
   setSelection: (s: boolean) => void;
   menuButton: ReactElement;
 }) {
-  const { lists } = useUserLists();
-  const existsInLists = useMemo(() => {
-    return lists.filter((l) => {
-      return l.resources?.card?.find((r) => r.listResource.resourceId === card.print.id);
-    });
-  }, [lists, card.print.id]);
+  const { user } = useAuth();
+  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
 
   return (
     <>
@@ -52,7 +49,11 @@ export function ToolsOverlay({
             {existsInLists.slice(0, 5).map((l, index) => {
               return (
                 <div key={l.list.id} style={{ pointerEvents: 'auto' }}>
-                  <Link to={'/me/lists/$listId'} params={{ listId: l.list.slug }} className={styles.listLink}>
+                  <Link
+                    to={'/@{$user}/lists/$listId'}
+                    params={{ user: user!.username, listId: l.list.slug }}
+                    className={styles.listLink}
+                  >
                     <Tooltip label={l.list.name} openDelay={500}>
                       <IconLabelFilled
                         color={l.list.color ?? 'var(--gourmet-neutral-9)'}

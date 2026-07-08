@@ -1,4 +1,5 @@
 import { IconPencil } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Modal } from '@/parcels/modals/Modal';
@@ -11,6 +12,8 @@ import { useListPropertiesForm } from '../../forms/ListPropertiesForm/useListPro
 import type { UserList } from '../../types';
 
 export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalProps<{ list: UserList }>) => {
+  const { t } = useTranslation('lists', { keyPrefix: 'modal' });
+
   const auth = useAuth();
   const form = useListPropertiesForm({ list });
   const noti = useGourmetNotification();
@@ -45,9 +48,14 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
             <IconPencil />
           </FeaturedIcon>
 
-          <Modal.Title>Liste bearbeiten</Modal.Title>
+          <Modal.Title>{t('editList')}</Modal.Title>
 
-          <ListPropertiesFormFields advancedDefaultExpanded form={form} style={{ marginTop: '1.25rem' }} />
+          <ListPropertiesFormFields
+            advancedDefaultExpanded
+            form={form}
+            style={{ marginTop: '1.25rem' }}
+            isSystem={list.systemListType === 'favorites'}
+          />
         </Modal.Content>
         <Modal.Footer>
           <Modal.SecondaryButton
@@ -56,9 +64,9 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
               props.onClose?.();
             }}
           >
-            Abbrechen
+            {t('cancel')}
           </Modal.SecondaryButton>
-          <Modal.PrimaryButton type="submit">Speichern</Modal.PrimaryButton>
+          <Modal.PrimaryButton type="submit">{t('save')}</Modal.PrimaryButton>
         </Modal.Footer>
       </form>
     </Modal>

@@ -16,12 +16,14 @@ export function ListDetailsHeader({
   tcg,
   list,
   title,
-  setList,
+  onUpdate,
+  publicView,
 }: {
-  tcg: Tcg;
+  tcg?: Tcg;
   list: UserList;
   title: string;
-  setList: (list: UserList) => void;
+  onUpdate: (list: UserList) => void;
+  publicView?: boolean;
 }) {
   const { t, i18n } = useTranslation('lists');
   const navigate = useNavigate();
@@ -77,43 +79,45 @@ export function ListDetailsHeader({
               </span>
             </GourmetText>
 
-            <Group gap={'0.25rem'}>
-              <EditListButton
-                list={list}
-                onSuccess={(list) => {
-                  const newLists: UserListWithResources[] = [];
-                  localUserLists.forEach((l) => {
-                    if (l.list.id === list.id) {
-                      newLists.push({ list: list, resources: l.resources, size: l.size });
-                    } else {
-                      newLists.push(l);
-                    }
-                  });
-                  setLocalUserLists(newLists);
+            {!publicView && (
+              <Group gap={'0.25rem'}>
+                <EditListButton
+                  list={list}
+                  onSuccess={(list) => {
+                    const newLists: UserListWithResources[] = [];
+                    localUserLists.forEach((l) => {
+                      if (l.list.id === list.id) {
+                        newLists.push({ list: list, resources: l.resources, size: l.size });
+                      } else {
+                        newLists.push(l);
+                      }
+                    });
+                    setLocalUserLists(newLists);
 
-                  setList(list);
-                }}
-              />
-              <DeleteListButton
-                list={list}
-                onSuccess={(id) => {
-                  const list = localUserLists.find((l) => l.list.id === id);
-                  if (!list) return;
+                    onUpdate(list);
+                  }}
+                />
+                <DeleteListButton
+                  list={list}
+                  onSuccess={(id) => {
+                    const list = localUserLists.find((l) => l.list.id === id);
+                    if (!list) return;
 
-                  const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
-                  setLocalUserLists(newLists);
+                    const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
+                    setLocalUserLists(newLists);
 
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/me/lists',
-                    search: {
-                      ...paramDefaults,
-                      tcg: tcg,
-                    },
-                  });
-                }}
-              />
-            </Group>
+                    // noinspection JSIgnoredPromiseFromCall
+                    navigate({
+                      to: '/me/lists',
+                      search: {
+                        ...paramDefaults,
+                        tcg: tcg ?? 'all',
+                      },
+                    });
+                  }}
+                />
+              </Group>
+            )}
           </Group>
         </Stack>
       </Group>

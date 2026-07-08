@@ -17,6 +17,10 @@ export type AuthApiUserIntegration = c['schemas']['AuthApiUserIntegration'];
 
 export type UserSettings = c['schemas']['UserSettings'];
 
+export const USER_LIMIT_LISTS = 'lists';
+export const USER_LIMIT_LIST_RESOURCES_PER_LIST = 'list_resources_per_list';
+export const USER_LIMIT_LIST_RESOURCES_TOTAL = 'list_resources_total';
+
 // /v1/auth/basic/register
 export async function registerUsingBasicAuth(
   data: {

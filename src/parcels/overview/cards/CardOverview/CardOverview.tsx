@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { CardGrid } from '@/parcels/overview/cards/CardGrid/CardGrid.tsx';
 import { CardOverviewLoader } from '@/parcels/overview/cards/CardOverview/CardOverviewLoader.tsx';
 import CardOverviewSettings from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/CardOverviewSettings.tsx';
@@ -18,7 +19,7 @@ import { CardTable } from '@/parcels/overview/cards/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
 import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
-import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
+import { TcgOverviewCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgOverviewCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
@@ -64,6 +65,23 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     ...displaySettings,
   });
   const prevOverviewSettings = usePrevious(overviewSettings);
+
+  const { addResources, removeResources, setResources } = useActiveLists(CONTEXT_LIST_MAIN);
+
+  const previousSearchDetails = usePrevious(searchDetails);
+  useEffect(() => {
+    if (previousSearchDetails === searchDetails) return;
+
+    const queryChanged = previousSearchDetails?.explain?.originalQuery !== searchDetails?.explain?.originalQuery;
+
+    const resources = searchDetails?.listResources;
+    if (!resources) return;
+    if (queryChanged) {
+      setResources(resources);
+    } else {
+      addResources(resources);
+    }
+  }, [previousSearchDetails, searchDetails, addResources, setResources]);
 
   useEffect(() => {
     if (!overviewSettings) return;
@@ -141,7 +159,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
             >
               <IconArrowsShuffle size={18} color={'var(--gourmet-neutral-1)'} />
               <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'}>
-                The search result has been randomized. Sorting and pagination is disabled.
+                {t('randomized.info')}
               </GourmetText>
               <UnstyledButton
                 onClick={() => {
@@ -149,7 +167,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
                 }}
               >
                 <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'} fw={500}>
-                  Repeat this search
+                  {t('randomized.repeat')}
                 </GourmetText>
               </UnstyledButton>
             </Group>
@@ -189,7 +207,15 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
             <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
 
-          <TcgCardMenu tcg={tcg} />
+          <TcgOverviewCardMenu
+            tcg={tcg}
+            onAddToList={(res) => {
+              addResources([res], true);
+            }}
+            onRemoveFromList={(res) => {
+              removeResources([res.resourceId], [res.listId]);
+            }}
+          />
         </div>
 
         {set === undefined && !isRandomized && (

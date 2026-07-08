@@ -10,11 +10,11 @@ export const Route = createFileRoute('/$tcg/sets/$setCode/$collectorNumber/{-$an
   search: {
     middlewares: [stripSearchParams(cardDetailDefaults)],
   },
-  loader: async ({ params }) => {
+  loader: async ({ params, context }) => {
     const allowed = ['mtg', 'dlc', 'pcg'];
     if (!allowed.includes(params.tcg)) throw notFound({ data: { tcg: params.tcg } });
 
-    return loadTcgPrintAndSet(params.tcg as Tcg, params);
+    return loadTcgPrintAndSet(params.tcg as Tcg, params, context.auth.user?.id);
   },
 });
 

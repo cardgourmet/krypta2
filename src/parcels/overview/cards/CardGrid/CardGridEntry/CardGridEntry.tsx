@@ -3,7 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical } from '@tabler/icons-react';
 import { Activity, useMemo } from 'react';
 import { type CardProperties, createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import { ToolsOverlay } from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.tsx';
+import { CardGridToolsOverlay } from '@/parcels/overview/cards/CardGrid/CardGridToolsOverlay/CardGridToolsOverlay.tsx';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
 import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
@@ -134,7 +134,7 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
         >
           {!isTouchDevice && (
             <Activity mode={toolsEnabled ? 'visible' : 'hidden'}>
-              <ToolsOverlay
+              <CardGridToolsOverlay
                 card={card.card}
                 checked={isSelected}
                 isSelectionMode={isSelected || isSelectionMode}

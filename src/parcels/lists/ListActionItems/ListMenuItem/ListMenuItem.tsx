@@ -1,4 +1,4 @@
-import { Group, Menu, Tooltip } from '@mantine/core';
+import { Group, Menu, type MenuItemProps, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconMinus, IconPlus } from '@tabler/icons-react';
 import { type ReactElement, useMemo } from 'react';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
@@ -7,84 +7,112 @@ import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useCheckListLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
 import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export type ListMenuItemRessourceProps = {
-  ressourceId: string;
-  type?: 'card' | 'search';
+export type ListMenuItemResourceProps = {
+  resourceId: string;
+  type?: 'card' | 'user_search';
   raw?: boolean;
   onSuccess?: (res?: UserListResource) => void;
 };
 
-export function ListMenuItem({
-  ressourceId,
-  listWithResources,
-  disabled,
-  action,
-  type,
-  tcg,
-  raw,
-  onSuccess,
-  icon,
-  buttonText,
-}: {
-  listWithResources: UserListWithResources;
+export type ListMenuItemProps = {
+  resourceIds: string[];
+  type: 'card' | 'user_search';
   action: 'add' | 'remove';
-  disabled?: boolean;
+  listWithResources: UserListWithResources;
+
   icon?: ReactElement;
   buttonText?: string;
-} & ListMenuItemRessourceProps &
-  OptionalTcgProps) {
+  raw?: boolean;
+  onSuccess?: (res?: UserListResource[]) => void;
+} & MenuItemProps &
+  OptionalTcgProps;
+
+export function ListMenuItem({
+  resourceIds,
+  tcg,
+  listWithResources,
+  type,
+  action,
+  icon,
+  buttonText,
+  raw,
+  onSuccess,
+  disabled,
+  ...others
+}: ListMenuItemProps) {
   const locationTcg = useTcgByLocation();
   const mustTcg = tcg ?? (locationTcg as Tcg);
   const { user } = useAuth();
+  const { list_resources_per_list } = useUserLimits(user);
 
-  const { refetchLists } = useUserLists();
+  const mustType = type === 'user_search' ? 'search' : type;
+
   const { list, resources, size } = listWithResources;
   const listResourceIds = useMemo(() => {
-    if (type === 'card') return resources?.card?.map((r) => r.listResource.resourceId) ?? [];
-    return resources?.user_search?.map((r) => r.listResource.resourceId) ?? [];
+    return resources?.[type]?.map((r) => r.listResource.resourceId) ?? [];
   }, [resources, type]);
-  const addToListCount = useMemo(() => {
-    return !listResourceIds.includes(ressourceId) ? 1 : 0;
-  }, [listResourceIds, ressourceId]);
+  const listActionCount = useMemo(() => {
+    if (action === 'add') {
+      return resourceIds.filter((id) => !listResourceIds.includes(id)).length;
+    }
+    return resourceIds.filter((id) => listResourceIds.includes(id)).length;
+  }, [listResourceIds, action, resourceIds]);
+
+  const checkListLimits = useCheckListLimits();
+  const exceedsLimit = useMemo(() => {
+    if (listActionCount === 0) return false;
+    if (action === 'remove') return false;
+    return !checkListLimits(listWithResources, listActionCount);
+  }, [checkListLimits, listActionCount, listWithResources, action]);
 
   return (
     <Menu.Item
       onClick={() => {
         if (!user?.id) return;
+        if (!checkListLimits(listWithResources, listActionCount)) {
+          return;
+        }
 
         if (action === 'add') {
-          addResourcesToList(user?.id, list.id, mustTcg, [{ id: ressourceId }], type, raw).then((res) => {
+          const toAddRes = resourceIds.map((r) => ({ id: r }));
+
+          addResourcesToList(user?.id, list.id, mustTcg, toAddRes, mustType, raw).then((res) => {
             if (res.error) {
               sendErrorNotification(res.error);
               return;
             }
-            refetchLists();
 
             const data = res?.data;
-            if (onSuccess && data) onSuccess(data[0]);
+            if (onSuccess) {
+              onSuccess(data);
+            }
           });
           return;
         }
         if (action === 'remove') {
-          removeResourcesFromList(user?.id, list.id, mustTcg, [ressourceId], type).then((res) => {
+          removeResourcesFromList(user?.id, list.id, mustTcg, resourceIds, mustType).then((res) => {
             if (res.error) {
               sendErrorNotification(res.error);
               return;
             }
 
-            refetchLists();
-            if (onSuccess) onSuccess({ listId: list.id } as UserListResource);
+            if (onSuccess) {
+              onSuccess(
+                resourceIds.map((resourceId) => ({ listId: list.id, resourceId: resourceId }) as UserListResource),
+              );
+            }
           });
           return;
         }
       }}
-      disabled={disabled}
       className={styles.menuItem}
+      disabled={disabled || exceedsLimit || listActionCount === 0}
+      {...others}
     >
       <Group gap={'0.5rem'}>
         {icon && (
@@ -123,12 +151,17 @@ export function ListMenuItem({
 
             {action === 'add' && (
               <Group gap={'0.5rem'} wrap={'nowrap'}>
-                <GourmetText cgmff={'monospace'} c={'var(--gourmet-green-1)'} fz={'0.9rem'}>
-                  +{addToListCount}
+                <GourmetText
+                  cgmff={'monospace'}
+                  c={listActionCount < 0 ? 'var(--gourmet-red-01)' : 'var(--gourmet-green-1)'}
+                  fz={'0.9rem'}
+                >
+                  {listActionCount < 0 && `-${listActionCount}`}
+                  {listActionCount >= 0 && `+${listActionCount}`}
                 </GourmetText>
 
                 <GourmetText cgmff={'monospace'} c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
-                  {size ?? '?'}/100
+                  {size ?? '?'}/{list_resources_per_list}
                 </GourmetText>
               </Group>
             )}

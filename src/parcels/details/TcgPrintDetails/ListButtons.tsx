@@ -5,10 +5,11 @@ import { getRouteApi } from '@tanstack/react-router';
 import { startTransition, useCallback, useEffect, useState } from 'react';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
-import { useCheckListLimits, useIsInList } from '@/parcels/lists/useInList.tsx';
+import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
 import { AddedToListNotification } from '@/parcels/notification/AddToListNotification.tsx';
 import { RemoveFromListNotification } from '@/parcels/notification/RemoveFromListNotification.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -21,11 +22,13 @@ export function ListButtons() {
   const { user } = useAuth();
 
   const { print: card } = routeApi.useLoaderData();
-  const { lists, refetchLists } = useUserLists();
+  const { lists } = useUserLists();
   const favoriteList = lists.find((l) => l.list.systemListType === 'favorites');
   const checkListLimits = useCheckListLimits();
 
-  const existsInLists = useIsInList(lists, card.print.id);
+  const { addResources, removeResources } = useActiveLists();
+  const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
+
   const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
   useEffect(() => {
     setInListAmount(existsInLists.length);
@@ -59,8 +62,9 @@ export function ListButtons() {
           setInListAmount(inListAmount - 1);
           return;
         }
-        refetchLists();
+        if (!res.data) return;
 
+        addResources([res.data[0]]);
         notifications.show({
           autoClose: 3_000,
           color: 'var(--gourmet-green-1)',
@@ -68,8 +72,7 @@ export function ListButtons() {
         });
       });
     });
-  }, [card, checkListLimits, inListAmount, isFavorite, lists, refetchLists, tcg, user?.id]);
-
+  }, [card, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id, addResources]);
   const removeFromFavorites = useCallback(() => {
     if (!isFavorite) return;
     if (!user?.id) return;
@@ -91,8 +94,8 @@ export function ListButtons() {
           setInListAmount(inListAmount + 1);
           return;
         }
-        refetchLists();
 
+        removeResources([card.print.id], [favoriteList.list.id]);
         notifications.show({
           autoClose: 3_000,
           color: 'var(--gourmet-red-01)',
@@ -100,7 +103,7 @@ export function ListButtons() {
         });
       });
     });
-  }, [card, isFavorite, lists, refetchLists, tcg, user?.id, inListAmount]);
+  }, [card, isFavorite, lists, tcg, user?.id, inListAmount, removeResources]);
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
@@ -140,10 +143,11 @@ export function ListButtons() {
         }
         menuOpened={listMenuOpened}
         setMenuOpened={setListMenuOpened}
-        onAddedToList={(_, listId) => {
-          const list = lists.find((l) => l.list.id === listId);
+        onAddedToList={(res) => {
+          const list = lists.find((l) => l.list.id === res.listId);
           if (!list) return;
 
+          addResources([res]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-green-1)',
@@ -154,6 +158,7 @@ export function ListButtons() {
           const list = lists.find((l) => l.list.id === listId);
           if (!list) return;
 
+          removeResources([card.print.id], [list.list.id]);
           notifications.show({
             autoClose: 3_000,
             color: 'var(--gourmet-red-01)',

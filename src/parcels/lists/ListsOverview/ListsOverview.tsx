@@ -1,10 +1,11 @@
 import { Button, Divider, Drawer, Group, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconSettings, IconX } from '@tabler/icons-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { USER_LIMIT_LIST_RESOURCES_TOTAL, USER_LIMIT_LISTS } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { fetchListsPreview } from '@/parcels/lists/api.ts';
@@ -58,8 +59,8 @@ export default function ListsOverview() {
     if (!user?.id) return;
 
     setIsPreviewsLoading(true);
-    fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), undefined).then(
-      (res) => {
+    startTransition(() => {
+      fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 6).then((res) => {
         setIsPreviewsLoading(false);
 
         if (res.error) {
@@ -76,8 +77,8 @@ export default function ListsOverview() {
         });
 
         setUserListsWithResources(appliedLists);
-      },
-    );
+      });
+    });
   }, [user?.id, search.tcg, processedLocalUserLists]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
@@ -107,6 +108,28 @@ export default function ListsOverview() {
 
   return (
     <div>
+      <Drawer
+        position={'left'}
+        style={{ backgroundColor: 'var(--gourmet-neutral-0)' }}
+        size="100%"
+        opened={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        withCloseButton={false}
+      >
+        <Stack>
+          <Group justify={'space-between'}>
+            <Text ff={'var(--cgm-content-font-family)'} tt={'uppercase'} fw={'bold'}>
+              {t('settings.title')}
+            </Text>
+            <Button onClick={() => setIsSidebarOpen(false)} style={{ padding: 0, border: 'none', background: 'none' }}>
+              <IconX size={18} color={'var(--gourmet-neutral-8)'} />
+            </Button>
+          </Group>
+
+          <ListOverviewSettings onChange={() => setIsSidebarOpen(false)} />
+        </Stack>
+      </Drawer>
+
       <title>{`${t('pageTitle')} – Cardgourmet`}</title>
       {component}
 
@@ -138,27 +161,6 @@ export default function ListsOverview() {
         <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
       </Stack>
 
-      <Drawer
-        position={'left'}
-        style={{ backgroundColor: 'var(--gourmet-neutral-0)' }}
-        size="100%"
-        opened={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        withCloseButton={false}
-      >
-        <Stack>
-          <Group justify={'space-between'}>
-            <Text ff={'var(--cgm-content-font-family)'} tt={'uppercase'} fw={'bold'}>
-              {t('settings.title')}
-            </Text>
-            <Button onClick={() => setIsSidebarOpen(false)} style={{ padding: 0, border: 'none', background: 'none' }}>
-              <IconX size={18} color={'var(--gourmet-neutral-8)'} />
-            </Button>
-          </Group>
-
-          <ListOverviewSettings onChange={() => setIsSidebarOpen(false)} />
-        </Stack>
-      </Drawer>
       {!smallScreen && <ListOverviewSettings />}
       {smallScreen && (
         <Button
@@ -174,11 +176,26 @@ export default function ListsOverview() {
       )}
 
       <Stack mt={'xl'} mb={'2.5rem'}>
+        {user && localUserLists?.length > 0 && (
+          <Stack gap={'0.25rem'}>
+            <GourmetText cgmff={'ui'}>
+              {t('summary.youHave', {
+                listsCount: localUserLists.length,
+                listsMax: (user.limits[USER_LIMIT_LISTS] ?? 0) + 1,
+                resCount: localUserLists.map((l) => l.size ?? 0).reduce((partialSum, a) => partialSum + a, 0),
+                resMax: user.limits[USER_LIMIT_LIST_RESOURCES_TOTAL] ?? 0,
+              })}
+            </GourmetText>
+            <GourmetText cgmff={'ui'}>{t('summary.needMore')}</GourmetText>
+          </Stack>
+        )}
+
         {search.display === 'grid' && (
           <ListsOverviewGrid
             isLoading={isLoading}
             isPreviewsLoading={isPreviewsLoading}
-            userLists={userListsWithResources}
+            listsWithoutResources={processedLocalUserLists}
+            listsWithResources={userListsWithResources}
           />
         )}
         {search.display === 'table' && (
