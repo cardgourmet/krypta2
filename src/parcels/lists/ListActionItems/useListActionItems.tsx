@@ -2,7 +2,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconList, IconStar } from '@tabler/icons-react';
 import { type Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { ListAddMenu } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenu.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import { ListRemoveMenu } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenu.tsx';
@@ -34,8 +34,9 @@ export function useListActionItems({
   activeListContext,
 }: ListActionItemsProps) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
-  const { lists, refetchLists } = useUserLists();
+  const { refetchLists } = useUserLists();
 
+  const { activeLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
   const { existsInLists } = useActiveListsResource(activeListContext ?? CONTEXT_LIST_MAIN, resourceId);
   const existsInListsIds = useMemo(() => {
     return existsInLists.map((l) => l.list.id);
@@ -43,8 +44,8 @@ export function useListActionItems({
 
   const systemLists = useMemo(() => {
     if (listContext !== undefined) return [];
-    return lists.filter((l) => l.list.systemListType !== undefined);
-  }, [lists, listContext?.list.id, listContext]);
+    return activeLists.filter((l) => l.list.systemListType !== undefined);
+  }, [activeLists, listContext?.list.id, listContext]);
   const disclosure = useDisclosure(false);
 
   const modal = useMemo(() => {
@@ -113,7 +114,7 @@ export function useListActionItems({
               if (onRemovedFromList) onRemovedFromList(listContext.list.id, resourceId);
             }}
             icon={<IconList size={18} />}
-            buttonText={'Remove from list'}
+            buttonText={t('removeFromList')}
           />
         )}
         {listContext === undefined && (

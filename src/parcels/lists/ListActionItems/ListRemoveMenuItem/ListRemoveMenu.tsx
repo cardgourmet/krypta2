@@ -27,9 +27,13 @@ export function ListRemoveMenu(
     return existsInLists.map((l) => l.list.id);
   }, [existsInLists]);
 
+  const removableLists = useMemo(() => {
+    return existsInLists.filter((l) => l.list.systemListType !== 'favorites');
+  }, [existsInLists]);
+
   return (
     <>
-      {existsInLists.length > 0 && (
+      {removableLists.length > 0 && (
         <Menu
           opened={submenuOpened}
           onChange={setSubmenuOpened}
@@ -68,7 +72,7 @@ export function ListRemoveMenu(
               maxWidth: 320,
             }}
           >
-            {existsInLists.map((list) => {
+            {removableLists.map((list) => {
               return (
                 <ListMenuItem
                   resourceIds={[props.resourceId]}
