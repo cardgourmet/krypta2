@@ -8,14 +8,13 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {
   ListMenuItem,
-  type ListMenuItemRessourceProps,
+  type ListMenuItemResourceProps,
 } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 
-export function ListRemoveMenuItem(
-  props: { existsInLists: UserListWithResources[] } & ListMenuItemRessourceProps &
+export function ListRemoveMenu(
+  props: { existsInLists: UserListWithResources[] } & ListMenuItemResourceProps &
     TcgProps & { ref?: Ref<HTMLDivElement> },
 ) {
   const { existsInLists } = props;
@@ -24,23 +23,13 @@ export function ListRemoveMenuItem(
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
-  const { lists } = useUserLists();
-
   const existsInListsIds = useMemo(() => {
     return existsInLists.map((l) => l.list.id);
   }, [existsInLists]);
-  const { removableLists } = useMemo(() => {
-    const nonSystemLists = lists.filter((l) => l.list.systemListType === undefined);
-    const removableLists = nonSystemLists.filter((list) => {
-      return existsInListsIds.includes(list.list.id);
-    });
-
-    return { removableLists };
-  }, [lists, existsInListsIds]);
 
   return (
     <>
-      {removableLists.length > 0 && (
+      {existsInLists.length > 0 && (
         <Menu
           opened={submenuOpened}
           onChange={setSubmenuOpened}
@@ -79,8 +68,23 @@ export function ListRemoveMenuItem(
               maxWidth: 320,
             }}
           >
-            {removableLists.map((list) => {
-              return <ListMenuItem key={list.list.id} listWithResources={list} action={'remove'} {...props} />;
+            {existsInLists.map((list) => {
+              return (
+                <ListMenuItem
+                  resourceIds={[props.resourceId]}
+                  type={props.type ?? 'card'}
+                  raw={props.raw}
+                  key={list.list.id}
+                  listWithResources={list}
+                  action={'remove'}
+                  disabled={!existsInListsIds.includes(list.list.id)}
+                  onSuccess={(res) => {
+                    if (res && props.onSuccess) {
+                      props.onSuccess(res[0]);
+                    }
+                  }}
+                />
+              );
             })}
           </Menu.Dropdown>
         </Menu>

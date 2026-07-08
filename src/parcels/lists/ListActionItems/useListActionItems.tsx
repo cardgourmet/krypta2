@@ -3,9 +3,9 @@ import { IconList, IconStar } from '@tabler/icons-react';
 import { type Ref, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
-import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
+import { ListAddMenu } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenu.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
+import { ListRemoveMenu } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenu.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
@@ -60,18 +60,18 @@ export function useListActionItems({
           return (
             <ListMenuItem
               key={list.list.id}
-              resourceId={resourceId ?? rawResourceId}
+              resourceIds={[resourceId ?? rawResourceId]}
               raw={resourceId === undefined}
               listWithResources={list}
               action={inList ? 'remove' : 'add'}
-              type={type === 'card' ? 'card' : 'search'}
+              type={type}
               tcg={tcg}
               onSuccess={(res) => {
                 if (!res) return;
 
                 const action = existsInListsIds.includes(list.list.id) ? 'remove' : 'add';
                 if (action === 'add') {
-                  if (onAddedToList) onAddedToList(res);
+                  if (onAddedToList) onAddedToList(res[0]);
                 } else if (action === 'remove') {
                   if (onRemovedFromList) onRemovedFromList(list.list.id, resourceId);
                 }
@@ -82,12 +82,12 @@ export function useListActionItems({
           );
         })}
 
-        <ListAddMenuItem
+        <ListAddMenu
           ref={ref}
           resourceId={resourceId ?? rawResourceId}
           raw={resourceId === undefined}
           disclosure={disclosure}
-          type={type === 'card' ? 'card' : 'search'}
+          type={type}
           tcg={tcg}
           buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
           onSuccess={(res) => {
@@ -101,11 +101,11 @@ export function useListActionItems({
         {listContext !== undefined && (
           <ListMenuItem
             key={listContext.list.id}
-            resourceId={resourceId ?? rawResourceId}
+            resourceIds={[resourceId ?? rawResourceId]}
             raw={resourceId === undefined}
             listWithResources={listContext}
             action={'remove'}
-            type={type === 'card' ? 'card' : 'search'}
+            type={type}
             tcg={tcg}
             onSuccess={(res) => {
               if (!res) return;
@@ -117,11 +117,11 @@ export function useListActionItems({
           />
         )}
         {listContext === undefined && (
-          <ListRemoveMenuItem
+          <ListRemoveMenu
             ref={ref}
             resourceId={resourceId ?? rawResourceId}
             raw={resourceId === undefined}
-            type={type === 'card' ? 'card' : 'search'}
+            type={type}
             tcg={tcg}
             onSuccess={(res) => {
               if (res) {

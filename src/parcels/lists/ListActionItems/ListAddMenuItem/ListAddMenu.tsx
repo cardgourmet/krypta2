@@ -8,18 +8,18 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {
   ListMenuItem,
-  type ListMenuItemRessourceProps,
+  type ListMenuItemResourceProps,
 } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 
-export function ListAddMenuItem(
+export function ListAddMenu(
   props: {
     disclosure: UseDisclosureReturnValue;
     buttonText?: string;
     existsInLists: UserListWithResources[];
-  } & ListMenuItemRessourceProps &
+  } & ListMenuItemResourceProps &
     TcgProps & { ref?: Ref<HTMLDivElement> },
 ) {
   const { disclosure, existsInLists } = props;
@@ -88,12 +88,19 @@ export function ListAddMenuItem(
         {nonSystemLists.map((list) => {
           return (
             <ListMenuItem
+              resourceIds={[props.resourceId]}
+              type={props.type ?? 'card'}
+              raw={props.raw}
               key={list.list.id}
               listWithResources={list}
               action={'add'}
               disabled={existsInListsIds.includes(list.list.id)}
               buttonText={t('addToList')}
-              {...props}
+              onSuccess={(res) => {
+                if (res && props.onSuccess) {
+                  props.onSuccess(res[0]);
+                }
+              }}
             />
           );
         })}
