@@ -165,5 +165,10 @@
         "label": "Farbe"
       }
     }
+  },
+  "limits": {
+    "listLimitUsage": "Listen Limit {{amount}}/{{max}}",
+    "listTotalResourceLimitUsage": "Ressourcen Limit {{amount}}/{{max}}",
+    "listResourceLimitUsage": "Passt nicht in die Liste rein"
   }
 }

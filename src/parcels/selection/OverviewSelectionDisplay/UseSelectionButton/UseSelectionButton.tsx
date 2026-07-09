@@ -1,4 +1,4 @@
-import { Button, Group, Menu } from '@mantine/core';
+import { Button, Group, Menu, Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconChevronRight, IconList, IconPlus, IconStar } from '@tabler/icons-react';
 import { use, useMemo, useState } from 'react';
@@ -10,7 +10,7 @@ import { addResourcesToList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import { useCheckListLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
+import { useCheckUserLimits } from '@/parcels/lists/useInList.tsx';
 import { ModalContext } from '@/parcels/modals/Modal.context';
 import { CardsAddNotification } from '@/parcels/notification/CardsAddNotification.tsx';
 import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
@@ -31,13 +31,14 @@ export function UseSelectionButton() {
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
   const { user } = useAuth();
-  const { lists: listsLimit } = useUserLimits(user);
-  const checkUserListLimits = useCheckListLimits();
+  const { checkListCreateExceeded, checkListAddExceeded, generateExceededTooltip } = useCheckUserLimits();
 
   const tcg = useTcgByLocation() as Tcg;
   const { activeLists, addResources, addLists } = useActiveLists(CONTEXT_LIST_MAIN);
   const { systemLists, nonSystemLists } = useMemo(() => {
     const systemLists = activeLists.filter((l) => l.list.systemListType !== undefined);
+
+    console.log(activeLists);
     const nonSystemLists = activeLists
       .filter((l) => {
         if (l.list.systemListType !== undefined) return false;
@@ -65,6 +66,15 @@ export function UseSelectionButton() {
       favoriteList.resources?.card?.filter((c) => selectedPrintIds.includes(c.listResource.resourceId))?.length ?? 0
     );
   }, [selectedPrintIds, systemLists]);
+
+  const checkCreateLimitExceeded = useMemo(() => {
+    const checkCreate = checkListCreateExceeded(1);
+    if (checkCreate) return checkCreate;
+    const checkAdd = checkListAddExceeded({ size: 0 } as unknown as UserListWithResources, selectedPrintIds.length);
+    if (checkAdd) return checkAdd;
+
+    return null;
+  }, [checkListAddExceeded, checkListCreateExceeded, selectedPrintIds.length]);
 
   return (
     <Menu
@@ -165,52 +175,50 @@ export function UseSelectionButton() {
 
             <Menu.Divider />
 
-            <Menu.Item
-              disabled={activeLists.length - 1 >= listsLimit}
-              onClick={async () => {
-                if (activeLists.length - 1 >= listsLimit) {
-                  return;
-                }
-
-                const allowed = checkUserListLimits(
-                  { size: 0 } as unknown as UserListWithResources,
-                  selectedPrintIds.length,
-                );
-                if (!allowed) {
-                  // TODO: notification that limit reached (on top)
-                  return;
-                }
-
-                try {
-                  const createdList = await requestModal<UserList>('createList', { async: true });
-                  if (!createdList) return;
-                  addLists([{ list: createdList }]);
-
-                  const res = await addResourcesToList(
-                    user!.id,
-                    createdList.id,
-                    tcg,
-                    selectedPrintIds.map((i) => ({ id: i })),
-                    'card',
-                  );
-                  if (res.error) {
-                    sendErrorNotification(res.error);
+            <Tooltip
+              label={generateExceededTooltip(checkCreateLimitExceeded ?? undefined)}
+              disabled={!checkCreateLimitExceeded}
+              color={'var(--gourmet-red-01)'}
+              withArrow
+            >
+              <Menu.Item
+                disabled={!!checkCreateLimitExceeded}
+                onClick={async () => {
+                  if (checkCreateLimitExceeded) {
                     return;
                   }
 
-                  sendNotification('success', <ListCreateNotification list={createdList} />);
-                  sendNotification(
-                    'success',
-                    <CardsAddNotification tcg={tcg} list={createdList} printIds={selectedPrintIds} language={'en'} />,
-                  );
-                } catch {}
-              }}
-            >
-              <Group gap={'0.5rem'}>
-                <IconPlus size={18} />
-                <GourmetText cgmff={'ui'}>{t('createNewList')}</GourmetText>
-              </Group>
-            </Menu.Item>
+                  try {
+                    const createdList = await requestModal<UserList>('createList', { async: true });
+                    if (!createdList) return;
+                    addLists([{ list: createdList }]);
+
+                    const res = await addResourcesToList(
+                      user!.id,
+                      createdList.id,
+                      tcg,
+                      selectedPrintIds.map((i) => ({ id: i })),
+                      'card',
+                    );
+                    if (res.error) {
+                      sendErrorNotification(res.error);
+                      return;
+                    }
+
+                    sendNotification('success', <ListCreateNotification list={createdList} />);
+                    sendNotification(
+                      'success',
+                      <CardsAddNotification tcg={tcg} list={createdList} printIds={selectedPrintIds} language={'en'} />,
+                    );
+                  } catch {}
+                }}
+              >
+                <Group gap={'0.5rem'}>
+                  <IconPlus size={18} />
+                  <GourmetText cgmff={'ui'}>{t('createNewList')}</GourmetText>
+                </Group>
+              </Menu.Item>
+            </Tooltip>
           </Menu.Dropdown>
         </Menu>
       </Menu.Dropdown>
