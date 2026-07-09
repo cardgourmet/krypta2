@@ -1,7 +1,7 @@
 import { Checkbox, Group, Overlay, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { Activity, type ReactElement } from 'react';
+import { Activity, type ReactElement, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { CONTEXT_LIST_MAIN, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
@@ -22,6 +22,9 @@ export function CardGridToolsOverlay({
 }) {
   const { user } = useAuth();
   const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
+  const sortedExistsInLists = useMemo(() => {
+    return existsInLists.sort((a, b) => a.list.slug.localeCompare(b.list.slug));
+  }, [existsInLists]);
 
   return (
     <>
@@ -46,7 +49,7 @@ export function CardGridToolsOverlay({
       <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
         <Group m={'2.5rem 0 0 0'} justify={'end'}>
           <Stack gap={'0'} style={{ pointerEvents: 'none' }}>
-            {existsInLists.slice(0, 5).map((l, index) => {
+            {sortedExistsInLists.slice(0, 5).map((l, index) => {
               return (
                 <div key={l.list.id} style={{ pointerEvents: 'auto' }}>
                   <Link
