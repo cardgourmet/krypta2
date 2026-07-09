@@ -11,7 +11,7 @@ import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import type { UserListResource } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { deleteSavedSearches, fetchSavedSearches } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -52,7 +52,6 @@ export function SavedSearchesOverview() {
     ],
   });
 
-  const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchesData, setSearchesData] = useState<PagedUserSavedSearch | undefined>(undefined);
 
@@ -69,13 +68,13 @@ export function SavedSearchesOverview() {
       setIsLoading(false);
 
       if (error) {
-        noti.show('Unknown error', `${error}`, 'error');
+        sendErrorNotification(error);
         return;
       }
 
       setSearchesData(data);
     });
-  }, [noti.show, search.tcg, user?.id, search.search, search.sortDir]);
+  }, [search.tcg, user?.id, search.search, search.sortDir]);
 
   const onSearchUnsaved = useCallback(
     (queryId: string) => {
@@ -202,7 +201,6 @@ function useTableData({
 
   const { i18n } = useTranslation();
   const { user } = useAuth();
-  const noti = useGourmetNotification();
 
   return useMemo(() => {
     const columns = ['query', 'cards', 'time', 'speed', 'saved', 'inList'];
@@ -240,7 +238,7 @@ function useTableData({
                     if (i.savedSearch?.id) {
                       deleteSavedSearches(user?.id, i.savedSearch.game as Tcg, [i.savedSearch.id]).then(({ error }) => {
                         if (error) {
-                          noti.show('Unknown error', `${error}`, 'error');
+                          sendErrorNotification(error);
                           return;
                         }
 
@@ -265,5 +263,5 @@ function useTableData({
           };
         }) ?? [],
     };
-  }, [savedSearchData?.items, i18n.language, user?.id, onSearchUnsaved, noti.show, localHistory.markQueries]);
+  }, [savedSearchData?.items, i18n.language, user?.id, onSearchUnsaved, localHistory.markQueries]);
 }

@@ -1,10 +1,10 @@
 import { Button, Center, Group, Stack, UnstyledButton } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { updateUserSettings } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 
 export function ForwardedToDetailsBanner() {

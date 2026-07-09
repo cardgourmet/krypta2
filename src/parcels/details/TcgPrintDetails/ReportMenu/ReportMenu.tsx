@@ -1,15 +1,16 @@
 import { Button, Center, Flex, Group, Indicator, Menu, Modal, Stack, Textarea, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import { IconBug, IconMessageReportFilled } from '@tabler/icons-react';
 import { getRouteApi, useLocation } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import { GourmetSelect } from '@/parcels/generic/mantine/GourmetSelect/GourmetSelect.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { ReportSentNotification } from '@/parcels/notification/ReportSentNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import {
   type CreateUserReportRequest,
   createUserReport,
@@ -50,20 +51,7 @@ export function ReportMenu() {
   const [reportModalOpened, { open: openReportModal, close: closeReportModal }] = useDisclosure(false);
 
   function onReportSentSuccess() {
-    notifications.show({
-      autoClose: 5_000,
-      color: 'var(--gourmet-green-1)',
-      message: (
-        <Group wrap={'nowrap'} align={'stretch'}>
-          <Stack justify={'start'} gap={'0.25rem'}>
-            <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
-              {t('reportSent.title')}
-            </GourmetText>
-            <GourmetText fz={'0.9rem'}>{t('reportSent.description')}</GourmetText>
-          </Stack>
-        </Group>
-      ),
-    });
+    sendNotification('success', <ReportSentNotification />);
   }
 
   return (

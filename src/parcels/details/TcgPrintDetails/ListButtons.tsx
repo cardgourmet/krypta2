@@ -1,17 +1,17 @@
 import { Center, Group, UnstyledButton } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { getRouteApi } from '@tanstack/react-router';
-import { startTransition, useCallback, useEffect, useState } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
+import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
-import { AddedToListNotification } from '@/parcels/notification/AddToListNotification.tsx';
-import { RemoveFromListNotification } from '@/parcels/notification/RemoveFromListNotification.tsx';
+import { CardAddNotification } from '@/parcels/notification/CardAddNotification.tsx';
+import { CardRemoveNotification } from '@/parcels/notification/CardRemoveNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './ListButtons.module.css';
 
@@ -28,11 +28,7 @@ export function ListButtons() {
 
   const { addResources, removeResources } = useActiveLists();
   const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
-
-  const [inListAmount, setInListAmount] = useState<number>(existsInLists.length);
-  useEffect(() => {
-    setInListAmount(existsInLists.length);
-  }, [existsInLists.length]);
+  const inListAmount = existsInLists.length;
 
   const [isFavorite, setIsFavorite] = useState<boolean>();
   const [isListLoading, setIsListLoading] = useState<boolean>();
@@ -50,7 +46,6 @@ export function ListButtons() {
 
     setIsFavorite(true);
     setIsListLoading(true);
-    setInListAmount(inListAmount + 1);
 
     startTransition(() => {
       addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: card.print.id }], 'card').then((res) => {
@@ -59,20 +54,18 @@ export function ListButtons() {
         if (res.error) {
           setIsFavorite(false);
           sendErrorNotification(res.error);
-          setInListAmount(inListAmount - 1);
           return;
         }
         if (!res.data) return;
 
         addResources([res.data[0]]);
-        notifications.show({
-          autoClose: 3_000,
-          color: 'var(--gourmet-green-1)',
-          message: <AddedToListNotification tcg={tcg} list={favoriteList.list} card={card} language={'en'} />,
-        });
+        sendNotification(
+          'success',
+          <CardAddNotification tcg={tcg} list={favoriteList.list} card={card} language={'en'} />,
+        );
       });
     });
-  }, [card, checkListLimits, inListAmount, isFavorite, lists, tcg, user?.id, addResources]);
+  }, [card, checkListLimits, isFavorite, lists, tcg, user?.id, addResources]);
   const removeFromFavorites = useCallback(() => {
     if (!isFavorite) return;
     if (!user?.id) return;
@@ -82,7 +75,6 @@ export function ListButtons() {
 
     setIsFavorite(false);
     setIsListLoading(true);
-    setInListAmount(inListAmount - 1);
 
     startTransition(() => {
       removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [card.print.id], 'card').then((res) => {
@@ -91,19 +83,30 @@ export function ListButtons() {
         if (res.error) {
           setIsFavorite(true);
           sendErrorNotification(res.error);
-          setInListAmount(inListAmount + 1);
           return;
         }
 
         removeResources([card.print.id], [favoriteList.list.id]);
-        notifications.show({
-          autoClose: 3_000,
-          color: 'var(--gourmet-red-01)',
-          message: <RemoveFromListNotification tcg={tcg} list={favoriteList.list} card={card} language={'en'} />,
-        });
+        sendNotification(
+          'error',
+          <CardRemoveNotification tcg={tcg} list={favoriteList.list} card={card} language={'en'} />,
+        );
       });
     });
-  }, [card, isFavorite, lists, tcg, user?.id, inListAmount, removeResources]);
+  }, [card, isFavorite, lists, tcg, user?.id, removeResources]);
+
+  const menuButton = useMemo(() => {
+    return (
+      <UnstyledButton disabled={isListLoading} className={styles.quickActionButton}>
+        <div style={{ position: 'relative', display: 'flex' }}>
+          <Center>
+            <IconList size={22} color={'var(--gourmet-neutral-8)'} />
+          </Center>
+          {inListAmount > 0 && <span className={styles.badge}>{inListAmount}</span>}
+        </div>
+      </UnstyledButton>
+    );
+  }, [inListAmount, isListLoading]);
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
@@ -129,18 +132,10 @@ export function ListButtons() {
       <MoreListActionsMenu
         type={'card'}
         tcg={tcg}
+        resource={card}
         resourceId={card.print.id}
         rawResourceId={card.print.id}
-        target={
-          <UnstyledButton disabled={isListLoading} className={styles.quickActionButton}>
-            <div style={{ position: 'relative', display: 'flex' }}>
-              <Center>
-                <IconList size={22} color={'var(--gourmet-neutral-8)'} />
-              </Center>
-              {inListAmount > 0 && <span className={styles.badge}>{inListAmount}</span>}
-            </div>
-          </UnstyledButton>
-        }
+        target={menuButton}
         menuOpened={listMenuOpened}
         setMenuOpened={setListMenuOpened}
         onAddedToList={(res) => {
@@ -148,22 +143,12 @@ export function ListButtons() {
           if (!list) return;
 
           addResources([res]);
-          notifications.show({
-            autoClose: 3_000,
-            color: 'var(--gourmet-green-1)',
-            message: <AddedToListNotification tcg={tcg} list={list.list} card={card} language={'en'} />,
-          });
         }}
         onRemovedFromList={(listId) => {
           const list = lists.find((l) => l.list.id === listId);
           if (!list) return;
 
           removeResources([card.print.id], [list.list.id]);
-          notifications.show({
-            autoClose: 3_000,
-            color: 'var(--gourmet-red-01)',
-            message: <RemoveFromListNotification tcg={tcg} list={list.list} card={card} language={'en'} />,
-          });
         }}
         menuProps={{
           position: 'bottom-end',

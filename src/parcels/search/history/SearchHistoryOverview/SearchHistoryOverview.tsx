@@ -8,7 +8,7 @@ import { GourmetTable, type GourmetTableData } from '@/parcels/generic/GourmetTa
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { fetchSearchHistory } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -44,7 +44,6 @@ export function SearchHistoryOverview() {
   }, [historyData?.items]);
   useActiveLists(undefined, listResources);
 
-  const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     if (user?.state !== 'verified') {
@@ -92,7 +91,7 @@ export function SearchHistoryOverview() {
         setIsLoading(false);
 
         if (error) {
-          noti.show('Unknown error', `${error}`, 'error');
+          sendErrorNotification(error);
           return;
         }
 
@@ -104,7 +103,7 @@ export function SearchHistoryOverview() {
       // abort.abort();
       setIsLoading(false);
     };
-  }, [search.page, search.size, search.sortDir, search.tcg, user, search.search, localHistory.pastQueries, noti.show]);
+  }, [search.page, search.size, search.sortDir, search.tcg, user, search.search, localHistory.pastQueries]);
 
   const navigate = useNavigate();
   const setSettings = (apply: ApplyFn<{ page?: number }>) => {

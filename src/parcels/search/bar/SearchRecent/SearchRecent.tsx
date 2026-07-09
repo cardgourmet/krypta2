@@ -3,12 +3,12 @@ import { IconArrowRight, IconBook, IconBook2, IconDotsVertical } from '@tabler/i
 import { Link, useNavigate } from '@tanstack/react-router';
 import { type ReactElement, type Ref, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Button } from '@/parcels/generic/Button/Button';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CONTEXT_LIST_NAV, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';

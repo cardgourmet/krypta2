@@ -2,7 +2,6 @@ import { Center, Group, Loader, Stack } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { startTransition, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -15,6 +14,7 @@ import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 

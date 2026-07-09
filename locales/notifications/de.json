@@ -1,0 +1,36 @@
+{
+  "overview": {
+    "theQuery": "die Suche"
+  },
+  "details": {
+    "addToList": {
+      "title": "Hinzugefügt zu {{name}}",
+      "weveAdded": "Wir haben {{name}} zur Liste hinzugefügt.",
+      "goThere": "Gehe dorthin"
+    },
+    "removeFromList": {
+      "title": "Entfernt von {{name}}",
+      "weveRemoved": "Wir haben {{name}} von der Liste entfernt.",
+      "goThere": "Gehe dorthin"
+    }
+  },
+  "lists": {
+    "deleted": {
+      "title": "{{name}} gelöscht",
+      "weveDeleted": "Wir haben die Liste gelöscht."
+    },
+    "created": {
+      "title": "{{name}} erstellt"
+    },
+    "updated": {
+      "title": "{{name}} aktualisiert",
+      "weveUpdated": "Die Liste wurde aktualisiert."
+    }
+  },
+  "report": {
+    "sent": {
+      "title": "Meldung gesendet",
+      "description": "Danke für deine Meldung! Es könnte sein, dass es Zeit braucht, bis wir dem nachgehen können."
+    }
+  }
+}

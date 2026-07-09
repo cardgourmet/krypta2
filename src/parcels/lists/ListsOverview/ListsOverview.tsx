@@ -3,11 +3,11 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconSettings, IconX } from '@tabler/icons-react';
 import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { USER_LIMIT_LIST_RESOURCES_TOTAL, USER_LIMIT_LISTS } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { fetchListsPreview } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
@@ -15,6 +15,7 @@ import { ListOverviewSettings } from '@/parcels/lists/ListsOverview/DesktopListO
 import { ListsOverviewGrid } from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import { ListsOverviewTable } from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation';
 import { Route } from '@/routes/me/lists';
 
@@ -34,7 +35,9 @@ export default function ListsOverview() {
   const search = Route.useSearch();
   const { tcg } = search;
 
-  const { lists: localUserLists, setLists } = useUserLists();
+  const { addLists, updateLists, removeLists } = useActiveLists();
+
+  const { lists: localUserLists } = useUserLists();
   const processedLocalUserLists: UserListWithResources[] = useMemo(() => {
     let lists: UserListWithResources[] = localUserLists
       .map((list) => {
@@ -151,9 +154,7 @@ export default function ListsOverview() {
           <CreateListButton
             onSuccess={(list) => {
               const newList = { list: list, resources: {}, size: 0 };
-              const newLists = [...localUserLists, newList];
-              setLists(newLists);
-
+              addLists([newList]);
               setScrollToListId(list.id);
             }}
           />
@@ -203,22 +204,13 @@ export default function ListsOverview() {
             isLoading={isLoading}
             userLists={userListsWithResources}
             onUpdate={(list) => {
-              const newLists: UserListWithResources[] = [];
-              localUserLists.forEach((l) => {
-                if (l.list.id === list.id) {
-                  newLists.push({ list: list, resources: l.resources, size: l.size });
-                } else {
-                  newLists.push(l);
-                }
-              });
-              setLists(newLists);
+              updateLists([{ list: list }]);
             }}
             onDelete={(id) => {
               const list = localUserLists.find((l) => l.list.id === id);
               if (!list) return;
 
-              const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
-              setLists(newLists);
+              removeLists([list.list.id]);
             }}
           />
         )}

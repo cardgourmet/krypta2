@@ -2,11 +2,13 @@ import type { Dispatch, PropsWithChildren, ReactElement, Ref, SetStateAction } f
 import { MoreActionsMenu } from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type ListDetailsActionMenuProps = {
   tcg: Tcg;
   listContext: UserListWithResources;
+  resource?: TcgDataCard;
   resourceId?: string;
   rawResourceId: string;
   menuOpened?: boolean;
@@ -20,6 +22,7 @@ type ListDetailsActionMenuProps = {
 export function ListDetailsActionMenu({
   tcg,
   listContext,
+  resource,
   resourceId,
   rawResourceId,
   menuOpened,
@@ -33,6 +36,7 @@ export function ListDetailsActionMenu({
 }: PropsWithChildren<ListDetailsActionMenuProps>) {
   const { modal, entries } = useListActionItems({
     tcg,
+    resource,
     resourceId,
     rawResourceId,
     onAddedToList: onAddedToList,

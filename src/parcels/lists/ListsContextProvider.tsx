@@ -1,9 +1,9 @@
 import { createContext, type PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useActiveListsState } from '@/parcels/lists/ActiveListsState.tsx';
 import { fetchLists } from '@/parcels/lists/api.ts';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 
 export function ListsContextProvider({ children }: PropsWithChildren) {
   const auth = useAuth();

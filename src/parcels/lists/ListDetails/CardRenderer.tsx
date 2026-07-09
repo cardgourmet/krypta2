@@ -42,6 +42,7 @@ function CardRenderer({
       <ListDetailsActionMenu
         tcg={tcg}
         listContext={list}
+        resource={card}
         rawResourceId={card.print.id}
         resourceId={card.print.id}
         menuOpened={menuOpened}

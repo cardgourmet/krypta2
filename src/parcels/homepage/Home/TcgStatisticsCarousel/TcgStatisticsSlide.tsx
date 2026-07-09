@@ -1,7 +1,8 @@
 import { Center, Group, Loader, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { type GourmetApiResponse, sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { SetCard } from '@/parcels/overview/sets/SetCard/SetCard.tsx';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import { getDlcStatistics } from '@/parcels/tcg/dlc/api.ts';

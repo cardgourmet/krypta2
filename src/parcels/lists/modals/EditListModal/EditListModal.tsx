@@ -4,7 +4,9 @@ import { useAuth } from '@/parcels/auth/AuthContext';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Modal } from '@/parcels/modals/Modal';
 import type { ExtendModalProps } from '@/parcels/modals/types';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification';
+import { ListUpdateNotification } from '@/parcels/notification/ListUpdateNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { updateList } from '../../api';
 import { ListPropertiesFormFields } from '../../forms/ListPropertiesForm/ListPropertiesFormFields';
 import type { ListPropertiesFormValues } from '../../forms/ListPropertiesForm/types';
@@ -16,7 +18,6 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
 
   const auth = useAuth();
   const form = useListPropertiesForm({ list });
-  const noti = useGourmetNotification();
 
   const handleSubmit = (values: ListPropertiesFormValues) => {
     if (!auth.user) return;
@@ -29,11 +30,11 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
 
     updateList(auth.user.id, updated).then(({ error }) => {
       if (error) {
-        noti.show('Unknown error', `${error}`, 'error');
+        sendErrorNotification(error);
         return;
       }
 
-      noti.show('List Edited', `\`${list.name}\` has been edited`, 'success');
+      sendNotification('success', <ListUpdateNotification list={list} />);
 
       props.onResolve?.(updated as UserList);
       props.onClose?.();

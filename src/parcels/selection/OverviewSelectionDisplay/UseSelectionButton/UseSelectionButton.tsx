@@ -3,12 +3,19 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconChevronRight, IconList, IconPlus, IconStar } from '@tabler/icons-react';
 import { use, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { addResourcesToList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useCheckListLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
 import { ModalContext } from '@/parcels/modals/Modal.context';
+import { CardsAddNotification } from '@/parcels/notification/CardsAddNotification.tsx';
+import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './UseSelectionButton.module.css';
@@ -23,9 +30,12 @@ export function UseSelectionButton() {
   const [menuOpened, setMenuOpened] = useState(false);
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
+  const { user } = useAuth();
+  const { lists: listsLimit } = useUserLimits(user);
+  const checkUserListLimits = useCheckListLimits();
+
   const tcg = useTcgByLocation() as Tcg;
-  const { refetchLists } = useUserLists();
-  const { activeLists, addResources } = useActiveLists(CONTEXT_LIST_MAIN);
+  const { activeLists, addResources, addLists } = useActiveLists(CONTEXT_LIST_MAIN);
   const { systemLists, nonSystemLists } = useMemo(() => {
     const systemLists = activeLists.filter((l) => l.list.systemListType !== undefined);
     const nonSystemLists = activeLists
@@ -85,7 +95,14 @@ export function UseSelectionButton() {
               icon={<IconStar size={18} />}
               buttonText={t(`favorite`, { count: selectedPrintIds.length - inFavorites })}
               onSuccess={(res) => {
-                if (res) addResources(res);
+                if (!res) return;
+
+                addResources(res);
+
+                sendNotification(
+                  'success',
+                  <CardsAddNotification tcg={tcg} list={list.list} printIds={selectedPrintIds} language={'en'} />,
+                );
               }}
             />
           );
@@ -134,7 +151,14 @@ export function UseSelectionButton() {
                 listWithResources={list}
                 action={'add'}
                 onSuccess={(res) => {
-                  if (res) addResources(res);
+                  if (!res) return;
+
+                  addResources(res);
+
+                  sendNotification(
+                    'success',
+                    <CardsAddNotification tcg={tcg} list={list.list} printIds={selectedPrintIds} language={'en'} />,
+                  );
                 }}
               />
             ))}
@@ -142,11 +166,43 @@ export function UseSelectionButton() {
             <Menu.Divider />
 
             <Menu.Item
+              disabled={activeLists.length - 1 >= listsLimit}
               onClick={async () => {
-                if (activeLists.length >= 10) return;
+                if (activeLists.length - 1 >= listsLimit) {
+                  return;
+                }
+
+                const allowed = checkUserListLimits(
+                  { size: 0 } as unknown as UserListWithResources,
+                  selectedPrintIds.length,
+                );
+                if (!allowed) {
+                  // TODO: notification that limit reached (on top)
+                  return;
+                }
+
                 try {
-                  await requestModal('createList', { async: true });
-                  refetchLists();
+                  const createdList = await requestModal<UserList>('createList', { async: true });
+                  if (!createdList) return;
+                  addLists([{ list: createdList }]);
+
+                  const res = await addResourcesToList(
+                    user!.id,
+                    createdList.id,
+                    tcg,
+                    selectedPrintIds.map((i) => ({ id: i })),
+                    'card',
+                  );
+                  if (res.error) {
+                    sendErrorNotification(res.error);
+                    return;
+                  }
+
+                  sendNotification('success', <ListCreateNotification list={createdList} />);
+                  sendNotification(
+                    'success',
+                    <CardsAddNotification tcg={tcg} list={createdList} printIds={selectedPrintIds} language={'en'} />,
+                  );
                 } catch {}
               }}
             >

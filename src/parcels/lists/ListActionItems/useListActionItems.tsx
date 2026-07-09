@@ -1,6 +1,6 @@
 import { useDisclosure } from '@mantine/hooks';
 import { IconList, IconStar } from '@tabler/icons-react';
-import { type Ref, useMemo } from 'react';
+import { type Ref, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { ListAddMenu } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenu.tsx';
@@ -9,12 +9,17 @@ import { ListRemoveMenu } from '@/parcels/lists/ListActionItems/ListRemoveMenuIt
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import { CardAddNotification } from '@/parcels/notification/CardAddNotification.tsx';
+import { CardRemoveNotification } from '@/parcels/notification/CardRemoveNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type ListActionItemsProps = {
   tcg: Tcg;
   resourceId?: string;
   rawResourceId: string;
+  resource?: TcgDataCard;
   onAddedToList?: (res: UserListResource) => void;
   onRemovedFromList?: (listId: string, resourceId?: string) => void;
   type: 'card' | 'user_search';
@@ -24,6 +29,7 @@ type ListActionItemsProps = {
 
 export function useListActionItems({
   tcg,
+  resource,
   resourceId,
   rawResourceId,
   onAddedToList,
@@ -52,6 +58,32 @@ export function useListActionItems({
     return <CreateListModal disclosure={disclosure} onSuccess={() => refetchLists()} />;
   }, [disclosure, refetchLists]);
 
+  const addToList = useCallback(
+    (res: UserListResource[]) => {
+      if (onAddedToList) onAddedToList(res[0]);
+
+      const list = activeLists.find((l) => l.list.id === res[0].listId);
+      if (list && type === 'card' && resource) {
+        sendNotification('success', <CardAddNotification tcg={tcg} list={list.list} card={resource} language={'en'} />);
+      }
+    },
+    [activeLists, onAddedToList, tcg, type, resource],
+  );
+  const removeFromList = useCallback(
+    (listId: string, resourceId?: string) => {
+      if (onRemovedFromList) onRemovedFromList(listId, resourceId);
+
+      const list = activeLists.find((l) => l.list.id === listId);
+      if (list && type === 'card' && resource) {
+        sendNotification(
+          'error',
+          <CardRemoveNotification tcg={tcg} list={list.list} card={resource} language={'en'} />,
+        );
+      }
+    },
+    [activeLists, onRemovedFromList, tcg, type, resource],
+  );
+
   const entries = useMemo(() => {
     return (
       <>
@@ -72,9 +104,9 @@ export function useListActionItems({
 
                 const action = existsInListsIds.includes(list.list.id) ? 'remove' : 'add';
                 if (action === 'add') {
-                  if (onAddedToList) onAddedToList(res[0]);
+                  addToList(res);
                 } else if (action === 'remove') {
-                  if (onRemovedFromList) onRemovedFromList(list.list.id, resourceId);
+                  removeFromList(list.list.id, resourceId);
                 }
               }}
               icon={<IconStar size={18} />}
@@ -93,7 +125,7 @@ export function useListActionItems({
           buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
           onSuccess={(res) => {
             if (res) {
-              if (onAddedToList) onAddedToList(res);
+              addToList([res]);
             }
           }}
           existsInLists={existsInLists}
@@ -111,7 +143,7 @@ export function useListActionItems({
             onSuccess={(res) => {
               if (!res) return;
 
-              if (onRemovedFromList) onRemovedFromList(listContext.list.id, resourceId);
+              removeFromList(listContext.list.id, resourceId);
             }}
             icon={<IconList size={18} />}
             buttonText={t('removeFromList')}
@@ -126,7 +158,7 @@ export function useListActionItems({
             tcg={tcg}
             onSuccess={(res) => {
               if (res) {
-                if (onRemovedFromList) onRemovedFromList(res.listId, res.resourceId);
+                removeFromList(res.listId, res.resourceId);
               }
             }}
             existsInLists={existsInLists}
@@ -137,8 +169,6 @@ export function useListActionItems({
   }, [
     disclosure,
     existsInListsIds,
-    onRemovedFromList,
-    onAddedToList,
     rawResourceId,
     ref,
     resourceId,
@@ -148,6 +178,8 @@ export function useListActionItems({
     t,
     listContext,
     existsInLists,
+    addToList,
+    removeFromList,
   ]);
 
   return {

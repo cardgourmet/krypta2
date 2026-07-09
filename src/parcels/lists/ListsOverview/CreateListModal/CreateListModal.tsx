@@ -9,7 +9,9 @@ import { createList } from '@/parcels/lists/api.ts';
 import { ListValuesForm } from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
 import { useListForm } from '@/parcels/lists/ListsOverview/useListForm.ts';
 import type { UserList } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 
 export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; onSuccess?: (list: UserList) => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.create' });
@@ -17,7 +19,6 @@ export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; o
   const auth = useAuth();
 
   const form = useListForm();
-  const noti = useGourmetNotification();
 
   return (
     <Modal
@@ -53,12 +54,11 @@ export function CreateListModal(props: { disclosure: UseDisclosureReturnValue; o
 
           createList(auth.user.id, list).then(({ data, error }) => {
             if (error) {
-              console.error('Error creating list', error.error?.message);
-              noti.show('Unknown error', `${error.error?.message}`, 'error');
+              sendErrorNotification(error);
               return;
             }
 
-            noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
+            sendNotification('success', <ListCreateNotification list={data!} />);
 
             // cleanup and close
             close();

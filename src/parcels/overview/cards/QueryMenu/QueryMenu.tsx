@@ -1,10 +1,10 @@
 import { Center, Group, UnstyledButton } from '@mantine/core';
 import { IconBook, IconBook2 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { QueryListButtons } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryListButtons.tsx';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';

@@ -1,7 +1,7 @@
 import { SimpleGrid } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useMemo } from 'react';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { GridListRenderer } from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 
@@ -17,7 +17,7 @@ export function ListsOverviewGrid({
   listsWithResources: UserListWithResources[];
 }) {
   const smallScreen = useMediaQuery('(max-width: 830px)');
-  const { setLists } = useUserLists();
+  const { updateLists, removeLists } = useActiveLists();
 
   const entries = useMemo(() => {
     return listsWithoutResources.map((list) => {
@@ -29,27 +29,18 @@ export function ListsOverviewGrid({
           listWithResources={withResources ?? list}
           isLoading={isLoading || isPreviewsLoading}
           onUpdate={(list) => {
-            const newLists: UserListWithResources[] = [];
-            listsWithoutResources.forEach((l) => {
-              if (l.list.id === list.id) {
-                newLists.push({ list: list, resources: l.resources, size: l.size });
-              } else {
-                newLists.push(l);
-              }
-            });
-            setLists(newLists);
+            updateLists([{ list: list }]);
           }}
           onDelete={(id) => {
             const list = listsWithoutResources.find((l) => l.list.id === id);
             if (!list) return;
 
-            const newLists = [...listsWithoutResources.filter((l) => l.list.id !== id)];
-            setLists(newLists);
+            removeLists([list.list.id]);
           }}
         />
       );
     });
-  }, [isLoading, isPreviewsLoading, listsWithResources, listsWithoutResources, setLists]);
+  }, [isLoading, isPreviewsLoading, listsWithResources, listsWithoutResources, removeLists, updateLists]);
 
   return (
     <SimpleGrid cols={smallScreen ? 1 : 2} spacing={'0.75rem'}>

@@ -24,6 +24,8 @@ import detailsDE from '../../../locales/details/de.json';
 import detailsEN from '../../../locales/details/en.json';
 import kitchenDE from '../../../locales/kitchen/de.json';
 import kitchenEN from '../../../locales/kitchen/en.json';
+import notificationsDE from '../../../locales/notifications/de.json';
+import notificationsEN from '../../../locales/notifications/en.json';
 
 const resources = {
   en: {
@@ -39,6 +41,7 @@ const resources = {
     sets: setsEN,
     home: homeEN,
     details: detailsEN,
+    notifications: notificationsEN,
   },
   de: {
     auth: authDE,
@@ -53,6 +56,7 @@ const resources = {
     sets: setsDE,
     home: homeDE,
     details: detailsDE,
+    notifications: notificationsDE,
   },
 };
 
@@ -60,7 +64,20 @@ const resources = {
 i18n.use(initReactI18next).init({
   resources,
   lng: 'en',
-  ns: ['auth', 'cards', 'nav', 'search', 'selection', 'lists', 'history', 'saved', 'kitchen', 'sets', 'home'],
+  ns: [
+    'auth',
+    'cards',
+    'nav',
+    'search',
+    'selection',
+    'lists',
+    'history',
+    'saved',
+    'kitchen',
+    'sets',
+    'home',
+    'notifications',
+  ],
   defaultNS: 'cards',
   interpolation: {
     escapeValue: false,

@@ -1,5 +1,4 @@
 import { type PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { AuthContext, type UserSession } from '@/parcels/auth/AuthContext.ts';
 import {
   type DataAuthUser,
@@ -7,6 +6,7 @@ import {
   getCurrentLoggedInUser,
   listUserIntegrations,
 } from '@/parcels/auth/api.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import { useLocalUserStore } from '@/parcels/state/LocalUserStore.tsx';
 

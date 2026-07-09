@@ -1,9 +1,9 @@
 import { Group, Loader, Stack, Switch } from '@mantine/core';
 import { startTransition, useState } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { updateUserSettings } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 
 export function SyncLanguageSetting() {
   // const { t } = useTranslation('auth', { keyPrefix: 'settings' });

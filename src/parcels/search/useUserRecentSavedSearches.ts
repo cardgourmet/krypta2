@@ -1,5 +1,5 @@
 import { create } from 'zustand/react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { fetchSavedSearches } from '@/parcels/search/api.ts';
 import type { UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';

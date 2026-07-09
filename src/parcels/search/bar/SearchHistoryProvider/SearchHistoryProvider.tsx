@@ -1,6 +1,6 @@
 import { createContext, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { fetchSearchHistory } from '@/parcels/search/api.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -42,7 +42,6 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(queries));
     setQueriesByTcg(queries);
   }, []);
-  const noti = useGourmetNotification();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
@@ -52,7 +51,7 @@ export default function SearchHistoryProvider({ children }: { children: ReactNod
     for (const tcg of ['mtg', 'dlc', 'pcg'] as Tcg[]) {
       fetchSearchHistory(user.id, tcg).then(({ data, error }) => {
         if (error) {
-          noti.show('Unknown error', `${error}`, 'error');
+          sendErrorNotification(error);
           return;
         }
         if ((data?.items?.length ?? 0) === 0) {

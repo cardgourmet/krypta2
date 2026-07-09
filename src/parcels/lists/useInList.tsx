@@ -29,7 +29,7 @@ export function useCheckListLimits() {
 
       const allowedLists = lists.filter((l) => l.size !== undefined && list.size !== null);
       if (allowedLists.length === 0) return false;
-      let sum = 0;
+      let sum = amount;
       allowedLists.forEach((l) => {
         sum += l.size!;
       });

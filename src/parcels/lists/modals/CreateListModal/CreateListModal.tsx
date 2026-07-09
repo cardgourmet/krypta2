@@ -8,7 +8,7 @@ import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import { Modal } from '@/parcels/modals/Modal';
 import type { ExtendModalProps } from '@/parcels/modals/types';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { createList } from '../../api';
 import { ListPropertiesFormFields } from '../../forms/ListPropertiesForm/ListPropertiesFormFields';
 import type { ListPropertiesFormValues } from '../../forms/ListPropertiesForm/types';
@@ -43,7 +43,6 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
 
   const auth = useAuth();
   const form = useListPropertiesForm();
-  const noti = useGourmetNotification();
 
   const handleSubmit = (values: ListPropertiesFormValues) => {
     if (!auth.user) return;
@@ -55,12 +54,11 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
 
     createList(auth.user.id, list).then(({ data, error }) => {
       if (error) {
-        console.error('Error creating list', error.error?.message);
-        noti.show('Unknown error', `${error.error?.message}`, 'error');
+        sendErrorNotification(error);
         return;
       }
 
-      noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
+      //noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
 
       props.onResolve?.(data as UserList);
       props.onClose?.();

@@ -12,7 +12,7 @@ import type { MtgDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function RemoveFromListNotification({
+export function CardAddNotification({
   tcg,
   list,
   card,
@@ -23,7 +23,7 @@ export function RemoveFromListNotification({
   card: TcgDataCard;
   language: string;
 }) {
-  const { t } = useTranslation('details', { keyPrefix: 'notifications.removeFromList' });
+  const { t } = useTranslation('notifications', { keyPrefix: 'details.addToList' });
   const { user } = useAuth();
 
   const imageSrc = useMemo(() => {
@@ -56,10 +56,10 @@ export function RemoveFromListNotification({
         </div>
       </Flex>
       <Stack justify={'start'} gap={'0.25rem'}>
-        <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-red-01)'}>
+        <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
           {t('title', { name: list.name })}
         </GourmetText>
-        <GourmetText fz={'0.9rem'}>{t('weveRemoved', { name: card.name })} </GourmetText>
+        <GourmetText fz={'0.9rem'}>{t('weveAdded', { name: card.name })} </GourmetText>
         <Link to={'/@{$user}/lists/$listId'} params={{ user: user!.username, listId: slugify(list.name) }}>
           <Group gap={'0.25rem'} display={'inline-flex'}>
             <GourmetText cgmc={'neutral-9'} fz={'0.9rem'}>

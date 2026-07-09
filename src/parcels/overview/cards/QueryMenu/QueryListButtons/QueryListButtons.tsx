@@ -1,8 +1,6 @@
 import { Center, Group, UnstyledButton } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { startTransition, useCallback, useEffect, useState } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
@@ -10,8 +8,10 @@ import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
-import { QueryAddToListNotification } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryAddToListNotification.tsx';
-import { QueryRemoveFromListNotification } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryRemoveFromListNotification.tsx';
+import { QueryAddNotification } from '@/parcels/notification/QueryAddNotification.tsx';
+import { QueryRemoveNotification } from '@/parcels/notification/QueryRemoveNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import type { UserSearchCardsDetails } from '@/parcels/tcg/types.ts';
 import styles from './QueryListButtons.module.css';
@@ -80,11 +80,10 @@ export function QueryListButtons({
           setSavedSearchId(res.data?.[0]?.resourceId);
           // refetchLists();
 
-          notifications.show({
-            autoClose: 3_000,
-            color: 'var(--gourmet-green-1)',
-            message: <QueryAddToListNotification tcg={tcg} list={favoriteList.list} query={query} language={'en'} />,
-          });
+          sendNotification(
+            'success',
+            <QueryAddNotification tcg={tcg} list={favoriteList.list} query={query} language={'en'} />,
+          );
         },
       );
     });
@@ -114,11 +113,10 @@ export function QueryListButtons({
         }
         // refetchLists();
 
-        notifications.show({
-          autoClose: 3_000,
-          color: 'var(--gourmet-red-01)',
-          message: <QueryRemoveFromListNotification tcg={tcg} list={favoriteList.list} query={query} language={'en'} />,
-        });
+        sendNotification(
+          'error',
+          <QueryRemoveNotification tcg={tcg} list={favoriteList.list} query={query} language={'en'} />,
+        );
       });
     });
   }, [query, isFavorite, lists, tcg, user?.id, inListAmount, savedSearchId]);
@@ -166,22 +164,20 @@ export function QueryListButtons({
           if (!list) return;
 
           addResources([res]);
-          notifications.show({
-            autoClose: 3_000,
-            color: 'var(--gourmet-green-1)',
-            message: <QueryAddToListNotification tcg={tcg} list={list.list} query={query} language={'en'} />,
-          });
+          sendNotification(
+            'success',
+            <QueryAddNotification tcg={tcg} list={list.list} query={query} language={'en'} />,
+          );
         }}
         onRemovedFromList={(listId) => {
           const list = lists.find((l) => l.list.id === listId);
           if (!list || !savedSearchId) return;
 
           removeResources([savedSearchId], [list.list.id]);
-          notifications.show({
-            autoClose: 3_000,
-            color: 'var(--gourmet-red-01)',
-            message: <QueryRemoveFromListNotification tcg={tcg} list={list.list} query={query} language={'en'} />,
-          });
+          sendNotification(
+            'error',
+            <QueryRemoveNotification tcg={tcg} list={list.list} query={query} language={'en'} />,
+          );
         }}
         menuProps={{
           position: 'bottom-end',

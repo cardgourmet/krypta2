@@ -1,12 +1,12 @@
 import { Center, Group, Loader, Stack, Tooltip } from '@mantine/core';
 import { IconArrowRight } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { Badge } from '@/parcels/generic/Badge/Badge.tsx';
 import { Button } from '@/parcels/generic/Button/Button.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { type DataPost, getPosts, type PostType } from '@/parcels/homepage/Home/api.ts';
 import { BlogPostDetailsModal } from '@/parcels/homepage/Home/LatestUpdatesView/BlogPostDetailsModal.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';

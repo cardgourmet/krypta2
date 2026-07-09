@@ -77,6 +77,7 @@ export function TcgOverviewCardMenu({
 
   const { entries } = useListActionItems({
     tcg,
+    resource: activeCard ?? undefined,
     resourceId,
     rawResourceId: resourceId ?? '',
     onAddedToList: (res) => {

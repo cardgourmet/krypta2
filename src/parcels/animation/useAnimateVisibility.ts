@@ -16,7 +16,7 @@ export function useAnimateVisibility<T extends HTMLElement = HTMLElement>(
     const didBecomeHidden = !visible && previousVisible.current === true;
     previousVisible.current = visible;
 
-    console.log({ el: ref.current, didBecomeHidden, didBecomeVisible, visible });
+    //console.log({ el: ref.current, didBecomeHidden, didBecomeVisible, visible });
 
     if (didBecomeVisible && onEnter && ref.current) {
       console.log('became visible');

@@ -6,14 +6,15 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { deleteLists } from '@/parcels/lists/api.ts';
 import type { UserList } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { ListDeleteNotification } from '@/parcels/notification/ListDeleteNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import styles from './DeleteListButton.module.css';
 
 export function DeleteListButton({ list, onSuccess }: { list: UserList; onSuccess?: (id: string) => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.delete' });
   const [opened, { open, close }] = useDisclosure(false);
   const auth = useAuth();
-  const noti = useGourmetNotification();
 
   return (
     <>
@@ -43,11 +44,11 @@ export function DeleteListButton({ list, onSuccess }: { list: UserList; onSucces
 
                 deleteLists(auth.user.id, [list.id]).then(({ error }) => {
                   if (error) {
-                    noti.show('Unknown error', `${error}`, 'error');
+                    sendErrorNotification(error);
                     return;
                   }
 
-                  noti.show('List Deleted', `\`${list.name}\` has been deleted`, 'success');
+                  sendNotification('success', <ListDeleteNotification list={list} />);
 
                   // cleanup and close
                   close();

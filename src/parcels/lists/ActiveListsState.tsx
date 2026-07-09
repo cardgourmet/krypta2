@@ -1,3 +1,4 @@
+import { usePrevious } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo } from 'react';
 import { create } from 'zustand/react';
 import { groupBy } from '@/parcels/groupBy.ts';
@@ -30,6 +31,7 @@ type ActiveListsStateActions = {
 
   removeLists: (listIds: string[]) => void;
   addLists: (lists: UserListWithResources[]) => void;
+  updateLists: (list: UserListWithResources[]) => void;
 };
 
 /**
@@ -85,6 +87,39 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
         activeListsByContext: newData,
       });
     },
+    updateLists: (lists: UserListWithResources[]) => {
+      const current = get().activeListsByContext;
+
+      const updateListIds = new Set(lists.map((l) => l.list.id));
+      const newData: Record<string, UserListWithResources[]> = {};
+      for (const context of Object.keys(current)) {
+        const currentContextData = current[context];
+        const newContextData: UserListWithResources[] = [];
+
+        for (const currentList of currentContextData) {
+          if (!updateListIds.has(currentList.list.id)) {
+            newContextData.push(currentList);
+            continue;
+          }
+
+          const updatedList = lists.find((l) => l.list.id === currentList.list.id);
+          if (!updatedList) {
+            newContextData.push(currentList);
+            continue;
+          }
+
+          newContextData.push({
+            ...currentList,
+            list: updatedList.list,
+          });
+        }
+        newData[context] = newContextData;
+      }
+
+      set({
+        activeListsByContext: newData,
+      });
+    },
     setResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => {
       const newContextData = combineResources(rawLists, res, false);
 
@@ -127,27 +162,29 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
 }));
 
 export function useActiveLists(context?: string, resources?: UserListResource[]) {
-  const { lists, setLists } = useUserLists();
+  const { lists: userLists, setLists } = useUserLists();
   context = context ?? CONTEXT_LIST_MAIN;
 
   const allActiveLists = useActiveListsState((s) => s.activeListsByContext[context]) ?? [];
-  const { setResources, addResources, removeResources } = useActiveListsState((s) => s.actions);
+  const { setResources, addResources, removeResources, addLists, removeLists, updateLists } = useActiveListsState(
+    (s) => s.actions,
+  );
 
   const setResourcesContext = useCallback(
     (res: UserListResource[], sync?: boolean) => {
-      setResources(context, lists, res, sync);
+      setResources(context, userLists, res, sync);
     },
-    [context, lists, setResources],
+    [context, userLists, setResources],
   );
   const addResourcesContext = useCallback(
     (res: UserListResource[], sync?: boolean) => {
-      const updatedLists = addResources(context, lists, res, sync);
+      const updatedLists = addResources(context, userLists, res, sync);
       const withoutResources = updatedLists.map((l) => ({ ...l, resources: null }));
 
       // apply updates to `setLists` (to update size and updatedAt)
       setLists(withoutResources);
     },
-    [addResources, context, lists, setLists],
+    [addResources, context, userLists, setLists],
   );
   const removeResourcesContext = useCallback(
     (resourceIds: string[], listIds?: string[]) => {
@@ -159,17 +196,66 @@ export function useActiveLists(context?: string, resources?: UserListResource[])
     },
     [removeResources, setLists],
   );
+  const addListsContext = useCallback(
+    (lists: UserListWithResources[]) => {
+      addLists(lists);
 
+      const currentListIds = new Set(userLists.map((i) => i.list.id) ?? []);
+      const toAppend = lists.filter((l) => !currentListIds.has(l.list.id));
+      const newLists = [...userLists, ...toAppend];
+      setLists(newLists);
+    },
+    [addLists, setLists, userLists],
+  );
+  const removeListsContext = useCallback(
+    (listIds: string[]) => {
+      removeLists(listIds);
+
+      const newLists = userLists.filter((l) => !listIds.includes(l.list.id));
+      setLists(newLists);
+    },
+    [removeLists, setLists, userLists.filter],
+  );
+  const updateListsContext = useCallback(
+    (lists: UserListWithResources[]) => {
+      updateLists(lists);
+
+      const updatedListIds = new Set(lists.map((i) => i.list.id));
+      const newLists: UserListWithResources[] = [];
+      userLists.forEach((userList) => {
+        if (!updatedListIds.has(userList.list.id)) {
+          newLists.push(userList);
+          return;
+        }
+
+        const updatedList = lists.find((l) => l.list.id === userList.list.id);
+        if (!updatedList) {
+          newLists.push(userList);
+          return;
+        }
+        newLists.push({ list: updatedList.list, resources: userList.resources, size: userList.size });
+      });
+      setLists(newLists);
+    },
+    [setLists, updateLists, userLists],
+  );
+
+  const previousResources = usePrevious(resources);
   useEffect(() => {
     if (resources === undefined) return;
+    if (previousResources?.length === resources.length) return;
+
     setResourcesContext(resources);
-  }, [setResourcesContext, resources]);
+  }, [setResourcesContext, resources, previousResources]);
 
   return {
     activeLists: allActiveLists,
     setResources: setResourcesContext,
     addResources: addResourcesContext,
     removeResources: removeResourcesContext,
+    addLists: addListsContext,
+    removeLists: removeListsContext,
+    updateLists: updateListsContext,
   };
 }
 

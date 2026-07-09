@@ -1,7 +1,6 @@
 import { Group, Menu, type MenuItemProps, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconMinus, IconPlus } from '@tabler/icons-react';
 import { type ReactElement, useMemo } from 'react';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -9,6 +8,7 @@ import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckListLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 

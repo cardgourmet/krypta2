@@ -3,17 +3,19 @@ import type { Dispatch, PropsWithChildren, ReactElement, Ref, SetStateAction } f
 import { MoreActionsMenu } from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
 import type { UserListResource } from '@/parcels/lists/types.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type MoreListActionsMenuProps = {
   tcg: Tcg;
+  resource?: TcgDataCard;
   resourceId?: string;
   rawResourceId: string;
   menuOpened?: boolean;
   setMenuOpened?: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
   onAddedToList?: (res: UserListResource) => void;
-  onRemovedFromList?: (listId: string) => void;
+  onRemovedFromList?: (listId: string, resourceId?: string) => void;
   type: 'card' | 'user_search';
   activeListContext?: string;
   menuProps?: MenuProps;
@@ -21,6 +23,7 @@ type MoreListActionsMenuProps = {
 
 export function MoreListActionsMenu({
   tcg,
+  resource,
   resourceId,
   rawResourceId,
   menuOpened,
@@ -36,6 +39,7 @@ export function MoreListActionsMenu({
 }: PropsWithChildren<MoreListActionsMenuProps>) {
   const { modal, entries } = useListActionItems({
     tcg,
+    resource,
     resourceId,
     rawResourceId,
     onAddedToList: onAddedToList,

@@ -1,9 +1,9 @@
 import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
 import z from 'zod';
-import { sendErrorNotification } from '@/parcels/api/handleApiCall.tsx';
 import { getList } from '@/parcels/lists/api.ts';
 import { ListDetails } from '@/parcels/lists/ListDetails/ListDetails.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { type DataUser, findUser } from '@/parcels/user/api.ts';
 
