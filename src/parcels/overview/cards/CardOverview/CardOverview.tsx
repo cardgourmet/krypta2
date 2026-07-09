@@ -21,6 +21,7 @@ import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/Quer
 import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
 import { TcgOverviewCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgOverviewCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -68,20 +69,29 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
   const { addResources, removeResources, setResources } = useActiveLists(CONTEXT_LIST_MAIN);
 
+  const clearSelection = useTcgOverviewWorkStore((state) => state.clearSelection);
   const previousSearchDetails = usePrevious(searchDetails);
   useEffect(() => {
     if (previousSearchDetails === searchDetails) return;
 
     const queryChanged = previousSearchDetails?.explain?.originalQuery !== searchDetails?.explain?.originalQuery;
+    if (queryChanged) {
+      clearSelection();
+    }
+    console.log(
+      'query changed',
+      queryChanged,
+      previousSearchDetails?.explain?.originalQuery,
+      searchDetails?.explain?.originalQuery,
+    );
 
-    const resources = searchDetails?.listResources;
-    if (!resources) return;
+    const resources = searchDetails?.listResources ?? [];
     if (queryChanged) {
       setResources(resources);
     } else {
       addResources(resources);
     }
-  }, [previousSearchDetails, searchDetails, addResources, setResources]);
+  }, [previousSearchDetails, searchDetails, addResources, setResources, clearSelection]);
 
   useEffect(() => {
     if (!overviewSettings) return;

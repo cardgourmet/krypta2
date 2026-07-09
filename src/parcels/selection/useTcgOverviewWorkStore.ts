@@ -178,11 +178,30 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     }
   },
   clearSelection: () => {
-    const store = get();
-    const workData = store.data;
-    if (!workData?.selection) return;
+    const newSelection = {
+      elementsByPage: {},
+      elementIds: [],
+      elementDataById: {},
+      anchorIndex: undefined,
+      anchorId: undefined,
+    };
 
-    store.setSelectionWithCheck(workData.selection.elementIds, false, false);
+    const currentData = get().data;
+    if (!currentData) return;
+
+    set({
+      data: {
+        ...currentData,
+        selection: newSelection,
+      },
+      isSelectionOverlayEnabled: false,
+    });
+
+    get().setSelectionModeLoading(true);
+
+    setTimeout(() => {
+      get().setSelectionMode(false);
+    }, 0);
   },
 
   getIdsInRange: (to: number): string[] => {
