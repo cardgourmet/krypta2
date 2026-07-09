@@ -17,6 +17,7 @@ import type {
 } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
+import { Route as RouteCards } from '@/routes/$tcg/cards/index.tsx';
 import { Route } from '@/routes/$tcg/sets/$setCode/$collectorNumber/{-$any}.tsx';
 
 function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDataSet | null) {
@@ -35,7 +36,8 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   const setWasForwarded = useLocalUserStateStore((state) => state.setDetailsForwarded);
   const removeDetailsForwarded = useLocalUserStateStore((state) => state.removeDetailsForwarded);
 
-  const navigate = Route.useNavigate();
+  const navigatePrint = Route.useNavigate();
+  const navigateCards = RouteCards.useNavigate();
   const history = useSearchHistory(tcg);
   const [searchDetails, setSearchDetails] = useState<UserSearchCardsDetails | undefined>(undefined);
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
@@ -57,7 +59,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
       const card = data.items[0].card;
       setWasForwarded();
 
-      navigate({
+      navigatePrint({
         to: '/$tcg/sets/$setCode/$collectorNumber/{-$any}',
         params: {
           tcg: tcg,
@@ -112,6 +114,16 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
         setIsQueryLoading(true);
       }
       setIsLoading(true);
+      if (querySettings.manual) {
+        querySettings.trigger = 'search';
+        setManualQuery(true);
+
+        navigateCards({
+          to: '/$tcg/cards',
+          search: (prev) => ({ ...prev, manual: false }),
+          replace: true,
+        });
+      }
       if (manualQuery) querySettings.trigger = 'search';
 
       if (set) {
@@ -127,7 +139,18 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
         });
       }
     },
-    [querySettings, tcg, set, manualQuery, onCardsCallback, onSetCardsCallback, prevQuerySettings?.query, user?.id],
+    [
+      querySettings,
+      tcg,
+      set,
+      manualQuery,
+      onCardsCallback,
+      onSetCardsCallback,
+      prevQuerySettings?.query,
+      user?.id,
+      setManualQuery,
+      navigateCards,
+    ],
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>

@@ -78,12 +78,6 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     if (queryChanged) {
       clearSelection();
     }
-    console.log(
-      'query changed',
-      queryChanged,
-      previousSearchDetails?.explain?.originalQuery,
-      searchDetails?.explain?.originalQuery,
-    );
 
     const resources = searchDetails?.listResources ?? [];
     if (queryChanged) {

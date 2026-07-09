@@ -30,6 +30,7 @@ export function RendererSearchResources({ resources }: { resources: ResolvedUser
             search={{
               ...tcgSearchParamsDefaults,
               query: search.firstSearch.rawQuery,
+              manual: true,
             }}
           >
             <UnstyledButton h={'2rem'} w={'100%'} className={styles.searchButton}>

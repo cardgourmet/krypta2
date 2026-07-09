@@ -13,6 +13,7 @@ import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import { useUserRecentSavedSearches } from '@/parcels/search/useUserRecentSavedSearches.ts';
+import { useLocalUserTransientStore } from '@/parcels/state/LocalUserTransientStore.tsx';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -54,6 +55,7 @@ export default function SearchRecent({
     if (reversed === true) return [...recentQueries].reverse().slice(0, maxPerPage ?? 5);
     return [...recentQueries].slice(0, maxPerPage ?? 5);
   }, [recentQueries, maxPerPage, reversed]);
+  const setManualQuery = useLocalUserTransientStore((state) => state.setManualQuery);
 
   return (
     <div className={styles.recent}>
@@ -78,6 +80,8 @@ export default function SearchRecent({
               tabIndex={0}
               className={index === selectedIndex ? styles.suggestionHighlighted : ''}
               onClick={() => {
+                setManualQuery(true);
+
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
                   to: '/$tcg/cards',

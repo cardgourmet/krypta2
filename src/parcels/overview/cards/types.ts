@@ -10,6 +10,7 @@ export type CardSearchParams = {
   display?: DisplayMode;
   trigger?: SearchQueryTrigger;
   random?: boolean;
+  manual?: boolean;
 };
 
 export type CardSearchQuerySettings<T extends CardSearchParams> = Required<Omit<T, 'display'>>;
