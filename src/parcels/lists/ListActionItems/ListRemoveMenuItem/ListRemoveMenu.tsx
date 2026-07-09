@@ -28,7 +28,14 @@ export function ListRemoveMenu(
   }, [existsInLists]);
 
   const removableLists = useMemo(() => {
-    return existsInLists.filter((l) => l.list.systemListType !== 'favorites');
+    return existsInLists
+      .filter((l) => l.list.systemListType !== 'favorites')
+      .sort((a, b) => {
+        const timeA = new Date(a.list.updatedAt).getTime();
+        const timeB = new Date(b.list.updatedAt).getTime();
+
+        return (timeA - timeB) * -1;
+      });
   }, [existsInLists]);
 
   return (

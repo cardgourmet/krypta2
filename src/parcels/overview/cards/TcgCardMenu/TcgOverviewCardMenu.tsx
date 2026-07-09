@@ -12,7 +12,7 @@ import type { UserListResource } from '@/parcels/lists/types.ts';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import styles from './TcgCardMenu.module.css';
+import styles from './TcgOverviewCardMenu.module.css';
 
 export function TcgOverviewCardMenu({
   tcg,

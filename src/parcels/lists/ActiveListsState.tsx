@@ -336,7 +336,7 @@ function removeResourcesByIds(
     const newActiveList: UserListWithResources = {
       list: {
         ...list.list,
-        updatedAt: new Date().toISOString(),
+        updatedAt: removedCount > 0 ? new Date().toISOString() : list.list.updatedAt,
       },
       resources: newResources,
       size: (list.size ?? 0) - removedCount,
@@ -379,7 +379,7 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
     const listWithResources: UserListWithResources = {
       list: {
         ...list.list,
-        updatedAt: new Date().toISOString(),
+        updatedAt: addedCount > 0 ? new Date().toISOString() : list.list.updatedAt,
       },
       size: (list.size ?? 0) + addedCount,
       resources: tcgListResources,

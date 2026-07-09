@@ -37,8 +37,6 @@ export function UseSelectionButton() {
   const { activeLists, addResources, addLists } = useActiveLists(CONTEXT_LIST_MAIN);
   const { systemLists, nonSystemLists } = useMemo(() => {
     const systemLists = activeLists.filter((l) => l.list.systemListType !== undefined);
-
-    console.log(activeLists);
     const nonSystemLists = activeLists
       .filter((l) => {
         if (l.list.systemListType !== undefined) return false;
@@ -53,6 +51,8 @@ export function UseSelectionButton() {
 
         return (timeA - timeB) * -1;
       });
+
+    console.log(nonSystemLists);
 
     return { systemLists, nonSystemLists };
   }, [activeLists, tcg]);
