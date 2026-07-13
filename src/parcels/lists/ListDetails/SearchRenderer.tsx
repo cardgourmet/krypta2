@@ -66,6 +66,7 @@ export function SearchRenderer({
             search={{
               ...tcgSearchParamsDefaults,
               query: resolvedSavedSearch.firstSearch.rawQuery,
+              manual: true,
             }}
             target="_blank"
             rel="noreferrer noopener"

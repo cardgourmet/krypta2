@@ -28,15 +28,17 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
       color: values.color === 'default' ? undefined : values.color,
     } as Partial<UserList> & { name: string };
 
-    updateList(auth.user.id, updated).then(({ error }) => {
+    updateList(auth.user.id, updated).then(({ data, error }) => {
       if (error) {
         sendErrorNotification(error);
         return;
       }
+      const returnList = data?.[list.id];
+      if (!returnList) return;
 
-      sendNotification('success', <ListUpdateNotification list={list} />);
+      sendNotification('success', <ListUpdateNotification list={returnList} />);
 
-      props.onResolve?.(updated as UserList);
+      props.onResolve?.(returnList as UserList);
       props.onClose?.();
     });
   };

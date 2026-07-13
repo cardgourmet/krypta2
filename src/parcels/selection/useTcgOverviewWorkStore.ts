@@ -70,8 +70,11 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     if (!workData?.selection) return { success: false, toggledMode: false };
     if (ids.length === 0) return { success: false, toggledMode: false };
 
-    const current = workData?.selection?.elementIds.length ?? 0;
-    if (select && current + ids.length > SELECTION_LIMIT) {
+    const currentSelected = new Set(workData?.selection?.elementIds ?? []);
+    const toSelectIds = ids.filter((id) => !currentSelected.has(id));
+
+    const current = currentSelected.size;
+    if (select && current + toSelectIds.length > SELECTION_LIMIT) {
       return { success: false, toggledMode: false };
     }
 
@@ -83,7 +86,7 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
 
       set({ ...store, isSelectionOverlayEnabled: true });
     } else if (!select) {
-      const idsToDelete = ids.filter((id) => workData.selection.elementIds.includes(id));
+      const idsToDelete = ids.filter((id) => currentSelected.has(id));
       if (current - idsToDelete.length <= 0) {
         toggledMode = true;
         newMode = false;
@@ -100,8 +103,10 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     if (!workData?.selection) return false;
     if (ids.length === 0) return false;
 
-    const current = workData?.selection?.elementIds.length ?? 0;
-    if (select && current + ids.length > SELECTION_LIMIT) {
+    const currentSelected = new Set(workData?.selection?.elementIds ?? []);
+    const toSelectIds = ids.filter((id) => !currentSelected.has(id));
+    const current = currentSelected.size;
+    if (select && current + toSelectIds.length > SELECTION_LIMIT) {
       return false;
     }
     const dataEntries = (workData?.search?.result?.data?.items as TcgSearchDataCard[]).filter((c) =>
@@ -156,6 +161,8 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
       // if shift key, calculate range of cards to add or remove
       mustIds = store.getIdsInRange(index);
     }
+    mustIds = [...new Set(mustIds)];
+
     if (mustIds.length === 0) return;
 
     const { success: allowed, toggledMode, newMode } = store.checkSelection(mustIds, select);
@@ -171,11 +178,30 @@ export const useTcgOverviewWorkStore = create<TcgOverviewWorkStore>((set, get) =
     }
   },
   clearSelection: () => {
-    const store = get();
-    const workData = store.data;
-    if (!workData?.selection) return;
+    const newSelection = {
+      elementsByPage: {},
+      elementIds: [],
+      elementDataById: {},
+      anchorIndex: undefined,
+      anchorId: undefined,
+    };
 
-    store.setSelectionWithCheck(workData.selection.elementIds, false, false);
+    const currentData = get().data;
+    if (!currentData) return;
+
+    set({
+      data: {
+        ...currentData,
+        selection: newSelection,
+      },
+      isSelectionOverlayEnabled: false,
+    });
+
+    get().setSelectionModeLoading(true);
+
+    setTimeout(() => {
+      get().setSelectionMode(false);
+    }, 0);
   },
 
   getIdsInRange: (to: number): string[] => {

@@ -33,6 +33,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved, onSear
               search={{
                 ...tcgSearchParamsDefaults,
                 query: entry.firstSearch.rawQuery,
+                manual: true,
               }}
               style={{ padding: 0 }}
             >

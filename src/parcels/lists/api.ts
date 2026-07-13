@@ -114,7 +114,7 @@ export async function updateList(
   userId: string,
   list: Partial<UserList> & { name: string },
   abort?: AbortController,
-): Promise<GourmetApiResponse<unknown>> {
+): Promise<GourmetApiResponse<Record<string, UserList>>> {
   return handleApiCall(async () => {
     return await umoriClient.PUT(`/v1/users/{id}/lists`, {
       params: {

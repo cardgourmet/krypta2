@@ -28,6 +28,7 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved, onSear
             search={{
               ...tcgSearchParamsDefaults,
               query: entry.firstSearch.rawQuery,
+              manual: true,
             }}
             target="_blank"
             rel="noreferrer noopener"

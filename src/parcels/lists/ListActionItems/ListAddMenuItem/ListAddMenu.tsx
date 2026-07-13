@@ -33,7 +33,13 @@ export function ListAddMenu(
   }, [existsInLists]);
 
   const nonSystemLists = useMemo(() => {
-    const nonSystemLists = lists.filter((l) => l.list.systemListType === undefined);
+    const nonSystemLists = lists.filter((l) => {
+      if (l.list.systemListType !== undefined) return false;
+
+      // filter by tcg
+      if ((l.list.allowedTcgs?.length ?? 0) === 0) return true;
+      return l.list.allowedTcgs?.includes(props.tcg);
+    });
     nonSystemLists.sort((a, b) => {
       const timeA = new Date(a.list.updatedAt).getTime();
       const timeB = new Date(b.list.updatedAt).getTime();
@@ -42,7 +48,7 @@ export function ListAddMenu(
     });
 
     return nonSystemLists;
-  }, [lists]);
+  }, [lists, props.tcg]);
 
   const [_, { open }] = disclosure;
 

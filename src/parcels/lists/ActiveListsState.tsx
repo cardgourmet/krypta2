@@ -65,7 +65,7 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
     removeLists: (listIds) => {
       const newData = { ...get().activeListsByContext };
       for (const context of Object.keys(newData)) {
-        newData.context = newData[context].filter((i) => listIds.includes(i.list.id));
+        newData.context = newData[context].filter((i) => !listIds.includes(i.list.id));
       }
 
       set({
@@ -214,7 +214,7 @@ export function useActiveLists(context?: string, resources?: UserListResource[])
       const newLists = userLists.filter((l) => !listIds.includes(l.list.id));
       setLists(newLists);
     },
-    [removeLists, setLists, userLists.filter],
+    [removeLists, setLists, userLists],
   );
   const updateListsContext = useCallback(
     (lists: UserListWithResources[]) => {
@@ -233,6 +233,7 @@ export function useActiveLists(context?: string, resources?: UserListResource[])
           newLists.push(userList);
           return;
         }
+        console.log('found updated list for ', userList.list.id, updatedList);
         newLists.push({ list: updatedList.list, resources: userList.resources, size: userList.size });
       });
       setLists(newLists);
@@ -336,7 +337,7 @@ function removeResourcesByIds(
     const newActiveList: UserListWithResources = {
       list: {
         ...list.list,
-        updatedAt: new Date().toISOString(),
+        updatedAt: removedCount > 0 ? new Date().toISOString() : list.list.updatedAt,
       },
       resources: newResources,
       size: (list.size ?? 0) - removedCount,
@@ -379,7 +380,7 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
     const listWithResources: UserListWithResources = {
       list: {
         ...list.list,
-        updatedAt: new Date().toISOString(),
+        updatedAt: addedCount > 0 ? new Date().toISOString() : list.list.updatedAt,
       },
       size: (list.size ?? 0) + addedCount,
       resources: tcgListResources,
