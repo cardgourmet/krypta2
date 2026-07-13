@@ -34,6 +34,7 @@ export const mtgSearchParamsDefaults = {
   uniqueBy: 'cards' as MtgUniqueBy,
   sortBy: 'name' as MtgSortBy,
   random: false,
+  manual: false,
 };
 
 export type MtgSearchParams = CardSearchParams & {

@@ -19,6 +19,7 @@ export const dlcSearchParamsDefaults = {
   uniqueBy: 'cards' as DlcUniqueBy,
   sortBy: 'name' as DlcSortBy,
   random: false,
+  manual: false,
 };
 
 export type DlcSearchParams = CardSearchParams & {

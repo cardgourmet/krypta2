@@ -19,6 +19,7 @@ export const pcgSearchParamsDefaults = {
   uniqueBy: 'cards' as PcgUniqueBy,
   sortBy: 'name' as PcgSortBy,
   random: false,
+  manual: false,
 };
 
 export type PcgSearchParams = CardSearchParams & {
