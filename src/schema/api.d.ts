@@ -5109,7 +5109,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['SimpleApiResponse'];
+            'application/json': components['schemas']['DataApiResponse-Map-String-UserList'];
           };
         };
       };
@@ -8873,6 +8873,13 @@ export interface components {
     };
     UpdateUserListsRequest: {
       listUpdates: components['schemas']['UserListUpdate'][];
+    };
+    'DataApiResponse-Map-String-UserList': {
+      data: {
+        [key: string]: components['schemas']['UserList'];
+      };
+      /** Format: int32 */
+      statusCode: number;
     };
     DeleteUserListsRequest: {
       listIds: string[];

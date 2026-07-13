@@ -207,10 +207,7 @@ export default function ListsOverview() {
               updateLists([{ list: list }]);
             }}
             onDelete={(id) => {
-              const list = localUserLists.find((l) => l.list.id === id);
-              if (!list) return;
-
-              removeLists([list.list.id]);
+              removeLists([id]);
             }}
           />
         )}

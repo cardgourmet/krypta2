@@ -34,7 +34,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
       return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
     });
   }, [localListWithResources.resources]);
-  useActiveLists(undefined, listResources);
+  const { removeResources } = useActiveLists(undefined, listResources);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -213,6 +213,9 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                   setCardResources={setCardResources}
                   listWithResources={localListWithResources}
                   suggestAddCard={isDraggedOver}
+                  onRemoveFromList={(id) => {
+                    removeResources([id], [list.id]);
+                  }}
                 />
               )}
             </Stack>

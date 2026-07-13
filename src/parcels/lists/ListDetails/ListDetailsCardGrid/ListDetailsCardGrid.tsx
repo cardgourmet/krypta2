@@ -14,6 +14,7 @@ export function ListDetailsCardGrid({
   setCardResources,
   listWithResources,
   suggestAddCard,
+  onRemoveFromList,
 }: {
   list: UserList;
   sortedCardResoures: {
@@ -24,6 +25,7 @@ export function ListDetailsCardGrid({
   setCardResources: (cardResources: ResolvedUserListResource[]) => void;
   listWithResources: UserListWithResources;
   suggestAddCard?: boolean;
+  onRemoveFromList?: (id: string) => void;
 }) {
   const { t } = useTranslation('lists');
 
@@ -61,6 +63,7 @@ export function ListDetailsCardGrid({
                 }
 
                 setCardResources(newCardResources);
+                if (onRemoveFromList) onRemoveFromList(data.listResource.resourceId);
               }}
             />
           );
