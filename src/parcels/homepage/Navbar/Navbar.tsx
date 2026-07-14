@@ -9,6 +9,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CGM_NEW_HERE } from '@/parcels/homepage/Home/Home.tsx';
 import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
+import { CatMenu } from '@/parcels/homepage/Navbar/CatMenu/CatMenu.tsx';
 import { EmailChangedBanner } from '@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx';
 import { LanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
 import { ThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
@@ -161,6 +162,7 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 </>
               )}
               <Group gap={'0.25rem'} wrap={'nowrap'}>
+                {locationHref !== '/' && <CatMenu />}
                 <LanguageSelector />
                 <ThemeSelector />
               </Group>

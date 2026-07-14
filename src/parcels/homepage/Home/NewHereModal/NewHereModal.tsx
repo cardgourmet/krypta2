@@ -34,7 +34,7 @@ export function NewHereModal({ opened, setOpened }: { opened: boolean; setOpened
             <Image src={catgourmetImage} alt="catgourmet happy" w={100} />
 
             <Stack mr={'1rem'}>
-              <GourmetText cgmc={'neutral-8'}>
+              <GourmetText cgmc={'neutral-8'} fz={'1.05rem'}>
                 <Trans i18nKey="newHere.cat" t={t}>
                   Hi, I'm <b>Gourmet</b> the cat! ₍^. .^₎⟆
                 </Trans>

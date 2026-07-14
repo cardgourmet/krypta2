@@ -3,7 +3,7 @@
   padding: 0.5rem;
 
   &:hover {
-    background-color: var(--gourmet-neutral-2);
+    background-color: var(--cgm-button-border);
   }
 }
 

@@ -19,6 +19,7 @@
   },
   "newHere": {
     "title": "Neu hier?",
+    "cat": "Hi, ich bin <1>Gourmet</1> die Katze! ₍^. .^₎⟆",
     "hook": "Unsere Suchmaschine ist sehr mächtig, kann aber auch überwältigend sein. Um den Einstieg zu erleichtern, hast du mehrere Möglichkeiten:",
     "1": "Benutze die Suche einfach ohne Filter. Standardmäßig wird dann nach Kartennamen gesucht.",
     "2": "Benutze den <1>TCG spezifischen Suchbuilder</1> und baue dir die Suche zusammen, ohne die Filter selber zu tippen.",
@@ -26,7 +27,7 @@
     "footer": "Bei Fragen oder sonstigen Anliegen, schreib uns gerne eine <1>Email</1> oder besuch unseren <3>Discord</3>."
   },
   "needHelp": {
-    "title": "Brauchste Hilfe?"
+    "title": "Brauchst du Hilfe?"
   },
   "mtg": "Magic: The Gathering",
   "dlc": "Disney Lorcana",

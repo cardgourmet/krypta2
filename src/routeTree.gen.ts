@@ -26,7 +26,6 @@ import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
 import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
 import { Route as TcgKitchenIndexRouteImport } from './routes/$tcg/kitchen/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
-import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
 import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
 import { Route as AtChar123userChar125ListsListIdRouteImport } from './routes/@{$user}/lists/$listId'
@@ -119,11 +118,6 @@ const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
   path: '/$tcg/cards/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MeListsListIdRoute = MeListsListIdRouteImport.update({
-  id: '/me/lists/$listId',
-  path: '/me/lists/$listId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthEmailTokenRoute = AuthEmailTokenRouteImport.update({
   id: '/auth/email/$token',
   path: '/auth/email/$token',
@@ -172,7 +166,6 @@ export interface FileRoutesByFullPath {
   '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
-  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
@@ -198,7 +191,6 @@ export interface FileRoutesByTo {
   '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
-  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/$tcg/kitchen': typeof TcgKitchenIndexRoute
   '/$tcg/sets': typeof TcgSetsIndexRoute
@@ -225,7 +217,6 @@ export interface FileRoutesById {
   '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
-  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
@@ -253,7 +244,6 @@ export interface FileRouteTypes {
     | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
-    | '/me/lists/$listId'
     | '/$tcg/cards/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
@@ -279,7 +269,6 @@ export interface FileRouteTypes {
     | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
-    | '/me/lists/$listId'
     | '/$tcg/cards'
     | '/$tcg/kitchen'
     | '/$tcg/sets'
@@ -305,7 +294,6 @@ export interface FileRouteTypes {
     | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
-    | '/me/lists/$listId'
     | '/$tcg/cards/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
@@ -332,7 +320,6 @@ export interface RootRouteChildren {
   AtChar123userChar125ListsListIdRoute: typeof AtChar123userChar125ListsListIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   AuthEmailTokenRoute: typeof AuthEmailTokenRoute
-  MeListsListIdRoute: typeof MeListsListIdRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
   TcgKitchenIndexRoute: typeof TcgKitchenIndexRoute
   TcgSetsIndexRoute: typeof TcgSetsIndexRoute
@@ -465,13 +452,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TcgCardsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/me/lists/$listId': {
-      id: '/me/lists/$listId'
-      path: '/me/lists/$listId'
-      fullPath: '/me/lists/$listId'
-      preLoaderRoute: typeof MeListsListIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth/email/$token': {
       id: '/auth/email/$token'
       path: '/auth/email/$token'
@@ -532,7 +512,6 @@ const rootRouteChildren: RootRouteChildren = {
   AtChar123userChar125ListsListIdRoute: AtChar123userChar125ListsListIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   AuthEmailTokenRoute: AuthEmailTokenRoute,
-  MeListsListIdRoute: MeListsListIdRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
   TcgKitchenIndexRoute: TcgKitchenIndexRoute,
   TcgSetsIndexRoute: TcgSetsIndexRoute,

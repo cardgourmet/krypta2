@@ -2,7 +2,7 @@
   h1 {
     font-family: var(--cgm-title-font-family), serif;
     font-weight: 600;
-    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-size: clamp(2rem, 2.5vw, 2.5rem);
 
     padding: 1rem 0;
   }
@@ -10,7 +10,7 @@
   h2 {
     font-family: Caveat, serif;
     font-weight: 500;
-    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-size: clamp(2rem, 2.5vw, 2.5rem);
 
     padding: 0.5rem 0;
   }
@@ -18,7 +18,7 @@
   h3 {
     font-family: var(--cgm-content-font-family), serif;
     font-weight: 500;
-    font-size: clamp(0.5rem, 1vw, 1rem);
+    font-size: clamp(1rem, 1vw, 1rem);
 
     padding: 0.5rem 0;
   }
@@ -26,7 +26,7 @@
   p {
     font-family: var(--cgm-content-font-family), serif;
     font-weight: 300;
-    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    font-size: clamp(1rem, 1.2vw, 1rem);
 
     padding: 0.25rem 0;
   }
