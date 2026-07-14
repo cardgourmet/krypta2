@@ -1,9 +1,10 @@
-import { Center, Group, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
+import { Center, Group, Image, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconCaretDownFilled, IconCaretUpFilled, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { Activity, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import catgourmetImage from '@/assets/catgourmet_neutral_happy.png';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { FilterGlossaryModal } from '@/parcels/search/glossary/FilterGlossaryModal.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -33,9 +34,18 @@ export function NewHereBanner({ setNewHere }: { setNewHere: (newHere: boolean) =
             </UnstyledButton>
           </Group>
 
-          <Stack mr={'1rem'}>
-            <GourmetText cgmc={'neutral-1'}>{t('newHere.hook')}</GourmetText>
-          </Stack>
+          <Group wrap={'nowrap'}>
+            <Image src={catgourmetImage} alt="catgourmet happy" w={100} />
+
+            <Stack mr={'1rem'}>
+              <GourmetText cgmc={'neutral-1'}>
+                <Trans i18nKey="newHere.cat" t={t}>
+                  Hi, I'm <b>Gourmet</b> the cat! ₍^. .^₎⟆
+                </Trans>
+              </GourmetText>
+              <GourmetText cgmc={'neutral-1'}>{t('newHere.hook')}</GourmetText>
+            </Stack>
+          </Group>
 
           <Activity mode={opened ? 'visible' : 'hidden'}>
             <Stack>

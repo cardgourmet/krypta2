@@ -1,12 +1,14 @@
-import { Divider, Drawer, Group } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { Divider, Drawer, Group, UnstyledButton } from '@mantine/core';
+import { useDisclosure, useLocalStorage, useMediaQuery } from '@mantine/hooks';
 import { IconMenu2, IconSearch, IconUser } from '@tabler/icons-react';
 import { Link, useLocation } from '@tanstack/react-router';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { create } from 'zustand/react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { CGM_NEW_HERE } from '@/parcels/homepage/Home/Home.tsx';
+import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
 import { EmailChangedBanner } from '@/parcels/homepage/Navbar/EmailChangedBanner/EmailChangedBanner.tsx';
 import { LanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/LanguageSelector.tsx';
 import { ThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/ThemeSelector.tsx';
@@ -48,6 +50,13 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [mobileProfileOpened, { open: openProfile, close: closeProfile }] = useDisclosure(false);
+
+  const [helpOpened, setHelpOpened] = useState(false);
+  const [newHere] = useLocalStorage({
+    key: CGM_NEW_HERE,
+    defaultValue: true,
+    getInitialValueInEffect: true,
+  });
 
   return (
     <>
@@ -103,6 +112,20 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               {locationHref === '/' && (
                 <>
                   <Group gap={'1.5rem'} wrap={'nowrap'}>
+                    {!newHere && (
+                      <>
+                        <NewHereModal opened={helpOpened} setOpened={setHelpOpened} />
+
+                        <UnstyledButton
+                          onClick={() => {
+                            setHelpOpened(true);
+                          }}
+                          className={styles.iconButton}
+                        >
+                          <GourmetText style={{ textWrap: 'nowrap' }}>{t('needHelp')}</GourmetText>
+                        </UnstyledButton>
+                      </>
+                    )}
                     <Link to={'/about'} style={{ textDecoration: 'none' }} className={styles.iconButton}>
                       <GourmetText style={{ textWrap: 'nowrap' }}>{t('about')}</GourmetText>
                     </Link>

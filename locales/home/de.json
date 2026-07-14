@@ -25,6 +25,9 @@
     "3": "Benutze die einfachsten Filter zuerst. Sowas wie <1>name:</1> oder <3>text:</3> und taste dich dann an komplexere Filter ran. Für eine Liste aller Filter, klicke <5>hier</5>.",
     "footer": "Bei Fragen oder sonstigen Anliegen, schreib uns gerne eine <1>Email</1> oder besuch unseren <3>Discord</3>."
   },
+  "needHelp": {
+    "title": "Brauchste Hilfe?"
+  },
   "mtg": "Magic: The Gathering",
   "dlc": "Disney Lorcana",
   "pcg": "Pokémon Card Game"

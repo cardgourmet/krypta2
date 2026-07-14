@@ -7,7 +7,7 @@ export function NotFound(_: { data: Record<string, string> }) {
     <Group justify={'center'} mt={'2rem'}>
       <Stack>
         <Stack gap={'0'}>
-          <Image src={notFoundCardImage} w={'100%'} maw={400} />
+          <Image src={notFoundCardImage} w={'100%'} maw={400} alt={'catgourmet confused'} />
           <Group pl={'0.5rem'}>
             <GourmetText cgmff={'ui'} cgmc={'neutral-4'}>
               Artwork by @sitaduncan
