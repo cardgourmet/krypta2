@@ -1,11 +1,8 @@
-import { Avatar, Style } from '@dicebear/core';
-import definition from '@dicebear/styles/glyphs.json';
 import { Group, Modal, Stack } from '@mantine/core';
-import { useMemo } from 'react';
 import { Badge } from '@/parcels/generic/Badge/Badge.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { AvatarDisplay } from '@/parcels/homepage/AvatarDisplay/AvatarDisplay.tsx';
 import type { DataPost } from '@/parcels/homepage/Home/api.ts';
-import styles from './BlogPostDetailsModal.module.css';
 
 export function BlogPostDetailsModal({
   post,
@@ -20,17 +17,6 @@ export function BlogPostDetailsModal({
 }) {
   const translation = post?.translations[lang] ?? post?.translations.en;
   const author = post?.author;
-
-  const avatarFallback = useMemo(() => {
-    if (!author || author?.avatarUrl) return;
-
-    const style = new Style(definition);
-    const avatar = new Avatar(style, {
-      seed: author!.id,
-    });
-
-    return avatar.toString();
-  }, [author]);
 
   return (
     <Modal
@@ -50,19 +36,7 @@ export function BlogPostDetailsModal({
     >
       <Stack>
         <Group gap={'0.5rem'}>
-          {author && (
-            <div style={{ width: '2rem', height: '2rem' }}>
-              <div className={styles.userIcon}>
-                {author.avatarUrl && <img src={author.avatarUrl ?? ''} alt={author.displayName} />}
-                {!author.avatarUrl && (
-                  <img
-                    src={`data:image/svg+xml,${encodeURIComponent(avatarFallback ?? '')}`}
-                    alt={author.displayName}
-                  />
-                )}
-              </div>
-            </div>
-          )}
+          {author && <AvatarDisplay author={author} />}
           <GourmetText fz={'0.95rem'}>
             Written by <span style={{ color: 'var(--gourmet-blue-1)' }}>@{post?.author?.username}</span>
           </GourmetText>
