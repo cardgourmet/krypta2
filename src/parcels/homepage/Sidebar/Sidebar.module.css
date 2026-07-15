@@ -12,7 +12,7 @@
 }
 
 .sidebarLogo {
-  height: var(--navbar-height);
+  min-height: var(--navbar-height);
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--cgm-sidebar-border);
 
@@ -102,4 +102,11 @@
 
 .submenuFooter {
   border-bottom: 1px solid var(--gourmet-neutral-4);
+}
+
+.rainbowText {
+  background: var(--gourmet-purple-1);
+  color: var(--gourmet-neutral-1);
+  padding: 0.25rem 0.2rem;
+  border-radius: 0.25rem;
 }

@@ -1,0 +1,15 @@
+.banner {
+  border-radius: 0.25rem;
+  background-color: color-mix(in srgb, var(--gourmet-purple-1), white 30%);
+
+  width: min(60rem, 65%);
+
+  @media (max-width: 800px) {
+    width: 90%;
+  }
+}
+
+.button {
+  background-color: color-mix(in srgb, var(--gourmet-purple-1), white 20%);
+  border-radius: 0 0 0.25rem 0.25rem;
+}

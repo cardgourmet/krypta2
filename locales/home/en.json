@@ -29,6 +29,11 @@
   "needHelp": {
     "title": "Need help?"
   },
+  "beta": {
+    "title": "We are in Beta!",
+    "head": "This means that things might still be rough around the edges and that many things are subject to change.",
+    "sub": "We highly appreciate any kind of feedback! If you notice anything that could be improved on or doesn't work as expected, please reach out to us."
+  },
   "mtg": "Magic: The Gathering",
   "dlc": "Disney Lorcana",
   "pcg": "Pokémon Card Game"

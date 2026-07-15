@@ -72,6 +72,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
               {pcgCategory.button}
               {dlcCategory.button}
             </Stack>
+
+            <Stack justify={'end'} h={'100%'} mb={'1rem'}>
+              <GourmetText
+                cgmff={'ui'}
+                style={{
+                  writingMode: 'vertical-rl',
+                  transform: 'rotate(180deg)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1rem',
+                }}
+                fw={500}
+              >
+                Cardgourmet <span className={styles.rainbowText}>BETA</span>
+              </GourmetText>
+            </Stack>
           </nav>
 
           {mtgCategory.submenu}

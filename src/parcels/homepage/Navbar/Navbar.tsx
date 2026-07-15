@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { create } from 'zustand/react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { BetaButton } from '@/parcels/homepage/Home/BetaButton/BetaButton.tsx';
 import { CGM_NEW_HERE } from '@/parcels/homepage/Home/Home.tsx';
 import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
 import { CatMenu } from '@/parcels/homepage/Navbar/CatMenu/CatMenu.tsx';
@@ -191,9 +192,21 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               </button>
             </div>
             <div>
-              <Link to="/" style={{ margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
-              </Link>
+              <Group gap={'0rem'} style={{ position: 'relative' }}>
+                <Link
+                  to="/"
+                  style={{ margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                >
+                  <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
+                </Link>
+                <BetaButton
+                  fz={'0.75rem'}
+                  style={{
+                    position: 'absolute',
+                    right: '-3.25rem',
+                  }}
+                />
+              </Group>
             </div>
             <div style={{ flex: 1, justifyContent: 'flex-end' }}>
               {user && <UserIcon onClick={openProfile} />}
