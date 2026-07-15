@@ -36,3 +36,15 @@
     color: var(--gourmet-blue-1);
   }
 }
+
+.userIcon {
+  height: 100%;
+  width: 100%;
+
+  > img {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}

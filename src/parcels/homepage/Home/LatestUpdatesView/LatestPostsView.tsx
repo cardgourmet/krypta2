@@ -81,7 +81,12 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
             >
               <Group>
                 {p.author && <AvatarDisplay author={p.author} size={'2.5rem'} />}
-                <Group justify={'space-between'} wrap={'nowrap'} align={'start'}>
+                <Group
+                  justify={'space-between'}
+                  wrap={'nowrap'}
+                  align={'start'}
+                  w={p.type === 'blog' ? undefined : '100%'}
+                >
                   <Group wrap={'nowrap'} align={'start'}>
                     {/*{p.type === 'blog' && (
                       <Badge

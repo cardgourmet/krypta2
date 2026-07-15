@@ -67,10 +67,10 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
       )}
 
       {!statisticsLoading && statistics && (
-        <Stack>
+        <Stack gap={'2rem'}>
           <Group>
             <Stack gap={'0'}>
-              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
+              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500} style={{ lineHeight: '1' }}>
                 PRINTS
               </GourmetText>
               <GourmetText cgmff={'monospace'} fz={'1.75rem'} fw={'bold'}>
@@ -79,7 +79,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
             </Stack>
 
             <Stack gap={'0'}>
-              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
+              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500} style={{ lineHeight: '1' }}>
                 CARDS
               </GourmetText>
               <GourmetText cgmff={'monospace'} fz={'1.75rem'} fw={'bold'}>
@@ -88,7 +88,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
             </Stack>
 
             <Stack gap={'0'}>
-              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
+              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500} style={{ lineHeight: '1' }}>
                 SETS
               </GourmetText>
               <GourmetText cgmff={'monospace'} fz={'1.75rem'} fw={'bold'}>
@@ -97,7 +97,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
             </Stack>
           </Group>
 
-          <Stack>
+          <Stack gap={'0.25rem'}>
             <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
               MOST RECENT SET
             </GourmetText>

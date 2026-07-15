@@ -1,12 +1,73 @@
+import { Group, Space, Stack } from '@mantine/core';
 import { createFileRoute } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import Markdown from 'react-markdown';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './index.module.css';
 
 export const Route = createFileRoute('/about/')({
   component: RouteComponent,
 });
 
+export type HelperInfo = {
+  name: string;
+  imageUrl: string;
+};
+
 function RouteComponent() {
+  const weAre: HelperInfo[] = useMemo(() => {
+    return [
+      {
+        name: 'Benedikt',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/ZjFjZ.png',
+      },
+      {
+        name: 'Fabian',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/NzAwO.jpg',
+      },
+      {
+        name: 'Tobias',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/OTdjM.png',
+      },
+    ];
+  }, []);
+  const helpers: HelperInfo[] = useMemo(() => {
+    return [
+      {
+        name: 'Pia',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_pia.png',
+      },
+      {
+        name: 'GumLong',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_gumlong.png',
+      },
+      {
+        name: 'Marlin',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_marlin.png',
+      },
+      {
+        name: 'Ryu',
+        imageUrl: '',
+      },
+      {
+        name: 'Thomas',
+        imageUrl: '',
+      },
+      {
+        name: 'Paul',
+        imageUrl: '',
+      },
+      {
+        name: 'Emma',
+        imageUrl: '',
+      },
+      {
+        name: 'Nele',
+        imageUrl: '',
+      },
+    ];
+  }, []);
+
   return (
     <div className={styles.body}>
       <title>{`About – Cardgourmet`}</title>
@@ -25,8 +86,24 @@ Also, as a secondary goal, we want to enable people to easier make awesome stuff
 We are a small developer team from Germany, doing all of this in our free time. In August 2023 we reignited our love for TCGs when we randomly stumbled upon a Magic: The Gathering Song by Jonathan Young. We thought that especially cross-TCG tools have a lot of potential, particularly developer ressources can feel incomplete or not well maintained. That is why we have been working on this project very hard since then.
 
 A lot of this journey until now has been learning about the different TCGs and their communities. And since we are fairly new to these communities, we definitely still have a lot to learn! 
-
-## Thanks to
+`}</Markdown>
+      <Space h={'1.5rem'} />
+      <Group>
+        {weAre.map((h) => {
+          return (
+            <Stack key={h.name} gap={'0.5rem'} style={{ minWidth: '4.5rem' }} align={'center'}>
+              <div style={{ width: '3.5rem', height: '3.5rem' }}>
+                <div className={styles.userIcon}>
+                  <img src={h.imageUrl ?? ''} alt={h.name} />
+                </div>
+              </div>
+              <GourmetText>{h.name}</GourmetText>
+            </Stack>
+          );
+        })}
+      </Group>
+      <Markdown>
+        {`## Thanks to
 
 Without the help of others this project would not be possible. We also heavily rely on third party data to supplement our own, so here is a list of projects that we use or that have inspired us (in no particular order):
 - [Scryfall](https://scryfall.com/) - one of the best (if not the best) MTG database out there
@@ -38,9 +115,23 @@ Without the help of others this project would not be possible. We also heavily r
 - [bulbapedia](https://bulbapedia.bulbagarden.net) - great source for everything PCG related
 - [dreamborn](https://dreamborn.ink/de) - Disney Lorcana deck builder and card source
 
-Also special thanks to our helpers, that have been supporting us since the beginning:
-
-Pia, Jesko, Marlin & our cats Ryu, Thomas, Paul, Emma and Nele`}</Markdown>
+Also special thanks to our helpers, that have been supporting us since the beginning:`}
+      </Markdown>
+      <Space h={'1.5rem'} />
+      <Group>
+        {helpers.map((h) => {
+          return (
+            <Stack key={h.name} gap={'0.5rem'} style={{ minWidth: '4.5rem' }} align={'center'}>
+              <div style={{ width: '3.5rem', height: '3.5rem' }}>
+                <div className={styles.userIcon}>
+                  <img src={h.imageUrl ?? ''} alt={h.name} />
+                </div>
+              </div>
+              <GourmetText>{h.name}</GourmetText>
+            </Stack>
+          );
+        })}
+      </Group>
     </div>
   );
 }
