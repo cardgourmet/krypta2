@@ -116,6 +116,7 @@
       }
     },
     "pageTitle": "Your Lists",
+    "pageTitleOther": "@{{ name }}'s Lists",
     "savedSearches": "Saved Searches",
     "cards": "Cards",
     "searchCards_one": "{{count}} card",

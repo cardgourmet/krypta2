@@ -1,0 +1,19 @@
+.selectionButton:hover {
+  --current-color: var(--gourmet-neutral-5);
+
+  background-color: color-mix(var(--current-color), black 5%);
+}
+
+.menuDropdown {
+  button:hover {
+    background-color: var(--gourmet-neutral-2);
+  }
+}
+
+.menuItem {
+  --bg-color: light-dark(var(--gourmet-neutral-0), var(--gourmet-neutral-3));
+
+  &:hover {
+    --bg-color: var(--gourmet-neutral-2);
+  }
+}

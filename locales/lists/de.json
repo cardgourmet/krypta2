@@ -115,6 +115,7 @@
       }
     },
     "pageTitle": "Deine Listen",
+    "pageTitleOther": "@{{ name }} Listen",
     "savedSearches": "Gespeicherte Suchen",
     "cards": "Karten",
     "searchCards_one": "{{count}} Karte",

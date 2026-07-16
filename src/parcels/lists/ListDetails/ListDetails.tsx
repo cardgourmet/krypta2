@@ -2,6 +2,7 @@ import { Center, Group, Loader, Stack } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { startTransition, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -12,6 +13,7 @@ import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCard
 import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
+import { ListDetailsSelectionDisplay } from '@/parcels/lists/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { DataUser } from '@/parcels/user/api.ts';
@@ -21,6 +23,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const { t } = useTranslation('lists');
   const search = Route.useSearch();
   const tcg = search.tcg;
+  const { user } = useAuth();
 
   const [resourcesLoading, setResourcesLoading] = useState<boolean>(false);
   const [localListWithResources, setLocalListWithResources] = useState<UserListWithResources>({
@@ -115,10 +118,17 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   }, [cardResources, search.order, search.sort]);
 
   const [isDraggedOver, setDraggedOver] = useState<boolean>(false);
+  const pageTitle = useMemo(() => {
+    const yourLists = owner.username === user?.username;
+
+    return `${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${
+      yourLists ? t('details.pageTitle') : t('details.pageTitleOther', { name: owner.username })
+    } – Cardgourmet`;
+  }, [list.name, list.systemListType, owner.username, t, user?.username]);
 
   return (
     <div style={{ position: 'relative' }}>
-      <title>{`${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${t('details.pageTitle')} – Cardgourmet`}</title>
+      <title>{pageTitle}</title>
       <Dropzone
         onEnter={() => {
           setDraggedOver(true);
@@ -221,6 +231,8 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                   }}
                 />
               )}
+
+              {user && <ListDetailsSelectionDisplay list={list} />}
             </Stack>
           )}
         </>
