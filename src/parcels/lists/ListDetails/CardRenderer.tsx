@@ -3,6 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical, IconLink } from '@tabler/icons-react';
 import { Activity, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
 import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
@@ -12,13 +13,16 @@ import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { slugify } from '@/parcels/slugify.ts';
 import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { DataUser } from '@/parcels/user/api.ts';
 
 function CardRenderer({
+  owner,
   list,
   data,
   onAddToList,
   onRemoveFromList,
 }: {
+  owner: DataUser;
   list: UserListWithResources;
   data: ResolvedUserListResource;
   onAddToList?: (res: UserListResource) => void;
@@ -26,6 +30,7 @@ function CardRenderer({
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const isTouchDevice = useMediaQuery('(hover: none)');
+  const { user } = useAuth();
 
   const tcg = data.listResource.game as Tcg;
   const card = data.resourceData as unknown as TcgDataCard;
@@ -39,8 +44,8 @@ function CardRenderer({
 
   const actionMenu = useMemo(() => {
     return (
-      /* TODO: make action menu dependend on current login */
       <ListDetailsActionMenu
+        owner={owner}
         tcg={tcg}
         listContext={list}
         resource={card}
@@ -65,7 +70,7 @@ function CardRenderer({
         onAddedToList={onAddToList}
         onRemovedFromList={onRemoveFromList}
       >
-        <Menu.Divider />
+        {user && <Menu.Divider />}
 
         <Menu.Item
           onClick={() => {
@@ -87,7 +92,7 @@ function CardRenderer({
         </Menu.Item>
       </ListDetailsActionMenu>
     );
-  }, [card, list, menuOpened, onRemoveFromList, t, tcg, onAddToList]);
+  }, [card, list, menuOpened, onRemoveFromList, t, tcg, onAddToList, user, owner]);
 
   return (
     <Stack gap={'0.25rem'}>

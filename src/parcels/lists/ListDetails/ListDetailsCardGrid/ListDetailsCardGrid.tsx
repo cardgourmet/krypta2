@@ -4,10 +4,17 @@ import { IconCards } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import CardRenderer from '@/parcels/lists/ListDetails/CardRenderer.tsx';
-import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import type {
+  ResolvedUserListResource,
+  UserList,
+  UserListResource,
+  UserListWithResources,
+} from '@/parcels/lists/types.ts';
+import type { DataUser } from '@/parcels/user/api.ts';
 import type { components } from '@/schema/api';
 
 export function ListDetailsCardGrid({
+  owner,
   list,
   sortedCardResoures,
   cardResources,
@@ -15,7 +22,9 @@ export function ListDetailsCardGrid({
   listWithResources,
   suggestAddCard,
   onRemoveFromList,
+  onAddToList,
 }: {
+  owner: DataUser;
   list: UserList;
   sortedCardResoures: {
     listResource: components['schemas']['UserListResource'];
@@ -25,7 +34,8 @@ export function ListDetailsCardGrid({
   setCardResources: (cardResources: ResolvedUserListResource[]) => void;
   listWithResources: UserListWithResources;
   suggestAddCard?: boolean;
-  onRemoveFromList?: (id: string) => void;
+  onRemoveFromList?: (resourceId: string, listId: string) => void;
+  onAddToList?: (res: UserListResource) => void;
 }) {
   const { t } = useTranslation('lists');
 
@@ -48,10 +58,15 @@ export function ListDetailsCardGrid({
         {sortedCardResoures.map((data) => {
           return (
             <CardRenderer
+              owner={owner}
               key={data.listResource.resourceId}
               list={listWithResources}
               data={data}
+              onAddToList={(res) => {
+                if (onAddToList) onAddToList(res);
+              }}
               onRemoveFromList={(listId) => {
+                if (onRemoveFromList) onRemoveFromList(data.listResource.resourceId, listId);
                 if (listId !== list.id) return;
 
                 const newCardResources = [...cardResources];
@@ -63,7 +78,6 @@ export function ListDetailsCardGrid({
                 }
 
                 setCardResources(newCardResources);
-                if (onRemoveFromList) onRemoveFromList(data.listResource.resourceId);
               }}
             />
           );

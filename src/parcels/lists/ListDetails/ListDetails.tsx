@@ -32,7 +32,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
       return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
     });
   }, [localListWithResources.resources]);
-  const { removeResources } = useActiveLists(undefined, listResources);
+  const { removeResources, addResources } = useActiveLists(undefined, listResources);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -206,14 +206,18 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
 
               {sortedCardResoures.length > 0 && (
                 <ListDetailsCardGrid
+                  owner={owner}
                   list={list}
                   sortedCardResoures={sortedCardResoures}
                   cardResources={cardResources}
                   setCardResources={setCardResources}
                   listWithResources={localListWithResources}
                   suggestAddCard={isDraggedOver}
-                  onRemoveFromList={(id) => {
-                    removeResources([id], [list.id]);
+                  onAddToList={(res) => {
+                    addResources([res]);
+                  }}
+                  onRemoveFromList={(resourceId, listId) => {
+                    removeResources([resourceId], [listId]);
                   }}
                 />
               )}
