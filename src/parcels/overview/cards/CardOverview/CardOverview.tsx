@@ -214,7 +214,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <TcgOverviewCardMenu
             tcg={tcg}
             onAddToList={(res) => {
-              addResources([res], true);
+              addResources([res], /*res.resourceType !== 'card'*/ true);
             }}
             onRemoveFromList={(res) => {
               removeResources([res.resourceId], [res.listId]);

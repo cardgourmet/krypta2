@@ -107,9 +107,14 @@ export function UseSelectionButton() {
 
                 addResources(res);
 
+                const existingIds = new Set(
+                  Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
+                );
+                const filteredIds = selectedPrintIds.filter((s) => !existingIds.has(s));
+
                 sendNotification(
                   'success',
-                  <CardsAddNotification tcg={tcg} list={list.list} printIds={selectedPrintIds} language={'en'} />,
+                  <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
                 );
               }}
             />
@@ -163,9 +168,14 @@ export function UseSelectionButton() {
 
                   addResources(res);
 
+                  const existingIds = new Set(
+                    Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
+                  );
+                  const filteredIds = selectedPrintIds.filter((s) => !existingIds.has(s));
+
                   sendNotification(
                     'success',
-                    <CardsAddNotification tcg={tcg} list={list.list} printIds={selectedPrintIds} language={'en'} />,
+                    <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
                   );
                 }}
               />

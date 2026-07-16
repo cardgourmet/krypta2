@@ -122,13 +122,14 @@ export function useListActionItems({
           disclosure={disclosure}
           type={type}
           tcg={tcg}
-          buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
+          buttonText={listContext !== undefined ? t('copyToList') : t('addToList')}
           onSuccess={(res) => {
             if (res) {
               addToList([res]);
             }
           }}
           existsInLists={existsInLists}
+          activeListContext={activeListContext ?? CONTEXT_LIST_MAIN}
         />
 
         {listContext !== undefined && (
@@ -180,6 +181,7 @@ export function useListActionItems({
     existsInLists,
     addToList,
     removeFromList,
+    activeListContext,
   ]);
 
   return {

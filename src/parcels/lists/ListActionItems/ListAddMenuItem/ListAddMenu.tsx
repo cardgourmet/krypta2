@@ -3,15 +3,17 @@ import { type UseDisclosureReturnValue, useMediaQuery } from '@mantine/hooks';
 import { IconChevronRight, IconList, IconPlus } from '@tabler/icons-react';
 import { type Ref, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {
   ListMenuItem,
   type ListMenuItemResourceProps,
 } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 
 export function ListAddMenu(
@@ -19,21 +21,22 @@ export function ListAddMenu(
     disclosure: UseDisclosureReturnValue;
     buttonText?: string;
     existsInLists: UserListWithResources[];
+    activeListContext: string;
   } & ListMenuItemResourceProps &
     TcgProps & { ref?: Ref<HTMLDivElement> },
 ) {
-  const { disclosure, existsInLists } = props;
+  const { disclosure, existsInLists, activeListContext } = props;
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
-  const { lists } = useUserLists();
+  const { activeLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
   const existsInListsIds = useMemo(() => {
     return existsInLists.map((l) => l.list.id);
   }, [existsInLists]);
 
   const nonSystemLists = useMemo(() => {
-    const nonSystemLists = lists.filter((l) => {
+    const nonSystemLists = activeLists.filter((l) => {
       if (l.list.systemListType !== undefined) return false;
 
       // filter by tcg
@@ -48,9 +51,12 @@ export function ListAddMenu(
     });
 
     return nonSystemLists;
-  }, [lists, props.tcg]);
+  }, [activeLists, props.tcg]);
 
   const [_, { open }] = disclosure;
+
+  const { user } = useAuth();
+  const { lists } = useUserLimits(user);
 
   return (
     <Menu
@@ -110,17 +116,11 @@ export function ListAddMenu(
             />
           );
         })}
-        {nonSystemLists.length === 0 && (
-          <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-            No list found.
-          </GourmetText>
-        )}
-
-        <Menu.Divider />
+        {nonSystemLists.length > 1 && <Menu.Divider />}
 
         <Menu.Item
           onClick={() => {
-            if (lists.length >= 10) return;
+            if (activeLists.length >= lists) return;
             open();
           }}
         >

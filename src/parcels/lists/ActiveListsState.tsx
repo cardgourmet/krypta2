@@ -134,6 +134,10 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
       const allContexts = new Set([...Object.keys(get().activeListsByContext), context]);
       const targetContexts = sync ? allContexts : new Set([context]);
 
+      const current = get().activeListsByContext;
+      const newData = {
+        ...current,
+      };
       for (const targetContext of targetContexts) {
         const currentContextData = get().activeListsByContext[targetContext];
         if (!currentContextData) {
@@ -141,8 +145,14 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
           continue;
         }
 
-        const newContextData = combineResources(currentContextData, res, true);
-        get().actions.setLists(targetContext, newContextData);
+        newData[context] = combineResources(currentContextData, res, true);
+      }
+      set({
+        activeListsByContext: newData,
+      });
+      if (!sync) {
+        // this will trigger a size sync between all lists
+        get().actions.setLists(context, newData[context]);
       }
 
       return get().activeListsByContext[context];
@@ -150,11 +160,15 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
     removeResources: (ressourceIds: string[], listIds?: string[]) => {
       const current = get().activeListsByContext;
 
+      const newData = {
+        ...current,
+      };
       for (const context of Object.keys(current)) {
-        const newContextData = removeResourcesByIds(current[context], listIds, ressourceIds);
-
-        get().actions.setLists(context, newContextData);
+        newData[context] = removeResourcesByIds(current[context], listIds, ressourceIds);
       }
+      set({
+        activeListsByContext: newData,
+      });
 
       return Object.values(get().activeListsByContext)[0];
     },
@@ -233,7 +247,6 @@ export function useActiveLists(context?: string, resources?: UserListResource[])
           newLists.push(userList);
           return;
         }
-        console.log('found updated list for ', userList.list.id, updatedList);
         newLists.push({ list: updatedList.list, resources: userList.resources, size: userList.size });
       });
       setLists(newLists);
@@ -360,7 +373,7 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
       } as ResolvedUserListResource;
     });
     if (!listResources) {
-      activeLists.push(list);
+      activeLists.push({ ...list });
       continue;
     }
 
