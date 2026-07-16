@@ -7,7 +7,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/me/lists';
+import { Route } from '@/routes/@{$user}/lists';
 import styles from './ListElementHeader.module.css';
 
 export function ListElementHeader({ list }: { list: UserList }) {

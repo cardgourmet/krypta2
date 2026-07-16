@@ -39,6 +39,7 @@ function CardRenderer({
 
   const actionMenu = useMemo(() => {
     return (
+      /* TODO: make action menu dependend on current login */
       <ListDetailsActionMenu
         tcg={tcg}
         listContext={list}

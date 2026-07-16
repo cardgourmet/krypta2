@@ -11,15 +11,18 @@ import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditL
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { paramDefaults } from '@/routes/me/lists';
+import type { DataUser } from '@/parcels/user/api.ts';
+import { paramDefaults } from '@/routes/@{$user}/lists';
 
 export function ListDetailsHeader({
+  owner,
   tcg,
   list,
   title,
   onUpdate,
   publicView,
 }: {
+  owner: DataUser;
   tcg?: Tcg;
   list: UserList;
   title: string;
@@ -101,10 +104,13 @@ export function ListDetailsHeader({
 
                     // noinspection JSIgnoredPromiseFromCall
                     navigate({
-                      to: '/me/lists',
+                      to: `/@{$user}/lists`,
                       search: {
                         ...paramDefaults,
                         tcg: tcg ?? 'all',
+                      },
+                      params: {
+                        user: owner.username,
                       },
                     });
                   }}

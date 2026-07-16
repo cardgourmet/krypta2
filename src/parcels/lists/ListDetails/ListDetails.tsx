@@ -2,7 +2,6 @@ import { Center, Group, Loader, Stack } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { startTransition, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
@@ -20,7 +19,6 @@ import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
 export function ListDetails({ owner, list, publicView }: { owner: DataUser; list: UserList; publicView: boolean }) {
   const { t } = useTranslation('lists');
-  const { user } = useAuth();
   const search = Route.useSearch();
   const tcg = search.tcg;
 
@@ -69,11 +67,11 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   }, [localListWithResources?.resources]);
 
   const { component, title } = useBreadcrumbs({
-    subpage: `@${user?.username}`,
+    subpage: `@${owner?.username}`,
     moreSubpages: [
       {
         label: t('details.header.breadcrumbs.lists'),
-        href: '/me/lists',
+        href: `/@${owner?.username}/lists`,
       },
       {
         label: list.systemListType !== undefined ? t(`overview.card.system.${list.name}`) : list.name,
@@ -139,6 +137,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
 
       {component}
       <ListDetailsHeader
+        owner={owner}
         tcg={tcg}
         list={localListWithResources.list}
         title={title?.label ?? ''}

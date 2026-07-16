@@ -21,8 +21,8 @@ import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
-import { Route as MeListsIndexRouteImport } from './routes/me/lists/index'
 import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
+import { Route as AtChar123userChar125ListsIndexRouteImport } from './routes/@{$user}/lists/index'
 import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
 import { Route as TcgKitchenIndexRouteImport } from './routes/$tcg/kitchen/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
@@ -93,16 +93,17 @@ const MeSavedSearchesIndexRoute = MeSavedSearchesIndexRouteImport.update({
   path: '/me/saved-searches/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MeListsIndexRoute = MeListsIndexRouteImport.update({
-  id: '/me/lists/',
-  path: '/me/lists/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MeHistoryIndexRoute = MeHistoryIndexRouteImport.update({
   id: '/me/history/',
   path: '/me/history/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AtChar123userChar125ListsIndexRoute =
+  AtChar123userChar125ListsIndexRouteImport.update({
+    id: '/@{$user}/lists/',
+    path: '/@{$user}/lists/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const TcgSetsIndexRoute = TcgSetsIndexRouteImport.update({
   id: '/$tcg/sets/',
   path: '/$tcg/sets/',
@@ -169,8 +170,8 @@ export interface FileRoutesByFullPath {
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
+  '/@{$user}/lists/': typeof AtChar123userChar125ListsIndexRoute
   '/me/history/': typeof MeHistoryIndexRoute
-  '/me/lists/': typeof MeListsIndexRoute
   '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
   '/me/settings/': typeof MeSettingsIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
@@ -194,8 +195,8 @@ export interface FileRoutesByTo {
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/$tcg/kitchen': typeof TcgKitchenIndexRoute
   '/$tcg/sets': typeof TcgSetsIndexRoute
+  '/@{$user}/lists': typeof AtChar123userChar125ListsIndexRoute
   '/me/history': typeof MeHistoryIndexRoute
-  '/me/lists': typeof MeListsIndexRoute
   '/me/saved-searches': typeof MeSavedSearchesIndexRoute
   '/me/settings': typeof MeSettingsIndexRoute
   '/$tcg/sets/$setCode': typeof TcgSetsSetCodeIndexRoute
@@ -220,8 +221,8 @@ export interface FileRoutesById {
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
+  '/@{$user}/lists/': typeof AtChar123userChar125ListsIndexRoute
   '/me/history/': typeof MeHistoryIndexRoute
-  '/me/lists/': typeof MeListsIndexRoute
   '/me/saved-searches/': typeof MeSavedSearchesIndexRoute
   '/me/settings/': typeof MeSettingsIndexRoute
   '/$tcg/sets/$setCode/': typeof TcgSetsSetCodeIndexRoute
@@ -247,8 +248,8 @@ export interface FileRouteTypes {
     | '/$tcg/cards/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
+    | '/@{$user}/lists/'
     | '/me/history/'
-    | '/me/lists/'
     | '/me/saved-searches/'
     | '/me/settings/'
     | '/$tcg/sets/$setCode/'
@@ -272,8 +273,8 @@ export interface FileRouteTypes {
     | '/$tcg/cards'
     | '/$tcg/kitchen'
     | '/$tcg/sets'
+    | '/@{$user}/lists'
     | '/me/history'
-    | '/me/lists'
     | '/me/saved-searches'
     | '/me/settings'
     | '/$tcg/sets/$setCode'
@@ -297,8 +298,8 @@ export interface FileRouteTypes {
     | '/$tcg/cards/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
+    | '/@{$user}/lists/'
     | '/me/history/'
-    | '/me/lists/'
     | '/me/saved-searches/'
     | '/me/settings/'
     | '/$tcg/sets/$setCode/'
@@ -323,8 +324,8 @@ export interface RootRouteChildren {
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
   TcgKitchenIndexRoute: typeof TcgKitchenIndexRoute
   TcgSetsIndexRoute: typeof TcgSetsIndexRoute
+  AtChar123userChar125ListsIndexRoute: typeof AtChar123userChar125ListsIndexRoute
   MeHistoryIndexRoute: typeof MeHistoryIndexRoute
-  MeListsIndexRoute: typeof MeListsIndexRoute
   MeSavedSearchesIndexRoute: typeof MeSavedSearchesIndexRoute
   MeSettingsIndexRoute: typeof MeSettingsIndexRoute
   TcgSetsSetCodeIndexRoute: typeof TcgSetsSetCodeIndexRoute
@@ -417,18 +418,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeSavedSearchesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/me/lists/': {
-      id: '/me/lists/'
-      path: '/me/lists'
-      fullPath: '/me/lists/'
-      preLoaderRoute: typeof MeListsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/me/history/': {
       id: '/me/history/'
       path: '/me/history'
       fullPath: '/me/history/'
       preLoaderRoute: typeof MeHistoryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/@{$user}/lists/': {
+      id: '/@{$user}/lists/'
+      path: '/@{$user}/lists'
+      fullPath: '/@{$user}/lists/'
+      preLoaderRoute: typeof AtChar123userChar125ListsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/sets/': {
@@ -515,8 +516,8 @@ const rootRouteChildren: RootRouteChildren = {
   TcgCardsIndexRoute: TcgCardsIndexRoute,
   TcgKitchenIndexRoute: TcgKitchenIndexRoute,
   TcgSetsIndexRoute: TcgSetsIndexRoute,
+  AtChar123userChar125ListsIndexRoute: AtChar123userChar125ListsIndexRoute,
   MeHistoryIndexRoute: MeHistoryIndexRoute,
-  MeListsIndexRoute: MeListsIndexRoute,
   MeSavedSearchesIndexRoute: MeSavedSearchesIndexRoute,
   MeSettingsIndexRoute: MeSettingsIndexRoute,
   TcgSetsSetCodeIndexRoute: TcgSetsSetCodeIndexRoute,

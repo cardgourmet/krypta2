@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, stripSearchParams } from '@tanstack/react-router';
+import { createFileRoute, notFound, stripSearchParams } from '@tanstack/react-router';
 import z from 'zod';
 import ListsOverview from '@/parcels/lists/ListsOverview/ListsOverview.tsx';
 
@@ -17,13 +17,12 @@ export const paramsSchema = z.object({
   search: z.string().catch(paramDefaults.search),
 });
 
-export const Route = createFileRoute('/me/lists/')({
+export const Route = createFileRoute('/@{$user}/lists/')({
   component: RouteComponent,
-  loader: async ({ context }) => {
-    if (context.auth?.user?.state !== 'verified') {
-      throw redirect({
-        to: '/',
-      });
+  loader: async ({ params, context }) => {
+    const loggedIn = context.auth.user;
+    if (loggedIn?.username !== params.user) {
+      throw notFound();
     }
   },
   validateSearch: paramsSchema,

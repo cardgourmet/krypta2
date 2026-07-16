@@ -13,7 +13,7 @@ import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/me/lists';
+import { Route } from '@/routes/@{$user}/lists';
 
 export function ListsOverviewTable({
   isLoading,

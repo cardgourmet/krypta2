@@ -17,7 +17,7 @@ import { ListsOverviewTable } from '@/parcels/lists/ListsOverview/ListsOverviewT
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation';
-import { Route } from '@/routes/me/lists';
+import { Route } from '@/routes/@{$user}/lists';
 
 export default function ListsOverview() {
   const { user } = useAuth();
