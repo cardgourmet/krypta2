@@ -44,7 +44,7 @@ export function GridListRenderer({
       <Stack w={'100%'} gap={'0.25rem'}>
         <SelectionProgress sections={10} current={size ?? 0} max={100} withoutText />
         <Group justify={'space-between'}>
-          <GourmetText cgmff={'ui'} cgmc={'neutral-7'}>
+          <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'0.9rem'}>
             {size}/100 {t('card.resources')}
           </GourmetText>
 
@@ -115,7 +115,7 @@ export function GridListRenderer({
         )}
 
         <Group justify={'space-between'}>
-          <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+          <GourmetText cgmff={'ui'} cgmc={'neutral-6'} fz={'0.9rem'}>
             {t('card.lastUpdated')}{' '}
             <span title={new Date(list.updatedAt).toLocaleString()}>
               {formatRelativeTimestamp(list.updatedAt, i18n.language)}

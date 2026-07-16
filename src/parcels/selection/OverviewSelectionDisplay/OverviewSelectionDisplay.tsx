@@ -1,7 +1,7 @@
 import { ActionIcon, Flex, Group, Stack, Tooltip } from '@mantine/core';
 import { useClickOutside, useMediaQuery } from '@mantine/hooks';
 import { IconEyeSearch, IconX } from '@tabler/icons-react';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -38,6 +38,11 @@ export function OverviewSelectionDisplay() {
   }, [cardAmount]);
 
   const pageCardAmount = Object.keys(workData?.selection?.elementsByPage[workData.search.page] ?? []).length;
+
+  const router = useRouter();
+  router.subscribe('onBeforeLoad', (event) => {
+    if (event.pathChanged) clearSelection();
+  });
 
   return (
     <>

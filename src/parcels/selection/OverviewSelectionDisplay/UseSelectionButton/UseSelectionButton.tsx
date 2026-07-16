@@ -52,8 +52,6 @@ export function UseSelectionButton() {
         return (timeA - timeB) * -1;
       });
 
-    console.log(nonSystemLists);
-
     return { systemLists, nonSystemLists };
   }, [activeLists, tcg]);
 
@@ -191,7 +189,6 @@ export function UseSelectionButton() {
                   try {
                     const createdList = await requestModal<UserList>('createList', { async: true });
                     if (!createdList) return;
-                    addLists([{ list: createdList }]);
 
                     const res = await addResourcesToList(
                       user!.id,
@@ -201,6 +198,8 @@ export function UseSelectionButton() {
                       'card',
                     );
                     if (res.error) {
+                      addLists([{ list: createdList, size: 0 }]);
+
                       sendErrorNotification(res.error);
                       return;
                     }
@@ -210,6 +209,7 @@ export function UseSelectionButton() {
                       'success',
                       <CardsAddNotification tcg={tcg} list={createdList} printIds={selectedPrintIds} language={'en'} />,
                     );
+                    addLists([{ list: createdList, size: res.data?.length ?? 0 }]);
                   } catch {}
                 }}
               >

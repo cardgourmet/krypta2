@@ -27,7 +27,8 @@
       "weveDeleted": "We've deleted the list."
     },
     "created": {
-      "title": "Created {{name}}"
+      "title": "Created {{name}}",
+      "goThere": "Go there now"
     },
     "updated": {
       "title": "Updated {{name}}",

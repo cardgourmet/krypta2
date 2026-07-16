@@ -56,17 +56,17 @@ export function ListDetailsHeader({
             <IconLabelFilled color={list.color ?? 'var(--gourmet-neutral-9)'} />
           </Group>
           {list.description.length > 0 && (
-            <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'0.95rem'}>
+            <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'1rem'}>
               {list.description}
             </GourmetText>
           )}
           {list.systemListType === 'favorites' && (
-            <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'0.95rem'}>
+            <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'1rem'}>
               {t('overview.card.system.favoritesDesc')}
             </GourmetText>
           )}
           {list.systemListType !== 'favorites' && list.description.length === 0 && (
-            <GourmetText cgmff={'ui'} cgmc={'neutral-5'} fz={'0.95rem'}>
+            <GourmetText cgmff={'ui'} cgmc={'neutral-5'} fz={'1rem'}>
               {t('overview.card.noDescription')}
             </GourmetText>
           )}
@@ -74,7 +74,7 @@ export function ListDetailsHeader({
 
         <Stack justify={'end'}>
           <Group gap={'1rem'}>
-            <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'0.95rem'}>
+            <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'0.9rem'}>
               {t('overview.card.lastUpdated')}{' '}
               <span title={new Date(list.updatedAt).toLocaleString()}>
                 {formatRelativeTimestamp(list.updatedAt, i18n.language)}

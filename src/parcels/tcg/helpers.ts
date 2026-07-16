@@ -30,7 +30,7 @@ export function shouldBeTransformed(tcg: Tcg, card: TcgDataCard): boolean {
   if (tcg !== 'mtg') return false;
   card = card as MtgDataCard;
 
-  const oneSideLayouts = ['split', 'aftermath'];
+  const oneSideLayouts = ['split', 'aftermath', 'adventure'];
   if (oneSideLayouts.includes(card.layout)) return false;
   if (!card?.print?.faces) return false;
 
@@ -38,6 +38,8 @@ export function shouldBeTransformed(tcg: Tcg, card: TcgDataCard): boolean {
 }
 
 export function shouldBeRotated(tcg: Tcg, card: TcgDataCard): number {
+  if (!card) return 0;
+
   if (tcg === 'mtg') {
     const rotatedTypes = ['battle', 'plane', 'phenomenon'];
 
@@ -45,7 +47,7 @@ export function shouldBeRotated(tcg: Tcg, card: TcgDataCard): number {
     const rotateLayouts = ['split', 'aftermath'];
     if (card.layout === 'aftermath') return -90;
     if (rotateLayouts.includes(card.layout)) return 90;
-    return card.print.faces.some((f) => {
+    return card.print?.faces?.some((f) => {
       return rotatedTypes.some((t) => f.types.includes(t));
     })
       ? 90

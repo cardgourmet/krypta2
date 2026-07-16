@@ -23,7 +23,7 @@ function RouteComponent() {
       },
       {
         name: 'Fabian',
-        imageUrl: 'https://assets.cardgourmet.com/avatars/NzAwO.jpg',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/clumsy-as-usual.jpg',
       },
       {
         name: 'Tobias',
@@ -47,7 +47,7 @@ function RouteComponent() {
       },
       {
         name: 'Ryu',
-        imageUrl: '',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_ryu.png',
       },
       {
         name: 'Thomas',
