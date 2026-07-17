@@ -84,29 +84,27 @@ export function SearchRenderer({
           </Link>
 
           {user?.id && (
-            <Tooltip label={t('table.moreOptions')} openDelay={500}>
-              <ListDetailsActionMenu
-                owner={owner}
-                type={'user_search'}
-                listContext={list}
-                tcg={resolvedSavedSearch.savedSearch.game as Tcg}
-                resourceId={resolvedSavedSearch.savedSearch.id}
-                rawResourceId={resolvedSavedSearch.firstSearch.id}
-                target={
-                  <ActionIcon
-                    style={{ pointerEvents: 'auto' }}
-                    color="var(--gourmet-neutral-dark-4)"
-                    className={styles.moreButton}
-                  >
-                    <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
-                  </ActionIcon>
-                }
-                menuOpened={menuOpened}
-                setMenuOpened={setMenuOpened}
-                onAddedToList={onAddToList}
-                onRemovedFromList={onRemoveFromList}
-              />
-            </Tooltip>
+            <ListDetailsActionMenu
+              owner={owner}
+              type={'user_search'}
+              listContext={list}
+              tcg={resolvedSavedSearch.savedSearch.game as Tcg}
+              resourceId={resolvedSavedSearch.savedSearch.id}
+              rawResourceId={resolvedSavedSearch.firstSearch.id}
+              target={
+                <ActionIcon
+                  style={{ pointerEvents: 'auto' }}
+                  color="var(--gourmet-neutral-dark-4)"
+                  className={styles.moreButton}
+                >
+                  <IconDotsVertical size={18} color={'var(--gourmet-neutral-8)'} style={{ flexShrink: 0 }} />
+                </ActionIcon>
+              }
+              menuOpened={menuOpened}
+              setMenuOpened={setMenuOpened}
+              onAddedToList={onAddToList}
+              onRemovedFromList={onRemoveFromList}
+            />
           )}
         </Group>
       </Group>

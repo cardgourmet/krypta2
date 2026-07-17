@@ -106,6 +106,7 @@ export function ListAddMenu(
               key={list.list.id}
               listWithResources={list}
               action={'add'}
+              tcg={props.tcg}
               disabled={existsInListsIds.includes(list.list.id)}
               buttonText={t('addToList')}
               onSuccess={(res) => {

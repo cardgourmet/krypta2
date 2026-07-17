@@ -12,6 +12,7 @@ import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditL
 import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.module.css';
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Route } from '@/routes/@{$user}/lists';
 
@@ -30,6 +31,7 @@ export function ListsOverviewTable({
   const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
   const { t: t2 } = useTranslation('lists');
   const { user } = useAuth();
+  const { list_resources_per_list } = useUserLimits(user);
 
   const search = Route.useSearch();
   const { tcg } = search;
@@ -94,7 +96,11 @@ export function ListsOverviewTable({
                 <VisibilityBadge visibility={list.list.visibility} />
               </div>
             ),
-            size: <GourmetText cgmff={'ui'}>{list.size}/100</GourmetText>,
+            size: (
+              <GourmetText cgmff={'ui'}>
+                {list.size}/{list_resources_per_list}
+              </GourmetText>
+            ),
             color: (
               <Group>
                 {list.list.color && <IconLabelFilled size={20} color={list.list.color ?? 'var(--gourmet-neutral-9)'} />}
@@ -104,7 +110,7 @@ export function ListsOverviewTable({
         };
       }),
     };
-  }, [userLists, i18n.language, t2, tcg, user]);
+  }, [userLists, i18n.language, t2, tcg, user, list_resources_per_list]);
 
   return (
     <GourmetTable

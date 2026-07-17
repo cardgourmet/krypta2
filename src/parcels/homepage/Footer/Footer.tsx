@@ -36,7 +36,7 @@ export function Footer() {
       <Group justify={'space-between'}>
         <Stack gap={'0.25rem'}>
           <GourmetText cgmff={'ui'} fz={'0.85rem'} c={'var(--gourmet-neutral-6'}>
-            All other content &copy; 2026 Cardgourmet. All rights reserved.
+            All other content &copy; 2026 Cardgourmet. All rights reserved. Made with ❤ by real humans.
           </GourmetText>
           <Group>
             <Link to={'/privacy-policy'}>

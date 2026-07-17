@@ -1,5 +1,6 @@
 import { Center, Group, Loader, Space, Stack } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import { DeleteListButton } from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
@@ -7,6 +8,7 @@ import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditL
 import { ListElementHeader } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import { RendererCardResources } from '@/parcels/lists/ListsOverview/ListRenderer/RendererCardResources/RendererCardResources.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -27,6 +29,9 @@ export function GridListRenderer({
   const cardResources = allResources?.card ?? [];
   const shouldLoad = (size ?? 0) > 0 && !(cardResources.length > 0);
 
+  const { user } = useAuth();
+  const { list_resources_per_list } = useUserLimits(user);
+
   return (
     <Stack
       key={list.id}
@@ -42,10 +47,10 @@ export function GridListRenderer({
       <Space h={'0.25rem'} />
 
       <Stack w={'100%'} gap={'0.25rem'}>
-        <SelectionProgress sections={10} current={size ?? 0} max={100} withoutText />
+        <SelectionProgress sections={10} current={size ?? 0} max={list_resources_per_list} withoutText />
         <Group justify={'space-between'}>
           <GourmetText cgmff={'ui'} cgmc={'neutral-7'} fz={'0.9rem'}>
-            {size}/100 {t('card.resources')}
+            {size}/{list_resources_per_list} {t('card.resources')}
           </GourmetText>
 
           <Group gap={'0.25rem'}>

@@ -379,8 +379,8 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
 
     let addedCount = 0;
     let allListResources = listResources;
-    if (append && list.resources) {
-      const allValues = Object.values(list.resources);
+    if (append) {
+      const allValues = Object.values(list.resources ?? []);
       const existingIds = new Set(allValues.flatMap((r) => r.map((r2) => r2.listResource.resourceId)));
       const toAppend = listResources.filter((r) => !existingIds.has(r.listResource.resourceId));
 

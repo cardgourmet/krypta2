@@ -26,6 +26,8 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const tcg = search.tcg;
   const { user } = useAuth();
 
+  const navigate = Route.useNavigate();
+
   const [resourcesLoading, setResourcesLoading] = useState<boolean>(false);
   const [localListWithResources, setLocalListWithResources] = useState<UserListWithResources>({
     list: list,
@@ -36,7 +38,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
       return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
     });
   }, [localListWithResources.resources]);
-  const { removeResources, addResources } = useActiveLists(undefined, listResources);
+  const { activeLists, removeResources, addResources } = useActiveLists(undefined, listResources);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -89,7 +91,10 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
         href: `/@${owner?.username}/lists`,
       },
       {
-        label: list.systemListType !== undefined ? t(`overview.card.system.${list.name}`) : list.name,
+        label:
+          list.systemListType !== undefined
+            ? t(`overview.card.system.${localListWithResources.list.name}`)
+            : localListWithResources.list.name,
       },
     ],
   });
@@ -133,10 +138,10 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const pageTitle = useMemo(() => {
     const yourLists = owner.username === user?.username;
 
-    return `${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${
+    return `${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : localListWithResources.list.name} – ${
       yourLists ? t('details.pageTitle') : t('details.pageTitleOther', { name: owner.username })
     } – Cardgourmet`;
-  }, [list.name, list.systemListType, owner.username, t, user?.username]);
+  }, [localListWithResources.list.name, list.systemListType, owner.username, t, user?.username]);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -164,6 +169,16 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
         list={localListWithResources.list}
         title={title?.label ?? ''}
         onUpdate={(newList) => {
+          if (localListWithResources.list.name !== newList.name) {
+            navigate({
+              to: '/@{$user}/lists/$listId',
+              params: {
+                listId: newList.name,
+              },
+              replace: true,
+            });
+          }
+
           setLocalListWithResources({
             ...localListWithResources,
             list: newList,
@@ -192,8 +207,12 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
               {sortedSearchResources.length > 0 && (
                 <Stack>
                   <Group gap={'0.5rem'}>
-                    <IconSearch size={22} color={list.color ?? 'var(--gourmet-neutral-9)'} />
-                    <GourmetText cgmff={'title'} fz={'h3'} c={list.color ?? 'var(--gourmet-neutral-9)'}>
+                    <IconSearch size={22} color={localListWithResources.list.color ?? 'var(--gourmet-neutral-9)'} />
+                    <GourmetText
+                      cgmff={'title'}
+                      fz={'h3'}
+                      c={localListWithResources.list.color ?? 'var(--gourmet-neutral-9)'}
+                    >
                       {t('details.savedSearches')}
                     </GourmetText>
                     <GourmetText cgmff={'ui'}>({sortedSearchResources.length})</GourmetText>
@@ -207,8 +226,15 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                           key={data.listResource.resourceId}
                           list={localListWithResources}
                           data={data}
+                          onAddToList={(res) => {
+                            addResources([res]);
+                          }}
                           onRemoveFromList={(listId) => {
-                            if (listId !== list.id) return;
+                            removeResources([data.listResource.resourceId], [listId]);
+
+                            if (listId !== list.id) {
+                              return;
+                            }
 
                             const newSearchResources = [...searchResources];
                             for (let i = 0; i < newSearchResources.length; i++) {
@@ -230,7 +256,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
               {sortedCardResoures.length > 0 && (
                 <ListDetailsCardGrid
                   owner={owner}
-                  list={list}
+                  list={localListWithResources.list}
                   sortedCardResoures={sortedCardResoures}
                   cardResources={cardResources}
                   setCardResources={setCardResources}
@@ -238,9 +264,22 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                   suggestAddCard={isDraggedOver}
                   onAddToList={(res) => {
                     addResources([res]);
+
+                    const list = activeLists.find((l) => l.list.id === res.listId);
+                    if (!list) return;
+
+                    /*sendNotification(
+                      'success',
+                      <CardAddNotification tcg={res.game as Tcg} list={list.list} card={card} language={'en'} />,
+                    );*/
                   }}
-                  onRemoveFromList={(resourceId, listId) => {
-                    removeResources([resourceId], [listId]);
+                  onRemoveFromList={(res) => {
+                    removeResources([res.resourceId], [res.listId]);
+
+                    /*sendNotification(
+                      'error',
+                      <CardRemoveNotification tcg={tcg as Tcg} list={localListWithResources.list} card={card} language={'en'} />,
+                    );*/
                   }}
                 />
               )}

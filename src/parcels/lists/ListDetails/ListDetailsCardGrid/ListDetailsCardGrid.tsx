@@ -34,7 +34,7 @@ export function ListDetailsCardGrid({
   setCardResources: (cardResources: ResolvedUserListResource[]) => void;
   listWithResources: UserListWithResources;
   suggestAddCard?: boolean;
-  onRemoveFromList?: (resourceId: string, listId: string) => void;
+  onRemoveFromList?: (res: UserListResource) => void;
   onAddToList?: (res: UserListResource) => void;
 }) {
   const { t } = useTranslation('lists');
@@ -66,7 +66,7 @@ export function ListDetailsCardGrid({
                 if (onAddToList) onAddToList(res);
               }}
               onRemoveFromList={(listId) => {
-                if (onRemoveFromList) onRemoveFromList(data.listResource.resourceId, listId);
+                if (onRemoveFromList) onRemoveFromList(data.listResource);
                 if (listId !== list.id) return;
 
                 const newCardResources = [...cardResources];
