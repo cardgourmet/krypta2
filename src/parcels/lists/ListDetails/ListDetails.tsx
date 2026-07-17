@@ -191,6 +191,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                     {sortedSearchResources.map((data) => {
                       return (
                         <SearchRenderer
+                          owner={owner}
                           key={data.listResource.resourceId}
                           list={localListWithResources}
                           data={data}

@@ -11,13 +11,16 @@ import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistory
 import type { UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import type { DataUser } from '@/parcels/user/api.ts';
 
 export function SearchRenderer({
+  owner,
   list,
   data,
   onAddToList,
   onRemoveFromList,
 }: {
+  owner: DataUser;
   list: UserListWithResources;
   data: ResolvedUserListResource;
   onAddToList?: (res: UserListResource) => void;
@@ -83,6 +86,7 @@ export function SearchRenderer({
           {user?.id && (
             <Tooltip label={t('table.moreOptions')} openDelay={500}>
               <ListDetailsActionMenu
+                owner={owner}
                 type={'user_search'}
                 listContext={list}
                 tcg={resolvedSavedSearch.savedSearch.game as Tcg}

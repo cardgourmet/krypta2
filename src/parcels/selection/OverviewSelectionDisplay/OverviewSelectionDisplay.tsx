@@ -37,7 +37,7 @@ export function OverviewSelectionDisplay() {
     }
   }, [cardAmount]);
 
-  const pageCardAmount = Object.keys(workData?.selection?.elementsByPage[workData.search.page] ?? []).length;
+  const pageCardAmount = Object.keys(workData?.selection?.elementsByPage[workData.meta.page] ?? []).length;
 
   const router = useRouter();
   router.subscribe('onBeforeLoad', (event) => {
@@ -100,7 +100,7 @@ export function OverviewSelectionDisplay() {
                   <Group gap={'0.1rem'}>
                     <MorePagesDropdown
                       text={t('currentPage')}
-                      currentPage={workData?.search.page ?? 1}
+                      currentPage={workData?.meta.page ?? 1}
                       onSelect={(sel) => {
                         // noinspection JSIgnoredPromiseFromCall
                         navigate({

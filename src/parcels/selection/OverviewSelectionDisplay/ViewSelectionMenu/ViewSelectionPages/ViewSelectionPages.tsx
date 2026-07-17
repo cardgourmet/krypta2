@@ -2,8 +2,10 @@ import { Button, Group, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
 import { IconEyeSearch, IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import type { TcgWorkData } from '@/parcels/selection/createTcgWorkStore.tsx';
 import { EntryImage } from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
-import { type TcgOverviewWorkData, useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ViewSelectionPages.module.css';
 
@@ -80,7 +82,7 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
   );
 }
 
-function dataEntriesByPage(workData: TcgOverviewWorkData) {
+function dataEntriesByPage(workData: TcgWorkData<TcgSearchDataCard, unknown>) {
   return Object.entries(workData.selection.elementsByPage).map(([page, entryIds]) => {
     return { page: page, entries: entryIds.map((id) => workData.selection.elementDataById[id]) };
   });
