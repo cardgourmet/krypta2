@@ -9,7 +9,7 @@ import { MorePagesDropdown } from '@/parcels/selection/OverviewSelectionDisplay/
 import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import { UseSelectionButton } from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/UseSelectionButton.tsx';
 import { ViewSelectionMenu } from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionMenu.tsx';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
@@ -18,9 +18,9 @@ export function OverviewSelectionDisplay() {
   const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
-  const workData = useTcgOverviewWorkStore((state) => state.data);
-  const isOverlayEnabled = useTcgOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
-  const clearSelection = useTcgOverviewWorkStore((state) => state.clearSelection);
+  const workData = useOverviewWorkStore((state) => state.data);
+  const isOverlayEnabled = useOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
+  const clearSelection = useOverviewWorkStore((state) => state.clearSelection);
 
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();

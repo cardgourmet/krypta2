@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { TcgWorkData } from '@/parcels/selection/createTcgWorkStore.tsx';
 import { EntryImage } from '@/parcels/selection/OverviewSelectionDisplay/EntryImage/EntryImage.tsx';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ViewSelectionPages.module.css';
@@ -14,8 +14,8 @@ export function ViewSelectionPages({ setMenuOpened }: { setMenuOpened: (open: bo
 
   const tcg = useTcgByLocation() as Tcg;
 
-  const workData = useTcgOverviewWorkStore((state) => state.data);
-  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
+  const workData = useOverviewWorkStore((state) => state.data);
+  const setSelectionWithCheck = useOverviewWorkStore((state) => state.setSelectionWithCheck);
 
   return (
     <Stack>

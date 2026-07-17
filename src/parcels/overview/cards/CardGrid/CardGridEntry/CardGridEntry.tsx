@@ -6,7 +6,7 @@ import { type CardProperties, createProps } from '@/parcels/overview/cards/CardG
 import { CardGridToolsOverlay } from '@/parcels/overview/cards/CardGrid/CardGridToolsOverlay/CardGridToolsOverlay.tsx';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -27,11 +27,11 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
   const isTouchDevice = useMediaQuery('(hover: none)');
   const thisId = card.card.print.id;
 
-  const isSelectionMode = useTcgOverviewWorkStore((state) => state.isSelectionMode);
-  const isSelected = useTcgOverviewWorkStore((state) => {
+  const isSelectionMode = useOverviewWorkStore((state) => state.isSelectionMode);
+  const isSelected = useOverviewWorkStore((state) => {
     return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
-  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
+  const setSelectionWithCheck = useOverviewWorkStore((state) => state.setSelectionWithCheck);
 
   const openCardMenu = useCardMenuStore((state) => state.openMenu);
   const isCardMenuOpen = useCardMenuStore((state) => state.opened && state.data?.print?.id === card.card.print.id);

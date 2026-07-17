@@ -16,7 +16,7 @@ import { CardsAddNotification } from '@/parcels/notification/CardsAddNotificatio
 import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListDetailsSelectionButton.module.css';
 
@@ -51,26 +51,25 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
     return { systemLists, nonSystemLists };
   }, [activeLists, tcg]);
 
-  // TODO: replace with own work store
-  const selectedPrintIds = useTcgOverviewWorkStore((state) => state.data?.selection?.elementIds) ?? [];
+  const selectedResourceIds = useListDetailsWorkStore((state) => state.data?.selection?.elementIds) ?? [];
   const inFavorites = useMemo(() => {
     const favoriteList = systemLists[0];
     if (!favoriteList) return 0;
 
     return (
-      favoriteList.resources?.card?.filter((c) => selectedPrintIds.includes(c.listResource.resourceId))?.length ?? 0
+      favoriteList.resources?.card?.filter((c) => selectedResourceIds.includes(c.listResource.resourceId))?.length ?? 0
     );
-  }, [selectedPrintIds, systemLists]);
+  }, [selectedResourceIds, systemLists]);
 
   const { checkListCreateExceeded, checkListAddExceeded, generateExceededTooltip } = useCheckUserLimits();
   const checkCreateLimitExceeded = useMemo(() => {
     const checkCreate = checkListCreateExceeded(1);
     if (checkCreate) return checkCreate;
-    const checkAdd = checkListAddExceeded({ size: 0 } as unknown as UserListWithResources, selectedPrintIds.length);
+    const checkAdd = checkListAddExceeded({ size: 0 } as unknown as UserListWithResources, selectedResourceIds.length);
     if (checkAdd) return checkAdd;
 
     return null;
-  }, [checkListAddExceeded, checkListCreateExceeded, selectedPrintIds.length]);
+  }, [checkListAddExceeded, checkListCreateExceeded, selectedResourceIds.length]);
 
   return (
     <Menu
@@ -99,13 +98,13 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
         {systemLists.map((list) => {
           return (
             <ListMenuItem
-              resourceIds={selectedPrintIds}
+              resourceIds={selectedResourceIds}
               key={list.list.id}
               listWithResources={list}
               action={'add'}
               type={'card'}
               icon={<IconStar size={18} />}
-              buttonText={t(`favorite`, { count: selectedPrintIds.length - inFavorites })}
+              buttonText={t(`favorite`, { count: selectedResourceIds.length - inFavorites })}
               onSuccess={(res) => {
                 if (!res) return;
 
@@ -114,8 +113,9 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                 const existingIds = new Set(
                   Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
                 );
-                const filteredIds = selectedPrintIds.filter((s) => !existingIds.has(s));
+                const filteredIds = selectedResourceIds.filter((s) => !existingIds.has(s));
 
+                // TODO: not only cards add, might be saved search as well
                 sendNotification(
                   'success',
                   <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
@@ -162,7 +162,7 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
           >
             {nonSystemLists.map((list) => (
               <ListMenuItem
-                resourceIds={selectedPrintIds}
+                resourceIds={selectedResourceIds}
                 type={'card'}
                 key={list.list.id}
                 listWithResources={list}
@@ -175,8 +175,9 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                   const existingIds = new Set(
                     Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
                   );
-                  const filteredIds = selectedPrintIds.filter((s) => !existingIds.has(s));
+                  const filteredIds = selectedResourceIds.filter((s) => !existingIds.has(s));
 
+                  // TODO: not only cards add, might be saved search as well
                   sendNotification(
                     'success',
                     <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
@@ -208,7 +209,7 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                       user!.id,
                       createdList.id,
                       tcg,
-                      selectedPrintIds.map((i) => ({ id: i })),
+                      selectedResourceIds.map((i) => ({ id: i })),
                       'card',
                     );
                     if (res.error) {
@@ -218,10 +219,16 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                       return;
                     }
 
+                    // TODO: not only cards add, might be saved search as well
                     sendNotification('success', <ListCreateNotification list={createdList} />);
                     sendNotification(
                       'success',
-                      <CardsAddNotification tcg={tcg} list={createdList} printIds={selectedPrintIds} language={'en'} />,
+                      <CardsAddNotification
+                        tcg={tcg}
+                        list={createdList}
+                        printIds={selectedResourceIds}
+                        language={'en'}
+                      />,
                     );
                     addLists([{ list: createdList, size: res.data?.length ?? 0 }]);
                   } catch {}

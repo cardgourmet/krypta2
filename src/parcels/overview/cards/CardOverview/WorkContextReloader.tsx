@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgSearchCardsResult, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 
 export function WorkContextReloader({ cards }: { cards: TcgSearchCardsResult | null }) {
-  const setData = useTcgOverviewWorkStore((state) => state.setData);
+  const setData = useOverviewWorkStore((state) => state.setData);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {

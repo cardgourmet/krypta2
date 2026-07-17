@@ -163,6 +163,7 @@ export function QueryListButtons({
           const list = lists.find((l) => l.list.id === res.listId);
           if (!list) return;
 
+          setInListAmount(inListAmount + 1);
           addResources([res]);
           sendNotification(
             'success',
@@ -173,6 +174,7 @@ export function QueryListButtons({
           const list = lists.find((l) => l.list.id === listId);
           if (!list || !savedSearchId) return;
 
+          setInListAmount(inListAmount - 1);
           removeResources([savedSearchId], [list.list.id]);
           sendNotification(
             'error',

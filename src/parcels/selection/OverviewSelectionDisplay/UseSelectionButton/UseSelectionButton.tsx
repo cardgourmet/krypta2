@@ -16,7 +16,7 @@ import { CardsAddNotification } from '@/parcels/notification/CardsAddNotificatio
 import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './UseSelectionButton.module.css';
 
@@ -55,7 +55,7 @@ export function UseSelectionButton() {
     return { systemLists, nonSystemLists };
   }, [activeLists, tcg]);
 
-  const selectedPrintIds = useTcgOverviewWorkStore((state) => state.data?.selection?.elementIds) ?? [];
+  const selectedPrintIds = useOverviewWorkStore((state) => state.data?.selection?.elementIds) ?? [];
   const inFavorites = useMemo(() => {
     const favoriteList = systemLists[0];
     if (!favoriteList) return 0;

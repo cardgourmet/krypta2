@@ -11,7 +11,7 @@ import { startTransition, useEffect, useMemo, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Button } from '@/parcels/generic/Button/Button.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import calculatePages from '../calculatePages.ts';
@@ -50,7 +50,7 @@ export default function Pagination({ currentPage, lastPage, isLoading, setSettin
     return calculatePages(actualCurrentPage, lastPage ?? 1, 1, 2);
   }, [actualCurrentPage, lastPage]);
 
-  const workContextElements = useTcgOverviewWorkStore((state) => state?.data?.selection?.elementsByPage) ?? {};
+  const workContextElements = useOverviewWorkStore((state) => state?.data?.selection?.elementsByPage) ?? {};
   const selectedCardsPerPage = useMemo(() => {
     const map: Record<number, number> = {};
 

@@ -13,9 +13,10 @@ import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCard
 import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
-import { ListDetailsSelectionDisplay } from '@/parcels/lists/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { ListDetailsSelectionDisplay } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
+import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
@@ -64,10 +65,21 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
     localListWithResources?.resources?.card ?? [],
   );
 
+  const setData = useListDetailsWorkStore((state) => state.setData);
   useEffect(() => {
-    setSearchResources(localListWithResources?.resources?.user_search ?? []);
-    setCardResources(localListWithResources?.resources?.card ?? []);
-  }, [localListWithResources?.resources]);
+    const search = localListWithResources?.resources?.user_search ?? [];
+    const card = localListWithResources?.resources?.card ?? [];
+
+    setSearchResources(search);
+    setCardResources(card);
+
+    const allResources = [...search, ...card];
+    setData({
+      page: 1,
+      rawElements: allResources.map((r) => ({ id: r.listResource.resourceId, element: r })),
+      other: {},
+    });
+  }, [localListWithResources?.resources, setData]);
 
   const { component, title } = useBreadcrumbs({
     subpage: `@${owner?.username}`,
