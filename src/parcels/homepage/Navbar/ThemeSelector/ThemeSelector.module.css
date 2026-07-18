@@ -3,6 +3,15 @@
   padding: 0.5rem;
 
   &:hover {
-    background-color: var(--cgm-button-border);
+    background-color: var(--gourmet-neutral-2);
+  }
+}
+
+.subIconButton {
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
   }
 }

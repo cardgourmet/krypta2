@@ -1,11 +1,13 @@
 import { Button, Divider, Drawer, Group, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconSettings, IconX } from '@tabler/icons-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { USER_LIMIT_LIST_RESOURCES_TOTAL, USER_LIMIT_LISTS } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { fetchListsPreview } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
@@ -13,13 +15,12 @@ import { ListOverviewSettings } from '@/parcels/lists/ListsOverview/DesktopListO
 import { ListsOverviewGrid } from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import { ListsOverviewTable } from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation';
 import { Route } from '@/routes/me/lists';
 
 export default function ListsOverview() {
   const { user } = useAuth();
-  const noti = useGourmetNotification();
   const { t } = useTranslation('lists', { keyPrefix: 'overview' });
 
   const { component, title } = useBreadcrumbs({
@@ -34,7 +35,9 @@ export default function ListsOverview() {
   const search = Route.useSearch();
   const { tcg } = search;
 
-  const { lists: localUserLists, setLists } = useUserLists();
+  const { addLists, updateLists, removeLists } = useActiveLists();
+
+  const { lists: localUserLists } = useUserLists();
   const processedLocalUserLists: UserListWithResources[] = useMemo(() => {
     let lists: UserListWithResources[] = localUserLists
       .map((list) => {
@@ -59,25 +62,27 @@ export default function ListsOverview() {
     if (!user?.id) return;
 
     setIsPreviewsLoading(true);
-    fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 6).then((res) => {
-      setIsPreviewsLoading(false);
+    startTransition(() => {
+      fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 6).then((res) => {
+        setIsPreviewsLoading(false);
 
-      if (res.error) {
-        noti.show('Unknown error', `${res.error}`, 'error');
-        return;
-      }
-      if (!res.data) return;
+        if (res.error) {
+          sendErrorNotification(res.error);
+          return;
+        }
+        if (!res.data) return;
 
-      const appliedLists: UserListWithResources[] = processedLocalUserLists?.map((listWithRes) => {
-        const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
-        if (!newList) return listWithRes as UserListWithResources;
+        const appliedLists: UserListWithResources[] = processedLocalUserLists?.map((listWithRes) => {
+          const newList = res.data?.items.find((l) => l.list.id === listWithRes.list.id);
+          if (!newList) return listWithRes as UserListWithResources;
 
-        return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
+          return { ...listWithRes, resources: newList.resources ?? listWithRes.resources } as UserListWithResources;
+        });
+
+        setUserListsWithResources(appliedLists);
       });
-
-      setUserListsWithResources(appliedLists);
     });
-  }, [user?.id, search.tcg, noti, processedLocalUserLists]);
+  }, [user?.id, search.tcg, processedLocalUserLists]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     // only refetch the content if the user lists change in any way (order, filter, etc.)
@@ -106,37 +111,6 @@ export default function ListsOverview() {
 
   return (
     <div>
-      <title>{`${t('pageTitle')} – Cardgourmet`}</title>
-      {component}
-
-      <Stack
-        gap={'0'}
-        style={{
-          position: 'sticky',
-          top: 'var(--navbar-height)',
-          zIndex: 'var(--sticky-layer)',
-          backgroundColor: 'var(--gourmet-neutral-0)',
-        }}
-        mb={'1rem'}
-      >
-        <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
-          <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
-            {title?.label}
-          </GourmetText>
-
-          <CreateListButton
-            onSuccess={(list) => {
-              const newList = { list: list, resources: {}, size: 0 };
-              const newLists = [...localUserLists, newList];
-              setLists(newLists);
-
-              setScrollToListId(list.id);
-            }}
-          />
-        </Group>
-        <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
-      </Stack>
-
       <Drawer
         position={'left'}
         style={{ backgroundColor: 'var(--gourmet-neutral-0)' }}
@@ -158,6 +132,36 @@ export default function ListsOverview() {
           <ListOverviewSettings onChange={() => setIsSidebarOpen(false)} />
         </Stack>
       </Drawer>
+
+      <title>{`${t('pageTitle')} – Cardgourmet`}</title>
+      {component}
+
+      <Stack
+        gap={'0'}
+        style={{
+          position: 'sticky',
+          top: 'var(--navbar-height)',
+          zIndex: 'var(--sticky-layer)',
+          backgroundColor: 'var(--gourmet-neutral-0)',
+        }}
+        mb={'1rem'}
+      >
+        <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
+          <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
+            {title?.label}
+          </GourmetText>
+
+          <CreateListButton
+            onSuccess={(list) => {
+              const newList = { list: list, resources: {}, size: 0 };
+              addLists([newList]);
+              setScrollToListId(list.id);
+            }}
+          />
+        </Group>
+        <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />
+      </Stack>
+
       {!smallScreen && <ListOverviewSettings />}
       {smallScreen && (
         <Button
@@ -173,11 +177,26 @@ export default function ListsOverview() {
       )}
 
       <Stack mt={'xl'} mb={'2.5rem'}>
+        {user && localUserLists?.length > 0 && (
+          <Stack gap={'0.25rem'}>
+            <GourmetText cgmff={'ui'}>
+              {t('summary.youHave', {
+                listsCount: localUserLists.length,
+                listsMax: (user.limits[USER_LIMIT_LISTS] ?? 0) + 1,
+                resCount: localUserLists.map((l) => l.size ?? 0).reduce((partialSum, a) => partialSum + a, 0),
+                resMax: user.limits[USER_LIMIT_LIST_RESOURCES_TOTAL] ?? 0,
+              })}
+            </GourmetText>
+            <GourmetText cgmff={'ui'}>{t('summary.needMore')}</GourmetText>
+          </Stack>
+        )}
+
         {search.display === 'grid' && (
           <ListsOverviewGrid
             isLoading={isLoading}
             isPreviewsLoading={isPreviewsLoading}
-            userLists={userListsWithResources}
+            listsWithoutResources={processedLocalUserLists}
+            listsWithResources={userListsWithResources}
           />
         )}
         {search.display === 'table' && (
@@ -185,22 +204,10 @@ export default function ListsOverview() {
             isLoading={isLoading}
             userLists={userListsWithResources}
             onUpdate={(list) => {
-              const newLists: UserListWithResources[] = [];
-              localUserLists.forEach((l) => {
-                if (l.list.id === list.id) {
-                  newLists.push({ list: list, resources: l.resources, size: l.size });
-                } else {
-                  newLists.push(l);
-                }
-              });
-              setLists(newLists);
+              updateLists([{ list: list }]);
             }}
             onDelete={(id) => {
-              const list = localUserLists.find((l) => l.list.id === id);
-              if (!list) return;
-
-              const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
-              setLists(newLists);
+              removeLists([id]);
             }}
           />
         )}

@@ -3,12 +3,13 @@ import { IconLabelFilled, IconStar } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import { DeleteListButton } from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
 import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
-import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { UserList } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { paramDefaults } from '@/routes/me/lists';
 
@@ -16,17 +17,20 @@ export function ListDetailsHeader({
   tcg,
   list,
   title,
-  setList,
+  onUpdate,
+  publicView,
 }: {
-  tcg: Tcg;
+  tcg?: Tcg;
   list: UserList;
   title: string;
-  setList: (list: UserList) => void;
+  onUpdate: (list: UserList) => void;
+  publicView?: boolean;
 }) {
   const { t, i18n } = useTranslation('lists');
   const navigate = useNavigate();
 
-  const { lists: localUserLists, setLists: setLocalUserLists } = useUserLists();
+  const { removeLists, updateLists } = useActiveLists();
+  const { lists: localUserLists } = useUserLists();
 
   return (
     <Stack
@@ -77,43 +81,36 @@ export function ListDetailsHeader({
               </span>
             </GourmetText>
 
-            <Group gap={'0.25rem'}>
-              <EditListButton
-                list={list}
-                onSuccess={(list) => {
-                  const newLists: UserListWithResources[] = [];
-                  localUserLists.forEach((l) => {
-                    if (l.list.id === list.id) {
-                      newLists.push({ list: list, resources: l.resources, size: l.size });
-                    } else {
-                      newLists.push(l);
-                    }
-                  });
-                  setLocalUserLists(newLists);
+            {!publicView && (
+              <Group gap={'0.25rem'}>
+                <EditListButton
+                  list={list}
+                  onSuccess={(list) => {
+                    updateLists([{ list: list }]);
 
-                  setList(list);
-                }}
-              />
-              <DeleteListButton
-                list={list}
-                onSuccess={(id) => {
-                  const list = localUserLists.find((l) => l.list.id === id);
-                  if (!list) return;
+                    onUpdate(list);
+                  }}
+                />
+                <DeleteListButton
+                  list={list}
+                  onSuccess={(id) => {
+                    const list = localUserLists.find((l) => l.list.id === id);
+                    if (!list) return;
 
-                  const newLists = [...localUserLists.filter((l) => l.list.id !== id)];
-                  setLocalUserLists(newLists);
+                    removeLists([list.list.id]);
 
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/me/lists',
-                    search: {
-                      ...paramDefaults,
-                      tcg: tcg,
-                    },
-                  });
-                }}
-              />
-            </Group>
+                    // noinspection JSIgnoredPromiseFromCall
+                    navigate({
+                      to: '/me/lists',
+                      search: {
+                        ...paramDefaults,
+                        tcg: tcg ?? 'all',
+                      },
+                    });
+                  }}
+                />
+              </Group>
+            )}
           </Group>
         </Stack>
       </Group>

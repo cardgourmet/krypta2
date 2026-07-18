@@ -1,17 +1,25 @@
-import { Space } from '@mantine/core';
-import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
-import { IconBowlChopsticks, IconQuestionMark, IconX } from '@tabler/icons-react';
-import { Link, useNavigate, useRouter } from '@tanstack/react-router';
-import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { Center, Group, ScrollArea, Space, UnstyledButton } from '@mantine/core';
+import { useDebouncedValue, useFocusTrap, useHotkeys, useMediaQuery, useMergedRef } from '@mantine/hooks';
+import {
+  IconArrowBigRightFilled,
+  IconArrowsShuffle,
+  IconBowlChopsticks,
+  IconQuestionMark,
+  IconX,
+} from '@tabler/icons-react';
+import { Link, useRouter } from '@tanstack/react-router';
+import { type CSSProperties, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { NewHereModal } from '@/parcels/homepage/Home/NewHereModal/NewHereModal.tsx';
+import { useNavbarStore } from '@/parcels/homepage/Navbar/Navbar.tsx';
 import { TcgSelector } from '@/parcels/search/bar/MobileSearchbar/TcgSelector.tsx';
-import { handleKeydown } from '@/parcels/search/bar/Searchbar/handleKeydown.ts';
 import SearchFooter from '@/parcels/search/bar/Searchbar/SearchFooter.tsx';
-import { SearchCompletion } from '@/parcels/search/bar/SearchCompletion/SearchCompletion.tsx';
-import { SearchQueryExplanation } from '@/parcels/search/bar/SearchCompletion/SearchQueryExplanation.tsx';
-import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
-import SearchRecent from '@/parcels/search/bar/SearchRecent/SearchRecent.tsx';
+import { SearchRecentSuggestions } from '@/parcels/search/bar/SearchRecent/SearchRecentSuggestions.tsx';
 import { useClickOutsideWithRegistry } from '@/parcels/search/bar/useClickOutsideWithRegistry.ts';
+import { SearchCompletion } from '@/parcels/search/completion/SearchCompletion.tsx';
+import { SearchQueryExplanation } from '@/parcels/search/completion/SearchQueryExplanation.tsx';
+import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
 import { useSearchQuery } from '@/parcels/search/useSearchQuery.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 import cssStyles from './Searchbar.module.css';
@@ -21,7 +29,7 @@ export default function Searchbar({
   inputWrapperStyles,
   inputStyles,
   modalStyles,
-  omitHelp,
+  heroSize,
   iconSize,
   caretIconSize,
 }: {
@@ -29,68 +37,31 @@ export default function Searchbar({
   inputWrapperStyles?: CSSProperties;
   inputStyles?: CSSProperties;
   modalStyles?: CSSProperties;
-  omitHelp?: boolean;
+  heroSize?: boolean;
   iconSize?: number;
   caretIconSize?: number;
 }) {
   const { tcg, setTcg } = useTcg();
   const { t } = useTranslation('search');
 
-  const navigate = useNavigate();
   const [isOpened, setIsOpened] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const [doRandomize, setDoRandomize] = useState(false);
 
-  const history = useSearchHistory(tcg);
-  const recentQueries = history?.pastQueries ?? [];
+  const {
+    currentQuery,
+    setQueryString,
+    setQueryWrapper,
+    inputRef,
+    selectionIndex,
+    setSelectionIndex,
+    suggestionIndex,
+    setSuggestionIndex,
+    startSearch,
+  } = useSearchQuery(isOpened, tcg, () => setIsOpened(false), doRandomize);
 
-  const [historyIndex, setHistoryIndex] = useState(0);
-  const [suggestionIndex, setSuggestionIndex] = useState(0);
-  const hasActiveSuggestion = suggestionIndex > 0;
-
-  const [currentQuery, setCurrentQuery] = useSearchQuery();
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
-  const setQueryWrapper = useCallback(
-    (query: string, isByUser?: boolean) => {
-      setCurrentQuery({ query: query, isByUser: isByUser !== undefined ? isByUser : false });
-
-      if (isOpened && searchInputRef.current) {
-        searchInputRef.current.focus();
-
-        const length = query.length;
-        searchInputRef.current.setSelectionRange(length, length);
-
-        // hacky, I'm so sorry (LG zurück)
-        setTimeout(() => {
-          if (searchInputRef.current) {
-            searchInputRef.current.scrollLeft = searchInputRef.current.scrollWidth;
-          }
-        }, 10);
-      }
-    },
-    [setCurrentQuery, isOpened],
-  );
-
-  useEffect(() => {
-    if (!searchContainerRef.current) return;
-
-    const handle = handleKeydown({
-      tcg: tcg,
-      searchInputRef: searchInputRef,
-      isOpened: isOpened,
-      setIsOpened: setIsOpened,
-      currentQuery: currentQuery.query,
-      navigate: navigate,
-      hasActiveSuggestion: hasActiveSuggestion,
-    });
-
-    document.addEventListener('keydown', handle);
-    return () => {
-      // Detach listener when component unmounts
-      document.removeEventListener('keydown', handle);
-    };
-  }, [tcg, isOpened, currentQuery.query, navigate, hasActiveSuggestion]);
 
   const registerRef = useClickOutsideWithRegistry(() => setIsOpened(false), isOpened);
 
@@ -104,8 +75,33 @@ export default function Searchbar({
     });
   });
 
+  const [helpOpened, setHelpOpened] = useState(false);
+
+  const smallScreen = useMediaQuery('(max-width: 800px)');
+  const thinScreen = useMediaQuery('(max-height: 825px)');
+
+  const { mobileSearchOpen, setMobileSearchOpen } = useNavbarStore();
+
+  useHotkeys(
+    [
+      [
+        'ctrl+K',
+        () => {
+          inputRef.current?.focus();
+
+          if (!isOpened) {
+            setIsOpened(true);
+          }
+        },
+      ],
+    ],
+    [],
+  );
+
   return (
     <>
+      <NewHereModal opened={helpOpened} setOpened={setHelpOpened} />
+
       <div className={`${cssStyles.searchOverlay} ${!isOpened ? cssStyles.hidden : ''}`} />
 
       <div className={cssStyles.searchbar} ref={mergedSearchRef} style={styles}>
@@ -113,7 +109,7 @@ export default function Searchbar({
           <div
             className={cssStyles.searchIcon}
             style={{
-              '--height': omitHelp ? '2.25rem' : '1.75rem',
+              '--height': heroSize ? '2.25rem' : '1.75rem',
             }}
           >
             <TcgSelector selectedTcg={tcg} setSelectedTcg={setTcg} iconSize={iconSize} iconCaretSize={caretIconSize} />
@@ -121,101 +117,165 @@ export default function Searchbar({
           <input
             className={cssStyles.searchInput}
             type="text"
-            ref={searchInputRef}
+            ref={inputRef}
             value={currentQuery.query}
-            placeholder={t('search-placeholder')}
-            onFocus={() => setIsOpened(true)}
-            onClick={() => setIsOpened(true)}
+            placeholder={t('searchPlaceholder')}
+            onFocus={() => {
+              if (heroSize && smallScreen && !mobileSearchOpen) {
+                setMobileSearchOpen(true);
+                setIsOpened(false);
+                inputRef.current?.blur();
+                return;
+              }
+              if (mobileSearchOpen) return;
+
+              setIsOpened(true);
+            }}
+            onClick={() => {
+              if (heroSize && smallScreen && !mobileSearchOpen) {
+                setMobileSearchOpen(true);
+                setIsOpened(false);
+                inputRef.current?.blur();
+                return;
+              }
+              if (mobileSearchOpen) return;
+
+              setIsOpened(true);
+            }}
             onChange={(event) => {
               const newQuery = event.target.value;
-              if (isCaptainOfTheShip && newQuery.length === 0) {
-                setHistoryIndex(0);
-                setCurrentQuery({ query: '', isByUser: false });
-              } else if (!isCaptainOfTheShip && newQuery.length === 0) {
-                setHistoryIndex(0);
-                setCurrentQuery({ query: '', isByUser: false });
-              } else if (!isCaptainOfTheShip && newQuery.length > 0) {
-                setSuggestionIndex(0);
-                setCurrentQuery({ query: event.target.value, isByUser: true });
-              } else if (isCaptainOfTheShip && newQuery.length > 0) {
-                setSuggestionIndex(0);
-                setCurrentQuery({ query: event.target.value, isByUser: true });
-              }
+              setQueryString(newQuery);
             }}
             data-autofocus
             style={inputStyles}
           />
-          <button
-            className={`${cssStyles.deleteSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
-            type={'button'}
-            onClick={() => {
-              setCurrentQuery({ query: '', isByUser: false });
-              searchInputRef.current?.focus();
-            }}
-          >
-            <IconX size={omitHelp ? 18 : 16} color={'var(--gourmet-neutral-8)'} />
-          </button>
+          <Group className={cssStyles.rightSide} gap={'0.25rem'}>
+            <button
+              className={`${cssStyles.deleteSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
+              type={'button'}
+              title={'Clear search'}
+              onClick={() => {
+                setQueryWrapper({ query: '', isByUser: false });
+                inputRef.current?.focus();
+              }}
+            >
+              <Center>
+                <IconX
+                  size={heroSize ? 18 : 16}
+                  color={isOpened ? 'var(--gourmet-neutral-7)' : 'var(--gourmet-neutral-5)'}
+                />
+              </Center>
+            </button>
+            <button
+              className={`${cssStyles.sendItSearchIcon} ${currentQuery.query.length === 0 ? cssStyles.hidden : ''}`}
+              type={'button'}
+              title={'Send it'}
+              onClick={() => {
+                startSearch();
+              }}
+            >
+              <Center>
+                <IconArrowBigRightFilled
+                  size={heroSize ? 18 : 16}
+                  color={isOpened ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-5)'}
+                />
+              </Center>
+            </button>
+          </Group>
         </div>
 
-        {!omitHelp && (
-          <button type="button" className={cssStyles.helpButton}>
+        {!heroSize && (
+          <button type="button" className={cssStyles.helpButton} onClick={() => setHelpOpened(true)}>
             <IconQuestionMark size={18} color={'var(--gourmet-neutral-8)'} />
           </button>
         )}
 
         <div className={`${cssStyles.searchModal} ${!isOpened ? cssStyles.hidden : ''}`} style={modalStyles}>
           <div className={cssStyles.content}>
-            {!omitHelp && (
-              <div
-                className={cssStyles.cuisine}
-                style={{
-                  marginRight: omitHelp ? '0' : '3rem',
+            <Group justify={'space-between'} align={'center'} mt={heroSize ? '0.2rem' : undefined}>
+              <UnstyledButton
+                className={cssStyles.randomizeButton}
+                onClick={() => {
+                  setDoRandomize(!doRandomize);
                 }}
+                data-selected={doRandomize}
               >
-                <Link to={`/$tcg/kitchen`} params={{ tcg: tcg }}>
-                  <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
-                  {t('cuisine')}
-                </Link>
-              </div>
-            )}
+                <Group gap={'0.25rem'}>
+                  <IconArrowsShuffle
+                    size={heroSize ? 18 : 16}
+                    color={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
+                  />
+                  <GourmetText
+                    cgmff={'ui'}
+                    fz={heroSize ? '1rem' : '0.875rem'}
+                    c={doRandomize ? 'var(--gourmet-neutral-1)' : 'var(--gourmet-neutral-6)'}
+                    fw={doRandomize ? 500 : undefined}
+                  >
+                    {t('randomize')}
+                  </GourmetText>
+                </Group>
+              </UnstyledButton>
 
-            {omitHelp && <Space h={'0.25rem'} />}
+              {!heroSize && (
+                <Group justify={'end'} align={'center'}>
+                  <FilterGlossary ref={registerRef} />
+
+                  <Link
+                    to={`/$tcg/kitchen`}
+                    params={{ tcg: tcg }}
+                    style={{ textDecoration: 'none', marginRight: heroSize ? '0' : '3rem' }}
+                  >
+                    <Group gap={'0.15rem'}>
+                      <IconBowlChopsticks size={16} color={'var(--cgm-sidebar-button-bg)'} />
+                      <GourmetText cgmff={'ui'} fz={'0.875rem'} c={'var(--cgm-sidebar-button-bg)'}>
+                        {t('kitchen')}
+                      </GourmetText>
+                    </Group>
+                  </Link>
+                </Group>
+              )}
+            </Group>
+
+            {heroSize && <Space h={'0.25rem'} />}
 
             <div className={`${cssStyles.typingInfo} ${isCaptainOfTheShip ? cssStyles.hidden : ''}`}>
-              <p>Beginne zu tippen, um Vorschläge für Filter und Werte zu erhalten.</p>
+              <p>{t('startTyping')}</p>
             </div>
 
-            {!isCaptainOfTheShip && recentQueries.length > 0 && (
-              <SearchRecent
-                submenuRef={registerRef}
-                tcg={tcg}
-                close={() => {
-                  setIsOpened(false);
-                }}
-                setQuery={setQueryWrapper}
-                historyIndex={historyIndex}
-                setHistoryIndex={setHistoryIndex}
-                searchContainerRef={searchContainerRef}
-                searchInputRef={searchInputRef}
-              />
-            )}
-
-            {isCaptainOfTheShip && currentQuery.query.length > 0 && (
-              <>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
-                </div>
-                <SearchCompletion
-                  tcg={tcg}
-                  currentQuery={currentQuery.query}
-                  suggestionIndex={suggestionIndex}
-                  setSuggestionIndex={setSuggestionIndex}
-                  isOpened={isOpened}
-                  setQuery={setQueryWrapper}
-                  searchInputRef={searchInputRef}
+            <ScrollArea.Autosize mah={thinScreen ? 300 : 500} scrollbarSize={4}>
+              {!isCaptainOfTheShip && (
+                <SearchRecentSuggestions
+                  setIsOpened={setIsOpened}
+                  selectionIndex={selectionIndex}
+                  setSelectionIndex={setSelectionIndex}
+                  maxEntries={{
+                    saved: 3,
+                    history: 5,
+                  }}
+                  registerRef={registerRef}
+                  searchInputRef={inputRef}
+                  searchContainerRef={searchContainerRef}
+                  setQueryWrapper={setQueryWrapper}
                 />
-              </>
-            )}
+              )}
+
+              {isCaptainOfTheShip && currentQuery.query.length > 0 && (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
+                  </div>
+                  <SearchCompletion
+                    tcg={tcg}
+                    currentQuery={currentQuery.query}
+                    suggestionIndex={suggestionIndex}
+                    setSuggestionIndex={setSuggestionIndex}
+                    isOpened={isOpened}
+                    setQuery={setQueryWrapper}
+                    searchInputRef={inputRef}
+                  />
+                </>
+              )}
+            </ScrollArea.Autosize>
           </div>
 
           <SearchFooter />

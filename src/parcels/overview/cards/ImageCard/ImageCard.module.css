@@ -9,7 +9,7 @@
   max-height: 351px;
 
   img {
-    border-radius: 15px;
+    border-radius: inherit;
     width: 100%;
     height: 100%;
 
@@ -21,6 +21,9 @@
   &:hover {
     z-index: 1 !important;
   }
+}
+
+.cardWrapper {
 }
 
 .card:has(:focus-visible) [data-toggle-visibility="true"],

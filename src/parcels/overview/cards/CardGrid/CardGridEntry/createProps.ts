@@ -20,13 +20,16 @@ export const backupImageUrl = 'https://f.2by.es/gMQJc';
 export const errorBackupImageUrl = 'https://f.2by.es/FqV7Z';
 
 export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
+  const preferredLanguage = card.preferredDisplayLanguage;
+  const preferredIndex = card.preferredDisplayFaceIndex ?? 0;
+
   if (tcg === 'dlc') {
     const dlcCard = card as DlcSearchDataCard;
 
     return {
       id: dlcCard.card.print.id,
       name: dlcCard.card.name,
-      thumbnailUrl: dlcCard.card.print.translations?.en?.imageUrls?.thumbnail ?? '',
+      thumbnailUrl: dlcCard.card.print.translations?.[preferredLanguage]?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
       backupImageUrl: backupImageUrl,
       setCode: dlcCard.card.print.setCode,
@@ -38,17 +41,22 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
     return {
       id: pcgCard.card.print.id,
       name: pcgCard.card.name,
-      thumbnailUrl: pcgCard.card.print.translations?.en?.imageUrls?.thumbnail ?? '',
+      thumbnailUrl: pcgCard.card.print.translations?.[preferredLanguage]?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
       backupImageUrl: backupImageUrl,
       setCode: pcgCard.card.print.setCode ?? undefined,
       collectorNumber: pcgCard.card.print.collectorNumber,
     };
   } else if (tcg === 'mtg') {
-    const mtgCard = card as MtgSearchDataCard;
-    const frontFace = mtgCard?.card?.print?.faces?.[0]?.translations?.en;
-    const backFace = mtgCard?.card?.print?.faces?.[1]?.translations?.en;
+    const frontIndex = preferredIndex;
+    const backIndex = preferredIndex === 0 ? 1 : 0;
 
+    const mtgCard = card as MtgSearchDataCard;
+    const frontTranslations = mtgCard?.card?.print?.faces?.[frontIndex]?.translations;
+    const backTranslations = mtgCard?.card?.print?.faces?.[backIndex]?.translations;
+
+    const frontFace = frontTranslations?.[preferredLanguage] ?? frontTranslations?.en;
+    const backFace = backTranslations?.[preferredLanguage] ?? backTranslations?.en;
     return {
       id: mtgCard.card.print.id,
       name: mtgCard.card.name,

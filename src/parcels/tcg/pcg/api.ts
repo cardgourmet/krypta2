@@ -1,11 +1,12 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
+import type { SearchQueryTrigger } from '@/parcels/overview/cards/types.ts';
 import type { PcgSearchQuerySettings, PcgSortBy, PcgUniqueBy } from '@/parcels/tcg/pcg/types.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
   TcgStatistics,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -13,8 +14,9 @@ import umoriClient from '@/schema/umoriClient.ts';
 export type PcgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
 export type PcgSearchCards = c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
+export type PcgSearchCardsUser = c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
 export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
-export type PcgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type PcgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type PcgDataSetSummary = c['schemas']['PcgDataSetSummary'];
 
@@ -23,15 +25,20 @@ export type PcgCardQuery = TcgCardQuery & {
 };
 
 export type PcgDataCard = c['schemas']['PcgDataCard'];
+export type PcgDataCardUser = c['schemas']['FindCardResponse-PcgDataCard'];
 export type PcgDataPrint = c['schemas']['PcgDataPrint'];
 export type PcgDataSet = c['schemas']['PcgDataSet'];
 export type PcgDataSets = c['schemas']['Page-PcgDataSet'];
 export type PcgDataEra = c['schemas']['PcgDataEra'];
 export type PcgDataEras = c['schemas']['Page-PcgDataEra'];
 export type PcgStatistics = TcgStatistics & { lastSet?: PcgDataSet };
+export type PcgSetSearchResult = c['schemas']['TcgSetSearchResult-PcgDataSet'];
 
 // /v1/pcg/sets/search
-export async function searchPcgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<PcgDataSet[]>> {
+export async function searchPcgSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<PcgSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/sets/search`, {
       params: {
@@ -51,6 +58,7 @@ export async function fetchPcgSetSummary(
   mode?: PcgUniqueBy,
   sortBy?: PcgSortBy,
   sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<PcgDataSetSummary>> {
   return handleApiCall(async () => {
@@ -61,6 +69,7 @@ export async function fetchPcgSetSummary(
           mode: `unique:${mode}`,
           sortBy: sortBy,
           sortDirection: sortDirection,
+          trigger: trigger,
         },
         path: {
           setId: setId,
@@ -113,9 +122,9 @@ export async function fetchPcgPrint(
   setCode: string,
   collectorNumber: string,
   abort?: AbortController,
-): Promise<{ data?: PcgDataCard; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/pcg/prints/{setCode}/{collectorNumber}`, {
+): Promise<GourmetApiResponse<PcgDataCard>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/prints/{setCode}/{collectorNumber}`, {
       params: {
         path: {
           setCode: setCode,
@@ -124,24 +133,26 @@ export async function fetchPcgPrint(
       },
       signal: abort?.signal,
     });
+  });
+}
 
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+// /v1/pcg/prints/user/{setCode}/{collectorNumber}
+export async function fetchPcgPrintUser(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<PcgDataCardUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/prints/user/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
 }
 
 // /v1/pcg/cards/search
@@ -156,6 +167,7 @@ export async function fetchPcgCards(
     pageSize: pageSize ?? 60,
     mode: `unique:${settings.uniqueBy}`,
     sortBy: settings.sortBy,
+    trigger: settings.trigger,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;
@@ -171,10 +183,94 @@ export async function fetchPcgCards(
   });
 }
 
+// /v1/pcg/cards/user-search
+export async function fetchPcgCardsUser(
+  settings: PcgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<PcgSearchCardsUser>> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/user-search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/pcg/cards/random
+export async function fetchRandomPcgCards(
+  settings: PcgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<PcgSearchCards>> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/pcg/cards/user-random
+export async function fetchRandomPcgCardsUser(
+  settings: PcgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<PcgSearchCardsUser>> {
+  const query: PcgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/cards/user-random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/pcg/cards/search/filters
 export async function fetchPcgFilters(
   abort?: AbortController,
-): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+): Promise<GourmetApiResponse<TransSearchQueryExecutorFilter[]>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/cards/search/filters`, {
       signal: abort?.signal,

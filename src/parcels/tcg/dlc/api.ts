@@ -1,11 +1,12 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
+import type { SearchQueryTrigger } from '@/parcels/overview/cards/types.ts';
 import type { DlcSearchQuerySettings, DlcSortBy, DlcUniqueBy } from '@/parcels/tcg/dlc/types.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
   TcgStatistics,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api.d.ts';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -17,19 +18,25 @@ export type DlcCardQuery = TcgCardQuery & {
 export type DlcSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
 export type DlcSearchCards = c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
+export type DlcSearchCardsUser = c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
 export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
-export type DlcSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type DlcSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type DlcDataSetSummary = c['schemas']['DlcDataSetSummary'];
 
 export type DlcDataCard = c['schemas']['DlcDataCard'];
+export type DlcDataCardUser = c['schemas']['FindCardResponse-DlcDataCard'];
 export type DlcDataPrint = c['schemas']['DlcDataPrint'];
 export type DlcDataSet = c['schemas']['DlcDataSet'];
 export type DlcDataSets = c['schemas']['Page-DlcDataSet'];
 export type DlcStatistics = TcgStatistics & { lastSet?: DlcDataSet };
+export type DlcSetSearchResult = c['schemas']['TcgSetSearchResult-DlcDataSet'];
 
 // /v1/dlc/sets/search
-export async function searchDlcSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<DlcDataSet[]>> {
+export async function searchDlcSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DlcSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/sets/search`, {
       params: {
@@ -49,6 +56,7 @@ export async function fetchDlcSetSummary(
   mode?: DlcUniqueBy,
   sortBy?: DlcSortBy,
   sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<DlcDataSetSummary>> {
   return handleApiCall(async () => {
@@ -59,6 +67,7 @@ export async function fetchDlcSetSummary(
           mode: `unique:${mode}`,
           sortBy: sortBy,
           sortDirection: sortDirection,
+          trigger: trigger,
         },
         path: {
           setId: setId,
@@ -97,9 +106,9 @@ export async function fetchDlcPrint(
   setCode: string,
   collectorNumber: string,
   abort?: AbortController,
-): Promise<{ data?: DlcDataCard; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/dlc/prints/{setCode}/{collectorNumber}`, {
+): Promise<GourmetApiResponse<DlcDataCard>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/prints/{setCode}/{collectorNumber}`, {
       params: {
         path: {
           setCode: setCode,
@@ -108,26 +117,29 @@ export async function fetchDlcPrint(
       },
       signal: abort?.signal,
     });
-
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+  });
 }
 
+// /v1/dlc/prints/user/{setCode}/{collectorNumber}
+export async function fetchDlcPrintUser(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DlcDataCardUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/prints/user/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/dlc/cards/search
 export async function fetchDlcCards(
   settings: DlcSearchQuerySettings,
   abort?: AbortController,
@@ -139,6 +151,7 @@ export async function fetchDlcCards(
     pageSize: pageSize ?? 60,
     mode: `unique:${settings.uniqueBy}`,
     sortBy: settings.sortBy,
+    trigger: settings.trigger,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;
@@ -154,10 +167,94 @@ export async function fetchDlcCards(
   });
 }
 
+// /v1/dlc/cards/user-search
+export async function fetchDlcCardsUser(
+  settings: DlcSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<DlcSearchCardsUser>> {
+  const query: DlcCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/user-search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/dlc/cards/random
+export async function fetchRandomDlcCards(
+  settings: DlcSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<DlcSearchCards>> {
+  const query: DlcCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/dlc/cards/user-random
+export async function fetchRandomDlcCardsUser(
+  settings: DlcSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<DlcSearchCardsUser>> {
+  const query: DlcCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    mode: `unique:${settings.uniqueBy}`,
+    sortBy: settings.sortBy,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/cards/user-random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/dlc/cards/search/filters
 export async function fetchDlcFilters(
   abort?: AbortController,
-): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+): Promise<GourmetApiResponse<TransSearchQueryExecutorFilter[]>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/cards/search/filters`, {
       signal: abort?.signal,

@@ -1,0 +1,285 @@
+{
+  "title": "Erweiterte Suche",
+  "subtitle": "Benutze die Filter unten, um dir die Suche zusammenzubauen.",
+  "resetButton_one": "{{count}} Filter zurücksetzen",
+  "resetButton_other": "{{count}} Filter zurücksetzen",
+  "startSearch": "Suche starten",
+  "numberCompare": {
+    "=": "gleich",
+    "<": "kleiner als",
+    "<=": "kleiner oder gleich",
+    ">": "größer als",
+    ">=": "größer oder gleich"
+  },
+  "filterDetails": {
+    "show": "Zeige Filter Details"
+  },
+  "pcg": {
+    "categories": {
+      "identity": "Identität",
+      "text": "Text",
+      "effect": "Effekt",
+      "stats": "Stats",
+      "artwork": "Artwork"
+    },
+    "filters": {
+      "basetype": {
+        "title": "Basistyp",
+        "description": "Art der Karte"
+      },
+      "energy": {
+        "title": "Energie",
+        "description": "Sorte der Energie, gekennzeichnet durch ein Symbol auf der Karte",
+        "exact": "Genau diese Energien",
+        "contains": "Enthält eine dieser Energien"
+      },
+      "subtype": {
+        "title": "Subtyp",
+        "description": "Unterart des Basistypen für speziellere Karten",
+        "placeholder": "Gib einen Subtypen ein oder wähle einen"
+      },
+      "stage": {
+        "title": "Entwicklungsstufe",
+        "description": "Die Entwicklungsstufe der Karte",
+        "placeholder": "Gib eine Entwicklungsstufe ein oder wähle einen"
+      },
+      "evolves": {
+        "title": "Entwicklung",
+        "description": "Name der Karte, aus der sich diese Karte entwickeln kann, falls vorhanden",
+        "placeholder": "Suche nach einem Pokémon"
+      },
+      "name": {
+        "title": "Kartenname",
+        "description": "Irgendein Wort, das im Namen der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"tuff\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "text": {
+        "title": "Text",
+        "description": "Irgendeine Wortfolge, die im Text der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"Round\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "flavortext": {
+        "title": "Flavortext",
+        "description": "Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert",
+        "placehoolder": "Irgendein Wort wie \"fine fur\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "ability": {
+        "title": "Fähigkeit",
+        "description": "Der Fähigkeitentyp, falls einer existiert",
+        "placeholder": "Gib einen Fähigkeitstypen ein oder wähle einen"
+      },
+      "attack": {
+        "title": "Angriff",
+        "description": "Irgendein Wort, das im Namen einer Attacke vorkommt, falls eine existiert",
+        "placeholder": "Irgendein Wort wie \"Psybeam\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "effect": {
+        "title": "Effekt",
+        "description": "Typ eines Effektes, der weder eine Fähigkeit noch eine Attacke ist",
+        "placeholder": "Gib einen Effekttypen ein oder wähle einen"
+      },
+      "hp": {
+        "title": "Lebenspunkte",
+        "description": "Wert der Lebenspunkte, falls vorhanden"
+      },
+      "retreat": {
+        "title": "Rückzugskosten",
+        "description": "Kosten die Karte zurückzuziehen, falls vorhanden"
+      },
+      "sets": {
+        "title": "Sets",
+        "description": "Sets, in der die Karte gedruckt wurde",
+        "placeholder": "Suche nach einem Set"
+      },
+      "rarity": {
+        "title": "Seltenheit",
+        "description": "Seltenheit, mit der die Karte in einem Set gedruckt wurde",
+        "placeholder": "Suche nach einer Seltenheit"
+      },
+      "artist": {
+        "title": "Künstler:in",
+        "description": "Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"Dunce\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      }
+    }
+  },
+  "mtg": {
+    "categories": {
+      "identity": "Identität",
+      "text": "Text",
+      "effect": "Effekt",
+      "stats": "Stats",
+      "release": "Release",
+      "artwork": "Artwork"
+    },
+    "filters": {
+      "type": {
+        "title": "Typ",
+        "description": "Typ einer Karte",
+        "placeholder": "Gib einen Typen ein oder wähle einen"
+      },
+      "color": {
+        "title": "Mana-Farbe",
+        "description": "Art der Mana, die als Kosten auf der Karte gekennzeichnet sind",
+        "exact": "Genau diese Farben",
+        "contains": "Enthält eine dieser Farben"
+      },
+      "name": {
+        "title": "Kartenname",
+        "description": "Irgendein Wort, das im Namen der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"tuff\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "text": {
+        "title": "Text",
+        "description": "Irgendeine Wortfolge, die im Text der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"Round\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "flavortext": {
+        "title": "Flavortext",
+        "description": "Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert",
+        "placeholder": "Irgendein Wort wie \"fine fur\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "keyword": {
+        "title": "Stichwörter",
+        "description": "Stichwörter einer Karte, die als Kürzel für teils komplexere Mechaniken dienen",
+        "placeholder": "Gib ein Stichwort ein oder wähle eins"
+      },
+      "cmc": {
+        "title": "Manakosten",
+        "description": "Wert der Manakosten als Ganzzahl"
+      },
+      "power": {
+        "title": "Stärke",
+        "description": "Wert der Stärke, falls vorhanden"
+      },
+      "toughness": {
+        "title": "Widerstandskraft",
+        "description": "Wert der Widerstandskraft, falls vorhanden"
+      },
+      "loyalty": {
+        "title": "Loyalität",
+        "description": "Wert der Loyalität, falls vorhanden"
+      },
+      "defense": {
+        "title": "Verteidigung",
+        "description": "Wert der Verteidigung, falls vorhanden"
+      },
+      "sets": {
+        "title": "Sets",
+        "description": "Sets, in der die Karte gedruckt wurde",
+        "placeholder": "Suche nach einem Set"
+      },
+      "rarity": {
+        "title": "Seltenheit",
+        "description": "Seltenheit, mit der die Karte in einem Set gedruckt wurde",
+        "placeholder": "Suche nach einer Seltenheit"
+      },
+      "format": {
+        "title": "Format",
+        "description": "In welchen Formaten die Karten legal zu spielen sind",
+        "placeholder": "Gib ein Format ein oder wähle eins"
+      },
+      "games": {
+        "title": "Spiel",
+        "description": "Unterscheidung zwischen digitalen Produkten und Druck",
+        "placeholder": "Gib ein Spiel ein oder wähle eins"
+      },
+      "artist": {
+        "title": "Künstler:in",
+        "description": "Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"Dunce\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      }
+    }
+  },
+  "dlc": {
+    "categories": {
+      "identity": "Identität",
+      "text": "Text",
+      "stats": "Stats",
+      "release": "Release",
+      "artist": "Artist"
+    },
+    "filters": {
+      "type": {
+        "title": "Typ und Klassifikation",
+        "description": "Begriff, der in der Typzeile der Karte steht",
+        "placeholder": "Gib einen Typen ein oder wähle einen",
+        "dataGroups": {
+          "types": "Types",
+          "classifications": "Klassifikationen"
+        }
+      },
+      "ink": {
+        "title": "Tinte",
+        "description": "Sorte der Tinte, gekennzeichnet durch Farbe und Symbol auf der Karte",
+        "exact": "Genau diese Tinten",
+        "contains": "Enthält eine dieser Tinten"
+      },
+      "name": {
+        "title": "Kartenname",
+        "description": "Irgendein Wort, das im Namen der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"Fire\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "text": {
+        "title": "Text",
+        "description": "Irgendeine Wortfolge, die im Text der Karte vorkommt",
+        "placeholder": "Irgendein Wortfolge wie \"Draw a card\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "flavortext": {
+        "title": "Flavortext",
+        "description": "Irgendein Wort, das im Flavortext der Karte vorkommt, falls einer existiert",
+        "placeholder": "Irgendein Wort wie \"Why did Urza\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "strength": {
+        "title": "Stärke",
+        "description": "Der Stärkewert beginnend von 0, nur für Charaktere"
+      },
+      "willpower": {
+        "title": "Willenskraft",
+        "description": "Der Verteidigungswert beginnend von 0, nur für Charaktere"
+      },
+      "movecost": {
+        "title": "Bewegungskosten",
+        "description": "Die Bewegungskosten beginnend von 0, nur für Orte"
+      },
+      "lore": {
+        "title": "Legendenwert",
+        "description": "Der Legendenwert beginnend von 0, falls einer existiert"
+      },
+      "sets": {
+        "title": "Sets",
+        "description": "Sets, in der die Karte gedruckt wurde",
+        "placeholder": "Suche nach einem Set"
+      },
+      "rarity": {
+        "title": "Seltenheit",
+        "description": "Seltenheit, mit der die Karte in einem Set gedruckt wurde",
+        "exact": "Genau diese Seltenheiten",
+        "contains": "Enthält eine dieser Seltenheiten"
+      },
+      "artist": {
+        "title": "Künstler:in",
+        "description": "Irgendein Wort, das im Namen der Künstler:in der Karte vorkommt",
+        "placeholder": "Irgendein Wort wie \"Dunce\"",
+        "checkboxLabel": "Genaue Übereinstimmung"
+      },
+      "franchise": {
+        "title": "Franchise",
+        "description": "Das Franchise, in das die Karte zugeordnet werden kann",
+        "placeholder": "Gib ein Franchise ein oder wähle eins"
+      }
+    }
+  }
+}

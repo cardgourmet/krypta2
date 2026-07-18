@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from '@tanstack/react-router';
-import { SearchCuisineOverview } from '@/parcels/search/cuisine/overview/SearchCuisineOverview.tsx';
+import { SearchKitchenOverview } from '@/parcels/search/kitchen/overview/SearchKitchenOverview.tsx';
 
 export const Route = createFileRoute('/$tcg/kitchen/')({
   component: RouteComponent,
@@ -10,5 +10,5 @@ export const Route = createFileRoute('/$tcg/kitchen/')({
 });
 
 function RouteComponent() {
-  return <SearchCuisineOverview />;
+  return <SearchKitchenOverview />;
 }

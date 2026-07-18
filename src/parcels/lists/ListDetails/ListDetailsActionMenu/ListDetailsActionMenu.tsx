@@ -1,42 +1,46 @@
 import type { Dispatch, PropsWithChildren, ReactElement, Ref, SetStateAction } from 'react';
 import { MoreActionsMenu } from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
 import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
-import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type ListDetailsActionMenuProps = {
   tcg: Tcg;
   listContext: UserListWithResources;
+  resource?: TcgDataCard;
   resourceId?: string;
   rawResourceId: string;
   menuOpened?: boolean;
   setMenuOpened?: Dispatch<SetStateAction<boolean>>;
   target: ReactElement;
-  onSearchSaved?: (id: string) => void;
-  onRemoveFromList?: (listId: string) => void;
+  onAddedToList?: (res: UserListResource) => void;
+  onRemovedFromList?: (listId: string, resourceId?: string) => void;
   type: 'card' | 'user_search';
 } & { ref?: Ref<HTMLDivElement> };
 
 export function ListDetailsActionMenu({
   tcg,
   listContext,
+  resource,
   resourceId,
   rawResourceId,
   menuOpened,
   setMenuOpened,
   target,
-  onSearchSaved,
-  onRemoveFromList,
+  onAddedToList,
+  onRemovedFromList,
   type,
   children,
   ref,
 }: PropsWithChildren<ListDetailsActionMenuProps>) {
   const { modal, entries } = useListActionItems({
     tcg,
+    resource,
     resourceId,
     rawResourceId,
-    onSearchSaved,
-    onRemoveFromList,
+    onAddedToList: onAddedToList,
+    onRemovedFromList: onRemovedFromList,
     type,
     ref,
     listContext,

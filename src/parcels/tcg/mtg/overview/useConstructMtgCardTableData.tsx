@@ -1,18 +1,27 @@
-import { Group } from '@mantine/core';
+import { Group, Tooltip } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
 import { type ReactElement, useCallback, useMemo } from 'react';
 import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
 import { getImagesByTcgCard } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { slugify } from '@/parcels/slugify.ts';
 import type { MtgDataCard, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import { renderRichText } from '@/parcels/tcg/mtg/renderRichText.tsx';
+import { renderRichMtgText } from '@/parcels/tcg/mtg/renderRichMtgText.tsx';
 import type { TcgCardTableData } from '@/parcels/tcg/types.ts';
 
 export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
   const constructMtgTableData = useCallback((card: MtgDataCard) => {
     return {
-      Set: <>{card.print.setCode}</>,
-      Number: <>{card.print.collectorNumber}</>,
+      Set: (
+        <Tooltip label={card.print.setCode} openDelay={500}>
+          <GourmetText cgmc={'neutral-9'}>{card.print.setCode}</GourmetText>
+        </Tooltip>
+      ),
+      Number: (
+        <Tooltip label={card.print.collectorNumber} openDelay={500}>
+          <GourmetText cgmc={'neutral-9'}>{card.print.collectorNumber}</GourmetText>
+        </Tooltip>
+      ),
       Name: (
         <CursorImageHover images={getImagesByTcgCard('mtg', card)}>
           <Link
@@ -31,11 +40,13 @@ export function useConstructMtgCardTableData(cardItems: MtgSearchDataCard[]) {
       ),
       Cost: (
         <Group wrap={'nowrap'} gap={'0'}>
-          {renderRichText(card.print.faces[0].manaDisplay ?? '')}
+          {renderRichMtgText(card.print.faces[0].manaDisplay ?? '')}
         </Group>
       ),
       Type: (
-        <span title={card.print.faces[0].translations.en.typeLine}>{card.print.faces[0].translations.en.typeLine}</span>
+        <span title={card.print.faces[0]?.translations?.en?.typeLine}>
+          {card.print.faces[0]?.translations?.en?.typeLine}
+        </span>
       ),
       Rarity: <>{card.print.rarity}</>,
       Artist: <span title={card.print.artist ?? ''}>{card.print.artist}</span>,

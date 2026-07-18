@@ -1,9 +1,10 @@
 import { Button, Drawer, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconSettings } from '@tabler/icons-react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import type { TextDropdownEntry } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import type { OverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
 import { DesktopOverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/DesktopOverviewSettings/DesktopOverviewSettings.tsx';
 import { MobileOverviewSettings } from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/MobileOverviewSettings/MobileOverviewSettings.tsx';
@@ -43,13 +44,17 @@ export default function CardOverviewSettings({
   setIsDisplayLoading,
 }: CardOverviewSettingsProps) {
   const { t } = useTranslation('cards', { keyPrefix: `${tcg}` });
-  function fillTranslation(prefix: string, elements: string[]) {
-    const items: Record<string, string> = {};
-    elements.forEach((sortBy) => {
-      items[sortBy as string] = t(`${prefix}.${(sortBy as string).toLowerCase()}`);
-    });
-    return items;
-  }
+  const { t: t0 } = useTranslation('cards');
+  const fillTranslation = useCallback(
+    (prefix: string, elements: string[]) => {
+      const items: Record<string, string> = {};
+      elements.forEach((sortBy) => {
+        items[sortBy as string] = t(`${prefix}.${(sortBy as string).toLowerCase()}`);
+      });
+      return items;
+    },
+    [t],
+  );
 
   const smallScreen = useMediaQuery('(max-width: 800px)');
 
@@ -80,7 +85,19 @@ export default function CardOverviewSettings({
   }, [tcg]);
   const sortByItems = fillTranslation('sortby', sortBys as string[]);
   const sortDirItems = fillTranslation('sortdir', sortDirections as readonly SortDirection[] as string[]);
-  const uniqueByItems = fillTranslation('uniqueby', uniqueBys as string[]);
+  const uniqueByItems = useMemo(() => {
+    const items: Record<string, TextDropdownEntry> = {};
+    const translated = fillTranslation('uniqueby', uniqueBys as string[]);
+    for (const [key, value] of Object.entries(translated)) {
+      items[key] = {
+        key: key,
+        value: value,
+        description: t0(`descriptions.${key}`),
+      } as TextDropdownEntry;
+    }
+
+    return items;
+  }, [fillTranslation, uniqueBys, t0]);
 
   const items = useMemo(() => {
     return {

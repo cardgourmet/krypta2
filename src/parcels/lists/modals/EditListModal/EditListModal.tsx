@@ -1,9 +1,12 @@
 import { IconPencil } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Modal } from '@/parcels/modals/Modal';
 import type { ExtendModalProps } from '@/parcels/modals/types';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification';
+import { ListUpdateNotification } from '@/parcels/notification/ListUpdateNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { updateList } from '../../api';
 import { ListPropertiesFormFields } from '../../forms/ListPropertiesForm/ListPropertiesFormFields';
 import type { ListPropertiesFormValues } from '../../forms/ListPropertiesForm/types';
@@ -11,9 +14,10 @@ import { useListPropertiesForm } from '../../forms/ListPropertiesForm/useListPro
 import type { UserList } from '../../types';
 
 export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalProps<{ list: UserList }>) => {
+  const { t } = useTranslation('lists', { keyPrefix: 'modal' });
+
   const auth = useAuth();
   const form = useListPropertiesForm({ list });
-  const noti = useGourmetNotification();
 
   const handleSubmit = (values: ListPropertiesFormValues) => {
     if (!auth.user) return;
@@ -24,15 +28,17 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
       color: values.color === 'default' ? undefined : values.color,
     } as Partial<UserList> & { name: string };
 
-    updateList(auth.user.id, updated).then(({ error }) => {
+    updateList(auth.user.id, updated).then(({ data, error }) => {
       if (error) {
-        noti.show('Unknown error', `${error}`, 'error');
+        sendErrorNotification(error);
         return;
       }
+      const returnList = data?.[list.id];
+      if (!returnList) return;
 
-      noti.show('List Edited', `\`${list.name}\` has been edited`, 'success');
+      sendNotification('success', <ListUpdateNotification list={returnList} />);
 
-      props.onResolve?.(updated as UserList);
+      props.onResolve?.(returnList as UserList);
       props.onClose?.();
     });
   };
@@ -45,9 +51,14 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
             <IconPencil />
           </FeaturedIcon>
 
-          <Modal.Title>Liste bearbeiten</Modal.Title>
+          <Modal.Title>{t('editList')}</Modal.Title>
 
-          <ListPropertiesFormFields advancedDefaultExpanded form={form} style={{ marginTop: '1.25rem' }} />
+          <ListPropertiesFormFields
+            advancedDefaultExpanded
+            form={form}
+            style={{ marginTop: '1.25rem' }}
+            isSystem={list.systemListType === 'favorites'}
+          />
         </Modal.Content>
         <Modal.Footer>
           <Modal.SecondaryButton
@@ -56,9 +67,9 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
               props.onClose?.();
             }}
           >
-            Abbrechen
+            {t('cancel')}
           </Modal.SecondaryButton>
-          <Modal.PrimaryButton type="submit">Speichern</Modal.PrimaryButton>
+          <Modal.PrimaryButton type="submit">{t('save')}</Modal.PrimaryButton>
         </Modal.Footer>
       </form>
     </Modal>

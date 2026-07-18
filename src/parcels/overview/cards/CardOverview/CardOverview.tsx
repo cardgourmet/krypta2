@@ -1,14 +1,13 @@
-import { Accordion, Divider, Flex, Group, Stack, Text, Tooltip } from '@mantine/core';
+import { Accordion, Divider, Flex, Group, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconAlertCircleFilled, IconClock } from '@tabler/icons-react';
+import { IconAlertCircleFilled, IconArrowsShuffle, IconClock } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { CardGrid } from '@/parcels/overview/cards/CardGrid/CardGrid.tsx';
 import { CardOverviewLoader } from '@/parcels/overview/cards/CardOverview/CardOverviewLoader.tsx';
 import CardOverviewSettings from '@/parcels/overview/cards/CardOverview/CardOverviewSettings/CardOverviewSettings.tsx';
@@ -19,9 +18,12 @@ import { WorkContextReloader } from '@/parcels/overview/cards/CardOverview/WorkC
 import { CardTable } from '@/parcels/overview/cards/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
-import { TcgCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgCardMenu.tsx';
+import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
+import { TcgOverviewCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgOverviewCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
-import type { TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
+import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
@@ -32,7 +34,7 @@ export type OverviewSettings = Required<TcgSearchParams>;
 export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSearch: TcgSearchParams }) {
   const tcg = useTcgByLocation() as Tcg;
   const { t } = useTranslation('cards');
-  const [lang] = useLanguage();
+  const [lang] = useUserLanguage();
 
   const { component, title } = useBreadcrumbs(
     set === undefined
@@ -53,7 +55,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   const { user } = useAuth();
 
   const { params, querySettings, displaySettings } = useTcgSearchSettings(routeSearch);
-  const { cards, isLoading, isQueryLoading } = useCardOverviewData(querySettings, set);
+  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails } = useCardOverviewData(querySettings, set);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
@@ -65,10 +67,32 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   });
   const prevOverviewSettings = usePrevious(overviewSettings);
 
+  const { addResources, removeResources, setResources } = useActiveLists(CONTEXT_LIST_MAIN);
+
+  const clearSelection = useTcgOverviewWorkStore((state) => state.clearSelection);
+  const previousSearchDetails = usePrevious(searchDetails);
+  useEffect(() => {
+    if (previousSearchDetails === searchDetails) return;
+
+    const queryChanged = previousSearchDetails?.explain?.originalQuery !== searchDetails?.explain?.originalQuery;
+    if (queryChanged) {
+      clearSelection();
+    }
+
+    const resources = searchDetails?.listResources ?? [];
+    if (queryChanged) {
+      setResources(resources);
+    } else {
+      addResources(resources);
+    }
+  }, [previousSearchDetails, searchDetails, addResources, setResources, clearSelection]);
+
   useEffect(() => {
     if (!overviewSettings) return;
     if (!tcg) return;
     if (!prevOverviewSettings || prevOverviewSettings === overviewSettings) return;
+
+    const pageChanged = prevOverviewSettings.page !== overviewSettings.page;
 
     if (set !== undefined) {
       navigate({
@@ -78,7 +102,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           tcg: tcg,
           setCode: set.code!,
         },
-        replace: true,
+        replace: !pageChanged,
       });
     } else {
       navigate({
@@ -87,7 +111,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         params: {
           tcg: tcg,
         },
-        replace: true,
+        replace: !pageChanged,
       });
     }
   }, [overviewSettings, navigate, tcg, prevOverviewSettings, set]);
@@ -102,6 +126,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   );
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
+  const isRandomized = querySettings.random;
 
   return (
     <div ref={scrollbackRef}>
@@ -120,7 +145,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         {component}
 
         <OverviewHeader title={title?.label}>
-          {set === null && (
+          {set === undefined && !isRandomized && (
             <Pagination
               currentPage={cards?.data?.currentPage}
               lastPage={cards?.data?.pageCount}
@@ -130,6 +155,28 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           )}
         </OverviewHeader>
         {set && <SetBanner className={styles.setBanner} set={set} tcg={tcg} />}
+        {isRandomized && (
+          <Stack style={{ margin: '0.25rem 0' }}>
+            <Group
+              style={{ borderRadius: '0.25rem', backgroundColor: 'var(--gourmet-purple-1)', padding: '0.25rem 0.5rem' }}
+              gap={'0.5rem'}
+            >
+              <IconArrowsShuffle size={18} color={'var(--gourmet-neutral-1)'} />
+              <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'}>
+                {t('randomized.info')}
+              </GourmetText>
+              <UnstyledButton
+                onClick={() => {
+                  fetchCards();
+                }}
+              >
+                <GourmetText cgmff={'ui'} c={'var(--gourmet-neutral-1)'} fw={500}>
+                  {t('randomized.repeat')}
+                </GourmetText>
+              </UnstyledButton>
+            </Group>
+          </Stack>
+        )}
 
         <CardOverviewSettings
           tcg={tcg}
@@ -141,13 +188,17 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           setIsDisplayLoading={setIsDisplayLoading}
         />
 
-        <QueryExplanation
-          isLoading={isLoading}
-          currentPage={cards?.data?.currentPage}
-          pageSize={set === undefined ? 60 : (cards?.data?.details?.count ?? 0)}
-          cardCount={cards?.data?.details?.count ?? 0}
-          explanation={cards?.data.details?.explanation ?? ''}
-        />
+        <Stack gap={'0.25rem'} pt={'0.5rem'} pb={'0.5rem'}>
+          <QueryExplanation
+            isLoading={isLoading}
+            currentPage={cards?.data?.currentPage}
+            pageSize={set === undefined ? 60 : (searchDetails?.explain?.count ?? 0)}
+            cardCount={searchDetails?.explain?.count ?? 0}
+            explanation={searchDetails?.explain?.explanation ?? ''}
+            randomized={isRandomized}
+          />
+          {user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
+        </Stack>
         <QueryIgnoredDisplay queryDetails={cards?.data?.details} />
 
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
@@ -160,10 +211,18 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
             <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
 
-          <TcgCardMenu tcg={tcg} />
+          <TcgOverviewCardMenu
+            tcg={tcg}
+            onAddToList={(res) => {
+              addResources([res], true);
+            }}
+            onRemoveFromList={(res) => {
+              removeResources([res.resourceId], [res.listId]);
+            }}
+          />
         </div>
 
-        {set === null && (
+        {set === undefined && !isRandomized && (
           <Pagination
             currentPage={cards?.data?.currentPage}
             lastPage={cards?.data?.pageCount}

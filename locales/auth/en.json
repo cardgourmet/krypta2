@@ -67,11 +67,22 @@
           "fieldLabelConfirm": "Confirm New Password"
         }
       },
+      "search": {
+        "title": "Search",
+        "forwardDetails": {
+          "title": "Forward to Details",
+          "description": "If enabled, will forward to the details page, if the search result is just one card or print."
+        }
+      },
       "language": {
         "title": "Language",
-        "notifications": {
-          "title": "Notifications",
-          "description": "We will send you emails in this language."
+        "global": {
+          "title": "Global",
+          "description": "We will send you emails in this language. Also used for the UI."
+        },
+        "sync": {
+          "title": "Keep Sync with Global",
+          "description": "If enabled, will keep the tcg preferred languages in sync with your global language"
         },
         "mtg": {
           "title": "Magic: The Gathering",

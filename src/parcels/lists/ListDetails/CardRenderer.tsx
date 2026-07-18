@@ -3,31 +3,31 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical, IconLink } from '@tabler/icons-react';
 import { Activity, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
-import type { ResolvedUserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import styles from '@/parcels/overview/cards/CardGrid/ToolsOverlay/ToolsOverlay.module.css';
+import styles from '@/parcels/overview/cards/CardGrid/CardGridToolsOverlay/CardGridToolsOverlay.module.css';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
 import { slugify } from '@/parcels/slugify.ts';
-import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 function CardRenderer({
-  tcg,
   list,
   data,
+  onAddToList,
   onRemoveFromList,
 }: {
-  tcg: Tcg;
   list: UserListWithResources;
   data: ResolvedUserListResource;
-  onRemoveFromList?: (listId: string) => void;
+  onAddToList?: (res: UserListResource) => void;
+  onRemoveFromList?: (listId: string, resourceId?: string) => void;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const isTouchDevice = useMediaQuery('(hover: none)');
 
+  const tcg = data.listResource.game as Tcg;
   const card = data.resourceData as unknown as TcgDataCard;
   const prop = createProps(tcg, {
     card: card,
@@ -42,6 +42,7 @@ function CardRenderer({
       <ListDetailsActionMenu
         tcg={tcg}
         listContext={list}
+        resource={card}
         rawResourceId={card.print.id}
         resourceId={card.print.id}
         menuOpened={menuOpened}
@@ -60,7 +61,8 @@ function CardRenderer({
           </ActionIcon>
         }
         type={'card'}
-        onRemoveFromList={onRemoveFromList}
+        onAddedToList={onAddToList}
+        onRemovedFromList={onRemoveFromList}
       >
         <Menu.Divider />
 
@@ -84,11 +86,11 @@ function CardRenderer({
         </Menu.Item>
       </ListDetailsActionMenu>
     );
-  }, [card, list, menuOpened, onRemoveFromList, t, tcg]);
+  }, [card, list, menuOpened, onRemoveFromList, t, tcg, onAddToList]);
 
   return (
     <Stack gap={'0.25rem'}>
-      <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} style={{ height: '100%' }}>
+      <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} card={card} style={{ height: '100%' }}>
         <Activity mode={isTouchDevice ? 'hidden' : 'visible'}>
           <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
             <Group p={'1rem 1rem 0 1rem'} justify={'end'}>

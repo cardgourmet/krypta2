@@ -9,8 +9,10 @@ export function useTcgSearchSettings(search: TcgSearchParams) {
       sortBy: search.sortBy,
       sortDirection: search.sortDirection,
       uniqueBy: search.uniqueBy,
+      random: search.random,
+      manual: search.manual,
     } as TcgSearchQuerySettings;
-  }, [search.query, search.sortBy, search.sortDirection, search.uniqueBy, search.page]);
+  }, [search.query, search.sortBy, search.sortDirection, search.uniqueBy, search.page, search.random, search.manual]);
   const searchDisplaySettings = useMemo(() => {
     return {
       display: search.display,

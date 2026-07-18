@@ -12,8 +12,13 @@
     "header": {
       "title": "Lists"
     },
+    "summary": {
+      "youHave": "You have {{ listsCount }}/{{ listsMax }} lists with {{ resCount }}/{{ resMax }} resources.",
+      "needMore": "Need more? Contact us."
+    },
     "pageTitle": "Your Lists",
     "settings": {
+      "all": "All TCGs",
       "title": "Settings",
       "common": {
         "sortby": "Sort by",
@@ -38,7 +43,9 @@
       "searchbarPlaceholder": "Search..."
     },
     "create": {
-      "title": "Create New List"
+      "title": "Create New List",
+      "cancel": "Cancel",
+      "create": "Create"
     },
     "delete": {
       "warning": "This will delete the list permanently.",
@@ -55,6 +62,8 @@
       "system": "This is a system list and can't be edited"
     },
     "card": {
+      "allowed": "Allowed",
+      "allowedAll": "All TCGs allowed",
       "lastUpdated": "Last updated",
       "noDescription": "No description set.",
       "visibility": {
@@ -128,5 +137,39 @@
       "pcg": "Pokémon Card Game",
       "dlc": "Disney Lorcana"
     }
+  },
+  "modal": {
+    "editList": "Edit List",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "e.g. Chef's Recommendations"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "e.g. Freshly unboxed at the local game store"
+      },
+      "visibility": {
+        "label": "Visibility",
+        "private": "Private",
+        "privateDesc": "Only you can see this list.",
+        "public": "Public",
+        "publicDesc": "Everyone can see this list."
+      },
+      "tcgs": {
+        "desc": "You can restrict which TCGs you can add cards from.",
+        "placeholder": "Search…"
+      },
+      "color": {
+        "label": "Color"
+      }
+    }
+  },
+  "limits": {
+    "listLimitUsage": "List limit {{amount}}/{{max}}",
+    "listTotalResourceLimitUsage": "Resource limit {{amount}}/{{max}}",
+    "listResourceLimitUsage": "Doesn't fit in list."
   }
 }

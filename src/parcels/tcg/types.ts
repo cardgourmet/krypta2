@@ -3,11 +3,16 @@ import z from 'zod';
 import type { CardSearchParams } from '@/parcels/overview/cards/types.ts';
 import type {
   DlcDataCard,
+  DlcDataCardUser,
   DlcDataPrint,
+  DlcDataSet,
+  DlcDataSetSummary,
   DlcDataSets,
   DlcSearchCards,
   DlcSearchCardsResult,
+  DlcSearchCardsUser,
   DlcSearchDataCard,
+  DlcSetSearchResult,
 } from '@/parcels/tcg/dlc/api.ts';
 import {
   type DlcSearchDisplaySettings,
@@ -17,11 +22,16 @@ import {
 } from '@/parcels/tcg/dlc/types.ts';
 import type {
   MtgDataCard,
+  MtgDataCardUser,
   MtgDataPrint,
+  MtgDataSet,
+  MtgDataSetSummary,
   MtgDataSets,
   MtgSearchCards,
   MtgSearchCardsResult,
+  MtgSearchCardsUser,
   MtgSearchDataCard,
+  MtgSetSearchResult,
 } from '@/parcels/tcg/mtg/api.ts';
 import {
   type MtgSearchDisplaySettings,
@@ -31,11 +41,16 @@ import {
 } from '@/parcels/tcg/mtg/types.ts';
 import type {
   PcgDataCard,
+  PcgDataCardUser,
   PcgDataPrint,
+  PcgDataSet,
+  PcgDataSetSummary,
   PcgDataSets,
   PcgSearchCards,
   PcgSearchCardsResult,
+  PcgSearchCardsUser,
   PcgSearchDataCard,
+  PcgSetSearchResult,
 } from '@/parcels/tcg/pcg/api.ts';
 import {
   type PcgSearchDisplaySettings,
@@ -48,16 +63,30 @@ import type { components as c } from '@/schema/api';
 export type SearchQueryExecutorFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type SearchQueryExecutorFilterValue = c['schemas']['SearchQueryExecutorFilterValue'];
 export type SearchQueryExecutorFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type TransSearchQueryExecutorFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type TcgSearchCardsResult = MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult;
 export type TcgSearchCards = MtgSearchCards | DlcSearchCards | PcgSearchCards;
+export type TcgSearchCardsUser = MtgSearchCardsUser | DlcSearchCardsUser | PcgSearchCardsUser;
 export type TcgSearchDataCard = MtgSearchDataCard | DlcSearchDataCard | PcgSearchDataCard;
 
 export type TcgSearchQuerySettings = MtgSearchQuerySettings | DlcSearchQuerySettings | PcgSearchQuerySettings;
 export type TcgSearchDisplaySettings = MtgSearchDisplaySettings | DlcSearchDisplaySettings | PcgSearchDisplaySettings;
 
 export type TcgDataPrint = MtgDataPrint | DlcDataPrint | PcgDataPrint;
+export type TcgDataPrintReference =
+  | c['schemas']['MtgDataPrintReference']
+  | c['schemas']['DlcDataPrintReference']
+  | c['schemas']['PcgDataPrintReference'];
 export type TcgDataSets = MtgDataSets | DlcDataSets | PcgDataSets;
 export type TcgStatistics = c['schemas']['TcgStatistics'];
+
+export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
+export type TcgDataCardUser = MtgDataCardUser | DlcDataCardUser | PcgDataCardUser;
+export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
+export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
+export type TcgSetSearchResult = MtgSetSearchResult | DlcSetSearchResult | PcgSetSearchResult;
+
+export type UserSearchCardsDetails = c['schemas']['UserSearchCardsResponse'];
 
 export const sortDirections = ['asc', 'desc', 'auto'] as const;
 export type SortDirection = (typeof sortDirections)[number];
@@ -78,6 +107,7 @@ export type TcgCardQuery = {
   forbiddenFilters?: string;
   allowedValueTypes?: string;
   retries?: string;
+  trigger?: 'search' | 'system' | 'unknown';
 };
 
 export const filterOperatorsRegex = '[=:><]';
@@ -100,6 +130,8 @@ export const tcgSearchParamsDefaults = {
   display: 'grid' as DisplayMode,
   uniqueBy: 'cards' as TcgUniqueBy,
   sortBy: 'name' as TcgSortBy,
+  random: false,
+  manual: false,
 };
 
 export const tcgSortBys = [...dlcSortBys, ...mtgSortBys, ...pcgSortBys] as const;
@@ -120,6 +152,8 @@ export const tcgSearchParamsSchema = z.object({
   display: z.enum(displayModes).catch(tcgSearchParamsDefaults.display),
   uniqueBy: z.enum(tcgUniqueBys).catch(tcgSearchParamsDefaults.uniqueBy),
   sortBy: z.enum(tcgSortBys).catch(tcgSearchParamsDefaults.sortBy),
+  random: z.boolean().catch(tcgSearchParamsDefaults.random),
+  manual: z.boolean().catch(tcgSearchParamsDefaults.random),
 });
 
 export const tcgSetGroupBys = ['year', 'era', 'none'] as const;

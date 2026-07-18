@@ -10,10 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TermsOfUseIndexRouteImport } from './routes/terms-of-use/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
+import { Route as PrivacyPolicyIndexRouteImport } from './routes/privacy-policy/index'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as ImprintIndexRouteImport } from './routes/imprint/index'
 import { Route as ForgotIndexRouteImport } from './routes/forgot/index'
+import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
 import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
@@ -22,9 +26,9 @@ import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
 import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
 import { Route as TcgKitchenIndexRouteImport } from './routes/$tcg/kitchen/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
-import { Route as MeListsListIdRouteImport } from './routes/me/lists/$listId'
 import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
+import { Route as AtChar123userChar125ListsListIdRouteImport } from './routes/@{$user}/lists/$listId'
 import { Route as TcgCardsPrintIdRouteImport } from './routes/$tcg/cards/$printId'
 import { Route as TcgSetsSetCodeIndexRouteImport } from './routes/$tcg/sets/$setCode/index'
 import { Route as TcgSetsSetCodeCollectorNumberChar123AnyChar125RouteImport } from './routes/$tcg/sets/$setCode/$collectorNumber/{-$any}'
@@ -34,9 +38,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsOfUseIndexRoute = TermsOfUseIndexRouteImport.update({
+  id: '/terms-of-use/',
+  path: '/terms-of-use/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterIndexRoute = RegisterIndexRouteImport.update({
   id: '/register/',
   path: '/register/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyIndexRoute = PrivacyPolicyIndexRouteImport.update({
+  id: '/privacy-policy/',
+  path: '/privacy-policy/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
@@ -49,9 +63,19 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImprintIndexRoute = ImprintIndexRouteImport.update({
+  id: '/imprint/',
+  path: '/imprint/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForgotIndexRoute = ForgotIndexRouteImport.update({
   id: '/forgot/',
   path: '/forgot/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutIndexRoute = AboutIndexRouteImport.update({
+  id: '/about/',
+  path: '/about/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TcgIndexRoute = TcgIndexRouteImport.update({
@@ -94,11 +118,6 @@ const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
   path: '/$tcg/cards/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MeListsListIdRoute = MeListsListIdRouteImport.update({
-  id: '/me/lists/$listId',
-  path: '/me/lists/$listId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthEmailTokenRoute = AuthEmailTokenRouteImport.update({
   id: '/auth/email/$token',
   path: '/auth/email/$token',
@@ -109,6 +128,12 @@ const AuthConfirmTokenRoute = AuthConfirmTokenRouteImport.update({
   path: '/auth/confirm/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AtChar123userChar125ListsListIdRoute =
+  AtChar123userChar125ListsListIdRouteImport.update({
+    id: '/@{$user}/lists/$listId',
+    path: '/@{$user}/lists/$listId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const TcgCardsPrintIdRoute = TcgCardsPrintIdRouteImport.update({
   id: '/$tcg/cards/$printId',
   path: '/$tcg/cards/$printId',
@@ -129,14 +154,18 @@ const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/about/': typeof AboutIndexRoute
   '/forgot/': typeof ForgotIndexRoute
+  '/imprint/': typeof ImprintIndexRoute
   '/login/': typeof LoginIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/privacy-policy/': typeof PrivacyPolicyIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/terms-of-use/': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
-  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
@@ -150,14 +179,18 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$tcg': typeof TcgIndexRoute
+  '/about': typeof AboutIndexRoute
   '/forgot': typeof ForgotIndexRoute
+  '/imprint': typeof ImprintIndexRoute
   '/login': typeof LoginIndexRoute
   '/playground': typeof PlaygroundIndexRoute
+  '/privacy-policy': typeof PrivacyPolicyIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/terms-of-use': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
-  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
   '/$tcg/kitchen': typeof TcgKitchenIndexRoute
   '/$tcg/sets': typeof TcgSetsIndexRoute
@@ -172,14 +205,18 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$tcg/': typeof TcgIndexRoute
+  '/about/': typeof AboutIndexRoute
   '/forgot/': typeof ForgotIndexRoute
+  '/imprint/': typeof ImprintIndexRoute
   '/login/': typeof LoginIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/privacy-policy/': typeof PrivacyPolicyIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/terms-of-use/': typeof TermsOfUseIndexRoute
   '/$tcg/cards/$printId': typeof TcgCardsPrintIdRoute
+  '/@{$user}/lists/$listId': typeof AtChar123userChar125ListsListIdRoute
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
-  '/me/lists/$listId': typeof MeListsListIdRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
@@ -195,14 +232,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$tcg/'
+    | '/about/'
     | '/forgot/'
+    | '/imprint/'
     | '/login/'
     | '/playground/'
+    | '/privacy-policy/'
     | '/register/'
+    | '/terms-of-use/'
     | '/$tcg/cards/$printId'
+    | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
-    | '/me/lists/$listId'
     | '/$tcg/cards/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
@@ -216,14 +257,18 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$tcg'
+    | '/about'
     | '/forgot'
+    | '/imprint'
     | '/login'
     | '/playground'
+    | '/privacy-policy'
     | '/register'
+    | '/terms-of-use'
     | '/$tcg/cards/$printId'
+    | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
-    | '/me/lists/$listId'
     | '/$tcg/cards'
     | '/$tcg/kitchen'
     | '/$tcg/sets'
@@ -237,14 +282,18 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$tcg/'
+    | '/about/'
     | '/forgot/'
+    | '/imprint/'
     | '/login/'
     | '/playground/'
+    | '/privacy-policy/'
     | '/register/'
+    | '/terms-of-use/'
     | '/$tcg/cards/$printId'
+    | '/@{$user}/lists/$listId'
     | '/auth/confirm/$token'
     | '/auth/email/$token'
-    | '/me/lists/$listId'
     | '/$tcg/cards/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
@@ -259,14 +308,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TcgIndexRoute: typeof TcgIndexRoute
+  AboutIndexRoute: typeof AboutIndexRoute
   ForgotIndexRoute: typeof ForgotIndexRoute
+  ImprintIndexRoute: typeof ImprintIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute
+  PrivacyPolicyIndexRoute: typeof PrivacyPolicyIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
+  TermsOfUseIndexRoute: typeof TermsOfUseIndexRoute
   TcgCardsPrintIdRoute: typeof TcgCardsPrintIdRoute
+  AtChar123userChar125ListsListIdRoute: typeof AtChar123userChar125ListsListIdRoute
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   AuthEmailTokenRoute: typeof AuthEmailTokenRoute
-  MeListsListIdRoute: typeof MeListsListIdRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
   TcgKitchenIndexRoute: typeof TcgKitchenIndexRoute
   TcgSetsIndexRoute: typeof TcgSetsIndexRoute
@@ -287,11 +340,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms-of-use/': {
+      id: '/terms-of-use/'
+      path: '/terms-of-use'
+      fullPath: '/terms-of-use/'
+      preLoaderRoute: typeof TermsOfUseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register/': {
       id: '/register/'
       path: '/register'
       fullPath: '/register/'
       preLoaderRoute: typeof RegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy/': {
+      id: '/privacy-policy/'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy/'
+      preLoaderRoute: typeof PrivacyPolicyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playground/': {
@@ -308,11 +375,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/imprint/': {
+      id: '/imprint/'
+      path: '/imprint'
+      fullPath: '/imprint/'
+      preLoaderRoute: typeof ImprintIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/forgot/': {
       id: '/forgot/'
       path: '/forgot'
       fullPath: '/forgot/'
       preLoaderRoute: typeof ForgotIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/': {
+      id: '/about/'
+      path: '/about'
+      fullPath: '/about/'
+      preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/': {
@@ -371,13 +452,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TcgCardsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/me/lists/$listId': {
-      id: '/me/lists/$listId'
-      path: '/me/lists/$listId'
-      fullPath: '/me/lists/$listId'
-      preLoaderRoute: typeof MeListsListIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth/email/$token': {
       id: '/auth/email/$token'
       path: '/auth/email/$token'
@@ -390,6 +464,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/confirm/$token'
       fullPath: '/auth/confirm/$token'
       preLoaderRoute: typeof AuthConfirmTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/@{$user}/lists/$listId': {
+      id: '/@{$user}/lists/$listId'
+      path: '/@{$user}/lists/$listId'
+      fullPath: '/@{$user}/lists/$listId'
+      preLoaderRoute: typeof AtChar123userChar125ListsListIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$tcg/cards/$printId': {
@@ -419,14 +500,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TcgIndexRoute: TcgIndexRoute,
+  AboutIndexRoute: AboutIndexRoute,
   ForgotIndexRoute: ForgotIndexRoute,
+  ImprintIndexRoute: ImprintIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
+  PrivacyPolicyIndexRoute: PrivacyPolicyIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
+  TermsOfUseIndexRoute: TermsOfUseIndexRoute,
   TcgCardsPrintIdRoute: TcgCardsPrintIdRoute,
+  AtChar123userChar125ListsListIdRoute: AtChar123userChar125ListsListIdRoute,
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   AuthEmailTokenRoute: AuthEmailTokenRoute,
-  MeListsListIdRoute: MeListsListIdRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
   TcgKitchenIndexRoute: TcgKitchenIndexRoute,
   TcgSetsIndexRoute: TcgSetsIndexRoute,

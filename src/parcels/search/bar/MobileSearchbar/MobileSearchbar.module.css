@@ -38,7 +38,7 @@
 .typingInfo {
   p {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 400;
     font-style: italic;
     color: var(--gourmet-neutral-7);
@@ -59,9 +59,7 @@
   }
 }
 
-.cuisine {
-  margin-right: 3rem;
-
+.kitchen {
   a {
     display: flex;
     align-items: center;

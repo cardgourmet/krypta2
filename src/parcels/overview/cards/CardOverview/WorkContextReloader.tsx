@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/TcgOverviewWorkContext/useTcgOverviewWorkStore.ts';
+import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import type { TcgSearchCardsResult } from '@/parcels/tcg/types.ts';
 
 export function WorkContextReloader({ cards }: { cards: TcgSearchCardsResult | null }) {

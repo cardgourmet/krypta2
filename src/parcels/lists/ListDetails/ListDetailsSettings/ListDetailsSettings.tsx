@@ -5,9 +5,10 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/me/lists/$listId.tsx';
+import type { DataUser } from '@/parcels/user/api.ts';
+import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
-export function ListDetailsSettings({ list }: { list: UserList }) {
+export function ListDetailsSettings({ owner, list }: { owner: DataUser; list: UserList }) {
   const { t } = useTranslation('lists', { keyPrefix: 'details.settings' });
   const { t: t2 } = useTranslation('lists', { keyPrefix: 'details.settings.sortBy' });
   const { t: t3 } = useTranslation('lists', { keyPrefix: 'details.settings.sortDir' });
@@ -39,8 +40,9 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
               startTransition(() => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  to: '/me/lists/$listId',
+                  to: '/@{$user}/lists/$listId',
                   params: {
+                    user: owner.username,
                     listId: list.slug,
                   },
                   search: (prev) => ({ ...prev, tcg: sel as Tcg }),
@@ -69,8 +71,9 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
               startTransition(() => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  to: '/me/lists/$listId',
+                  to: '/@{$user}/lists/$listId',
                   params: {
+                    user: owner.username,
                     listId: list.slug,
                   },
                   search: () => ({ ...search, sort: sel as 'name' | 'addedAt' }),
@@ -94,8 +97,9 @@ export function ListDetailsSettings({ list }: { list: UserList }) {
               startTransition(() => {
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  to: '/me/lists/$listId',
+                  to: '/@{$user}/lists/$listId',
                   params: {
+                    user: owner.username,
                     listId: list.slug,
                   },
                   search: () => ({ ...search, order: sel as 'asc' | 'desc' | 'auto' }),

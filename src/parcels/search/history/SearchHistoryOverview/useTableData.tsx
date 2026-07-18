@@ -6,7 +6,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
@@ -27,7 +27,6 @@ export function useTableData({
 
   const { i18n } = useTranslation();
   const { user } = useAuth();
-  const noti = useGourmetNotification();
 
   return useMemo(() => {
     const columns = user?.id
@@ -65,7 +64,7 @@ export function useTableData({
                     if (i.savedSearch?.id) {
                       deleteSavedSearches(user?.id, search.tcg, [i.savedSearch.id]).then(({ error }) => {
                         if (error) {
-                          noti.show('Unknown error', `${error}`, 'error');
+                          sendErrorNotification(error);
                           return;
                         }
 
@@ -77,10 +76,11 @@ export function useTableData({
                     }
 
                     saveSearches(user?.id, search.tcg, [i.search.id as string]).then(({ data, error }) => {
-                      if (error || !data?.length) {
-                        noti.show('Unknown error', `${error}`, 'error');
+                      if (error) {
+                        sendErrorNotification(error);
                         return;
                       }
+                      if (!data) return;
 
                       // adjust local storage
                       onSearchSaved(i.search.queryId, data[0].savedSearch.id);
@@ -95,7 +95,7 @@ export function useTableData({
               ),
               inList: (
                 <>
-                  <ExistsInListsBadge type={'user_search'} resourceId={i.savedSearch?.id} />
+                  <ExistsInListsBadge resourceId={i.savedSearch?.id} />
                 </>
               ),
             },
@@ -110,6 +110,5 @@ export function useTableData({
     localHistory.markQueries,
     onSearchSaved,
     onSearchUnsaved,
-    noti.show,
   ]);
 }

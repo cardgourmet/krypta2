@@ -44,7 +44,7 @@ export const Route = createFileRoute('/$tcg/sets/$setCode/')({
     if (!setRes || !setRes.data || setRes.error) {
       throw notFound();
     }
-    return setRes.data;
+    return setRes.data.set;
   },
   validateSearch: tcgSetParamsSchema,
   search: {

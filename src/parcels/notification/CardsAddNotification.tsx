@@ -1,0 +1,41 @@
+import { Group, Stack } from '@mantine/core';
+import { IconArrowRight } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import type { UserList } from '@/parcels/lists/types.ts';
+import { slugify } from '@/parcels/slugify.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+
+export function CardsAddNotification({
+  list,
+  printIds,
+}: {
+  tcg: Tcg;
+  list: UserList;
+  printIds: string[];
+  language: string;
+}) {
+  const { t } = useTranslation('notifications', { keyPrefix: 'selection.addToList' });
+  const { user } = useAuth();
+
+  return (
+    <Group wrap={'nowrap'} align={'stretch'}>
+      <Stack justify={'start'} gap={'0.25rem'}>
+        <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
+          {t('title', { name: list.name, count: printIds.length })}
+        </GourmetText>
+        <GourmetText fz={'0.9rem'}>{t('weveAdded', { count: printIds.length })} </GourmetText>
+        <Link to={'/@{$user}/lists/$listId'} params={{ user: user!.username, listId: slugify(list.name) }}>
+          <Group gap={'0.25rem'} display={'inline-flex'}>
+            <GourmetText cgmc={'neutral-9'} fz={'0.9rem'}>
+              {t('goThere')}
+            </GourmetText>
+            <IconArrowRight size={16} color={'var(--gourmet-neutral-9)'} />
+          </Group>
+        </Link>
+      </Stack>
+    </Group>
+  );
+}

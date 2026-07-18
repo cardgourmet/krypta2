@@ -11,10 +11,16 @@
 }
 
 .userIcon {
+  display: block;
   height: 100%;
   width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  line-height: 0;
 
   > img {
+    display: block;
+
     border-radius: 50%;
     height: 100%;
     width: 100%;

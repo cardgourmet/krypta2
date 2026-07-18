@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import Skeleton from 'react-loading-skeleton';
 import { calculateCardRange } from '@/parcels/overview/cards/calculateCardRange.ts';
 import { parseSearchExplanation } from '@/parcels/search/parseSearchExplanation.ts';
@@ -9,9 +11,27 @@ type QueryExplanationProps = {
   pageSize: number;
   cardCount: number;
   explanation: string;
+  randomized?: boolean;
 };
 
-export function QueryExplanation({ isLoading, currentPage, pageSize, cardCount, explanation }: QueryExplanationProps) {
+export function QueryExplanation({
+  isLoading,
+  currentPage,
+  pageSize,
+  cardCount,
+  explanation,
+  randomized,
+}: QueryExplanationProps) {
+  const { t } = useTranslation('cards', { keyPrefix: 'explanation' });
+
+  const adjustedExplanation = useMemo(() => {
+    if (randomized) {
+      return explanation.split(' ').slice(1).join(' ');
+    }
+
+    return explanation;
+  }, [explanation, randomized]);
+
   return (
     <div className={styles.queryExplanation}>
       {isLoading && (
@@ -21,12 +41,22 @@ export function QueryExplanation({ isLoading, currentPage, pageSize, cardCount, 
       )}
       {!isLoading && (
         <p>
-          {calculateCardRange(currentPage, Number(pageSize)).from}–
-          {calculateCardRange(currentPage, Number(pageSize), cardCount).to} von{' '}
+          {!randomized && (
+            <>
+              {calculateCardRange(currentPage, Number(pageSize)).from}–
+              {calculateCardRange(currentPage, Number(pageSize), cardCount).to} {t('of')}{' '}
+            </>
+          )}
+          {randomized && (
+            <>
+              {pageSize} {t('randomized')}{' '}
+            </>
+          )}
+
           <span
             // biome-ignore lint/security/noDangerouslySetInnerHtml: _
             dangerouslySetInnerHTML={{
-              __html: parseSearchExplanation(explanation) ?? '',
+              __html: parseSearchExplanation(adjustedExplanation) ?? '',
             }}
           />
         </p>

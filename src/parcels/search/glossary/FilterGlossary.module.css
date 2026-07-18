@@ -1,0 +1,26 @@
+.glossaryItem {
+  background-color: var(--gourmet-neutral-2);
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.5rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+
+  &[data-selected="true"] {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.glossaryItemTag {
+  &[data-color="red"] {
+    --color: var(--gourmet-red-01);
+  }
+  &[data-color="orange"] {
+    --color: var(--gourmet-orange-1);
+  }
+
+  border: 1px solid var(--color);
+  border-radius: 0.25rem;
+  padding: 0.05rem 0.25rem;
+}

@@ -1,0 +1,56 @@
+import { Group, Loader, Stack, Switch } from '@mantine/core';
+import { startTransition, useState } from 'react';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { updateUserSettings } from '@/parcels/auth/api.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+
+export function ForwardDetailsSetting() {
+  // const { t } = useTranslation('auth', { keyPrefix: 'settings' });
+  const { user, updateUser } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [checked, setChecked] = useState<boolean>(user?.settings?.search?.forwardToDetailPage ?? true);
+
+  return (
+    <Stack>
+      <Group gap={'0.5rem'}>
+        <Switch
+          disabled={loading}
+          checked={checked}
+          onChange={(event) => {
+            setError('');
+            setLoading(true);
+            setChecked(event.currentTarget.checked);
+
+            startTransition(async () => {
+              const res = await updateUserSettings({
+                ...user?.settings,
+                search: {
+                  ...user?.settings?.search,
+                  forwardToDetailPage: event.currentTarget.checked,
+                },
+              });
+
+              setLoading(false);
+              if (res.error) {
+                sendErrorNotification(res.error);
+                return;
+              }
+
+              if (res.data) updateUser(res.data);
+            });
+          }}
+        />
+        {loading && <Loader size={18} />}
+      </Group>
+
+      {error && (
+        <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'}>
+          {error}
+        </GourmetText>
+      )}
+    </Stack>
+  );
+}

@@ -1,0 +1,17 @@
+.iconButton {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: var(--cgm-button-border);
+  }
+}
+
+.subIconButton {
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}

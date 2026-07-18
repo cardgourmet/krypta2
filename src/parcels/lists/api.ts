@@ -1,4 +1,4 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { ResolvedUserListResource, UserList, UserListResource, UserListResponse } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
 import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
@@ -9,6 +9,7 @@ export async function fetchLists(
   sortBy?: 'name' | 'updatedAt' | 'size',
   sortOrder?: 'asc' | 'desc',
   game?: Tcg,
+  withResources?: boolean,
   resources?: number,
   reduced?: boolean,
   abort?: AbortController,
@@ -22,7 +23,7 @@ export async function fetchLists(
           withSize: 'true',
           sortBy: sortBy ?? 'name',
           sortOrder: sortOrder ?? undefined,
-          withResources: 'true',
+          withResources: withResources ? 'true' : 'false',
           resourcesPerType: resources ?? 5,
           reduced: `${reduced ?? false}`,
           pageSize: 1_000,
@@ -113,7 +114,7 @@ export async function updateList(
   userId: string,
   list: Partial<UserList> & { name: string },
   abort?: AbortController,
-): Promise<GourmetApiResponse<unknown>> {
+): Promise<GourmetApiResponse<Record<string, UserList>>> {
   return handleApiCall(async () => {
     return await umoriClient.PUT(`/v1/users/{id}/lists`, {
       params: {

@@ -1,0 +1,104 @@
+{
+  "transform": "Transform",
+  "rotate": "Rotate",
+  "forwarded": {
+    "1": "We have forwarded you to the details page, since your search resulted in only one card or print.",
+    "2": "Do you want us to continue doing so? You can change your decision in your settings any time.",
+    "keep": "Keep forwarding",
+    "disable": "Disable it"
+  },
+  "meta": {
+    "language": {
+      "printIn": "See this print in",
+      "reprintIn": "See a reprint in"
+    }
+  },
+  "image": {
+    "showAll": "Show all {{count}} prints"
+  },
+  "share": {
+    "options": {
+      "copyName": "Copy name",
+      "copyNameMTGA": "Copy name (MTGA)",
+      "copyLink": "Copy link",
+      "shareWith": "Share with ..."
+    },
+    "success": {
+      "copied": "Copied to clipboard"
+    },
+    "failure": {
+      "shareNotAvailable": "Native share not available"
+    }
+  },
+  "report": {
+    "knownIssues_one": "There is {{count}} known issues for this print. Displayed data might not be accurate.",
+    "knownIssues_other": "There are {{count}} known issues for this print. Displayed data might not be accurate.",
+    "title": "Report Page",
+    "options": {
+      "createReport": "Report this page"
+    },
+    "reportSent": {
+      "title": "Report Sent",
+      "description": "Thank you for the report! It might take time until we get to handle it."
+    },
+    "form": {
+      "subject": "Subject",
+      "severity": {
+        "title": "Severity",
+        "unknown": "Unknown",
+        "minor": "Minor",
+        "medium": "Medium",
+        "major": "Major"
+      },
+      "note": {
+        "title": "Note",
+        "placeholder": "Describe the issue in more detail..."
+      },
+      "cancel": "Cancel",
+      "sendReport": "Send report"
+    }
+  },
+  "legality": {
+    "title": "Legalities",
+    "notLegalByDefault": "Everything not listed here is not legal by default."
+  },
+  "notifications": {
+    "theQuery": "the query",
+    "addToList": {
+      "title": "Added to {{name}}",
+      "weveAdded": "We've added {{name}} to the list.",
+      "goThere": "Go there now"
+    },
+    "removeFromList": {
+      "title": "Removed from {{name}}",
+      "weveRemoved": "We've removed {{name}} from the list.",
+      "goThere": "Go there anyway"
+    }
+  },
+  "rulings": {
+    "title": "Notes and Rulings",
+    "showAll": "Show all"
+  },
+  "languages": {
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish",
+    "it": "Italian",
+    "pt": "Portuguese",
+    "ja": "Japanese",
+    "jp": "Japanese",
+    "ru": "Russian",
+    "zhs": "Simplified Chinese",
+    "zht": "Traditional Chinese",
+    "ko": "Korean",
+    "la": "Latin",
+    "ph": "Phyrexian",
+    "sa": "Sanskrit",
+    "qy": "Quenya",
+    "cmn": "Mandarin",
+    "yue": "Cantonese",
+    "th": "Thai",
+    "id": "Indonesian"
+  }
+}

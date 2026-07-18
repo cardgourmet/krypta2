@@ -1,13 +1,14 @@
 import { Divider, Group, Stack } from '@mantine/core';
 import { IconAlertSquareRoundedFilled } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { type ReactElement, useCallback, useEffect, useState } from 'react';
+import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetTable, type GourmetTableData } from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { fetchSearchHistory } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -38,8 +39,11 @@ export function SearchHistoryOverview() {
     ],
   });
   const [historyData, setHistoryData] = useState<PagedUserSearchHistoryEntry | undefined>(undefined);
+  const listResources = useMemo(() => {
+    return historyData?.items?.flatMap((i) => i.listResources ?? []) ?? [];
+  }, [historyData?.items]);
+  useActiveLists(undefined, listResources);
 
-  const noti = useGourmetNotification();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     if (user?.state !== 'verified') {
@@ -87,7 +91,7 @@ export function SearchHistoryOverview() {
         setIsLoading(false);
 
         if (error) {
-          noti.show('Unknown error', `${error}`, 'error');
+          sendErrorNotification(error);
           return;
         }
 
@@ -99,7 +103,7 @@ export function SearchHistoryOverview() {
       // abort.abort();
       setIsLoading(false);
     };
-  }, [search.page, search.size, search.sortDir, search.tcg, user, search.search, localHistory.pastQueries, noti.show]);
+  }, [search.page, search.size, search.sortDir, search.tcg, user, search.search, localHistory.pastQueries]);
 
   const navigate = useNavigate();
   const setSettings = (apply: ApplyFn<{ page?: number }>) => {
@@ -164,7 +168,7 @@ export function SearchHistoryOverview() {
         }}
         mb={'1rem'}
       >
-        <Group justify={'space-between'} p={'0.5rem 0'} h={'3.5rem'}>
+        <Group justify={'space-between'} p={'0.5rem 0'} mih={'3.5rem'}>
           <GourmetText cgmc={'neutral-9'} cgmff={'title'} fz={'1.75rem'} fw={'500'} lh={'1.25'}>
             {title?.label}
           </GourmetText>

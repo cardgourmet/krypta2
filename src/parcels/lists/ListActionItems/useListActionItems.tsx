@@ -1,146 +1,185 @@
 import { useDisclosure } from '@mantine/hooks';
 import { IconList, IconStar } from '@tabler/icons-react';
-import { type Ref, useMemo } from 'react';
+import { type Ref, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListAddMenuItem } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenuItem.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
+import { ListAddMenu } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenu.tsx';
 import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
-import { ListRemoveMenuItem } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenuItem.tsx';
+import { ListRemoveMenu } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenu.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
-import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import { CardAddNotification } from '@/parcels/notification/CardAddNotification.tsx';
+import { CardRemoveNotification } from '@/parcels/notification/CardRemoveNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type ListActionItemsProps = {
   tcg: Tcg;
   resourceId?: string;
   rawResourceId: string;
-  onSearchSaved?: (id: string) => void;
-  onRemoveFromList?: (listId: string) => void;
+  resource?: TcgDataCard;
+  onAddedToList?: (res: UserListResource) => void;
+  onRemovedFromList?: (listId: string, resourceId?: string) => void;
   type: 'card' | 'user_search';
   listContext?: UserListWithResources;
+  activeListContext?: string;
 } & { ref?: Ref<HTMLDivElement> };
 
 export function useListActionItems({
   tcg,
+  resource,
   resourceId,
   rawResourceId,
-  onSearchSaved,
-  onRemoveFromList,
+  onAddedToList,
+  onRemovedFromList,
   type,
   ref,
   listContext,
+  activeListContext,
 }: ListActionItemsProps) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
-  const { lists, refetchLists } = useUserLists();
-  const { systemLists, existsInLists } = useMemo(() => {
-    const systemLists = lists.filter((l) => l.list.systemListType !== undefined);
-    const existsInLists = lists
-      .filter((list) => {
-        return list.resources?.[type]?.find((res) => res.listResource.resourceId === resourceId);
-      })
-      .map((l) => l.list.id);
+  const { refetchLists } = useUserLists();
 
-    return { systemLists, existsInLists };
-  }, [lists, resourceId, type]);
+  const { activeLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
+  const { existsInLists } = useActiveListsResource(activeListContext ?? CONTEXT_LIST_MAIN, resourceId);
+  const existsInListsIds = useMemo(() => {
+    return existsInLists.map((l) => l.list.id);
+  }, [existsInLists]);
+
+  const systemLists = useMemo(() => {
+    if (listContext !== undefined) return [];
+    return activeLists.filter((l) => l.list.systemListType !== undefined);
+  }, [activeLists, listContext?.list.id, listContext]);
   const disclosure = useDisclosure(false);
 
   const modal = useMemo(() => {
     return <CreateListModal disclosure={disclosure} onSuccess={() => refetchLists()} />;
   }, [disclosure, refetchLists]);
 
+  const addToList = useCallback(
+    (res: UserListResource[]) => {
+      if (onAddedToList) onAddedToList(res[0]);
+
+      const list = activeLists.find((l) => l.list.id === res[0].listId);
+      if (list && type === 'card' && resource) {
+        sendNotification('success', <CardAddNotification tcg={tcg} list={list.list} card={resource} language={'en'} />);
+      }
+    },
+    [activeLists, onAddedToList, tcg, type, resource],
+  );
+  const removeFromList = useCallback(
+    (listId: string, resourceId?: string) => {
+      if (onRemovedFromList) onRemovedFromList(listId, resourceId);
+
+      const list = activeLists.find((l) => l.list.id === listId);
+      if (list && type === 'card' && resource) {
+        sendNotification(
+          'error',
+          <CardRemoveNotification tcg={tcg} list={list.list} card={resource} language={'en'} />,
+        );
+      }
+    },
+    [activeLists, onRemovedFromList, tcg, type, resource],
+  );
+
   const entries = useMemo(() => {
     return (
       <>
         {systemLists.map((list) => {
-          const inList = existsInLists.includes(list.list.id);
+          const inList = existsInListsIds.includes(list.list.id);
 
           return (
             <ListMenuItem
               key={list.list.id}
-              ressourceId={resourceId ?? rawResourceId}
+              resourceIds={[resourceId ?? rawResourceId]}
               raw={resourceId === undefined}
               listWithResources={list}
               action={inList ? 'remove' : 'add'}
-              type={type === 'card' ? 'card' : 'search'}
+              type={type}
               tcg={tcg}
               onSuccess={(res) => {
                 if (!res) return;
 
-                const action = existsInLists.includes(list.list.id) ? 'remove' : 'add';
+                const action = existsInListsIds.includes(list.list.id) ? 'remove' : 'add';
                 if (action === 'add') {
-                  if (onSearchSaved) onSearchSaved(res.resourceId);
+                  addToList(res);
                 } else if (action === 'remove') {
-                  if (onRemoveFromList) onRemoveFromList(list.list.id);
+                  removeFromList(list.list.id, resourceId);
                 }
               }}
               icon={<IconStar size={18} />}
-              buttonText={listContext !== undefined ? t('favoriteCopy') : t(`favorite${inList ? '-remove' : ''}`)}
+              buttonText={t(`favorite${inList ? 'Remove' : ''}`)}
             />
           );
         })}
 
-        <ListAddMenuItem
+        <ListAddMenu
           ref={ref}
-          ressourceId={resourceId ?? rawResourceId}
+          resourceId={resourceId ?? rawResourceId}
           raw={resourceId === undefined}
           disclosure={disclosure}
-          type={type === 'card' ? 'card' : 'search'}
+          type={type}
           tcg={tcg}
           buttonText={listContext !== undefined ? 'Copy to list ...' : t('addToList')}
           onSuccess={(res) => {
             if (res) {
-              if (onSearchSaved) onSearchSaved(res.resourceId);
+              addToList([res]);
             }
           }}
+          existsInLists={existsInLists}
         />
 
         {listContext !== undefined && (
           <ListMenuItem
             key={listContext.list.id}
-            ressourceId={resourceId ?? rawResourceId}
+            resourceIds={[resourceId ?? rawResourceId]}
             raw={resourceId === undefined}
             listWithResources={listContext}
             action={'remove'}
-            type={type === 'card' ? 'card' : 'search'}
+            type={type}
             tcg={tcg}
             onSuccess={(res) => {
               if (!res) return;
 
-              if (onRemoveFromList) onRemoveFromList(listContext.list.id);
+              removeFromList(listContext.list.id, resourceId);
             }}
             icon={<IconList size={18} />}
-            buttonText={'Remove from list'}
+            buttonText={t('removeFromList')}
           />
         )}
         {listContext === undefined && (
-          <ListRemoveMenuItem
+          <ListRemoveMenu
             ref={ref}
-            ressourceId={resourceId ?? rawResourceId}
+            resourceId={resourceId ?? rawResourceId}
             raw={resourceId === undefined}
-            type={type === 'card' ? 'card' : 'search'}
+            type={type}
             tcg={tcg}
             onSuccess={(res) => {
               if (res) {
-                if (onRemoveFromList) onRemoveFromList(res.listId);
+                removeFromList(res.listId, res.resourceId);
               }
             }}
+            existsInLists={existsInLists}
           />
         )}
       </>
     );
   }, [
     disclosure,
-    existsInLists.includes,
-    onRemoveFromList,
-    onSearchSaved,
+    existsInListsIds,
     rawResourceId,
     ref,
     resourceId,
-    systemLists.map,
+    systemLists,
     tcg,
     type,
     t,
     listContext,
+    existsInLists,
+    addToList,
+    removeFromList,
   ]);
 
   return {

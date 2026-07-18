@@ -4,7 +4,17 @@ import { Trans, useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './SelectionProgress.module.css';
 
-export function SelectionProgress({ sections, current, max }: { sections: number; current: number; max: number }) {
+export function SelectionProgress({
+  sections,
+  current,
+  max,
+  withoutText,
+}: {
+  sections: number;
+  current: number;
+  max: number;
+  withoutText?: boolean;
+}) {
   const { t } = useTranslation('selection');
 
   const ratio = max > 0 ? current / max : 0;
@@ -22,35 +32,37 @@ export function SelectionProgress({ sections, current, max }: { sections: number
 
   return (
     <>
-      <Group justify={'end'}>
-        <Group gap={'0.25rem'}>
-          <Group gap={'0.1rem'}>
-            <GourmetText cgmff={'ui'} fw={'500'} c={color}>
-              {current}
-            </GourmetText>
-            <GourmetText cgmff={'ui'}>/60</GourmetText>
+      {!withoutText && (
+        <Group justify={'end'}>
+          <Group gap={'0.25rem'}>
+            <Group gap={'0.1rem'}>
+              <GourmetText cgmff={'ui'} fw={'500'} c={color}>
+                {current}
+              </GourmetText>
+              <GourmetText cgmff={'ui'}>/60</GourmetText>
+            </Group>
+
+            <Popover width={300} position="bottom" withArrow shadow="md">
+              <Popover.Target>
+                <ActionIcon className={styles.selectionInfoButton}>
+                  <IconAlertSquareRounded size={20} />
+                </ActionIcon>
+              </Popover.Target>
+
+              <Popover.Dropdown>
+                <Stack>
+                  <GourmetText>
+                    <Trans t={t} i18nKey={'maximumCards'} />
+                  </GourmetText>
+                  <GourmetText>
+                    <Trans t={t} i18nKey={'maximumCards2'} components={{ u: <u /> }} />
+                  </GourmetText>
+                </Stack>
+              </Popover.Dropdown>
+            </Popover>
           </Group>
-
-          <Popover width={300} position="bottom" withArrow shadow="md">
-            <Popover.Target>
-              <ActionIcon className={styles.selectionInfoButton}>
-                <IconAlertSquareRounded size={20} />
-              </ActionIcon>
-            </Popover.Target>
-
-            <Popover.Dropdown>
-              <Stack>
-                <GourmetText>
-                  <Trans t={t} i18nKey={'maximumCards'} />
-                </GourmetText>
-                <GourmetText>
-                  <Trans t={t} i18nKey={'maximumCards2'} components={{ u: <u /> }} />
-                </GourmetText>
-              </Stack>
-            </Popover.Dropdown>
-          </Popover>
         </Group>
-      </Group>
+      )}
       <Group grow gap={'0.25rem'}>
         {Array.from(Array(sections).keys()).map((_, index) => {
           return <Progress key={index} color={color} size="xs" value={index <= toPaintIndex ? 100 : 0} />;

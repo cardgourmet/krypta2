@@ -1,18 +1,21 @@
+import { Avatar, Style } from '@dicebear/core';
+import definition from '@dicebear/styles/glyphs.json';
 import { Button, type ButtonProps, Divider, Group, Stack, Text } from '@mantine/core';
 import {
+  IconBook2,
   IconHistory,
   IconList,
   IconLogin,
   IconLogout,
-  IconQuestionMark,
   IconSettings,
   IconStar,
   IconX,
 } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { forwardRef, type ReactElement } from 'react';
+import { forwardRef, type ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileLanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
 import { MobileThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -26,6 +29,16 @@ export function MobileUserMenu({ close }: { close: () => void }) {
   const navigate = useNavigate();
 
   const { tcg } = useTcg();
+  const avatarFallback = useMemo(() => {
+    if (!user || user?.avatarUrl) return;
+
+    const style = new Style(definition);
+    const avatar = new Avatar(style, {
+      seed: user!.id,
+    });
+
+    return avatar.toString();
+  }, [user]);
 
   return (
     <>
@@ -60,18 +73,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
             <div className={styles.avatarIcon}>
               {user.avatarUrl && <img src={user.avatarUrl} alt={user.displayName} />}
               {!user.avatarUrl && (
-                <Group
-                  justify={'center'}
-                  align={'center'}
-                  style={{
-                    backgroundColor: 'var(--gourmet-neutral-3)',
-                    borderRadius: '50%',
-                    width: '100%',
-                    height: '100%',
-                  }}
-                >
-                  <IconQuestionMark color={'var(--gourmet-neutral-8)'} />
-                </Group>
+                <img src={`data:image/svg+xml,${encodeURIComponent(avatarFallback ?? '')}`} alt={user.displayName} />
               )}
             </div>
             <Stack gap={'0'} p={'0.25rem 0.75rem'}>
@@ -85,8 +87,8 @@ export function MobileUserMenu({ close }: { close: () => void }) {
           </Group>
           {user.state === 'unverified' && (
             <div>
-              <Text mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
-                {t('not-verified')
+              <GourmetText mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
+                {t('notVerified')
                   .split('\n')
                   .map((item, key) => (
                     <span key={key}>
@@ -94,7 +96,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
                       <br />
                     </span>
                   ))}
-              </Text>
+              </GourmetText>
             </div>
           )}
 
@@ -105,14 +107,27 @@ export function MobileUserMenu({ close }: { close: () => void }) {
               title={t('history')}
               icon={<IconHistory size={18} color={'var(--gourmet-neutral-8)'} />}
               onClick={() => close()}
+              color={'var(--gourmet-neutral-8)'}
             />
           </Link>
-          <Link to={'/me/lists/$listId'} params={{ listId: 'favorites' }}>
+          <Link to={'/me/saved-searches'} search={{ ...historyParamDefaults, tcg: tcg }}>
+            <ItemButton
+              title={t('savedSearches')}
+              icon={<IconBook2 size={18} color={'var(--gourmet-neutral-8)'} />}
+              onClick={() => close()}
+              color={'var(--gourmet-neutral-8)'}
+            />
+          </Link>
+
+          <Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
+
+          <Link to={`/@{$user}/lists/$listId`} params={{ user: user.username, listId: 'favorites' }}>
             <ItemButton
               title={t('favorites')}
               icon={<IconStar size={18} color={'var(--gourmet-neutral-8)'} />}
               disabled={user.state === 'unverified'}
               onClick={() => close()}
+              color={'var(--gourmet-neutral-8)'}
             />
           </Link>
           <Link
@@ -127,6 +142,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
               icon={<IconList size={18} color={'var(--gourmet-neutral-8)'} />}
               disabled={user.state === 'unverified'}
               onClick={() => close()}
+              color={'var(--gourmet-neutral-8)'}
             />
           </Link>
 
@@ -138,6 +154,7 @@ export function MobileUserMenu({ close }: { close: () => void }) {
               icon={<IconSettings size={18} color={'var(--gourmet-neutral-8)'} />}
               disabled={user.state === 'unverified'}
               onClick={() => close()}
+              color={'var(--gourmet-neutral-8)'}
             />
           </Link>
           <MobileThemeSelector />
@@ -168,9 +185,9 @@ export const ItemButton = forwardRef<
       leftSection={
         <Group>
           {props.icon}
-          <Text ff={'var(--cgm-content-font-family)'} c={props.color}>
+          <GourmetText ff={'var(--cgm-content-font-family)'} c={props.color}>
             {props.title}
-          </Text>
+          </GourmetText>
         </Group>
       }
       disabled={props.disabled}

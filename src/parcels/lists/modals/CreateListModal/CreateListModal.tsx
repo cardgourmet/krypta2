@@ -1,13 +1,14 @@
 import { UnstyledButton } from '@mantine/core';
 import { IconCards, IconExchange, IconPhoto, IconPlaylistAdd, IconShoppingBagHeart } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import { Modal } from '@/parcels/modals/Modal';
 import type { ExtendModalProps } from '@/parcels/modals/types';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { createList } from '../../api';
 import { ListPropertiesFormFields } from '../../forms/ListPropertiesForm/ListPropertiesFormFields';
 import type { ListPropertiesFormValues } from '../../forms/ListPropertiesForm/types';
@@ -38,9 +39,10 @@ const presets: { color: string; icon: ReactNode; name: string }[] = [
 ];
 
 export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
+  const { t } = useTranslation('lists', { keyPrefix: 'overview.create' });
+
   const auth = useAuth();
   const form = useListPropertiesForm();
-  const noti = useGourmetNotification();
 
   const handleSubmit = (values: ListPropertiesFormValues) => {
     if (!auth.user) return;
@@ -52,12 +54,11 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
 
     createList(auth.user.id, list).then(({ data, error }) => {
       if (error) {
-        console.error('Error creating list', error.error?.message);
-        noti.show('Unknown error', `${error.error?.message}`, 'error');
+        sendErrorNotification(error);
         return;
       }
 
-      noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
+      //noti.show('List Created', `\`${data?.name}\` has been created`, 'success');
 
       props.onResolve?.(data as UserList);
       props.onClose?.();
@@ -73,7 +74,7 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
               <IconPlaylistAdd />
             </FeaturedIcon>
 
-            <Modal.Title>Neue Liste erstellen</Modal.Title>
+            <Modal.Title>{t('title')}</Modal.Title>
 
             {/* <div style={{ textWrap: 'balance' }}>
               Nutze unsere praktischen Vorschläge oder konfiguriere eine Liste individuell nach deinen Wünschen.
@@ -117,9 +118,9 @@ export const CreateListModal = ({ innerProps, ...props }: ExtendModalProps) => {
               props.onClose?.();
             }}
           >
-            Abbrechen
+            {t('cancel')}
           </Modal.SecondaryButton>
-          <Modal.PrimaryButton type="submit">Liste erstellen</Modal.PrimaryButton>
+          <Modal.PrimaryButton type="submit">{t('create')}</Modal.PrimaryButton>
         </Modal.Footer>
       </form>
     </Modal>

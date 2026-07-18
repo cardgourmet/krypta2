@@ -1,26 +1,18 @@
-import { Divider, Group, Stack } from '@mantine/core';
+import { Group, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { DeleteListButton } from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
-import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditListButton/EditListButton.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Route } from '@/routes/me/lists';
 import styles from './ListElementHeader.module.css';
 
-export function ListElementHeader({
-  list,
-  onCreate,
-  onDelete,
-}: {
-  list: UserList;
-  onCreate?: (list: UserList) => void;
-  onDelete?: (id: string) => void;
-}) {
+export function ListElementHeader({ list }: { list: UserList }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.card' });
+  const { user } = useAuth();
 
   const search = Route.useSearch();
   const { tcg } = search;
@@ -45,12 +37,12 @@ export function ListElementHeader({
             {list.systemListType === 'favorites' && <IconStar size={22} color={'var(--gourmet-neutral-9'} />}
 
             <Link
-              to={'/me/lists/$listId'}
-              params={{ listId: list.slug }}
+              to={'/@{$user}/lists/$listId'}
+              params={{ user: user!.username, listId: list.slug }}
               search={{ tcg: listTcg }}
               className={styles.link}
               preload={false}
-              style={{ minWidth: '8rem', flexShrink: 1 }}
+              style={{ flexShrink: 1 }}
             >
               <GourmetText
                 cgmff={'ui'}
@@ -69,14 +61,9 @@ export function ListElementHeader({
               </GourmetText>
             </Link>
 
-            <VisibilityBadge visibility={list.visibility} />
+            <VisibilityBadge visibility={list.visibility} withoutText />
 
             <IconLabelFilled size={22} color={list.color ?? 'var(--gourmet-neutral-9'} style={{ flexShrink: 0 }} />
-          </Group>
-
-          <Group gap={'0.25rem'} wrap={'nowrap'}>
-            <EditListButton list={list} onSuccess={onCreate} />
-            <DeleteListButton list={list} onSuccess={onDelete} />
           </Group>
         </Group>
         {list.systemListType && <GourmetText cgmc={'neutral-6'}>{t(`system.${list.systemListType}Desc`)}</GourmetText>}
@@ -96,25 +83,33 @@ export function ListElementHeader({
           <GourmetText cgmc={'neutral-4'}>{t('noDescription')}</GourmetText>
         )}
       </Stack>
-
-      <Divider w={'100%'} color={'var(--gourmet-neutral-4)'} size={2} />
     </Stack>
   );
 }
 
-export function VisibilityBadge({ visibility }: { visibility: 'private' | 'public' | undefined }) {
+export function VisibilityBadge({
+  visibility,
+  withoutText,
+}: {
+  visibility: 'private' | 'public' | undefined;
+  withoutText?: boolean;
+}) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.card' });
 
   return (
-    <Group gap={'0.2rem'} className={styles.visibilityBadge} wrap={'nowrap'}>
-      {(visibility === 'private' || visibility === undefined) && (
-        <IconLock size={18} color={'var(--gourmet-neutral-7'} />
-      )}
-      {visibility === 'public' && <IconWorld size={18} color={'var(--gourmet-neutral-7'} />}
+    <Tooltip label={t(`visibility.${visibility}`)} openDelay={500}>
+      <Group gap={'0.2rem'} className={styles.visibilityBadge} wrap={'nowrap'}>
+        {(visibility === 'private' || visibility === undefined) && (
+          <IconLock size={18} color={'var(--gourmet-neutral-7'} />
+        )}
+        {visibility === 'public' && <IconWorld size={18} color={'var(--gourmet-neutral-7'} />}
 
-      <GourmetText fz={'0.9rem'} c={'var(--gourmet-neutral-7'}>
-        {visibility ? t(`visibility.${visibility}`) : t('visibility.private')}
-      </GourmetText>
-    </Group>
+        {!withoutText && (
+          <GourmetText fz={'0.9rem'} c={'var(--gourmet-neutral-7'}>
+            {visibility ? t(`visibility.${visibility}`) : t('visibility.private')}
+          </GourmetText>
+        )}
+      </Group>
+    </Tooltip>
   );
 }

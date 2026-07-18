@@ -45,8 +45,14 @@ export function useFilterValue(
   keyword: string,
   filter?: (v: SearchQueryExecutorFilterValue) => boolean,
   prefix?: string,
+  distinct?: boolean,
 ) {
   return useMemo(() => {
-    return getFilterValue(allValues, keyword, filter, prefix);
-  }, [allValues, filter, keyword, prefix]);
+    const values = getFilterValue(allValues, keyword, filter, prefix);
+    if (distinct ?? true) {
+      const map = new Map(values.map((obj) => [obj.value, obj]));
+      return [...map.values()];
+    }
+    return values;
+  }, [allValues, filter, keyword, prefix, distinct]);
 }

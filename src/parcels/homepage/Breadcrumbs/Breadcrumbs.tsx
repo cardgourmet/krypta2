@@ -1,8 +1,10 @@
 import { Group, Stack } from '@mantine/core';
 import { IconChefHat, IconSlash } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
+import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
+import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
@@ -13,6 +15,7 @@ export type BreadcrumbProps = {
 };
 
 export default function Breadcrumbs({ subpage, subpageHref, moreSubpages, withoutTitle }: BreadcrumbProps) {
+  const { t } = useTranslation('home');
   const tcg = useTcgByLocation();
   const subpages = [...(moreSubpages ?? [])];
   if (subpage.length > 0) {
@@ -20,6 +23,10 @@ export default function Breadcrumbs({ subpage, subpageHref, moreSubpages, withou
   }
 
   const currentPage = subpages.length === 1 ? subpages[0] : subpages[subpages.length - 1];
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isSubresource = location.href.split('/').length > 3;
 
   return (
     <Stack gap={'0'}>
@@ -32,11 +39,39 @@ export default function Breadcrumbs({ subpage, subpageHref, moreSubpages, withou
         {tcg && (
           <Group gap={'0'}>
             <IconSlash color="var(--gourmet-neutral-6)" size={18} style={{ margin: '0 0.25rem' }} />
-            <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
-              {tcg === 'dlc' && 'Disney Lorcana'}
-              {tcg === 'pcg' && 'Pokémon Card Game'}
-              {tcg === 'mtg' && 'Magic: The Gathering'}
-            </GourmetText>
+
+            {isSubresource && (
+              <GourmetText cgmff={'ui'} cgmc={'neutral-6'}>
+                {tcg === 'dlc' && 'Disney Lorcana'}
+                {tcg === 'pcg' && 'Pokémon Card Game'}
+                {tcg === 'mtg' && 'Magic: The Gathering'}
+              </GourmetText>
+            )}
+            {!isSubresource && (
+              <TextDropdown
+                items={{
+                  mtg: 'Magic: The Gathering',
+                  pcg: 'Pokémon Card Game',
+                  dlc: 'Disney Lorcana',
+                }}
+                t={t}
+                defaultSelected={tcg}
+                onSelect={(newTcg) => {
+                  // noinspection JSIgnoredPromiseFromCall
+                  navigate({
+                    to: '.',
+                    params: (previousParams) => ({
+                      ...previousParams,
+                      tcg: newTcg as Tcg,
+                    }),
+                    search: (previousSearch) => previousSearch,
+                  });
+                }}
+                miw={'14rem'}
+                color={'grey'}
+                trim
+              />
+            )}
           </Group>
         )}
         {subpages.slice(0, subpages.length - 1).map(({ label, href }) => {

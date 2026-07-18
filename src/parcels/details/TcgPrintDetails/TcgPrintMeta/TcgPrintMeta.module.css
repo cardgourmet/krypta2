@@ -1,0 +1,46 @@
+.relatedItem {
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.printSummary {
+  border-radius: 0.25rem;
+  padding: 0.75rem 0.75rem;
+  background-color: var(--gourmet-neutral-1);
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.selectRoot {
+  .selectWrapper[data-disabled="true"] {
+    svg {
+      color: var(--gourmet-neutral-4);
+    }
+  }
+
+  .selectInput {
+    background-color: var(--gourmet-neutral-1);
+    border: 1px solid var(--gourmet-neutral-3);
+
+    &:not([data-disabled="true"]) {
+      &:hover {
+        background-color: var(--gourmet-neutral-2);
+      }
+      &:focus-visible {
+        background-color: var(--gourmet-neutral-2);
+      }
+    }
+  }
+}
+
+.selectDropdown {
+  background-color: var(--gourmet-neutral-2);
+  border: 1px solid var(--gourmet-neutral-4);
+
+  .selectOption:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}

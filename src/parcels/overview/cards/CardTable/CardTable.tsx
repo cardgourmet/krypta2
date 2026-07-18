@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { TcgDataCard } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import {
   GourmetTable,
   type GourmetTableData,
@@ -14,7 +13,7 @@ import type { MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard } from '@/par
 import { useConstructMtgCardTableData } from '@/parcels/tcg/mtg/overview/useConstructMtgCardTableData.tsx';
 import type { PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
 import { useConstructPcgCardTableData } from '@/parcels/tcg/pcg/overview/useConstructPcgCardTableData.tsx';
-import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type CardTableProps = {

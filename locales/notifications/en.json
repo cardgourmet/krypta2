@@ -1,0 +1,43 @@
+{
+  "overview": {
+    "theQuery": "the query"
+  },
+  "details": {
+    "addToList": {
+      "title": "Added to {{name}}",
+      "weveAdded": "We've added {{name}} to the list.",
+      "goThere": "Go there now"
+    },
+    "removeFromList": {
+      "title": "Removed from {{name}}",
+      "weveRemoved": "We've removed {{name}} from the list.",
+      "goThere": "Go there anyway"
+    }
+  },
+  "selection": {
+    "addToList": {
+      "title": "Added {{count}} to {{name}}",
+      "weveAdded": "We've added {{count}} cards to the list.",
+      "goThere": "Go there now"
+    }
+  },
+  "lists": {
+    "deleted": {
+      "title": "Deleted {{name}}",
+      "weveDeleted": "We've deleted the list."
+    },
+    "created": {
+      "title": "Created {{name}}"
+    },
+    "updated": {
+      "title": "Updated {{name}}",
+      "weveUpdated": "List has been updated."
+    }
+  },
+  "report": {
+    "sent": {
+      "title": "Report Sent",
+      "description": "Thank you for the report! It might take time until we get to handle it."
+    }
+  }
+}

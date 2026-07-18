@@ -1,10 +1,18 @@
 {
+  "randomized": {
+    "info": "The search result has been randomized. Sorting and pagination is disabled.",
+    "repeat": "Repeat this search"
+  },
   "search": {
     "aliasFor": "alias for"
   },
   "breadcrumbs": {
     "database": "Card Database",
     "sets": "Sets"
+  },
+  "explanation": {
+    "of": "of",
+    "randomized": "randomized"
   },
   "table": {
     "cols": {
@@ -16,6 +24,12 @@
       "Rarity": "Rarity",
       "Artist": "Artist"
     }
+  },
+  "descriptions": {
+    "cards": "Reprints grouped together",
+    "prints": "Reprints count as separate results",
+    "faces": "Each card face count as a separate result",
+    "printfaces": "Reprints and their faces count as separate results"
   },
   "dlc": {
     "common": {

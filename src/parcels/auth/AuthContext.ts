@@ -9,17 +9,9 @@ export type AuthData = {
   token?: string;
   login: (data: Partial<UserSession> & { user?: DataAuthUser }) => void;
   logout: () => void;
-  wasVerified: boolean;
-  verify: () => void;
-  removeVerified: () => void;
-
-  emailWasChanged: boolean;
-  setEmailHasChanged: () => void;
-  removeEmailWasChanged: () => void;
-
   updateUser: (user: DataAuthUser) => void;
   loadIntegrations: () => void;
-  integrations: AuthApiUserIntegration[] | null;
+  integrations?: AuthApiUserIntegration[];
 };
 
 export function useAuth(): AuthData {

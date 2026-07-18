@@ -16,5 +16,25 @@
   },
   "searchBar": {
     "cuisine": "Suchküche"
-  }
+  },
+  "newHere": {
+    "title": "Neu hier?",
+    "cat": "Hi, ich bin <1>Gourmet</1> die Katze! ₍^. .^₎⟆",
+    "hook": "Unsere Suchmaschine ist sehr mächtig, kann aber auch überwältigend sein. Um den Einstieg zu erleichtern, hast du mehrere Möglichkeiten:",
+    "1": "Benutze die Suche einfach ohne Filter. Standardmäßig wird dann nach Kartennamen gesucht.",
+    "2": "Benutze den <1>TCG spezifischen Suchbuilder</1> und baue dir die Suche zusammen, ohne die Filter selber zu tippen.",
+    "3": "Benutze die einfachsten Filter zuerst. Sowas wie <1>name:</1> oder <3>text:</3> und taste dich dann an komplexere Filter ran. Für eine Liste aller Filter, klicke <5>hier</5>.",
+    "footer": "Bei Fragen oder sonstigen Anliegen, schreib uns gerne eine <1>Email</1> oder besuch unseren <3>Discord</3>."
+  },
+  "needHelp": {
+    "title": "Brauchst du Hilfe?"
+  },
+  "beta": {
+    "title": "Wir sind in Beta!",
+    "head": "Das heißt, dass viele Stellen noch Verbesserungspotenzial haben und dass einiges noch angepasst werden muss.",
+    "sub": "Wir freuen uns sehr über jede Art von Feedback! Falls dir etwas auffällt, das verbessert werden könnte oder das nicht wie erwartet funktioniert, melde dich bitte bei uns."
+  },
+  "mtg": "Magic: The Gathering",
+  "dlc": "Disney Lorcana",
+  "pcg": "Pokémon Card Game"
 }

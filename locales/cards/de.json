@@ -1,10 +1,24 @@
 {
+  "randomized": {
+    "info": "Das Suchergebnis wurde zufälligirisiert. Sortierung und Paginierung sind deaktiviert.",
+    "repeat": "Suche wiederholen"
+  },
   "search": {
     "aliasFor": "Alias für"
   },
   "breadcrumbs": {
     "database": "Kartendatenbank",
     "sets": "Sets"
+  },
+  "explanation": {
+    "of": "von",
+    "randomized": "zufällige"
+  },
+  "descriptions": {
+    "cards": "Reprints zusammengefasst",
+    "prints": "Reprints werden separat gezählt",
+    "faces": "Jede Kartenseite wird separat gezählt",
+    "printfaces": "Reprints und deren Kartenseiten werden separat gezählt"
   },
   "dlc": {
     "common": {

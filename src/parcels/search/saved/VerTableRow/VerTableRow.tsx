@@ -9,7 +9,7 @@ import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistory
 import type { TableEntryProps } from '@/parcels/search/saved/SavedSearchesOverview.tsx';
 import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 
-export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: TableEntryProps) {
+export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved, onSearchUnsaved }: TableEntryProps) {
   const { t } = useTranslation('history');
   const [menuOpened, setMenuOpened] = useState(false);
 
@@ -17,7 +17,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
     <>
       {tableData.columns.map((column) => (
         <tr key={`${column}`} data-cell={'not-last'}>
-          <th style={{ width: '5.25rem' }}>{column}</th>
+          <th style={{ width: '5.25rem' }}>{t(`table.cols.${column}`)}</th>
           <td data-selected={false}>{data[column]}</td>
         </tr>
       ))}
@@ -33,6 +33,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
               search={{
                 ...tcgSearchParamsDefaults,
                 query: entry.firstSearch.rawQuery,
+                manual: true,
               }}
               style={{ padding: 0 }}
             >
@@ -60,8 +61,11 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
                 }
                 menuOpened={menuOpened}
                 setMenuOpened={setMenuOpened}
-                onSearchSaved={(id) => {
-                  if (onSearchSaved) onSearchSaved(id);
+                onAddedToList={(res) => {
+                  if (onSearchSaved) onSearchSaved(res);
+                }}
+                onRemovedFromList={(resourceId) => {
+                  if (onSearchUnsaved) onSearchUnsaved(resourceId);
                 }}
               />
             </Tooltip>

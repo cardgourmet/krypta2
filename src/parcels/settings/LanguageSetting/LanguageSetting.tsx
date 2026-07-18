@@ -1,6 +1,6 @@
 import { ActionIcon, Combobox, Group, Loader, Stack, UnstyledButton, useCombobox } from '@mantine/core';
 import { IconCaretDownFilled, IconCheck, IconEdit, IconX } from '@tabler/icons-react';
-import { startTransition, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { updateUserSettings } from '@/parcels/auth/api.ts';
@@ -16,9 +16,20 @@ export function LanguageSetting({
 }) {
   const { t } = useTranslation('auth', { keyPrefix: 'settings' });
   const { user, updateUser } = useAuth();
+
+  const synced = user?.settings?.preferredLanguages?.syncLanguages ?? true;
+  const global = user?.settings?.preferredLanguages?.global;
   const current = user?.settings?.preferredLanguages?.[field];
 
   const [language, setLanguage] = useState<string>(current as string);
+  useEffect(() => {
+    if (synced) {
+      setLanguage(global as string);
+      return;
+    }
+
+    setLanguage(current as string);
+  }, [current, global, synced]);
 
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);

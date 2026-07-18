@@ -3,6 +3,7 @@ import { IconLabelFilled, IconStar } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { type ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetTable, type GourmetTableData } from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
@@ -28,6 +29,7 @@ export function ListsOverviewTable({
   const { i18n } = useTranslation();
   const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
   const { t: t2 } = useTranslation('lists');
+  const { user } = useAuth();
 
   const search = Route.useSearch();
   const { tcg } = search;
@@ -56,8 +58,8 @@ export function ListsOverviewTable({
                 {list.list.systemListType === 'favorites' && <IconStar size={18} color={'var(--gourmet-neutral-9'} />}
 
                 <Link
-                  to={'/me/lists/$listId'}
-                  params={{ listId: list.list.slug }}
+                  to={'/@{$user}/lists/$listId'}
+                  params={{ user: user!.username, listId: list.list.slug }}
                   search={{ tcg: listTcg }}
                   className={styles.link}
                   preload={false}
@@ -71,7 +73,7 @@ export function ListsOverviewTable({
                       textWrap: 'nowrap',
                     }}
                   >
-                    {list.list.systemListType && t2(`system.${list.list.name}`)}
+                    {list.list.systemListType && t2(`overview.card.system.${list.list.name}`)}
                     {!list.list.systemListType && <>{list.list.name}</>}
                   </GourmetText>
                 </Link>
@@ -102,7 +104,7 @@ export function ListsOverviewTable({
         };
       }),
     };
-  }, [userLists, i18n.language, t2, tcg]);
+  }, [userLists, i18n.language, t2, tcg, user]);
 
   return (
     <GourmetTable

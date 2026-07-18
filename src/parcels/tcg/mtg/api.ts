@@ -1,11 +1,12 @@
-import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.ts';
+import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
+import type { SearchQueryTrigger } from '@/parcels/overview/cards/types.ts';
 import type { MtgSearchQuerySettings, MtgSortBy, MtgUniqueBy } from '@/parcels/tcg/mtg/types.ts';
 import type {
-  SearchQueryExecutorFilter,
   SearchQueryExecutorFilterValues,
   TcgCardQuery,
   TcgFilterOperator,
   TcgStatistics,
+  TransSearchQueryExecutorFilter,
 } from '@/parcels/tcg/types.ts';
 import type { components as c } from '@/schema/api';
 import umoriClient from '@/schema/umoriClient.ts';
@@ -13,25 +14,30 @@ import umoriClient from '@/schema/umoriClient.ts';
 export type MtgSearchCardsResult =
   c['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
 export type MtgSearchCards = c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
+export type MtgSearchCardsUser = c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
 
 export type MtgSearchDataCard = c['schemas']['CardSearchResult-MtgDataCard'];
-export type MtgSearchFilter = c['schemas']['SearchQueryExecutorSearchQueryFilter'];
+export type MtgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type MtgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type MtgDataCard = c['schemas']['MtgDataCard'];
+export type MtgDataCardUser = c['schemas']['FindCardResponse-MtgDataCard'];
 export type MtgDataPrintFace = c['schemas']['MtgDataPrintFace'];
 export type MtgDataPrint = c['schemas']['MtgDataPrint'];
-export type MtgDataPrintReference = c['schemas']['MtgDataPrintReference'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
 export type MtgDataSets = c['schemas']['Page-MtgDataSet'];
 export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
 export type MtgStatistics = TcgStatistics & { lastSet?: MtgDataSet };
+export type MtgSetSearchResult = c['schemas']['TcgSetSearchResult-MtgDataSet'];
 
 export type MtgCardQuery = TcgCardQuery & {
   sortBy?: MtgSortBy;
 };
 
 // /v1/mtg/sets/search
-export async function searchMtgSets(query: string, abort?: AbortController): Promise<GourmetApiResponse<MtgDataSet[]>> {
+export async function searchMtgSets(
+  query: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<MtgSetSearchResult>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/sets/search`, {
       params: {
@@ -51,6 +57,7 @@ export async function fetchMtgSetSummary(
   mode?: MtgUniqueBy,
   sortBy?: MtgSortBy,
   sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<MtgDataSetSummary>> {
   return handleApiCall(async () => {
@@ -61,6 +68,7 @@ export async function fetchMtgSetSummary(
           mode: `unique:${mode}`,
           sortBy: sortBy,
           sortDirection: sortDirection,
+          trigger: trigger,
         },
         path: {
           setId: setId,
@@ -99,9 +107,9 @@ export async function fetchMtgPrint(
   setCode: string,
   collectorNumber: string,
   abort?: AbortController,
-): Promise<{ data?: MtgDataCard; error?: Error }> {
-  try {
-    const res = await umoriClient.GET(`/v1/mtg/prints/{setCode}/{collectorNumber}`, {
+): Promise<GourmetApiResponse<MtgDataCard>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/prints/{setCode}/{collectorNumber}`, {
       params: {
         path: {
           setCode: setCode,
@@ -110,24 +118,26 @@ export async function fetchMtgPrint(
       },
       signal: abort?.signal,
     });
+  });
+}
 
-    if (!res.response.ok) {
-      return { error: new Error(res.response.statusText) };
-    }
-    if (!res.data) {
-      return { error: new Error('Received invalid data') };
-    }
-    return { data: res.data.data };
-  } catch (error) {
-    if (!(error instanceof Error)) throw error;
-
-    if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
-    } else {
-      console.log(`Error: ${error}`);
-    }
-    return { error: error };
-  }
+// /v1/mtg/prints/{setCode}/{collectorNumber}
+export async function fetchMtgPrintUser(
+  setCode: string,
+  collectorNumber: string,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<MtgDataCardUser>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/prints/user/{setCode}/{collectorNumber}`, {
+      params: {
+        path: {
+          setCode: setCode,
+          collectorNumber: collectorNumber,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
 }
 
 // /v1/mtg/cards/search
@@ -142,6 +152,7 @@ export async function fetchMtgCards(
     pageSize: pageSize ?? 60,
     sortBy: settings.sortBy,
     mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
   };
   if (settings.sortDirection !== 'auto') {
     query.sortDirection = settings.sortDirection;
@@ -157,10 +168,94 @@ export async function fetchMtgCards(
   });
 }
 
+// /v1/mtg/cards/user-search
+export async function fetchMtgCardsUser(
+  settings: MtgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<MtgSearchCardsUser>> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/user-search`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/mtg/cards/random
+export async function fetchRandomMtgCards(
+  settings: MtgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<MtgSearchCards>> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// /v1/mtg/cards/random
+export async function fetchRandomMtgCardsUser(
+  settings: MtgSearchQuerySettings,
+  abort?: AbortController,
+  pageSize?: number,
+): Promise<GourmetApiResponse<MtgSearchCardsUser>> {
+  const query: MtgCardQuery = {
+    query: settings.query,
+    page: settings.page,
+    pageSize: pageSize ?? 60,
+    sortBy: settings.sortBy,
+    mode: `unique:${settings.uniqueBy}`,
+    trigger: settings.trigger,
+  };
+  if (settings.sortDirection !== 'auto') {
+    query.sortDirection = settings.sortDirection;
+  }
+
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/cards/user-random`, {
+      params: {
+        query: query,
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
 // /v1/mtg/cards/search/filters
 export async function fetchMtgFilters(
   abort?: AbortController,
-): Promise<GourmetApiResponse<SearchQueryExecutorFilter[]>> {
+): Promise<GourmetApiResponse<TransSearchQueryExecutorFilter[]>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/cards/search/filters`, {
       signal: abort?.signal,

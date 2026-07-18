@@ -1,5 +1,5 @@
 import { type Dispatch, type SetStateAction, useCallback } from 'react';
-import type { TcgOverviewWorkData } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
+import type { TcgOverviewWorkData } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
 import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 
 export const useAddSelection = ({

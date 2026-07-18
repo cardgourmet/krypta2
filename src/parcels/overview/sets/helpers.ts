@@ -1,9 +1,8 @@
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { groupBy } from '@/parcels/groupBy.ts';
 import type { DlcDataSet } from '@/parcels/tcg/dlc/api.ts';
 import type { MtgDataSet } from '@/parcels/tcg/mtg/api.ts';
 import type { PcgDataEra, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
-import type { SortDirection } from '@/parcels/tcg/types.ts';
+import type { SortDirection, TcgDataSet } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function groupByEra(tcg: Tcg, sets: TcgDataSet[], order: SortDirection, erasById: Record<string, PcgDataEra>) {

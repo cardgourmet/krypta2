@@ -1,12 +1,34 @@
 {
+  "randomize": "Randomize",
   "aliasFor": "alias for",
-  "cuisine": "Search Kitchen",
+  "kitchen": "Search Kitchen",
   "navigate": "Navigate",
   "start": "Start search",
   "close": "Close",
   "help": "Help",
-  "start-typing": "Start typing to get suggestions for filters and values.",
-  "recent": "Recent",
-  "to-history": "To Full History",
-  "search-placeholder": "Search for cards.."
+  "startTyping": "Start typing to get suggestions for filters and values.",
+  "saved": {
+    "recent": "Saved",
+    "toHistory": "To All Saved Searches"
+  },
+  "history": {
+    "recent": "Recent",
+    "toHistory": "To Full History"
+  },
+  "searchPlaceholder": "Search for cards..",
+  "glossary": {
+    "title": "Filter Glossary",
+    "clickForDetails": "Click on a filter to get more details",
+    "explanation": "See which filters you can use in our search",
+    "goBack": "Go back",
+    "noFilters": "No filters found.",
+    "strict": "STRICT",
+    "inverted": "INVERTED",
+    "keywordsTitle": "Keywords to use this filter",
+    "descriptionTitle": "Description",
+    "operatorTitle": "Allowed operators",
+    "mtg": "Magic: The Gathering",
+    "dlc": "Disney Lorcana",
+    "pcg": "Pokémon Card Game"
+  }
 }

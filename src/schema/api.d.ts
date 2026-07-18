@@ -1185,6 +1185,8 @@ export interface paths {
           retries?: string;
           /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
           validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -1299,6 +1301,8 @@ export interface paths {
           flags?: string;
           /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
           retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -1354,7 +1358,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+            'application/json': components['schemas']['DataApiResponse-List-TranslatedSearchQueryFilter'];
           };
         };
       };
@@ -1683,6 +1687,261 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/mtg/cards/search/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the saved search. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Repeat MTG Saved Search
+     * @description Searches for Magic: The Gathering cards with given saved search.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description Whether to retry the search if it fails. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the saved search. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/user-search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search MTG Cards
+     * @description Searches for Magic: The Gathering cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The mode to sort by. */
+          sortBy?:
+            | 'cmc'
+            | 'power'
+            | 'toughness'
+            | 'defense'
+            | 'loyalty'
+            | 'set'
+            | 'name'
+            | 'usd'
+            | 'tix'
+            | 'eur'
+            | 'rarity'
+            | 'color'
+            | 'released'
+            | 'edhrec';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/cards/user-random': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Random MTG Cards
+     * @description Returns a random selection of Magic: The Gathering cards based on the query provided.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `1`. */
+          pageSize?: number;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/mtg/prints/user/{setCode}/{collectorNumber}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The set code of the print. */
+        setCode: string;
+        /** @description The collector number of the print. */
+        collectorNumber: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find MTG Card by Set and Number
+     * @description Finds a Magic: The Gathering card by the print associated to the given set code and collector number.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The set code of the print. */
+          setCode: string;
+          /** @description The collector number of the print. */
+          collectorNumber: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-FindCardResponse-MtgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/mtg/sets': {
     parameters: {
       query?: never;
@@ -1930,6 +2189,8 @@ export interface paths {
           sortDirection?: 'asc' | 'desc';
           /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
           lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path: {
@@ -1988,7 +2249,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-MtgDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-MtgDataSet'];
           };
         };
       };
@@ -2191,6 +2452,8 @@ export interface paths {
           retries?: string;
           /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
           validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -2305,6 +2568,8 @@ export interface paths {
           flags?: string;
           /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
           retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -2360,7 +2625,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+            'application/json': components['schemas']['DataApiResponse-List-TranslatedSearchQueryFilter'];
           };
         };
       };
@@ -2689,6 +2954,247 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/dlc/cards/search/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the saved search. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Repeat DLC Saved Search
+     * @description Searches for Disney Lorcana cards with given saved search.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description Whether to retry the search if it fails. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the saved search. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/user-search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search DLC Cards
+     * @description Searches for Disney Lorcana cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'set' | 'ink' | 'strength' | 'willpower' | 'movement' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/cards/user-random': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Random DLC Cards
+     * @description Returns a random selection of Disney Lorcana cards based on the query provided.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `1`. */
+          pageSize?: number;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/dlc/prints/user/{setCode}/{collectorNumber}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The set code of the print. */
+        setCode: string;
+        /** @description The collector number of the print. */
+        collectorNumber: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find DLC Card by Set and Number
+     * @description Finds a Disney Lorcana card by the print associated to the given set code and collector number.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The set code of the print. */
+          setCode: string;
+          /** @description The collector number of the print. */
+          collectorNumber: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-FindCardResponse-DlcDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/dlc/sets': {
     parameters: {
       query?: never;
@@ -2862,6 +3368,8 @@ export interface paths {
           sortDirection?: 'asc' | 'desc';
           /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
           lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path: {
@@ -2920,7 +3428,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-DlcDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-DlcDataSet'];
           };
         };
       };
@@ -2975,6 +3483,8 @@ export interface paths {
           retries?: string;
           /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
           validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -3089,6 +3599,8 @@ export interface paths {
           flags?: string;
           /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
           retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path?: never;
@@ -3144,7 +3656,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-SearchQueryExecutorSearchQueryFilter'];
+            'application/json': components['schemas']['DataApiResponse-List-TranslatedSearchQueryFilter'];
           };
         };
       };
@@ -3473,6 +3985,247 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/pcg/cards/search/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id of the saved search. */
+        id: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Repeat PCG Saved Search
+     * @description Searches for Pokémon Card Game cards with given saved search.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description Whether to retry the search if it fails. Defaults to `false`. */
+          retries?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The id of the saved search. */
+          id: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/user-search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Search PCG Cards
+     * @description Searches for Pokémon Card Game cards.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `60`. */
+          pageSize?: number;
+          /** @description The page to return. Defaults to `1`. */
+          page?: number;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'rarity' | 'set' | 'type' | 'health' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/cards/user-random': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Random PCG Cards
+     * @description Returns a random selection of Pokémon Card Game cards based on the query provided.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The amount of items to return per page. Defaults to `1`. */
+          pageSize?: number;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description Whether to retry the search query with less restrictive queries if no results are found. Defaults to `false`. */
+          retries?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/prints/user/{setCode}/{collectorNumber}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The set code of the print. */
+        setCode: string;
+        /** @description The collector number of the print. */
+        collectorNumber: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Find PCG Card by Set and Number
+     * @description Finds a Pokémon Card Game card by the print associated to the given set code and collector number.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The language to display related card and print names in. */
+          lang?: string;
+        };
+        header?: never;
+        path: {
+          /** @description The set code of the print. */
+          setCode: string;
+          /** @description The collector number of the print. */
+          collectorNumber: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-FindCardResponse-PcgDataCard'];
+          };
+        };
+        /** @description Not Found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/pcg/sets': {
     parameters: {
       query?: never;
@@ -3657,6 +4410,8 @@ export interface paths {
           sortDirection?: 'asc' | 'desc';
           /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
           lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
         };
         header?: never;
         path: {
@@ -3715,7 +4470,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-List-PcgDataSet'];
+            'application/json': components['schemas']['DataApiResponse-TcgSetSearchResult-PcgDataSet'];
           };
         };
       };
@@ -3979,168 +4734,6 @@ export interface paths {
           };
           content: {
             'application/json': components['schemas']['DataApiResponse-TcgStatistics'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/v1/mtg/cards/search/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The id of the saved search. */
-        id: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * Search MTG By Statistics
-     * @description Search MTG cards by the statistics of a saved search.
-     */
-    get: {
-      parameters: {
-        query?: {
-          /** @description The language to display the explanation in. Defaults to the user's language. */
-          displayLanguage?: 'en' | 'de';
-          /** @description The page to return. Defaults to `1`. */
-          page?: number;
-          /** @description The amount of items to return per page. Defaults to `60`. */
-          pageSize?: number;
-          /** @description Whether to retry the search if it fails. Defaults to `false`. */
-          retries?: string;
-        };
-        header?: never;
-        path: {
-          /** @description The id of the saved search. */
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-ExplainSearchQueryResponse'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/v1/pcg/cards/search/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The id of the saved search. */
-        id: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * Search PCG By Statistics
-     * @description Search PCG cards by the statistics of a saved search.
-     */
-    get: {
-      parameters: {
-        query?: {
-          /** @description The language to display the explanation in. Defaults to the user's language. */
-          displayLanguage?: 'en' | 'de';
-          /** @description The page to return. Defaults to `1`. */
-          page?: number;
-          /** @description The amount of items to return per page. Defaults to `60`. */
-          pageSize?: number;
-          /** @description Whether to retry the search if it fails. Defaults to `false`. */
-          retries?: string;
-        };
-        header?: never;
-        path: {
-          /** @description The id of the saved search. */
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-ExplainSearchQueryResponse'];
-          };
-        };
-      };
-    };
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/v1/dlc/cards/search/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The id of the saved search. */
-        id: string;
-      };
-      cookie?: never;
-    };
-    /**
-     * Search DLC By Statistics
-     * @description Search DLC cards by the statistics of a saved search.
-     */
-    get: {
-      parameters: {
-        query?: {
-          /** @description The language to display the explanation in. Defaults to the user's language. */
-          displayLanguage?: 'en' | 'de';
-          /** @description The page to return. Defaults to `1`. */
-          page?: number;
-          /** @description The amount of items to return per page. Defaults to `60`. */
-          pageSize?: number;
-          /** @description Whether to retry the search if it fails. Defaults to `false`. */
-          retries?: string;
-        };
-        header?: never;
-        path: {
-          /** @description The id of the saved search. */
-          id: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-ExplainSearchQueryResponse'];
           };
         };
       };
@@ -4516,7 +5109,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['SimpleApiResponse'];
+            'application/json': components['schemas']['DataApiResponse-Map-String-UserList'];
           };
         };
       };
@@ -6306,6 +6899,126 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/{userId}/direports': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        userId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get data issue reports
+     * @description Get reports on data issues created by logged in user.
+     */
+    get: {
+      parameters: {
+        query?: {
+          tcg?: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          type?: 'card' | 'print' | 'set' | 'search';
+          subjectId?: string;
+        };
+        header?: never;
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ReducedDataIssueReport'];
+          };
+        };
+      };
+    };
+    put?: never;
+    /**
+     * Report a data issue
+     * @description Reports that some data (card, set) has an issue.
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CreateReportRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-CreateReportResponse'];
+          };
+        };
+      };
+    };
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/direports': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get data issue reports
+     * @description Get public available reports on data issues created for a resource
+     */
+    get: {
+      parameters: {
+        query: {
+          tcg: 'mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab';
+          type: 'card' | 'print' | 'set' | 'search';
+          subjectId: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-SimplePage-PublicDataIssueReport'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -6413,12 +7126,15 @@ export interface components {
       name: string;
       /** Format: date-time */
       updatedAt: string;
+      /** Format: int32 */
+      weight: number;
     };
     PreferredLanguageSettings: {
       dlc?: components['schemas']['DlcLanguage'];
       global?: components['schemas']['UserLanguage'];
       mtg?: components['schemas']['MtgLanguage'];
       pcg?: components['schemas']['PcgLanguage'];
+      syncLanguages?: boolean;
       ygo?: components['schemas']['YgoLanguage'];
     };
     PrivacySettings: {
@@ -6426,9 +7142,13 @@ export interface components {
       collectionVisibility?: components['schemas']['Visibility'];
       profileVisibility?: components['schemas']['Visibility'];
     };
+    SearchSettings: {
+      forwardToDetailPage?: boolean;
+    };
     UserSettings: {
       preferredLanguages?: components['schemas']['PreferredLanguageSettings'];
       privacy?: components['schemas']['PrivacySettings'];
+      search?: components['schemas']['SearchSettings'];
     };
     DataAuthUser: {
       admin: boolean;
@@ -6442,6 +7162,7 @@ export interface components {
       isPasswordEmpty: boolean;
       /** Format: date-time */
       lastActivityAt: string;
+      limits: components['schemas']['JsonObject'];
       roles: components['schemas']['UserRole'][];
       settings: components['schemas']['UserSettings'];
       state?: components['schemas']['UserState'];
@@ -7037,8 +7758,18 @@ export interface components {
       providesValues: boolean;
       strictValues: boolean;
     };
-    'DataApiResponse-List-SearchQueryExecutorSearchQueryFilter': {
-      data: components['schemas']['SearchQueryExecutorSearchQueryFilter'][];
+    TranslatedSearchQueryFilterTranslation: {
+      description: string;
+      title: string;
+    };
+    TranslatedSearchQueryFilter: {
+      filter: components['schemas']['SearchQueryExecutorSearchQueryFilter'];
+      translations: {
+        [key: string]: components['schemas']['TranslatedSearchQueryFilterTranslation'];
+      };
+    };
+    'DataApiResponse-List-TranslatedSearchQueryFilter': {
+      data: components['schemas']['TranslatedSearchQueryFilter'][];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7077,6 +7808,111 @@ export interface components {
     };
     'DataApiResponse-MtgDataCard': {
       data: components['schemas']['MtgDataCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    /** @enum {string} */
+    ListResourceType:
+      | 'card'
+      | 'deck'
+      | 'cube'
+      | 'USER_CARD'
+      | 'USER_DECK'
+      | 'USER_CUBE'
+      | 'USER_BINDER'
+      | 'user_search';
+    /** @enum {string} */
+    AuthType: 'internal' | 'anonymous' | 'user' | 'token';
+    /** @enum {string} */
+    SearchQueryTrigger: 'search' | 'system' | 'unknown';
+    UserListResource: {
+      /** Format: date-time */
+      createdAt: string;
+      game?: components['schemas']['GameType'] | null;
+      /** Format: uuid */
+      listId: string;
+      /** Format: uuid */
+      resourceId: string;
+      resourceMeta?: components['schemas']['JsonObject'] | null;
+      resourceType: components['schemas']['ListResourceType'];
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    SearchQueryStatistics: {
+      /** Format: int32 */
+      attempt: number;
+      authIdentifier?: string | null;
+      authType: components['schemas']['AuthType'];
+      cached: boolean;
+      /** Format: date-time */
+      createdAt: string;
+      distinctMode: string;
+      /** Format: int64 */
+      executionTime: number;
+      flags: string[];
+      /** Format: uuid */
+      id: string;
+      language: string;
+      origin?: string | null;
+      /** Format: uuid */
+      queryId: string;
+      rawQuery: string;
+      /** Format: int32 */
+      results: number;
+      searchMode: string;
+      sortDirection: components['schemas']['Order'];
+      sortMode: string;
+      strippedQuery: string;
+      trigger?: components['schemas']['SearchQueryTrigger'] | null;
+      userAgent?: string | null;
+    };
+    UserSavedSearch: {
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      /** Format: uuid */
+      queryId: string;
+      /** Format: date-time */
+      savedAt: string;
+      /** Format: uuid */
+      userId: string;
+    };
+    ResolvedUserSavedSearch: {
+      firstSearch: components['schemas']['SearchQueryStatistics'];
+      lastSearch?: components['schemas']['SearchQueryStatistics'] | null;
+      lastTotalCount?: number | null;
+      listResources?: components['schemas']['UserListResource'][] | null;
+      savedSearch: components['schemas']['UserSavedSearch'];
+    };
+    UserSearchCardsResponse: {
+      explain?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      listResources?: components['schemas']['UserListResource'][] | null;
+      savedSearch?: components['schemas']['ResolvedUserSavedSearch'] | null;
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse': {
+      data: components['schemas']['DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-MtgDataCard-UserSearchCardsResponse': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['UserSearchCardsResponse'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-MtgDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'FindCardResponse-MtgDataCard': {
+      card: components['schemas']['MtgDataCard'];
+      listResources?: components['schemas']['UserListResource'][] | null;
+    };
+    'DataApiResponse-FindCardResponse-MtgDataCard': {
+      data: components['schemas']['FindCardResponse-MtgDataCard'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7165,8 +8001,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-MtgDataSet': {
-      data: components['schemas']['MtgDataSet'][];
+    'TcgSetSearchResult-MtgDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['MtgDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-MtgDataSet': {
+      data: components['schemas']['TcgSetSearchResult-MtgDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7320,6 +8160,31 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
+    'DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse': {
+      data: components['schemas']['DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-DlcDataCard-UserSearchCardsResponse': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['UserSearchCardsResponse'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-DlcDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'FindCardResponse-DlcDataCard': {
+      card: components['schemas']['DlcDataCard'];
+      listResources?: components['schemas']['UserListResource'][] | null;
+    };
+    'DataApiResponse-FindCardResponse-DlcDataCard': {
+      data: components['schemas']['FindCardResponse-DlcDataCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
     DlcDataSetTranslation: {
       /** Format: uuid */
       id: string;
@@ -7374,8 +8239,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-DlcDataSet': {
-      data: components['schemas']['DlcDataSet'][];
+    'TcgSetSearchResult-DlcDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['DlcDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-DlcDataSet': {
+      data: components['schemas']['TcgSetSearchResult-DlcDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7683,6 +8552,31 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
+    'DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse': {
+      data: components['schemas']['DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-PcgDataCard-UserSearchCardsResponse': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['UserSearchCardsResponse'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-PcgDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
+    'FindCardResponse-PcgDataCard': {
+      card: components['schemas']['PcgDataCard'];
+      listResources?: components['schemas']['UserListResource'][] | null;
+    };
+    'DataApiResponse-FindCardResponse-PcgDataCard': {
+      data: components['schemas']['FindCardResponse-PcgDataCard'];
+      /** Format: int32 */
+      statusCode: number;
+    };
     /** @enum {string} */
     PcgSetType:
       | 'main_expansion'
@@ -7757,8 +8651,12 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-List-PcgDataSet': {
-      data: components['schemas']['PcgDataSet'][];
+    'TcgSetSearchResult-PcgDataSet': {
+      parsedQuery?: components['schemas']['ExplainSearchQueryResponse'] | null;
+      sets: components['schemas']['PcgDataSet'][];
+    };
+    'DataApiResponse-TcgSetSearchResult-PcgDataSet': {
+      data: components['schemas']['TcgSetSearchResult-PcgDataSet'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -7828,48 +8726,9 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    /** @enum {string} */
-    AuthType: 'internal' | 'anonymous' | 'user' | 'token';
-    UserSavedSearch: {
-      game: components['schemas']['GameType'];
-      /** Format: uuid */
-      id: string;
-      /** Format: uuid */
-      queryId: string;
-      /** Format: date-time */
-      savedAt: string;
-      /** Format: uuid */
-      userId: string;
-    };
-    SearchQueryStatistics: {
-      /** Format: int32 */
-      attempt: number;
-      authIdentifier?: string | null;
-      authType: components['schemas']['AuthType'];
-      cached: boolean;
-      /** Format: date-time */
-      createdAt: string;
-      distinctMode: string;
-      /** Format: int64 */
-      executionTime: number;
-      flags: string[];
-      /** Format: uuid */
-      id: string;
-      language: string;
-      origin?: string | null;
-      /** Format: uuid */
-      queryId: string;
-      rawQuery: string;
-      /** Format: int32 */
-      results: number;
-      searchMode: string;
-      sortDirection: components['schemas']['Order'];
-      sortMode: string;
-      strippedQuery: string;
-      userAgent?: string | null;
-    };
     UserSearchHistoryEntry: {
       clusterSize?: number | null;
+      listResources?: components['schemas']['UserListResource'][] | null;
       savedSearch?: components['schemas']['UserSavedSearch'] | null;
       search: components['schemas']['SearchQueryStatistics'];
       totalCount?: number | null;
@@ -7888,12 +8747,6 @@ export interface components {
       data: components['schemas']['SimplePage-UserSearchHistoryEntry'];
       /** Format: int32 */
       statusCode: number;
-    };
-    ResolvedUserSavedSearch: {
-      firstSearch: components['schemas']['SearchQueryStatistics'];
-      lastSearch?: components['schemas']['SearchQueryStatistics'] | null;
-      lastTotalCount?: number | null;
-      savedSearch: components['schemas']['UserSavedSearch'];
     };
     'SimplePage-ResolvedUserSavedSearch': {
       /** Format: int32 */
@@ -7930,16 +8783,6 @@ export interface components {
     UserSystemListType: 'favorites';
     /** @enum {string} */
     UserListVisibility: 'private' | 'public';
-    /** @enum {string} */
-    ListResourceType:
-      | 'card'
-      | 'deck'
-      | 'cube'
-      | 'USER_CARD'
-      | 'USER_DECK'
-      | 'USER_CUBE'
-      | 'USER_BINDER'
-      | 'user_search';
     UserList: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
       color?: string | null;
@@ -7957,23 +8800,9 @@ export interface components {
       userId: string;
       visibility?: components['schemas']['UserListVisibility'];
     };
-    UserListResource: {
-      /** Format: date-time */
-      createdAt: string;
-      game?: components['schemas']['GameType'] | null;
-      /** Format: uuid */
-      listId: string;
-      /** Format: uuid */
-      resourceId: string;
-      resourceMeta?: components['schemas']['JsonObject'] | null;
-      resourceType: components['schemas']['ListResourceType'];
-      /** Format: date-time */
-      updatedAt: string;
-      /** Format: uuid */
-      userId: string;
-    };
     ResolvedUserListResource: {
       listResource: components['schemas']['UserListResource'];
+      otherListResources?: components['schemas']['UserListResource'][] | null;
       resourceData: components['schemas']['JsonObject'];
     };
     UserListWithResources: {
@@ -7998,33 +8827,10 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    CreateUserListRequest: {
-      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
-      color?: string | null;
-      description?: string | null;
-      name: string;
-      visibility?: components['schemas']['UserListVisibility'] | null;
-    };
     'DataApiResponse-UserList': {
       data: components['schemas']['UserList'];
       /** Format: int32 */
       statusCode: number;
-    };
-    UserListUpdate: {
-      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
-      color?: string | null;
-      description?: string | null;
-      /** Format: uuid */
-      id: string;
-      name?: string | null;
-      resetAllowedTcg?: boolean | null;
-      visibility?: components['schemas']['UserListVisibility'] | null;
-    };
-    UpdateUserListsRequest: {
-      listUpdates: components['schemas']['UserListUpdate'][];
-    };
-    DeleteUserListsRequest: {
-      listIds: string[];
     };
     'SimplePage-ResolvedUserListResource': {
       /** Format: int32 */
@@ -8040,6 +8846,43 @@ export interface components {
       data: components['schemas']['SimplePage-ResolvedUserListResource'];
       /** Format: int32 */
       statusCode: number;
+    };
+    'DataApiResponse-Map-String-List-ResolvedUserListResource': {
+      data: {
+        [key: string]: components['schemas']['ResolvedUserListResource'][];
+      };
+      /** Format: int32 */
+      statusCode: number;
+    };
+    CreateUserListRequest: {
+      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
+      color?: string | null;
+      description?: string | null;
+      name: string;
+      visibility?: components['schemas']['UserListVisibility'] | null;
+    };
+    UserListUpdate: {
+      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
+      color?: string | null;
+      description?: string | null;
+      /** Format: uuid */
+      id: string;
+      name?: string | null;
+      resetAllowedTcg?: boolean | null;
+      visibility?: components['schemas']['UserListVisibility'] | null;
+    };
+    UpdateUserListsRequest: {
+      listUpdates: components['schemas']['UserListUpdate'][];
+    };
+    'DataApiResponse-Map-String-UserList': {
+      data: {
+        [key: string]: components['schemas']['UserList'];
+      };
+      /** Format: int32 */
+      statusCode: number;
+    };
+    DeleteUserListsRequest: {
+      listIds: string[];
     };
     UserListResourcesRequestResource: {
       /** Format: uuid */
@@ -8057,13 +8900,6 @@ export interface components {
     };
     RemoveListResourcesRequest: {
       resourceIds: string[];
-    };
-    'DataApiResponse-Map-String-List-ResolvedUserListResource': {
-      data: {
-        [key: string]: components['schemas']['ResolvedUserListResource'][];
-      };
-      /** Format: int32 */
-      statusCode: number;
     };
     DuplicateUserListRequest: {
       newName: string;
@@ -8505,6 +9341,88 @@ export interface components {
       versionMajor: number;
       /** Format: int32 */
       versionMinor: number;
+    };
+    /** @enum {string} */
+    DataIssueReportSeverity: 'unknown' | 'minor' | 'medium' | 'major';
+    /** @enum {string} */
+    DataIssueReportSubjectType: 'card' | 'print' | 'set' | 'search';
+    CreateReportRequest: {
+      gameType: components['schemas']['GameType'];
+      note?: string | null;
+      severity?: components['schemas']['DataIssueReportSeverity'] | null;
+      subject?: string | null;
+      /** Format: uuid */
+      subjectId: string;
+      subjectType: components['schemas']['DataIssueReportSubjectType'];
+      url: string;
+    };
+    /** @enum {string} */
+    DataIssueReportStatus: 'reported' | 'accepted' | 'ongoing' | 'resolved' | 'blocked' | 'not_accepted';
+    ReducedDataIssueReport: {
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      note?: string | null;
+      /** Format: date-time */
+      reportedAt: string;
+      resolvedAt?: string | null;
+      severity: components['schemas']['DataIssueReportSeverity'];
+      status: components['schemas']['DataIssueReportStatus'];
+      subject: string;
+      /** Format: uuid */
+      subjectId: string;
+      subjectType: components['schemas']['DataIssueReportSubjectType'];
+      url: string;
+    };
+    CreateReportResponse: {
+      report: components['schemas']['ReducedDataIssueReport'];
+    };
+    'DataApiResponse-CreateReportResponse': {
+      data: components['schemas']['CreateReportResponse'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'SimplePage-ReducedDataIssueReport': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['ReducedDataIssueReport'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-ReducedDataIssueReport': {
+      data: components['schemas']['SimplePage-ReducedDataIssueReport'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    PublicDataIssueReport: {
+      game: components['schemas']['GameType'];
+      /** Format: uuid */
+      id: string;
+      resolvedAt?: string | null;
+      severity: components['schemas']['DataIssueReportSeverity'];
+      status: components['schemas']['DataIssueReportStatus'];
+      subject: string;
+      /** Format: uuid */
+      subjectId: string;
+      subjectType: components['schemas']['DataIssueReportSubjectType'];
+    };
+    'SimplePage-PublicDataIssueReport': {
+      /** Format: int32 */
+      currentPage: number;
+      hasNextPage: boolean;
+      items: components['schemas']['PublicDataIssueReport'][];
+      /** Format: int32 */
+      lastPage: number;
+      /** Format: int32 */
+      nextPage: number;
+    };
+    'DataApiResponse-SimplePage-PublicDataIssueReport': {
+      data: components['schemas']['SimplePage-PublicDataIssueReport'];
+      /** Format: int32 */
+      statusCode: number;
     };
   };
   responses: never;

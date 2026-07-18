@@ -46,6 +46,7 @@ export function MobileThemeSelector() {
             if (combobox.dropdownOpened) combobox.closeDropdown();
             else combobox.openDropdown();
           }}
+          color={'var(--gourmet-neutral-8)'}
         />
       </Combobox.Target>
 

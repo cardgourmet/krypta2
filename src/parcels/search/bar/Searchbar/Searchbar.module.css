@@ -76,16 +76,29 @@
     }
   }
 
-  & .deleteSearchIcon {
+  & .rightSide {
     position: absolute;
     top: 50%;
     right: 0;
-    transform: translate(-50%, -50%);
+    transform: translate(0%, -50%);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-right: 0.75rem;
+  }
 
+  & .deleteSearchIcon {
+    border: none;
+    background-color: transparent;
+
+    padding: 0.25rem;
+
+    &:hover {
+      border-radius: 4px;
+      background-color: var(--gourmet-neutral-3);
+      cursor: pointer;
+    }
+  }
+
+  & .sendItSearchIcon {
     border: none;
     background-color: transparent;
 
@@ -139,7 +152,7 @@
   flex-grow: 1;
   margin: 0 var(--padding) 0 var(--padding);
 
-  .cuisine {
+  .kitchen {
     display: flex;
     justify-content: flex-end;
     margin-right: 3rem;
@@ -172,4 +185,22 @@
 .hidden {
   /* biome-ignore lint/complexity/noImportantStyles: _ */
   display: none !important;
+}
+
+.glossaryContent {
+  background-color: var(--gourmet-neutral-1);
+}
+
+.glossaryHeader {
+  background-color: var(--gourmet-neutral-1);
+}
+
+.randomizeButton {
+  background: none;
+  border-radius: 0.25rem;
+  padding: 0 0.25rem;
+
+  &[data-selected="true"] {
+    background-color: var(--gourmet-purple-1);
+  }
 }

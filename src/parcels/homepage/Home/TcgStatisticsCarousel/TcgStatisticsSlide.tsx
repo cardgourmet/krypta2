@@ -1,16 +1,16 @@
 import { Center, Group, Loader, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.ts';
-import { useLanguage } from '@/parcels/auth/useLanguage.tsx';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
+import type { GourmetApiResponse } from '@/parcels/api/handleApiCall.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { SetCard } from '@/parcels/overview/sets/SetCard/SetCard.tsx';
+import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import { getDlcStatistics } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
 import { getMtgStatistics } from '@/parcels/tcg/mtg/api.ts';
 import { getPcgStatistics } from '@/parcels/tcg/pcg/api.ts';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
-import type { TcgStatistics } from '@/parcels/tcg/types.ts';
+import type { TcgDataSet, TcgStatistics } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
@@ -32,7 +32,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
 
         if (!res) return;
         if (res.error) {
-          console.error(`Failed to load ${tcg} stats`, res.error);
+          sendErrorNotification(res.error);
           return;
         }
 
@@ -48,7 +48,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
     loadStatistics();
   }, [tcg]);
 
-  const [lang] = useLanguage();
+  const [lang] = useUserLanguage();
   const locale = lang === 'de' ? 'de-DE' : 'en-US';
 
   return (
@@ -67,10 +67,10 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
       )}
 
       {!statisticsLoading && statistics && (
-        <Stack>
+        <Stack gap={'2rem'}>
           <Group>
             <Stack gap={'0'}>
-              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
+              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500} style={{ lineHeight: '1' }}>
                 PRINTS
               </GourmetText>
               <GourmetText cgmff={'monospace'} fz={'1.75rem'} fw={'bold'}>
@@ -79,7 +79,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
             </Stack>
 
             <Stack gap={'0'}>
-              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
+              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500} style={{ lineHeight: '1' }}>
                 CARDS
               </GourmetText>
               <GourmetText cgmff={'monospace'} fz={'1.75rem'} fw={'bold'}>
@@ -88,7 +88,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
             </Stack>
 
             <Stack gap={'0'}>
-              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
+              <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500} style={{ lineHeight: '1' }}>
                 SETS
               </GourmetText>
               <GourmetText cgmff={'monospace'} fz={'1.75rem'} fw={'bold'}>
@@ -97,7 +97,7 @@ export function TcgStatisticsSlide({ tcg }: { tcg: Tcg }) {
             </Stack>
           </Group>
 
-          <Stack>
+          <Stack gap={'0.25rem'}>
             <GourmetText cgmff={'ui'} fz={'0.9rem'} fw={500}>
               MOST RECENT SET
             </GourmetText>

@@ -1,5 +1,5 @@
-import { Accordion, Button, Group, Stack, Text } from '@mantine/core';
-import { IconCards, IconDeviceVisionPro, IconFolders, IconX } from '@tabler/icons-react';
+import { Accordion, Button, Divider, Group, Stack, Text } from '@mantine/core';
+import { IconBowlChopsticks, IconCards, IconFolders, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -12,6 +12,7 @@ import styles from './MobileSidebar.module.css';
 
 export function MobileSidebar({ close }: { close: () => void }) {
   const tcg = useTcgByLocation();
+  const { t } = useTranslation('nav');
 
   return (
     <>
@@ -23,6 +24,42 @@ export function MobileSidebar({ close }: { close: () => void }) {
           <IconX size={18} color={'var(--gourmet-neutral-8)'} />
         </Button>
       </Group>
+
+      <Stack p={'1rem'}>
+        <Stack gap={'1.5rem'}>
+          <Link to={'/about'} style={{ textDecoration: 'none' }} className={styles.iconButton} onClick={() => close()}>
+            <GourmetText style={{ textWrap: 'nowrap' }}>{t('about')}</GourmetText>
+          </Link>
+          <a
+            href={'https://games.cardgourmet.com'}
+            style={{ textDecoration: 'none' }}
+            className={styles.iconButton}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <GourmetText>Games</GourmetText>
+          </a>
+          <a
+            href={'https://discord.gg/5KQ6fh3nus'}
+            style={{ textDecoration: 'none' }}
+            className={styles.iconButton}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <GourmetText>Discord</GourmetText>
+          </a>
+          <a
+            href={'https://github.com/cardgourmet'}
+            style={{ textDecoration: 'none' }}
+            className={styles.iconButton}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <GourmetText>Github</GourmetText>
+          </a>
+        </Stack>
+      </Stack>
+      <Divider orientation={'horizontal'} color={'var(--gourmet-neutral-5)'} ml={'2rem'} mr={'1rem'} mt={'1rem'} />
 
       <div className={styles.mobileSidebarBottom}>
         <TcgButton tcg={'mtg'} activeTcg={tcg} close={close} />
@@ -82,7 +119,7 @@ function TcgButton({ tcg, activeTcg, close }: { tcg: Tcg; activeTcg: Tcg | undef
             </Link>
             <Link to={'/$tcg/kitchen'} params={{ tcg: tcg }} className={styles.mobileSidebarLink} onClick={close}>
               <Group gap={'0.75rem'}>
-                <IconDeviceVisionPro size={22} />
+                <IconBowlChopsticks size={22} />
                 <GourmetText>{t('cuisine')}</GourmetText>
               </Group>
             </Link>

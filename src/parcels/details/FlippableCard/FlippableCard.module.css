@@ -24,4 +24,13 @@
   object-fit: contain;
   aspect-ratio: 672 / 936;
   width: 18rem;
+
+  transition: transform 0.25s ease;
+
+  --rotation-degrees: 90deg;
+
+  &[data-rotated="true"] {
+    transform: rotate(var(--rotation-degrees));
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+  }
 }

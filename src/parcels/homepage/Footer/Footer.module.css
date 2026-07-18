@@ -14,11 +14,6 @@
     text-decoration: none;
     color: inherit;
   }
-
-  hr {
-    width: 100%;
-    color: var(--gourmet-neutral-3);
-  }
 }
 
 .copyright {

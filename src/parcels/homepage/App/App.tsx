@@ -5,7 +5,6 @@ import { Footer } from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import { TcgOverviewWorkContextProvider } from '@/parcels/selection/TcgOverviewWorkContext/TcgOverviewWorkContext.tsx';
 import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './App.module.css';
 
@@ -23,20 +22,18 @@ function App() {
   return (
     <TcgProvider>
       <SearchHistoryProvider>
-        <TcgOverviewWorkContextProvider>
-          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <Navbar setSidebarOpen={setSidebarOpen} />
-          <NavigationProgress />
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Navbar setSidebarOpen={setSidebarOpen} />
+        <NavigationProgress />
 
-          <div className={styles.mainContent}>
-            <div className={styles.content}>
-              <Outlet />
-            </div>
+        <div className={styles.mainContent}>
+          <div className={styles.content}>
+            <Outlet />
           </div>
-          <div className={styles.footer}>
-            <Footer />
-          </div>
-        </TcgOverviewWorkContextProvider>
+        </div>
+        <div className={styles.footer}>
+          <Footer />
+        </div>
       </SearchHistoryProvider>
     </TcgProvider>
   );

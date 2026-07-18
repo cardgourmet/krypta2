@@ -6,23 +6,21 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
-import type { ResolvedUserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
+import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
 import type { UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import { tcgSearchParamsDefaults } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function SearchRenderer({
-  tcg,
   list,
   data,
-  onSearchSaved,
+  onAddToList,
   onRemoveFromList,
 }: {
-  tcg: Tcg;
   list: UserListWithResources;
   data: ResolvedUserListResource;
-  onSearchSaved?: (id: string) => void;
+  onAddToList?: (res: UserListResource) => void;
   onRemoveFromList?: (listId: string) => void;
 }) {
   const { t } = useTranslation('lists');
@@ -64,14 +62,16 @@ export function SearchRenderer({
         <Group wrap={'nowrap'} gap={'0.25rem'} justify={'end'} p={'0 0.25rem 0 0'}>
           <Link
             to={'/$tcg/cards'}
-            params={{ tcg: tcg }}
+            params={{ tcg: resolvedSavedSearch.savedSearch.game }}
             search={{
               ...tcgSearchParamsDefaults,
               query: resolvedSavedSearch.firstSearch.rawQuery,
+              manual: true,
             }}
             target="_blank"
             rel="noreferrer noopener"
             style={{ padding: 0 }}
+            preload={false}
           >
             <Tooltip label={t('table.reExecute')} openDelay={500}>
               <ActionIcon style={{ pointerEvents: 'auto' }} className={styles.playButton}>
@@ -85,7 +85,7 @@ export function SearchRenderer({
               <ListDetailsActionMenu
                 type={'user_search'}
                 listContext={list}
-                tcg={tcg}
+                tcg={resolvedSavedSearch.savedSearch.game as Tcg}
                 resourceId={resolvedSavedSearch.savedSearch.id}
                 rawResourceId={resolvedSavedSearch.firstSearch.id}
                 target={
@@ -99,12 +99,8 @@ export function SearchRenderer({
                 }
                 menuOpened={menuOpened}
                 setMenuOpened={setMenuOpened}
-                onSearchSaved={(id) => {
-                  if (onSearchSaved) onSearchSaved(id);
-                }}
-                onRemoveFromList={(listId) => {
-                  if (onRemoveFromList) onRemoveFromList(listId);
-                }}
+                onAddedToList={onAddToList}
+                onRemovedFromList={onRemoveFromList}
               />
             </Tooltip>
           )}

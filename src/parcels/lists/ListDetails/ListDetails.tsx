@@ -1,45 +1,73 @@
-import { Group, Stack } from '@mantine/core';
+import { Center, Group, Loader, Stack } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import { useEffect, useMemo, useState } from 'react';
+import { startTransition, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { getAllResourcesFromList } from '@/parcels/lists/api.ts';
+import { extractScryfallInfo } from '@/parcels/lists/ListDetails/extractScryfallInfo.ts';
 import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
 import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
-import { Route } from '@/routes/me/lists/$listId.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import type { DataUser } from '@/parcels/user/api.ts';
+import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
-export function ListDetails() {
+export function ListDetails({ owner, list, publicView }: { owner: DataUser; list: UserList; publicView: boolean }) {
   const { t } = useTranslation('lists');
-  const search = Route.useSearch();
-  const { list: listRes, listResources: listResourcesRes } = Route.useLoaderData();
-
-  const [list, setList] = useState<UserList>(listRes.data as UserList);
-  const listWithResources = useMemo(() => {
-    return {
-      list: list,
-      resources: listResourcesRes.data,
-      size: (listResourcesRes?.data?.card?.length ?? 0) + (listResourcesRes?.data?.user_search?.length ?? 0),
-    } as UserListWithResources;
-  }, [list, listResourcesRes.data]);
-  const [searchResources, setSearchResources] = useState<ResolvedUserListResource[]>(
-    listResourcesRes?.data?.user_search ?? [],
-  );
-  const [cardResources, setCardResources] = useState<ResolvedUserListResource[]>(listResourcesRes?.data?.card ?? []);
-
-  useEffect(() => {
-    setList(listRes.data as UserList);
-  }, [listRes.data]);
-  useEffect(() => {
-    setSearchResources(listResourcesRes?.data?.user_search ?? []);
-    setCardResources(listResourcesRes?.data?.card ?? []);
-  }, [listResourcesRes?.data]);
-
   const { user } = useAuth();
+  const search = Route.useSearch();
+  const tcg = search.tcg;
+
+  const [resourcesLoading, setResourcesLoading] = useState<boolean>(false);
+  const [localListWithResources, setLocalListWithResources] = useState<UserListWithResources>({
+    list: list,
+  });
+
+  const listResources = useMemo(() => {
+    return Object.values(localListWithResources.resources ?? {}).flatMap((v) => {
+      return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
+    });
+  }, [localListWithResources.resources]);
+  const { removeResources } = useActiveLists(undefined, listResources);
+
+  useEffect(() => {
+    setResourcesLoading(true);
+    startTransition(async () => {
+      const res = await getAllResourcesFromList(list.userId, list.id, tcg);
+
+      setResourcesLoading(false);
+      if (res.error) {
+        sendErrorNotification(res.error);
+        return;
+      }
+
+      const listWithResources = {
+        list: list,
+        resources: res.data,
+        size: (res?.data?.card?.length ?? 0) + (res?.data?.user_search?.length ?? 0),
+      } as UserListWithResources;
+      setLocalListWithResources(listWithResources);
+    });
+  }, [list, tcg]);
+
+  const [searchResources, setSearchResources] = useState<ResolvedUserListResource[]>(
+    localListWithResources?.resources?.user_search ?? [],
+  );
+  const [cardResources, setCardResources] = useState<ResolvedUserListResource[]>(
+    localListWithResources?.resources?.card ?? [],
+  );
+
+  useEffect(() => {
+    setSearchResources(localListWithResources?.resources?.user_search ?? []);
+    setCardResources(localListWithResources?.resources?.card ?? []);
+  }, [localListWithResources?.resources]);
+
   const { component, title } = useBreadcrumbs({
     subpage: `@${user?.username}`,
     moreSubpages: [
@@ -53,7 +81,6 @@ export function ListDetails() {
     ],
   });
 
-  const { tcg } = useTcg();
   const sortedSearchResources = useMemo(() => {
     return [...searchResources].sort((a, b) => {
       if (search.sort === 'addedAt') {
@@ -89,72 +116,111 @@ export function ListDetails() {
     });
   }, [cardResources, search.order, search.sort]);
 
-  return (
-    <div>
-      <title>{`${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${t('details.pageTitle')} – Cardgourmet`}</title>
+  const [isDraggedOver, setDraggedOver] = useState<boolean>(false);
 
-      {listRes.error !== undefined && <GourmetText>{listRes.error.key}</GourmetText>}
+  return (
+    <div style={{ position: 'relative' }}>
+      <title>{`${list.systemListType === 'favorites' ? t('overview.card.system.favorites') : list.name} – ${t('details.pageTitle')} – Cardgourmet`}</title>
+      <Dropzone
+        onEnter={() => {
+          setDraggedOver(true);
+        }}
+        onLeave={() => {
+          setDraggedOver(false);
+        }}
+        onDrop={(data) => {
+          console.log(data);
+          setDraggedOver(false);
+
+          const id = extractScryfallInfo(tcg, data);
+          console.log('found scryfall id', id);
+        }}
+      />
 
       {component}
-      <ListDetailsHeader tcg={tcg} list={list} title={title?.label ?? ''} setList={setList} />
+      <ListDetailsHeader
+        tcg={tcg}
+        list={localListWithResources.list}
+        title={title?.label ?? ''}
+        onUpdate={(newList) => {
+          setLocalListWithResources({
+            ...localListWithResources,
+            list: newList,
+          });
+        }}
+        publicView={publicView}
+      />
 
-      <ListDetailsSettings list={list} />
+      <ListDetailsSettings owner={owner} list={list} />
 
-      {sortedCardResoures.length === 0 && sortedSearchResources.length === 0 && (
-        <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
-          {t('overview.card.noResources')}
-        </GourmetText>
+      {resourcesLoading && (
+        <Center>
+          <Loader size={18} />
+        </Center>
       )}
-      {(sortedCardResoures.length > 0 || sortedSearchResources.length > 0) && (
-        <Stack gap={'2rem'}>
-          {sortedSearchResources.length > 0 && (
-            <Stack>
-              <Group gap={'0.5rem'}>
-                <IconSearch size={22} color={list.color ?? 'var(--gourmet-neutral-9)'} />
-                <GourmetText cgmff={'title'} fz={'h3'} c={list.color ?? 'var(--gourmet-neutral-9)'}>
-                  {t('details.savedSearches')}
-                </GourmetText>
-                <GourmetText cgmff={'ui'}>({sortedSearchResources.length})</GourmetText>
-              </Group>
 
-              <Stack gap={'0.5rem'}>
-                {sortedSearchResources.map((data) => {
-                  return (
-                    <SearchRenderer
-                      key={data.listResource.resourceId}
-                      list={listWithResources}
-                      data={data}
-                      tcg={search.tcg ?? tcg}
-                      onRemoveFromList={(listId) => {
-                        if (listId !== list.id) return;
+      {!resourcesLoading && (
+        <>
+          {sortedCardResoures.length === 0 && sortedSearchResources.length === 0 && (
+            <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
+              {t('overview.card.noResources')}
+            </GourmetText>
+          )}
+          {(sortedCardResoures.length > 0 || sortedSearchResources.length > 0) && (
+            <Stack gap={'2rem'}>
+              {sortedSearchResources.length > 0 && (
+                <Stack>
+                  <Group gap={'0.5rem'}>
+                    <IconSearch size={22} color={list.color ?? 'var(--gourmet-neutral-9)'} />
+                    <GourmetText cgmff={'title'} fz={'h3'} c={list.color ?? 'var(--gourmet-neutral-9)'}>
+                      {t('details.savedSearches')}
+                    </GourmetText>
+                    <GourmetText cgmff={'ui'}>({sortedSearchResources.length})</GourmetText>
+                  </Group>
 
-                        const newSearchResources = [...searchResources];
-                        for (let i = 0; i < newSearchResources.length; i++) {
-                          if (newSearchResources[i].listResource.resourceId === data.listResource.resourceId) {
-                            newSearchResources.splice(i, 1);
-                            break;
-                          }
-                        }
+                  <Stack gap={'0.5rem'}>
+                    {sortedSearchResources.map((data) => {
+                      return (
+                        <SearchRenderer
+                          key={data.listResource.resourceId}
+                          list={localListWithResources}
+                          data={data}
+                          onRemoveFromList={(listId) => {
+                            if (listId !== list.id) return;
 
-                        setSearchResources(newSearchResources);
-                      }}
-                    />
-                  );
-                })}
-              </Stack>
+                            const newSearchResources = [...searchResources];
+                            for (let i = 0; i < newSearchResources.length; i++) {
+                              if (newSearchResources[i].listResource.resourceId === data.listResource.resourceId) {
+                                newSearchResources.splice(i, 1);
+                                break;
+                              }
+                            }
+
+                            setSearchResources(newSearchResources);
+                          }}
+                        />
+                      );
+                    })}
+                  </Stack>
+                </Stack>
+              )}
+
+              {sortedCardResoures.length > 0 && (
+                <ListDetailsCardGrid
+                  list={list}
+                  sortedCardResoures={sortedCardResoures}
+                  cardResources={cardResources}
+                  setCardResources={setCardResources}
+                  listWithResources={localListWithResources}
+                  suggestAddCard={isDraggedOver}
+                  onRemoveFromList={(id) => {
+                    removeResources([id], [list.id]);
+                  }}
+                />
+              )}
             </Stack>
           )}
-
-          {sortedCardResoures.length > 0 && (
-            <ListDetailsCardGrid
-              list={list}
-              sortedCardResoures={sortedCardResoures}
-              cardResources={cardResources}
-              setCardResources={setCardResources}
-              listWithResources={listWithResources}
-            />
-          )}
-        </Stack>
+        </>
       )}
     </div>
   );

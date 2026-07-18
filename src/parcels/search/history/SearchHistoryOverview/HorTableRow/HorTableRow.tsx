@@ -28,6 +28,7 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
             search={{
               ...tcgSearchParamsDefaults,
               query: entry.search.rawQuery,
+              manual: true,
             }}
             target="_blank"
             rel="noreferrer noopener"
@@ -58,8 +59,8 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
                 }
                 menuOpened={menuOpened}
                 setMenuOpened={setMenuOpened}
-                onSearchSaved={(id) => {
-                  if (onSearchSaved) onSearchSaved(id);
+                onAddedToList={(res) => {
+                  if (onSearchSaved) onSearchSaved(res.resourceId);
                 }}
               />
             </Tooltip>

@@ -1,54 +1,39 @@
-import { useLocalStorage } from '@mantine/hooks';
-import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import { type PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { AuthContext, type UserSession } from '@/parcels/auth/AuthContext.ts';
 import {
-  type AuthApiUserIntegration,
   type DataAuthUser,
   logout as doLogout,
   getCurrentLoggedInUser,
   listUserIntegrations,
 } from '@/parcels/auth/api.ts';
-import { useGourmetNotification } from '@/parcels/notification/useGourmetNotification.ts';
-
-export const CGM_USER_SESSION = 'cgm-user-session';
-export const CGM_USER = 'cgm-user';
-export const CGM_WAS_VERIFIED = 'cgm-was-verified';
-export const CGM_EMAIL_PENDING = 'cgm-email-pending';
-export const CGM_EMAIL_WAS_CHANGED = 'cgm-email-was-changed';
-export const CGM_THEME = 'cgm-theme';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
+import { useLocalUserStore } from '@/parcels/state/LocalUserStore.tsx';
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
-  const noti = useGourmetNotification();
+  const session = useLocalUserStore((state) => state.session);
+  const setSession = useLocalUserStore((state) => state.setSession);
 
-  const [session, setSession, removeSession] = useLocalStorage<UserSession | null>({
-    key: CGM_USER_SESSION,
-    getInitialValueInEffect: false,
-  });
-  const [user, setUser, removeUser] = useLocalStorage<DataAuthUser | null>({
-    key: CGM_USER,
-    getInitialValueInEffect: false,
-  });
-  const [wasVerified, setWasVerified, removeWasVerified] = useLocalStorage<boolean | null>({
-    key: CGM_WAS_VERIFIED,
-  });
+  const user = useLocalUserStore((state) => state.user);
+  const setUser = useLocalUserStore((state) => state.setUser);
 
-  // specific to email update in settings
-  const [emailWasChanged, setEmailWasChanged, removeEmailWasChanged] = useLocalStorage<boolean | null>({
-    key: CGM_EMAIL_WAS_CHANGED,
-  });
+  const removeWasVerified = useLocalUserStateStore((state) => state.removeVerified);
+  const removeEmailWasChanged = useLocalUserStateStore((state) => state.removeEmailWasChanged);
 
-  const [integrations, setIntegrations] = useState<AuthApiUserIntegration[] | null>(null);
+  const integrations = useLocalUserStore((state) => state.integrations);
+  const setIntegrations = useLocalUserStore((state) => state.setIntegrations);
+
   const loadIntegrations = useCallback(async () => {
     if (user?.state !== 'verified') return;
 
-    // TODO: also fetch all integrations from user
     const res = await listUserIntegrations();
     if (res.error) {
-      setIntegrations(null);
+      setIntegrations(undefined);
     }
     setIntegrations(res.data ?? []);
-  }, [user?.state]);
+  }, [user?.state, setIntegrations]);
   useEffect(() => {
+    // noinspection JSIgnoredPromiseFromCall
     loadIntegrations();
   }, [loadIntegrations]);
 
@@ -58,21 +43,21 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         // user can't be verified without a token.
         if (user?.state === 'unverified') {
           // we log him in with the data given (no data fetching)
-          removeSession();
+          setSession(undefined);
           setUser(user);
           return;
         }
 
-        removeSession();
-        removeUser();
+        setSession(undefined);
+        setUser(undefined);
         return;
       }
       if (expiresAt) {
         const expiresAtTimestamp = Date.parse(expiresAt);
         if (expiresAtTimestamp < Date.now()) {
           // already expired
-          removeSession();
-          removeUser();
+          setSession(undefined);
+          setUser(undefined);
           return;
         }
       }
@@ -81,12 +66,12 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         if (res.error) {
           if (res.statusCode === 401) {
             // not logged in anymore
-            removeSession();
-            removeUser();
+            setSession(undefined);
+            setUser(undefined);
             return;
           }
 
-          noti.show('Unknown error', `${res.error}`, 'error');
+          sendErrorNotification(res.error);
           return;
         }
         if (!res.data) return;
@@ -97,22 +82,15 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
         setUser(res.data);
       });
     },
-    [removeSession, setSession, removeUser, setUser, removeWasVerified, noti.show, removeEmailWasChanged],
+    [setSession, setUser, removeWasVerified, removeEmailWasChanged],
   );
   const logout = useCallback(() => {
     // noinspection JSIgnoredPromiseFromCall
     doLogout();
 
-    removeSession();
-    removeUser();
-  }, [removeSession, removeUser]);
-  const verify = useCallback(() => {
-    setWasVerified(true);
-  }, [setWasVerified]);
-
-  const setEmailHasChanged = useCallback(() => {
-    setEmailWasChanged(true);
-  }, [setEmailWasChanged]);
+    setSession(undefined);
+    setUser(undefined);
+  }, [setSession, setUser]);
 
   const updateUser = useCallback(
     (user: DataAuthUser) => {
@@ -127,32 +105,11 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       token: session?.token,
       login,
       logout,
-      wasVerified: wasVerified ?? false,
-      verify,
-      removeVerified: removeWasVerified,
-
-      removeEmailWasChanged,
-      emailWasChanged: emailWasChanged ?? false,
-      setEmailHasChanged,
       updateUser,
       integrations,
       loadIntegrations,
     };
-  }, [
-    user,
-    session,
-    login,
-    logout,
-    verify,
-    wasVerified,
-    removeWasVerified,
-    emailWasChanged,
-    setEmailHasChanged,
-    removeEmailWasChanged,
-    updateUser,
-    integrations,
-    loadIntegrations,
-  ]);
+  }, [user, session, login, logout, updateUser, integrations, loadIntegrations]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {

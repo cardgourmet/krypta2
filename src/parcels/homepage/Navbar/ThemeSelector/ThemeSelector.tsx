@@ -15,7 +15,7 @@ export function ThemeSelector() {
     auto: t('auto'),
   };
   const options = Object.entries(items).map(([key, value]) => (
-    <Combobox.Option value={key} key={key}>
+    <Combobox.Option value={key} key={key} className={styles.subIconButton}>
       <Group justify={'space-between'}>
         <Group>
           <GourmetText
@@ -57,7 +57,14 @@ export function ThemeSelector() {
         </UnstyledButton>
       </Combobox.Target>
 
-      <Combobox.Dropdown miw={'8rem'}>
+      <Combobox.Dropdown
+        miw={'8rem'}
+        style={{
+          backgroundColor: 'var(--cgm-sidebar-bg)',
+          border: '1px solid var(--cgm-sidebar-border)',
+          borderRadius: '4px',
+        }}
+      >
         <Combobox.Options>{options}</Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

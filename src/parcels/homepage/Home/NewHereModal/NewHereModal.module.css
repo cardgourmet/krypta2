@@ -1,0 +1,22 @@
+.newHereBanner {
+  border-radius: 0.25rem;
+  background-color: color-mix(in srgb, var(--gourmet-orange-1), white 30%);
+
+  width: min(60rem, 65%);
+
+  @media (max-width: 800px) {
+    width: 90%;
+  }
+}
+
+.newHereNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--gourmet-orange-1);
+  border-radius: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.25rem;
+}

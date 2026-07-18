@@ -20,7 +20,7 @@
     "cols": {
       "query": "Query",
       "cards": "Karten",
-      "time": "Zeit",
+      "time": "Zuletzt benutzt",
       "speed": "Dauer",
       "saved": "Gespeichert",
       "inList": "In Liste"

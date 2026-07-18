@@ -1,7 +1,0 @@
-.menuItem {
-  --bg-color: light-dark(var(--gourmet-neutral-0), var(--gourmet-neutral-3));
-
-  &:hover {
-    --bg-color: var(--gourmet-neutral-2);
-  }
-}

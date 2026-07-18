@@ -1,11 +1,21 @@
-import { Group } from '@mantine/core';
-import { IconQuestionMark } from '@tabler/icons-react';
-import { forwardRef } from 'react';
+import { Avatar, Style } from '@dicebear/core';
+import definition from '@dicebear/styles/glyphs.json';
+import { forwardRef, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from './UserIcon.module.css';
 
 export const UserIcon = forwardRef<HTMLButtonElement, { onClick?: () => void }>(({ onClick }, ref) => {
   const { user } = useAuth();
+  const avatarFallback = useMemo(() => {
+    if (!user || user?.avatarUrl) return;
+
+    const style = new Style(definition);
+    const avatar = new Avatar(style, {
+      seed: user!.id,
+    });
+
+    return avatar.toString();
+  }, [user]);
 
   return (
     <>
@@ -19,18 +29,7 @@ export const UserIcon = forwardRef<HTMLButtonElement, { onClick?: () => void }>(
         >
           {user.avatarUrl && <img src={user.avatarUrl} alt={user.displayName} />}
           {!user.avatarUrl && (
-            <Group
-              justify={'center'}
-              align={'center'}
-              style={{
-                backgroundColor: 'var(--gourmet-neutral-3)',
-                borderRadius: '50%',
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              <IconQuestionMark color={'var(--gourmet-neutral-8)'} />
-            </Group>
+            <img src={`data:image/svg+xml,${encodeURIComponent(avatarFallback ?? '')}`} alt={user.displayName} />
           )}
         </button>
       )}

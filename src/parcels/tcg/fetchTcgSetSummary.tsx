@@ -22,6 +22,7 @@ export function fetchTcgSetSummary(
       uniqueBy,
       sortBy as MtgSortBy,
       sortDirection === 'auto' ? 'asc' : sortDirection,
+      querySettings.trigger,
       controller,
     );
   } else if (tcg === 'pcg') {
@@ -31,6 +32,7 @@ export function fetchTcgSetSummary(
       uniqueBy,
       sortBy as PcgSortBy,
       sortDirection === 'auto' ? 'asc' : sortDirection,
+      querySettings.trigger,
       controller,
     );
   } else if (tcg === 'dlc') {
@@ -40,6 +42,7 @@ export function fetchTcgSetSummary(
       uniqueBy,
       sortBy as DlcSortBy,
       sortDirection === 'auto' ? 'asc' : sortDirection,
+      querySettings.trigger,
       controller,
     );
   } else {

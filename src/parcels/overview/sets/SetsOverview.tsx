@@ -2,7 +2,6 @@ import { Divider, Stack } from '@mantine/core';
 import { useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { TcgDataSet } from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { getReleaseDate, groupByEra, groupByYear } from '@/parcels/overview/sets/helpers.ts';
@@ -17,6 +16,7 @@ import {
 } from '@/parcels/overview/sets/SetOverviewSettings/SetOverviewSettings.tsx';
 import { deserializeFilterString } from '@/parcels/overview/sets/SetOverviewSettings/setFilters.ts';
 import type { PcgDataEra, PcgDataSet } from '@/parcels/tcg/pcg/api.ts';
+import type { TcgDataSet } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';

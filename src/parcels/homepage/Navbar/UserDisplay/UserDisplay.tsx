@@ -1,7 +1,9 @@
+import { Avatar, Style } from '@dicebear/core';
+import definition from '@dicebear/styles/glyphs.json';
 import { Group, Menu, Stack } from '@mantine/core';
 import { IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
 import { Link, useRouter } from '@tanstack/react-router';
-import { type CSSProperties, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -20,13 +22,30 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
   const [opened, setOpened] = useState(false);
 
   const router = useRouter();
+  const avatarFallback = useMemo(() => {
+    if (!user || user?.avatarUrl) return;
+
+    const style = new Style(definition);
+    const avatar = new Avatar(style, {
+      seed: user!.id,
+    });
+
+    return avatar.toString();
+  }, [user]);
 
   return (
     <div style={style}>
       {user && (
-        <Menu shadow="md" position={'bottom-end'} opened={opened} onChange={setOpened} width={240}>
+        <Menu
+          shadow="md"
+          position={'bottom-end'}
+          opened={opened}
+          onChange={setOpened}
+          width={240}
+          transitionProps={{ transition: 'pop', duration: 100 }}
+        >
           <Menu.Target>
-            <UserDisplayButton toggle={() => setOpened(!opened)} />
+            <UserDisplayButton toggle={() => setOpened(!opened)} avatarFallback={avatarFallback ?? ''} />
           </Menu.Target>
 
           <Menu.Dropdown
@@ -42,6 +61,12 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
                 <Group w={'2.5rem'} h={'2.5rem'}>
                   <div className={styles.userIcon}>
                     {user.avatarUrl && <img src={user.avatarUrl ?? ''} alt={user.displayName} />}
+                    {!user.avatarUrl && (
+                      <img
+                        src={`data:image/svg+xml,${encodeURIComponent(avatarFallback ?? '')}`}
+                        alt={user.displayName}
+                      />
+                    )}
                   </div>
                 </Group>
 
@@ -56,7 +81,7 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
               {user.state === 'unverified' && (
                 <div>
                   <GourmetText mt={'0.5rem'} c={'var(--gourmet-orange-1)'} fz={'0.9rem'}>
-                    {t('not-verified')
+                    {t('notVerified')
                       .split('\n')
                       .map((item, key) => (
                         <span key={key}>
@@ -93,8 +118,8 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             <Menu.Divider style={{ borderColor: 'var(--gourmet-neutral-4)' }} />
 
             <Link
-              to={'/me/lists/$listId'}
-              params={{ listId: 'favorites' }}
+              to={`/@{$user}/lists/$listId`}
+              params={{ user: user.username, listId: 'favorites' }}
               style={{ textDecoration: 'none' }}
               preload={false}
             >
@@ -160,9 +185,16 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
         </Menu>
       )}
       {!user && (
-        <Menu shadow="md" position={'bottom-end'} opened={opened} onChange={setOpened} width={240}>
+        <Menu
+          shadow="md"
+          position={'bottom-end'}
+          opened={opened}
+          onChange={setOpened}
+          width={240}
+          transitionProps={{ transition: 'pop', duration: 100 }}
+        >
           <Menu.Target>
-            <UserDisplayButton toggle={() => setOpened(!opened)} />
+            <UserDisplayButton toggle={() => setOpened(!opened)} avatarFallback={avatarFallback ?? ''} />
           </Menu.Target>
 
           <Menu.Dropdown
@@ -174,9 +206,9 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
             p={'0.5rem'}
           >
             <Stack p={'0.25rem'} gap={'0.1rem'}>
-              <GourmetText cgmc={'neutral-9'}>{t('not-logged-in')}</GourmetText>
+              <GourmetText cgmc={'neutral-9'}>{t('notLoggedIn')}</GourmetText>
               <GourmetText fz={'0.9rem'} cgmc={'neutral-7'}>
-                {t('more-features')}
+                {t('moreFeatures')}
               </GourmetText>
             </Stack>
 

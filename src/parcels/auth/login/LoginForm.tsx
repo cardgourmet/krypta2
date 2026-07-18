@@ -4,6 +4,7 @@ import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { loginUsingBasicAuth } from '@/parcels/auth/api.ts';
 import { GoogleLoginButton } from '@/parcels/auth/login/GoogleLoginButton.tsx';
@@ -73,10 +74,12 @@ export function LoginForm() {
                 });
               }
 
-              // noinspection JSIgnoredPromiseFromCall
-              navigate({
-                to: redirect ?? '/',
-                replace: true,
+              requestAnimationFrameTransition(() => {
+                // noinspection JSIgnoredPromiseFromCall
+                navigate({
+                  to: redirect ?? '/',
+                  replace: true,
+                });
               });
             });
           })}

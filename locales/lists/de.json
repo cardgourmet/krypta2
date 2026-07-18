@@ -12,8 +12,13 @@
     "header": {
       "title": "Listen"
     },
+    "summary": {
+      "youHave": "Du hast {{ listsCount }}/{{ listsMax }} Listen mit insgesamt {{ resCount }}/{{ resMax }} Ressourcen.",
+      "needMore": "Du brauchst mehr? Kontaktier uns."
+    },
     "pageTitle": "Deine Listen",
     "settings": {
+      "all": "Alle TCGs",
       "common": {
         "sortby": "Sortieren nach",
         "filterBy": "Filtern nach"
@@ -37,7 +42,9 @@
       "searchbarPlaceholder": "Suche..."
     },
     "create": {
-      "title": "Neue Liste Erstellen"
+      "title": "Neue Liste Erstellen",
+      "cancel": "Abbrechen",
+      "create": "Erstellen"
     },
     "delete": {
       "warning": "Die Liste wird permanent gelöscht.",
@@ -54,6 +61,8 @@
       "system": "Systemlisten können nicht bearbeitet werden."
     },
     "card": {
+      "allowed": "Erlaubt",
+      "allowedAll": "Alle TCGs erlaubt",
       "lastUpdated": "Zuletzt bearbeitet",
       "noDescription": "Keine Beschreibung gesetzt.",
       "visibility": {
@@ -127,5 +136,39 @@
       "pcg": "Pokémon Card Game",
       "dlc": "Disney Lorcana"
     }
+  },
+  "modal": {
+    "editList": "Liste bearbeiten",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "z.B. Empfehlung des Hauses"
+      },
+      "description": {
+        "label": "Beschreibung",
+        "placeholder": "z.B. Frisch ausgepackt beim LGS"
+      },
+      "visibility": {
+        "label": "Sichtbarkeit",
+        "private": "Privat",
+        "privateDesc": "Die Liste ist nur für dich sichtbar.",
+        "public": "Öffentlich",
+        "publicDesc": "Die Liste ist sichtbar für alle."
+      },
+      "tcgs": {
+        "desc": "Du kannst beschränken, aus welchen Spielen dieser Liste Karten hinzugefügt werden dürfen.",
+        "placeholder": "Suchen…"
+      },
+      "color": {
+        "label": "Farbe"
+      }
+    }
+  },
+  "limits": {
+    "listLimitUsage": "Listen Limit {{amount}}/{{max}}",
+    "listTotalResourceLimitUsage": "Ressourcen Limit {{amount}}/{{max}}",
+    "listResourceLimitUsage": "Passt nicht in die Liste rein"
   }
 }
