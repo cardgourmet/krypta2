@@ -1,0 +1,49 @@
+.cardLink {
+  --main-color: var(--gourmet-orange-1);
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+
+  &[data-selected="true"] {
+    outline: 2px solid var(--main-color);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--gourmet-blue-1);
+  }
+
+  &[data-disabled="true"]:hover {
+    cursor: pointer;
+  }
+}
+
+.cardLinkSelectable {
+  &:hover {
+    outline: 1px dashed var(--main-color);
+    outline-offset: 2px;
+  }
+}
+
+.overlayMenuButton {
+  opacity: 0.5;
+  visibility: hidden;
+
+  &:hover,
+  &:focus-visible {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &[data-menu-opened="true"] {
+    opacity: 1;
+    visibility: visible !important;
+  }
+
+  @media (hover: none) {
+    opacity: 1;
+    visibility: visible;
+  }
+}

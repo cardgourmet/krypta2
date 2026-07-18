@@ -1,19 +1,21 @@
-import { ActionIcon, Group, Menu, Overlay, Stack } from '@mantine/core';
+import { ActionIcon, Group, Menu, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical, IconLink } from '@tabler/icons-react';
-import { Activity, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ListDetailsActionMenu } from '@/parcels/lists/ListDetails/ListDetailsActionMenu/ListDetailsActionMenu.tsx';
 import type { ResolvedUserListResource, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
-import styles from '@/parcels/overview/cards/CardGrid/CardGridToolsOverlay/CardGridToolsOverlay.module.css';
+import { CardGridToolsOverlay } from '@/parcels/overview/cards/CardGrid/CardGridToolsOverlay/CardGridToolsOverlay.tsx';
 import { ImageCard } from '@/parcels/overview/cards/ImageCard/ImageCard.tsx';
+import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
 import { slugify } from '@/parcels/slugify.ts';
 import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
+import styles from './CardRenderer.module.css';
 
 function CardRenderer({
   owner,
@@ -21,12 +23,14 @@ function CardRenderer({
   data,
   onAddToList,
   onRemoveFromList,
+  index,
 }: {
   owner: DataUser;
   list: UserListWithResources;
   data: ResolvedUserListResource;
   onAddToList?: (res: UserListResource) => void;
   onRemoveFromList?: (listId: string, resourceId?: string) => void;
+  index: number;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const isTouchDevice = useMediaQuery('(hover: none)');
@@ -41,6 +45,12 @@ function CardRenderer({
   } as TcgSearchDataCard);
 
   const [menuOpened, setMenuOpened] = useState(false);
+
+  const isSelectionMode = useListDetailsWorkStore((state) => state.isSelectionMode);
+  const isSelected = useListDetailsWorkStore((state) => {
+    return state.data?.selection?.elementDataById?.[card.print.id] !== undefined;
+  });
+  const setSelectionWithCheck = useListDetailsWorkStore((state) => state.setSelectionWithCheck);
 
   const actionMenu = useMemo(() => {
     return (
@@ -96,14 +106,45 @@ function CardRenderer({
 
   return (
     <Stack gap={'0.25rem'}>
-      <ImageCard key={data.listResource.resourceId} tcg={tcg} prop={prop} card={card} style={{ height: '100%' }}>
-        <Activity mode={isTouchDevice ? 'hidden' : 'visible'}>
-          <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
-            <Group p={'1rem 1rem 0 1rem'} justify={'end'}>
-              {actionMenu}
-            </Group>
-          </Overlay>
-        </Activity>
+      <ImageCard
+        key={data.listResource.resourceId}
+        tcg={tcg}
+        prop={prop}
+        card={card}
+        linkProps={{
+          /* @ts-expect-error */
+          'data-selected': isSelected,
+          onClick: (event) => {
+            if (!isSelectionMode) return;
+
+            event.preventDefault(); // prevent the event from bubbling up
+            setSelectionWithCheck([card.print.id], !isSelected, event.shiftKey, card.print.id, index);
+          },
+          tabIndex: isSelectionMode ? 0 : undefined,
+          className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
+          style: {
+            '--main-color': list.list.color ?? 'var(--gourmet-orange-1)',
+          },
+        }}
+        imageDivProps={{
+          /* @ts-expect-error */
+          'data-selected': isSelected,
+        }}
+        style={{ zIndex: isSelected ? 1 : 0, height: '100%' }}
+      >
+        {!isTouchDevice && (
+          <CardGridToolsOverlay
+            card={card}
+            checked={isSelected}
+            isSelectionMode={isSelected || isSelectionMode}
+            setSelection={(select) => {
+              const thisId = card.print.id;
+              setSelectionWithCheck([thisId], select, false, thisId, index);
+            }}
+            menuButton={actionMenu}
+            withoutLabels
+          />
+        )}
       </ImageCard>
 
       {isTouchDevice && <Group justify={'end'}>{actionMenu}</Group>}

@@ -13,12 +13,14 @@ export function CardGridToolsOverlay({
   isSelectionMode,
   setSelection,
   menuButton,
+  withoutLabels,
 }: {
   card: TcgDataCard;
   checked: boolean;
   isSelectionMode: boolean;
   setSelection: (s: boolean) => void;
   menuButton: ReactElement;
+  withoutLabels?: boolean;
 }) {
   const { user } = useAuth();
   const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
@@ -46,34 +48,36 @@ export function CardGridToolsOverlay({
           <Activity mode={!isSelectionMode ? 'visible' : 'hidden'}>{menuButton}</Activity>
         </Group>
       </Overlay>
-      <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
-        <Group m={'2.5rem 0 0 0'} justify={'end'}>
-          <Stack gap={'0'} style={{ pointerEvents: 'none' }}>
-            {sortedExistsInLists.slice(0, 5).map((l, index) => {
-              return (
-                <div key={l.list.id} style={{ pointerEvents: 'auto' }}>
-                  <Link
-                    to={'/@{$user}/lists/$listId'}
-                    params={{ user: user!.username, listId: l.list.slug }}
-                    className={styles.listLink}
-                  >
-                    <Tooltip label={l.list.name} openDelay={500}>
-                      <IconLabelFilled
-                        color={l.list.color ?? 'var(--gourmet-neutral-9)'}
-                        style={{
-                          transform: `rotate(180deg) translate(-5px, ${index * 16}px)`,
-                        }}
-                        className={styles.listLabel}
-                        size={28}
-                      />
-                    </Tooltip>
-                  </Link>
-                </div>
-              );
-            })}
-          </Stack>
-        </Group>
-      </Overlay>
+      {!withoutLabels && (
+        <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
+          <Group m={'2.5rem 0 0 0'} justify={'end'}>
+            <Stack gap={'0'} style={{ pointerEvents: 'none' }}>
+              {sortedExistsInLists.slice(0, 5).map((l, index) => {
+                return (
+                  <div key={l.list.id} style={{ pointerEvents: 'auto' }}>
+                    <Link
+                      to={'/@{$user}/lists/$listId'}
+                      params={{ user: user!.username, listId: l.list.slug }}
+                      className={styles.listLink}
+                    >
+                      <Tooltip label={l.list.name} openDelay={500}>
+                        <IconLabelFilled
+                          color={l.list.color ?? 'var(--gourmet-neutral-9)'}
+                          style={{
+                            transform: `rotate(180deg) translate(-5px, ${index * 16}px)`,
+                          }}
+                          className={styles.listLabel}
+                          size={28}
+                        />
+                      </Tooltip>
+                    </Link>
+                  </div>
+                );
+              })}
+            </Stack>
+          </Group>
+        </Overlay>
+      )}
     </>
   );
 }

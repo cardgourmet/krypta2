@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
-import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
+import type { ExplainSearchQuery, UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -14,7 +14,7 @@ export function QueryRemoveNotification({
 }: {
   tcg: Tcg;
   list: UserList;
-  query: ExplainSearchQuery;
+  query: ExplainSearchQuery | UserResolvedSavedSearch['firstSearch'];
   language: string;
 }) {
   const { t: t0 } = useTranslation('notifications', { keyPrefix: 'overview' });

@@ -1,5 +1,4 @@
-import { Center, Group, Loader, Stack } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
+import { Center, Loader, Stack } from '@mantine/core';
 import { startTransition, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
@@ -11,12 +10,16 @@ import { getAllResourcesFromList } from '@/parcels/lists/api.ts';
 import { extractScryfallInfo } from '@/parcels/lists/ListDetails/extractScryfallInfo.ts';
 import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
 import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
+import { ListDetailsQueryStack } from '@/parcels/lists/ListDetails/ListDetailsQueryStack/ListDetailsQueryStack.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
-import { SearchRenderer } from '@/parcels/lists/ListDetails/SearchRenderer.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { CardRemoveNotification } from '@/parcels/notification/CardRemoveNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { ListDetailsSelectionDisplay } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
@@ -38,7 +41,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
       return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
     });
   }, [localListWithResources.resources]);
-  const { activeLists, removeResources, addResources } = useActiveLists(undefined, listResources);
+  const { removeResources, addResources } = useActiveLists(undefined, listResources);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -116,7 +119,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
       return 0;
     });
   }, [search.order, search.sort, searchResources]);
-  const sortedCardResoures = useMemo(() => {
+  const sortedCardResources = useMemo(() => {
     return [...cardResources].sort((a, b) => {
       if (search.sort === 'addedAt') {
         const dateA = a.listResource.updatedAt ? new Date(a.listResource.updatedAt).getTime() : 0;
@@ -197,89 +200,47 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
 
       {!resourcesLoading && (
         <>
-          {sortedCardResoures.length === 0 && sortedSearchResources.length === 0 && (
+          {sortedCardResources.length === 0 && sortedSearchResources.length === 0 && (
             <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
               {t('overview.card.noResources')}
             </GourmetText>
           )}
-          {(sortedCardResoures.length > 0 || sortedSearchResources.length > 0) && (
+          {(sortedCardResources.length > 0 || sortedSearchResources.length > 0) && (
             <Stack gap={'2rem'}>
               {sortedSearchResources.length > 0 && (
-                <Stack>
-                  <Group gap={'0.5rem'}>
-                    <IconSearch size={22} color={localListWithResources.list.color ?? 'var(--gourmet-neutral-9)'} />
-                    <GourmetText
-                      cgmff={'title'}
-                      fz={'h3'}
-                      c={localListWithResources.list.color ?? 'var(--gourmet-neutral-9)'}
-                    >
-                      {t('details.savedSearches')}
-                    </GourmetText>
-                    <GourmetText cgmff={'ui'}>({sortedSearchResources.length})</GourmetText>
-                  </Group>
-
-                  <Stack gap={'0.5rem'}>
-                    {sortedSearchResources.map((data) => {
-                      return (
-                        <SearchRenderer
-                          owner={owner}
-                          key={data.listResource.resourceId}
-                          list={localListWithResources}
-                          data={data}
-                          onAddToList={(res) => {
-                            addResources([res]);
-                          }}
-                          onRemoveFromList={(listId) => {
-                            removeResources([data.listResource.resourceId], [listId]);
-
-                            if (listId !== list.id) {
-                              return;
-                            }
-
-                            const newSearchResources = [...searchResources];
-                            for (let i = 0; i < newSearchResources.length; i++) {
-                              if (newSearchResources[i].listResource.resourceId === data.listResource.resourceId) {
-                                newSearchResources.splice(i, 1);
-                                break;
-                              }
-                            }
-
-                            setSearchResources(newSearchResources);
-                          }}
-                        />
-                      );
-                    })}
-                  </Stack>
-                </Stack>
+                <ListDetailsQueryStack
+                  owner={owner}
+                  list={localListWithResources.list}
+                  listWithResources={localListWithResources}
+                  sortedSearchResources={sortedSearchResources}
+                  setSearchResources={setSearchResources}
+                />
               )}
 
-              {sortedCardResoures.length > 0 && (
+              {sortedCardResources.length > 0 && (
                 <ListDetailsCardGrid
                   owner={owner}
                   list={localListWithResources.list}
-                  sortedCardResoures={sortedCardResoures}
+                  sortedCardResoures={sortedCardResources}
                   cardResources={cardResources}
                   setCardResources={setCardResources}
                   listWithResources={localListWithResources}
                   suggestAddCard={isDraggedOver}
                   onAddToList={(res) => {
                     addResources([res]);
-
-                    const list = activeLists.find((l) => l.list.id === res.listId);
-                    if (!list) return;
-
-                    /*sendNotification(
-                      'success',
-                      <CardAddNotification tcg={res.game as Tcg} list={list.list} card={card} language={'en'} />,
-                    );*/
                   }}
-                  onRemoveFromList={(res) => {
+                  onRemoveFromList={(res, data) => {
                     removeResources([res.resourceId], [res.listId]);
 
-                    /*sendNotification(
+                    sendNotification(
                       'error',
-                      <CardRemoveNotification tcg={tcg as Tcg} list={localListWithResources.list} card={card} language={'en'} />,
-                    );*/
+                      <CardRemoveNotification
+                        tcg={res.game as Tcg}
+                        list={localListWithResources.list}
+                        card={data as unknown as TcgDataCard}
+                        language={'en'}
+                      />,
+                    );
                   }}
                 />
               )}
