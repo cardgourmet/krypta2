@@ -4,65 +4,49 @@ import { type ReactElement, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
+import { addResourcesToList, type ListApiResource, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckListLimits, useCheckUserLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
-import type { OptionalTcgProps } from '@/parcels/tcg/TcgProps.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
-
-export type ListMenuItemResourceProps = {
-  resourceId: string;
-  type?: 'card' | 'user_search';
-  raw?: boolean;
-  onSuccess?: (res?: UserListResource) => void;
-};
 
 export type ListMenuItemProps = {
-  resourceIds: string[];
-  type: 'card' | 'user_search';
-  action: 'add' | 'remove';
   listWithResources: UserListWithResources;
+  actionableResources: ListApiResource[];
+  action: 'add' | 'remove';
 
   icon?: ReactElement;
   buttonText?: string;
-  raw?: boolean;
   onSuccess?: (res?: UserListResource[]) => void;
-} & MenuItemProps &
-  OptionalTcgProps;
+} & MenuItemProps;
 
 export function ListMenuItem({
-  resourceIds,
-  tcg,
   listWithResources,
-  type,
+  actionableResources,
   action,
   icon,
   buttonText,
-  raw,
   onSuccess,
   disabled,
   ...others
 }: ListMenuItemProps) {
-  const locationTcg = useTcgByLocation();
-  const mustTcg = tcg ?? (locationTcg as Tcg);
   const { user } = useAuth();
 
   const { generateExceededTooltip, checkListAddExceeded } = useCheckUserLimits();
   const { list_resources_per_list } = useUserLimits(user);
 
-  const mustType = type === 'user_search' ? 'search' : type;
-
+  const resourceIds = useMemo(() => {
+    return actionableResources.map((res) => res.id);
+  }, [actionableResources]);
   const { list, resources, size } = listWithResources;
   const listResourceIds = useMemo(() => {
-    return resources?.[type]?.map((r) => r.listResource.resourceId) ?? [];
-  }, [resources, type]);
+    return new Set(Object.values(resources ?? {}).flatMap((res) => res.map((r) => r.listResource.resourceId)));
+  }, [resources]);
   const listActionCount = useMemo(() => {
     if (action === 'add') {
-      return resourceIds.filter((id) => !listResourceIds.includes(id)).length;
+      return resourceIds.filter((id) => !listResourceIds.has(id)).length;
     }
-    return resourceIds.filter((id) => listResourceIds.includes(id)).length;
+    return resourceIds.filter((id) => listResourceIds.has(id)).length;
   }, [listResourceIds, action, resourceIds]);
 
   const checkListLimits = useCheckListLimits();
@@ -88,9 +72,7 @@ export function ListMenuItem({
           }
 
           if (action === 'add') {
-            const toAddRes = resourceIds.map((r) => ({ id: r }));
-
-            addResourcesToList(user?.id, list.id, mustTcg, toAddRes, mustType, raw).then((res) => {
+            addResourcesToList(user?.id, list.id, actionableResources).then((res) => {
               if (res.error) {
                 sendErrorNotification(res.error);
                 return;
@@ -104,7 +86,7 @@ export function ListMenuItem({
             return;
           }
           if (action === 'remove') {
-            removeResourcesFromList(user?.id, list.id, mustTcg, resourceIds, mustType).then((res) => {
+            removeResourcesFromList(user?.id, list.id, resourceIds).then((res) => {
               if (res.error) {
                 sendErrorNotification(res.error);
                 return;

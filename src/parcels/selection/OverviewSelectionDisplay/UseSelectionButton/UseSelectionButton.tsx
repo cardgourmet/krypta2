@@ -8,12 +8,12 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+import { LegacyListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/LegacyListMenuItem.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckUserLimits } from '@/parcels/lists/useInList.tsx';
 import { ModalContext } from '@/parcels/modals/Modal.context';
-import { CardsAddNotification } from '@/parcels/notification/CardsAddNotification.tsx';
 import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
+import { ResourcesAddNotification } from '@/parcels/notification/ResourcesAddNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
@@ -94,7 +94,7 @@ export function UseSelectionButton() {
       <Menu.Dropdown>
         {systemLists.map((list) => {
           return (
-            <ListMenuItem
+            <LegacyListMenuItem
               resourceIds={selectedPrintIds}
               key={list.list.id}
               listWithResources={list}
@@ -114,7 +114,7 @@ export function UseSelectionButton() {
 
                 sendNotification(
                   'success',
-                  <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
+                  <ResourcesAddNotification tcg={tcg} list={list.list} resourceIds={filteredIds} language={'en'} />,
                 );
               }}
             />
@@ -157,7 +157,7 @@ export function UseSelectionButton() {
             }}
           >
             {nonSystemLists.map((list) => (
-              <ListMenuItem
+              <LegacyListMenuItem
                 resourceIds={selectedPrintIds}
                 type={'card'}
                 key={list.list.id}
@@ -175,7 +175,7 @@ export function UseSelectionButton() {
 
                   sendNotification(
                     'success',
-                    <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
+                    <ResourcesAddNotification tcg={tcg} list={list.list} resourceIds={filteredIds} language={'en'} />,
                   );
                 }}
               />
@@ -203,8 +203,8 @@ export function UseSelectionButton() {
                     const res = await addResourcesToList(
                       user!.id,
                       createdList.id,
-                      tcg,
                       selectedPrintIds.map((i) => ({ id: i })),
+                      tcg,
                       'card',
                     );
                     if (res.error) {
@@ -217,7 +217,12 @@ export function UseSelectionButton() {
                     sendNotification('success', <ListCreateNotification list={createdList} />);
                     sendNotification(
                       'success',
-                      <CardsAddNotification tcg={tcg} list={createdList} printIds={selectedPrintIds} language={'en'} />,
+                      <ResourcesAddNotification
+                        tcg={tcg}
+                        list={createdList}
+                        resourceIds={selectedPrintIds}
+                        language={'en'}
+                      />,
                     );
                     addLists([{ list: createdList, size: res.data?.length ?? 0 }]);
                   } catch {}

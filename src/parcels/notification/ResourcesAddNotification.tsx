@@ -8,13 +8,13 @@ import type { UserList } from '@/parcels/lists/types.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function CardsAddNotification({
+export function ResourcesAddNotification({
   list,
-  printIds,
+  resourceIds,
 }: {
   tcg: Tcg;
   list: UserList;
-  printIds: string[];
+  resourceIds: string[];
   language: string;
 }) {
   const { t } = useTranslation('notifications', { keyPrefix: 'selection.addToList' });
@@ -24,9 +24,9 @@ export function CardsAddNotification({
     <Group wrap={'nowrap'} align={'stretch'}>
       <Stack justify={'start'} gap={'0.25rem'}>
         <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
-          {t('title', { name: list.name, count: printIds.length })}
+          {t('title', { name: list.name, count: resourceIds.length })}
         </GourmetText>
-        <GourmetText fz={'0.9rem'}>{t('weveAdded', { count: printIds.length })} </GourmetText>
+        <GourmetText fz={'0.9rem'}>{t('weveAdded', { count: resourceIds.length })} </GourmetText>
         <Link to={'/@{$user}/lists/$listId'} params={{ user: user!.username, listId: slugify(list.name) }}>
           <Group gap={'0.25rem'} display={'inline-flex'}>
             <GourmetText cgmc={'neutral-9'} fz={'0.9rem'}>

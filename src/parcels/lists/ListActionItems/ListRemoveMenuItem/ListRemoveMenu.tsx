@@ -7,9 +7,9 @@ import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {
-  ListMenuItem,
+  LegacyListMenuItem,
   type ListMenuItemResourceProps,
-} from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+} from '@/parcels/lists/ListActionItems/ListMenuItem/LegacyListMenuItem.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
 
@@ -81,7 +81,7 @@ export function ListRemoveMenu(
           >
             {removableLists.map((list) => {
               return (
-                <ListMenuItem
+                <LegacyListMenuItem
                   resourceIds={[props.resourceId]}
                   type={props.type ?? 'card'}
                   raw={props.raw}

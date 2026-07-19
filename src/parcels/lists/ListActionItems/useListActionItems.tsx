@@ -4,7 +4,7 @@ import { type Ref, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
 import { ListAddMenu } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenu.tsx';
-import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+import { LegacyListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/LegacyListMenuItem.tsx';
 import { ListRemoveMenu } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenu.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
@@ -91,7 +91,7 @@ export function useListActionItems({
           const inList = existsInListsIds.includes(list.list.id);
 
           return (
-            <ListMenuItem
+            <LegacyListMenuItem
               key={list.list.id}
               resourceIds={[resourceId ?? rawResourceId]}
               raw={resourceId === undefined}
@@ -133,7 +133,7 @@ export function useListActionItems({
         />
 
         {listContext !== undefined && (
-          <ListMenuItem
+          <LegacyListMenuItem
             key={listContext.list.id}
             resourceIds={[resourceId ?? rawResourceId]}
             raw={resourceId === undefined}

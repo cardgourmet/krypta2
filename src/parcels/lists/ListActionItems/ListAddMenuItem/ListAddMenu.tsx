@@ -9,9 +9,9 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import {
-  ListMenuItem,
+  LegacyListMenuItem,
   type ListMenuItemResourceProps,
-} from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+} from '@/parcels/lists/ListActionItems/ListMenuItem/LegacyListMenuItem.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
@@ -99,7 +99,7 @@ export function ListAddMenu(
       >
         {nonSystemLists.map((list) => {
           return (
-            <ListMenuItem
+            <LegacyListMenuItem
               resourceIds={[props.resourceId]}
               type={props.type ?? 'card'}
               raw={props.raw}

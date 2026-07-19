@@ -8,19 +8,19 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
-import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/ListMenuItem.tsx';
+import { ListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckUserLimits } from '@/parcels/lists/useInList.tsx';
 import { ModalContext } from '@/parcels/modals/Modal.context.tsx';
-import { CardsAddNotification } from '@/parcels/notification/CardsAddNotification.tsx';
 import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
+import { ResourcesAddNotification } from '@/parcels/notification/ResourcesAddNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './ListDetailsSelectionButton.module.css';
 
-export function ListDetailsSelectionButton({ list }: { list: UserList }) {
+export function ListDetailsSelectionButton({ tcg, list }: { tcg: Tcg; list: UserList }) {
   const { t } = useTranslation('selection', { keyPrefix: 'useSelectionMenu' });
   const smallestScreen = useMediaQuery('(max-width: 500px)');
   const { user } = useAuth();
@@ -29,7 +29,8 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
   const [menuOpened, setMenuOpened] = useState(false);
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
-  const tcg = useTcgByLocation() as Tcg;
+  const locationTcg = useTcgByLocation() as Tcg;
+  const mustTcg = tcg ?? locationTcg;
   const { activeLists, addResources, addLists } = useActiveLists(CONTEXT_LIST_MAIN);
   const { systemLists, nonSystemLists } = useMemo(() => {
     const systemLists = activeLists.filter((l) => l.list.systemListType !== undefined);
@@ -51,6 +52,7 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
     return { systemLists, nonSystemLists };
   }, [activeLists, tcg]);
 
+  const selectedResourcesById = useListDetailsWorkStore((state) => state.data?.selection?.elementDataById) ?? {};
   const selectedResourceIds = useListDetailsWorkStore((state) => state.data?.selection?.elementIds) ?? [];
   const inFavorites = useMemo(() => {
     const favoriteList = systemLists[0];
@@ -60,6 +62,16 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
       favoriteList.resources?.card?.filter((c) => selectedResourceIds.includes(c.listResource.resourceId))?.length ?? 0
     );
   }, [selectedResourceIds, systemLists]);
+  const actionableResources = useMemo(() => {
+    const selectedResources = selectedResourceIds.map((resId) => {
+      return selectedResourcesById[resId];
+    });
+    return selectedResources.map((res) => ({
+      id: res.listResource.resourceId,
+      resourceType: res.listResource.resourceType,
+      game: res.listResource.game,
+    }));
+  }, [selectedResourceIds, selectedResourcesById]);
 
   const { checkListCreateExceeded, checkListAddExceeded, generateExceededTooltip } = useCheckUserLimits();
   const checkCreateLimitExceeded = useMemo(() => {
@@ -70,6 +82,8 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
 
     return null;
   }, [checkListAddExceeded, checkListCreateExceeded, selectedResourceIds.length]);
+
+  console.log('mustTcg', mustTcg);
 
   return (
     <Menu
@@ -98,11 +112,10 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
         {systemLists.map((list) => {
           return (
             <ListMenuItem
-              resourceIds={selectedResourceIds}
+              actionableResources={actionableResources}
               key={list.list.id}
               listWithResources={list}
               action={'add'}
-              type={'card'}
               icon={<IconStar size={18} />}
               buttonText={t(`favorite`, { count: selectedResourceIds.length - inFavorites })}
               onSuccess={(res) => {
@@ -115,10 +128,9 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                 );
                 const filteredIds = selectedResourceIds.filter((s) => !existingIds.has(s));
 
-                // TODO: not only cards add, might be saved search as well
                 sendNotification(
                   'success',
-                  <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
+                  <ResourcesAddNotification tcg={tcg} list={list.list} resourceIds={filteredIds} language={'en'} />,
                 );
               }}
             />
@@ -160,31 +172,31 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
               maxWidth: 320,
             }}
           >
-            {nonSystemLists.map((list) => (
-              <ListMenuItem
-                resourceIds={selectedResourceIds}
-                type={'card'}
-                key={list.list.id}
-                listWithResources={list}
-                action={'add'}
-                onSuccess={(res) => {
-                  if (!res) return;
+            {nonSystemLists.map((list) => {
+              return (
+                <ListMenuItem
+                  actionableResources={actionableResources}
+                  key={list.list.id}
+                  listWithResources={list}
+                  action={'add'}
+                  onSuccess={(res) => {
+                    if (!res) return;
 
-                  addResources(res);
+                    addResources(res);
 
-                  const existingIds = new Set(
-                    Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
-                  );
-                  const filteredIds = selectedResourceIds.filter((s) => !existingIds.has(s));
+                    const existingIds = new Set(
+                      Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
+                    );
+                    const filteredIds = selectedResourceIds.filter((s) => !existingIds.has(s));
 
-                  // TODO: not only cards add, might be saved search as well
-                  sendNotification(
-                    'success',
-                    <CardsAddNotification tcg={tcg} list={list.list} printIds={filteredIds} language={'en'} />,
-                  );
-                }}
-              />
-            ))}
+                    sendNotification(
+                      'success',
+                      <ResourcesAddNotification tcg={tcg} list={list.list} resourceIds={filteredIds} language={'en'} />,
+                    );
+                  }}
+                />
+              );
+            })}
 
             <Menu.Divider />
 
@@ -205,13 +217,7 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                     const createdList = await requestModal<UserList>('createList', { async: true });
                     if (!createdList) return;
 
-                    const res = await addResourcesToList(
-                      user!.id,
-                      createdList.id,
-                      tcg,
-                      selectedResourceIds.map((i) => ({ id: i })),
-                      'card',
-                    );
+                    const res = await addResourcesToList(user!.id, createdList.id, actionableResources);
                     if (res.error) {
                       addLists([{ list: createdList, size: 0 }]);
 
@@ -219,14 +225,13 @@ export function ListDetailsSelectionButton({ list }: { list: UserList }) {
                       return;
                     }
 
-                    // TODO: not only cards add, might be saved search as well
                     sendNotification('success', <ListCreateNotification list={createdList} />);
                     sendNotification(
                       'success',
-                      <CardsAddNotification
+                      <ResourcesAddNotification
                         tcg={tcg}
                         list={createdList}
-                        printIds={selectedResourceIds}
+                        resourceIds={selectedResourceIds}
                         language={'en'}
                       />,
                     );

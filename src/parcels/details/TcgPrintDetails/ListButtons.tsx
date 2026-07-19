@@ -48,7 +48,7 @@ export function ListButtons() {
     setIsListLoading(true);
 
     startTransition(() => {
-      addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: card.print.id }], 'card').then((res) => {
+      addResourcesToList(user?.id, favoriteList.list.id, [{ id: card.print.id }], tcg, 'card').then((res) => {
         setIsListLoading(false);
 
         if (res.error) {
@@ -77,7 +77,7 @@ export function ListButtons() {
     setIsListLoading(true);
 
     startTransition(() => {
-      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [card.print.id], 'card').then((res) => {
+      removeResourcesFromList(user?.id, favoriteList.list.id, [card.print.id]).then((res) => {
         setIsListLoading(false);
 
         if (res.error) {

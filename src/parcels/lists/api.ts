@@ -162,20 +162,33 @@ export async function deleteLists(
   });
 }
 
+export type ListApiResource = {
+  id: string;
+  resourceType?: UserListResource['resourceType'];
+  isRaw?: boolean;
+  game?: UserListResource['game'];
+};
+
 // /v1/users/{id}/lists/{listId}/resources/card
 export async function addResourcesToList(
   userId: string,
   listId: string,
-  game: Tcg,
-  resources: { id: string }[],
-  type?: 'card' | 'search',
+  resources: ListApiResource[],
+  game?: Tcg,
+  type?: 'card' | 'user_search',
   raw?: boolean,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<UserListResource[]>> {
   const mustType = type ?? 'card';
+  const mustResources = resources.map((res) => ({
+    id: res.id,
+    resourceType: res.resourceType ?? mustType,
+    isRaw: res.isRaw ?? raw,
+    game: res.game ?? game!,
+  }));
 
   return handleApiCall<UserListResource[]>(async () => {
-    return await umoriClient.POST(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
+    return await umoriClient.POST(`/v1/users/{id}/lists/{listId}/resources`, {
       params: {
         path: {
           id: userId,
@@ -183,9 +196,7 @@ export async function addResourcesToList(
         },
       },
       body: {
-        game: game,
-        resourceIds: resources,
-        isRaw: raw,
+        resources: mustResources,
       },
       signal: abort?.signal,
     });
@@ -196,15 +207,11 @@ export async function addResourcesToList(
 export async function removeResourcesFromList(
   userId: string,
   listId: string,
-  game: Tcg,
   resourceIds: string[],
-  type?: 'card' | 'search',
   abort?: AbortController,
 ): Promise<GourmetApiResponse<unknown>> {
-  const mustType = type ?? 'card';
-
   return handleApiCall(async () => {
-    return await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources/${mustType}`, {
+    return await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources`, {
       params: {
         path: {
           id: userId,
@@ -213,7 +220,6 @@ export async function removeResourcesFromList(
       },
       // @ts-expect-error
       body: {
-        game: game,
         resourceIds: resourceIds,
       },
       signal: abort?.signal,

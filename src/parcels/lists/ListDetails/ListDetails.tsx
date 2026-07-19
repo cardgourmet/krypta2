@@ -245,7 +245,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                 />
               )}
 
-              {user && <ListDetailsSelectionDisplay list={list} />}
+              {user && <ListDetailsSelectionDisplay tcg={tcg as Tcg} list={list} />}
             </Stack>
           )}
         </>

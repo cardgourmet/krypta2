@@ -7,8 +7,9 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import { ListDetailsSelectionButton } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionButton.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function ListDetailsSelectionDisplay({ list }: { list: UserList }) {
+export function ListDetailsSelectionDisplay({ tcg, list }: { tcg: Tcg; list: UserList }) {
   const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
@@ -72,7 +73,7 @@ export function ListDetailsSelectionDisplay({ list }: { list: UserList }) {
                 </Group>
               </Stack>
               <Group wrap={'nowrap'}>
-                <ListDetailsSelectionButton list={list} />
+                <ListDetailsSelectionButton tcg={tcg} list={list} />
                 <Tooltip label={t('clearSelection')} openDelay={500}>
                   <ActionIcon
                     color={'var(--gourmet-neutral-3)'}

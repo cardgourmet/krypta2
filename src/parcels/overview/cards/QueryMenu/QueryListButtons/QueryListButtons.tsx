@@ -66,7 +66,7 @@ export function QueryListButtons({
     setInListAmount(inListAmount + 1);
 
     startTransition(() => {
-      addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: query.statisticsId! }], 'search', true).then(
+      addResourcesToList(user?.id, favoriteList.list.id, [{ id: query.statisticsId! }], tcg, 'user_search', true).then(
         (res) => {
           setIsListLoading(false);
 
@@ -102,7 +102,7 @@ export function QueryListButtons({
     startTransition(() => {
       if (!savedSearchId) return;
 
-      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [savedSearchId], 'search').then((res) => {
+      removeResourcesFromList(user?.id, favoriteList.list.id, [savedSearchId]).then((res) => {
         setIsListLoading(false);
 
         if (res.error) {

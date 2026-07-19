@@ -5282,69 +5282,8 @@ export interface paths {
       };
     };
     put?: never;
-    /**
-     * Add card Resources To List
-     * @description Tags target resources with specific type
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description The id or username of the user to search the listed resources for. */
-          id: string;
-          /** @description The id of the collection tag or a key like `favorite`. */
-          listId: string;
-        };
-        cookie?: never;
-      };
-      /** @description Request Body */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['UserListResourcesRequest'];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['DataApiResponse-List-UserListResource'];
-          };
-        };
-      };
-    };
-    /**
-     * Remove card Resources From List
-     * @description Removes target resources with specific type from list
-     */
-    delete: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description The id or username of the user to search the listed resources for. */
-          id: string;
-          /** @description The id of the collection tag or a key like `favorite`. */
-          listId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['SimpleApiResponse'];
-          };
-        };
-      };
-    };
+    post?: never;
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -5405,69 +5344,8 @@ export interface paths {
       };
     };
     put?: never;
-    /**
-     * Add user_search Resources To List
-     * @description Tags target resources with specific type
-     */
-    post: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description The id or username of the user to search the listed resources for. */
-          id: string;
-          /** @description The id of the collection tag or a key like `favorite`. */
-          listId: string;
-        };
-        cookie?: never;
-      };
-      /** @description Request Body */
-      requestBody: {
-        content: {
-          'application/json': components['schemas']['UserListResourcesRequest'];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['DataApiResponse-List-UserListResource'];
-          };
-        };
-      };
-    };
-    /**
-     * Remove user_search Resources From List
-     * @description Removes target resources with specific type from list
-     */
-    delete: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          /** @description The id or username of the user to search the listed resources for. */
-          id: string;
-          /** @description The id of the collection tag or a key like `favorite`. */
-          listId: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            'application/json': components['schemas']['SimpleApiResponse'];
-          };
-        };
-      };
-    };
+    post?: never;
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -5522,6 +5400,88 @@ export interface paths {
     put?: never;
     post?: never;
     delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/users/{id}/lists/{listId}/resources': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or username of the user to search the list for. */
+        id: string;
+        /** @description The id of the tag or a key like `favorite`. */
+        listId: string;
+      };
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Add Resources To List
+     * @description Adds target resources to a specific list
+     */
+    post: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the list for. */
+          id: string;
+          /** @description The id of the tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      /** @description Request Body */
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['UserGenericAddListResourcesRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-List-UserListResource'];
+          };
+        };
+      };
+    };
+    /**
+     * Remove Resources From List
+     * @description Removes target resources with specific type from list
+     */
+    delete: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          /** @description The id or username of the user to search the list for. */
+          id: string;
+          /** @description The id of the tag or a key like `favorite`. */
+          listId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['SimpleApiResponse'];
+          };
+        };
+      };
+    };
     options?: never;
     head?: never;
     patch?: never;
@@ -8884,22 +8844,27 @@ export interface components {
     DeleteUserListsRequest: {
       listIds: string[];
     };
-    UserListResourcesRequestResource: {
+    UserGenericAddListResourcesRequestResource: {
+      game: components['schemas']['GameType'];
       /** Format: uuid */
       id: string;
-    };
-    UserListResourcesRequest: {
-      game?: components['schemas']['GameType'] | null;
       isRaw?: boolean | null;
-      resourceIds: components['schemas']['UserListResourcesRequestResource'][];
+      resourceType: components['schemas']['ListResourceType'];
+    };
+    UserGenericAddListResourcesRequest: {
+      resources: components['schemas']['UserGenericAddListResourcesRequestResource'][];
     };
     'DataApiResponse-List-UserListResource': {
       data: components['schemas']['UserListResource'][];
       /** Format: int32 */
       statusCode: number;
     };
-    RemoveListResourcesRequest: {
-      resourceIds: string[];
+    UserGenericRemoveListResourcesRequestResource: {
+      /** Format: uuid */
+      id: string;
+    };
+    UserGenericRemoveListResourcesRequest: {
+      resources: components['schemas']['UserGenericRemoveListResourcesRequestResource'][];
     };
     DuplicateUserListRequest: {
       newName: string;
