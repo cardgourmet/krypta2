@@ -15,6 +15,7 @@
     "useSelection": "Use selection for ...",
     "favorite": "Add {{count}} to Favorites",
     "addToLists": "Add to list ..",
+    "removeFromLists": "Remove from list ..",
     "createNewList": "Create new one"
   }
 }

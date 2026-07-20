@@ -3,9 +3,9 @@ import { IconList, IconStar } from '@tabler/icons-react';
 import { type Ref, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CONTEXT_LIST_MAIN, useActiveLists, useActiveListsResource } from '@/parcels/lists/ActiveListsState.tsx';
-import { ListAddMenu } from '@/parcels/lists/ListActionItems/ListAddMenuItem/ListAddMenu.tsx';
-import { LegacyListMenuItem } from '@/parcels/lists/ListActionItems/ListMenuItem/LegacyListMenuItem.tsx';
-import { ListRemoveMenu } from '@/parcels/lists/ListActionItems/ListRemoveMenuItem/ListRemoveMenu.tsx';
+import { ListMultipleMenu } from '@/parcels/lists/ListActionItems/ListMultipleMenu/ListMultipleMenu.tsx';
+import { ListSingleMenuItem } from '@/parcels/lists/ListActionItems/ListSingleMenuItem/ListSingleMenuItem.tsx';
+import { MenuItemWithListIcon } from '@/parcels/lists/ListActionItems/MenuItemWithListIcon.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { CreateListModal } from '@/parcels/lists/ListsOverview/CreateListModal/CreateListModal.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
@@ -83,6 +83,16 @@ export function useListActionItems({
     },
     [activeLists, onRemovedFromList, tcg, type, resource],
   );
+  const actionableResources = useMemo(() => {
+    return [
+      {
+        id: resourceId ?? rawResourceId,
+        isRaw: resourceId === undefined,
+        resourceType: type,
+        game: tcg,
+      },
+    ];
+  }, [rawResourceId, resourceId, tcg, type]);
 
   const entries = useMemo(() => {
     return (
@@ -91,14 +101,11 @@ export function useListActionItems({
           const inList = existsInListsIds.includes(list.list.id);
 
           return (
-            <LegacyListMenuItem
+            <ListSingleMenuItem
               key={list.list.id}
-              resourceIds={[resourceId ?? rawResourceId]}
-              raw={resourceId === undefined}
               listWithResources={list}
+              actionableResources={actionableResources}
               action={inList ? 'remove' : 'add'}
-              type={type}
-              tcg={tcg}
               onSuccess={(res) => {
                 if (!res) return;
 
@@ -115,73 +122,72 @@ export function useListActionItems({
           );
         })}
 
-        <ListAddMenu
-          ref={ref}
-          resourceId={resourceId ?? rawResourceId}
-          raw={resourceId === undefined}
-          disclosure={disclosure}
-          type={type}
-          tcg={tcg}
-          buttonText={listContext !== undefined ? t('copyToList') : t('addToList')}
+        <ListMultipleMenu
+          dropdownProps={{
+            ref: ref,
+          }}
+          actionableResources={actionableResources}
+          activeListContext={activeListContext}
+          action={'add'}
+          target={({ toggle }) => (
+            <MenuItemWithListIcon
+              buttonText={listContext !== undefined ? t('copyToList') : t('addToList')}
+              action={'add'}
+              onClick={toggle}
+            />
+          )}
           onSuccess={(res) => {
-            if (res) {
-              addToList([res]);
+            if (res?.[0]) {
+              addToList(res);
             }
           }}
-          existsInLists={existsInLists}
-          activeListContext={activeListContext ?? CONTEXT_LIST_MAIN}
         />
 
         {listContext !== undefined && (
-          <LegacyListMenuItem
+          <ListSingleMenuItem
             key={listContext.list.id}
-            resourceIds={[resourceId ?? rawResourceId]}
-            raw={resourceId === undefined}
             listWithResources={listContext}
+            actionableResources={actionableResources}
             action={'remove'}
-            type={type}
-            tcg={tcg}
             onSuccess={(res) => {
               if (!res) return;
 
               removeFromList(listContext.list.id, resourceId);
             }}
             icon={<IconList size={18} />}
-            buttonText={t('removeFromList')}
+            buttonText={t('removeFromThisList')}
           />
         )}
         {listContext === undefined && (
-          <ListRemoveMenu
-            ref={ref}
-            resourceId={resourceId ?? rawResourceId}
-            raw={resourceId === undefined}
-            type={type}
-            tcg={tcg}
+          <ListMultipleMenu
+            dropdownProps={{
+              ref: ref,
+            }}
+            actionableResources={actionableResources}
+            action={'remove'}
+            target={({ toggle }) => (
+              <MenuItemWithListIcon buttonText={t('removeFromList')} action={'remove'} onClick={toggle} />
+            )}
             onSuccess={(res) => {
-              if (res) {
-                removeFromList(res.listId, res.resourceId);
+              if (res?.[0]) {
+                removeFromList(res[0].listId, res[0].resourceId);
               }
             }}
-            existsInLists={existsInLists}
           />
         )}
       </>
     );
   }, [
-    disclosure,
     existsInListsIds,
-    rawResourceId,
-    ref,
     resourceId,
     systemLists,
-    tcg,
-    type,
     t,
     listContext,
-    existsInLists,
     addToList,
     removeFromList,
     activeListContext,
+    ref,
+    actionableResources,
   ]);
 
   return {

@@ -210,6 +210,10 @@ export async function removeResourcesFromList(
   resourceIds: string[],
   abort?: AbortController,
 ): Promise<GourmetApiResponse<unknown>> {
+  const resources = resourceIds.map((resourceId: string) => ({
+    id: resourceId,
+  }));
+
   return handleApiCall(async () => {
     return await umoriClient.DELETE(`/v1/users/{id}/lists/{listId}/resources`, {
       params: {
@@ -220,7 +224,7 @@ export async function removeResourcesFromList(
       },
       // @ts-expect-error
       body: {
-        resourceIds: resourceIds,
+        resources: resources,
       },
       signal: abort?.signal,
     });

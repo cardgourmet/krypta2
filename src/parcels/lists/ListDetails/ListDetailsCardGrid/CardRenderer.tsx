@@ -132,7 +132,7 @@ function CardRenderer({
         }}
         style={{ zIndex: isSelected ? 1 : 0, height: '100%' }}
       >
-        {!isTouchDevice && (
+        {!isTouchDevice && user && (
           <CardGridToolsOverlay
             card={card}
             checked={isSelected}

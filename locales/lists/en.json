@@ -6,8 +6,11 @@
     "addToList": "Add to list ...",
     "copyToList": "Copy to list ...",
     "removeFromList": "Remove from list ...",
+    "removeFromThisList": "Remove from this list",
     "createNew": "Create new",
-    "copyPrint": "Copy print link"
+    "copyPrint": "Copy print link",
+    "nothingAdd": "Nothing to add",
+    "nothingRemove": "Nothing to remove"
   },
   "overview": {
     "header": {

@@ -1,6 +1,7 @@
 import { Group, Menu, type MenuItemProps, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconMinus, IconPlus } from '@tabler/icons-react';
 import { type ReactElement, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -10,7 +11,7 @@ import type { UserListResource, UserListWithResources } from '@/parcels/lists/ty
 import { useCheckListLimits, useCheckUserLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 
-export type ListMenuItemProps = {
+export type ListSingleMenuItemProps = {
   listWithResources: UserListWithResources;
   actionableResources: ListApiResource[];
   action: 'add' | 'remove';
@@ -20,7 +21,11 @@ export type ListMenuItemProps = {
   onSuccess?: (res?: UserListResource[]) => void;
 } & MenuItemProps;
 
-export function ListMenuItem({
+/**
+ * This is used in menus as a single button to add or remove a selection of resources
+ * to one specific list.
+ */
+export function ListSingleMenuItem({
   listWithResources,
   actionableResources,
   action,
@@ -29,7 +34,8 @@ export function ListMenuItem({
   onSuccess,
   disabled,
   ...others
-}: ListMenuItemProps) {
+}: ListSingleMenuItemProps) {
+  const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const { user } = useAuth();
 
   const { generateExceededTooltip, checkListAddExceeded } = useCheckUserLimits();
@@ -59,7 +65,13 @@ export function ListMenuItem({
 
   return (
     <Tooltip
-      label={exceedsLimit ? generateExceededTooltip(exceedsLimit ?? undefined) : 'Nothing to add'}
+      label={
+        exceedsLimit
+          ? generateExceededTooltip(exceedsLimit ?? undefined)
+          : action === 'add'
+            ? t('nothingAdd')
+            : t('nothingRemove')
+      }
       disabled={!isDisabled}
       color={'var(--gourmet-red-01)'}
       withArrow
@@ -140,22 +152,20 @@ export function ListMenuItem({
                 {list.color && <IconLabelFilled size={18} color={list.color ?? 'var(--gourmet-neutral-9'} />}
               </Group>
 
-              {action === 'add' && (
-                <Group gap={'0.5rem'} wrap={'nowrap'}>
-                  <GourmetText
-                    cgmff={'monospace'}
-                    c={listActionCount < 0 ? 'var(--gourmet-red-01)' : 'var(--gourmet-green-1)'}
-                    fz={'0.9rem'}
-                  >
-                    {listActionCount < 0 && `-${listActionCount}`}
-                    {listActionCount >= 0 && `+${listActionCount}`}
-                  </GourmetText>
+              <Group gap={'0.5rem'} wrap={'nowrap'}>
+                <GourmetText
+                  cgmff={'monospace'}
+                  c={action === 'remove' ? 'var(--gourmet-red-01)' : 'var(--gourmet-green-1)'}
+                  fz={'0.9rem'}
+                >
+                  {action === 'remove' && `-${listActionCount}`}
+                  {action === 'add' && `+${listActionCount}`}
+                </GourmetText>
 
-                  <GourmetText cgmff={'monospace'} c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
-                    {size ?? '?'}/{list_resources_per_list}
-                  </GourmetText>
-                </Group>
-              )}
+                <GourmetText cgmff={'monospace'} c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
+                  {size ?? '?'}/{list_resources_per_list}
+                </GourmetText>
+              </Group>
             </Group>
           )}
         </Group>

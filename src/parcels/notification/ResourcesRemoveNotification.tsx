@@ -6,13 +6,11 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
 import { slugify } from '@/parcels/slugify.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 export function ResourcesRemoveNotification({
   list,
   resourceIds,
 }: {
-  tcg: Tcg;
   list: UserList;
   resourceIds: string[];
   language: string;
