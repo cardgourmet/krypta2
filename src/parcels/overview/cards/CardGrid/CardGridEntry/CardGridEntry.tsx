@@ -38,7 +38,11 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
   const cardMenuButton = useMemo(() => {
     return (
       <ActionIcon
-        style={{ pointerEvents: 'auto' }}
+        style={{
+          pointerEvents: 'auto',
+          visibility: isTouchDevice ? 'visible' : undefined,
+          opacity: isTouchDevice ? 1 : undefined,
+        }}
         onMouseDown={(event) => event.stopPropagation()}
         onClick={(event) => {
           openCardMenu(card?.card, event.currentTarget);
@@ -52,7 +56,7 @@ export default function CardGridEntry({ tcg, card, index, toolsEnabled, rotated 
         <IconDotsVertical size={16} />
       </ActionIcon>
     );
-  }, [card, openCardMenu, isCardMenuOpen]);
+  }, [card, openCardMenu, isCardMenuOpen, isTouchDevice]);
 
   // currently only scryfall is supported
   const dragData: { url: string; name: string; html: string } | undefined = useMemo(() => {

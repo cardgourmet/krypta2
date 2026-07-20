@@ -59,6 +59,7 @@ export function CardGridToolsOverlay({
                       to={'/@{$user}/lists/$listId'}
                       params={{ user: user!.username, listId: l.list.slug }}
                       className={styles.listLink}
+                      preload={false}
                     >
                       <Tooltip label={l.list.name} openDelay={500}>
                         <IconLabelFilled
