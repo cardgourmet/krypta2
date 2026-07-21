@@ -23,6 +23,8 @@ export type DlcSearchDataCard = c['schemas']['CardSearchResult-DlcDataCard'];
 export type DlcSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type DlcSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type DlcDataSetSummary = c['schemas']['DlcDataSetSummary'];
+export type DlcDataSetUserSummary =
+  c['schemas']['DetailedPage-CardSearchResult-DlcDataCard-UserTcgDataSetSummary-DlcDataSet'];
 
 export type DlcDataCard = c['schemas']['DlcDataCard'];
 export type DlcDataCardUser = c['schemas']['FindCardResponse-DlcDataCard'];
@@ -61,6 +63,35 @@ export async function fetchDlcSetSummary(
 ): Promise<GourmetApiResponse<DlcDataSetSummary>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/dlc/sets/{setId}/summary`, {
+      params: {
+        query: {
+          query: query,
+          mode: `unique:${mode}`,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+          trigger: trigger,
+        },
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/dlc/sets/user/{setId}/summary
+export async function fetchDlcSetSummaryUser(
+  setId: string,
+  query: string,
+  mode?: DlcUniqueBy,
+  sortBy?: DlcSortBy,
+  sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<DlcDataSetUserSummary>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/dlc/sets/user/{setId}/summary`, {
       params: {
         query: {
           query: query,

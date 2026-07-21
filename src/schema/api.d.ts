@@ -1942,6 +1942,82 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/mtg/sets/user/{setId}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get MTG Set Summary
+     * @description Return all data related to a Magic: The Gathering set.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query: string;
+          /** @description The mode to sort by. */
+          sortBy?:
+            | 'cmc'
+            | 'power'
+            | 'toughness'
+            | 'defense'
+            | 'loyalty'
+            | 'set'
+            | 'name'
+            | 'usd'
+            | 'tix'
+            | 'eur'
+            | 'rarity'
+            | 'color'
+            | 'released'
+            | 'edhrec';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserTcgDataSetSummary-MtgDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/mtg/sets': {
     parameters: {
       query?: never;
@@ -3195,6 +3271,68 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/dlc/sets/user/{setId}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get DLC Set Summary
+     * @description Return all data related to a Disney Lorcana set.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query: string;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'set' | 'ink' | 'strength' | 'willpower' | 'movement' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserTcgDataSetSummary-DlcDataSet'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/dlc/sets': {
     parameters: {
       query?: never;
@@ -4214,6 +4352,68 @@ export interface paths {
           };
           content: {
             'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg/sets/user/{setId}/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /** @description The id or code of the set to return. */
+        setId: string;
+      };
+      cookie?: never;
+    };
+    /**
+     * Get PCG Set Summary
+     * @description Return all data related to a Pokémon Card Game set.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Whether to return subset objects instead of subset ids. Defaults to `false`. */
+          withSubsets?: string;
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query: string;
+          /** @description The mode to sort by. */
+          sortBy?: 'name' | 'rarity' | 'set' | 'type' | 'health' | 'released';
+          /** @description The direction to sort by. */
+          sortDirection?: 'asc' | 'desc';
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description Describes how the search has been triggered. */
+          trigger?: 'search' | 'system' | 'unknown';
+          /** @description The language to display the explanation in. Defaults to the user's language. */
+          displayLanguage?: 'en' | 'de';
+        };
+        header?: never;
+        path: {
+          /** @description The id or code of the set to return. */
+          setId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserTcgDataSetSummary-PcgDataSet'];
           };
         };
       };
@@ -7876,6 +8076,13 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
+    DataSetCategoryQuery: {
+      game: components['schemas']['GameType'];
+      id?: string | null;
+      name: string;
+      printIds: string[];
+      query: string;
+    };
     DataSetImageUrls: {
       icon?: string | null;
       logo?: string | null;
@@ -7917,6 +8124,28 @@ export interface components {
       };
       type: string;
     };
+    'UserTcgDataSetSummary-MtgDataSet': {
+      categories: components['schemas']['DataSetCategoryQuery'][];
+      details?: components['schemas']['UserSearchCardsResponse'] | null;
+      set: components['schemas']['MtgDataSet'];
+      subsets: components['schemas']['MtgDataSet'][];
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-MtgDataCard-UserTcgDataSetSummary-MtgDataSet': {
+      data: components['schemas']['DetailedPage-CardSearchResult-MtgDataCard-UserTcgDataSetSummary-MtgDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-MtgDataCard-UserTcgDataSetSummary-MtgDataSet': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['UserTcgDataSetSummary-MtgDataSet'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-MtgDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
+    };
     'Page-MtgDataSet': {
       /** Format: int32 */
       currentPage: number;
@@ -7936,13 +8165,6 @@ export interface components {
       data: components['schemas']['MtgDataSet'];
       /** Format: int32 */
       statusCode: number;
-    };
-    DataSetCategoryQuery: {
-      game: components['schemas']['GameType'];
-      id?: string | null;
-      name: string;
-      printIds: string[];
-      query: string;
     };
     'DataApiResponse-List-DataSetCategoryQuery': {
       data: components['schemas']['DataSetCategoryQuery'][];
@@ -8166,6 +8388,28 @@ export interface components {
         [key: string]: components['schemas']['DlcDataSetTranslation'];
       };
       type: string;
+    };
+    'UserTcgDataSetSummary-DlcDataSet': {
+      categories: components['schemas']['DataSetCategoryQuery'][];
+      details?: components['schemas']['UserSearchCardsResponse'] | null;
+      set: components['schemas']['DlcDataSet'];
+      subsets: components['schemas']['DlcDataSet'][];
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-DlcDataCard-UserTcgDataSetSummary-DlcDataSet': {
+      data: components['schemas']['DetailedPage-CardSearchResult-DlcDataCard-UserTcgDataSetSummary-DlcDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-DlcDataCard-UserTcgDataSetSummary-DlcDataSet': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['UserTcgDataSetSummary-DlcDataSet'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-DlcDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
     };
     'Page-DlcDataSet': {
       /** Format: int32 */
@@ -8578,6 +8822,28 @@ export interface components {
         [key: string]: components['schemas']['PcgDataSetTranslation'];
       };
       type: components['schemas']['PcgSetType'];
+    };
+    'UserTcgDataSetSummary-PcgDataSet': {
+      categories: components['schemas']['DataSetCategoryQuery'][];
+      details?: components['schemas']['UserSearchCardsResponse'] | null;
+      set: components['schemas']['PcgDataSet'];
+      subsets: components['schemas']['PcgDataSet'][];
+    };
+    'DataApiResponse-DetailedPage-CardSearchResult-PcgDataCard-UserTcgDataSetSummary-PcgDataSet': {
+      data: components['schemas']['DetailedPage-CardSearchResult-PcgDataCard-UserTcgDataSetSummary-PcgDataSet'];
+      /** Format: int32 */
+      statusCode: number;
+    };
+    'DetailedPage-CardSearchResult-PcgDataCard-UserTcgDataSetSummary-PcgDataSet': {
+      /** Format: int32 */
+      currentPage: number;
+      details?: components['schemas']['UserTcgDataSetSummary-PcgDataSet'] | null;
+      hasNextPage: boolean;
+      items: components['schemas']['CardSearchResult-PcgDataCard'][];
+      /** Format: int32 */
+      pageCount: number;
+      /** Format: int32 */
+      totalItemCount: number;
     };
     'Page-PcgDataSet': {
       /** Format: int32 */
