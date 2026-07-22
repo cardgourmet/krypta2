@@ -130,6 +130,10 @@ export function ListMultipleMenu({
               listWithResources={list}
               action={action}
               onSuccess={onSuccess}
+              listContext={{
+                key: activeListContext ?? CONTEXT_LIST_MAIN,
+                sync: activeListContext !== undefined && activeListContext !== CONTEXT_LIST_MAIN,
+              }}
             />
           );
         })}

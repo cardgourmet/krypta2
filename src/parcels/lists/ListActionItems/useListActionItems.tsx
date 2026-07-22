@@ -90,6 +90,10 @@ export function useListActionItems({
               }}
               icon={<IconStar size={18} />}
               buttonText={t(`favorite${inList ? 'Remove' : ''}`)}
+              listContext={{
+                key: activeListContext ?? CONTEXT_LIST_MAIN,
+                sync: activeListContext !== undefined && activeListContext !== CONTEXT_LIST_MAIN,
+              }}
             />
           );
         })}
@@ -129,6 +133,10 @@ export function useListActionItems({
             }}
             icon={<IconList size={18} />}
             buttonText={t('removeFromThisList')}
+            listContext={{
+              key: activeListContext ?? CONTEXT_LIST_MAIN,
+              sync: activeListContext !== undefined && activeListContext !== CONTEXT_LIST_MAIN,
+            }}
           />
         )}
         {listContext === undefined && (
@@ -136,6 +144,7 @@ export function useListActionItems({
             dropdownProps={{
               ref: ref,
             }}
+            activeListContext={activeListContext}
             actionableResources={actionableResources}
             action={'remove'}
             target={({ toggle }) => (

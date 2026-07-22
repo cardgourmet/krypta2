@@ -12,6 +12,7 @@ import { sendErrorNotification } from '@/parcels/notification/sendErrorNotificat
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
+import type { UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import { useUserRecentSavedSearches } from '@/parcels/search/useUserRecentSavedSearches.ts';
 import { useLocalUserTransientStore } from '@/parcels/state/LocalUserTransientStore.tsx';
 import type { TcgProps } from '@/parcels/tcg/TcgProps.ts';
@@ -128,7 +129,12 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
   const addSavedSearch = useUserRecentSavedSearches((s) => s.addSavedSearch);
   const removeSavedSearch = useUserRecentSavedSearches((s) => s.removeSavedSearch);
 
-  const { addResources, removeResources } = useActiveLists(CONTEXT_LIST_NAV);
+  const savedSearches = useUserRecentSavedSearches((s) => s.savedSearches);
+  const currentSavedSearch = useMemo(() => {
+    return savedSearches[tcg]?.find((s) => s.firstSearch.rawQuery === query.rawQuery);
+  }, [query.rawQuery, savedSearches, tcg]);
+
+  const { removeResources } = useActiveLists(CONTEXT_LIST_NAV);
 
   return (
     <Group gap={'0.2rem'}>
@@ -142,9 +148,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
                 sendErrorNotification(error);
                 return;
               }
-              if (query.saved) {
-                removeResources([query.saved]);
-              }
+              removeResources([query.saved!]);
 
               // adjust local storage and remove all with that queryId
               removeSavedSearch(tcg, query.saved!);
@@ -176,7 +180,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
         type={'user_search'}
         tcg={tcg}
         resource={query}
-        resourceId={query.saved}
+        resourceId={currentSavedSearch?.savedSearch.id}
         rawResourceId={query.id as string}
         menuOpened={menuOpened}
         setMenuOpened={setMenuOpened}
@@ -190,13 +194,26 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
           </ActionIcon>
         }
         onAddedToList={(res) => {
-          addResources([res], true);
+          if (!query.saved) {
+            addSavedSearch(tcg, {
+              firstSearch: {
+                id: query.id,
+                queryId: query.id,
+                rawQuery: query.rawQuery,
+              },
+              listResources: [res],
+              savedSearch: {
+                game: tcg,
+                id: res.resourceId,
+                queryId: query.id,
+                userId: user?.id,
+                savedAt: res.createdAt,
+              },
+            } as UserResolvedSavedSearch);
+          }
 
           // adjust local storage and add all with that queryId
           history.markQueries(query.rawQuery as string, res.resourceId);
-        }}
-        onRemovedFromList={(listId) => {
-          if (query.saved) removeResources([query.saved], [listId]);
         }}
         activeListContext={CONTEXT_LIST_NAV}
       />

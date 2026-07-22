@@ -131,6 +131,8 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
       return get().activeListsByContext[context];
     },
     addResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => {
+      console.log('addResources', context, rawLists, res, sync);
+
       const allContexts = new Set([...Object.keys(get().activeListsByContext), context]);
       const targetContexts = sync ? allContexts : new Set([context]);
 
