@@ -5,6 +5,7 @@ import { IconBowlChopsticks, IconCards, IconFolders } from '@tabler/icons-react'
 import { Link } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BetaButtonSide } from '@/parcels/beta/BetaButton/BetaButtonSide.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
@@ -74,18 +75,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             </Stack>
 
             <Stack justify={'end'} h={'100%'} mb={'1rem'}>
-              <GourmetText
-                cgmff={'ui'}
-                style={{
-                  writingMode: 'vertical-rl',
-                  transform: 'rotate(180deg)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1rem',
-                }}
-                fw={500}
-              >
-                Cardgourmet <span className={styles.rainbowText}>BETA</span>
-              </GourmetText>
+              <BetaButtonSide />
             </Stack>
           </nav>
 
