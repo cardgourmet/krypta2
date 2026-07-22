@@ -5,7 +5,6 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
-import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { getAllResourcesFromList } from '@/parcels/lists/api.ts';
 import { extractScryfallInfo } from '@/parcels/lists/ListDetails/extractScryfallInfo.ts';
 import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
@@ -13,12 +12,9 @@ import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader
 import { ListDetailsQueryStack } from '@/parcels/lists/ListDetails/ListDetailsQueryStack/ListDetailsQueryStack.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import { CardRemoveNotification } from '@/parcels/notification/CardRemoveNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
-import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { ListDetailsSelectionDisplay } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
-import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
@@ -35,13 +31,6 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const [localListWithResources, setLocalListWithResources] = useState<UserListWithResources>({
     list: list,
   });
-
-  const listResources = useMemo(() => {
-    return Object.values(localListWithResources.resources ?? {}).flatMap((v) => {
-      return v.flatMap((e) => [...(e.otherListResources ?? []), e.listResource]);
-    });
-  }, [localListWithResources.resources]);
-  const { removeResources, addResources } = useActiveLists(undefined, listResources);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -226,22 +215,6 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                   setCardResources={setCardResources}
                   listWithResources={localListWithResources}
                   suggestAddCard={isDraggedOver}
-                  onAddToList={(res) => {
-                    addResources([res]);
-                  }}
-                  onRemoveFromList={(res, data) => {
-                    removeResources([res.resourceId], [res.listId]);
-
-                    sendNotification(
-                      'error',
-                      <CardRemoveNotification
-                        tcg={res.game as Tcg}
-                        list={localListWithResources.list}
-                        card={data as unknown as TcgDataCard}
-                        language={'en'}
-                      />,
-                    );
-                  }}
                 />
               )}
 

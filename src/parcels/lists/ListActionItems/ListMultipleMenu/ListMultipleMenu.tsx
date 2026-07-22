@@ -11,9 +11,8 @@ import { ListSingleMenuItem } from '@/parcels/lists/ListActionItems/ListSingleMe
 import type { UserList, UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckUserLimits } from '@/parcels/lists/useInList.tsx';
 import { ModalContext } from '@/parcels/modals/Modal.context.tsx';
-import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
-import { ResourcesAddNotification } from '@/parcels/notification/ResourcesAddNotification.tsx';
-import { ResourcesRemoveNotification } from '@/parcels/notification/ResourcesRemoveNotification.tsx';
+import { ListCreateNotification } from '@/parcels/notification/list/ListCreateNotification.tsx';
+import { ResourcesAddNotification } from '@/parcels/notification/list/ResourcesAddNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import styles from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionButton.module.css';
@@ -52,9 +51,7 @@ export function ListMultipleMenu({
   const { requestModal } = use(ModalContext);
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
-  const { activeLists, addResources, removeResources, addLists } = useActiveLists(
-    activeListContext ?? CONTEXT_LIST_MAIN,
-  );
+  const { activeLists, addResources, addLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
   const actionableResourceIds = useMemo(() => {
     return actionableResources.map((res) => res.id);
   }, [actionableResources]);
@@ -127,36 +124,7 @@ export function ListMultipleMenu({
               key={list.list.id}
               listWithResources={list}
               action={action}
-              onSuccess={(res) => {
-                if (!res) return;
-
-                if (action === 'add') {
-                  addResources(res);
-
-                  const existingIds = new Set(
-                    Object.values(list.resources ?? {}).flatMap((v) => v.map((r) => r.listResource.resourceId)),
-                  );
-                  const filteredIds = actionableResourceIds.filter((s) => !existingIds.has(s));
-
-                  sendNotification(
-                    'success',
-                    <ResourcesAddNotification list={list.list} resourceIds={filteredIds} language={'en'} />,
-                  );
-                } else {
-                  removeResources(actionableResourceIds);
-
-                  sendNotification(
-                    'success',
-                    <ResourcesRemoveNotification
-                      list={list.list}
-                      resourceIds={actionableResourceIds}
-                      language={'en'}
-                    />,
-                  );
-                }
-
-                if (onSuccess) onSuccess(res);
-              }}
+              onSuccess={onSuccess}
             />
           );
         })}
@@ -189,6 +157,7 @@ export function ListMultipleMenu({
                       sendErrorNotification(res.error);
                       return;
                     }
+                    if (!res.data) return;
 
                     sendNotification('success', <ListCreateNotification list={createdList} />);
                     sendNotification(
@@ -200,6 +169,7 @@ export function ListMultipleMenu({
                       />,
                     );
                     addLists([{ list: createdList, size: res.data?.length ?? 0 }]);
+                    addResources(res.data);
                   } catch {}
                 }}
               >

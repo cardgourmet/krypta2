@@ -1,7 +1,10 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
 import type { ResolvedUserListResource, UserList, UserListResource, UserListResponse } from '@/parcels/lists/types.ts';
+import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
+import type { ExplainSearchQuery, UserResolvedSavedSearch, UserSavedSearch } from '@/parcels/search/types.ts'; // /v1/users/{id}/lists
+import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts'; // /v1/users/{id}/lists
-import umoriClient from '@/schema/umoriClient.ts'; // /v1/users/{id}/lists
+import umoriClient from '@/schema/umoriClient.ts';
 
 // /v1/users/{id}/lists
 export async function fetchLists(
@@ -162,11 +165,18 @@ export async function deleteLists(
   });
 }
 
+export type PossibleSearchResource =
+  | ExplainSearchQuery
+  | UserSavedSearch
+  | UserResolvedSavedSearch['firstSearch']
+  | HistoryEntry;
+export type PossibleResource = TcgDataCard | PossibleSearchResource;
 export type ListApiResource = {
   id: string;
   resourceType?: UserListResource['resourceType'];
   isRaw?: boolean;
   game?: UserListResource['game'];
+  resolved?: PossibleResource;
 };
 
 // /v1/users/{id}/lists/{listId}/resources/card

@@ -9,7 +9,7 @@ import { createList } from '@/parcels/lists/api.ts';
 import { ListValuesForm } from '@/parcels/lists/ListsOverview/ListValuesForm/ListValuesForm.tsx';
 import { useListForm } from '@/parcels/lists/ListsOverview/useListForm.ts';
 import type { UserList } from '@/parcels/lists/types.ts';
-import { ListCreateNotification } from '@/parcels/notification/ListCreateNotification.tsx';
+import { ListCreateNotification } from '@/parcels/notification/list/ListCreateNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 

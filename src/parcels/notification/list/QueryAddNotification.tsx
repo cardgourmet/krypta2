@@ -4,8 +4,8 @@ import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import type { PossibleSearchResource } from '@/parcels/lists/api.ts';
 import type { UserList } from '@/parcels/lists/types.ts';
-import type { ExplainSearchQuery, UserResolvedSavedSearch } from '@/parcels/search/types.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -14,7 +14,7 @@ export function QueryAddNotification({
 }: {
   tcg: Tcg;
   list: UserList;
-  query: ExplainSearchQuery | UserResolvedSavedSearch['firstSearch'];
+  query: PossibleSearchResource;
   language: string;
 }) {
   const { user } = useAuth();

@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import styles from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.module.css';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, type ListApiResource, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckListLimits, useCheckUserLimits, useUserLimits } from '@/parcels/lists/useInList.tsx';
+import { sendListActionNotification } from '@/parcels/notification/list/sendListActionNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 
 export type ListSingleMenuItemProps = {
@@ -19,6 +21,10 @@ export type ListSingleMenuItemProps = {
   icon?: ReactElement;
   buttonText?: string;
   onSuccess?: (res?: UserListResource[]) => void;
+  listContext?: {
+    key: string;
+    sync?: boolean;
+  };
 } & MenuItemProps;
 
 /**
@@ -33,6 +39,7 @@ export function ListSingleMenuItem({
   buttonText,
   onSuccess,
   disabled,
+  listContext,
   ...others
 }: ListSingleMenuItemProps) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
@@ -40,6 +47,7 @@ export function ListSingleMenuItem({
 
   const { generateExceededTooltip, checkListAddExceeded } = useCheckUserLimits();
   const { list_resources_per_list } = useUserLimits(user);
+  const { addResources, removeResources } = useActiveLists(listContext?.key ?? CONTEXT_LIST_MAIN);
 
   const resourceIds = useMemo(() => {
     return actionableResources.map((res) => res.id);
@@ -91,6 +99,16 @@ export function ListSingleMenuItem({
               }
 
               const data = res?.data;
+
+              if (data) {
+                addResources(data, listContext?.sync);
+
+                sendListActionNotification(list, 'add', {
+                  resources: data,
+                  resolved: Object.fromEntries(actionableResources.map((a) => [a.id, a.resolved])),
+                });
+              }
+
               if (onSuccess) {
                 onSuccess(data);
               }
@@ -104,10 +122,18 @@ export function ListSingleMenuItem({
                 return;
               }
 
+              removeResources(resourceIds, [list.id]);
+
+              const resources = actionableResources.map(
+                (res) => ({ listId: list.id, resourceId: res.id, resourceType: res.resourceType }) as UserListResource,
+              );
+              sendListActionNotification(list, 'remove', {
+                resources: resources,
+                resolved: Object.fromEntries(actionableResources.map((a) => [a.id, a.resolved])),
+              });
+
               if (onSuccess) {
-                onSuccess(
-                  resourceIds.map((resourceId) => ({ listId: list.id, resourceId: resourceId }) as UserListResource),
-                );
+                onSuccess(resources);
               }
             });
             return;

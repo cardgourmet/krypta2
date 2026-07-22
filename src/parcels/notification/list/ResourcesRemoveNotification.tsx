@@ -21,7 +21,7 @@ export function ResourcesRemoveNotification({
   return (
     <Group wrap={'nowrap'} align={'stretch'}>
       <Stack justify={'start'} gap={'0.25rem'}>
-        <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-green-1)'}>
+        <GourmetText cgmff={'ui'} fw={500} c={'var(--gourmet-red-01)'}>
           {t('title', { name: list.name, count: resourceIds.length })}
         </GourmetText>
         <GourmetText fz={'0.9rem'}>{t('weveRemoved', { count: resourceIds.length })} </GourmetText>

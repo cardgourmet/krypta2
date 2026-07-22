@@ -175,6 +175,7 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
         ref={submenuRef}
         type={'user_search'}
         tcg={tcg}
+        resource={query}
         resourceId={query.saved}
         rawResourceId={query.id as string}
         menuOpened={menuOpened}

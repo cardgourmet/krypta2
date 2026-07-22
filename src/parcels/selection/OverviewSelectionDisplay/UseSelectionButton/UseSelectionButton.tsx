@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import type { ListApiResource } from '@/parcels/lists/api.ts';
 import { IconWithOverlayIcon } from '@/parcels/lists/IconWithOverlayIcon/IconWithOverlayIcon.tsx';
 import { ListMultipleMenu } from '@/parcels/lists/ListActionItems/ListMultipleMenu/ListMultipleMenu.tsx';
 import { ListSingleMenuItem } from '@/parcels/lists/ListActionItems/ListSingleMenuItem/ListSingleMenuItem.tsx';
@@ -45,11 +46,15 @@ export function UseSelectionButton() {
     const selectedResources = selectedPrintIds.map((resId) => {
       return selectedResourcesById[resId];
     });
-    return selectedResources.map((res) => ({
-      id: res.card.print.id,
-      resourceType: 'card' as UserListResource['resourceType'],
-      game: tcg,
-    }));
+    return selectedResources.map(
+      (res) =>
+        ({
+          id: res.card.print.id,
+          resourceType: 'card' as UserListResource['resourceType'],
+          game: tcg,
+          resolved: res.card,
+        }) as ListApiResource,
+    );
   }, [selectedPrintIds, selectedResourcesById, tcg]);
 
   const inFavorites = useMemo(() => {

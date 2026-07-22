@@ -8,8 +8,8 @@ import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
-import { QueryAddNotification } from '@/parcels/notification/QueryAddNotification.tsx';
-import { QueryRemoveNotification } from '@/parcels/notification/QueryRemoveNotification.tsx';
+import { QueryAddNotification } from '@/parcels/notification/list/QueryAddNotification.tsx';
+import { QueryRemoveNotification } from '@/parcels/notification/list/QueryRemoveNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -145,6 +145,7 @@ export function QueryListButtons({
       <MoreListActionsMenu
         type={'user_search'}
         tcg={tcg}
+        resource={query}
         resourceId={savedSearchId}
         rawResourceId={query.statisticsId!}
         target={
