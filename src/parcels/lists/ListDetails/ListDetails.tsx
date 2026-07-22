@@ -5,6 +5,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { getAllResourcesFromList } from '@/parcels/lists/api.ts';
 import { extractScryfallInfo } from '@/parcels/lists/ListDetails/extractScryfallInfo.ts';
 import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGrid.tsx';
@@ -15,7 +16,6 @@ import type { ResolvedUserListResource, UserList, UserListWithResources } from '
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { ListDetailsSelectionDisplay } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
@@ -31,6 +31,15 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const [localListWithResources, setLocalListWithResources] = useState<UserListWithResources>({
     list: list,
   });
+  const allResources = useMemo(() => {
+    return Object.values(localListWithResources.resources ?? {})
+      .flatMap((res) => {
+        return res.map((r) => [r.listResource, ...(r.otherListResources ?? [])]);
+      })
+      .flat();
+  }, [localListWithResources.resources]);
+
+  useActiveLists(CONTEXT_LIST_MAIN, allResources);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -218,7 +227,20 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                 />
               )}
 
-              {user && <ListDetailsSelectionDisplay tcg={tcg as Tcg} list={list} />}
+              {user && (
+                <ListDetailsSelectionDisplay
+                  list={localListWithResources}
+                  onRemoveFromList={(res) => {
+                    const toRemoveIds = new Set(res.map((r) => r.resourceId));
+
+                    const newCardResources = cardResources.filter(
+                      (resource) => !toRemoveIds.has(resource.listResource.resourceId),
+                    );
+
+                    setCardResources(newCardResources);
+                  }}
+                />
+              )}
             </Stack>
           )}
         </>

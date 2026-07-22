@@ -100,6 +100,7 @@ export function useListActionItems({
           }}
           actionableResources={actionableResources}
           activeListContext={activeListContext}
+          listContext={listContext?.list?.id}
           action={'add'}
           target={({ toggle }) => (
             <MenuItemWithListIcon

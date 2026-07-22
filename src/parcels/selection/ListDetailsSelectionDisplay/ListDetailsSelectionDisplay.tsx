@@ -4,12 +4,17 @@ import { IconX } from '@tabler/icons-react';
 import { useRouter } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import type { UserList } from '@/parcels/lists/types.ts';
+import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { ListDetailsSelectionButton } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionButton.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export function ListDetailsSelectionDisplay({ tcg, list }: { tcg: Tcg; list: UserList }) {
+export function ListDetailsSelectionDisplay({
+  list,
+  onRemoveFromList,
+}: {
+  list: UserListWithResources;
+  onRemoveFromList?: (res: UserListResource[]) => void;
+}) {
   const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
@@ -64,7 +69,7 @@ export function ListDetailsSelectionDisplay({ tcg, list }: { tcg: Tcg; list: Use
                   </GourmetText>
                   <GourmetText
                     cgmff={'monospace'}
-                    c={list.color ?? 'var(--gourmet-orange-1)'}
+                    c={list.list.color ?? 'var(--gourmet-orange-1)'}
                     fw={'500'}
                     fz={'1.25rem'}
                   >
@@ -73,7 +78,7 @@ export function ListDetailsSelectionDisplay({ tcg, list }: { tcg: Tcg; list: Use
                 </Group>
               </Stack>
               <Group wrap={'nowrap'}>
-                <ListDetailsSelectionButton tcg={tcg} list={list} />
+                <ListDetailsSelectionButton list={list} onRemoveFromList={onRemoveFromList} />
                 <Tooltip label={t('clearSelection')} openDelay={500}>
                   <ActionIcon
                     color={'var(--gourmet-neutral-3)'}

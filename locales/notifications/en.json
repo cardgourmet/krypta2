@@ -22,7 +22,7 @@
     },
     "removeFromList": {
       "title": "Removed {{count}} from {{name}}",
-      "weveAdded": "We've removed {{count}} resources from the list.",
+      "weveRemoved": "We've removed {{count}} resources from the list.",
       "goThere": "Go there now"
     }
   },

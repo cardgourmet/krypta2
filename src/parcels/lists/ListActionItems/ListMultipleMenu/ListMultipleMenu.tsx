@@ -22,6 +22,7 @@ export type ListMultipleMenuProps = {
   actionableResources: ListApiResource[];
   action: 'add' | 'remove';
   activeListContext?: string;
+  listContext?: string; // id of list
   withSystem?: boolean;
 
   dropdownProps?: {} & { ref?: Ref<HTMLDivElement> };
@@ -40,6 +41,7 @@ export function ListMultipleMenu({
   actionableResources,
   action,
   activeListContext,
+  listContext,
   withSystem,
   target,
   onSuccess,
@@ -61,6 +63,9 @@ export function ListMultipleMenu({
   }, [actionableResources]);
   const targetLists = useMemo(() => {
     const lists = activeLists.filter((l) => {
+      // if we view the current list, exclude it
+      if (l.list.id === listContext) return false;
+
       // filter by tcg
       if ((l.list.allowedTcgs?.length ?? 0) === 0) return true;
       return targetTcgs.every((t) => l.list.allowedTcgs?.includes(t));
@@ -78,7 +83,7 @@ export function ListMultipleMenu({
     });
 
     return filteredLists;
-  }, [activeLists, targetTcgs, withSystem]);
+  }, [activeLists, targetTcgs, withSystem, listContext]);
 
   const { user } = useAuth();
   const { checkListCreateExceeded, checkListAddExceeded, generateExceededTooltip } = useCheckUserLimits();

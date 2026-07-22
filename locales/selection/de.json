@@ -16,6 +16,7 @@
     "favorite": "Füge {{count}} zu Favoriten hinzu",
     "addToLists": "Hinzufügen zu ..",
     "removeFromLists": "Entfernen von ..",
-    "createNewList": "Neue Erstellen"
+    "createNewList": "Neue Erstellen",
+    "removeFromThisList": "Aus dieser Liste entfernen"
   }
 }
