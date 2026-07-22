@@ -14,6 +14,7 @@ export function CardGridToolsOverlay({
   setSelection,
   menuButton,
   withoutLabels,
+  color,
 }: {
   card: TcgDataCard;
   checked: boolean;
@@ -21,6 +22,7 @@ export function CardGridToolsOverlay({
   setSelection: (s: boolean) => void;
   menuButton: ReactElement;
   withoutLabels?: boolean;
+  color?: string;
 }) {
   const { user } = useAuth();
   const { existsInLists } = useActiveListsResource(CONTEXT_LIST_MAIN, card.print.id);
@@ -36,7 +38,7 @@ export function CardGridToolsOverlay({
             <Checkbox
               style={{ pointerEvents: 'auto' }}
               onChange={(event) => setSelection(event.currentTarget.checked)}
-              color={'var(--gourmet-orange-1)'}
+              color={color ?? 'var(--gourmet-orange-1)'}
               checked={checked}
               classNames={{ root: styles.overlayCheckbox }}
               /*wrapperProps={{

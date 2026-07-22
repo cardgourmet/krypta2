@@ -236,8 +236,12 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                     const newCardResources = cardResources.filter(
                       (resource) => !toRemoveIds.has(resource.listResource.resourceId),
                     );
+                    const newSearchResources = searchResources.filter(
+                      (resource) => !toRemoveIds.has(resource.listResource.resourceId),
+                    );
 
                     setCardResources(newCardResources);
+                    setSearchResources(newSearchResources);
                   }}
                 />
               )}

@@ -143,6 +143,7 @@ function CardRenderer({
             }}
             menuButton={actionMenu}
             withoutLabels
+            color={list.list.color ?? undefined}
           />
         )}
       </ImageCard>
