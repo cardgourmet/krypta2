@@ -60,16 +60,21 @@ export function SearchRenderer({
         >
           <Group>
             <Group w={'2rem'} justify={'center'}>
-              <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} className={styles.tcgIcon} />
-              <Checkbox
-                style={{ pointerEvents: 'auto' }}
-                onChange={(event) =>
-                  setSelectionWithCheck([resolvedSavedSearch.savedSearch.id], event.currentTarget.checked)
-                }
-                color={list.list.color ?? 'var(--gourmet-orange-1)'}
-                checked={isSelected}
-                className={styles.selectCheckbox}
-              />
+              {user && (
+                <>
+                  <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} className={styles.tcgIcon} />
+                  <Checkbox
+                    style={{ pointerEvents: 'auto' }}
+                    onChange={(event) =>
+                      setSelectionWithCheck([resolvedSavedSearch.savedSearch.id], event.currentTarget.checked)
+                    }
+                    color={list.list.color ?? 'var(--gourmet-orange-1)'}
+                    checked={isSelected}
+                    className={styles.selectCheckbox}
+                  />
+                </>
+              )}
+              {!user && <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} />}
             </Group>
 
             <GourmetText

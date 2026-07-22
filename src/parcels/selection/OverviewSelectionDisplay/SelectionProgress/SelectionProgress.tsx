@@ -34,7 +34,7 @@ export function SelectionProgress({
               <GourmetText cgmff={'ui'} fw={'500'} c={color}>
                 {current}
               </GourmetText>
-              <GourmetText cgmff={'ui'}>/60</GourmetText>
+              <GourmetText cgmff={'ui'}>/{max}</GourmetText>
             </Group>
 
             {/*<Popover width={300} position="bottom" withArrow shadow="md">

@@ -13,8 +13,6 @@ import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useUserLimits } from '@/parcels/lists/useInList.tsx';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/@{$user}/lists';
 
 export function ListsOverviewTable({
   isLoading,
@@ -33,9 +31,6 @@ export function ListsOverviewTable({
   const { user } = useAuth();
   const { list_resources_per_list } = useUserLimits(user);
 
-  const search = Route.useSearch();
-  const { tcg } = search;
-
   const tableData: GourmetTableData<UserListWithResources> = useMemo(() => {
     const columns = ['name', 'description', 'lastUpdated', 'visibility', 'size', 'color'];
     const colSizes = ['', '', '8', '6', '6', '4'];
@@ -44,14 +39,6 @@ export function ListsOverviewTable({
       columns,
       colSizes,
       rows: userLists.map((list) => {
-        let listTcg = tcg;
-        if (listTcg === 'all') {
-          listTcg = 'mtg';
-        }
-        if (list.list.allowedTcgs?.length === 1) {
-          listTcg = list.list.allowedTcgs[1] as Tcg;
-        }
-
         return {
           entry: list,
           data: {
@@ -62,7 +49,6 @@ export function ListsOverviewTable({
                 <Link
                   to={'/@{$user}/lists/$listId'}
                   params={{ user: user!.username, listId: list.list.slug }}
-                  search={{ tcg: listTcg }}
                   className={styles.link}
                   preload={false}
                 >
@@ -110,7 +96,7 @@ export function ListsOverviewTable({
         };
       }),
     };
-  }, [userLists, i18n.language, t2, tcg, user, list_resources_per_list]);
+  }, [userLists, i18n.language, t2, user, list_resources_per_list]);
 
   return (
     <GourmetTable

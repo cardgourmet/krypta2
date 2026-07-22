@@ -23,7 +23,6 @@ export function ListDetailsCardGrid({
   owner,
   list,
   sortedCardResoures,
-  cardResources,
   setCardResources,
   listWithResources,
   suggestAddCard,
@@ -33,7 +32,6 @@ export function ListDetailsCardGrid({
   owner: DataUser;
   list: UserList;
   sortedCardResoures: CardResource[];
-  cardResources: ResolvedUserListResource[];
   setCardResources: (cardResources: ResolvedUserListResource[]) => void;
   listWithResources: UserListWithResources;
   suggestAddCard?: boolean;
@@ -79,7 +77,7 @@ export function ListDetailsCardGrid({
                 if (onRemoveFromList) onRemoveFromList(data.listResource, data);
                 if (listId !== list.id) return;
 
-                const newCardResources = [...cardResources];
+                const newCardResources = [...sortedCardResoures];
                 for (let i = 0; i < newCardResources.length; i++) {
                   if (newCardResources[i].listResource.resourceId === data.listResource.resourceId) {
                     newCardResources.splice(i, 1);

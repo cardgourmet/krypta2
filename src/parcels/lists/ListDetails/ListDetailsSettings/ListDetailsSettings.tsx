@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
 
@@ -14,7 +13,7 @@ export function ListDetailsSettings({ owner, list }: { owner: DataUser; list: Us
   const { t: t3 } = useTranslation('lists', { keyPrefix: 'details.settings.sortDir' });
   const search = Route.useSearch();
 
-  const [selectedTcg, setSelectedTcg] = useState<Tcg>(search.tcg ?? 'mtg');
+  // const [selectedTcg, setSelectedTcg] = useState<Tcg>(search.tcg ?? 'mtg');
   const [sortBy, setSortBy] = useState<string>(search.sort ?? 'addedAt');
   const [sortDir, setSortDir] = useState<string>(search.order ?? 'auto');
 
@@ -22,38 +21,6 @@ export function ListDetailsSettings({ owner, list }: { owner: DataUser; list: Us
   return (
     <Stack mb={'1.5rem'}>
       <Group>
-        <Group gap={'0.25rem'}>
-          <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
-            {t('common.filterBy')}
-          </GourmetText>
-          <TextDropdown
-            items={{
-              mtg: t('mtg'),
-              pcg: t('pcg'),
-              dlc: t('dlc'),
-            }}
-            t={t}
-            defaultSelected={selectedTcg}
-            onSelect={(sel) => {
-              setSelectedTcg(sel as Tcg);
-
-              startTransition(() => {
-                // noinspection JSIgnoredPromiseFromCall
-                navigate({
-                  to: '/@{$user}/lists/$listId',
-                  params: {
-                    user: owner.username,
-                    listId: list.slug,
-                  },
-                  search: (prev) => ({ ...prev, tcg: sel as Tcg }),
-                  replace: true,
-                });
-              });
-            }}
-            miw={'14rem'}
-          />
-        </Group>
-
         <Group gap={'0.25rem'}>
           <GourmetText cgmff="ui" cgmc={'neutral-9'} fw={'500'}>
             {t('common.sortBy')}

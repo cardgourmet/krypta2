@@ -1,0 +1,15 @@
+.tcgPill {
+  --current-color: var(--gourmet-blue-1);
+
+  background-color: var(--gourmet-neutral-3);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+
+  &:not([data-selected="true"]):hover {
+    background-color: var(--gourmet-neutral-4);
+  }
+
+  &[data-selected="true"] {
+    background-color: var(--current-color);
+  }
+}
