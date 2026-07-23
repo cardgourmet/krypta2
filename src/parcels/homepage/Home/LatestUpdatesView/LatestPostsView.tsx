@@ -1,19 +1,16 @@
 import { Center, Group, Loader, Stack, Tooltip } from '@mantine/core';
 import { IconArrowRight } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Button } from '@/parcels/generic/Button/Button.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { AvatarDisplay } from '@/parcels/homepage/AvatarDisplay/AvatarDisplay.tsx';
 import { type DataPost, getPosts, type PostType } from '@/parcels/homepage/Home/api.ts';
-import { BlogPostDetailsModal } from '@/parcels/homepage/Home/LatestUpdatesView/BlogPostDetailsModal.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
-import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
+import styles from './LatestPostsView.module.css';
 
 export function LatestPostsView({ types }: { types: PostType[] }) {
-  const [lang] = useUserLanguage();
-
   const [loading, setLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<DataPost[]>([]);
   useEffect(() => {
@@ -49,18 +46,8 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
     loadPosts();
   }, [types]);
 
-  const [currentPost, setCurrentPost] = useState<DataPost | undefined>(undefined);
-  const [detailsOpened, setDetailsOpened] = useState<boolean>(false);
-
   return (
     <Stack gap={'0.5rem'}>
-      <BlogPostDetailsModal
-        post={currentPost}
-        opened={detailsOpened}
-        close={() => setDetailsOpened(false)}
-        lang={lang}
-      />
-
       {loading && (
         <Center>
           <Loader />
@@ -88,18 +75,6 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
                   w={p.type === 'blog' ? undefined : '100%'}
                 >
                   <Group wrap={'nowrap'} align={'start'}>
-                    {/*{p.type === 'blog' && (
-                      <Badge
-                        color={p.type === 'blog' ? 'blue' : p.type === 'release' ? 'green' : undefined}
-                        style={{
-                          textTransform: 'uppercase',
-                        }}
-                        size={'sm'}
-                      >
-                        {p.type}
-                      </Badge>
-                    )}*/}
-
                     <GourmetText cgmff={'title'} cgmc={'neutral-9'} fw={'500'}>
                       {translation.title}
                     </GourmetText>
@@ -124,13 +99,12 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
                 </GourmetText>
 
                 {p.type === 'blog' && (
-                  <Button
-                    variant={'tertiary'}
-                    size={'sm'}
-                    onClick={() => {
-                      setCurrentPost(p);
-                      setDetailsOpened(true);
+                  <Link
+                    to={'/posts/$postId'}
+                    params={{
+                      postId: p.translations.en.slug ?? p.id,
                     }}
+                    className={styles.postLink}
                   >
                     <Group gap={'0.15rem'}>
                       <GourmetText cgmff={'ui'} fz={'0.9rem'}>
@@ -138,7 +112,7 @@ export function LatestPostsView({ types }: { types: PostType[] }) {
                       </GourmetText>
                       <IconArrowRight size={18} />
                     </Group>
-                  </Button>
+                  </Link>
                 )}
               </Group>
             </Stack>

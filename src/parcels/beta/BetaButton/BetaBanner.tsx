@@ -1,6 +1,7 @@
 import { Group, Stack, UnstyledButton } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
-import { useTranslation } from 'react-i18next';
+import { Link } from '@tanstack/react-router';
+import { Trans, useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import styles from './BetaBanner.module.css';
 
@@ -22,6 +23,22 @@ export function BetaBanner({ setShow }: { setShow: (show: boolean) => void }) {
         <Stack>
           <GourmetText cgmc={'neutral-1'}>{t('head')}</GourmetText>
           <GourmetText cgmc={'neutral-1'}>{t('sub')}</GourmetText>
+          <GourmetText cgmc={'neutral-1'}>
+            <Trans i18nKey="more" t={t}>
+              For more information on our beta, we have a dedicated
+              <Link
+                to={'/posts/$postId'}
+                params={{
+                  postId: 'start-of-our-open-beta',
+                }}
+                style={{
+                  color: 'var(--gourmet-neutral-1)',
+                }}
+              >
+                blog post
+              </Link>
+            </Trans>
+          </GourmetText>
         </Stack>
       </Stack>
     </Stack>

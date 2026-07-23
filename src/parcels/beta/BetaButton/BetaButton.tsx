@@ -1,6 +1,7 @@
 import { Modal, Stack, UnstyledButton } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { GourmetTextProps } from '@/parcels/generic/mantine/GourmetTextProps.ts';
 import styles from '@/parcels/homepage/Home/Home.module.css';
@@ -25,6 +26,22 @@ export function BetaButton({ style, ...others }: GourmetTextProps) {
         <Stack>
           <GourmetText cgmc={'neutral-8'}>{t('head')}</GourmetText>
           <GourmetText cgmc={'neutral-8'}>{t('sub')}</GourmetText>
+          <GourmetText cgmc={'neutral-8'}>
+            <Trans i18nKey="more" t={t}>
+              For more information on our beta, we have a dedicated
+              <Link
+                to={'/posts/$postId'}
+                params={{
+                  postId: 'start-of-our-open-beta',
+                }}
+                style={{
+                  color: 'var(--gourmet-neutral-8)',
+                }}
+              >
+                blog post
+              </Link>
+            </Trans>
+          </GourmetText>
         </Stack>
       </Modal>
 

@@ -1,0 +1,49 @@
+.markdownBody {
+  padding-right: 5rem;
+
+  p {
+    font-family: var(--cgm-content-font-family), sans-serif;
+    margin-bottom: 1.5rem;
+    text-wrap: stable;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--cgm-title-font-family), sans-serif;
+    color: var(--gourmet-neutral-9);
+  }
+
+  h2 {
+    margin: 1.5rem 0;
+    font-weight: 700;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--gourmet-blue-1);
+  }
+
+  ul,
+  ol {
+    font-family: var(--cgm-content-font-family), sans-serif;
+    color: var(--gourmet-neutral-9);
+    padding-left: 2rem;
+  }
+
+  li {
+    line-height: 1.75;
+  }
+
+  ol > li::marker {
+    color: var(--gourmet-orange-1);
+    font-weight: 500;
+  }
+
+  ul {
+    list-style-type: square;
+  }
+}

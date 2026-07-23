@@ -19,6 +19,7 @@ import { Route as ImprintIndexRouteImport } from './routes/imprint/index'
 import { Route as ForgotIndexRouteImport } from './routes/forgot/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
 import { Route as TcgIndexRouteImport } from './routes/$tcg/index'
+import { Route as PostsPostIdRouteImport } from './routes/posts/$postId'
 import { Route as MeSettingsIndexRouteImport } from './routes/me/settings/index'
 import { Route as MeSavedSearchesIndexRouteImport } from './routes/me/saved-searches/index'
 import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
@@ -81,6 +82,11 @@ const AboutIndexRoute = AboutIndexRouteImport.update({
 const TcgIndexRoute = TcgIndexRouteImport.update({
   id: '/$tcg/',
   path: '/$tcg/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostsPostIdRoute = PostsPostIdRouteImport.update({
+  id: '/posts/$postId',
+  path: '/posts/$postId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeSettingsIndexRoute = MeSettingsIndexRouteImport.update({
@@ -154,6 +160,7 @@ const TcgSetsSetCodeCollectorNumberChar123AnyChar125Route =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/posts/$postId': typeof PostsPostIdRoute
   '/$tcg/': typeof TcgIndexRoute
   '/about/': typeof AboutIndexRoute
   '/forgot/': typeof ForgotIndexRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/posts/$postId': typeof PostsPostIdRoute
   '/$tcg': typeof TcgIndexRoute
   '/about': typeof AboutIndexRoute
   '/forgot': typeof ForgotIndexRoute
@@ -205,6 +213,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/posts/$postId': typeof PostsPostIdRoute
   '/$tcg/': typeof TcgIndexRoute
   '/about/': typeof AboutIndexRoute
   '/forgot/': typeof ForgotIndexRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/posts/$postId'
     | '/$tcg/'
     | '/about/'
     | '/forgot/'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/posts/$postId'
     | '/$tcg'
     | '/about'
     | '/forgot'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/posts/$postId'
     | '/$tcg/'
     | '/about/'
     | '/forgot/'
@@ -308,6 +320,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PostsPostIdRoute: typeof PostsPostIdRoute
   TcgIndexRoute: typeof TcgIndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
   ForgotIndexRoute: typeof ForgotIndexRoute
@@ -402,6 +415,13 @@ declare module '@tanstack/react-router' {
       path: '/$tcg'
       fullPath: '/$tcg/'
       preLoaderRoute: typeof TcgIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$postId': {
+      id: '/posts/$postId'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId'
+      preLoaderRoute: typeof PostsPostIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me/settings/': {
@@ -500,6 +520,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PostsPostIdRoute: PostsPostIdRoute,
   TcgIndexRoute: TcgIndexRoute,
   AboutIndexRoute: AboutIndexRoute,
   ForgotIndexRoute: ForgotIndexRoute,
