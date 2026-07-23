@@ -2,11 +2,12 @@ import { ActionIcon, Flex, Group, Stack, Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconX } from '@tabler/icons-react';
 import { useRouter } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserListResource, UserListWithResources } from '@/parcels/lists/types.ts';
 import { ListDetailsSelectionButton } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionButton.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
+import styles from './ListDetailsSelectionDisplay.module.css';
 
 export function ListDetailsSelectionDisplay({
   list,
@@ -46,7 +47,7 @@ export function ListDetailsSelectionDisplay({
           <Stack
             style={{
               border: '2px solid var(--cgm-navbar-border)',
-              borderRadius: '4px',
+              borderRadius: '0.25rem',
               backgroundColor: 'var(--cgm-navbar-bg)',
               padding: '1rem',
               boxShadow: '2px 4px 8px #000000',
@@ -65,7 +66,7 @@ export function ListDetailsSelectionDisplay({
               <Stack gap={'0'} justify={'center'}>
                 <Group gap={'0.5rem'}>
                   <GourmetText cgmff={'ui'} fz={'1.25rem'} cgmc={'neutral-9'}>
-                    Selection:
+                    {t('selection')}:
                   </GourmetText>
                   <GourmetText
                     cgmff={'monospace'}
@@ -73,7 +74,7 @@ export function ListDetailsSelectionDisplay({
                     fw={'500'}
                     fz={'1.25rem'}
                   >
-                    {itemAmount} Items
+                    {t('items', { count: itemAmount })}
                   </GourmetText>
                 </Group>
               </Stack>
@@ -91,6 +92,14 @@ export function ListDetailsSelectionDisplay({
                 </Tooltip>
               </Group>
             </Flex>
+
+            <Group className={styles.controls}>
+              <GourmetText cgmff={'ui'}>
+                <Trans t={t} i18nKey={'holdShift'}>
+                  Hold <kbd>shift</kbd> to multi-select
+                </Trans>
+              </GourmetText>
+            </Group>
           </Stack>
         </Group>
       )}

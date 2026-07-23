@@ -39,11 +39,22 @@
   }
 
   ol > li::marker {
-    color: var(--gourmet-orange-1);
+    color: var(--gourmet-purple-1);
     font-weight: 500;
   }
 
   ul {
     list-style-type: square;
+  }
+
+  code {
+    background-color: var(--gourmet-teal-1);
+    border-radius: 0.25rem;
+    color: var(--gourmet-blue-5);
+    font-family: var(--cgm-monospace-font-family), monospace;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 2px calc(0.625rem / 2);
+    white-space: nowrap;
   }
 }

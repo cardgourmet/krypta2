@@ -28,6 +28,7 @@ export function ListDetailsCardGrid({
   suggestAddCard,
   onRemoveFromList,
   onAddToList,
+  selectionIndexShift,
 }: {
   owner: DataUser;
   list: UserList;
@@ -37,6 +38,7 @@ export function ListDetailsCardGrid({
   suggestAddCard?: boolean;
   onRemoveFromList?: (res: UserListResource, data: CardResource) => void;
   onAddToList?: (res: UserListResource, data: CardResource) => void;
+  selectionIndexShift: number;
 }) {
   const { t } = useTranslation('lists');
 
@@ -66,6 +68,7 @@ export function ListDetailsCardGrid({
           return (
             <CardRenderer
               index={index}
+              selectionIndexShift={selectionIndexShift}
               owner={owner}
               key={data.listResource.resourceId}
               list={listWithResources}

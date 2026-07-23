@@ -311,6 +311,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
                   sortedCardResoures={sortedCardResources}
                   setCardResources={setCardResources}
                   suggestAddCard={isDraggedOver}
+                  selectionIndexShift={sortedSearchResources.length}
                 />
               )}
 

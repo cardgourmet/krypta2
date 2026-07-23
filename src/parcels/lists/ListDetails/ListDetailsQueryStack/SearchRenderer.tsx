@@ -21,17 +21,21 @@ export function SearchRenderer({
   data,
   onAddToList,
   onRemoveFromList,
+  index,
 }: {
   owner: DataUser;
   list: UserListWithResources;
   data: ResolvedUserListResource;
   onAddToList?: (res: UserListResource) => void;
   onRemoveFromList?: (listId: string) => void;
+  index: number;
 }) {
   const { t } = useTranslation('lists');
   const { listResource, resourceData } = data;
   const resolvedSavedSearch = resourceData as unknown as UserResolvedSavedSearch;
   const search = resolvedSavedSearch.lastSearch ?? resolvedSavedSearch.firstSearch;
+
+  const thisId = resolvedSavedSearch.savedSearch.id;
 
   const { user } = useAuth();
   const [menuOpened, setMenuOpened] = useState(false);
@@ -65,9 +69,9 @@ export function SearchRenderer({
                   <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} className={styles.tcgIcon} />
                   <Checkbox
                     style={{ pointerEvents: 'auto' }}
-                    onChange={(event) =>
-                      setSelectionWithCheck([resolvedSavedSearch.savedSearch.id], event.currentTarget.checked)
-                    }
+                    onClick={(event) => {
+                      setSelectionWithCheck([thisId], event.currentTarget.checked, event.shiftKey, thisId, index);
+                    }}
                     color={list.list.color ?? 'var(--gourmet-orange-1)'}
                     checked={isSelected}
                     className={styles.selectCheckbox}
@@ -160,8 +164,8 @@ export function SearchRenderer({
           p={'0.5rem 1rem'}
           className={styles.selectableQueryButton}
           data-selected={isSelected}
-          onClick={() => {
-            setSelectionWithCheck([resolvedSavedSearch.savedSearch.id], !isSelected);
+          onClick={(event) => {
+            setSelectionWithCheck([thisId], !isSelected, event.shiftKey, thisId, index);
           }}
           h={'3rem'}
         >
@@ -170,8 +174,8 @@ export function SearchRenderer({
               <Group w={'2rem'} justify={'center'}>
                 <Checkbox
                   style={{ pointerEvents: 'auto' }}
-                  onChange={(event) =>
-                    setSelectionWithCheck([resolvedSavedSearch.savedSearch.id], event.currentTarget.checked)
+                  onClick={(event) =>
+                    setSelectionWithCheck([thisId], event.currentTarget.checked, event.shiftKey, thisId, index)
                   }
                   color={list.list.color ?? 'var(--gourmet-orange-1)'}
                   checked={isSelected}

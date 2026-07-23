@@ -24,6 +24,7 @@ function CardRenderer({
   onAddToList,
   onRemoveFromList,
   index,
+  selectionIndexShift,
 }: {
   owner: DataUser;
   list: UserListWithResources;
@@ -31,6 +32,7 @@ function CardRenderer({
   onAddToList?: (res: UserListResource) => void;
   onRemoveFromList?: (listId: string, resourceId?: string) => void;
   index: number;
+  selectionIndexShift: number;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'actionmenu' });
   const isTouchDevice = useMediaQuery('(hover: none)');
@@ -118,7 +120,13 @@ function CardRenderer({
             if (!isSelectionMode) return;
 
             event.preventDefault(); // prevent the event from bubbling up
-            setSelectionWithCheck([card.print.id], !isSelected, event.shiftKey, card.print.id, index);
+            setSelectionWithCheck(
+              [card.print.id],
+              !isSelected,
+              event.shiftKey,
+              card.print.id,
+              index + selectionIndexShift,
+            );
           },
           tabIndex: isSelectionMode ? 0 : undefined,
           className: `${styles.cardLink} ${isSelectionMode && !isSelected ? styles.cardLinkSelectable : ''}`,
@@ -139,7 +147,7 @@ function CardRenderer({
             isSelectionMode={isSelected || isSelectionMode}
             setSelection={(select) => {
               const thisId = card.print.id;
-              setSelectionWithCheck([thisId], select, false, thisId, index);
+              setSelectionWithCheck([thisId], select, false, thisId, index + selectionIndexShift);
             }}
             menuButton={actionMenu}
             withoutLabels

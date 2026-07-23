@@ -44,10 +44,11 @@ export function ListDetailsQueryStack({
       </Group>
 
       <Stack gap={'0.5rem'} pos={'relative'} p={'0.5rem'}>
-        {sortedSearchResources.map((data) => {
+        {sortedSearchResources.map((data, index) => {
           return (
             <SearchRenderer
               owner={owner}
+              index={index}
               key={data.listResource.resourceId}
               list={listWithResources}
               data={data}

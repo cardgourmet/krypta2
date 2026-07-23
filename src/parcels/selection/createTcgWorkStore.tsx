@@ -225,6 +225,7 @@ export function createTcgWorkStore<Element, OtherMeta>(options: CreateTcgWorkSto
 
       const anchorIndex = workData?.selection?.anchorIndex;
       if (anchorIndex === undefined) return [];
+
       return getIdsInRangeFromElements(anchorIndex, to, workData);
     },
   }));
