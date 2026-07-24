@@ -115,7 +115,6 @@ export function ListDetailsSelectionButton({
           onSuccess={(res) => {
             if (!res) return;
 
-            console.log('setSelectionWithCheck', res);
             setSelectionWithCheck(
               res.map((r) => r.resourceId),
               false,

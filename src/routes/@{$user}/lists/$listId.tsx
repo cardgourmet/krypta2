@@ -71,9 +71,6 @@ export const Route = createFileRoute('/@{$user}/lists/$listId')({
 
     return { owner: res.data, list: list.data, publicView: true } as ListDetailsData;
   },
-  loaderDeps: ({ search }) => ({
-    tcgs: search.tcgs,
-  }),
   search: {
     middlewares: [stripSearchParams(listDetailsParamsDefaults)],
   },

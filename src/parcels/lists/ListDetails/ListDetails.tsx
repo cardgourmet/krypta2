@@ -1,11 +1,9 @@
-import { Center, Group, Loader, Space, Stack } from '@mantine/core';
+import { Center, Loader, Stack } from '@mantine/core';
 import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { Dropzone } from '@/parcels/generic/Dropzone.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import { groupBy } from '@/parcels/groupBy.ts';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { CONTEXT_LIST_MAIN, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { getAllResourcesFromList } from '@/parcels/lists/api.ts';
@@ -14,12 +12,10 @@ import { ListDetailsCardGrid } from '@/parcels/lists/ListDetails/ListDetailsCard
 import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader/ListDetailsHeader.tsx';
 import { ListDetailsQueryStack } from '@/parcels/lists/ListDetails/ListDetailsQueryStack/ListDetailsQueryStack.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
-import { TcgFilterPill } from '@/parcels/lists/ListDetails/TcgFilterPill.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import { useUserLimits } from '@/parcels/lists/useInList.tsx';
+import { ListLoader } from '@/parcels/lists/useListLoader.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { ListDetailsSelectionDisplay } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
-import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
@@ -45,7 +41,6 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   }, [localListWithResources.resources]);
 
   useActiveLists(CONTEXT_LIST_MAIN, thisAndThatResources);
-  const { list_resources_per_list } = useUserLimits(user);
 
   useEffect(() => {
     setResourcesLoading(true);
@@ -138,19 +133,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
     } – Cardgourmet`;
   }, [localListWithResources.list.name, list.systemListType, owner.username, t, user?.username]);
 
-  // TODO: extract this to list details settings
-  // TODO: have loading spinner when settings change
-  const [selectedTcgs, setSelectedTcgs] = useState<Tcg[]>(search.tcgs ?? []);
-  const sizeByTcg = useMemo(() => {
-    const grouped = groupBy(allResources, (r) => r.listResource.game as Tcg);
-    const obj = {} as Record<Tcg, number>;
-    for (const groupedKey in grouped) {
-      obj[groupedKey as Tcg] = grouped[groupedKey as Tcg]?.length;
-    }
-
-    return obj;
-  }, [allResources]);
-
+  const selectedTcgs = search.tcgs;
   const sortedSearchResources = useMemo(() => {
     const sorted = sortResources(searchResources);
     if (!selectedTcgs || selectedTcgs.length === 0) return sorted;
@@ -163,6 +146,8 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
 
     return sorted.filter((r) => selectedTcgs.includes(r.listResource.game as Tcg));
   }, [cardResources, sortResources, selectedTcgs]);
+
+  const loading = resourcesLoading || ((localListWithResources.size ?? 0) > 0 && allResources.length === 0);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -207,85 +192,16 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
         publicView={publicView}
       />
 
-      <Stack gap={'0.5rem'}>
-        {user?.id === owner.id && (
-          <SelectionProgress sections={12} current={thisAndThatResources.length} max={list_resources_per_list} />
-        )}
+      <ListDetailsSettings owner={owner} list={list} allResources={allResources} />
 
-        <Group gap={'0.5rem'}>
-          <TcgFilterPill
-            tcg={'all'}
-            size={thisAndThatResources.length}
-            state={selectedTcgs.length === 0}
-            onToggle={(state) => {
-              if (state) {
-                setSelectedTcgs([]);
-
-                requestAnimationFrameTransition(() => {
-                  // noinspection JSIgnoredPromiseFromCall
-                  navigate({
-                    to: '/@{$user}/lists/$listId',
-                    params: {
-                      user: owner.username,
-                      listId: list.slug,
-                    },
-                    search: (prev) => ({ ...prev, tcgs: undefined }),
-                    replace: true,
-                  });
-                });
-              }
-            }}
-            fallback
-          />
-
-          {Object.entries(sizeByTcg).map(([key, value]) => {
-            return (
-              <TcgFilterPill
-                key={key}
-                tcg={key as Tcg}
-                size={value}
-                state={selectedTcgs.includes(key as Tcg)}
-                onToggle={(state) => {
-                  let newTcgs: Tcg[];
-
-                  if (state) {
-                    newTcgs = [...selectedTcgs, key as Tcg];
-                  } else {
-                    newTcgs = selectedTcgs.filter((t) => t !== (key as Tcg));
-                  }
-
-                  setSelectedTcgs(newTcgs);
-                  requestAnimationFrameTransition(() => {
-                    // noinspection JSIgnoredPromiseFromCall
-                    navigate({
-                      to: '/@{$user}/lists/$listId',
-                      params: {
-                        user: owner.username,
-                        listId: list.slug,
-                      },
-                      search: (prev) => ({ ...prev, tcgs: newTcgs.length === 0 ? undefined : newTcgs.join(',') }),
-                      replace: true,
-                    });
-                  });
-                }}
-              />
-            );
-          })}
-        </Group>
-
-        <Space h={'1.5rem'} />
-      </Stack>
-
-      <ListDetailsSettings owner={owner} list={list} />
-
-      {resourcesLoading && (
+      {loading && (
         <Center>
           <Loader size={18} />
         </Center>
       )}
 
-      {!resourcesLoading && (
-        <>
+      {!loading && (
+        <Stack pos={'relative'}>
           {sortedCardResources.length === 0 && sortedSearchResources.length === 0 && (
             <GourmetText cgmff={'ui'} cgmc={'neutral-5'}>
               {t('overview.card.noResources')}
@@ -335,7 +251,9 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
               )}
             </Stack>
           )}
-        </>
+
+          <ListLoader />
+        </Stack>
       )}
     </div>
   );

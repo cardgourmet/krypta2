@@ -25,7 +25,6 @@ export function sendListActionNotification(
   if (resources.length === 0) return;
 
   const resourceTypes = [...new Set(resources.map((resource) => resource.resourceType))];
-  console.log('resourceTypes', resourceTypes, resources);
   if (resourceTypes.length === 0) return;
 
   const resourceIds = resources.map((resource) => resource.resourceId);

@@ -71,8 +71,11 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
   const clearSelection = useOverviewWorkStore((state) => state.clearSelection);
   const previousSearchDetails = usePrevious(searchDetails);
+
   useEffect(() => {
-    if (previousSearchDetails === searchDetails) return;
+    if (previousSearchDetails === searchDetails) {
+      return;
+    }
 
     const queryChanged = previousSearchDetails?.explain?.originalQuery !== searchDetails?.explain?.originalQuery;
     if (queryChanged) {
@@ -83,7 +86,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     if (queryChanged) {
       setResources(resources);
     } else {
-      addResources(resources);
+      addResources(resources, false, true);
     }
   }, [previousSearchDetails, searchDetails, addResources, setResources, clearSelection]);
 
