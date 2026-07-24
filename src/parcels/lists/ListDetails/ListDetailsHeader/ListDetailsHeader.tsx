@@ -4,6 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { ExportListButton } from '@/parcels/lists/ListDetails/ExportListButton/ExportListButton.tsx';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import { DeleteListButton } from '@/parcels/lists/ListsOverview/ListRenderer/DeleteListButton/DeleteListButton.tsx';
@@ -115,6 +116,7 @@ export function ListDetailsHeader({
                     });
                   }}
                 />
+                <ExportListButton list={list} />
               </Group>
             )}
           </Group>
