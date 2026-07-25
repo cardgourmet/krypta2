@@ -31,6 +31,10 @@
 
   .tcgIcon {
   }
+
+  .alwaysShown {
+    display: inherit !important;
+  }
 }
 
 .selectableQueryButton {

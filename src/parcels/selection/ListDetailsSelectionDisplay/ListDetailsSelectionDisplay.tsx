@@ -16,6 +16,7 @@ export function ListDetailsSelectionDisplay({
   list: UserListWithResources;
   onRemoveFromList?: (res: UserListResource[]) => void;
 }) {
+  const isTouchDevice = useMediaQuery('(hover: none)');
   const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
@@ -93,13 +94,15 @@ export function ListDetailsSelectionDisplay({
               </Group>
             </Flex>
 
-            <Group className={styles.controls}>
-              <GourmetText cgmff={'ui'}>
-                <Trans t={t} i18nKey={'holdShift'}>
-                  Hold <kbd>shift</kbd> to multi-select
-                </Trans>
-              </GourmetText>
-            </Group>
+            {!isTouchDevice && (
+              <Group className={styles.controls}>
+                <GourmetText cgmff={'ui'}>
+                  <Trans t={t} i18nKey={'holdShift'}>
+                    Hold <kbd>shift</kbd> to multi-select
+                  </Trans>
+                </GourmetText>
+              </Group>
+            )}
           </Stack>
         </Group>
       )}

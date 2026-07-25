@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Menu, Stack } from '@mantine/core';
+import { ActionIcon, Checkbox, Group, Menu, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical, IconLink } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
@@ -159,7 +159,22 @@ function CardRenderer({
         )}
       </ImageCard>
 
-      {isTouchDevice && <Group justify={'end'}>{actionMenu}</Group>}
+      {isTouchDevice && (
+        <Group mt={'0.25rem'} justify={'space-between'} style={{ zIndex: isSelected ? 1 : 0 }}>
+          <Checkbox
+            style={{ pointerEvents: 'auto' }}
+            onChange={(event) => {
+              const thisId = card.print.id;
+              setSelectionWithCheck([thisId], event.currentTarget.checked, false, thisId, index + selectionIndexShift);
+            }}
+            color={list.list.color ?? 'var(--gourmet-orange-1)'}
+            checked={isSelected}
+            classNames={{ root: styles.overlayCheckbox }}
+            data-toggle-visibility={true}
+          />
+          {actionMenu}
+        </Group>
+      )}
     </Stack>
   );
 }

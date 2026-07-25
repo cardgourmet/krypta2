@@ -152,7 +152,8 @@
       "onlyShown": "Nur die ersten 10 werden angezeigt",
       "copy": "Zwischenablage kopieren",
       "copied": "In die Zwischenablage kopiert",
-      "cancel": "Abbrechen"
+      "cancel": "Abbrechen",
+      "tooltip": "Exportieren"
     }
   },
   "modal": {

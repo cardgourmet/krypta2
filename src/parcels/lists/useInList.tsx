@@ -1,11 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import type { DataAuthUser } from '@/parcels/auth/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 
-type UserWithLimits = (DataAuthUser & { limits: object }) | undefined;
 const defaultLimits = {
   lists: 10,
   list_resources_per_list: 100,
@@ -15,7 +14,9 @@ const defaultLimits = {
 type UserLimits = Record<keyof typeof defaultLimits, number>;
 
 export function useUserLimits(user?: DataAuthUser) {
-  return ((user as UserWithLimits)?.limits ?? defaultLimits) as UserLimits;
+  return useMemo(() => {
+    return (user?.limits ?? defaultLimits) as UserLimits;
+  }, [user?.limits]);
 }
 
 export type LimitUsage = {

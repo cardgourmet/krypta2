@@ -1,4 +1,5 @@
 import { ActionIcon, Checkbox, Group, Tooltip, UnstyledButton } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconDotsVertical, IconPlayerPlayFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -30,6 +31,7 @@ export function SearchRenderer({
   onRemoveFromList?: (listId: string) => void;
   index: number;
 }) {
+  const isTouchDevice = useMediaQuery('(hover: none)');
   const { t } = useTranslation('lists');
   const { listResource, resourceData } = data;
   const resolvedSavedSearch = resourceData as unknown as UserResolvedSavedSearch;
@@ -63,10 +65,9 @@ export function SearchRenderer({
           className={styles.queryGroup}
         >
           <Group>
-            <Group w={'2rem'} justify={'center'}>
+            <Group miw={'2rem'} justify={'center'} wrap={'nowrap'}>
               {user && (
                 <>
-                  <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} className={styles.tcgIcon} />
                   <Checkbox
                     style={{ pointerEvents: 'auto' }}
                     onClick={(event) => {
@@ -74,8 +75,9 @@ export function SearchRenderer({
                     }}
                     color={list.list.color ?? 'var(--gourmet-orange-1)'}
                     checked={isSelected}
-                    className={styles.selectCheckbox}
+                    className={`${styles.selectCheckbox} ${isTouchDevice ? styles.alwaysShown : ''}`}
                   />
+                  <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} className={styles.tcgIcon} />
                 </>
               )}
               {!user && <TcgIcon tcg={resolvedSavedSearch.savedSearch.game as Tcg} />}

@@ -155,7 +155,8 @@
       "onlyShown": "First 10 Rows are shown",
       "copy": "Copy to Clipboard",
       "copied": "Copied to clipboard",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "tooltip": "Export cards"
     }
   },
   "modal": {

@@ -1,5 +1,16 @@
-import { ActionIcon, Button, Group, type MantineColor, Modal, Stack, Textarea, Tooltip } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import {
+  ActionIcon,
+  Button,
+  Divider,
+  Flex,
+  Group,
+  type MantineColor,
+  Modal,
+  Stack,
+  Textarea,
+  Tooltip,
+} from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconUpload } from '@tabler/icons-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +34,7 @@ const exportFormatData = [
 
 export function ExportListButton({ list }: { list: UserListWithResources }) {
   const { t } = useTranslation('lists', { keyPrefix: 'details.export' });
+  const smallScreen = useMediaQuery('(max-width: 700px)');
   const [opened, { open, close }] = useDisclosure(false);
 
   const allResources = useMemo(() => {
@@ -134,8 +146,8 @@ export function ExportListButton({ list }: { list: UserListWithResources }) {
         size="xl"
       >
         <Stack>
-          <Group gap={'0.5rem'} align={'stretch'}>
-            <Stack w={'35%'} gap={'1.5rem'}>
+          <Flex gap={'0.5rem'} align={'stretch'} direction={smallScreen ? 'column' : 'row'}>
+            <Stack w={smallScreen ? '100%' : '35%'} gap={'1.5rem'}>
               <Stack gap={'0.5rem'}>
                 <GourmetText cgmff={'ui'} cgmc={'neutral-8'}>
                   {t('target')}
@@ -151,6 +163,7 @@ export function ExportListButton({ list }: { list: UserListWithResources }) {
                   }}
                   disabled={selectAll || onlySelectSelection}
                   placeholder={t('chooseTcgs')}
+                  maw={'24rem'}
                 />
                 <GourmetCheckbox
                   label={t('selectAll', { count: allResources.length })}
@@ -191,11 +204,14 @@ export function ExportListButton({ list }: { list: UserListWithResources }) {
                     setFormat(res ?? '');
                   }}
                   placeholder={t('chooseFormat')}
+                  maw={'24rem'}
                 />
               </Stack>
 
               <GourmetText cgmff={'ui'}>{t('total', { count: toExportResources.length })}</GourmetText>
             </Stack>
+
+            {smallScreen && <Divider style={{ margin: '1rem 0' }} />}
 
             <Stack gap={'0.5rem'} style={{ flexGrow: 1 }}>
               <Group gap={'1rem'}>
@@ -209,7 +225,7 @@ export function ExportListButton({ list }: { list: UserListWithResources }) {
 
               <Textarea value={exportPreview} autosize minRows={11} maxRows={11} className={styles.preview} />
             </Stack>
-          </Group>
+          </Flex>
 
           <Group justify={'end'}>
             <Button color={'var(--gourmet-neutral-5)'} onClick={close}>
@@ -249,7 +265,7 @@ export function ExportListButton({ list }: { list: UserListWithResources }) {
         </Stack>
       </Modal>
 
-      <Tooltip label={'Export cards'} openDelay={500}>
+      <Tooltip label={t('tooltip')} openDelay={500}>
         <ActionIcon className={styles.editButton} onClick={open}>
           <IconUpload color={'var(--gourmet-neutral-7'} size={20} />
         </ActionIcon>
