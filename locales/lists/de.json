@@ -138,6 +138,21 @@
       "mtg": "Magic: The Gathering",
       "pcg": "Pokémon Card Game",
       "dlc": "Disney Lorcana"
+    },
+    "export": {
+      "title": "Export",
+      "target": "Ressourcen",
+      "chooseTcgs": "Wähle TCGs...",
+      "selectAll": "Wähle alles ({{ count }})",
+      "onlySelected": "Nur ausgewählte ({{ count }})",
+      "format": "Format",
+      "chooseFormat": "Wähle ein Format",
+      "total": "Anzahl Ressourcen: {{ count }}",
+      "exportPreview": "Export Vorschau",
+      "onlyShown": "Nur die ersten 10 werden angezeigt",
+      "copy": "Zwischenablage kopieren",
+      "copied": "In die Zwischenablage kopiert",
+      "cancel": "Abbrechen"
     }
   },
   "modal": {

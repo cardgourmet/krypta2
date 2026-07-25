@@ -120,6 +120,9 @@ function CardRenderer({
             if (!isSelectionMode) return;
 
             event.preventDefault(); // prevent the event from bubbling up
+
+            // TODO: when shifting the indexes that are inbetween might be different
+            // => because we allow the overview to be filtered
             setSelectionWithCheck(
               [card.print.id],
               !isSelected,

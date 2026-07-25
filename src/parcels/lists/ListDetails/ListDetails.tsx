@@ -13,9 +13,11 @@ import { ListDetailsHeader } from '@/parcels/lists/ListDetails/ListDetailsHeader
 import { ListDetailsQueryStack } from '@/parcels/lists/ListDetails/ListDetailsQueryStack/ListDetailsQueryStack.tsx';
 import { ListDetailsSettings } from '@/parcels/lists/ListDetails/ListDetailsSettings/ListDetailsSettings.tsx';
 import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 import { ListLoader } from '@/parcels/lists/useListLoader.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { ListDetailsSelectionDisplay } from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionDisplay.tsx';
+import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import { useListDetailsWorkStore } from '@/parcels/selection/useListDetailsWorkStore.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
@@ -25,6 +27,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const { t } = useTranslation('lists');
   const search = Route.useSearch();
   const { user } = useAuth();
+  const { list_resources_per_list } = useUserLimits(user);
 
   const navigate = Route.useNavigate();
 
@@ -71,22 +74,6 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const allResources = useMemo(() => {
     return [...searchResources, ...cardResources];
   }, [cardResources, searchResources]);
-
-  const setData = useListDetailsWorkStore((state) => state.setData);
-  useEffect(() => {
-    const search = localListWithResources?.resources?.user_search ?? [];
-    const card = localListWithResources?.resources?.card ?? [];
-
-    setSearchResources(search);
-    setCardResources(card);
-
-    const allResources = [...search, ...card];
-    setData({
-      page: 1,
-      rawElements: allResources.map((r) => ({ id: r.listResource.resourceId, element: r })),
-      other: {},
-    });
-  }, [localListWithResources?.resources, setData]);
 
   const { component, title } = useBreadcrumbs({
     subpage: `@${owner?.username}`,
@@ -146,6 +133,29 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
 
     return sorted.filter((r) => selectedTcgs.includes(r.listResource.game as Tcg));
   }, [cardResources, sortResources, selectedTcgs]);
+  const sortedAllResources = useMemo(() => {
+    return [...sortedSearchResources, ...sortedCardResources];
+  }, [sortedCardResources, sortedSearchResources]);
+
+  const setData = useListDetailsWorkStore((state) => state.setData);
+  const clearSelection = useListDetailsWorkStore((state) => state.clearSelection);
+  useEffect(() => {
+    const search = localListWithResources?.resources?.user_search ?? [];
+    const card = localListWithResources?.resources?.card ?? [];
+
+    setSearchResources(search);
+    setCardResources(card);
+  }, [localListWithResources?.resources?.card, localListWithResources?.resources?.user_search]);
+  useEffect(() => {
+    clearSelection();
+    setData({
+      page: 1,
+      rawElements: sortedAllResources.map((r) => ({ id: r.listResource.resourceId, element: r })),
+      other: {
+        forceReset: true,
+      },
+    });
+  }, [sortedAllResources, setData, clearSelection]);
 
   const loading = resourcesLoading || ((localListWithResources.size ?? 0) > 0 && allResources.length === 0);
 
@@ -171,7 +181,7 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
       {component}
       <ListDetailsHeader
         owner={owner}
-        list={localListWithResources.list}
+        list={localListWithResources}
         title={title?.label ?? ''}
         onUpdate={(newList) => {
           if (localListWithResources.list.name !== newList.name) {
@@ -192,6 +202,11 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
         publicView={publicView}
       />
 
+      {user?.id === owner.id && (
+        <Stack mb={'0.5rem'} gap={'0.25rem'}>
+          <SelectionProgress sections={12} current={allResources.length} max={list_resources_per_list} />
+        </Stack>
+      )}
       <ListDetailsSettings owner={owner} list={list} allResources={allResources} />
 
       {loading && (

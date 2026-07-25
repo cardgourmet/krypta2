@@ -2,15 +2,12 @@ import { Group, Stack } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
-import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import { groupBy } from '@/parcels/groupBy.ts';
 import { TcgFilterPill } from '@/parcels/lists/ListDetails/TcgFilterPill.tsx';
 import type { ResolvedUserListResource, UserList } from '@/parcels/lists/types.ts';
-import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 import { useListLoaderStore } from '@/parcels/lists/useListLoader.tsx';
-import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { DataUser } from '@/parcels/user/api.ts';
 import { Route } from '@/routes/@{$user}/lists/$listId.tsx';
@@ -35,8 +32,6 @@ export function ListDetailsSettings({
 
   const navigate = Route.useNavigate();
 
-  const { user } = useAuth();
-  const { list_resources_per_list } = useUserLimits(user);
   const [selectedTcgs, setSelectedTcgs] = useState<Tcg[]>(search.tcgs ?? []);
   const sizeByTcg = useMemo(() => {
     const grouped = groupBy(allResources, (r) => r.listResource.game as Tcg);
@@ -53,10 +48,6 @@ export function ListDetailsSettings({
   return (
     <Stack mb={'1.5rem'}>
       <Stack gap={'0.5rem'}>
-        {user?.id === owner.id && (
-          <SelectionProgress sections={12} current={allResources.length} max={list_resources_per_list} />
-        )}
-
         <Group gap={'0.5rem'}>
           <TcgFilterPill
             tcg={'all'}
