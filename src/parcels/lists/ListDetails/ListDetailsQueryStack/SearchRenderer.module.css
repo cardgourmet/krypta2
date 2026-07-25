@@ -1,0 +1,52 @@
+.playButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.moreButton {
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--gourmet-neutral-3);
+  }
+}
+
+.queryGroup {
+  &:hover .selectCheckbox,
+  &:focus-within .selectCheckbox {
+    display: inherit;
+  }
+
+  &:hover .tcgIcon,
+  &:focus-within .tcgIcon {
+    display: none;
+  }
+
+  .selectCheckbox {
+    display: none;
+  }
+
+  .tcgIcon {
+  }
+
+  .alwaysShown {
+    display: inherit !important;
+  }
+}
+
+.selectableQueryButton {
+  --current-color: var(--gourmet-orange-1);
+  border: 1px solid transparent;
+
+  &:hover {
+    z-index: 1;
+    border: 1px dashed var(--current-color) !important;
+  }
+
+  &[data-selected="true"] {
+    border: 1px solid var(--current-color) !important;
+  }
+}

@@ -9,7 +9,7 @@ import { fetchTcgCards } from '@/parcels/tcg/fetchTcgCards.tsx';
 import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
 import type {
   TcgDataSet,
-  TcgDataSetSummary,
+  TcgDataSetUserSummary,
   TcgSearchCardsResult,
   TcgSearchCardsUser,
   TcgSearchQuerySettings,
@@ -87,11 +87,16 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     setIsQueryLoading(false);
   }, []);
   const onSetCardsCallback = useCallback(
-    ({ data, error }: { data?: TcgDataSetSummary; error?: GourmetError }) => {
+    ({ data, error }: { data?: TcgDataSetUserSummary; error?: GourmetError }) => {
       if (error) return;
-      if (!data || !data.queryExplanation) return;
+      if (!data || !data?.details?.details?.explain) return;
 
-      const searchCards = data.cards;
+      if (data?.details?.details) {
+        console.log(data?.details?.details);
+        setSearchDetails(data.details.details);
+      }
+
+      const searchCards = data.items;
       const cards = {
         currentPage: 1,
         lastPage: 1,
@@ -100,10 +105,10 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
         totalItemCount: searchCards.length,
         items: searchCards,
         details: {
-          explain: data.queryExplanation as ExplainSearchQuery | undefined,
+          ...data?.details?.details,
         },
-      };
-      onCardsCallback({ data: cards as TcgSearchCardsUser, error: error });
+      } as TcgSearchCardsUser;
+      onCardsCallback({ data: cards, error: error });
     },
     [onCardsCallback],
   );
@@ -132,7 +137,9 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
           query: `set="${set.code}"`,
         };
 
-        fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller)?.then(onSetCardsCallback);
+        fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller, user?.id)?.then((res) => {
+          if (res !== null) onSetCardsCallback(res);
+        });
       } else {
         fetchTcgCards(tcg, querySettings, controller, user?.id)?.then((res) => {
           if (res !== null) onCardsCallback(res);

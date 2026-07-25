@@ -3,29 +3,42 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconCards } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import CardRenderer from '@/parcels/lists/ListDetails/CardRenderer.tsx';
-import type { ResolvedUserListResource, UserList, UserListWithResources } from '@/parcels/lists/types.ts';
+import CardRenderer from '@/parcels/lists/ListDetails/ListDetailsCardGrid/CardRenderer.tsx';
+import { ListDetailsCardGridSelectionOverlay } from '@/parcels/lists/ListDetails/ListDetailsCardGrid/ListDetailsCardGridSelectionOverlay.tsx';
+import type {
+  ResolvedUserListResource,
+  UserList,
+  UserListResource,
+  UserListWithResources,
+} from '@/parcels/lists/types.ts';
+import type { DataUser } from '@/parcels/user/api.ts';
 import type { components } from '@/schema/api';
 
+type CardResource = {
+  listResource: components['schemas']['UserListResource'];
+  resourceData: components['schemas']['JsonObject'];
+};
+
 export function ListDetailsCardGrid({
+  owner,
   list,
   sortedCardResoures,
-  cardResources,
   setCardResources,
   listWithResources,
   suggestAddCard,
   onRemoveFromList,
+  onAddToList,
+  selectionIndexShift,
 }: {
+  owner: DataUser;
   list: UserList;
-  sortedCardResoures: {
-    listResource: components['schemas']['UserListResource'];
-    resourceData: components['schemas']['JsonObject'];
-  }[];
-  cardResources: ResolvedUserListResource[];
+  sortedCardResoures: CardResource[];
   setCardResources: (cardResources: ResolvedUserListResource[]) => void;
   listWithResources: UserListWithResources;
   suggestAddCard?: boolean;
-  onRemoveFromList?: (id: string) => void;
+  onRemoveFromList?: (res: UserListResource, data: CardResource) => void;
+  onAddToList?: (res: UserListResource, data: CardResource) => void;
+  selectionIndexShift: number;
 }) {
   const { t } = useTranslation('lists');
 
@@ -44,17 +57,30 @@ export function ListDetailsCardGrid({
         <GourmetText cgmff={'ui'}>({sortedCardResoures.length})</GourmetText>
       </Group>
 
-      <SimpleGrid cols={tinyScreen ? 2 : smallestScreen ? 3 : smallerScreen ? 4 : smallScreen ? 5 : 6}>
-        {sortedCardResoures.map((data) => {
+      <SimpleGrid
+        cols={tinyScreen ? 2 : smallestScreen ? 3 : smallerScreen ? 4 : smallScreen ? 5 : 6}
+        style={{
+          padding: '0.5rem',
+          position: 'relative',
+        }}
+      >
+        {sortedCardResoures.map((data, index) => {
           return (
             <CardRenderer
+              index={index}
+              selectionIndexShift={selectionIndexShift}
+              owner={owner}
               key={data.listResource.resourceId}
               list={listWithResources}
               data={data}
+              onAddToList={(res) => {
+                if (onAddToList) onAddToList(res, data);
+              }}
               onRemoveFromList={(listId) => {
+                if (onRemoveFromList) onRemoveFromList(data.listResource, data);
                 if (listId !== list.id) return;
 
-                const newCardResources = [...cardResources];
+                const newCardResources = [...sortedCardResoures];
                 for (let i = 0; i < newCardResources.length; i++) {
                   if (newCardResources[i].listResource.resourceId === data.listResource.resourceId) {
                     newCardResources.splice(i, 1);
@@ -63,12 +89,13 @@ export function ListDetailsCardGrid({
                 }
 
                 setCardResources(newCardResources);
-                if (onRemoveFromList) onRemoveFromList(data.listResource.resourceId);
               }}
             />
           );
         })}
         {suggestAddCard && <div style={{ border: '1px solid gray' }}>Add card</div>}
+
+        <ListDetailsCardGridSelectionOverlay />
       </SimpleGrid>
     </Stack>
   );

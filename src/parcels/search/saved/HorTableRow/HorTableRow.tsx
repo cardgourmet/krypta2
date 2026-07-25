@@ -46,6 +46,7 @@ export function HorTableRow({ entry, data, tableData, tcg, onSearchSaved, onSear
               <MoreListActionsMenu
                 type={'user_search'}
                 tcg={tcg}
+                resource={entry.savedSearch}
                 resourceId={entry.savedSearch.id}
                 rawResourceId={entry.firstSearch.id}
                 target={

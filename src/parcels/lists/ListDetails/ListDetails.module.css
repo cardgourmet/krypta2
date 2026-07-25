@@ -1,0 +1,11 @@
+.tcgPill {
+  --current-color: var(--gourmet-orange-1);
+
+  background-color: var(--gourmet-neutral-3);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+
+  &[data-selected="true"] {
+    background-color: var(--current-color);
+  }
+}

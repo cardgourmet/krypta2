@@ -132,7 +132,7 @@ export function LanguageSelector() {
               <Switch
                 disabled={loading}
                 checked={syncChecked}
-                label="Sync with TCGs"
+                label={t('syncWithTcgs')}
                 color={'var(--gourmet-blue-1)'}
                 withThumbIndicator={false}
                 onChange={(event) => {
@@ -161,7 +161,7 @@ export function LanguageSelector() {
                 }}
               />
               <GourmetText cgmff={'ui'} cgmc={'neutral-5'} fz={'0.9rem'}>
-                If enabled, we use your selected language as the preferred print language when searching cards.
+                {t('syncExplanation')}
               </GourmetText>
             </Stack>
           )}

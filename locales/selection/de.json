@@ -5,16 +5,21 @@
   "clearSelection": "Auswahl aufheben",
   "cards_one": "{{count}} Karte",
   "cards_other": "{{count}} Karten",
+  "items_one": "{{count}} Item",
+  "items_other": "{{count}} Items",
   "page": "Seite",
   "maximumCards": "Du darfst nur maximal <strong>60</strong> Karten gleichzeitig auswählen.",
   "maximumCards2": "Falls du mehr auswählen möchtest, überlege zuerst, ob du eventuell lieber <u>die gesamte Suche abspeichern</u> willst.",
   "viewSelection": "Auswahl ansehen",
   "selectionMenuInfo": "Klicke ein Element, um die Auswahl aufzuheben.",
   "clearPage": "Alle aufheben",
+  "holdShift": "Halte <1>Shift</1> um mehrere auszuwählen",
   "useSelectionMenu": {
     "useSelection": "Auswahl benutzen ...",
     "favorite": "Füge {{count}} zu Favoriten hinzu",
     "addToLists": "Hinzufügen zu ..",
-    "createNewList": "Neue Erstellen"
+    "removeFromLists": "Entfernen von ..",
+    "createNewList": "Neue Erstellen",
+    "removeFromThisList": "Aus dieser Liste entfernen"
   }
 }

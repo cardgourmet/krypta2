@@ -19,6 +19,8 @@ export type PcgSearchDataCard = c['schemas']['CardSearchResult-PcgDataCard'];
 export type PcgSearchFilter = c['schemas']['TranslatedSearchQueryFilter'];
 export type PcgSearchFilterValues = c['schemas']['SearchQueryExecutorFilterValues'];
 export type PcgDataSetSummary = c['schemas']['PcgDataSetSummary'];
+export type PcgDataSetUserSummary =
+  c['schemas']['DetailedPage-CardSearchResult-PcgDataCard-UserTcgDataSetSummary-PcgDataSet'];
 
 export type PcgCardQuery = TcgCardQuery & {
   sortBy?: PcgSortBy;
@@ -63,6 +65,35 @@ export async function fetchPcgSetSummary(
 ): Promise<GourmetApiResponse<PcgDataSetSummary>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/pcg/sets/{setId}/summary`, {
+      params: {
+        query: {
+          query: query,
+          mode: `unique:${mode}`,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+          trigger: trigger,
+        },
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/pcg/sets/user/{setId}/summary
+export async function fetchPcgSetSummaryUser(
+  setId: string,
+  query: string,
+  mode?: PcgUniqueBy,
+  sortBy?: PcgSortBy,
+  sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<PcgDataSetUserSummary>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/pcg/sets/user/{setId}/summary`, {
       params: {
         query: {
           query: query,

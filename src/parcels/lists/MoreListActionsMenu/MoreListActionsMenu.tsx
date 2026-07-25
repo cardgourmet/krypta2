@@ -1,14 +1,14 @@
 import type { MenuProps } from '@mantine/core';
 import type { Dispatch, PropsWithChildren, ReactElement, Ref, SetStateAction } from 'react';
 import { MoreActionsMenu } from '@/parcels/generic/MoreActionsMenu/MoreActionsMenu.tsx';
+import type { PossibleResource } from '@/parcels/lists/api.ts';
 import { useListActionItems } from '@/parcels/lists/ListActionItems/useListActionItems.tsx';
 import type { UserListResource } from '@/parcels/lists/types.ts';
-import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type MoreListActionsMenuProps = {
   tcg: Tcg;
-  resource?: TcgDataCard;
+  resource?: PossibleResource;
   resourceId?: string;
   rawResourceId: string;
   menuOpened?: boolean;

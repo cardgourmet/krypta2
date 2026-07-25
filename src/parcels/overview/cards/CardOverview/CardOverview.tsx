@@ -21,7 +21,7 @@ import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/Quer
 import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
 import { TcgOverviewCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgOverviewCardMenu.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
@@ -69,10 +69,13 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
   const { addResources, removeResources, setResources } = useActiveLists(CONTEXT_LIST_MAIN);
 
-  const clearSelection = useTcgOverviewWorkStore((state) => state.clearSelection);
+  const clearSelection = useOverviewWorkStore((state) => state.clearSelection);
   const previousSearchDetails = usePrevious(searchDetails);
+
   useEffect(() => {
-    if (previousSearchDetails === searchDetails) return;
+    if (previousSearchDetails === searchDetails) {
+      return;
+    }
 
     const queryChanged = previousSearchDetails?.explain?.originalQuery !== searchDetails?.explain?.originalQuery;
     if (queryChanged) {
@@ -83,7 +86,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     if (queryChanged) {
       setResources(resources);
     } else {
-      addResources(resources);
+      addResources(resources, false, true);
     }
   }, [previousSearchDetails, searchDetails, addResources, setResources, clearSelection]);
 
@@ -214,7 +217,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <TcgOverviewCardMenu
             tcg={tcg}
             onAddToList={(res) => {
-              addResources([res], true);
+              addResources([res], /*res.resourceType !== 'card'*/ true);
             }}
             onRemoveFromList={(res) => {
               removeResources([res.resourceId], [res.listId]);

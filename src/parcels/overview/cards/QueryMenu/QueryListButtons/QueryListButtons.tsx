@@ -8,8 +8,8 @@ import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
 import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
-import { QueryAddNotification } from '@/parcels/notification/QueryAddNotification.tsx';
-import { QueryRemoveNotification } from '@/parcels/notification/QueryRemoveNotification.tsx';
+import { QueryAddNotification } from '@/parcels/notification/list/QueryAddNotification.tsx';
+import { QueryRemoveNotification } from '@/parcels/notification/list/QueryRemoveNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -66,7 +66,7 @@ export function QueryListButtons({
     setInListAmount(inListAmount + 1);
 
     startTransition(() => {
-      addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: query.statisticsId! }], 'search', true).then(
+      addResourcesToList(user?.id, favoriteList.list.id, [{ id: query.statisticsId! }], tcg, 'user_search', true).then(
         (res) => {
           setIsListLoading(false);
 
@@ -102,7 +102,7 @@ export function QueryListButtons({
     startTransition(() => {
       if (!savedSearchId) return;
 
-      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [savedSearchId], 'search').then((res) => {
+      removeResourcesFromList(user?.id, favoriteList.list.id, [savedSearchId]).then((res) => {
         setIsListLoading(false);
 
         if (res.error) {
@@ -145,6 +145,7 @@ export function QueryListButtons({
       <MoreListActionsMenu
         type={'user_search'}
         tcg={tcg}
+        resource={query}
         resourceId={savedSearchId}
         rawResourceId={query.statisticsId!}
         target={
@@ -163,6 +164,7 @@ export function QueryListButtons({
           const list = lists.find((l) => l.list.id === res.listId);
           if (!list) return;
 
+          setInListAmount(inListAmount + 1);
           addResources([res]);
           sendNotification(
             'success',
@@ -173,6 +175,7 @@ export function QueryListButtons({
           const list = lists.find((l) => l.list.id === listId);
           if (!list || !savedSearchId) return;
 
+          setInListAmount(inListAmount - 1);
           removeResources([savedSearchId], [list.list.id]);
           sendNotification(
             'error',

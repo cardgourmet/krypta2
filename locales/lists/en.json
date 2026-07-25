@@ -4,9 +4,13 @@
     "favoriteRemove": "Remove from Favorites",
     "favoriteCopy": "Copy to Favorites",
     "addToList": "Add to list ...",
+    "copyToList": "Copy to list ...",
     "removeFromList": "Remove from list ...",
+    "removeFromThisList": "Remove from this list",
     "createNew": "Create new",
-    "copyPrint": "Copy print link"
+    "copyPrint": "Copy print link",
+    "nothingAdd": "Nothing to add",
+    "nothingRemove": "Nothing to remove"
   },
   "overview": {
     "header": {
@@ -115,6 +119,7 @@
       }
     },
     "pageTitle": "Your Lists",
+    "pageTitleOther": "@{{ name }}'s Lists",
     "savedSearches": "Saved Searches",
     "cards": "Cards",
     "searchCards_one": "{{count}} card",
@@ -136,6 +141,22 @@
       "mtg": "Magic: The Gathering",
       "pcg": "Pokémon Card Game",
       "dlc": "Disney Lorcana"
+    },
+    "export": {
+      "title": "Export",
+      "target": "Target",
+      "chooseTcgs": "Choose TCGs...",
+      "selectAll": "Select All ({{ count }})",
+      "onlySelected": "Only use selected ({{ count }})",
+      "format": "Format",
+      "chooseFormat": "Choose format",
+      "total": "Total resources to export: {{ count }}",
+      "exportPreview": "Export Preview",
+      "onlyShown": "First 10 Rows are shown",
+      "copy": "Copy to Clipboard",
+      "copied": "Copied to clipboard",
+      "cancel": "Cancel",
+      "tooltip": "Export cards"
     }
   },
   "modal": {

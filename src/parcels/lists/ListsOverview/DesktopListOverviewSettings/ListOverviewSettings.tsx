@@ -2,17 +2,20 @@ import { Center, Group, SegmentedControl, Stack } from '@mantine/core';
 import { IconColumns3, IconLayoutGrid } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
 import { SimpleSearchbar } from '@/parcels/search/bar/SimpleSearchbar/SimpleSearchbar.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/me/lists';
+import { Route } from '@/routes/@{$user}/lists';
 import styles from './ListOverviewSettings.module.css';
 
 export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
   const search = Route.useSearch();
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const sortByItems = {
     name: 'Name',
@@ -43,9 +46,12 @@ export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
 
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  from: '/me/lists/',
+                  from: `/@{$user}/lists/`,
                   search: (prev) => ({ ...prev, sortBy: sel as 'name' | 'updatedAt' | 'size' }),
                   replace: true,
+                  params: {
+                    user: user?.username ?? '',
+                  },
                 });
               }}
             />
@@ -59,9 +65,12 @@ export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
 
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  from: '/me/lists/',
+                  from: `/@{$user}/lists/`,
                   search: (prev) => ({ ...prev, sortDir: sel as 'auto' | 'asc' | 'desc' }),
                   replace: true,
+                  params: {
+                    user: user?.username ?? '',
+                  },
                 });
               }}
             />
@@ -84,9 +93,12 @@ export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
 
                 // noinspection JSIgnoredPromiseFromCall
                 navigate({
-                  from: '/me/lists/',
+                  from: `/@{$user}/lists/`,
                   search: (prev) => ({ ...prev, tcg: sel as Tcg }),
                   replace: true,
+                  params: {
+                    user: user?.username ?? '',
+                  },
                 });
               }}
               miw={'14rem'}
@@ -100,8 +112,12 @@ export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
 
             // noinspection JSIgnoredPromiseFromCall
             navigate({
-              to: '/me/lists',
+              from: `/@{$user}/lists/`,
               search: { ...search, search: searchQuery },
+              replace: true,
+              params: {
+                user: user?.username ?? '',
+              },
             });
           }}
         />
@@ -119,7 +135,7 @@ export function ListOverviewSettings({ onChange }: { onChange?: () => void }) {
 
             // noinspection JSIgnoredPromiseFromCall
             navigate({
-              from: '/me/lists/',
+              from: `/@{$user}/lists/`,
               search: (prev) => ({ ...prev, display: sel as 'grid' | 'table' }),
               replace: true,
             });

@@ -14,6 +14,18 @@
       "goThere": "Gehe dorthin"
     }
   },
+  "selection": {
+    "addToList": {
+      "title": "{{count}} zu {{name}} hinzugefügt",
+      "weveAdded": "Wir haben {{count}} Ressourcen zur Liste hinzugefügt.",
+      "goThere": "Gehe dorthin"
+    },
+    "removeFromList": {
+      "title": "{{count}} von {{name}} entfernt",
+      "weveRemoved": "Wir haben {{count}} Ressourcen von der Liste entfernt.",
+      "goThere": "Gehe dorthin"
+    }
+  },
   "lists": {
     "deleted": {
       "title": "{{name}} gelöscht",

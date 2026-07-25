@@ -27,6 +27,7 @@
   .navbarSearch {
     grid-column: 2;
     max-width: fit-content;
+    margin-right: 2rem;
   }
 
   .navbarRight {

@@ -8,8 +8,8 @@ import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
-import { CardAddNotification } from '@/parcels/notification/CardAddNotification.tsx';
-import { CardRemoveNotification } from '@/parcels/notification/CardRemoveNotification.tsx';
+import { CardAddNotification } from '@/parcels/notification/list/CardAddNotification.tsx';
+import { CardRemoveNotification } from '@/parcels/notification/list/CardRemoveNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
@@ -48,7 +48,7 @@ export function ListButtons() {
     setIsListLoading(true);
 
     startTransition(() => {
-      addResourcesToList(user?.id, favoriteList.list.id, tcg, [{ id: card.print.id }], 'card').then((res) => {
+      addResourcesToList(user?.id, favoriteList.list.id, [{ id: card.print.id }], tcg, 'card').then((res) => {
         setIsListLoading(false);
 
         if (res.error) {
@@ -77,7 +77,7 @@ export function ListButtons() {
     setIsListLoading(true);
 
     startTransition(() => {
-      removeResourcesFromList(user?.id, favoriteList.list.id, tcg, [card.print.id], 'card').then((res) => {
+      removeResourcesFromList(user?.id, favoriteList.list.id, [card.print.id]).then((res) => {
         setIsListLoading(false);
 
         if (res.error) {
@@ -138,18 +138,6 @@ export function ListButtons() {
         target={menuButton}
         menuOpened={listMenuOpened}
         setMenuOpened={setListMenuOpened}
-        onAddedToList={(res) => {
-          const list = lists.find((l) => l.list.id === res.listId);
-          if (!list) return;
-
-          addResources([res]);
-        }}
-        onRemovedFromList={(listId) => {
-          const list = lists.find((l) => l.list.id === listId);
-          if (!list) return;
-
-          removeResources([card.print.id], [list.list.id]);
-        }}
         menuProps={{
           position: 'bottom-end',
           transitionProps: { transition: 'pop', duration: 100 },

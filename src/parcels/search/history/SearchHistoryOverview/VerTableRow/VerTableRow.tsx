@@ -48,6 +48,7 @@ export function VerTableRow({ entry, data, tableData, tcg, onSearchSaved }: Tabl
               <MoreListActionsMenu
                 type={'user_search'}
                 tcg={tcg}
+                resource={entry.savedSearch ?? undefined}
                 resourceId={entry.savedSearch?.id}
                 rawResourceId={entry.search.id}
                 target={

@@ -8,6 +8,7 @@ import type {
   DlcDataSet,
   DlcDataSetSummary,
   DlcDataSets,
+  DlcDataSetUserSummary,
   DlcSearchCards,
   DlcSearchCardsResult,
   DlcSearchCardsUser,
@@ -27,6 +28,7 @@ import type {
   MtgDataSet,
   MtgDataSetSummary,
   MtgDataSets,
+  MtgDataSetUserSummary,
   MtgSearchCards,
   MtgSearchCardsResult,
   MtgSearchCardsUser,
@@ -46,6 +48,7 @@ import type {
   PcgDataSet,
   PcgDataSetSummary,
   PcgDataSets,
+  PcgDataSetUserSummary,
   PcgSearchCards,
   PcgSearchCardsResult,
   PcgSearchCardsUser,
@@ -84,6 +87,7 @@ export type TcgDataCard = MtgDataCard | DlcDataCard | PcgDataCard;
 export type TcgDataCardUser = MtgDataCardUser | DlcDataCardUser | PcgDataCardUser;
 export type TcgDataSet = MtgDataSet | DlcDataSet | PcgDataSet;
 export type TcgDataSetSummary = MtgDataSetSummary | DlcDataSetSummary | PcgDataSetSummary;
+export type TcgDataSetUserSummary = MtgDataSetUserSummary | DlcDataSetUserSummary | PcgDataSetUserSummary;
 export type TcgSetSearchResult = MtgSetSearchResult | DlcSetSearchResult | PcgSetSearchResult;
 
 export type UserSearchCardsDetails = c['schemas']['UserSearchCardsResponse'];
