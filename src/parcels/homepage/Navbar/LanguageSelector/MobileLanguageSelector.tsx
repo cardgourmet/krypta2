@@ -1,17 +1,33 @@
 import { Combobox, Group, useCombobox } from '@mantine/core';
 import { IconCheck, IconLanguage } from '@tabler/icons-react';
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
+import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { updateUserSettings } from '@/parcels/auth/api.ts';
 import { ItemButton } from '@/parcels/homepage/Navbar/UserDisplay/MobileUserMenu/MobileUserMenu.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
 
 export function MobileLanguageSelector() {
   const { i18n } = useTranslation();
   const { t } = useTranslation('nav', { keyPrefix: 'language' });
-  const [language, setLanguage] = useState<string>('en');
-  const switchLanguage = useEffectEvent((language: string) => {
-    // noinspection JSIgnoredPromiseFromCall
-    i18n.changeLanguage(language);
-  });
+
+  const { user, updateUser } = useAuth();
+  const [language, setLanguage] = useUserLanguage();
+  const [localLanguage, setLocalLanguage] = useState<string>(language);
+
+  const switchLanguage = useCallback(
+    (lang: string) => {
+      // noinspection JSIgnoredPromiseFromCall
+      i18n.changeLanguage(lang);
+    },
+    [i18n.changeLanguage],
+  );
+  useEffect(() => {
+    switchLanguage(language);
+    setLocalLanguage(language);
+  }, [language, switchLanguage]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
@@ -27,16 +43,35 @@ export function MobileLanguageSelector() {
     <Combobox.Option value={key} key={key}>
       <Group justify={'space-between'}>
         <Group>{value}</Group>
-        {key === language && <IconCheck size={18} color={'var(--gourmet-neutral-8)'} />}
+        {key === localLanguage && <IconCheck size={18} color={'var(--gourmet-neutral-8)'} />}
       </Group>
     </Combobox.Option>
   ));
 
   return (
     <Combobox
-      onOptionSubmit={(optionValue) => {
-        setLanguage(optionValue);
-        combobox.closeDropdown();
+      onOptionSubmit={(l) => {
+        setLocalLanguage(l);
+        setLanguage(l as 'en' | 'de');
+
+        if (!user) return;
+
+        requestAnimationFrameTransition(async () => {
+          const res = await updateUserSettings({
+            ...user?.settings,
+            preferredLanguages: {
+              ...user?.settings?.preferredLanguages,
+              global: l as 'en' | 'de',
+            },
+          });
+
+          if (res.error) {
+            sendErrorNotification(res.error);
+            return;
+          }
+
+          if (res.data) updateUser(res.data);
+        });
       }}
       store={combobox}
       position="bottom-start"
