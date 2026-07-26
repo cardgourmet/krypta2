@@ -19,7 +19,7 @@
       "description": "",
       "placeholder": "Enter email address",
       "errors": {
-        "invalid-email": ""
+        "invalid-email": "Must be a valid email"
       }
     },
     "username": {
@@ -36,7 +36,8 @@
       "description": "",
       "placeholder": "Enter display name",
       "errors": {
-        "invalid-displayname": ""
+        "invalid-displayname-length": "Must be between 3-50 characters long",
+        "invalid-displayname": "Only contains alphanumerical characters (A-Z, 0-9 and _)"
       }
     },
     "password": {
@@ -44,7 +45,7 @@
       "description": "",
       "placeholder": "Enter password",
       "errors": {
-        "invalid-password": ""
+        "invalid-password": "Must be at least 8 characters long"
       }
     },
     "password2": {
@@ -52,7 +53,7 @@
       "description": "",
       "placeholder": "Repeat password",
       "errors": {
-        "passwords-doesnt-match": "Must be between 3-50 characters long"
+        "passwords-doesnt-match": "Must match with the password above"
       }
     }
   },

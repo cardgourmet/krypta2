@@ -64,6 +64,9 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
         }
         break;
       case 'displayname':
+        if (!(value.length >= 3 && value.length <= 50)) {
+          errors.push('invalid-displayname-length');
+        }
         if (!DISPLAYNAME_REGEX.test(value)) {
           errors.push('invalid-displayname');
         }
@@ -186,7 +189,7 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
             t={t}
             handleFocus={handleFocus}
             handleChange={handleChange}
-            validationKeys={['invalid-displayname']}
+            validationKeys={['invalid-displayname-length', 'invalid-displayname']}
           />
 
           <RegisterFormInputField
