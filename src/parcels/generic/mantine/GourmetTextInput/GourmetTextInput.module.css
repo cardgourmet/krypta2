@@ -7,6 +7,10 @@
     &:focus-visible {
       border: 1px solid var(--gourmet-blue-1);
     }
+
+    &[data-validated="true"] {
+      border: 1px solid var(--gourmet-green-1);
+    }
   }
 }
 

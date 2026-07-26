@@ -32,6 +32,8 @@ export function LoginForm() {
 
   const navigate = useNavigate();
 
+  console.log('redirect', redirect);
+
   return (
     <Group justify={'center'}>
       <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
@@ -43,7 +45,7 @@ export function LoginForm() {
             <GourmetText fz={'md'} cgmc={'neutral-6'}>
               {t('firstTime')}
             </GourmetText>
-            <Link to={'/register'} style={{ textDecoration: 'none' }} params={{ redirect: redirect }}>
+            <Link to={'/register'} search={{ redirect: redirect }} style={{ textDecoration: 'none' }}>
               <Group gap={'0.25rem'}>
                 <GourmetText c={'var(--gourmet-blue-1)'}>{t('register')}</GourmetText>
                 <IconArrowRight size={16} color={'var(--gourmet-blue-1)'} />

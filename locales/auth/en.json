@@ -12,11 +12,49 @@
     "login": "Login",
     "registerTitle": "Register",
     "firstTime": "Seen this page before?",
-    "email": "Email-Address",
-    "username": "Username",
-    "password": "Password",
-    "passwordRepeat": "Confirm Password",
-    "registerButton": "Register"
+    "registerButton": "Register",
+
+    "email": {
+      "label": "Email-Address",
+      "description": "",
+      "placeholder": "Enter email address",
+      "errors": {
+        "invalid-email": ""
+      }
+    },
+    "username": {
+      "label": "Username",
+      "description": "Choose a username that's unique to you. It will be displayed as @name",
+      "placeholder": "Enter username",
+      "errors": {
+        "invalid-username-length": "Must be between 3-50 characters long",
+        "invalid-username-charset": "Only contains alphanumerical characters (A-Z, 0-9 and _)"
+      }
+    },
+    "displayname": {
+      "label": "Display Name",
+      "description": "",
+      "placeholder": "Enter display name",
+      "errors": {
+        "invalid-displayname": ""
+      }
+    },
+    "password": {
+      "label": "Password",
+      "description": "",
+      "placeholder": "Enter password",
+      "errors": {
+        "invalid-password": ""
+      }
+    },
+    "password2": {
+      "label": "Confirm Password",
+      "description": "",
+      "placeholder": "Repeat password",
+      "errors": {
+        "passwords-doesnt-match": "Must be between 3-50 characters long"
+      }
+    }
   },
   "forgot": {
     "forgotPasswordTitle": "Forgot Password",

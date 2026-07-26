@@ -7359,6 +7359,8 @@ export interface components {
     OAuthRegisterRequest: {
       /** @description The access token. */
       accessToken: string;
+      /** @description The displayName to register. Defaults to the username. */
+      displayName?: string | null;
       /** @description The email to send the confirmation mail to. If not provided, the email from the OAuth provider will be used, if available. Depending on the OAuth provider, the email may already be verified and the user will be logged in immediately. Otherwise, the user will have to verify the email address first. */
       email?: string | null;
       /**
@@ -7395,6 +7397,8 @@ export interface components {
       token: string;
     };
     OpenIdRegisterRequest: {
+      /** @description The displayName to register. */
+      displayName?: string | null;
       /** @description The email to send the confirmation mail to. If not provided, the email from the OAuth provider will be used, if available. Depending on the OAuth provider, the email may already be verified and the user will be logged in immediately. Otherwise, the user will have to verify the email address first. */
       email?: string | null;
       language?: components['schemas']['UserLanguage'] | null;
@@ -7412,6 +7416,8 @@ export interface components {
       username: string;
     };
     BasicAuthRegisterRequest: {
+      /** @description The requested displayname. Defaults to the username. */
+      displayName?: string | null;
       /** @description The email to send the confirmation mail to. */
       email: string;
       language?: components['schemas']['UserLanguage'] | null;
