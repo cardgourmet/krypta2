@@ -1,0 +1,61 @@
+@layer structures {
+  .base {
+    min-width: 16.75rem;
+  }
+
+  .avatar {
+    aspect-ratio: 1;
+    border: 0.125rem solid var(--cgm-background-surface);
+    border-radius: 9999rem;
+    box-shadow:
+      var(--cgm-shadow-skeuomorphic),
+      0 0 0 var(--cgm-border-width) var(--cgm-border-primary),
+      var(--cgm-shadow-xs);
+    display: flex;
+    height: 2.5rem;
+    margin: 0;
+    position: relative;
+
+    &::before {
+      border: var(--cgm-border-width) solid var(--cgm-border-highlight);
+      border-radius: inherit;
+      content: "";
+      inset: 0;
+      mask-image: linear-gradient(to top, black, transparent);
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .image {
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 var(--cgm-border-width) var(--cgm-border-primary);
+    }
+  }
+
+  .content {
+    background-color: var(--cgm-background-surface);
+    border: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    border-radius: 0.75rem;
+    margin-inline: var(--cgm-border-offset);
+    margin-top: -0.4375rem;
+    padding-block: 0.375rem;
+    position: relative;
+  }
+
+  .footer {
+    background-color: var(--cgm-background-primary);
+    border-bottom-left-radius: 0.6875rem;
+    border-bottom-right-radius: 0.6875rem;
+    margin-bottom: -0.375rem;
+    margin-top: -0.75rem;
+    padding-bottom: 0.375rem;
+    padding-top: 0.9375rem;
+  }
+
+  .profile {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.625rem;
+    padding-top: 0.25rem;
+  }
+}

@@ -1,0 +1,19 @@
+@layer structures {
+  .base {
+    background-color: var(--cgm-background-primary);
+    padding: 1rem;
+    padding-top: calc(1rem + var(--cgm-frame-content-border-radius));
+  }
+
+  .copyrightNotices {
+    border-bottom: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    display: grid;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    row-gap: 0.5rem;
+  }
+
+  .links {
+    margin: 0;
+  }
+}

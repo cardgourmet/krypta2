@@ -21,7 +21,7 @@
     &[data-cgm-size="sm"] {
       --button-font-size: 0.875rem;
       --button-gap: 0.25rem;
-      --button-height: 2.25rem;
+      --button-height: 2.125rem;
       --button-icon-size: 1rem;
       --button-line-height: calc(20 / 14);
       --button-padding-inline: 0.5rem;
@@ -97,7 +97,8 @@
       }
     }
 
-    &:focus-visible {
+    &:focus-visible,
+    &[aria-expanded="true"] {
       outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
       outline-offset: var(--cgm-outline-width);
     }
@@ -107,6 +108,10 @@
       cursor: not-allowed;
       opacity: 0.5;
     }
+  }
+
+  .content {
+    display: flex;
   }
 
   .iconContainer {

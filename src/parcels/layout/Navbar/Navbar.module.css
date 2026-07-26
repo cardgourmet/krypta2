@@ -1,0 +1,61 @@
+@layer structures {
+  .base {
+    box-shadow:
+      0 0 0 0.125rem var(--cgm-border-tertiary),
+      var(--cgm-shadow-xs);
+    display: grid;
+    padding-inline: 0.5rem;
+
+    @media (width >= 48em) {
+      border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+      box-shadow: none;
+    }
+  }
+
+  .desktopContent {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+
+    @media (width < 48em) {
+      display: none;
+    }
+  }
+
+  .mobileContent {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+
+    @media (width >= 48em) {
+      display: none;
+    }
+  }
+
+  .actionsContainer {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .logoLink {
+    align-items: center;
+    border-radius: 0.5rem;
+    color: var(--cgm-foreground-secondary);
+    display: flex;
+    height: 2.5rem;
+    justify-content: center;
+    width: 2.5rem;
+
+    @media (hover: hover) {
+      &:not([disabled]):hover {
+        background-color: color-mix(in oklch, var(--cgm-color-neutral), transparent 80%);
+      }
+    }
+
+    &:focus-visible {
+      outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
+      outline-offset: var(--cgm-outline-width);
+    }
+  }
+}

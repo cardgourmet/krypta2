@@ -1,0 +1,18 @@
+@layer components {
+  .base {
+    &[data-cgm-size="sm"] {
+      --button-font-size: 1.125rem;
+      --button-padding-inline: 0.3125rem;
+    }
+
+    &[data-cgm-size="md"] {
+      --button-font-size: 1.125rem;
+      --button-padding-inline: 0.5rem;
+    }
+
+    & svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import type { ComponentProps, CSSProperties, ElementType, ReactNode } from 'react';
+import type { ComponentIdentity } from './withPropsApplied';
 
 // biome-ignore lint/complexity/noBannedTypes: this is valid
 export type Composable<B, T = {}> =
@@ -13,6 +14,13 @@ export type Composable<B, T = {}> =
  */
 // biome-ignore lint/complexity/noBannedTypes: this is valid
 export type Extend<B, T = {}> = T & Omit<B extends ElementType ? ComponentProps<B> : B, keyof T>;
+
+// biome-ignore lint/complexity/noBannedTypes: this is valid
+// biome-ignore lint/suspicious/noExplicitAny: this is valid
+export type ExtendComposable<I extends ComponentIdentity<any, any>, T = {}> = Composable<
+  I['base'],
+  Omit<I['props'], keyof T> & T
+>;
 
 export type InputLike<T> = {
   defaultValue?: T;

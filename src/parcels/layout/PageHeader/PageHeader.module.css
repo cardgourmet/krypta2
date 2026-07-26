@@ -1,0 +1,30 @@
+@layer structures {
+  .base {
+    position: sticky;
+    top: var(--navbar-height);
+  }
+
+  .breadcrumbs {
+    align-items: center;
+    color: var(--cgm-foreground-secondary);
+    display: flex;
+    font-weight: 500;
+    gap: 0.125rem;
+  }
+
+  .title {
+    font-family: var(--cgm-title-font-family);
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+
+  .titleContainer {
+    align-items: center;
+    border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+    column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+  }
+}
