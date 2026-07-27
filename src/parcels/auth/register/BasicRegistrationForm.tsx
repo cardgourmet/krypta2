@@ -1,5 +1,4 @@
 import { Blockquote, Divider, Stack } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -49,9 +48,9 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
 
   const [registerError, setRegisterError] = useState<string>('');
 
-  const validateField = (name: keyof typeof formValues, value: string): string[] | string | undefined => {
+  const validateField = (name: string, value: string): string[] | string | undefined => {
     const errors: string[] = [];
-    switch (name) {
+    switch (name as keyof typeof formValues) {
       case 'email':
         if (!EMAIL_REGEX.test(value)) errors.push('invalid-email');
         break;
@@ -87,11 +86,11 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
     return errors;
   };
 
-  const handleFocus = (name: keyof typeof formValues, value: boolean) => {
+  const handleFocus = (name: string, value: boolean) => {
     setFormFocused((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChange = (name: keyof typeof formValues, value: string) => {
+  const handleChange = (name: string, value: string) => {
     setFormValues((prev) => ({ ...prev, [name]: value }));
 
     const error = validateField(name, value);
@@ -100,12 +99,15 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
 
   return (
     <>
+      {registerError && (
+        <Blockquote color={'var(--gourmet-red-01)'} className={styles.errorField} p={'1rem'}>
+          {registerError}
+        </Blockquote>
+      )}
+
       <form
         onSubmit={(event) => {
           event.preventDefault();
-
-          // TODO: check why submit doesnt completely go through
-          console.log('submit!');
 
           // Validate all fields
           const errors: typeof formErrors = {} as typeof formErrors;
@@ -113,7 +115,7 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
 
           (Object.keys(formValues) as Array<keyof typeof formValues>).forEach((key) => {
             const error = validateField(key, formValues[key]);
-            if (error) {
+            if (error !== undefined && error.length > 0) {
               if (typeof error === 'string') {
                 errors[key] = [error];
               } else {
@@ -122,7 +124,6 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
               hasErrors = true;
             }
           });
-
           setFormErrors(errors);
 
           if (hasErrors) return;
@@ -136,7 +137,9 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
             password: formValues.password,
           }).then((r) => {
             if (r.error) {
-              setRegisterError(r.error.key);
+              const key = r.error.key;
+
+              setRegisterError(t(`errors.${key}`));
               return;
             }
 
@@ -225,12 +228,6 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
       <Divider label={'Or'} />
 
       <GoogleRegisterButton onSuccess={onOAuthSuccess} />
-
-      {registerError && (
-        <Blockquote color={'var(--gourmet-red-01)'} icon={<IconInfoCircle />} className={styles.errorField}>
-          {registerError}
-        </Blockquote>
-      )}
     </>
   );
 }

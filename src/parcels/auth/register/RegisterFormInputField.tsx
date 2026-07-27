@@ -2,7 +2,6 @@ import { Collapse, Group, Stack } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import type { TFunction } from 'i18next';
 import { type HTMLInputAutoCompleteAttribute, type PropsWithChildren, useId, useMemo } from 'react';
-import type { FormValues } from '@/parcels/auth/register/BasicRegistrationForm.tsx';
 import { GourmetPasswordInput } from '@/parcels/generic/mantine/GourmetPasswordInput/GourmetPasswordInput.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { GourmetTextInput } from '@/parcels/generic/mantine/GourmetTextInput/GourmetTextInput.tsx';
@@ -20,10 +19,10 @@ export function RegisterFormInputField({
   password,
   valueProcessor,
 }: {
-  formValues: Record<keyof FormValues, string>;
-  formFocused: Record<keyof FormValues, boolean>;
-  formErrors: Record<keyof FormValues, string[] | undefined>;
-  formKey: keyof FormValues;
+  formValues: Record<string, string>;
+  formFocused: Record<keyof typeof formValues, boolean>;
+  formErrors: Record<keyof typeof formValues, string[] | undefined>;
+  formKey: keyof typeof formValues;
   t: TFunction<string>;
   handleFocus: (name: keyof typeof formValues, value: boolean) => void;
   handleChange: (name: keyof typeof formValues, value: string) => void;
@@ -40,7 +39,7 @@ export function RegisterFormInputField({
   }, [inputId, validationKeys]);
 
   const mustValueProcessor = valueProcessor ?? ((val) => val);
-  const isValid = formValues[formKey].length > 0 && formErrors[formKey]?.length === 0;
+  const isValid = formValues[formKey].length > 0 && (formErrors[formKey]?.length ?? 0) === 0;
 
   return (
     <Stack gap={'0.375rem'}>
@@ -65,7 +64,6 @@ export function RegisterFormInputField({
           onChange={(event) => handleChange(formKey, mustValueProcessor(event.target.value))}
           onFocus={() => handleFocus(formKey, true)}
           onBlur={() => handleFocus(formKey, false)}
-          validated={isValid}
           aria-invalid={!isValid}
           aria-describedby={describedBy.join(' ')}
         />
@@ -80,7 +78,6 @@ export function RegisterFormInputField({
           onChange={(event) => handleChange(formKey, mustValueProcessor(event.target.value))}
           onFocus={() => handleFocus(formKey, true)}
           onBlur={() => handleFocus(formKey, false)}
-          validated={formValues[formKey].length > 0 && formErrors[formKey]?.length === 0}
           aria-invalid={!(formValues[formKey].length > 0 && formErrors[formKey]?.length === 0)}
           aria-describedby={describedBy.join(' ')}
         />
@@ -118,9 +115,9 @@ function ValidationDisplay({
   children,
 }: PropsWithChildren<{
   inputId: string;
-  formValues: Record<keyof FormValues, string>;
-  formErrors: Record<keyof FormValues, string[] | undefined>;
-  formKey: keyof FormValues;
+  formValues: Record<string, string>;
+  formErrors: Record<keyof typeof formValues, string[] | undefined>;
+  formKey: keyof typeof formValues;
   errorKey: string;
 }>) {
   return (

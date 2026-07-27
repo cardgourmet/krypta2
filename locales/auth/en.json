@@ -9,11 +9,27 @@
     "loginButton": "Login"
   },
   "register": {
+    "errors": {
+      "email_already_exists": "There is already an account registered with this email",
+      "username_already_exists": "There is already an account registered with this username",
+      "invalid_username": "Your username is not valid",
+      "invalid_display_name": "Your displayname is not valid",
+      "invalid_email": "Your email is not valid",
+      "invalid_password": "Your password is not valid",
+      "oauth_validation_failed": "Could not validate your token against Google. Please try again later",
+      "oauth_invalid_provider": "Could not find the proper provider. Please try again later",
+      "oauth_already_connected": "There is already a Cardgourmet account linked to this Google account",
+      "oauth_missing_email": "Could not find an email address that is linked to your Google account"
+    },
+    "oauth": {
+      "verified": "Your Google account has been verified. To finish the registration, enter a username and displayname for your Cardgourmet account.",
+      "cancel": "Cancel Registration",
+      "finish": "Finish Registration"
+    },
     "login": "Login",
     "registerTitle": "Register",
     "firstTime": "Seen this page before?",
     "registerButton": "Register",
-
     "email": {
       "label": "Email-Address",
       "description": "",
