@@ -26,8 +26,8 @@ export const Route = createFileRoute('/register/')({
   validateSearch: registerParamsSchema,
 });
 
-export const USERNAME_REGEX = /^[a-z0-9_]{3,36}$/;
-export const DISPLAYNAME_REGEX = /^[a-zA-Z0-9-_\s]{3,50}$/;
+export const USERNAME_REGEX = /^[a-z0-9_]*$/;
+export const DISPLAYNAME_REGEX = /^[a-zA-Z0-9-_\s]*$/;
 export const PASSWORD_REGEX = /^.{8,128}$/;
 export const EMAIL_REGEX =
   // biome-ignore lint/suspicious/noControlCharactersInRegex: EMAILS YOU KNOW
@@ -50,7 +50,7 @@ function RouteComponent() {
             <GourmetText fz={'md'} cgmc={'neutral-6'}>
               {t('firstTime')}
             </GourmetText>
-            <Link to={'/login'} style={{ textDecoration: 'none' }} params={{ redirect: redirect }}>
+            <Link to={'/login'} style={{ textDecoration: 'none' }} search={{ redirect: redirect }}>
               <Group gap={'0.25rem'}>
                 <GourmetText c={'var(--gourmet-blue-1)'}>{t('login')}</GourmetText>
                 <IconArrowRight size={16} color={'var(--gourmet-blue-5)'} />

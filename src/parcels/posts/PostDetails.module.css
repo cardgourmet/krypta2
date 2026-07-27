@@ -20,6 +20,8 @@
   h2 {
     margin: 1.5rem 0;
     font-weight: 700;
+
+    border-bottom: 1px solid var(--gourmet-neutral-6);
   }
 
   a {

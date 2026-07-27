@@ -26,6 +26,7 @@ export async function registerUsingBasicAuth(
   data: {
     email: string;
     username: string;
+    displayname: string;
     password: string;
     preferredGlobalLanguage?: 'en' | 'de';
   },
@@ -36,6 +37,7 @@ export async function registerUsingBasicAuth(
       body: {
         email: data.email,
         username: data.username,
+        displayname: data.displayname,
         password: data.password,
         language: data.preferredGlobalLanguage,
       },
@@ -375,6 +377,7 @@ export async function registerUsingOAuth(
   expiresAt: string,
   provider: 'google',
   username: string,
+  displayName: string,
   email?: string,
   abort?: AbortController,
 ): Promise<{
@@ -389,6 +392,7 @@ export async function registerUsingOAuth(
         expiresAt: expiresAt,
         provider: provider,
         username: username,
+        displayName: displayName,
         email: email,
       },
       signal: abort?.signal,
