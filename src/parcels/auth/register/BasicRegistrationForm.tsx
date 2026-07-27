@@ -125,7 +125,6 @@ export function BasicRegistrationForm({ onOAuthSuccess }: { onOAuthSuccess: (dat
             }
           });
           setFormErrors(errors);
-
           if (hasErrors) return;
 
           setRegisterError('');

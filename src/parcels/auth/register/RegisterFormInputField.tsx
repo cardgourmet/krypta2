@@ -44,7 +44,7 @@ export function RegisterFormInputField({
   return (
     <Stack gap={'0.375rem'}>
       <Stack gap={'0.1rem'}>
-        <GourmetText component="label" cgmff={'ui'} fw={'bold'} htmlFor={inputId}>
+        <GourmetText component="label" cgmff={'ui'} fw={'500'} htmlFor={inputId}>
           {t(`${formKey}.label`)}
         </GourmetText>
         {description && (

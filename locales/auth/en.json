@@ -84,6 +84,15 @@
     "changePasswordButton": "Update Password"
   },
   "settings": {
+    "errors": {
+      "email_already_exists": "There is already an account registered with this email",
+      "username_already_exists": "There is already an account registered with this username",
+      "invalid_username": "Username not valid. It needs to be between 3 and 50 characters long and only contain alphanumerical characters (A-Z, 0-9 and _). No spaces are allowed.",
+      "invalid_display_name": "Displayname not valid. It needs to be between 3 and 50 characters long and only contain alphanumerical characters (A-Z, 0-9 and _). Spaces are allowed",
+      "invalid_email": "Your email is not valid",
+      "invalid_password": "Password is not valid. It needs to be at least 8 characters long.",
+      "unknown": "Unknown error during the update process. Please try again later."
+    },
     "header": {
       "title": "Settings"
     },
@@ -111,7 +120,7 @@
           "description": "This is how you'll be displayed on Cardgourmet."
         },
         "email": {
-          "title": "Email Adress",
+          "title": "Email Address",
           "description": "",
           "password": "Password"
         },

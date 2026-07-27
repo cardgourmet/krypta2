@@ -93,6 +93,24 @@ export function OAuthRegistrationForm({
         onSubmit={(event) => {
           event.preventDefault();
 
+          // Validate all fields
+          const errors: typeof formErrors = {} as typeof formErrors;
+          let hasErrors = false;
+
+          (Object.keys(formValues) as Array<keyof typeof formValues>).forEach((key) => {
+            const error = validateField(key, formValues[key]);
+            if (error !== undefined && error.length > 0) {
+              if (typeof error === 'string') {
+                errors[key] = [error];
+              } else {
+                errors[key] = error;
+              }
+              hasErrors = true;
+            }
+          });
+          setFormErrors(errors);
+          if (hasErrors) return;
+
           setRegisterError('');
 
           startTransition(async () => {

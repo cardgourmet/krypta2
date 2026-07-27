@@ -1,8 +1,8 @@
 import { Blockquote, Divider, Group, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestAnimationFrameTransition } from '@/parcels/animation/requestAnimationFrameTransition.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
@@ -32,7 +32,8 @@ export function LoginForm() {
 
   const navigate = useNavigate();
 
-  console.log('redirect', redirect);
+  const usernameInputId = useId();
+  const displaynameInputId = useId();
 
   return (
     <Group justify={'center'}>
@@ -53,6 +54,12 @@ export function LoginForm() {
             </Link>
           </Group>
         </Stack>
+
+        {loginError && (
+          <Blockquote color={'var(--gourmet-red-01)'} className={styles.errorField} p={'1rem'}>
+            {loginError}
+          </Blockquote>
+        )}
 
         <form
           onSubmit={form.onSubmit(() => {
@@ -87,12 +94,19 @@ export function LoginForm() {
           })}
         >
           <Stack>
-            <Stack gap={'0.1rem'}>
+            <Stack gap={'0.375rem'}>
+              <Group justify={'space-between'}>
+                <GourmetText component="label" cgmff={'ui'} fw={500} htmlFor={usernameInputId}>
+                  {t('emailOrName')}
+                </GourmetText>
+              </Group>
               <GourmetTextInput {...form.getInputProps('username')} />
             </Stack>
-            <Stack gap={'0.1rem'}>
+            <Stack gap={'0.375rem'}>
               <Group justify={'space-between'}>
-                <GourmetText>{t('password')}</GourmetText>
+                <GourmetText component="label" cgmff={'ui'} fw={500} htmlFor={displaynameInputId}>
+                  {t('password')}
+                </GourmetText>
                 <Link to={'/forgot'} style={{ textDecoration: 'none' }}>
                   <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgotPassword')}</GourmetText>
                 </Link>
@@ -107,12 +121,6 @@ export function LoginForm() {
         <Divider label={'Or'} />
 
         <GoogleLoginButton />
-
-        {loginError && (
-          <Blockquote color={'var(--gourmet-red-01)'} icon={<IconInfoCircle />} className={styles.errorField}>
-            {loginError}
-          </Blockquote>
-        )}
       </Stack>
     </Group>
   );

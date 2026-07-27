@@ -73,7 +73,7 @@ export function DisplayNameSetting() {
                   setDisplayNameLoading(false);
                   if (d.error || !d.data) {
                     setDisplayName(user?.displayName!);
-                    setDisplayNameError(d.error?.key ?? 'unknown');
+                    setDisplayNameError(t(`errors.${d.error?.key ?? 'unknown'}`));
                     return;
                   }
 
@@ -88,7 +88,7 @@ export function DisplayNameSetting() {
         )}
       </Group>
       {displayNameError && (
-        <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'}>
+        <GourmetText c={'var(--gourmet-red-01)'} fz={'0.95rem'} maw={'32rem'}>
           {displayNameError}
         </GourmetText>
       )}
