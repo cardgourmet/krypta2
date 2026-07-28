@@ -1,6 +1,12 @@
 {
   "transform": "Transformieren",
   "rotate": "Rotieren",
+  "forwarded": {
+    "1": "Wir haben dich auf die Detailseite weitergeleitet, weil deine Suche nur eine Karte oder einen Print ergeben hat.",
+    "2": "Möchtest du, dass wir das weiterhin tun? Du kannst deine Entscheidung in den Einstellungen jederzeit ändern.",
+    "keep": "Immer weiterleiten",
+    "disable": "Deaktivieren"
+  },
   "meta": {
     "language": {
       "printIn": "Diesen Print ansehen in",
