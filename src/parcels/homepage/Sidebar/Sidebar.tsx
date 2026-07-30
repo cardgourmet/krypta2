@@ -109,16 +109,11 @@ function useCategoryButton({ tcg, selectedTcg }: { tcg: Tcg; selectedTcg: Tcg | 
   const button = useMemo(() => {
     return (
       <div ref={refs.setReference} {...getReferenceProps()}>
-        <Link
-          to="/$tcg"
-          params={{ tcg: tcg }}
-          className={`${styles.sidebarButton}`}
-          data-state={tcg === selectedTcg ? 'enabled' : 'disabled'}
-        >
+        <div className={`${styles.sidebarButton}`} data-state={tcg === selectedTcg ? 'enabled' : 'disabled'}>
           {tcg === 'mtg' && <MTGIcon height={24} width={24} />}
           {tcg === 'pcg' && <PCGIcon height={24} width={24} />}
           {tcg === 'dlc' && <DLCIcon height={24} width={24} />}
-        </Link>
+        </div>
       </div>
     );
   }, [getReferenceProps, refs.setReference, tcg, selectedTcg]);

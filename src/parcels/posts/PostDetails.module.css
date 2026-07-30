@@ -1,6 +1,10 @@
 .markdownBody {
   padding-right: 5rem;
 
+  @media (max-width: 800px) {
+    padding-right: 0;
+  }
+
   p {
     font-family: var(--cgm-content-font-family), sans-serif;
     margin-bottom: 1.5rem;
