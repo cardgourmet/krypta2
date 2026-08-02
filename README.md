@@ -1,4 +1,4 @@
-<img width="724" height="140" alt="bad_code_banner_2" src="https://github.com/user-attachments/assets/b141aacb-1cd4-424c-bc3e-00da2c262ace" />
+<img width="724" height="140" alt="bad_code_banner_3" src="https://github.com/user-attachments/assets/0dd1ba52-914f-4a59-bf13-789ae4b79246" />
 
 # Krypta²
 
