@@ -1,6 +1,8 @@
+<img width="724" height="140" alt="bad_code_banner" src="https://github.com/user-attachments/assets/9418bcaf-1bfb-440f-9ec0-ecbbbba6afbb" />
+
 # Krypta²
 
-Frontend repository for our cardgourmet platform.
+Frontend repository for our Cardgourmet platform.
 
 Our Stack:
 - Language: https://www.typescriptlang.org/
