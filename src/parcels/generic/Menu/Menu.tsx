@@ -18,15 +18,13 @@ const Root = ({ children, className, fullTriggerWidth = false, ...props }: MenuP
   );
 };
 
-export const MenuDropdownItem = ({ asChild, children, icon, label, ...props }: MenuDropdownItemProps) => {
+export const MenuDropdownItem = ({ asChild, children, icon, ...props }: MenuDropdownItemProps) => {
   const Component = asChild ? Slot : 'div';
 
   return (
     <DropdownMenuItem asChild className={styles.item}>
       <Component {...props}>
         <div className={styles.decorator}>{icon && <div className={styles.iconContainer}>{icon}</div>}</div>
-
-        <span>{label}</span>
 
         <Slottable>{children}</Slottable>
       </Component>
@@ -36,7 +34,7 @@ export const MenuDropdownItem = ({ asChild, children, icon, label, ...props }: M
 
 MenuDropdownItem.displayName = 'Menu.DropdownItem';
 
-export const MenuDropdownRadioItem = ({ label, value }: MenuDropdownRadioItemProps) => {
+export const MenuDropdownRadioItem = ({ children, value }: MenuDropdownRadioItemProps) => {
   return (
     <DropdownMenuRadioItem className={styles.item} value={value}>
       <div className={styles.decorator}>
@@ -45,7 +43,7 @@ export const MenuDropdownRadioItem = ({ label, value }: MenuDropdownRadioItemPro
         </DropdownMenuItemIndicator>
       </div>
 
-      <span>{label}</span>
+      <span>{children}</span>
     </DropdownMenuRadioItem>
   );
 };

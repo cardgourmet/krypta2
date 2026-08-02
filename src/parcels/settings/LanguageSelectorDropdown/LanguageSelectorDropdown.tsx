@@ -23,8 +23,8 @@ export const LanguageSelectorDropdown = () => {
       <DropdownMenuContent asChild align="end" sideOffset={-4}>
         <Menu>
           <DropdownMenuRadioGroup onValueChange={(value) => i18n.changeLanguage(value)} value={i18n.language}>
-            <Menu.DropdownRadioItem label="English" value="en" />
-            <Menu.DropdownRadioItem label="Deutsch" value="de" />
+            <Menu.DropdownRadioItem value="en">English</Menu.DropdownRadioItem>
+            <Menu.DropdownRadioItem value="de">Deutsch</Menu.DropdownRadioItem>
           </DropdownMenuRadioGroup>
         </Menu>
       </DropdownMenuContent>

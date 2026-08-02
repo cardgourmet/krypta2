@@ -12,6 +12,7 @@
       "sidebar footer";
     grid-template-columns: var(--cgm-frame-sidebar-width) 1fr;
     grid-template-rows: var(--cgm-frame-navbar-height) 1fr auto;
+    isolation: isolate;
     min-height: 100dvh;
 
     @media (width >= 48em) {

@@ -14,8 +14,8 @@
 
   .desktopContent {
     align-items: center;
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
 
     @media (width < 48em) {
       display: none;

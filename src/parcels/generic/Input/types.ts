@@ -7,5 +7,6 @@ export type InputProps = Extend<
     error?: string;
     hint?: ReactNode;
     label?: ReactNode;
+    leadingSlot?: ReactNode;
   }
 >;

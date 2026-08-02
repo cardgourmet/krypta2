@@ -23,8 +23,8 @@ export const LanguageSelectorNavItem = () => {
       <DropdownMenuContent asChild sideOffset={8}>
         <Menu fullTriggerWidth>
           <DropdownMenuRadioGroup onValueChange={(value) => i18n.changeLanguage(value)} value={i18n.language}>
-            <Menu.DropdownRadioItem label="English" value="en" />
-            <Menu.DropdownRadioItem label="Deutsch" value="de" />
+            <Menu.DropdownRadioItem value="en">English</Menu.DropdownRadioItem>
+            <Menu.DropdownRadioItem value="de">Deutsch</Menu.DropdownRadioItem>
           </DropdownMenuRadioGroup>
         </Menu>
       </DropdownMenuContent>

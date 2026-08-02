@@ -1,7 +1,16 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/glyphs.json';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { IconBook2, IconHistory, IconList, IconLogout, IconSettings, IconStar, IconUser } from '@tabler/icons-react';
+import {
+  IconBook2,
+  IconHistory,
+  IconList,
+  IconLogin,
+  IconLogout,
+  IconSettings,
+  IconStar,
+  IconUser,
+} from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext';
@@ -38,7 +47,7 @@ export const UserDropdown = () => {
       <DropdownMenuContent asChild align="end" sideOffset={-4}>
         <Menu className={styles.base}>
           <div className={styles.content}>
-            {user && (
+            {user ? (
               <>
                 <div className={styles.profile}>
                   {avatarUrl && (
@@ -57,31 +66,70 @@ export const UserDropdown = () => {
                   </div>
                 </div>
 
-                <Menu.DropdownItem asChild icon={<IconHistory />} label="Suchverlauf">
-                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/history" />
+                <Menu.DropdownItem asChild icon={<IconHistory />}>
+                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
+                    Suchverlauf
+                  </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconBook2 />} label="Gespeicherte Suchen">
-                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" />
+                <Menu.DropdownItem asChild icon={<IconBook2 />}>
+                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches">
+                    Gespeicherte Suchen
+                  </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconStar />} label="Favoriten">
-                  <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId" />
+                <Menu.DropdownItem asChild icon={<IconStar />}>
+                  <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId">
+                    Favoriten
+                  </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconList />} label="Listen">
-                  <Link search={{ ...paramDefaults, tcg }} to="/me/lists" />
+                <Menu.DropdownItem asChild icon={<IconList />}>
+                  <Link search={{ ...paramDefaults, tcg }} to="/me/lists">
+                    Listen
+                  </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconSettings />} label="Einstellungen">
-                  <Link to="/me/settings" />
+                <Menu.DropdownItem asChild icon={<IconSettings />}>
+                  <Link to="/me/settings">Einstellungen</Link>
+                </Menu.DropdownItem>
+              </>
+            ) : (
+              <>
+                <div style={{ maxWidth: '16rem', padding: '0.25rem 0.625rem 0.625rem' }}>
+                  <Typeset
+                    block
+                    size="sm"
+                    style={{ fontFamily: 'var(--cgm-title-font-family)', marginBottom: '0.25rem' }}
+                    weight={600}
+                  >
+                    Du benutzt Cardgourmet anonym
+                  </Typeset>
+                  <Typeset block size="sm" variant="secondary">
+                    Melde dich an, um unsere personalisierten Features zu nutzen.
+                  </Typeset>
+                </div>
+
+                <Menu.DropdownItem asChild icon={<IconHistory />}>
+                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
+                    Suchverlauf
+                  </Link>
                 </Menu.DropdownItem>
               </>
             )}
           </div>
 
           <footer className={styles.footer}>
-            <Menu.DropdownItem
-              icon={<IconLogout style={{ color: 'var(--cgm-color-negative)' }} />}
-              label="Abmelden"
-              style={{ color: 'var(--cgm-color-negative)' }}
-            />
+            {user ? (
+              <Menu.DropdownItem
+                icon={<IconLogout style={{ color: 'var(--cgm-color-negative)' }} />}
+                style={{ color: 'var(--cgm-color-negative)' }}
+              >
+                Abmelden
+              </Menu.DropdownItem>
+            ) : (
+              <Menu.DropdownItem asChild icon={<IconLogin style={{ color: 'var(--cgm-color-brand)' }} />}>
+                <Link style={{ color: 'var(--cgm-color-brand)' }} to="/login">
+                  Anmelden
+                </Link>
+              </Menu.DropdownItem>
+            )}
           </footer>
         </Menu>
       </DropdownMenuContent>

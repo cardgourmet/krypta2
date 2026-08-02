@@ -1,5 +1,15 @@
 import { Drawer } from '@mantine/core';
-import { IconMenu3, IconSearch, IconUser } from '@tabler/icons-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import {
+  IconBrandDiscord,
+  IconBrandGithub,
+  IconCaretDownFilled,
+  IconCat,
+  IconGoGame,
+  IconMenu3,
+  IconSearch,
+  IconUser,
+} from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 import { useState } from 'react';
@@ -7,9 +17,12 @@ import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Button } from '@/parcels/generic/Button/Button';
+import { Input } from '@/parcels/generic/Input/Input';
+import { Menu } from '@/parcels/generic/Menu/Menu';
 import { Logo } from '@/parcels/Logo';
 import { LanguageSelectorDropdown } from '@/parcels/settings/LanguageSelectorDropdown/LanguageSelectorDropdown';
 import { ThemeSelectorDropdown } from '@/parcels/settings/ThemeSelectorDropdown/ThemeSelectorDropdown';
+import { TcgIcon } from '@/parcels/tcg/TcgIcon';
 import { UserDrawer } from '@/parcels/user/UserDrawer/UserDrawer';
 import { UserDropdown } from '@/parcels/user/UserDropdown/UserDropdown';
 import styles from './Navbar.module.css';
@@ -49,9 +62,67 @@ export const Navbar = ({ className }: Extend<Structure>) => {
         </div>
 
         <div className={styles.desktopContent}>
-          <LanguageSelectorDropdown />
-          <ThemeSelectorDropdown />
-          <UserDropdown />
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  accent="beta"
+                  size="sm"
+                  style={{ fontFamily: 'var(--cgm-title-font-family)', fontWeight: 600 }}
+                  trailingIcon={<IconCaretDownFilled />}
+                  variant="tertiary"
+                >
+                  Cardgourmet
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent asChild align="start" sideOffset={-4}>
+                <Menu>
+                  <Menu.DropdownItem asChild icon={<IconCat />}>
+                    <Link to="/about">Über uns</Link>
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem asChild icon={<IconGoGame />}>
+                    <Link to="/about">Games</Link>
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem asChild icon={<IconBrandDiscord />}>
+                    <Link to="/about">Discord</Link>
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem asChild icon={<IconBrandGithub />}>
+                    <a href="https://github.com/cardgourmet">GitHub</a>
+                  </Menu.DropdownItem>
+                </Menu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          <Input
+            leadingSlot={
+              <Button
+                style={{
+                  alignSelf: 'center',
+                  borderRadius: '0.25rem',
+                  gap: 0,
+                  height: '1.75rem',
+                  marginLeft: '0.375rem',
+                  minHeight: 0,
+                  padding: 0,
+                  paddingInline: '0.125rem',
+                }}
+                trailingIcon={<IconCaretDownFilled fontSize={12} />}
+                variant="tertiary"
+              >
+                <TcgIcon height={20} tcg="dlc" width={20} />
+              </Button>
+            }
+            placeholder="Suchen…"
+            style={{ width: 'min(30rem, 50vw)' }}
+          />
+
+          <div className={styles.actionsContainer} style={{ justifyContent: 'flex-end' }}>
+            <LanguageSelectorDropdown />
+            <ThemeSelectorDropdown />
+            <UserDropdown />
+          </div>
         </div>
       </nav>
 

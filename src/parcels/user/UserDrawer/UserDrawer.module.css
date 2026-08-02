@@ -34,12 +34,6 @@
     }
   }
 
-  .header {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  }
-
   .navItems {
     align-self: stretch;
     display: grid;

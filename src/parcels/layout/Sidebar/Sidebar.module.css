@@ -49,4 +49,12 @@
       outline-offset: var(--cgm-outline-width);
     }
   }
+
+  .tcgsContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-block: 0.5rem;
+    width: 100%;
+  }
 }

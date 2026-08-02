@@ -30,9 +30,9 @@ export const ThemeSelectorDropdown = () => {
             onValueChange={(value) => setColorScheme(value as MantineColorScheme)}
             value={colorScheme}
           >
-            <Menu.DropdownRadioItem label="Dark" value="dark" />
-            <Menu.DropdownRadioItem label="Light" value="light" />
-            <Menu.DropdownRadioItem label="Auto" value="auto" />
+            <Menu.DropdownRadioItem value="dark">Dark</Menu.DropdownRadioItem>
+            <Menu.DropdownRadioItem value="light">Light</Menu.DropdownRadioItem>
+            <Menu.DropdownRadioItem value="auto">Auto</Menu.DropdownRadioItem>
           </DropdownMenuRadioGroup>
         </Menu>
       </DropdownMenuContent>

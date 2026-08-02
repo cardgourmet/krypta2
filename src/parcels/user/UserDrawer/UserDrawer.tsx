@@ -1,7 +1,16 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/glyphs.json';
 import { Stack } from '@mantine/core';
-import { IconBook2, IconHistory, IconList, IconLogout, IconSettings, IconStar, IconX } from '@tabler/icons-react';
+import {
+  IconBook2,
+  IconHistory,
+  IconList,
+  IconLogin,
+  IconLogout,
+  IconSettings,
+  IconStar,
+  IconX,
+} from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext';
@@ -32,24 +41,12 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
 
   return (
     <Stack align="start" gap="1rem">
-      {!user && (
-        <header className={styles.header}>
-          <Typeset asChild size="lg" style={{ fontFamily: 'var(--cgm-title-font-family)' }} weight={500}>
-            <h2>User</h2>
-          </Typeset>
+      <ActionButton className={styles.absoluteCloseButton} onClick={onClose} size="sm">
+        <IconX />
+      </ActionButton>
 
-          <ActionButton onClick={onClose} size="sm">
-            <IconX />
-          </ActionButton>
-        </header>
-      )}
-
-      {user && (
+      {user ? (
         <>
-          <ActionButton className={styles.absoluteCloseButton} onClick={onClose} size="sm">
-            <IconX />
-          </ActionButton>
-
           {avatarUrl && (
             <figure className={styles.avatar}>
               <img alt="" className={styles.image} src={avatarUrl} />
@@ -68,11 +65,32 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
           <Button accent="negative" leadingIcon={<IconLogout />} size="sm">
             Abmelden
           </Button>
+        </>
+      ) : (
+        <>
+          <div style={{ paddingRight: '3rem' }}>
+            <Typeset block size="lg" style={{ fontFamily: 'var(--cgm-title-font-family)' }} weight={600}>
+              Du benutzt Cardgourmet anonym
+            </Typeset>
+            <Typeset block variant="secondary">
+              Melde dich an, um unsere personalisierten Features zu nutzen.
+            </Typeset>
+          </div>
 
-          <section className={styles.navItems}>
-            <NavItem asChild icon={<IconHistory />} label="Suchverlauf">
-              <Link search={{ ...historyParamDefaults, tcg }} to="/me/history" />
-            </NavItem>
+          <Button accent="brand" asChild leadingIcon={<IconLogin />} size="sm">
+            <Link onClick={() => onClose?.()} to="/login">
+              Anmelden
+            </Link>
+          </Button>
+        </>
+      )}
+
+      <section className={styles.navItems}>
+        <NavItem asChild icon={<IconHistory />} label="Suchverlauf">
+          <Link search={{ ...historyParamDefaults, tcg }} to="/me/history" />
+        </NavItem>
+        {user && (
+          <>
             <NavItem asChild icon={<IconBook2 />} label="Gespeicherte Suchen">
               <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" />
             </NavItem>
@@ -85,12 +103,12 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
             <NavItem asChild icon={<IconSettings />} label="Einstellungen">
               <Link to="/me/settings" />
             </NavItem>
+          </>
+        )}
 
-            <ThemeSelectorNavItem />
-            <LanguageSelectorNavItem />
-          </section>
-        </>
-      )}
+        <ThemeSelectorNavItem />
+        <LanguageSelectorNavItem />
+      </section>
     </Stack>
   );
 };

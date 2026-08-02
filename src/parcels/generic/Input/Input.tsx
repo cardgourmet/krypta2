@@ -11,6 +11,7 @@ export const Input = ({
   hint,
   id: _id,
   label,
+  leadingSlot,
   style,
   ...props
 }: InputProps) => {
@@ -35,6 +36,7 @@ export const Input = ({
       )}
 
       <div className={clsx(styles.box, className)} style={style}>
+        {leadingSlot}
         <input
           aria-describedby={[!!error && errorId, !!hint && hintId, ariaDescribedBy].filter(Boolean).join(' ')}
           aria-invalid={!!error}
