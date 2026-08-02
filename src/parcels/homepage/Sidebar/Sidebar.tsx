@@ -1,7 +1,7 @@
 import { offset, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
-import { Drawer, Group, Stack } from '@mantine/core';
+import { Center, Divider, Drawer, Group, Stack, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconBowlChopsticks, IconCards, IconFolders } from '@tabler/icons-react';
+import { IconBowlChopsticks, IconCards, IconFolders, IconZoomScan } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { BetaButtonSide } from '@/parcels/beta/BetaButton/BetaButtonSide.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
@@ -44,6 +45,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pcgCategory = useCategoryButton({ tcg: 'pcg', selectedTcg: tcg });
   const dlcCategory = useCategoryButton({ tcg: 'dlc', selectedTcg: tcg });
 
+  // TODO: if we have data: show magnifying glass or something on the side with pulsing effect
+  const workMeta = useOverviewWorkStore((state) => state.data?.meta);
+
   return (
     <>
       <Drawer
@@ -67,6 +71,18 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
               </Link>
             </Group>
+
+            {(workMeta?.rawElements?.length ?? 0) > 0 && (
+              <Stack>
+                <UnstyledButton className={styles.workButton}>
+                  <Center>
+                    <IconZoomScan color={'var(--gourmet-neutral-1'} />
+                  </Center>
+                </UnstyledButton>
+
+                <Divider h={'1.5rem'} />
+              </Stack>
+            )}
 
             <Stack gap={'1rem'}>
               {mtgCategory.button}

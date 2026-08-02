@@ -2,6 +2,9 @@ import createClient, { type Middleware } from 'openapi-fetch';
 import { useLocalUserStore } from '@/parcels/state/LocalUserStore.tsx';
 import type { paths } from '@/schema/api';
 
+const username = import.meta.env.VITE_CARDGOURMET_BASIC_USERNAME;
+const password = import.meta.env.VITE_CARDGOURMET_BASIC_PASSWORD;
+
 const umoriClient = createClient<paths>({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
 });
@@ -13,7 +16,7 @@ const authMiddleware: Middleware = {
     }
 
     // TODO: only during testing. prod server won't expect basic authh
-    request.headers.set('Authorization', `Basic ${btoa('quagga:omnivoregarden42')}`);
+    request.headers.set('Authorization', `Basic ${btoa(`${username}:${password}`)}`);
     return request;
   },
 };

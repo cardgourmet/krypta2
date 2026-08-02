@@ -110,3 +110,34 @@
   padding: 0.25rem 0.2rem;
   border-radius: 0.25rem;
 }
+
+.workButton {
+  background-color: var(--gourmet-yellow-1);
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  animation: pulse 2.5s ease-in-out infinite;
+
+  &:hover {
+    animation: none;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gourmet-yellow-1) 38%, transparent);
+  }
+
+  50% {
+    box-shadow: 0 0 0 0.5rem transparent;
+  }
+
+  100% {
+    box-shadow: 0 0 0 1rem transparent;
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .workButton {
+    animation: none;
+  }
+}
