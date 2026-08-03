@@ -1,6 +1,6 @@
-import { Accordion, Divider, Flex, Group, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import { Accordion, Divider, Flex, Group, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconAlertCircleFilled, IconArrowsShuffle, IconClock } from '@tabler/icons-react';
+import { IconAlertCircleFilled, IconArrowsShuffle } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,7 @@ import { TcgOverviewCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgOve
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
-import type { TcgDataSet, TcgSearchCardsResult, TcgSearchParams } from '@/parcels/tcg/types.ts';
+import type { TcgDataSet, TcgSearchCardsUser, TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import type { ApplyFn } from '@/parcels/types.ts';
 import { usePrevious } from '@/parcels/usePrevious.ts';
@@ -142,7 +142,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
 
-      <WorkContextReloader cards={cards} />
+      <WorkContextReloader cards={cards} set={set} />
 
       <div>
         {component}
@@ -150,8 +150,8 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         <OverviewHeader title={title?.label}>
           {set === undefined && !isRandomized && (
             <Pagination
-              currentPage={cards?.data?.currentPage}
-              lastPage={cards?.data?.pageCount}
+              currentPage={cards?.currentPage}
+              lastPage={cards?.pageCount}
               isLoading={isQueryLoading}
               setSettings={setSettings}
             />
@@ -194,7 +194,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         <Stack gap={'0.25rem'} pt={'0.5rem'} pb={'0.5rem'}>
           <QueryExplanation
             isLoading={isLoading}
-            currentPage={cards?.data?.currentPage}
+            currentPage={cards?.currentPage}
             pageSize={set === undefined ? 60 : (searchDetails?.explain?.count ?? 0)}
             cardCount={searchDetails?.explain?.count ?? 0}
             explanation={searchDetails?.explain?.explanation ?? ''}
@@ -202,7 +202,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           />
           {user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
         </Stack>
-        <QueryIgnoredDisplay queryDetails={cards?.data?.details} />
+        <QueryIgnoredDisplay queryDetails={cards?.details} />
 
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
           <CardOverviewLoader isDisplayLoading={isDisplayLoading} />
@@ -227,8 +227,8 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
         {set === undefined && !isRandomized && (
           <Pagination
-            currentPage={cards?.data?.currentPage}
-            lastPage={cards?.data?.pageCount}
+            currentPage={cards?.currentPage}
+            lastPage={cards?.pageCount}
             isLoading={isQueryLoading}
             setSettings={setSettings}
           />
@@ -240,17 +240,17 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   );
 }
 
-export function QueryIgnoredDisplay({ queryDetails }: { queryDetails?: TcgSearchCardsResult['data']['details'] }) {
+export function QueryIgnoredDisplay({ queryDetails }: { queryDetails?: TcgSearchCardsUser['details'] }) {
   return (
     <>
-      {(queryDetails?.ignored?.length ?? 0) > 0 && (
+      {(queryDetails?.explain?.ignored?.length ?? 0) > 0 && (
         <Accordion classNames={{ item: styles.item, root: styles.root, icon: styles.icon }}>
           <Accordion.Item value={'yeet'}>
             <Accordion.Control icon={<IconAlertCircleFilled />}>
               <Text>There are some ignored filters in your query</Text>
             </Accordion.Control>
             <Accordion.Panel>
-              {queryDetails?.ignored.map((ignore) => (
+              {queryDetails?.explain?.ignored.map((ignore) => (
                 <div key={ignore.value} style={{ display: 'flex', gap: '1rem' }}>
                   <code>{ignore.value}</code>
                   <span>{ignore.reason}</span>
@@ -289,11 +289,11 @@ export function OverviewHeader({ title, children }: PropsWithChildren<{ title?: 
             {title}
           </GourmetText>
           {/*<IconCircleCheckFilled size={22} color={'var(--gourmet-green-1)'} />*/}
-          <Stack h={'2rem'} justify={'start'}>
+          {/*<Stack h={'2rem'} justify={'start'}>
             <Tooltip label={'Our data might not be up to date.'} openDelay={500}>
               <IconClock size={18} color={'var(--gourmet-neutral-7)'} />
             </Tooltip>
-          </Stack>
+          </Stack>*/}
         </Group>
         {children}
       </Flex>

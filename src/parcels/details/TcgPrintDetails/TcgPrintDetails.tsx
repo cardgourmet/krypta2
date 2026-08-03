@@ -1,7 +1,7 @@
 import { Divider, Flex, Group, Space, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
 import { ForwardedToDetailsBanner } from '@/parcels/details/TcgPrintDetails/ForwardedToDetailsBanner/ForwardedToDetailsBanner.tsx';
@@ -17,6 +17,7 @@ import { TcgPrintImageRenderer } from '@/parcels/details/TcgPrintImageRenderer.t
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { useOverviewWorkMenuStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
@@ -33,6 +34,15 @@ export function TcgPrintDetails() {
   const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
   const { print: card, set, listResources } = routeApi.useLoaderData();
   const { lang: printLanguage } = routeApi.useSearch() as CardDetailsSearch;
+
+  const setPrintDetailsId = useOverviewWorkMenuStore((state) => state.setPrintDetailsId);
+  useEffect(() => {
+    setPrintDetailsId(card.print.id);
+
+    return () => {
+      setPrintDetailsId(undefined);
+    };
+  }, [card.print.id, setPrintDetailsId]);
 
   useActiveLists(undefined, listResources ?? []);
 
@@ -125,7 +135,7 @@ export function TcgPrintDetails() {
   const smallScreen = useMediaQuery('(max-width: 950px)');
   return (
     <TcgPrintDetailsContext value={{ lang: printLanguage }}>
-      <div>
+      <div style={{ minHeight: '120vh' }}>
         <title>{`${card.name} (${set.translations?.en?.name} #${card.print.collectorNumber}) – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
         {component}
 

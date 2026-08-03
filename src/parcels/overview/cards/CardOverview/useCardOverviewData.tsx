@@ -10,7 +10,6 @@ import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
 import type {
   TcgDataSet,
   TcgDataSetUserSummary,
-  TcgSearchCardsResult,
   TcgSearchCardsUser,
   TcgSearchQuerySettings,
   UserSearchCardsDetails,
@@ -25,7 +24,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   const prevQuerySettings = usePrevious(querySettings);
 
   const { user } = useAuth();
-  const [cards, setCards] = useState<null | TcgSearchCardsResult>(null);
+  const [cards, setCards] = useState<null | TcgSearchCardsUser>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isQueryLoading, setIsQueryLoading] = useState(true);
 
@@ -81,7 +80,7 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     if (explainedQuery !== undefined) {
       onQueryChange(explainedQuery);
     }
-    setCards({ data: data } as TcgSearchCardsResult);
+    setCards(data as TcgSearchCardsUser);
 
     setIsLoading(false);
     setIsQueryLoading(false);
@@ -92,7 +91,6 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
       if (!data || !data?.details?.details?.explain) return;
 
       if (data?.details?.details) {
-        console.log(data?.details?.details);
         setSearchDetails(data.details.details);
       }
 

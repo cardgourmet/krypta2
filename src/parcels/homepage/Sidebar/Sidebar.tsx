@@ -9,7 +9,7 @@ import { BetaButtonSide } from '@/parcels/beta/BetaButton/BetaButtonSide.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
-import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
+import { useOverviewWorkMenuStore, useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
@@ -45,8 +45,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pcgCategory = useCategoryButton({ tcg: 'pcg', selectedTcg: tcg });
   const dlcCategory = useCategoryButton({ tcg: 'dlc', selectedTcg: tcg });
 
-  // TODO: if we have data: show magnifying glass or something on the side with pulsing effect
   const workMeta = useOverviewWorkStore((state) => state.data?.meta);
+  const workMenuOpen = useOverviewWorkMenuStore((state) => state.menuOpened);
+  const openWorkMenu = useOverviewWorkMenuStore((state) => state.setMenuOpened);
 
   return (
     <>
@@ -74,7 +75,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
             {(workMeta?.rawElements?.length ?? 0) > 0 && (
               <Stack>
-                <UnstyledButton className={styles.workButton}>
+                <UnstyledButton
+                  className={styles.workButton}
+                  onClick={() => openWorkMenu(!workMenuOpen)}
+                  data-work={workMenuOpen}
+                >
                   <Center>
                     <IconZoomScan color={'var(--gourmet-neutral-1'} />
                   </Center>

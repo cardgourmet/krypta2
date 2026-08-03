@@ -4,16 +4,16 @@ import { useMemo } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardGridEntry from '@/parcels/overview/cards/CardGrid/CardGridEntry/CardGridEntry.tsx';
 import { CardGridSelectionOverlay } from '@/parcels/selection/OverviewSelectionDisplay/CardGridSelectionOverlay.tsx';
-import type { DlcSearchCardsResult } from '@/parcels/tcg/dlc/api.ts';
+import type { DlcSearchCardsUser } from '@/parcels/tcg/dlc/api.ts';
 import { shouldBeRotated } from '@/parcels/tcg/helpers.ts';
-import type { MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
-import type { PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
-import type { TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { MtgSearchCardsUser, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import type { PcgSearchCardsUser, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { TcgSearchCardsUser, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type CardGridProps = {
   tcg: Tcg;
-  cards: MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult | null | undefined;
+  cards: TcgSearchCardsUser | null | undefined;
   isLoading: boolean;
   toolsEnabled: boolean;
 };
@@ -23,11 +23,11 @@ export function CardGrid({ tcg, cards, isLoading, toolsEnabled }: CardGridProps)
     if (!cards) return null;
 
     if (tcg === 'dlc') {
-      return (cards as DlcSearchCardsResult).data.items;
+      return (cards as DlcSearchCardsUser).items;
     } else if (tcg === 'pcg') {
-      return (cards as PcgSearchCardsResult).data.items as PcgSearchDataCard[];
+      return (cards as PcgSearchCardsUser).items as PcgSearchDataCard[];
     } else if (tcg === 'mtg') {
-      return (cards as MtgSearchCardsResult).data.items as MtgSearchDataCard[];
+      return (cards as MtgSearchCardsUser).items as MtgSearchDataCard[];
     }
     return null;
   }, [tcg, cards]);

@@ -1,18 +1,9 @@
 import { Code, Group, Select, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import {
-  IconCaretDownFilled,
-  IconCheck,
-  IconDeviceImacSearch,
-  IconDiamond,
-  IconHash,
-  IconLanguage,
-  IconSparkles,
-} from '@tabler/icons-react';
+import { IconCaretDownFilled, IconCheck, IconDiamond, IconHash, IconLanguage, IconSparkles } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/parcels/generic/Button/Button.tsx';
 import { CursorImageHover } from '@/parcels/generic/CursorImageHover/CursorImageHover.tsx';
 import { getImagesByTcgCardRelated } from '@/parcels/generic/CursorImageHover/getImagesByTcgCard.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -211,17 +202,19 @@ function TcgPrintMetaRenderer({
       />
 
       <Stack gap={'0.25rem'} mt={'0.75rem'}>
-        <Group gap={'0.25rem'}>
-          <GourmetText cgmff={'ui'} fz={'1.15rem'} fw={500}>
-            Related
-          </GourmetText>
+        {(relatedCards.length > 0 || relatedQueries.length > 0) && (
+          <Group gap={'0.25rem'}>
+            <GourmetText cgmff={'ui'} fz={'1.15rem'} fw={500}>
+              Related
+            </GourmetText>
 
-          {/*<UnstyledButton>
+            {/*<UnstyledButton>
             <Center>
               <IconInfoCircle size={18} color={'var(--gourmet-neutral-6)'} />
             </Center>
           </UnstyledButton>*/}
-        </Group>
+          </Group>
+        )}
 
         <Stack gap={'0.25rem'}>
           {relatedCards.map((relatedCard) => {
@@ -311,9 +304,9 @@ function TcgPrintMetaRenderer({
           })}
         </Stack>
 
-        <Button accent="brand" size="sm" leadingIcon={<IconDeviceImacSearch />} variant="tertiary" disabled>
+        {/*<Button accent="brand" size="sm" leadingIcon={<IconDeviceImacSearch />} variant="tertiary" disabled>
           Show more related searches
-        </Button>
+        </Button>*/}
       </Stack>
     </Stack>
   );

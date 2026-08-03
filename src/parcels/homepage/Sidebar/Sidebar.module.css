@@ -112,19 +112,27 @@
 }
 
 .workButton {
-  background-color: var(--gourmet-yellow-1);
+  background-color: var(--gourmet-orange-1);
   padding: 0.25rem;
   border-radius: 0.25rem;
   animation: pulse 2.5s ease-in-out infinite;
 
   &:hover {
     animation: none;
+    outline: 1px dashed var(--gourmet-orange-1);
+    outline-offset: 0.25rem;
+  }
+
+  &[data-work="true"] {
+    animation: none;
+    outline: 1px solid var(--gourmet-orange-1);
+    outline-offset: 0.25rem;
   }
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gourmet-yellow-1) 38%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gourmet-orange-1) 38%, transparent);
   }
 
   50% {
