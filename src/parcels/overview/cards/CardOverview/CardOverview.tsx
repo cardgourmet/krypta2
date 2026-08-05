@@ -2,7 +2,7 @@ import { Accordion, Divider, Flex, Group, Stack, Text, UnstyledButton } from '@m
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAlertCircleFilled, IconArrowsShuffle } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
+import { type PropsWithChildren, startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -20,6 +20,7 @@ import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
 import { QueryMenu } from '@/parcels/overview/cards/QueryMenu/QueryMenu.tsx';
 import { TcgOverviewCardMenu } from '@/parcels/overview/cards/TcgCardMenu/TcgOverviewCardMenu.tsx';
+import { SimpleSearchbar } from '@/parcels/search/bar/SimpleSearchbar/SimpleSearchbar.tsx';
 import { OverviewSelectionDisplay } from '@/parcels/selection/OverviewSelectionDisplay/OverviewSelectionDisplay.tsx';
 import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { useUserLanguage } from '@/parcels/state/useUserLanguage.tsx';
@@ -30,6 +31,7 @@ import { usePrevious } from '@/parcels/usePrevious.ts';
 import styles from './CardOverview.module.css';
 
 export type OverviewSettings = Required<TcgSearchParams>;
+export const MAX_CARD_OVERVIEW_SIZE = 360;
 
 export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSearch: TcgSearchParams }) {
   const tcg = useTcgByLocation() as Tcg;
@@ -55,7 +57,26 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   const { user } = useAuth();
 
   const { params, querySettings, displaySettings } = useTcgSearchSettings(routeSearch);
-  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails } = useCardOverviewData(querySettings, set);
+  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails, cardsMask } = useCardOverviewData(
+    querySettings,
+    set,
+  );
+  const activeSearchDetails = useMemo(() => {
+    if (cardsMask?.details?.explain) return cardsMask.details;
+    return searchDetails;
+  }, [cardsMask?.details, searchDetails]);
+  const slicedCards = useMemo(() => {
+    if (set === undefined) return cards;
+
+    const currentPage = cards?.currentPage ?? 1;
+    const startIndex = (currentPage - 1) * MAX_CARD_OVERVIEW_SIZE;
+    const endIndex = currentPage * MAX_CARD_OVERVIEW_SIZE;
+
+    return {
+      ...cards,
+      items: cards?.items?.slice(startIndex, endIndex),
+    } as TcgSearchCardsUser;
+  }, [cards, set]);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
@@ -130,6 +151,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
   const isRandomized = querySettings.random;
+  const paginationEnabled = (set === undefined || (cards?.items.length ?? 0) > MAX_CARD_OVERVIEW_SIZE) && !isRandomized;
 
   return (
     <div ref={scrollbackRef}>
@@ -142,13 +164,13 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
 
-      <WorkContextReloader cards={cards} set={set} />
+      <WorkContextReloader cards={slicedCards} set={set} />
 
       <div>
         {component}
 
         <OverviewHeader title={title?.label}>
-          {set === undefined && !isRandomized && (
+          {paginationEnabled && (
             <Pagination
               currentPage={cards?.currentPage}
               lastPage={cards?.pageCount}
@@ -195,23 +217,42 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <QueryExplanation
             isLoading={isLoading}
             currentPage={cards?.currentPage}
-            pageSize={set === undefined ? 60 : (searchDetails?.explain?.count ?? 0)}
-            cardCount={searchDetails?.explain?.count ?? 0}
-            explanation={searchDetails?.explain?.explanation ?? ''}
+            pageSize={set === undefined ? 60 : MAX_CARD_OVERVIEW_SIZE}
+            cardCount={activeSearchDetails?.explain?.count ?? 0}
+            explanation={activeSearchDetails?.explain?.explanation ?? ''}
             randomized={isRandomized}
+            color={cardsMask ? 'yellow' : 'blue'}
           />
-          {user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
+          {!cardsMask && user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
         </Stack>
         <QueryIgnoredDisplay queryDetails={cards?.details} />
 
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
+          {set && (
+            <Group justify={'end'} mb={'0.5rem'}>
+              <SimpleSearchbar
+                value={querySettings?.subquery ?? ''}
+                onChange={(newSearch) => {
+                  setIsDisplayLoading(true);
+
+                  startTransition(() => {
+                    setSettings((prev) => {
+                      return { ...prev, subquery: newSearch.length === 0 ? undefined : newSearch };
+                    });
+                  });
+                }}
+                color={'var(--gourmet-yellow-1)'}
+              />
+            </Group>
+          )}
+
           <CardOverviewLoader isDisplayLoading={isDisplayLoading} />
 
           {displaySettings.display === 'grid' && (
-            <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
+            <CardGrid tcg={tcg} cards={slicedCards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
           {displaySettings.display === 'table' && (
-            <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
+            <CardTable tcg={tcg} cards={slicedCards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
 
           <TcgOverviewCardMenu
@@ -225,7 +266,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           />
         </div>
 
-        {set === undefined && !isRandomized && (
+        {paginationEnabled && (
           <Pagination
             currentPage={cards?.currentPage}
             lastPage={cards?.pageCount}

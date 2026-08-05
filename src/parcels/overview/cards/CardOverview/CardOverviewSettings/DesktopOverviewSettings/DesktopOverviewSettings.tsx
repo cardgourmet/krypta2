@@ -1,4 +1,4 @@
-import { Center, Group, SegmentedControl, UnstyledButton } from '@mantine/core';
+import { Center, Group, SegmentedControl, Stack, UnstyledButton } from '@mantine/core';
 import { IconColumns3, IconLayoutGrid, IconToolsKitchen2, IconToolsKitchen2Off } from '@tabler/icons-react';
 import type { TFunction } from 'i18next';
 import { startTransition, useEffect, useState } from 'react';
@@ -102,78 +102,80 @@ export function DesktopOverviewSettings({
           />
         </Group>
       </Group>
-      <Group>
-        {user && (
-          <UnstyledButton
-            style={{
-              backgroundColor: toolsButtonEnabled ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-2)',
-              borderRadius: '4px',
-              border: toolsButtonEnabled
-                ? '1px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%)'
-                : '1px solid var(--gourmet-neutral-3)',
-              height: '1.6875rem',
-            }}
-            p={'0 0.5rem'}
-            onClick={() => {
-              setToolsButtonEnabled(!toolsButtonEnabled);
+      <Stack>
+        <Group>
+          {user && (
+            <UnstyledButton
+              style={{
+                backgroundColor: toolsButtonEnabled ? 'var(--gourmet-blue-1)' : 'var(--gourmet-neutral-2)',
+                borderRadius: '4px',
+                border: toolsButtonEnabled
+                  ? '1px solid color-mix(in srgb, var(--gourmet-blue-1), white 10%)'
+                  : '1px solid var(--gourmet-neutral-3)',
+                height: '1.6875rem',
+              }}
+              p={'0 0.5rem'}
+              onClick={() => {
+                setToolsButtonEnabled(!toolsButtonEnabled);
+
+                startTransition(() => {
+                  setToolsEnabled(!toolsButtonEnabled);
+                });
+              }}
+            >
+              <Group justify={'center'} align={'center'} w={'100%'} h={'100%'} gap={'0.25rem'}>
+                {toolsButtonEnabled && <IconToolsKitchen2 size={16} color={'var(--gourmet-neutral-0)'} />}
+                {!toolsButtonEnabled && <IconToolsKitchen2Off size={16} color={'var(--gourmet-neutral-5)'} />}
+
+                <GourmetText
+                  cgmff={'ui'}
+                  fz="0.9rem"
+                  fw={'500'}
+                  c={toolsButtonEnabled ? 'var(--gourmet-neutral-0)' : 'var(--gourmet-neutral-5)'}
+                >
+                  Tools
+                </GourmetText>
+              </Group>
+            </UnstyledButton>
+          )}
+          <SegmentedControl
+            classNames={{ root: styles.displayModeControl }}
+            color={'var(--gourmet-blue-1)'}
+            transitionDuration={0}
+            value={settings.display}
+            onChange={(sel) => {
+              setSettings({ ...settings, display: sel as DisplayMode });
+              setIsDisplayLoading(true);
 
               startTransition(() => {
-                setToolsEnabled(!toolsButtonEnabled);
+                setSettingsWrapper((prev) => {
+                  return { ...prev, display: sel as DisplayMode };
+                });
               });
             }}
-          >
-            <Group justify={'center'} align={'center'} w={'100%'} h={'100%'} gap={'0.25rem'}>
-              {toolsButtonEnabled && <IconToolsKitchen2 size={16} color={'var(--gourmet-neutral-0)'} />}
-              {!toolsButtonEnabled && <IconToolsKitchen2Off size={16} color={'var(--gourmet-neutral-5)'} />}
-
-              <GourmetText
-                cgmff={'ui'}
-                fz="0.9rem"
-                fw={'500'}
-                c={toolsButtonEnabled ? 'var(--gourmet-neutral-0)' : 'var(--gourmet-neutral-5)'}
-              >
-                Tools
-              </GourmetText>
-            </Group>
-          </UnstyledButton>
-        )}
-        <SegmentedControl
-          classNames={{ root: styles.displayModeControl }}
-          color={'var(--gourmet-blue-1)'}
-          transitionDuration={0}
-          value={settings.display}
-          onChange={(sel) => {
-            setSettings({ ...settings, display: sel as DisplayMode });
-            setIsDisplayLoading(true);
-
-            startTransition(() => {
-              setSettingsWrapper((prev) => {
-                return { ...prev, display: sel as DisplayMode };
-              });
-            });
-          }}
-          data={[
-            {
-              value: 'grid',
-              label: (
-                <Center style={{ gap: 10 }}>
-                  <IconLayoutGrid size={16} />
-                  <span>{t('displaymode.grid')}</span>
-                </Center>
-              ),
-            },
-            {
-              value: 'table',
-              label: (
-                <Center style={{ gap: 10 }}>
-                  <IconColumns3 size={16} />
-                  <span>{t('displaymode.table')}</span>
-                </Center>
-              ),
-            },
-          ]}
-        />
-      </Group>
+            data={[
+              {
+                value: 'grid',
+                label: (
+                  <Center style={{ gap: 10 }}>
+                    <IconLayoutGrid size={16} />
+                    <span>{t('displaymode.grid')}</span>
+                  </Center>
+                ),
+              },
+              {
+                value: 'table',
+                label: (
+                  <Center style={{ gap: 10 }}>
+                    <IconColumns3 size={16} />
+                    <span>{t('displaymode.table')}</span>
+                  </Center>
+                ),
+              },
+            ]}
+          />
+        </Group>
+      </Stack>
     </Group>
   );
 }

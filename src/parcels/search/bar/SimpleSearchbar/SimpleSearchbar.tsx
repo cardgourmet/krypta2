@@ -4,7 +4,15 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/ListOverviewSettings.module.css';
 
-export function SimpleSearchbar({ onChange, value }: { onChange?: (query: string) => void; value?: string }) {
+export function SimpleSearchbar({
+  onChange,
+  value,
+  color,
+}: {
+  onChange?: (query: string) => void;
+  value?: string;
+  color?: string;
+}) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
 
   const [searchQuery, setSearchQuery] = useState<string>(value ?? '');
@@ -13,7 +21,7 @@ export function SimpleSearchbar({ onChange, value }: { onChange?: (query: string
   }, [value]);
 
   return (
-    <Group gap={0} className={styles.searchBarWrapper}>
+    <Group gap={0} className={styles.searchBarWrapper} style={{ '--current-color': color ?? 'var(--gourmet-blue-1)' }}>
       <TextInput
         className={styles.searchBarInput}
         placeholder={t('searchbarPlaceholder')}
@@ -27,10 +35,11 @@ export function SimpleSearchbar({ onChange, value }: { onChange?: (query: string
       />
       <Button
         className={styles.searchBarButton}
-        color={'var(--gourmet-blue-1)'}
+        color={color ?? 'var(--gourmet-blue-1)'}
         onClick={() => {
           if (onChange) onChange(searchQuery);
         }}
+        style={{ '--current-color': color ?? 'var(--gourmet-blue-1)' }}
       >
         <Center>
           <IconSearch size={16} color={'var(--gourmet-neutral-1)'} />

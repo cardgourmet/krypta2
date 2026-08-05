@@ -30,6 +30,8 @@
 
   --gourmet-yellow-1: light-dark(oklch(64.62% 0.1324 84.72), oklch(72.71% 0.1484 86.77));
   --gourmet-yellow-2: light-dark(oklch(64.62% 0.1324 84.72), oklch(72.71% 0.1484 86.77));
+  --gourmet-yellow-5: light-dark(oklch(0.858 0.101 92.898), oklch(0.501 0.102 87.669));
+  --gourmet-yellow-6: light-dark(oklch(0.501 0.102 87.669), oklch(0.858 0.101 92.898));
 
   --gourmet-green-1: light-dark(oklch(48.71% 0.1092 128.96), oklch(84.89% 0.1457 127.35));
 

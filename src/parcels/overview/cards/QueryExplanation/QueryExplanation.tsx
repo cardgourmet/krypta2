@@ -12,6 +12,7 @@ type QueryExplanationProps = {
   cardCount: number;
   explanation: string;
   randomized?: boolean;
+  color?: 'blue' | 'yellow';
 };
 
 export function QueryExplanation({
@@ -21,6 +22,7 @@ export function QueryExplanation({
   cardCount,
   explanation,
   randomized,
+  color,
 }: QueryExplanationProps) {
   const { t } = useTranslation('cards', { keyPrefix: 'explanation' });
 
@@ -33,7 +35,14 @@ export function QueryExplanation({
   }, [explanation, randomized]);
 
   return (
-    <div className={styles.queryExplanation}>
+    <div
+      className={styles.queryExplanation}
+      style={{
+        '--background-color': color === 'yellow' ? 'var(--gourmet-yellow-5)' : undefined,
+        '--font-color': color === 'yellow' ? 'var(--gourmet-yellow-6)' : undefined,
+        '--p-color': color === 'yellow' ? 'var(--gourmet-yellow-1)' : undefined,
+      }}
+    >
       {isLoading && (
         <p>
           <Skeleton baseColor={'var(--gourmet-neutral-4)'} highlightColor={'var(--gourmet-neutral-5)'} />

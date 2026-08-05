@@ -10,6 +10,8 @@
 }
 
 .searchBarWrapper {
+  --current-color: var(--gourmet-blue-1);
+
   display: flex;
   gap: 0;
   border: 1px solid transparent;
@@ -18,7 +20,7 @@
   height: 2.25rem;
 
   &:focus-within {
-    border: 1px solid var(--gourmet-blue-1);
+    border: 1px solid var(--current-color);
   }
 }
 
@@ -43,6 +45,8 @@
 }
 
 .searchBarButton {
+  --current-color: var(--gourmet-blue-1);
+
   height: 100%;
   border-radius: 0;
   transform: none;
@@ -50,6 +54,6 @@
   padding: 0.1rem;
 
   &:active {
-    background-color: color-mix(in srgb, var(--gourmet-blue-1), white 10%);
+    background-color: color-mix(in srgb, var(--current-color), white 10%);
   }
 }

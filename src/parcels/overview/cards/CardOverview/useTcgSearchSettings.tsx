@@ -11,8 +11,18 @@ export function useTcgSearchSettings(search: TcgSearchParams) {
       uniqueBy: search.uniqueBy,
       random: search.random,
       manual: search.manual,
+      subquery: search.subquery,
     } as TcgSearchQuerySettings;
-  }, [search.query, search.sortBy, search.sortDirection, search.uniqueBy, search.page, search.random, search.manual]);
+  }, [
+    search.query,
+    search.sortBy,
+    search.sortDirection,
+    search.uniqueBy,
+    search.page,
+    search.random,
+    search.manual,
+    search.subquery,
+  ]);
   const searchDisplaySettings = useMemo(() => {
     return {
       display: search.display,

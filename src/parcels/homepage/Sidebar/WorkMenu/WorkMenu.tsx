@@ -15,7 +15,6 @@ export function WorkMenu() {
   const workMenuOpen = useOverviewWorkMenuStore((state) => state.menuOpened);
 
   const currentElements = useMemo(() => {
-    // TODO: if print details, we take 30 before and 30 after if available
     return workMeta?.rawElements?.slice(0, 9999) ?? [];
   }, [workMeta?.rawElements]);
 
@@ -33,10 +32,6 @@ export function WorkMenu() {
   const previousPrintDetailsId = usePrevious(currentPrintDetailsId);
   useEffect(() => {
     if (currentPrintDetailsId === previousPrintDetailsId) return;
-
-    // TODO: if the new one is in a different "slice", we load that one (to keep loaded elements to a minimum)
-    // TODO: put a button above and below to load a new slice (of 60 cards).
-    // TODO: we want to have at maximum 3 slices loaded.
 
     if (!currentPrintDetailsId) {
       if (currentElements.length === 0) return;
