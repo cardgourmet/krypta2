@@ -1,10 +1,14 @@
 import { create } from 'zustand/react';
 import { createTcgWorkStore } from '@/parcels/selection/createTcgWorkStore.tsx';
-import type { TcgDataSet, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { TcgDataSet, TcgSearchDataCard, TcgSearchQuerySettings } from '@/parcels/tcg/types.ts';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
-export const useOverviewWorkStore = createTcgWorkStore<TcgSearchDataCard, { query: string; set?: TcgDataSet }>({
+export const useOverviewWorkStore = createTcgWorkStore<
+  TcgSearchDataCard,
+  { tcg: Tcg; querySettings: TcgSearchQuerySettings; set?: TcgDataSet; maxPage: number }
+>({
   shouldResetData: (meta0, meta1) => {
-    return meta0.other.query !== meta1.other.query;
+    return meta0.other.querySettings.query !== meta1.other.querySettings.query;
   },
   selectionLimit: 60,
 });

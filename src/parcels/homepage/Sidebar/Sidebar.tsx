@@ -1,15 +1,17 @@
 import { offset, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
-import { Center, Divider, Drawer, Group, Stack, UnstyledButton } from '@mantine/core';
+import { Divider, Drawer, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconBowlChopsticks, IconCards, IconFolders, IconZoomScan } from '@tabler/icons-react';
+import { IconBowlChopsticks, IconCards, IconFolders } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BetaButtonSide } from '@/parcels/beta/BetaButton/BetaButtonSide.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
+import { WorkMenuButton } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenuButton.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
-import { useOverviewWorkMenuStore, useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
+import { useIsOnOverview } from '@/parcels/overview/cards/CardOverview/useIsOnOverview.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
@@ -46,8 +48,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const dlcCategory = useCategoryButton({ tcg: 'dlc', selectedTcg: tcg });
 
   const workMeta = useOverviewWorkStore((state) => state.data?.meta);
-  const workMenuOpen = useOverviewWorkMenuStore((state) => state.menuOpened);
-  const openWorkMenu = useOverviewWorkMenuStore((state) => state.setMenuOpened);
+  const isOnOverview = useIsOnOverview();
 
   return (
     <>
@@ -73,17 +74,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
               </Link>
             </Group>
 
-            {(workMeta?.rawElements?.length ?? 0) > 0 && (
+            {(workMeta?.rawElements?.length ?? 0) > 0 && !isOnOverview && (
               <Stack>
-                <UnstyledButton
-                  className={styles.workButton}
-                  onClick={() => openWorkMenu(!workMenuOpen)}
-                  data-work={workMenuOpen}
-                >
-                  <Center>
-                    <IconZoomScan color={'var(--gourmet-neutral-1'} />
-                  </Center>
-                </UnstyledButton>
+                <WorkMenuButton />
 
                 <Divider h={'1.5rem'} />
               </Stack>

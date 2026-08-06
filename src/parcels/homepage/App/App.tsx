@@ -5,8 +5,9 @@ import { Footer } from '@/parcels/homepage/Footer/Footer.tsx';
 import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import { WorkMenu } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenu.tsx';
+import { useIsOnOverview } from '@/parcels/overview/cards/CardOverview/useIsOnOverview.ts';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
-import { useOverviewWorkMenuStore } from '@/parcels/selection/useOverviewWorkStore.ts';
+import { useOverviewWorkMenuStore, useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './App.module.css';
 
@@ -22,6 +23,9 @@ function App() {
   });
 
   const workMenuOpen = useOverviewWorkMenuStore((state) => state.menuOpened);
+  const workQuerySettings = useOverviewWorkStore((state) => state.data?.meta?.other?.querySettings);
+  const isOnOverview = useIsOnOverview();
+  const isWorkActive = workQuerySettings !== undefined;
 
   return (
     <TcgProvider>
@@ -31,7 +35,7 @@ function App() {
         <NavigationProgress />
 
         <div>
-          <WorkMenu />
+          {!isOnOverview && isWorkActive && <WorkMenu />}
 
           <div className={styles.mainContent}>
             <div className={styles.content} data-work={workMenuOpen}>

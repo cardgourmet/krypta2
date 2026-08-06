@@ -2,7 +2,7 @@ import { Accordion, Divider, Flex, Group, Stack, Text, UnstyledButton } from '@m
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAlertCircleFilled, IconArrowsShuffle } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
-import { type PropsWithChildren, startTransition, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type PropsWithChildren, startTransition, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -14,7 +14,7 @@ import CardOverviewSettings from '@/parcels/overview/cards/CardOverview/CardOver
 import { SetBanner } from '@/parcels/overview/cards/CardOverview/SetBanner/SetBanner.tsx';
 import useCardOverviewData from '@/parcels/overview/cards/CardOverview/useCardOverviewData.tsx';
 import { useTcgSearchSettings } from '@/parcels/overview/cards/CardOverview/useTcgSearchSettings.tsx';
-import { WorkContextReloader } from '@/parcels/overview/cards/CardOverview/WorkContextReloader.tsx';
+import { useWorkContextReloader } from '@/parcels/overview/cards/CardOverview/useWorkContextReloader.ts';
 import { CardTable } from '@/parcels/overview/cards/CardTable/CardTable.tsx';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { QueryExplanation } from '@/parcels/overview/cards/QueryExplanation/QueryExplanation.tsx';
@@ -57,26 +57,8 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   const { user } = useAuth();
 
   const { params, querySettings, displaySettings } = useTcgSearchSettings(routeSearch);
-  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails, cardsMask } = useCardOverviewData(
-    querySettings,
-    set,
-  );
-  const activeSearchDetails = useMemo(() => {
-    if (cardsMask?.details?.explain) return cardsMask.details;
-    return searchDetails;
-  }, [cardsMask?.details, searchDetails]);
-  const slicedCards = useMemo(() => {
-    if (set === undefined) return cards;
-
-    const currentPage = cards?.currentPage ?? 1;
-    const startIndex = (currentPage - 1) * MAX_CARD_OVERVIEW_SIZE;
-    const endIndex = currentPage * MAX_CARD_OVERVIEW_SIZE;
-
-    return {
-      ...cards,
-      items: cards?.items?.slice(startIndex, endIndex),
-    } as TcgSearchCardsUser;
-  }, [cards, set]);
+  const { cards, isLoading, isQueryLoading, fetchCards, searchDetails, activeSearchDetails, cardsMask } =
+    useCardOverviewData(tcg, querySettings, set);
 
   const scrollbackRef = useRef<HTMLDivElement | null>(null);
 
@@ -151,7 +133,10 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
   const [toolsEnabled, setToolsEnabled] = useState<boolean>(true);
   const isRandomized = querySettings.random;
-  const paginationEnabled = (set === undefined || (cards?.items.length ?? 0) > MAX_CARD_OVERVIEW_SIZE) && !isRandomized;
+  const paginationEnabled = (set === undefined || (cards?.pageCount ?? 0) > 1) && !isRandomized;
+
+  // reloads the work context when cards change
+  useWorkContextReloader({ tcg, settings: querySettings, cards, set });
 
   return (
     <div ref={scrollbackRef}>
@@ -163,8 +148,6 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
         <title>{`${set.translations?.[lang]?.name ?? set.translations.en.name} (${set.code?.toUpperCase()})
       – ${tcg === 'mtg' ? 'Magic: The Gathering' : tcg === 'dlc' ? 'Disney Lorcana' : 'Pokémon Card Game'} – Cardgourmet`}</title>
       )}
-
-      <WorkContextReloader cards={slicedCards} set={set} />
 
       <div>
         {component}
@@ -225,7 +208,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           />
           {!cardsMask && user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
         </Stack>
-        <QueryIgnoredDisplay queryDetails={cards?.details} />
+        <QueryIgnoredDisplay queryDetails={activeSearchDetails} />
 
         <div style={{ padding: '0.5rem', width: '100%', height: '100%', position: 'relative' }}>
           {set && (
@@ -249,10 +232,10 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
           <CardOverviewLoader isDisplayLoading={isDisplayLoading} />
 
           {displaySettings.display === 'grid' && (
-            <CardGrid tcg={tcg} cards={slicedCards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
+            <CardGrid tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
           {displaySettings.display === 'table' && (
-            <CardTable tcg={tcg} cards={slicedCards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
+            <CardTable tcg={tcg} cards={cards} isLoading={isLoading} toolsEnabled={user ? toolsEnabled : false} />
           )}
 
           <TcgOverviewCardMenu
