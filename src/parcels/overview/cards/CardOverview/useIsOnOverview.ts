@@ -5,7 +5,8 @@ export function useIsOnOverview() {
   const location = useLocation();
   return useMemo(() => {
     // when something like /$tcg/cards?search=`
-    if (location.href.endsWith('/cards')) return true;
+    const cleanedHref = location.href.replace(/\?.*/, '');
+    if (cleanedHref.endsWith('/cards')) return true;
 
     const depth = location.href.split('/');
     // `/$tcg/sets/xxx` has 4 components when split

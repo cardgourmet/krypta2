@@ -1,8 +1,8 @@
-import { Button, Center, Group, Overlay, SimpleGrid, Stack } from '@mantine/core';
+import { ActionIcon, Button, Center, Group, Overlay, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
 import { usePrevious } from '@mantine/hooks';
-import { IconCaretLeftFilled, IconCaretRightFilled } from '@tabler/icons-react';
+import { IconCaretLeftFilled, IconCaretRightFilled, IconMinus, IconPlus, IconX } from '@tabler/icons-react';
 import { useLocation } from '@tanstack/react-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { type CardProperties, createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import useCardOverviewData from '@/parcels/overview/cards/CardOverview/useCardOverviewData.tsx';
@@ -17,6 +17,9 @@ import styles from './WorkMenu.module.css';
 export function WorkMenu() {
   const navigate = Route.useNavigate();
 
+  const setMenuOpened = useOverviewWorkMenuStore((state) => state.setMenuOpened);
+
+  const setWorkMeta = useOverviewWorkStore((state) => state.setData);
   const workMeta = useOverviewWorkStore((state) => state.data?.meta);
   const workMenuOpen = useOverviewWorkMenuStore((state) => state.menuOpened);
   const tcg = workMeta?.other.tcg;
@@ -27,7 +30,6 @@ export function WorkMenu() {
 
   const { cards } = useCardOverviewData(tcg, querySettings, set);
   useWorkContextReloader({ tcg, settings: querySettings, cards, set });
-  // TODO: use the overview data to switch pages etc.
 
   const currentElements = useMemo(() => {
     return workMeta?.rawElements?.slice(0, 9999) ?? [];
@@ -79,6 +81,80 @@ export function WorkMenu() {
     });
   }, [previousPrintDetailsId, currentPrintDetailsId, currentElements]);
 
+  const [resetScrollIndex, setResetScrollIndex] = useState<number | undefined>(undefined);
+  const resetScroll = useCallback(() => {
+    if (resetScrollIndex === undefined) return;
+    if (currentElements.length === 0) return;
+
+    // also check if we again have our current detail card
+    const currentInd = currentElements.findIndex((el) => el.element.card.print.id === currentPrintDetailsId);
+    if (currentInd !== -1) {
+      setCurrentIndex(currentInd);
+    }
+    const ind = currentInd !== -1 ? currentInd : resetScrollIndex;
+
+    const element = currentElements[ind] ?? currentElements[0];
+    requestAnimationFrame(() => {
+      document.getElementById(`card-${element.id}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      setResetScrollIndex(undefined);
+    });
+  }, [currentElements, currentPrintDetailsId, resetScrollIndex]);
+
+  const [changePageIndex, setChangePageIndex] = useState<'first' | 'last' | undefined>(undefined);
+  const resetIndex = useCallback(() => {
+    if (changePageIndex === undefined) return;
+
+    const index = changePageIndex === 'first' ? 0 : currentElements.length - 1;
+    const element = currentElements[index];
+    if (element === undefined) return;
+
+    navigate({
+      to: '/$tcg/sets/$setCode/$collectorNumber/{-$any}',
+      params: {
+        tcg: tcg,
+        setCode: element.element.card.print.setCode?.toLowerCase(),
+        collectorNumber: element.element.card.print.collectorNumber,
+      },
+    });
+    setCurrentIndex(index);
+    setChangePageIndex(undefined);
+  }, [changePageIndex, currentElements, navigate, tcg]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
+  useEffect(() => {
+    if (resetScrollIndex !== undefined) {
+      resetScroll();
+      return;
+    }
+    if (changePageIndex !== undefined) {
+      resetIndex();
+      return;
+    }
+  }, [currentElements]);
+
+  const changePage = useCallback(
+    (change: 'next' | 'previous', alsoNextCard: boolean) => {
+      const offset = change === 'next' ? +1 : -1;
+      if (page + offset < 1 || page + offset > maxPage) return;
+      if (!workMeta?.other?.querySettings) return;
+
+      workMeta.page = page + offset;
+      workMeta.other.querySettings = { ...workMeta.other.querySettings, page: page + offset };
+      setWorkMeta(workMeta!);
+      setCurrentIndex(-1);
+
+      if (alsoNextCard) {
+        setChangePageIndex(change === 'next' ? 'first' : 'last');
+      } else {
+        setResetScrollIndex(-1);
+      }
+    },
+    [maxPage, page, setWorkMeta, workMeta],
+  );
+
   return (
     <Stack className={styles.workMenu} data-work={workMenuOpen}>
       <Stack
@@ -90,25 +166,65 @@ export function WorkMenu() {
           padding: '0.5rem 1rem',
           backgroundColor: 'var(--gourmet-neutral-2)',
         }}
-        gap={'0.1rem'}
+        gap={'0.5rem'}
       >
-        <GourmetText cgmff={'title'} c={'var(--gourmet-orange-1)'} fz={'1.25rem'} fw={'500'}>
-          Current Search
-        </GourmetText>
+        <Stack gap={'0.25rem'}>
+          <Group justify={'space-between'}>
+            <GourmetText cgmff={'title'} c={'var(--gourmet-orange-1)'} fz={'1.25rem'} fw={'500'}>
+              Current Search
+            </GourmetText>
 
-        {workMeta?.other?.set && <GourmetText>{workMeta?.other?.set?.translations.en.name}</GourmetText>}
-        {!workMeta?.other?.set && workMeta?.other?.querySettings?.query && (
-          <GourmetText>{workMeta?.other?.querySettings?.query}</GourmetText>
-        )}
-        <GourmetText>
-          Index: {currentIndex + 1} / {maxIndex + 1}
-        </GourmetText>
-        <GourmetText>
-          Page: {page} / {maxPage}
-        </GourmetText>
+            <UnstyledButton
+              onClick={() => {
+                setMenuOpened(false);
+              }}
+              aria-label={'close menu'}
+            >
+              <Center>
+                <IconX size={18} color={'var(--gourmet-neutral-7)'} />
+              </Center>
+            </UnstyledButton>
+          </Group>
+
+          <Stack>
+            {workMeta?.other?.set && <GourmetText>{workMeta?.other?.set?.translations.en.name}</GourmetText>}
+            {!workMeta?.other?.set && workMeta?.other?.querySettings?.query && (
+              <GourmetText>{workMeta?.other?.querySettings?.query}</GourmetText>
+            )}
+          </Stack>
+        </Stack>
       </Stack>
 
       <Stack style={{ padding: '0 1rem' }}>
+        <Group>
+          <GourmetText cgmff={'ui'}>Page</GourmetText>
+          <Group>
+            <ActionIcon
+              size={'xs'}
+              color={'var(--gourmet-orange-1)'}
+              disabled={page <= 1}
+              onClick={() => {
+                changePage('previous', false);
+              }}
+            >
+              <IconMinus size={16} color={page <= 1 ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-2)'} />
+            </ActionIcon>
+            <GourmetText cgmff={'ui'}>
+              {page} / {maxPage}
+            </GourmetText>
+            <ActionIcon
+              size={'xs'}
+              color={'var(--gourmet-orange-1)'}
+              disabled={page >= maxPage}
+              onClick={() => {
+                changePage('next', false);
+              }}
+            >
+              <IconPlus size={16} color={page >= maxPage ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-2)'} />
+            </ActionIcon>
+          </Group>
+        </Group>
+
         <SimpleGrid cols={2} spacing={'0.25rem'}>
           {currentElements?.map((card, index) => {
             return (
@@ -137,8 +253,8 @@ export function WorkMenu() {
         <Group justify={'space-between'} p={'0 0.5rem'}>
           <Button
             onClick={() => {
-              if (currentIndex <= 0 && page > 1) {
-                // TODO: switch to previous page
+              if (currentIndex === 0 && page > 1) {
+                changePage('previous', true);
                 return;
               }
               if (currentIndex <= 0) return;
@@ -166,10 +282,7 @@ export function WorkMenu() {
           <Button
             onClick={() => {
               if (currentIndex >= maxIndex && page < maxPage) {
-                // TODO: switch to new page
-                // TODO: HOW do we switch pages
-                // -> since we reload the data when going back to the overview anyway,
-                // -> we can just strip out the logic to fetch the cards (based on set etc.) and reuse it to put it into the store
+                changePage('next', true);
                 return;
               }
               if (currentIndex < 0 || currentIndex >= maxIndex) return;

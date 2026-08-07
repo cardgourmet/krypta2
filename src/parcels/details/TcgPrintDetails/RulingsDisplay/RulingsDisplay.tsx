@@ -16,7 +16,7 @@ export function RulingsDisplay({ rulings }: { rulings: { date: string; text: str
     if (!element) return;
 
     const updateOverflow = () => {
-      setRulingsOverflowing(element.scrollHeight > element.clientHeight);
+      setRulingsOverflowing(element.scrollHeight + 10 > element.clientHeight);
     };
 
     updateOverflow();
