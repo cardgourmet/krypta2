@@ -93,27 +93,29 @@ export function TcgPrintImageRenderer({
           cardRef={cardRef}
         />
 
-        <Group gap={'0.25rem'} justify={'end'} mr={'0.5rem'}>
-          <IconBrush size={16} color={'var(--gourmet-neutral-5)'} />
+        {printArtists?.length !== 0 && (
+          <Group gap={'0.25rem'} justify={'end'} mr={'0.5rem'}>
+            <IconBrush size={16} color={'var(--gourmet-neutral-5)'} />
 
-          <Link
-            to={'/$tcg/cards'}
-            params={{
-              tcg: tcg,
-            }}
-            search={{
-              ...tcgSearchParamsDefaults,
-              query: `artist="${printArtists}"`,
-            }}
-            style={{
-              textDecoration: 'none',
-            }}
-          >
-            <GourmetText c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
-              {printArtists}
-            </GourmetText>
-          </Link>
-        </Group>
+            <Link
+              to={'/$tcg/cards'}
+              params={{
+                tcg: tcg,
+              }}
+              search={{
+                ...tcgSearchParamsDefaults,
+                query: `artist="${printArtists}"`,
+              }}
+              style={{
+                textDecoration: 'none',
+              }}
+            >
+              <GourmetText c={'var(--gourmet-neutral-5)'} fz={'0.9rem'}>
+                {printArtists}
+              </GourmetText>
+            </Link>
+          </Group>
+        )}
       </Stack>
 
       {(backUrl || rotateableDegrees !== 0) && (

@@ -1,5 +1,5 @@
 import { offset, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
-import { Drawer, Group, Stack } from '@mantine/core';
+import { Divider, Drawer, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconBowlChopsticks, IconCards, IconFolders } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next';
 import { BetaButtonSide } from '@/parcels/beta/BetaButton/BetaButtonSide.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileSidebar } from '@/parcels/homepage/Sidebar/MobileSidebar.tsx';
+import { WorkMenuButton } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenuButton.tsx';
 import { Logo } from '@/parcels/Logo.tsx';
+import { useIsOnOverview } from '@/parcels/overview/cards/CardOverview/useIsOnOverview.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { DLCIcon } from '@/parcels/tcg/dlc/Icon.tsx';
 import { MTGIcon } from '@/parcels/tcg/mtg/Icon.tsx';
 import { PCGIcon } from '@/parcels/tcg/pcg/Icon.tsx';
@@ -44,6 +47,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pcgCategory = useCategoryButton({ tcg: 'pcg', selectedTcg: tcg });
   const dlcCategory = useCategoryButton({ tcg: 'dlc', selectedTcg: tcg });
 
+  const workMeta = useOverviewWorkStore((state) => state.data?.meta);
+  const isOnOverview = useIsOnOverview();
+
   return (
     <>
       <Drawer
@@ -67,6 +73,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 <Logo height={42} width={42} style={{ color: 'var(--gourmet-neutral-9)' }} />
               </Link>
             </Group>
+
+            {(workMeta?.rawElements?.length ?? 0) > 0 && !isOnOverview && (
+              <Stack>
+                <WorkMenuButton />
+
+                <Divider h={'1.5rem'} />
+              </Stack>
+            )}
 
             <Stack gap={'1rem'}>
               {mtgCategory.button}

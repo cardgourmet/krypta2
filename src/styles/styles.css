@@ -139,6 +139,7 @@ html[data-mantine-color-scheme="auto"] {
 
   --navbar-height: 3.5rem;
   --sidebar-width: 3.5rem;
+  --workmenu-width: 16rem;
 
   --cgm-screen-cutoff-small: 720px;
 

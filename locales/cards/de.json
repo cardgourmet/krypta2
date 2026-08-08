@@ -1,4 +1,8 @@
 {
+  "work": {
+    "title": "Aktuelle Suche",
+    "page": "Seite"
+  },
   "randomized": {
     "info": "Das Suchergebnis wurde zufälligirisiert. Sortierung und Paginierung sind deaktiviert.",
     "repeat": "Suche wiederholen"

@@ -1,9 +1,10 @@
 import { Divider, Flex, Group, Space, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { getRouteApi, useNavigate } from '@tanstack/react-router';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
+import { DetailsAdminButton } from '@/parcels/details/DetailsAdminButton/DetailsAdminButton.tsx';
 import { ForwardedToDetailsBanner } from '@/parcels/details/TcgPrintDetails/ForwardedToDetailsBanner/ForwardedToDetailsBanner.tsx';
 import { type Legality, LegalityDisplay } from '@/parcels/details/TcgPrintDetails/LegalityDisplay/LegalityDisplay.tsx';
 import { ListButtons } from '@/parcels/details/TcgPrintDetails/ListButtons.tsx';
@@ -16,7 +17,9 @@ import { TcgPrintMeta } from '@/parcels/details/TcgPrintDetails/TcgPrintMeta/Tcg
 import { TcgPrintImageRenderer } from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { WorkMenuButton } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenuButton.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { useOverviewWorkMenuStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
@@ -33,6 +36,15 @@ export function TcgPrintDetails() {
   const routeApi = getRouteApi(`/$tcg/sets/$setCode/$collectorNumber/{-$any}`);
   const { print: card, set, listResources } = routeApi.useLoaderData();
   const { lang: printLanguage } = routeApi.useSearch() as CardDetailsSearch;
+
+  const setPrintDetailsId = useOverviewWorkMenuStore((state) => state.setPrintDetailsId);
+  useEffect(() => {
+    setPrintDetailsId(card.print.id);
+
+    return () => {
+      setPrintDetailsId(undefined);
+    };
+  }, [card.print.id, setPrintDetailsId]);
 
   useActiveLists(undefined, listResources ?? []);
 
@@ -123,11 +135,42 @@ export function TcgPrintDetails() {
   }, [card, tcg]);
 
   const smallScreen = useMediaQuery('(max-width: 950px)');
+  const mobileScreen = useMediaQuery('(max-width: 800px)');
+
+  const isAdmin = user?.admin === true;
+
   return (
     <TcgPrintDetailsContext value={{ lang: printLanguage }}>
-      <div>
+      <div style={{ minHeight: '120vh' }}>
         <title>{`${card.name} (${set.translations?.en?.name} #${card.print.collectorNumber}) – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
         {component}
+
+        {!mobileScreen && isAdmin && (
+          <Stack
+            style={{
+              bottom: '1.5rem',
+              right: '1.5rem',
+              position: 'absolute',
+              opacity: 0.55,
+              zIndex: 'var(--modal-layer)',
+            }}
+          >
+            <DetailsAdminButton tcg={tcg} printId={card.print.id} />
+          </Stack>
+        )}
+        {mobileScreen && (
+          <Stack
+            style={{
+              bottom: '1.5rem',
+              left: '1.5rem',
+              position: 'fixed',
+              opacity: 0.55,
+              zIndex: 'var(--modal-layer)',
+            }}
+          >
+            <WorkMenuButton />
+          </Stack>
+        )}
 
         <Stack
           gap={'0'}
