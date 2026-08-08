@@ -16,6 +16,7 @@ import { TcgPrintMeta } from '@/parcels/details/TcgPrintDetails/TcgPrintMeta/Tcg
 import { TcgPrintImageRenderer } from '@/parcels/details/TcgPrintImageRenderer.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
+import { WorkMenuButton } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenuButton.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { useOverviewWorkMenuStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { slugify } from '@/parcels/slugify.ts';
@@ -133,11 +134,27 @@ export function TcgPrintDetails() {
   }, [card, tcg]);
 
   const smallScreen = useMediaQuery('(max-width: 950px)');
+  const mobileScreen = useMediaQuery('(max-width: 800px)');
+
   return (
     <TcgPrintDetailsContext value={{ lang: printLanguage }}>
       <div style={{ minHeight: '120vh' }}>
         <title>{`${card.name} (${set.translations?.en?.name} #${card.print.collectorNumber}) – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
         {component}
+
+        {mobileScreen && (
+          <Stack
+            style={{
+              bottom: '1.5rem',
+              left: '1.5rem',
+              position: 'fixed',
+              opacity: 0.55,
+              zIndex: 'var(--modal-layer)',
+            }}
+          >
+            <WorkMenuButton />
+          </Stack>
+        )}
 
         <Stack
           gap={'0'}

@@ -1,4 +1,8 @@
 {
+  "work": {
+    "title": "Current Search",
+    "page": "Page"
+  },
   "randomized": {
     "info": "The search result has been randomized. Sorting and pagination is disabled.",
     "repeat": "Repeat this search"

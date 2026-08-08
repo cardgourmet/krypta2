@@ -189,10 +189,11 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
                 onClick={() => {
                   setSidebarOpen(true);
                 }}
+                className={styles.mobileButton}
               >
                 <IconMenu2 size={18} color={'var(--gourmet-neutral-8)'} />
               </button>
-              <button type="button" onClick={() => setMobileSearchOpen(true)}>
+              <button type="button" onClick={() => setMobileSearchOpen(true)} className={styles.mobileButton}>
                 <IconSearch size={18} color={'var(--gourmet-neutral-8)'} />
               </button>
             </div>
@@ -222,6 +223,22 @@ export default function Navbar({ setSidebarOpen }: NavbarProps) {
               )}
             </div>
           </nav>
+          {/*<Stack gap={'0'}>
+            {(workMeta?.rawElements?.length ?? 0) > 0 && !isOnOverview && (
+              <UnstyledButton
+                style={{
+                  backgroundColor: 'var(--gourmet-orange-1)',
+                }}
+                onClick={() => setWorkMenuOpen(true)}
+              >
+                <Center>
+                  <GourmetText c={'var(--gourmet-neutral-1)'} cgmff={'ui'} fw={'500'}>
+                    You have an active search. Click to view.
+                  </GourmetText>
+                </Center>
+              </UnstyledButton>
+            )}
+          </Stack>*/}
         </>
       )}
     </>

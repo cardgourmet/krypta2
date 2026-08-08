@@ -34,3 +34,11 @@
       visibility 0s;
   }
 }
+
+.mobileWorkMenu {
+  width: 100%;
+  background-color: var(--gourmet-neutral-2);
+
+  visibility: visible;
+  pointer-events: auto;
+}

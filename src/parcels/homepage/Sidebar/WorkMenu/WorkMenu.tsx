@@ -1,8 +1,9 @@
 import { ActionIcon, Button, Center, Group, Overlay, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
-import { usePrevious } from '@mantine/hooks';
+import { useMediaQuery, usePrevious } from '@mantine/hooks';
 import { IconCaretLeftFilled, IconCaretRightFilled, IconMinus, IconPlus, IconX } from '@tabler/icons-react';
 import { useLocation } from '@tanstack/react-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { type CardProperties, createProps } from '@/parcels/overview/cards/CardGrid/CardGridEntry/createProps.ts';
 import useCardOverviewData from '@/parcels/overview/cards/CardOverview/useCardOverviewData.tsx';
@@ -14,7 +15,9 @@ import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Route } from '@/routes/$tcg/sets/$setCode/$collectorNumber/{-$any}';
 import styles from './WorkMenu.module.css';
 
-export function WorkMenu() {
+export function WorkMenu({ mobile, onSwitch }: { mobile?: boolean; onSwitch?: () => void }) {
+  const smallerScreen = useMediaQuery('(max-width: 550px)');
+  const { t } = useTranslation('cards', { keyPrefix: 'work' });
   const navigate = Route.useNavigate();
 
   const setMenuOpened = useOverviewWorkMenuStore((state) => state.setMenuOpened);
@@ -86,6 +89,8 @@ export function WorkMenu() {
     if (resetScrollIndex === undefined) return;
     if (currentElements.length === 0) return;
 
+    console.log('inside resetScroll');
+
     // also check if we again have our current detail card
     const currentInd = currentElements.findIndex((el) => el.element.card.print.id === currentPrintDetailsId);
     if (currentInd !== -1) {
@@ -95,7 +100,9 @@ export function WorkMenu() {
 
     const element = currentElements[ind] ?? currentElements[0];
     requestAnimationFrame(() => {
-      document.getElementById(`card-${element.id}`)?.scrollIntoView({
+      const docElement = document.getElementById(`card-${element.id}`);
+
+      docElement?.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
       });
@@ -156,14 +163,14 @@ export function WorkMenu() {
   );
 
   return (
-    <Stack className={styles.workMenu} data-work={workMenuOpen}>
+    <Stack className={mobile ? styles.mobileWorkMenu : styles.workMenu} data-work={workMenuOpen}>
       <Stack
         style={{
           position: 'sticky',
           top: 0,
           left: 0,
           zIndex: 9999,
-          padding: '0.5rem 1rem',
+          padding: mobile ? undefined : '0.5rem 1rem',
           backgroundColor: 'var(--gourmet-neutral-2)',
         }}
         gap={'0.5rem'}
@@ -171,19 +178,21 @@ export function WorkMenu() {
         <Stack gap={'0.25rem'}>
           <Group justify={'space-between'}>
             <GourmetText cgmff={'title'} c={'var(--gourmet-orange-1)'} fz={'1.25rem'} fw={'500'}>
-              Current Search
+              {t('title')}
             </GourmetText>
 
-            <UnstyledButton
-              onClick={() => {
-                setMenuOpened(false);
-              }}
-              aria-label={'close menu'}
-            >
-              <Center>
-                <IconX size={18} color={'var(--gourmet-neutral-7)'} />
-              </Center>
-            </UnstyledButton>
+            {!mobile && (
+              <UnstyledButton
+                onClick={() => {
+                  setMenuOpened(false);
+                }}
+                aria-label={'close menu'}
+              >
+                <Center>
+                  <IconX size={18} color={'var(--gourmet-neutral-7)'} />
+                </Center>
+              </UnstyledButton>
+            )}
           </Group>
 
           <Stack>
@@ -195,37 +204,39 @@ export function WorkMenu() {
         </Stack>
       </Stack>
 
-      <Stack style={{ padding: '0 1rem' }}>
-        <Group>
-          <GourmetText cgmff={'ui'}>Page</GourmetText>
+      <Stack style={{ padding: mobile ? '0 0.5rem' : '0 1rem' }}>
+        {maxPage > 1 && (
           <Group>
-            <ActionIcon
-              size={'xs'}
-              color={'var(--gourmet-orange-1)'}
-              disabled={page <= 1}
-              onClick={() => {
-                changePage('previous', false);
-              }}
-            >
-              <IconMinus size={16} color={page <= 1 ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-2)'} />
-            </ActionIcon>
-            <GourmetText cgmff={'ui'}>
-              {page} / {maxPage}
-            </GourmetText>
-            <ActionIcon
-              size={'xs'}
-              color={'var(--gourmet-orange-1)'}
-              disabled={page >= maxPage}
-              onClick={() => {
-                changePage('next', false);
-              }}
-            >
-              <IconPlus size={16} color={page >= maxPage ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-2)'} />
-            </ActionIcon>
+            <GourmetText cgmff={'ui'}>{t('page')}</GourmetText>
+            <Group>
+              <ActionIcon
+                size={'xs'}
+                color={'var(--gourmet-orange-1)'}
+                disabled={page <= 1}
+                onClick={() => {
+                  changePage('previous', false);
+                }}
+              >
+                <IconMinus size={16} color={page <= 1 ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-2)'} />
+              </ActionIcon>
+              <GourmetText cgmff={'ui'}>
+                {page} / {maxPage}
+              </GourmetText>
+              <ActionIcon
+                size={'xs'}
+                color={'var(--gourmet-orange-1)'}
+                disabled={page >= maxPage}
+                onClick={() => {
+                  changePage('next', false);
+                }}
+              >
+                <IconPlus size={16} color={page >= maxPage ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-2)'} />
+              </ActionIcon>
+            </Group>
           </Group>
-        </Group>
+        )}
 
-        <SimpleGrid cols={2} spacing={'0.25rem'}>
+        <SimpleGrid cols={mobile && smallerScreen ? 2 : mobile ? 3 : 2} spacing={'0.25rem'}>
           {currentElements?.map((card, index) => {
             return (
               <CardItem
@@ -247,7 +258,7 @@ export function WorkMenu() {
         style={{
           zIndex: 9999,
           backgroundColor: 'var(--gourmet-neutral-2)',
-          padding: '0.5rem 0.5rem 2.5rem 0.5rem',
+          padding: mobile ? '0.5rem 0' : '0.5rem 0.5rem 2.5rem 0.5rem',
         }}
       >
         <Group justify={'space-between'} p={'0 0.5rem'}>
@@ -255,6 +266,7 @@ export function WorkMenu() {
             onClick={() => {
               if (currentIndex === 0 && page > 1) {
                 changePage('previous', true);
+                onSwitch?.();
                 return;
               }
               if (currentIndex <= 0) return;
@@ -270,6 +282,7 @@ export function WorkMenu() {
                   collectorNumber: prevElement.element.card.print.collectorNumber,
                 },
               });
+              onSwitch?.();
             }}
             disabled={(currentIndex === 0 && page === 1) || currentIndex < 0}
             color={'var(--gourmet-orange-1)'}
@@ -283,6 +296,7 @@ export function WorkMenu() {
             onClick={() => {
               if (currentIndex >= maxIndex && page < maxPage) {
                 changePage('next', true);
+                onSwitch?.();
                 return;
               }
               if (currentIndex < 0 || currentIndex >= maxIndex) return;
@@ -297,6 +311,7 @@ export function WorkMenu() {
                   collectorNumber: nextElement.element.card.print.collectorNumber,
                 },
               });
+              onSwitch?.();
             }}
             disabled={(currentIndex >= maxIndex && page === maxPage) || currentIndex < 0}
             color={'var(--gourmet-orange-1)'}
