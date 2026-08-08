@@ -36,6 +36,8 @@ export function Home() {
 
   return (
     <Stack>
+      <title>{`Cardgourmet – A TCG card browser`}</title>
+
       <Center style={{ marginTop: '2rem' }}>
         <Stack gap={'0.4rem'}>
           <Group wrap={'nowrap'} gap={'1rem'}>

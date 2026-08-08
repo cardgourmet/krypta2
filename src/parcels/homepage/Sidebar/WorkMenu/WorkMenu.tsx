@@ -245,6 +245,7 @@ export function WorkMenu({ mobile, onSwitch }: { mobile?: boolean; onSwitch?: ()
                 card={card.element}
                 index={index}
                 currentPrintId={currentPrintDetailsId}
+                onClick={() => onSwitch?.()}
               />
             );
           })}
@@ -332,9 +333,10 @@ interface CardItemProps {
   card: TcgSearchDataCard;
   index: number;
   currentPrintId?: string;
+  onClick?: () => void;
 }
 
-function CardItem({ tcg, card, currentPrintId }: CardItemProps) {
+function CardItem({ tcg, card, currentPrintId, onClick }: CardItemProps) {
   const prop: CardProperties = useMemo(() => {
     return createProps(tcg, card) as CardProperties;
   }, [tcg, card]);
@@ -360,7 +362,7 @@ function CardItem({ tcg, card, currentPrintId }: CardItemProps) {
         card={card.card}
         linkProps={{
           onClick: () => {
-            // nothing for now
+            onClick?.();
           },
         }}
         onDragStart={() => {

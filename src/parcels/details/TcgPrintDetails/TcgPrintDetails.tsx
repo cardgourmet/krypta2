@@ -4,6 +4,7 @@ import { getRouteApi, useNavigate } from '@tanstack/react-router';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import type { CardDetailsSearch } from '@/parcels/details/CardDetailsSearch.ts';
+import { DetailsAdminButton } from '@/parcels/details/DetailsAdminButton/DetailsAdminButton.tsx';
 import { ForwardedToDetailsBanner } from '@/parcels/details/TcgPrintDetails/ForwardedToDetailsBanner/ForwardedToDetailsBanner.tsx';
 import { type Legality, LegalityDisplay } from '@/parcels/details/TcgPrintDetails/LegalityDisplay/LegalityDisplay.tsx';
 import { ListButtons } from '@/parcels/details/TcgPrintDetails/ListButtons.tsx';
@@ -136,12 +137,27 @@ export function TcgPrintDetails() {
   const smallScreen = useMediaQuery('(max-width: 950px)');
   const mobileScreen = useMediaQuery('(max-width: 800px)');
 
+  const isAdmin = user?.admin === true;
+
   return (
     <TcgPrintDetailsContext value={{ lang: printLanguage }}>
       <div style={{ minHeight: '120vh' }}>
         <title>{`${card.name} (${set.translations?.en?.name} #${card.print.collectorNumber}) – ${getNameByTcg(tcg)} – Cardgourmet`}</title>
         {component}
 
+        {!mobileScreen && isAdmin && (
+          <Stack
+            style={{
+              bottom: '1.5rem',
+              right: '1.5rem',
+              position: 'absolute',
+              opacity: 0.55,
+              zIndex: 'var(--modal-layer)',
+            }}
+          >
+            <DetailsAdminButton tcg={tcg} printId={card.print.id} />
+          </Stack>
+        )}
         {mobileScreen && (
           <Stack
             style={{
