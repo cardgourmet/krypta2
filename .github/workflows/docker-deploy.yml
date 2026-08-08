@@ -29,8 +29,8 @@ jobs:
         build-args: |
           VITE_API_BASE_URL=${{ vars.CARDGOURMET_API_URL }}
           VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.OAUTH_GOOGLE_CLIENT_ID }}
-          VITE_CARDGOURMET_BASIC_USERNAME=${{ vars.CARDGOURMET_BASIC_USERNAME }}
-          VITE_CARDGOURMET_BASIC_PASSWORD=${{ vars.CARDGOURMET_BASIC_PASSWORD }}
+          VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.CARDGOURMET_BASIC_USERNAME }}
+          VITE_CARDGOURMET_BASIC_PASSWORD=${{ secrets.CARDGOURMET_BASIC_PASSWORD }}
         tags: ghcr.io/cardgourmet/krypta2:${{ inputs.tag }},ghcr.io/cardgourmet/krypta2:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
