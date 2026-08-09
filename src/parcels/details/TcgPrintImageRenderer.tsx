@@ -82,6 +82,8 @@ export function TcgPrintImageRenderer({
     return [(card.print as Exclude<TcgDataPrint, PcgDataPrint>).artist];
   }, [card.print, tcg]);
 
+  console.log('otherPrints', otherPrints);
+
   return (
     <Stack {...others}>
       <Stack gap={0}>
@@ -159,22 +161,22 @@ export function TcgPrintImageRenderer({
 
       {otherPrints.length > 0 && (
         <Group gap={'0.5rem'} maw={'18rem'} w={'100%'}>
-          {otherPrints.slice(0, 7).map((print) => {
+          {otherPrints.slice(0, 7).map((otherPrint) => {
             return (
-              <CursorImageHover key={print.id} images={getImagesByTcgPrintRef(print, card.name)}>
+              <CursorImageHover key={otherPrint.id} images={getImagesByTcgPrintRef(otherPrint, card.name)}>
                 <Link
-                  key={print.id}
+                  key={otherPrint.id}
                   to={`/$tcg/sets/$setCode/$collectorNumber/{-$any}`}
                   params={{
                     tcg: tcg,
-                    setCode: print.setCode?.toLowerCase() ?? '???',
-                    collectorNumber: print.collectorNumber.toLowerCase(),
+                    setCode: otherPrint.setCode?.toLowerCase() ?? '???',
+                    collectorNumber: otherPrint.collectorNumber.toLowerCase(),
                     any: slugify(card.name),
                   }}
                 >
                   <Image
-                    key={print.id}
-                    src={print.imageUrls?.full}
+                    key={otherPrint.id}
+                    src={otherPrint.imageUrls?.full}
                     style={{ width: '4rem', borderRadius: '4px' }}
                     fallbackSrc={backupImageUrl}
                   />

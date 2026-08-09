@@ -19,7 +19,7 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { WorkMenuButton } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenuButton.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
-import { useOverviewWorkMenuStore } from '@/parcels/selection/useOverviewWorkStore.ts';
+import { useOverviewWorkMenuStore, useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import { slugify } from '@/parcels/slugify.ts';
 import type { DlcDataPrint } from '@/parcels/tcg/dlc/api.ts';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg.ts';
@@ -137,6 +137,7 @@ export function TcgPrintDetails() {
   const smallScreen = useMediaQuery('(max-width: 950px)');
   const mobileScreen = useMediaQuery('(max-width: 800px)');
 
+  const workMeta = useOverviewWorkStore((state) => state.data?.meta);
   const isAdmin = user?.admin === true;
 
   return (
@@ -158,7 +159,7 @@ export function TcgPrintDetails() {
             <DetailsAdminButton tcg={tcg} printId={card.print.id} />
           </Stack>
         )}
-        {mobileScreen && (
+        {(workMeta?.rawElements?.length ?? 0) > 0 && mobileScreen && (
           <Stack
             style={{
               bottom: '1.5rem',
