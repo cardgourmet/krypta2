@@ -21,8 +21,8 @@ import { NavItem } from '@/parcels/layout/NavItem/NavItem';
 import { LanguageSelectorNavItem } from '@/parcels/settings/LanguageSelectorNavItem/LanguageSelectorNavItem';
 import { ThemeSelectorNavItem } from '@/parcels/settings/ThemeSelectorNavItem/ThemeSelectorNavItem';
 import { useTcg } from '@/parcels/tcg/TcgProvider';
+import { paramDefaults } from '@/routes/@{$user}/lists';
 import { historyParamDefaults } from '@/routes/me/history';
-import { paramDefaults } from '@/routes/me/lists';
 import styles from './UserDrawer.module.css';
 
 const avatarStyle = new Style(definition);

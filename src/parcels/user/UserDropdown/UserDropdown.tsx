@@ -18,8 +18,8 @@ import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import { useTcg } from '@/parcels/tcg/TcgProvider';
+import { paramDefaults } from '@/routes/@{$user}/lists';
 import { historyParamDefaults } from '@/routes/me/history';
-import { paramDefaults } from '@/routes/me/lists';
 import styles from './UserDropdown.module.css';
 
 const avatarStyle = new Style(definition);
