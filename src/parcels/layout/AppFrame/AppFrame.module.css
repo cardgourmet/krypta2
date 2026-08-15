@@ -28,7 +28,6 @@
     color: var(--cgm-foreground-primary);
     grid-area: content;
     margin-bottom: calc(-1 * var(--cgm-frame-content-border-radius));
-    padding: 1rem;
     position: relative;
 
     @media (width >= 48em) {

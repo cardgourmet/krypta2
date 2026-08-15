@@ -1,5 +1,6 @@
 @layer structures {
   .base {
+    background-color: var(--cgm-background-surface);
     box-shadow:
       0 0 0 0.125rem var(--cgm-border-tertiary),
       var(--cgm-shadow-xs);

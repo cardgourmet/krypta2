@@ -1,15 +1,26 @@
 @layer structures {
   .base {
+    background-color: rgb(from var(--cgm-background-surface) r g b / 0.75);
+    backdrop-filter: blur(16px);
+    padding: 0 1rem;
     position: sticky;
     top: var(--navbar-height);
+    z-index: 1;
   }
 
   .breadcrumbs {
     align-items: center;
     color: var(--cgm-foreground-secondary);
     display: flex;
+    font-size: 0.875rem;
     font-weight: 500;
     gap: 0.125rem;
+    padding-top: 0.5rem;
+  }
+
+  .maxWidthContainer {
+    margin-inline: auto;
+    width: min(100%, var(--cgm-page-content-width));
   }
 
   .title {
@@ -20,11 +31,14 @@
 
   .titleContainer {
     align-items: center;
-    border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+    border-bottom: var(--cgm-border-width) solid var(--cgm-border-secondary);
     column-gap: 1rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding-block: 0.5rem;
+
+    margin-inline: -0.5rem;
+    padding-inline: 0.5rem;
   }
 }
