@@ -12,6 +12,7 @@ export type MenuDropdownItemProps = Composable<
 
 export type MenuDropdownRadioItemProps = {
   children?: ReactNode;
+  icon?: ReactNode;
   value: string;
 };
 

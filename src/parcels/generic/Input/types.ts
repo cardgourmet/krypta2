@@ -8,5 +8,6 @@ export type InputProps = Extend<
     hint?: ReactNode;
     label?: ReactNode;
     leadingSlot?: ReactNode;
+    trailingSlot?: ReactNode;
   }
 >;

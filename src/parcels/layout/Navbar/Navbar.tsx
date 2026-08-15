@@ -17,12 +17,11 @@ import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Button } from '@/parcels/generic/Button/Button';
-import { Input } from '@/parcels/generic/Input/Input';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { Logo } from '@/parcels/Logo';
+import { NewSearchbar } from '@/parcels/search/bar/NewSearchbar/NewSearchbar';
 import { LanguageSelectorDropdown } from '@/parcels/settings/LanguageSelectorDropdown/LanguageSelectorDropdown';
 import { ThemeSelectorDropdown } from '@/parcels/settings/ThemeSelectorDropdown/ThemeSelectorDropdown';
-import { TcgIcon } from '@/parcels/tcg/TcgIcon';
 import { UserDrawer } from '@/parcels/user/UserDrawer/UserDrawer';
 import { UserDropdown } from '@/parcels/user/UserDropdown/UserDropdown';
 import styles from './Navbar.module.css';
@@ -95,28 +94,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
             </DropdownMenu>
           </div>
 
-          <Input
-            leadingSlot={
-              <Button
-                style={{
-                  alignSelf: 'center',
-                  borderRadius: '0.25rem',
-                  gap: 0,
-                  height: '1.75rem',
-                  marginLeft: '0.375rem',
-                  minHeight: 0,
-                  padding: 0,
-                  paddingInline: '0.125rem',
-                }}
-                trailingIcon={<IconCaretDownFilled fontSize={12} />}
-                variant="tertiary"
-              >
-                <TcgIcon height={20} tcg="dlc" width={20} />
-              </Button>
-            }
-            placeholder="Suchen…"
-            style={{ width: 'min(30rem, 50vw)' }}
-          />
+          <NewSearchbar />
 
           <div className={styles.actionsContainer} style={{ justifyContent: 'flex-end' }}>
             <LanguageSelectorDropdown />

@@ -3,7 +3,7 @@
     --hyperlink-inline-spacing: 0.125rem;
     align-items: center;
     border-radius: calc(var(--hyperlink-radius) - var(--cgm-outline-width));
-    color: var(--cgm-color-brand);
+    color: var(--cgm-accent);
     cursor: pointer;
     display: inline-flex;
     font-weight: 500;
@@ -71,7 +71,7 @@
     }
 
     &:not([disabled]):focus-visible {
-      outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
+      outline: var(--cgm-outline-width) solid var(--cgm-accent);
       outline-offset: var(--cgm-outline-width);
     }
 
@@ -95,7 +95,7 @@
 
   @media (hover: hover) {
     .base:not([disabled]):hover {
-      color: color-mix(in oklch, var(--cgm-color-brand), var(--cgm-background-hover) 12%);
+      color: color-mix(in oklch, var(--cgm-accent), var(--cgm-background-hover) 12%);
     }
   }
 }

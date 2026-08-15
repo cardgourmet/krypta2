@@ -13,6 +13,7 @@ export const Input = ({
   label,
   leadingSlot,
   style,
+  trailingSlot,
   ...props
 }: InputProps) => {
   const errorId = useId();
@@ -44,6 +45,7 @@ export const Input = ({
           id={id}
           {...props}
         />
+        {trailingSlot}
       </div>
 
       {error && (
