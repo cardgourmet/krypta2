@@ -1,9 +1,8 @@
 import { Center, Group, Stack } from '@mantine/core';
-import { IconAlertCircle, IconCircleCheck, IconCircleX, IconEdit } from '@tabler/icons-react';
+import { IconAlertCircle, IconCircleCheck, IconCircleX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import styles from '@/parcels/details/TcgPrintDetails/TcgPrintDetails.module.css';
-import { Button } from '@/parcels/generic/Button/Button.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 
 export type Legality = {
@@ -51,11 +50,11 @@ export function LegalityDisplay({ legalities }: { legalities: Legality[] }) {
         <Stack gap={'0'}>
           <GourmetText cgmff={'ui'}>{t('notLegalByDefault')}</GourmetText>
 
-          <Button accent="brand" size="sm" leadingIcon={<IconEdit />} variant="tertiary" onClick={() => {}} disabled>
+          {/*<Button accent="brand" size="sm" leadingIcon={<IconEdit />} variant="tertiary" onClick={() => {}} disabled>
             <GourmetText cgmff={'ui'} c={'var(--gourmet-blue-1)'}>
               Edit displayed formats
             </GourmetText>
-          </Button>
+          </Button>*/}
         </Stack>
       </Stack>
     </Stack>

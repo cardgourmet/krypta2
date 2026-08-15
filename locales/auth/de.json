@@ -9,13 +9,62 @@
     "loginButton": "Anmelden"
   },
   "register": {
+    "errors": {
+      "email_already_exists": "There is already an account registered with this email",
+      "username_already_exists": "There is already an account registered with this username",
+      "invalid_username": "Your username is not valid",
+      "invalid_display_name": "Your displayname is not valid",
+      "invalid_email": "Your email is not valid",
+      "invalid_password": "Your password is not valid",
+      "oauth_validation_failed": "Could not validate your token against Google. Please try again later",
+      "oauth_invalid_provider": "Could not find the proper provider. Please try again later",
+      "oauth_already_connected": "There is already a Cardgourmet account linked to this Google account",
+      "oauth_missing_email": "Could not find an email address that is linked to your Google account"
+    },
+    "oauth": {
+      "verified": "Dein Google Account wurde verifiziert. Um die Registrierung abzuschließen, gib nur noch einen Benutzer- und Anzeigenamen für deinen Cardgourmet Account ein.",
+      "cancel": "Abbrechen",
+      "finish": "Registrierung abschließen"
+    },
     "registerTitle": "Registrieren",
     "firstTime": "Schon mal hier gewesen?",
     "email": "E-Mail-Adresse",
-    "username": "Benutzername",
-    "password": "Passwort",
     "passwordRepeat": "Passwort wiederholen",
-    "registerButton": "Registrieren"
+    "registerButton": "Registrieren",
+    "username": {
+      "label": "Benutzername",
+      "description": "Wähle einen einzigartigen Nutzernamen. Es wird als @name dargestellt",
+      "placeholder": "Benutzername eingeben",
+      "errors": {
+        "invalid-username-length": "Muss zwischen 3 und 50 Zeichen lang sein",
+        "invalid-username-charset": "Darf nur alpanumerische Zeichen enthalten (A-Z, 0-9 und _)"
+      }
+    },
+    "displayname": {
+      "label": "Anzeigename",
+      "description": "",
+      "placeholder": "Anzeigenamen eingeben",
+      "errors": {
+        "invalid-displayname-length": "Muss zwischen 3 und 50 Zeichen lang sein",
+        "invalid-displayname": "Darf nur alpanumerische Zeichen enthalten (A-Z, 0-9 und _)"
+      }
+    },
+    "password": {
+      "label": "Passwort",
+      "description": "",
+      "placeholder": "Passwort eingeben",
+      "errors": {
+        "invalid-password": "Muss mindestens 8 Zeichen lang sein"
+      }
+    },
+    "password2": {
+      "label": "Passwort bestätigen",
+      "description": "",
+      "placeholder": "Passwort wiederholen",
+      "errors": {
+        "passwords-doesnt-match": "Muss mit dem oben angegebenen Passwort übereinstimmen"
+      }
+    }
   },
   "forgot": {
     "forgotPasswordTitle": "Passwort vergessen",
@@ -28,6 +77,15 @@
     "changePasswordButton": "Passwort aktualisieren"
   },
   "settings": {
+    "errors": {
+      "email_already_exists": "Es gibt bereits einen Account mit dieser E-Mail",
+      "username_already_exists": "Es gibt bereits einen Account mit diesem Nutzernamen",
+      "invalid_username": "Nutzername ist nicht gültig. Er muss zwischen 3 und 50 Zeichen lang sein und darf nur alphanumerische Zeichen enthalten (A-Z, 0-9 and _). Leerzeichen sind nicht erlaubt",
+      "invalid_display_name": "Anzeigename ist nicht gültig. Er muss zwischen 3 und 50 Zeichen lang sein und darf nur alphanumerische Zeichen enthalten (A-Z, 0-9 and _). Leerzeichen sind erlaubt",
+      "invalid_email": "Deine E-Mail ist nicht gültig",
+      "invalid_password": "Passwort ist nicht gültig. Es muss mindestens 8 Zeichen lang sein",
+      "unknown": "Unbekannter Fehler während des Update Prozesses. Versuch es später nochmal."
+    },
     "header": {
       "title": "Einstellungen"
     },
@@ -64,6 +122,13 @@
           "description": "",
           "fieldLabel": "Neues Passwort",
           "fieldLabelConfirm": "Neues Passwort bestätigen"
+        }
+      },
+      "search": {
+        "title": "Suche",
+        "forwardDetails": {
+          "title": "Zu Details weiterleiten Forward to Details",
+          "description": "Falls aktiviert, leitet dich automatisch zur Detailseite weiter, wenn das Suchergebnis nur eine Karte oder ein Print ergibt."
         }
       },
       "language": {

@@ -1,0 +1,44 @@
+.workMenu {
+  z-index: var(--nav-layer);
+
+  position: fixed;
+  top: var(--navbar-height);
+  left: var(--sidebar-width);
+
+  width: var(--workmenu-width);
+  background-color: var(--gourmet-neutral-2);
+
+  border-style: solid;
+  border-color: var(--gourmet-neutral-1);
+  border-width: 0 1px 0 0;
+
+  height: calc(100dvh - var(--navbar-height));
+  min-height: 0;
+  max-height: calc(100dvh - var(--navbar-height));
+  overflow-y: auto;
+
+  transform: translateX(calc(-1 * var(--workmenu-width)));
+  transition:
+    transform 0.1s ease-in-out,
+    visibility 0s linear 0.1s;
+  visibility: hidden;
+  pointer-events: none;
+
+  &[data-work="true"] {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+      transform 0.1s ease-in-out,
+      visibility 0s;
+  }
+}
+
+.mobileWorkMenu {
+  width: 100%;
+  background-color: var(--gourmet-neutral-2);
+
+  visibility: visible;
+  pointer-events: auto;
+}

@@ -17,7 +17,12 @@
   "selection": {
     "addToList": {
       "title": "Added {{count}} to {{name}}",
-      "weveAdded": "We've added {{count}} cards to the list.",
+      "weveAdded": "We've added {{count}} resources to the list.",
+      "goThere": "Go there now"
+    },
+    "removeFromList": {
+      "title": "Removed {{count}} from {{name}}",
+      "weveRemoved": "We've removed {{count}} resources from the list.",
       "goThere": "Go there now"
     }
   },
@@ -27,7 +32,8 @@
       "weveDeleted": "We've deleted the list."
     },
     "created": {
-      "title": "Created {{name}}"
+      "title": "Created {{name}}",
+      "goThere": "Go there now"
     },
     "updated": {
       "title": "Updated {{name}}",

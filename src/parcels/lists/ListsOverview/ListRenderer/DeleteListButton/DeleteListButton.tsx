@@ -6,7 +6,7 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { deleteLists } from '@/parcels/lists/api.ts';
 import type { UserList } from '@/parcels/lists/types.ts';
-import { ListDeleteNotification } from '@/parcels/notification/ListDeleteNotification.tsx';
+import { ListDeleteNotification } from '@/parcels/notification/list/ListDeleteNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import styles from './DeleteListButton.module.css';

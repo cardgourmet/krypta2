@@ -1,8 +1,14 @@
 .queryExplanation {
+  --background-color: var(--gourmet-teal-1);
+  --font-color: var(--gourmet-blue-5);
+  --p-color: var(--gourmet-neutral-8);
+
   display: flex;
   flex-direction: row;
 
   p {
+    color: var(--p-color);
+
     margin-left: 1rem;
     width: 100%;
     font-size: 1.05rem;
@@ -15,9 +21,9 @@
 
   /* stolen from Krypta, without Mantine though (lol) */
   code {
-    background-color: var(--gourmet-teal-1);
+    background-color: var(--background-color);
     border-radius: 0.25rem;
-    color: var(--gourmet-blue-5);
+    color: var(--font-color);
     font-family: var(--cgm-monospace-font-family), monospace;
     font-size: 0.9rem;
     font-weight: 300;

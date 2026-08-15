@@ -26,6 +26,7 @@ type ActiveListsStateActions = {
     rawLists: UserListWithResources[],
     res: UserListResource[],
     sync?: boolean,
+    appendOnly?: boolean, // if true, won't change the updatedAt timestamp
   ) => UserListWithResources[];
   removeResources: (ressourceIds: string[], listIds?: string[]) => UserListWithResources[];
 
@@ -130,10 +131,20 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
 
       return get().activeListsByContext[context];
     },
-    addResources: (context: string, rawLists: UserListWithResources[], res: UserListResource[], sync?: boolean) => {
+    addResources: (
+      context: string,
+      rawLists: UserListWithResources[],
+      res: UserListResource[],
+      sync?: boolean,
+      appendOnly?: boolean,
+    ) => {
       const allContexts = new Set([...Object.keys(get().activeListsByContext), context]);
       const targetContexts = sync ? allContexts : new Set([context]);
 
+      const current = get().activeListsByContext;
+      const newData = {
+        ...current,
+      };
       for (const targetContext of targetContexts) {
         const currentContextData = get().activeListsByContext[targetContext];
         if (!currentContextData) {
@@ -141,8 +152,14 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
           continue;
         }
 
-        const newContextData = combineResources(currentContextData, res, true);
-        get().actions.setLists(targetContext, newContextData);
+        newData[context] = combineResources(currentContextData, res, true, appendOnly);
+      }
+      set({
+        activeListsByContext: newData,
+      });
+      if (!sync) {
+        // this will trigger a size sync between all lists
+        get().actions.setLists(context, newData[context]);
       }
 
       return get().activeListsByContext[context];
@@ -150,11 +167,15 @@ export const useActiveListsState = create<ActiveListsState>((set, get) => ({
     removeResources: (ressourceIds: string[], listIds?: string[]) => {
       const current = get().activeListsByContext;
 
+      const newData = {
+        ...current,
+      };
       for (const context of Object.keys(current)) {
-        const newContextData = removeResourcesByIds(current[context], listIds, ressourceIds);
-
-        get().actions.setLists(context, newContextData);
+        newData[context] = removeResourcesByIds(current[context], listIds, ressourceIds);
       }
+      set({
+        activeListsByContext: newData,
+      });
 
       return Object.values(get().activeListsByContext)[0];
     },
@@ -177,8 +198,8 @@ export function useActiveLists(context?: string, resources?: UserListResource[])
     [context, userLists, setResources],
   );
   const addResourcesContext = useCallback(
-    (res: UserListResource[], sync?: boolean) => {
-      const updatedLists = addResources(context, userLists, res, sync);
+    (res: UserListResource[], sync?: boolean, update?: boolean) => {
+      const updatedLists = addResources(context, userLists, res, sync, update);
       const withoutResources = updatedLists.map((l) => ({ ...l, resources: null }));
 
       // apply updates to `setLists` (to update size and updatedAt)
@@ -233,7 +254,6 @@ export function useActiveLists(context?: string, resources?: UserListResource[])
           newLists.push(userList);
           return;
         }
-        console.log('found updated list for ', userList.list.id, updatedList);
         newLists.push({ list: updatedList.list, resources: userList.resources, size: userList.size });
       });
       setLists(newLists);
@@ -349,7 +369,12 @@ function removeResourcesByIds(
   return newActiveLists;
 }
 
-function combineResources(lists: UserListWithResources[], resources: UserListResource[], append?: boolean) {
+function combineResources(
+  lists: UserListWithResources[],
+  resources: UserListResource[],
+  append?: boolean,
+  appendOnly?: boolean,
+) {
   const groupedByList = groupBy(resources, (r) => r.listId);
   const activeLists = [] as UserListWithResources[];
   for (const list of lists) {
@@ -360,14 +385,14 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
       } as ResolvedUserListResource;
     });
     if (!listResources) {
-      activeLists.push(list);
+      activeLists.push({ ...list });
       continue;
     }
 
     let addedCount = 0;
     let allListResources = listResources;
-    if (append && list.resources) {
-      const allValues = Object.values(list.resources);
+    if (append) {
+      const allValues = Object.values(list.resources ?? []);
       const existingIds = new Set(allValues.flatMap((r) => r.map((r2) => r2.listResource.resourceId)));
       const toAppend = listResources.filter((r) => !existingIds.has(r.listResource.resourceId));
 
@@ -377,12 +402,15 @@ function combineResources(lists: UserListWithResources[], resources: UserListRes
     }
 
     const tcgListResources = groupBy(allListResources, (r) => r.listResource.resourceType as string);
+    const newUpdatedAt = addedCount > 0 ? new Date().toISOString() : list.list.updatedAt;
+    const newSize = (list.size ?? 0) + addedCount;
+
     const listWithResources: UserListWithResources = {
       list: {
         ...list.list,
-        updatedAt: addedCount > 0 ? new Date().toISOString() : list.list.updatedAt,
+        updatedAt: appendOnly ? list.list.updatedAt : newUpdatedAt,
       },
-      size: (list.size ?? 0) + addedCount,
+      size: appendOnly ? list.size : newSize,
       resources: tcgListResources,
     };
     activeLists.push(listWithResources);

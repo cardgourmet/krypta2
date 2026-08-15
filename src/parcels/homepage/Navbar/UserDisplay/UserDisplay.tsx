@@ -9,8 +9,8 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { UserDisplayButton } from '@/parcels/homepage/Navbar/UserDisplay/UserDisplayButton/UserDisplayButton.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { paramDefaults } from '@/routes/@{$user}/lists';
 import { historyParamDefaults } from '@/routes/me/history';
-import { paramDefaults } from '@/routes/me/lists';
 import { savedSearchesParamDefaults } from '@/routes/me/saved-searches';
 import styles from './UserDisplay.module.css';
 
@@ -132,10 +132,13 @@ export function UserDisplay({ style }: { style?: CSSProperties }) {
               </Menu.Item>
             </Link>
             <Link
-              to={'/me/lists'}
+              to={`/@{$user}/lists`}
               search={{
                 ...paramDefaults,
                 tcg: tcg,
+              }}
+              params={{
+                user: user.username,
               }}
               style={{ textDecoration: 'none' }}
             >

@@ -4,7 +4,7 @@ import { Activity, type ReactElement, useMemo } from 'react';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import styles from '@/parcels/overview/cards/CardTable/CardTable.module.css';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 
 export function TableRowHorizontal({
@@ -22,11 +22,11 @@ export function TableRowHorizontal({
 }) {
   const thisId = card.print.id;
 
-  const isSelectionMode = useTcgOverviewWorkStore((state) => state.isSelectionMode);
-  const isSelected = useTcgOverviewWorkStore((state) => {
+  const isSelectionMode = useOverviewWorkStore((state) => state.isSelectionMode);
+  const isSelected = useOverviewWorkStore((state) => {
     return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
-  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
+  const setSelectionWithCheck = useOverviewWorkStore((state) => state.setSelectionWithCheck);
 
   const columnElements = useMemo(() => {
     return columns.map((column) => <td key={column}>{data[column]}</td>);

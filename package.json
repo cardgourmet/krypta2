@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "portless krypta2 vite --host",
     "dev:portless": "vite --host 127.0.0.1 --port $PORT",
     "build": "vite build && tsc",
     "preview": "vite preview",
@@ -71,6 +71,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
     "jsdom": "^27.4.0",
+    "portless": "^0.15.5",
     "typescript": "^5.9.3",
     "vite": "^7.3.3",
     "vite-plugin-svgr": "^4.5.0",

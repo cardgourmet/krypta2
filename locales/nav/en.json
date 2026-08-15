@@ -8,7 +8,9 @@
   "language": {
     "language": "Language",
     "de": "German",
-    "en": "English"
+    "en": "English",
+    "syncWithTcgs": "Sync with TCGs",
+    "syncExplanation": "If enabled, we use your selected language as the preferred print language when searching cards."
   },
   "user": {
     "user": "User",

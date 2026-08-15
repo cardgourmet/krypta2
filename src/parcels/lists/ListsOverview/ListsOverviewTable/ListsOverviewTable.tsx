@@ -12,8 +12,7 @@ import { EditListButton } from '@/parcels/lists/ListsOverview/ListRenderer/EditL
 import styles from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.module.css';
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/me/lists';
+import { useUserLimits } from '@/parcels/lists/useInList.tsx';
 
 export function ListsOverviewTable({
   isLoading,
@@ -30,9 +29,7 @@ export function ListsOverviewTable({
   const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
   const { t: t2 } = useTranslation('lists');
   const { user } = useAuth();
-
-  const search = Route.useSearch();
-  const { tcg } = search;
+  const { list_resources_per_list } = useUserLimits(user);
 
   const tableData: GourmetTableData<UserListWithResources> = useMemo(() => {
     const columns = ['name', 'description', 'lastUpdated', 'visibility', 'size', 'color'];
@@ -42,14 +39,6 @@ export function ListsOverviewTable({
       columns,
       colSizes,
       rows: userLists.map((list) => {
-        let listTcg = tcg;
-        if (listTcg === 'all') {
-          listTcg = 'mtg';
-        }
-        if (list.list.allowedTcgs?.length === 1) {
-          listTcg = list.list.allowedTcgs[1] as Tcg;
-        }
-
         return {
           entry: list,
           data: {
@@ -60,7 +49,6 @@ export function ListsOverviewTable({
                 <Link
                   to={'/@{$user}/lists/$listId'}
                   params={{ user: user!.username, listId: list.list.slug }}
-                  search={{ tcg: listTcg }}
                   className={styles.link}
                   preload={false}
                 >
@@ -94,7 +82,11 @@ export function ListsOverviewTable({
                 <VisibilityBadge visibility={list.list.visibility} />
               </div>
             ),
-            size: <GourmetText cgmff={'ui'}>{list.size}/100</GourmetText>,
+            size: (
+              <GourmetText cgmff={'ui'}>
+                {list.size}/{list_resources_per_list}
+              </GourmetText>
+            ),
             color: (
               <Group>
                 {list.list.color && <IconLabelFilled size={20} color={list.list.color ?? 'var(--gourmet-neutral-9)'} />}
@@ -104,7 +96,7 @@ export function ListsOverviewTable({
         };
       }),
     };
-  }, [userLists, i18n.language, t2, tcg, user]);
+  }, [userLists, i18n.language, t2, user, list_resources_per_list]);
 
   return (
     <GourmetTable

@@ -26,6 +26,8 @@ export type MtgDataPrint = c['schemas']['MtgDataPrint'];
 export type MtgDataSet = c['schemas']['MtgDataSet'];
 export type MtgDataSets = c['schemas']['Page-MtgDataSet'];
 export type MtgDataSetSummary = c['schemas']['MtgDataSetSummary'];
+export type MtgDataSetUserSummary =
+  c['schemas']['DetailedPage-CardSearchResult-MtgDataCard-UserTcgDataSetSummary-MtgDataSet'];
 export type MtgStatistics = TcgStatistics & { lastSet?: MtgDataSet };
 export type MtgSetSearchResult = c['schemas']['TcgSetSearchResult-MtgDataSet'];
 
@@ -62,6 +64,35 @@ export async function fetchMtgSetSummary(
 ): Promise<GourmetApiResponse<MtgDataSetSummary>> {
   return handleApiCall(async () => {
     return await umoriClient.GET(`/v1/mtg/sets/{setId}/summary`, {
+      params: {
+        query: {
+          query: query,
+          mode: `unique:${mode}`,
+          sortBy: sortBy,
+          sortDirection: sortDirection,
+          trigger: trigger,
+        },
+        path: {
+          setId: setId,
+        },
+      },
+      signal: abort?.signal,
+    });
+  });
+}
+
+// v1/mtg/sets/user/{setId}/summary
+export async function fetchMtgSetSummaryUser(
+  setId: string,
+  query: string,
+  mode?: MtgUniqueBy,
+  sortBy?: MtgSortBy,
+  sortDirection?: 'asc' | 'desc',
+  trigger?: SearchQueryTrigger,
+  abort?: AbortController,
+): Promise<GourmetApiResponse<MtgDataSetUserSummary>> {
+  return handleApiCall(async () => {
+    return await umoriClient.GET(`/v1/mtg/sets/user/{setId}/summary`, {
       params: {
         query: {
           query: query,

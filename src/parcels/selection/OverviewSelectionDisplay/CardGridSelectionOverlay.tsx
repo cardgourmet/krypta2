@@ -1,8 +1,8 @@
 import { Overlay } from '@mantine/core';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 
 export function CardGridSelectionOverlay() {
-  const isEnabled = useTcgOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
+  const isEnabled = useOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
 
   return (
     <>

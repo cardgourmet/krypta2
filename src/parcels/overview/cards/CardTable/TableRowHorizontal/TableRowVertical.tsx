@@ -5,7 +5,7 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import styles from '@/parcels/overview/cards/CardTable/CardTable.module.css';
 import { useCardMenuStore } from '@/parcels/overview/cards/TcgCardMenu/useTcgCardMenuStore.ts';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
 
 export function TableRowVertical({
@@ -23,11 +23,11 @@ export function TableRowVertical({
 }) {
   const thisId = card.print.id;
 
-  const isSelectionMode = useTcgOverviewWorkStore((state) => state.isSelectionMode);
-  const isSelected = useTcgOverviewWorkStore((state) => {
+  const isSelectionMode = useOverviewWorkStore((state) => state.isSelectionMode);
+  const isSelected = useOverviewWorkStore((state) => {
     return state.data?.selection?.elementDataById?.[thisId] !== undefined;
   });
-  const setSelectionWithCheck = useTcgOverviewWorkStore((state) => state.setSelectionWithCheck);
+  const setSelectionWithCheck = useOverviewWorkStore((state) => state.setSelectionWithCheck);
 
   const openMenu = useCardMenuStore((state) => state.openMenu);
   const actionIcon = useMemo(() => {

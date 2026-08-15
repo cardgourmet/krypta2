@@ -15,6 +15,10 @@ body {
 }*/
 
 .mainContent {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+
   margin-left: var(--sidebar-width);
   min-height: calc(100vh - var(--navbar-height));
 
@@ -29,8 +33,13 @@ body {
   margin: 0 auto;
   padding: 1.5rem;
   max-width: 1280px;
+  width: 100%;
+}
 
-  overflow: visible;
+@media (max-width: calc(1280px + 32rem + 3.5rem)) {
+  .content[data-work="true"] {
+    margin-left: var(--workmenu-width);
+  }
 }
 
 .footer {

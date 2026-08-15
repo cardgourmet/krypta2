@@ -19,8 +19,8 @@ import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { MobileLanguageSelector } from '@/parcels/homepage/Navbar/LanguageSelector/MobileLanguageSelector.tsx';
 import { MobileThemeSelector } from '@/parcels/homepage/Navbar/ThemeSelector/MobileThemeSelector.tsx';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
+import { paramDefaults } from '@/routes/@{$user}/lists';
 import { historyParamDefaults } from '@/routes/me/history';
-import { paramDefaults } from '@/routes/me/lists';
 import styles from './MobileUserMenu.module.css';
 
 export function MobileUserMenu({ close }: { close: () => void }) {
@@ -131,10 +131,13 @@ export function MobileUserMenu({ close }: { close: () => void }) {
             />
           </Link>
           <Link
-            to={'/me/lists'}
+            to={`/@{$user}/lists`}
             search={{
               ...paramDefaults,
               tcg: tcg,
+            }}
+            params={{
+              user: user.username,
             }}
           >
             <ItemButton

@@ -23,7 +23,7 @@ function RouteComponent() {
       },
       {
         name: 'Fabian',
-        imageUrl: 'https://assets.cardgourmet.com/avatars/NzAwO.jpg',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/clumsy-as-usual.jpg',
       },
       {
         name: 'Tobias',
@@ -47,7 +47,7 @@ function RouteComponent() {
       },
       {
         name: 'Ryu',
-        imageUrl: '',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_ryu.png',
       },
       {
         name: 'Thomas',
@@ -79,7 +79,7 @@ Of course this takes a lot of time and will only be possible in the long run. Th
 
 Even though this is just the first step, we know that this will still take time to do right. For that reason we humbly ask you to leave as much as feedback as possible so that we can make this project awesome together.
 
-Also, as a secondary goal, we want to enable people to easier make awesome stuff. That's why we will spend extra time focusing on the developer integrations, so that you will be able to get all the data via REST or even host the card database yourselves! 
+Also, as a secondary goal, we want to enable people to make awesome stuff. That's why we will spend extra time focusing on the developer integrations, so that you will be able to get all the data via REST or even host the card database yourselves! But that's food for thought for another time.
 
 ## Who we are
 

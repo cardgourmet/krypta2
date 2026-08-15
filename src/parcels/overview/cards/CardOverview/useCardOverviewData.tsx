@@ -1,31 +1,66 @@
-import { useCallback, useEffect, useEffectEvent, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useState } from 'react';
 import type { GourmetError } from '@/parcels/api/handleApiCall.tsx';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
+import { MAX_CARD_OVERVIEW_SIZE } from '@/parcels/overview/cards/CardOverview/CardOverview.tsx';
+import { useFetchCards } from '@/parcels/overview/cards/CardOverview/useFetchCards.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import type { ExplainSearchQuery } from '@/parcels/search/types.ts';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import { useLocalUserTransientStore } from '@/parcels/state/LocalUserTransientStore.tsx';
-import { fetchTcgCards } from '@/parcels/tcg/fetchTcgCards.tsx';
-import { fetchTcgSetSummary } from '@/parcels/tcg/fetchTcgSetSummary.tsx';
 import type {
   TcgDataSet,
-  TcgDataSetSummary,
-  TcgSearchCardsResult,
+  TcgDataSetUserSummary,
   TcgSearchCardsUser,
   TcgSearchQuerySettings,
   UserSearchCardsDetails,
 } from '@/parcels/tcg/types.ts';
-import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
-import { usePrevious } from '@/parcels/usePrevious.ts';
-import { Route as RouteCards } from '@/routes/$tcg/cards/index.tsx';
+import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import { Route } from '@/routes/$tcg/sets/$setCode/$collectorNumber/{-$any}.tsx';
 
-function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDataSet | null) {
-  const tcg = useTcgByLocation() as Tcg;
-  const prevQuerySettings = usePrevious(querySettings);
+type CardsMask = {
+  printIds: Set<string>;
+  details?: UserSearchCardsDetails;
+};
 
+function useCardOverviewData(tcg?: Tcg, querySettings?: TcgSearchQuerySettings, set?: TcgDataSet | null) {
   const { user } = useAuth();
-  const [cards, setCards] = useState<null | TcgSearchCardsResult>(null);
+  const [cards, setCards] = useState<null | TcgSearchCardsUser>(null);
+
+  const [isMaskLoading, setIsMaskLoading] = useState(false);
+  const [cardsMask, setCardsMask] = useState<CardsMask | undefined>(undefined);
+  const maskedCards = useMemo(() => {
+    if (!querySettings?.page) return cards;
+    if (!cards || !cardsMask || !set) return cards;
+
+    const filteredItems = cards.items.filter((item) => cardsMask.printIds.has(item.card.print.id));
+
+    const isPaginated = filteredItems.length > MAX_CARD_OVERVIEW_SIZE;
+    const lastPage = isPaginated ? Math.ceil(filteredItems.length / MAX_CARD_OVERVIEW_SIZE) : 1;
+    const currentPage = Math.min(lastPage, querySettings.page);
+
+    return {
+      ...cards,
+      currentPage: currentPage,
+      hasNextPage: currentPage < lastPage,
+      pageCount: lastPage,
+      totalItemCount: filteredItems.length,
+      items: filteredItems,
+      details: cardsMask.details ?? cards.details,
+    } as TcgSearchCardsUser;
+  }, [cards, cardsMask, querySettings?.page, set]);
+  const slicedCards = useMemo(() => {
+    if (set === undefined) return maskedCards;
+
+    const currentPage = maskedCards?.currentPage ?? 1;
+    const startIndex = (currentPage - 1) * MAX_CARD_OVERVIEW_SIZE;
+    const endIndex = currentPage * MAX_CARD_OVERVIEW_SIZE;
+
+    return {
+      ...maskedCards,
+      items: maskedCards?.items?.slice(startIndex, endIndex),
+    } as TcgSearchCardsUser;
+  }, [maskedCards, set]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isQueryLoading, setIsQueryLoading] = useState(true);
 
@@ -37,9 +72,13 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
   const removeDetailsForwarded = useLocalUserStateStore((state) => state.removeDetailsForwarded);
 
   const navigatePrint = Route.useNavigate();
-  const navigateCards = RouteCards.useNavigate();
   const history = useSearchHistory(tcg);
   const [searchDetails, setSearchDetails] = useState<UserSearchCardsDetails | undefined>(undefined);
+  const activeSearchDetails = useMemo(() => {
+    if (cardsMask?.details?.explain) return cardsMask.details;
+    return searchDetails;
+  }, [cardsMask?.details, searchDetails]);
+
   const onQueryChange = useEffectEvent((query: ExplainSearchQuery) => {
     // only add to local history, when the search has been done manually
     if (manualQuery) {
@@ -81,77 +120,55 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     if (explainedQuery !== undefined) {
       onQueryChange(explainedQuery);
     }
-    setCards({ data: data } as TcgSearchCardsResult);
+    setCards(data as TcgSearchCardsUser);
 
     setIsLoading(false);
     setIsQueryLoading(false);
   }, []);
   const onSetCardsCallback = useCallback(
-    ({ data, error }: { data?: TcgDataSetSummary; error?: GourmetError }) => {
+    ({ data, error }: { data?: TcgDataSetUserSummary; error?: GourmetError }) => {
       if (error) return;
-      if (!data || !data.queryExplanation) return;
+      if (!data || !data?.details?.details?.explain) return;
 
-      const searchCards = data.cards;
+      if (data?.details?.details) {
+        setSearchDetails(data.details.details);
+      }
+
+      const searchCards = data.items;
+
+      const isPaginated = searchCards.length > MAX_CARD_OVERVIEW_SIZE;
+      const currentPage = data.currentPage;
+      const lastPage = isPaginated ? Math.ceil(searchCards.length / MAX_CARD_OVERVIEW_SIZE) : 1;
+
       const cards = {
-        currentPage: 1,
-        lastPage: 1,
-        hasNextPage: false,
-        pageCount: 1,
+        currentPage: currentPage,
+        hasNextPage: currentPage < lastPage,
+        pageCount: lastPage,
         totalItemCount: searchCards.length,
         items: searchCards,
         details: {
-          explain: data.queryExplanation as ExplainSearchQuery | undefined,
+          ...data?.details?.details,
         },
-      };
-      onCardsCallback({ data: cards as TcgSearchCardsUser, error: error });
+      } as TcgSearchCardsUser;
+      onCardsCallback({ data: cards, error: error });
     },
     [onCardsCallback],
   );
+  const onCardsMaskCallback = useCallback((res: CardsMask | undefined) => {
+    setCardsMask(res);
+    setIsMaskLoading(false);
+  }, []);
 
-  const fetchCards = useCallback(
-    (controller?: AbortController) => {
-      if (querySettings.query !== prevQuerySettings?.query) {
-        setIsQueryLoading(true);
-      }
-      setIsLoading(true);
-      if (querySettings.manual) {
-        querySettings.trigger = 'search';
-        setManualQuery(true);
-
-        navigateCards({
-          to: '/$tcg/cards',
-          search: (prev) => ({ ...prev, manual: false }),
-          replace: true,
-        });
-      }
-      if (manualQuery) querySettings.trigger = 'search';
-
-      if (set) {
-        const setQuerySettings = {
-          ...querySettings,
-          query: `set="${set.code}"`,
-        };
-
-        fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller)?.then(onSetCardsCallback);
-      } else {
-        fetchTcgCards(tcg, querySettings, controller, user?.id)?.then((res) => {
-          if (res !== null) onCardsCallback(res);
-        });
-      }
-    },
-    [
-      querySettings,
-      tcg,
-      set,
-      manualQuery,
-      onCardsCallback,
-      onSetCardsCallback,
-      prevQuerySettings?.query,
-      user?.id,
-      setManualQuery,
-      navigateCards,
-    ],
-  );
+  const fetchCards = useFetchCards({
+    querySettings,
+    set,
+    cards,
+    onCardsCallback,
+    onSetCardsCallback,
+    onCardsMaskCallback,
+    setIsQueryLoading,
+    setIsLoading,
+  });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
@@ -161,9 +178,18 @@ function useCardOverviewData(querySettings: TcgSearchQuerySettings, set?: TcgDat
     return () => {
       controller.abort();
     };
-  }, [querySettings, tcg, set, user?.id]);
+  }, [querySettings, tcg, set?.id, user?.id]);
 
-  return { cards, isLoading, isQueryLoading, fetchCards, searchDetails };
+  return {
+    cards: slicedCards,
+    isLoading: isLoading || isMaskLoading,
+    isQueryLoading,
+    fetchCards,
+    searchDetails,
+    activeSearchDetails,
+    cardsMask,
+    isMaskLoading,
+  };
 }
 
 export default useCardOverviewData;

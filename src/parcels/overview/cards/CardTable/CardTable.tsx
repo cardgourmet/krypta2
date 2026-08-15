@@ -7,18 +7,18 @@ import {
 } from '@/parcels/generic/GourmetTable/GourmetTable.tsx';
 import { TableRowHorizontal } from '@/parcels/overview/cards/CardTable/TableRowHorizontal/TableRowHorizontal.tsx';
 import { TableRowVertical } from '@/parcels/overview/cards/CardTable/TableRowHorizontal/TableRowVertical.tsx';
-import type { DlcDataCard, DlcSearchCardsResult, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
+import type { DlcDataCard, DlcSearchCardsUser, DlcSearchDataCard } from '@/parcels/tcg/dlc/api.ts';
 import { useConstructDlcCardTableData } from '@/parcels/tcg/dlc/overview/useConstructDlcCardTableData.tsx';
-import type { MtgDataCard, MtgSearchCardsResult, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
+import type { MtgDataCard, MtgSearchCardsUser, MtgSearchDataCard } from '@/parcels/tcg/mtg/api.ts';
 import { useConstructMtgCardTableData } from '@/parcels/tcg/mtg/overview/useConstructMtgCardTableData.tsx';
-import type { PcgDataCard, PcgSearchCardsResult, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
+import type { PcgDataCard, PcgSearchCardsUser, PcgSearchDataCard } from '@/parcels/tcg/pcg/api.ts';
 import { useConstructPcgCardTableData } from '@/parcels/tcg/pcg/overview/useConstructPcgCardTableData.tsx';
-import type { TcgDataCard, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
+import type { TcgDataCard, TcgSearchCardsUser, TcgSearchDataCard } from '@/parcels/tcg/types.ts';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
 type CardTableProps = {
   tcg: Tcg;
-  cards: MtgSearchCardsResult | DlcSearchCardsResult | PcgSearchCardsResult | null | undefined;
+  cards: TcgSearchCardsUser | null | undefined;
   isLoading: boolean;
   toolsEnabled: boolean;
 };
@@ -29,11 +29,11 @@ export function CardTable({ tcg, cards, isLoading, toolsEnabled }: CardTableProp
     if (!cards) return null;
 
     if (tcg === 'dlc') {
-      return (cards as DlcSearchCardsResult).data.items;
+      return (cards as DlcSearchCardsUser).items;
     } else if (tcg === 'pcg') {
-      return (cards as PcgSearchCardsResult).data.items as PcgSearchDataCard[];
+      return (cards as PcgSearchCardsUser).items as PcgSearchDataCard[];
     } else if (tcg === 'mtg') {
-      return (cards as MtgSearchCardsResult).data.items as MtgSearchDataCard[];
+      return (cards as MtgSearchCardsUser).items as MtgSearchDataCard[];
     }
     return null;
   }, [tcg, cards]);

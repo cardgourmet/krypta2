@@ -4,7 +4,15 @@ import styles from './GourmetPasswordInput.module.css';
 
 export function GourmetPasswordInput({
   ref,
+  validated,
   ...props
-}: PasswordInputProps & { ref?: Ref<HTMLInputElement> | undefined }) {
-  return <PasswordInput {...props} classNames={{ root: styles.textInput, error: styles.error }} ref={ref} />;
+}: PasswordInputProps & { validated?: boolean; ref?: Ref<HTMLInputElement> | undefined }) {
+  return (
+    <PasswordInput
+      {...props}
+      classNames={{ root: styles.textInput, error: styles.error }}
+      ref={ref}
+      data-validated={validated}
+    />
+  );
 }

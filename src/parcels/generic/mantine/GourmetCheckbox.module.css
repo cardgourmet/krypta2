@@ -1,0 +1,7 @@
+.checkbox {
+  label {
+    font-family: var(--cgm-ui-font-family), sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+}

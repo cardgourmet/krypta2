@@ -7,6 +7,7 @@ import { modalRegistry } from '@/modals.consts';
 import type { useAuth } from '@/parcels/auth/AuthContext.ts';
 import App from '@/parcels/homepage/App/App.tsx';
 import { ModalContextProvider } from '@/parcels/modals/Modal.context';
+import { ErrorComponent } from '@/parcels/router/ErrorComponent.tsx';
 import { theme } from '../theme';
 
 type RouterContext = {
@@ -36,4 +37,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       </MantineProvider>
     </>
   ),
+  errorComponent: ErrorComponent,
 });

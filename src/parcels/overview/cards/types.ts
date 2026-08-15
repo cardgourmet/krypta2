@@ -11,6 +11,7 @@ export type CardSearchParams = {
   trigger?: SearchQueryTrigger;
   random?: boolean;
   manual?: boolean;
+  subquery?: string;
 };
 
 export type CardSearchQuerySettings<T extends CardSearchParams> = Required<Omit<T, 'display'>>;

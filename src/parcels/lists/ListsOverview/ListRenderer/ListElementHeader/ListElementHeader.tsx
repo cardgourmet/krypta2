@@ -1,33 +1,15 @@
 import { Group, Stack, Tooltip } from '@mantine/core';
 import { IconLabelFilled, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { UserList } from '@/parcels/lists/types.ts';
-import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
-import { Route } from '@/routes/me/lists';
 import styles from './ListElementHeader.module.css';
 
 export function ListElementHeader({ list }: { list: UserList }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.card' });
   const { user } = useAuth();
-
-  const search = Route.useSearch();
-  const { tcg } = search;
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
-  const listTcg = useMemo(() => {
-    let t = tcg;
-    if (list.allowedTcgs?.length === 1) {
-      t = list.allowedTcgs[0] as Tcg;
-    }
-    if (t === 'all') {
-      return undefined;
-    }
-    return t;
-  }, []);
 
   return (
     <Stack id={`list-${list.id}`} gap={'0.5rem'}>
@@ -39,7 +21,6 @@ export function ListElementHeader({ list }: { list: UserList }) {
             <Link
               to={'/@{$user}/lists/$listId'}
               params={{ user: user!.username, listId: list.slug }}
-              search={{ tcg: listTcg }}
               className={styles.link}
               preload={false}
               style={{ flexShrink: 1 }}

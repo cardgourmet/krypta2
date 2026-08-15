@@ -9,14 +9,69 @@
     "loginButton": "Login"
   },
   "register": {
+    "errors": {
+      "email_already_exists": "There is already an account registered with this email",
+      "username_already_exists": "There is already an account registered with this username",
+      "invalid_username": "Your username is not valid",
+      "invalid_display_name": "Your displayname is not valid",
+      "invalid_email": "Your email is not valid",
+      "invalid_password": "Your password is not valid",
+      "oauth_validation_failed": "Could not validate your token against Google. Please try again later",
+      "oauth_invalid_provider": "Could not find the proper provider. Please try again later",
+      "oauth_already_connected": "There is already a Cardgourmet account linked to this Google account",
+      "oauth_missing_email": "Could not find an email address that is linked to your Google account"
+    },
+    "oauth": {
+      "verified": "Your Google account has been verified. To finish the registration, enter a username and displayname for your Cardgourmet account.",
+      "cancel": "Cancel Registration",
+      "finish": "Finish Registration"
+    },
     "login": "Login",
     "registerTitle": "Register",
     "firstTime": "Seen this page before?",
-    "email": "Email-Address",
-    "username": "Username",
-    "password": "Password",
-    "passwordRepeat": "Confirm Password",
-    "registerButton": "Register"
+    "registerButton": "Register",
+    "email": {
+      "label": "Email-Address",
+      "description": "",
+      "placeholder": "Enter email address",
+      "errors": {
+        "invalid-email": "Must be a valid email"
+      }
+    },
+    "username": {
+      "label": "Username",
+      "description": "Choose a username that's unique to you. It will be displayed as @name",
+      "placeholder": "Enter username",
+      "errors": {
+        "invalid-username-length": "Must be between 3-50 characters long",
+        "invalid-username-charset": "Only contains alphanumerical characters (A-Z, 0-9 and _)"
+      }
+    },
+    "displayname": {
+      "label": "Display Name",
+      "description": "",
+      "placeholder": "Enter display name",
+      "errors": {
+        "invalid-displayname-length": "Must be between 3-50 characters long",
+        "invalid-displayname": "Only contains alphanumerical characters (A-Z, 0-9 and _)"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "description": "",
+      "placeholder": "Enter password",
+      "errors": {
+        "invalid-password": "Must be at least 8 characters long"
+      }
+    },
+    "password2": {
+      "label": "Confirm Password",
+      "description": "",
+      "placeholder": "Repeat password",
+      "errors": {
+        "passwords-doesnt-match": "Must match with the password above"
+      }
+    }
   },
   "forgot": {
     "forgotPasswordTitle": "Forgot Password",
@@ -29,6 +84,15 @@
     "changePasswordButton": "Update Password"
   },
   "settings": {
+    "errors": {
+      "email_already_exists": "There is already an account registered with this email",
+      "username_already_exists": "There is already an account registered with this username",
+      "invalid_username": "Username not valid. It needs to be between 3 and 50 characters long and only contain alphanumerical characters (A-Z, 0-9 and _). No spaces are allowed.",
+      "invalid_display_name": "Displayname not valid. It needs to be between 3 and 50 characters long and only contain alphanumerical characters (A-Z, 0-9 and _). Spaces are allowed",
+      "invalid_email": "Your email is not valid",
+      "invalid_password": "Password is not valid. It needs to be at least 8 characters long.",
+      "unknown": "Unknown error during the update process. Please try again later."
+    },
     "header": {
       "title": "Settings"
     },
@@ -56,7 +120,7 @@
           "description": "This is how you'll be displayed on Cardgourmet."
         },
         "email": {
-          "title": "Email Adress",
+          "title": "Email Address",
           "description": "",
           "password": "Password"
         },

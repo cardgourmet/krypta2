@@ -4,7 +4,7 @@ import { useAuth } from '@/parcels/auth/AuthContext';
 import { FeaturedIcon } from '@/parcels/generic/FeaturedIcon/FeaturedIcon';
 import { Modal } from '@/parcels/modals/Modal';
 import type { ExtendModalProps } from '@/parcels/modals/types';
-import { ListUpdateNotification } from '@/parcels/notification/ListUpdateNotification.tsx';
+import { ListUpdateNotification } from '@/parcels/notification/list/ListUpdateNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { updateList } from '../../api';

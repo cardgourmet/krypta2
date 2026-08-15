@@ -32,7 +32,8 @@
   "beta": {
     "title": "We are in Beta!",
     "head": "This means that things might still be rough around the edges and that many things are subject to change.",
-    "sub": "We highly appreciate any kind of feedback! If you notice anything that could be improved on or doesn't work as expected, please reach out to us."
+    "sub": "We highly appreciate any kind of feedback! If you notice anything that could be improved on or doesn't work as expected, please reach out to us.",
+    "more": "For more information on our beta, we have a dedicated <1>blog post</1>"
   },
   "mtg": "Magic: The Gathering",
   "dlc": "Disney Lorcana",

@@ -1,7 +1,7 @@
 import { ActionIcon, Flex, Group, Stack, Tooltip } from '@mantine/core';
 import { useClickOutside, useMediaQuery } from '@mantine/hooks';
 import { IconEyeSearch, IconX } from '@tabler/icons-react';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
@@ -9,7 +9,7 @@ import { MorePagesDropdown } from '@/parcels/selection/OverviewSelectionDisplay/
 import { SelectionProgress } from '@/parcels/selection/OverviewSelectionDisplay/SelectionProgress/SelectionProgress.tsx';
 import { UseSelectionButton } from '@/parcels/selection/OverviewSelectionDisplay/UseSelectionButton/UseSelectionButton.tsx';
 import { ViewSelectionMenu } from '@/parcels/selection/OverviewSelectionDisplay/ViewSelectionMenu/ViewSelectionMenu.tsx';
-import { useTcgOverviewWorkStore } from '@/parcels/selection/useTcgOverviewWorkStore.ts';
+import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
 import type { TcgSearchParams } from '@/parcels/tcg/types.ts';
 import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './OverviewSelectionDisplay.module.css';
@@ -18,9 +18,9 @@ export function OverviewSelectionDisplay() {
   const { t } = useTranslation('selection');
   const smallScreen = useMediaQuery('(max-width: 580px)');
 
-  const workData = useTcgOverviewWorkStore((state) => state.data);
-  const isOverlayEnabled = useTcgOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
-  const clearSelection = useTcgOverviewWorkStore((state) => state.clearSelection);
+  const workData = useOverviewWorkStore((state) => state.data);
+  const isOverlayEnabled = useOverviewWorkStore((state) => state.isSelectionOverlayEnabled);
+  const clearSelection = useOverviewWorkStore((state) => state.clearSelection);
 
   const tcg = useTcgByLocation() as Tcg;
   const navigate = useNavigate();
@@ -37,7 +37,12 @@ export function OverviewSelectionDisplay() {
     }
   }, [cardAmount]);
 
-  const pageCardAmount = Object.keys(workData?.selection?.elementsByPage[workData.search.page] ?? []).length;
+  const pageCardAmount = Object.keys(workData?.selection?.elementsByPage[workData.meta.page] ?? []).length;
+
+  const router = useRouter();
+  router.subscribe('onBeforeLoad', (event) => {
+    if (event.pathChanged) clearSelection();
+  });
 
   return (
     <>
@@ -95,7 +100,7 @@ export function OverviewSelectionDisplay() {
                   <Group gap={'0.1rem'}>
                     <MorePagesDropdown
                       text={t('currentPage')}
-                      currentPage={workData?.search.page ?? 1}
+                      currentPage={workData?.meta.page ?? 1}
                       onSelect={(sel) => {
                         // noinspection JSIgnoredPromiseFromCall
                         navigate({

@@ -1,8 +1,5 @@
-import { ActionIcon, Group, Popover, Progress, Stack } from '@mantine/core';
-import { IconAlertSquareRounded } from '@tabler/icons-react';
-import { Trans, useTranslation } from 'react-i18next';
+import { Group, Progress } from '@mantine/core';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
-import styles from './SelectionProgress.module.css';
 
 export function SelectionProgress({
   sections,
@@ -15,8 +12,6 @@ export function SelectionProgress({
   max: number;
   withoutText?: boolean;
 }) {
-  const { t } = useTranslation('selection');
-
   const ratio = max > 0 ? current / max : 0;
   const toPaintCount = Math.max(0, Math.min(sections, Math.ceil(ratio * sections)));
   const toPaintIndex = toPaintCount - 1;
@@ -39,10 +34,10 @@ export function SelectionProgress({
               <GourmetText cgmff={'ui'} fw={'500'} c={color}>
                 {current}
               </GourmetText>
-              <GourmetText cgmff={'ui'}>/60</GourmetText>
+              <GourmetText cgmff={'ui'}>/{max}</GourmetText>
             </Group>
 
-            <Popover width={300} position="bottom" withArrow shadow="md">
+            {/*<Popover width={300} position="bottom" withArrow shadow="md">
               <Popover.Target>
                 <ActionIcon className={styles.selectionInfoButton}>
                   <IconAlertSquareRounded size={20} />
@@ -59,7 +54,7 @@ export function SelectionProgress({
                   </GourmetText>
                 </Stack>
               </Popover.Dropdown>
-            </Popover>
+            </Popover>*/}
           </Group>
         </Group>
       )}

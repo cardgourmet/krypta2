@@ -1,0 +1,5 @@
+.adminButton {
+  background-color: var(--gourmet-red-01);
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
