@@ -19,24 +19,25 @@
     position: relative;
 
     .suggestionHighlighted {
-      background-color: var(--gourmet-neutral-dark-4);
+      background-color: color-mix(in oklch, var(--cgm-background-primary), var(--cgm-background-hover) 12%);
     }
 
     > button {
-      flex-grow: 1;
-      display: flex;
       align-items: center;
-      gap: 0.5rem;
-
-      padding: 0.4rem 0.5rem;
-      border: none;
-      background-color: var(--gourmet-neutral-1);
+      background-color: var(--cgm-background-primary);
       border-radius: 0.25rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-grow: 1;
+      gap: 0.5rem;
       max-width: 100%;
+      padding: 0.4rem 0.5rem;
 
-      &:hover {
-        cursor: pointer;
-        background-color: var(--gourmet-neutral-dark-4);
+      @media (hover: hover) {
+        &:hover {
+          background-color: color-mix(in oklch, var(--cgm-background-primary), var(--cgm-background-hover) 6%);
+        }
       }
     }
   }

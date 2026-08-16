@@ -19,7 +19,7 @@ import {
   IconSoup,
   IconX,
 } from '@tabler/icons-react';
-import { useRouter } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 import { useCallback, useRef, useState } from 'react';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
@@ -189,9 +189,13 @@ export const NewSearchbar = () => {
                 Alle Filter
               </UnstyledButton>
             </Hyperlink>
-            <Hyperlink leadingIcon={<IconSoup />} size="sm">
-              Suchküche
+
+            <Hyperlink asChild leadingIcon={<IconSoup />} size="sm">
+              <Link to="/$tcg/kitchen" params={{ tcg: tcg }}>
+                Suchküche
+              </Link>
             </Hyperlink>
+
             <Hyperlink leadingIcon={<IconHelp />} size="sm">
               Hilfe
             </Hyperlink>
