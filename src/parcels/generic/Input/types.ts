@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Extend } from '@/parcels/composition/extend';
+import type { Extend, StructureWithChildren } from '@/parcels/composition/extend';
 
 export type InputProps = Extend<
   'input',
@@ -11,3 +11,5 @@ export type InputProps = Extend<
     trailingSlot?: ReactNode;
   }
 >;
+
+export type InputIconProps = Extend<StructureWithChildren>;

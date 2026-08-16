@@ -29,6 +29,20 @@
     }
   }
 
+  .iconContainer {
+    align-self: stretch;
+    aspect-ratio: 1;
+    display: grid;
+    font-size: 1rem;
+    margin-right: -0.375rem;
+    place-items: center;
+
+    & svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
+
   .input {
     background: transparent;
     border: none;

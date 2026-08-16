@@ -27,12 +27,14 @@ import { Button } from '@/parcels/generic/Button/Button';
 import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
 import { Input } from '@/parcels/generic/Input/Input';
 import { Menu } from '@/parcels/generic/Menu/Menu';
+import { modals } from '@/parcels/modals/modals.events';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon';
 import { useTcg } from '@/parcels/tcg/TcgProvider';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation';
 import { SearchCompletion } from '../../completion/SearchCompletion';
 import { SearchQueryExplanation } from '../../completion/SearchQueryExplanation';
+import { NewFilterGlossaryModal } from '../../glossary/NewFilterGlossaryModal';
 import { useSearchQuery } from '../../useSearchQuery';
 import { SearchRecentSuggestions } from '../SearchRecent/SearchRecentSuggestions';
 import { useClickOutsideWithRegistry } from '../useClickOutsideWithRegistry';
@@ -175,8 +177,17 @@ export const NewSearchbar = () => {
               </UnstyledButton>
             </Hyperlink>
 
-            <Hyperlink leadingIcon={<IconNotebook />} size="sm">
-              Alle Filter
+            <Hyperlink asChild leadingIcon={<IconNotebook />} size="sm">
+              <UnstyledButton
+                onClick={() =>
+                  modals.request('filter-glossary', {
+                    component: NewFilterGlossaryModal,
+                    innerProps: { ref: registerRef },
+                  })
+                }
+              >
+                Alle Filter
+              </UnstyledButton>
             </Hyperlink>
             <Hyperlink leadingIcon={<IconSoup />} size="sm">
               Suchküche

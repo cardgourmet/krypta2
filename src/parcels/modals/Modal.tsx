@@ -84,6 +84,7 @@ const Root = ({
   onClose,
   onReject,
   onResolve,
+  ref,
   size = 'sm',
   undismissable = false,
   visible,
@@ -120,6 +121,7 @@ const Root = ({
               modalAnimation.onEnter(modalRef.current);
             }
           }}
+          ref={ref}
         >
           <div
             className={styles.base}

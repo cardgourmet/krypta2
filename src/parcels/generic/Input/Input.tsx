@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import { useId } from 'react';
 import { Typeset } from '../Typeset/Typeset';
 import styles from './Input.module.css';
-import type { InputProps } from './types';
+import type { InputIconProps, InputProps } from './types';
 
-export const Input = ({
+const Root = ({
   'aria-describedby': ariaDescribedBy,
   className,
   error,
@@ -62,3 +62,18 @@ export const Input = ({
     </div>
   );
 };
+
+export const InputIcon = ({ className, children, ...props }: InputIconProps) => {
+  return (
+    <div className={clsx(styles.iconContainer, className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+InputIcon.displayName = 'Input.Icon';
+
+export const Input = Object.assign(Root, {
+  displayName: 'Input',
+  Icon: InputIcon,
+});
