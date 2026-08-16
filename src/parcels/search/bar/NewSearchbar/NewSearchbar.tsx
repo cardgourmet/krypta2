@@ -1,4 +1,4 @@
-import { ScrollArea, Stack } from '@mantine/core';
+import { ScrollArea, UnstyledButton } from '@mantine/core';
 import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
 import {
   DropdownMenu,
@@ -9,6 +9,7 @@ import {
 import {
   IconArrowBack,
   IconArrowDown,
+  IconArrowsRight,
   IconArrowsShuffle,
   IconArrowUp,
   IconCaretDownFilled,
@@ -84,6 +85,7 @@ export const NewSearchbar = () => {
                   style={{
                     marginLeft: '0.375rem',
                   }}
+                  title="Aktuelles TCG"
                   trailingIcon={<IconCaretDownFilled fontSize={12} />}
                   variant="tertiary"
                 >
@@ -157,9 +159,22 @@ export const NewSearchbar = () => {
 
         <div className={clsx(styles.panel, styles.topAttached, isActive && styles.isVisible)}>
           <div className={styles.actions}>
-            <Hyperlink accent="beta" leadingIcon={<IconArrowsShuffle />} size="sm" style={{ marginRight: 'auto' }}>
-              Zufall
+            <Hyperlink
+              accent={isRandomModeActive ? 'beta' : 'neutral'}
+              asChild
+              leadingIcon={isRandomModeActive ? <IconArrowsShuffle /> : <IconArrowsRight />}
+              size="sm"
+            >
+              <UnstyledButton
+                aria-pressed={isRandomModeActive}
+                onClick={() => setRandomModeActive((r) => !r)}
+                style={{ marginRight: 'auto' }}
+                type="button"
+              >
+                {isRandomModeActive ? 'Zufälliges Ergebnis' : 'Kein zufälliges Ergebnis'}
+              </UnstyledButton>
             </Hyperlink>
+
             <Hyperlink leadingIcon={<IconNotebook />} size="sm">
               Alle Filter
             </Hyperlink>
@@ -182,18 +197,16 @@ export const NewSearchbar = () => {
           <ScrollArea.Autosize className={styles.scrollContainer} scrollbarSize={4}>
             <div className={styles.content}>
               {!isCaptainOfTheShip && (
-                <Stack gap="1.5rem">
-                  <SearchRecentSuggestions
-                    maxEntries={{ history: 5, saved: 3 }}
-                    registerRef={registerRef}
-                    searchContainerRef={searchContainerRef}
-                    searchInputRef={inputRef}
-                    selectionIndex={selectionIndex}
-                    setIsOpened={setActive}
-                    setQueryWrapper={setQueryWrapper}
-                    setSelectionIndex={setSelectionIndex}
-                  />
-                </Stack>
+                <SearchRecentSuggestions
+                  maxEntries={{ history: 5, saved: 3 }}
+                  registerRef={registerRef}
+                  searchContainerRef={searchContainerRef}
+                  searchInputRef={inputRef}
+                  selectionIndex={selectionIndex}
+                  setIsOpened={setActive}
+                  setQueryWrapper={setQueryWrapper}
+                  setSelectionIndex={setSelectionIndex}
+                />
               )}
 
               {isCaptainOfTheShip && currentQuery.query.length > 0 && (
@@ -214,21 +227,21 @@ export const NewSearchbar = () => {
             <span>
               Navigieren{' '}
               <kbd>
-                <IconArrowUp size={12} />
+                <IconArrowUp aria-label="Pfeiltaste hoch" size={12} />
               </kbd>
               <kbd>
-                <IconArrowDown size={12} />
+                <IconArrowDown aria-label="Pfeiltaste runter" size={12} />
               </kbd>
             </span>
 
             <span>
               Auswählen{' '}
               <kbd>
-                <IconArrowBack size={12} />
+                <IconArrowBack aria-label="Enter" size={12} />
               </kbd>
             </span>
 
-            <span>
+            <span style={{ marginLeft: 'auto' }}>
               Suche schließen <kbd>esc</kbd>
             </span>
           </footer>

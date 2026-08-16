@@ -34,9 +34,40 @@
   }
 
   .keybinds {
+    align-items: center;
     /* background: linear-gradient(to bottom, transparent, rgb(from var(--cgm-color-complementary) r g b / 0.125));
     border-radius: 0 0 15px 15px; */
+    color: var(--cgm-foreground-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    gap: 0.75rem;
     padding: 0.375rem var(--cgm-searchbar-panel-padding);
+
+    & kbd {
+      align-items: center;
+      background-color: var(--cgm-background-surface);
+      border: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+      border-bottom-width: 0.1875rem;
+      border-radius: 0.25rem;
+      box-shadow: var(--cgm-shadow-xs);
+      display: inline-flex;
+      height: 1.5625rem;
+      min-width: 1.5625rem;
+      justify-content: center;
+      padding-inline: 0.25rem;
+
+      svg {
+        height: 1em;
+        width: 1em;
+      }
+    }
+
+    & span {
+      align-items: center;
+      display: inline-flex;
+      gap: 0.25rem;
+    }
   }
 
   .overlay {
@@ -87,7 +118,7 @@
     border: var(--cgm-border-width) solid var(--cgm-border-tertiary);
     border-radius: 0.75rem;
     margin-inline: var(--cgm-border-offset);
-    max-height: min(30rem, 75svh);
+    max-height: min(30rem, 33svh);
     position: relative;
 
     &:not(&:has(.content > *)) {

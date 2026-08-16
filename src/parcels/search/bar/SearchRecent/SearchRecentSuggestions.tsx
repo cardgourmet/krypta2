@@ -1,3 +1,4 @@
+import { Stack } from '@mantine/core';
 import { IconBook2, IconHistory } from '@tabler/icons-react';
 import { type RefObject, useEffect, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
@@ -135,8 +136,10 @@ export function SearchRecentSuggestions({
     };
   }, [maxEntries, recentQueries.length, recentSavedSearches.length, selectionIndex]);
 
+  if (!recentSavedSearches.length && !recentQueries.length) return null;
+
   return (
-    <>
+    <Stack gap="1.5rem">
       {recentSavedSearches.length > 0 && (
         <SearchRecent
           submenuRef={registerRef}
@@ -169,6 +172,6 @@ export function SearchRecentSuggestions({
           forwardLink={'/me/history'}
         />
       )}
-    </>
+    </Stack>
   );
 }
