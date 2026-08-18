@@ -27,6 +27,7 @@ import { Button } from '@/parcels/generic/Button/Button';
 import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
 import { Input } from '@/parcels/generic/Input/Input';
 import { Menu } from '@/parcels/generic/Menu/Menu';
+import { NewNewHereModal } from '@/parcels/homepage/Home/NewNewHereModal/NewNewHereModal';
 import { modals } from '@/parcels/modals/modals.events';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon';
@@ -196,8 +197,17 @@ export const NewSearchbar = () => {
               </Link>
             </Hyperlink>
 
-            <Hyperlink leadingIcon={<IconHelp />} size="sm">
-              Hilfe
+            <Hyperlink asChild leadingIcon={<IconHelp />} size="sm">
+              <UnstyledButton
+                onClick={() =>
+                  modals.request('new-here', {
+                    component: NewNewHereModal,
+                    innerProps: { ref: registerRef },
+                  })
+                }
+              >
+                Hilfe
+              </UnstyledButton>
             </Hyperlink>
           </div>
 

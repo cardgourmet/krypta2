@@ -65,6 +65,24 @@
   }
 }
 
+@layer components {
+  a:not([class]) {
+    color: inherit;
+    text-decoration: underline 1px solid var(--cgm-color-complementary);
+    text-underline-offset: 3px;
+    transition:
+      color 0.1s,
+      text-decoration-color 0.1s;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--cgm-color-complementary);
+        text-decoration-color: color-mix(in oklab, currentColor, var(--cgm-background-hover) 12%);
+      }
+    }
+  }
+}
+
 @layer mantine-reset {
   body {
     font-family:
