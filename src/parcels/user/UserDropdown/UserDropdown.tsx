@@ -82,7 +82,7 @@ export const UserDropdown = () => {
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconList />}>
-                  <Link search={{ ...paramDefaults, tcg }} to="/me/lists">
+                  <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists">
                     Listen
                   </Link>
                 </Menu.DropdownItem>

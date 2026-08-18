@@ -98,7 +98,7 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
               <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId" />
             </NavItem>
             <NavItem asChild icon={<IconList />} label="Listen">
-              <Link search={{ ...paramDefaults, tcg }} to="/me/lists" />
+              <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists" />
             </NavItem>
             <NavItem asChild icon={<IconSettings />} label="Einstellungen">
               <Link to="/me/settings" />
