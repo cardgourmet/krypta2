@@ -29,6 +29,10 @@
     }
   }
 
+  .flip {
+    transform: scaleY(-1);
+  }
+
   .iconContainer {
     color: var(--cgm-foreground-secondary);
     display: flex;

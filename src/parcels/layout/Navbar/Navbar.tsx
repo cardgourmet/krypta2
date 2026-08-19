@@ -24,9 +24,12 @@ import { LanguageSelectorDropdown } from '@/parcels/settings/LanguageSelectorDro
 import { ThemeSelectorDropdown } from '@/parcels/settings/ThemeSelectorDropdown/ThemeSelectorDropdown';
 import { UserDrawer } from '@/parcels/user/UserDrawer/UserDrawer';
 import { UserDropdown } from '@/parcels/user/UserDropdown/UserDropdown';
+import { MainNavigationDrawer } from '../MainNavigationDrawer/MainNavigationDrawer';
 import styles from './Navbar.module.css';
 
 export const Navbar = ({ className }: Extend<Structure>) => {
+  const [isMainDrawerActive, setMainDrawerActive] = useState(false);
+  const [isSearchDrawerActive, setSearchDrawerActive] = useState(false);
   const [isUserDrawerActive, setUserDrawerActive] = useState(false);
 
   return (
@@ -34,11 +37,11 @@ export const Navbar = ({ className }: Extend<Structure>) => {
       <nav className={clsx(styles.base, className)}>
         <div className={styles.mobileContent}>
           <div className={styles.actionsContainer}>
-            <ActionButton title="Navigation öffnen">
+            <ActionButton onClick={() => setMainDrawerActive(true)} title="Navigation öffnen">
               <IconMenu3 />
             </ActionButton>
 
-            <ActionButton>
+            <ActionButton onClick={() => setSearchDrawerActive(true)}>
               <IconSearch />
             </ActionButton>
           </div>
@@ -103,6 +106,26 @@ export const Navbar = ({ className }: Extend<Structure>) => {
           </div>
         </div>
       </nav>
+
+      <Drawer
+        onClose={() => setMainDrawerActive(false)}
+        opened={isMainDrawerActive}
+        position="left"
+        styles={{ content: { background: 'var(--cgm-background-surface)' } }}
+        withCloseButton={false}
+      >
+        <MainNavigationDrawer onClose={() => setMainDrawerActive(false)} />
+      </Drawer>
+
+      <Drawer
+        onClose={() => setSearchDrawerActive(false)}
+        opened={isSearchDrawerActive}
+        position="left"
+        styles={{ content: { background: 'var(--cgm-background-surface)' } }}
+        withCloseButton={false}
+      >
+        Search
+      </Drawer>
 
       <Drawer
         onClose={() => setUserDrawerActive(false)}

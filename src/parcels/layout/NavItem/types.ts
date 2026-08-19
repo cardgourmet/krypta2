@@ -6,8 +6,7 @@ export type NavItemProps = Composable<
   {
     className?: string;
     hasDropdown?: boolean;
-    hasExpander?: boolean;
     icon?: ReactNode;
-    label: ReactNode;
+    subitems?: ReactNode;
   }
 >;

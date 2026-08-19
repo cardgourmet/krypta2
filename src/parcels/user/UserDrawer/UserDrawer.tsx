@@ -62,7 +62,7 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
             </Typeset>
           </div>
 
-          <Button accent="negative" leadingIcon={<IconLogout />} size="sm">
+          <Button accent="negative" leadingIcon={<IconLogout />} onClick={logout} size="sm">
             Abmelden
           </Button>
         </>
@@ -86,22 +86,30 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
       )}
 
       <section className={styles.navItems}>
-        <NavItem asChild icon={<IconHistory />} label="Suchverlauf">
-          <Link search={{ ...historyParamDefaults, tcg }} to="/me/history" />
+        <NavItem asChild icon={<IconHistory />}>
+          <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
+            Suchverlauf
+          </Link>
         </NavItem>
         {user && (
           <>
-            <NavItem asChild icon={<IconBook2 />} label="Gespeicherte Suchen">
-              <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" />
+            <NavItem asChild icon={<IconBook2 />}>
+              <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches">
+                Gespeicherte Suchen
+              </Link>
             </NavItem>
-            <NavItem asChild icon={<IconStar />} label="Favoriten">
-              <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId" />
+            <NavItem asChild icon={<IconStar />}>
+              <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId">
+                Favoriten
+              </Link>
             </NavItem>
-            <NavItem asChild icon={<IconList />} label="Listen">
-              <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists" />
+            <NavItem asChild icon={<IconList />}>
+              <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists">
+                Listen
+              </Link>
             </NavItem>
-            <NavItem asChild icon={<IconSettings />} label="Einstellungen">
-              <Link to="/me/settings" />
+            <NavItem asChild icon={<IconSettings />}>
+              <Link to="/me/settings">Einstellungen</Link>
             </NavItem>
           </>
         )}

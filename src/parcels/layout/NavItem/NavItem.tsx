@@ -2,6 +2,7 @@ import { Slot, Slottable } from '@radix-ui/react-slot';
 import { IconChevronDown } from '@tabler/icons-react';
 import { clsx } from 'clsx';
 import { useState } from 'react';
+import { decorateSlottable } from '@/parcels/composition/decorateSlottable';
 import { Expander } from '@/parcels/generic/Expander/Expander';
 import styles from './NavItem.module.css';
 import type { NavItemProps } from './types';
@@ -11,16 +12,15 @@ export const NavItem = ({
   children,
   className,
   hasDropdown = false,
-  hasExpander = false,
   icon,
-  label,
+  subitems,
   ...props
 }: NavItemProps) => {
   const [isExpanded, setExpanded] = useState(false);
 
   const Component = asChild ? Slot : 'a';
 
-  if (children && hasExpander) {
+  if (subitems) {
     return (
       <>
         <button
@@ -31,15 +31,15 @@ export const NavItem = ({
         >
           {icon && <div className={styles.iconContainer}>{icon}</div>}
 
-          <span style={{ lineHeight: 1 }}>{label}</span>
+          <span style={{ lineHeight: 1.25 }}>{children}</span>
 
           <div className={styles.iconContainer} style={{ marginLeft: 'auto' }}>
-            <IconChevronDown />
+            <IconChevronDown className={clsx(isExpanded && styles.flip)} />
           </div>
         </button>
 
         <Expander className={styles.nestedContent} expanded={isExpanded}>
-          {children}
+          {subitems}
         </Expander>
       </>
     );
@@ -48,9 +48,14 @@ export const NavItem = ({
   return (
     <Component className={clsx(styles.base, className)} {...props}>
       {icon && <div className={styles.iconContainer}>{icon}</div>}
-      <span>{label}</span>
 
-      {children && <Slottable>{children}</Slottable>}
+      {children && (
+        <Slottable>
+          {decorateSlottable(asChild, children, (children) => (
+            <span style={{ lineHeight: 1.25 }}>{children}</span>
+          ))}
+        </Slottable>
+      )}
 
       {hasDropdown && (
         <div className={styles.iconContainer} style={{ marginLeft: 'auto' }}>

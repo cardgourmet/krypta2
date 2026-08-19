@@ -14,8 +14,8 @@ export const ThemeSelectorNavItem = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <NavItem asChild hasDropdown label="Theme">
-          <UnstyledButton />
+        <NavItem asChild hasDropdown>
+          <UnstyledButton>Theme</UnstyledButton>
         </NavItem>
       </DropdownMenuTrigger>
 

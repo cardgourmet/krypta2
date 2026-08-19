@@ -15,8 +15,8 @@ export const LanguageSelectorNavItem = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <NavItem asChild hasDropdown label="Sprache">
-          <UnstyledButton />
+        <NavItem asChild hasDropdown>
+          <UnstyledButton>Sprache</UnstyledButton>
         </NavItem>
       </DropdownMenuTrigger>
 
