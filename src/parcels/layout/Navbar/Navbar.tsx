@@ -20,6 +20,7 @@ import { Button } from '@/parcels/generic/Button/Button';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { Logo } from '@/parcels/Logo';
 import { NewSearchbar } from '@/parcels/search/bar/NewSearchbar/NewSearchbar';
+import { SearchDrawer } from '@/parcels/search/SearchDrawer/SearchDrawer';
 import { LanguageSelectorDropdown } from '@/parcels/settings/LanguageSelectorDropdown/LanguageSelectorDropdown';
 import { ThemeSelectorDropdown } from '@/parcels/settings/ThemeSelectorDropdown/ThemeSelectorDropdown';
 import { UserDrawer } from '@/parcels/user/UserDrawer/UserDrawer';
@@ -84,13 +85,17 @@ export const Navbar = ({ className }: Extend<Structure>) => {
                     <Link to="/about">Über uns</Link>
                   </Menu.DropdownItem>
                   <Menu.DropdownItem asChild icon={<IconGoGame />}>
-                    <Link to="/about">Games</Link>
+                    <a href="https://games.cardgourmet.com">Games</a>
                   </Menu.DropdownItem>
                   <Menu.DropdownItem asChild icon={<IconBrandDiscord />}>
-                    <Link to="/about">Discord</Link>
+                    <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
+                      Discord
+                    </a>
                   </Menu.DropdownItem>
                   <Menu.DropdownItem asChild icon={<IconBrandGithub />}>
-                    <a href="https://github.com/cardgourmet">GitHub</a>
+                    <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
+                      GitHub
+                    </a>
                   </Menu.DropdownItem>
                 </Menu>
               </DropdownMenuContent>
@@ -124,7 +129,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
         styles={{ content: { background: 'var(--cgm-background-surface)' } }}
         withCloseButton={false}
       >
-        Search
+        <SearchDrawer onClose={() => setSearchDrawerActive(false)} />
       </Drawer>
 
       <Drawer

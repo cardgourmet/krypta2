@@ -1,6 +1,7 @@
 @layer views {
   .base {
-    max-height: 40rem;
+    height: min(100%, 40rem);
+    overflow-x: hidden;
   }
 
   .details {

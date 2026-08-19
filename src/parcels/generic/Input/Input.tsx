@@ -7,6 +7,7 @@ import type { InputIconProps, InputProps } from './types';
 const Root = ({
   'aria-describedby': ariaDescribedBy,
   className,
+  containerClassName,
   error,
   hint,
   id: _id,
@@ -22,7 +23,7 @@ const Root = ({
   const id = _id ?? randomId;
 
   return (
-    <div className={styles.base}>
+    <div className={clsx(styles.base, containerClassName)}>
       {label && (
         <Typeset asChild size="sm" weight={500}>
           <label htmlFor={id}>

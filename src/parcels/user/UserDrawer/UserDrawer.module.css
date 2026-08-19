@@ -37,5 +37,6 @@
   .navItems {
     align-self: stretch;
     display: grid;
+    gap: 0.125rem;
   }
 }

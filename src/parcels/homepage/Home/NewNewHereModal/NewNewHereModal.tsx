@@ -60,7 +60,7 @@ export const NewNewHereModal = ({
               <span>
                 Use the{' '}
                 <Link params={{ tcg }} to={'/$tcg/kitchen'}>
-                  TCG-specific search cooker
+                  TCG-specific search kitchen
                 </Link>{' '}
                 and construct your query without having to type anything.
               </span>

@@ -4,6 +4,7 @@ import type { Extend, StructureWithChildren } from '@/parcels/composition/extend
 export type InputProps = Extend<
   'input',
   {
+    containerClassName?: string;
     error?: string;
     hint?: ReactNode;
     label?: ReactNode;

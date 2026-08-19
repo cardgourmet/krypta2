@@ -1,5 +1,5 @@
 import { Divider, Group, Stack } from '@mantine/core';
-import { IconBrandDiscord, IconBrandGithub, IconCat, IconGoGame, IconX } from '@tabler/icons-react';
+import { IconBrandDiscord, IconBrandGithub, IconCat, IconGoGame, IconHome, IconX } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
@@ -7,13 +7,10 @@ import { Logo } from '@/parcels/Logo';
 import { NavItem } from '@/parcels/layout/NavItem/NavItem';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon';
-import { useTcg } from '@/parcels/tcg/TcgProvider';
 import { tcgSearchParamsDefaults, tcgSetsParamsDefaults } from '@/parcels/tcg/types';
 import styles from './MainNavigationDrawer.module.css';
 
 export const MainNavigationDrawer = ({ onClose }: { onClose?: () => void }) => {
-  const { tcg } = useTcg();
-
   return (
     <Stack align="start" gap="1rem">
       <ActionButton className={styles.absoluteCloseButton} onClick={onClose} size="sm">
@@ -22,7 +19,7 @@ export const MainNavigationDrawer = ({ onClose }: { onClose?: () => void }) => {
 
       <div>
         <Group gap="0.25rem">
-          <Logo height={32} width={32} />
+          <Logo color="var(--cgm-color-brand)" height={32} width={32} />
           <Typeset style={{ fontFamily: 'var(--cgm-title-font-family)' }} size="lg" weight={600}>
             Cardgourmet
           </Typeset>
@@ -30,17 +27,24 @@ export const MainNavigationDrawer = ({ onClose }: { onClose?: () => void }) => {
       </div>
 
       <section className={styles.navItems}>
+        <NavItem asChild icon={<IconHome />}>
+          <Link to="/">Startseite</Link>
+        </NavItem>
         <NavItem asChild icon={<IconCat />}>
           <Link to="/about">Über uns</Link>
         </NavItem>
         <NavItem asChild icon={<IconGoGame />}>
-          <Link to="/about">Games</Link>
+          <a href="https://games.cardgourmet.com">Games</a>
         </NavItem>
         <NavItem asChild icon={<IconBrandDiscord />}>
-          <Link to="/about">Discord</Link>
+          <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
+            Discord
+          </a>
         </NavItem>
         <NavItem asChild icon={<IconBrandGithub />}>
-          <a href="https://github.com/cardgourmet">GitHub</a>
+          <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
+            GitHub
+          </a>
         </NavItem>
 
         <Divider color="var(--cgm-border-tertiary)" my="0.5rem" />
