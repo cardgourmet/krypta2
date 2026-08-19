@@ -1,3 +1,12 @@
+import {
+  IconBrandBluesky,
+  IconBrandDiscord,
+  IconBrandGithub,
+  IconBrandTwitter,
+  IconHeartFilled,
+} from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
+import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import styles from './Footer.module.css';
 
@@ -33,12 +42,51 @@ export const Footer = () => {
 
       <div className={styles.contentContainer}>
         <div className={styles.content}>
-          <Typeset block size="sm" variant="tertiary" weight={500}>
-            All other content &copy; 2026 Cardgourmet. All rights reserved.
+          <Typeset block size="sm" variant="secondary">
+            All other content &copy; 2026 Cardgourmet. All rights reserved. Made with{' '}
+            <IconHeartFilled
+              height="1em"
+              style={{ color: 'var(--cgm-color-negative)', verticalAlign: 'sub' }}
+              width="1em"
+            />{' '}
+            by real humans.
           </Typeset>
         </div>
 
-        <ul className={styles.links}></ul>
+        <div className={styles.links}>
+          <Link className={styles.link} to="/privacy-policy">
+            Privacy Policy
+          </Link>
+          <Link className={styles.link} to="/terms-of-use">
+            Terms of Use
+          </Link>
+          <Link className={styles.link} to="/imprint">
+            Imprint
+          </Link>
+        </div>
+
+        <div className={styles.socials}>
+          <ActionButton asChild>
+            <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank" title="Github">
+              <IconBrandGithub aria-hidden />
+            </a>
+          </ActionButton>
+          <ActionButton asChild>
+            <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank" title="Discord">
+              <IconBrandDiscord aria-hidden />
+            </a>
+          </ActionButton>
+          <ActionButton asChild>
+            <a href="https://twitter.com/cardgourmet" rel="noreferrer" target="_blank" title="Twitter">
+              <IconBrandTwitter aria-hidden />
+            </a>
+          </ActionButton>
+          <ActionButton asChild>
+            <a href="https://bsky.app/profile/cardgourmet.com" rel="noreferrer" target="_blank" title="Bluesky">
+              <IconBrandBluesky aria-hidden />
+            </a>
+          </ActionButton>
+        </div>
       </div>
     </footer>
   );
