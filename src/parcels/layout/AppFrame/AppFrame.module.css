@@ -30,6 +30,21 @@
     margin-bottom: calc(-1 * var(--cgm-frame-content-border-radius));
     position: relative;
 
+    .transitionPageWrapper {
+      display: contents;
+    }
+
+    &:not(:has(> .transitionPageWrapper > *[data-cgm-page-content])) {
+      isolation: isolate;
+      padding: 1rem;
+
+      & .transitionPageWrapper {
+        display: block;
+        margin-inline: auto;
+        width: min(100%, 80rem);
+      }
+    }
+
     @media (width >= 48em) {
       border: none;
       border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);

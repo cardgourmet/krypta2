@@ -1,6 +1,6 @@
 @layer structures {
   .base {
-    --cgm-page-content-width: 30rem;
+    --cgm-page-content-width: 80rem;
     isolation: isolate;
 
     &.isFullWidth {

@@ -2,6 +2,7 @@
   .base {
     background-color: rgb(from var(--cgm-background-surface) r g b / 0.75);
     backdrop-filter: blur(16px);
+    margin-top: 0.5rem;
     padding: 0 1rem;
     position: sticky;
     top: var(--navbar-height);

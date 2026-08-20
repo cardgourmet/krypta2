@@ -1,9 +1,10 @@
 .workMenu {
-  z-index: var(--nav-layer);
+  /* z-index: var(--nav-layer); */
+  z-index: 1;
 
   position: fixed;
-  top: var(--navbar-height);
-  left: var(--sidebar-width);
+  top: var(--cgm-frame-navbar-height);
+  left: var(--cgm-frame-sidebar-width);
 
   width: var(--workmenu-width);
   background-color: var(--gourmet-neutral-2);
@@ -12,9 +13,9 @@
   border-color: var(--gourmet-neutral-1);
   border-width: 0 1px 0 0;
 
-  height: calc(100dvh - var(--navbar-height));
+  height: calc(100dvh - var(--cgm-frame-navbar-height));
   min-height: 0;
-  max-height: calc(100dvh - var(--navbar-height));
+  max-height: calc(100dvh - var(--cgm-frame-navbar-height));
   overflow-y: auto;
 
   transform: translateX(calc(-1 * var(--workmenu-width)));

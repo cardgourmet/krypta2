@@ -9,9 +9,9 @@ import {
   IconMenu3,
   IconSearch,
 } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Badge } from '@/parcels/generic/Badge/Badge';
@@ -29,9 +29,19 @@ import { MainNavigationDrawer } from '../MainNavigationDrawer/MainNavigationDraw
 import styles from './Navbar.module.css';
 
 export const Navbar = ({ className }: Extend<Structure>) => {
+  const router = useRouter();
+
   const [isMainDrawerActive, setMainDrawerActive] = useState(false);
   const [isSearchDrawerActive, setSearchDrawerActive] = useState(false);
   const [isUserDrawerActive, setUserDrawerActive] = useState(false);
+
+  useEffect(() =>
+    router.subscribe('onBeforeNavigate', () => {
+      setMainDrawerActive(false);
+      setSearchDrawerActive(false);
+      setUserDrawerActive(false);
+    }),
+  );
 
   return (
     <>
@@ -58,7 +68,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
               </Badge>
             </Button>
 
-            <ActionButton onClick={() => setUserDrawerActive(true)}>
+            <ActionButton onClick={() => setUserDrawerActive(true)} style={{ paddingInline: 0 }}>
               <UserNavbarTriggerContent />
             </ActionButton>
           </div>
