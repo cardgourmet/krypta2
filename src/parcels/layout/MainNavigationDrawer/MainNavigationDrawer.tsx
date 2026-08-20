@@ -28,10 +28,10 @@ export const MainNavigationDrawer = ({ onClose }: { onClose?: () => void }) => {
 
       <section className={styles.navItems}>
         <NavItem asChild icon={<IconHome />}>
-          <Link to="/">Startseite</Link>
+          <Link to="/">Home</Link>
         </NavItem>
         <NavItem asChild icon={<IconCat />}>
-          <Link to="/about">Über uns</Link>
+          <Link to="/about">About Us</Link>
         </NavItem>
         <NavItem asChild icon={<IconGoGame />}>
           <a href="https://games.cardgourmet.com">Games</a>
@@ -62,12 +62,12 @@ export const MainNavigationDrawer = ({ onClose }: { onClose?: () => void }) => {
                 </NavItem>
                 <NavItem asChild>
                   <Link params={{ tcg }} search={{ ...tcgSearchParamsDefaults }} to="/$tcg/cards">
-                    Karten
+                    Cards
                   </Link>
                 </NavItem>
                 <NavItem asChild>
                   <Link params={{ tcg }} to="/$tcg/kitchen">
-                    Suchküche
+                    Search Kitchen
                   </Link>
                 </NavItem>
               </>

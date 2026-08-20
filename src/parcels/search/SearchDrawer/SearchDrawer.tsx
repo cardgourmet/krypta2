@@ -63,7 +63,7 @@ export const SearchDrawer = ({ onClose }: { onClose?: () => void }) => {
                   style={{
                     marginLeft: '0.375rem',
                   }}
-                  title="Aktuelles TCG"
+                  title="Current TCG"
                   trailingIcon={<IconCaretDownFilled fontSize={12} />}
                   variant="tertiary"
                 >
@@ -89,7 +89,7 @@ export const SearchDrawer = ({ onClose }: { onClose?: () => void }) => {
             </DropdownMenu>
           }
           onChange={(event) => setQueryString(event.target.value)}
-          placeholder="Suchen…"
+          placeholder="Search…"
           ref={inputRef}
           trailingSlot={
             currentQuery.query && (
@@ -135,11 +135,11 @@ export const SearchDrawer = ({ onClose }: { onClose?: () => void }) => {
           size="sm"
           variant="tertiary"
         >
-          Alle Filter
+          Filter Glossary
         </Button>
         <Button accent="brand" asChild leadingIcon={<IconSoup />} size="sm" variant="tertiary">
           <Link to="/$tcg/kitchen" params={{ tcg: tcg }}>
-            Suchküche
+            Search Kitchen
           </Link>
         </Button>
         <Button
@@ -155,7 +155,7 @@ export const SearchDrawer = ({ onClose }: { onClose?: () => void }) => {
           size="sm"
           variant="tertiary"
         >
-          Hilfe
+          Help
         </Button>
       </Group>
 
@@ -163,13 +163,13 @@ export const SearchDrawer = ({ onClose }: { onClose?: () => void }) => {
         {isCaptainOfTheShip ? (
           <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
         ) : (
-          <em>Tippen, um Suchvorschläge angezeigt zu bekommen.</em>
+          <em>Start typing to see suggestions.</em>
         )}
       </div>
 
       <Group gap="0.25rem" w="100%" wrap="nowrap">
         <Button disabled={!currentQuery.query} onClick={startSearch} style={{ flex: 1 }}>
-          Suche starten{isRandomModeActive && ' (randomisiert)'}
+          Search{isRandomModeActive && ' (randomized)'}
         </Button>
         <ActionButton
           accent={isRandomModeActive ? 'beta' : 'neutral'}

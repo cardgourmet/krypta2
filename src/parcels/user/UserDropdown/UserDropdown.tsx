@@ -57,26 +57,26 @@ export const UserDropdown = () => {
 
                 <Menu.DropdownItem asChild icon={<IconHistory />}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
-                    Suchverlauf
+                    Search History
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconBook2 />}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches">
-                    Gespeicherte Suchen
+                    Saved Searches
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconStar />}>
                   <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId">
-                    Favoriten
+                    Favorites
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconList />}>
                   <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists">
-                    Listen
+                    Lists
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconSettings />}>
-                  <Link to="/me/settings">Einstellungen</Link>
+                  <Link to="/me/settings">Settings</Link>
                 </Menu.DropdownItem>
               </>
             ) : (
@@ -88,16 +88,16 @@ export const UserDropdown = () => {
                     style={{ fontFamily: 'var(--cgm-title-font-family)', marginBottom: '0.25rem' }}
                     weight={600}
                   >
-                    Du benutzt Cardgourmet anonym
+                    You're using Cardgourmet anonymously
                   </Typeset>
                   <Typeset block size="sm" variant="secondary">
-                    Melde dich an, um unsere personalisierten Features zu nutzen.
+                    Log in to start using our personalized features.
                   </Typeset>
                 </div>
 
                 <Menu.DropdownItem asChild icon={<IconHistory />}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
-                    Suchverlauf
+                    Search History
                   </Link>
                 </Menu.DropdownItem>
               </>
@@ -111,12 +111,12 @@ export const UserDropdown = () => {
                 onClick={logout}
                 style={{ color: 'var(--cgm-color-negative)' }}
               >
-                Abmelden
+                Logout
               </Menu.DropdownItem>
             ) : (
               <Menu.DropdownItem asChild icon={<IconLogin style={{ color: 'var(--cgm-color-brand)' }} />}>
                 <Link style={{ color: 'var(--cgm-color-brand)' }} to="/login">
-                  Anmelden
+                  Login
                 </Link>
               </Menu.DropdownItem>
             )}

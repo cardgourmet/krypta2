@@ -60,23 +60,23 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
           </div>
 
           <Button accent="negative" leadingIcon={<IconLogout />} onClick={logout} size="sm">
-            Abmelden
+            Logout
           </Button>
         </>
       ) : (
         <>
           <div style={{ paddingRight: '3rem' }}>
             <Typeset block size="lg" style={{ fontFamily: 'var(--cgm-title-font-family)' }} weight={600}>
-              Du benutzt Cardgourmet anonym
+              You're using Cardgourmet anonymously
             </Typeset>
             <Typeset block variant="secondary">
-              Melde dich an, um unsere personalisierten Features zu nutzen.
+              Log in to start using our personalized features.
             </Typeset>
           </div>
 
           <Button accent="brand" asChild leadingIcon={<IconLogin />} size="sm">
             <Link onClick={() => onClose?.()} to="/login">
-              Anmelden
+              Login
             </Link>
           </Button>
         </>
@@ -85,28 +85,28 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
       <section className={styles.navItems}>
         <NavItem asChild icon={<IconHistory />}>
           <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
-            Suchverlauf
+            Search History
           </Link>
         </NavItem>
         {user && (
           <>
             <NavItem asChild icon={<IconBook2 />}>
               <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches">
-                Gespeicherte Suchen
+                Saved Searches
               </Link>
             </NavItem>
             <NavItem asChild icon={<IconStar />}>
               <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId">
-                Favoriten
+                Favorites
               </Link>
             </NavItem>
             <NavItem asChild icon={<IconList />}>
               <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists">
-                Listen
+                Lists
               </Link>
             </NavItem>
             <NavItem asChild icon={<IconSettings />}>
-              <Link to="/me/settings">Einstellungen</Link>
+              <Link to="/me/settings">Settings</Link>
             </NavItem>
           </>
         )}

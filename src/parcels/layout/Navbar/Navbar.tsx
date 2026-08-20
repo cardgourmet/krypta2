@@ -92,7 +92,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
               <DropdownMenuContent asChild align="start" sideOffset={-4}>
                 <Menu>
                   <Menu.DropdownItem asChild icon={<IconCat />}>
-                    <Link to="/about">Über uns</Link>
+                    <Link to="/about">About Us</Link>
                   </Menu.DropdownItem>
                   <Menu.DropdownItem asChild icon={<IconGoGame />}>
                     <a href="https://games.cardgourmet.com">Games</a>

@@ -45,12 +45,12 @@ export const TcgSidebarItem = ({ tcg }: { tcg: Tcg }) => {
             </Menu.DropdownItem>
             <Menu.DropdownItem asChild icon={<IconCards />}>
               <Link params={{ tcg }} search={{ ...tcgSearchParamsDefaults }} to="/$tcg/cards">
-                Karten
+                Cards
               </Link>
             </Menu.DropdownItem>
             <Menu.DropdownItem asChild icon={<IconSoup />}>
               <Link params={{ tcg }} to="/$tcg/kitchen">
-                Suchküche
+                Search Kitchen
               </Link>
             </Menu.DropdownItem>
           </Menu>

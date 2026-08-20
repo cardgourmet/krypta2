@@ -88,7 +88,7 @@ export const NewSearchbar = () => {
                   style={{
                     marginLeft: '0.375rem',
                   }}
-                  title="Aktuelles TCG"
+                  title="Current TCG"
                   trailingIcon={<IconCaretDownFilled fontSize={12} />}
                   variant="tertiary"
                 >
@@ -116,7 +116,7 @@ export const NewSearchbar = () => {
           onChange={(event) => setQueryString(event.target.value)}
           onClick={() => setActive(true)}
           onFocus={() => setActive(true)}
-          placeholder="Suchen…"
+          placeholder="Search…"
           ref={inputRef}
           trailingSlot={
             currentQuery.query && (
@@ -174,7 +174,7 @@ export const NewSearchbar = () => {
                 style={{ marginRight: 'auto' }}
                 type="button"
               >
-                {isRandomModeActive ? 'Zufälliges Ergebnis' : 'Kein zufälliges Ergebnis'}
+                {isRandomModeActive ? 'Randomized results' : 'No randomized results'}
               </UnstyledButton>
             </Hyperlink>
 
@@ -187,13 +187,13 @@ export const NewSearchbar = () => {
                   })
                 }
               >
-                Alle Filter
+                Filter Glossary
               </UnstyledButton>
             </Hyperlink>
 
             <Hyperlink asChild leadingIcon={<IconSoup />} size="sm">
               <Link to="/$tcg/kitchen" params={{ tcg: tcg }}>
-                Suchküche
+                Search Kitchen
               </Link>
             </Hyperlink>
 
@@ -206,7 +206,7 @@ export const NewSearchbar = () => {
                   })
                 }
               >
-                Hilfe
+                Help
               </UnstyledButton>
             </Hyperlink>
           </div>
@@ -215,7 +215,7 @@ export const NewSearchbar = () => {
             {isCaptainOfTheShip ? (
               <SearchQueryExplanation tcg={tcg} query={debouncedQuery} />
             ) : (
-              <em>Tippen, um Suchvorschläge angezeigt zu bekommen.</em>
+              <em>Start typing to see suggestions.</em>
             )}
           </div>
 
@@ -250,7 +250,7 @@ export const NewSearchbar = () => {
 
           <footer className={styles.keybinds}>
             <span>
-              Navigieren{' '}
+              Move selection{' '}
               <kbd>
                 <IconArrowUp aria-label="Pfeiltaste hoch" size={12} />
               </kbd>
@@ -260,14 +260,14 @@ export const NewSearchbar = () => {
             </span>
 
             <span>
-              Auswählen{' '}
+              Confirm{' '}
               <kbd>
                 <IconArrowBack aria-label="Enter" size={12} />
               </kbd>
             </span>
 
             <span style={{ marginLeft: 'auto' }}>
-              Suche schließen <kbd>esc</kbd>
+              Close search <kbd>esc</kbd>
             </span>
           </footer>
         </div>
