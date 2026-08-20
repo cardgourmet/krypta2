@@ -1,16 +1,7 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/glyphs.json';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import {
-  IconBook2,
-  IconHistory,
-  IconList,
-  IconLogin,
-  IconLogout,
-  IconSettings,
-  IconStar,
-  IconUser,
-} from '@tabler/icons-react';
+import { IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext';
@@ -18,8 +9,10 @@ import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import { useTcg } from '@/parcels/tcg/TcgProvider';
+import { Avatar as AvatarComponent } from '@/parcels/user/Avatar/Avatar';
 import { paramDefaults } from '@/routes/@{$user}/lists';
 import { historyParamDefaults } from '@/routes/me/history';
+import { UserNavbarTriggerContent } from '../UserNavbarTriggerContent';
 import styles from './UserDropdown.module.css';
 
 const avatarStyle = new Style(definition);
@@ -39,8 +32,8 @@ export const UserDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <ActionButton>
-          <IconUser />
+        <ActionButton style={{ paddingInline: '0' }}>
+          <UserNavbarTriggerContent />
         </ActionButton>
       </DropdownMenuTrigger>
 
@@ -50,11 +43,7 @@ export const UserDropdown = () => {
             {user ? (
               <>
                 <div className={styles.profile}>
-                  {avatarUrl && (
-                    <figure className={styles.avatar}>
-                      <img alt="" className={styles.image} src={avatarUrl} />
-                    </figure>
-                  )}
+                  {avatarUrl && <AvatarComponent alt={`Avatar of ${user?.displayName}`} size={2.5} src={avatarUrl} />}
 
                   <div>
                     <Typeset block size="sm" style={{ fontFamily: 'var(--cgm-title-font-family)' }} weight={600}>

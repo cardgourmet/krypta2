@@ -21,6 +21,7 @@ import { NavItem } from '@/parcels/layout/NavItem/NavItem';
 import { LanguageSelectorNavItem } from '@/parcels/settings/LanguageSelectorNavItem/LanguageSelectorNavItem';
 import { ThemeSelectorNavItem } from '@/parcels/settings/ThemeSelectorNavItem/ThemeSelectorNavItem';
 import { useTcg } from '@/parcels/tcg/TcgProvider';
+import { Avatar as AvatarComponent } from '@/parcels/user/Avatar/Avatar';
 import { paramDefaults } from '@/routes/@{$user}/lists';
 import { historyParamDefaults } from '@/routes/me/history';
 import styles from './UserDrawer.module.css';
@@ -47,11 +48,7 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
 
       {user ? (
         <>
-          {avatarUrl && (
-            <figure className={styles.avatar}>
-              <img alt="" className={styles.image} src={avatarUrl} />
-            </figure>
-          )}
+          {avatarUrl && <AvatarComponent alt={`Avatar of ${user?.displayName}`} size={4} src={avatarUrl} />}
 
           <div>
             <Typeset block size="lg" style={{ fontFamily: 'var(--cgm-title-font-family)' }} weight={600}>

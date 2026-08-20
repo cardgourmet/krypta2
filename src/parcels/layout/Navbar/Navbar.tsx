@@ -8,7 +8,6 @@ import {
   IconGoGame,
   IconMenu3,
   IconSearch,
-  IconUser,
 } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { clsx } from 'clsx';
@@ -25,6 +24,7 @@ import { LanguageSelectorDropdown } from '@/parcels/settings/LanguageSelectorDro
 import { ThemeSelectorDropdown } from '@/parcels/settings/ThemeSelectorDropdown/ThemeSelectorDropdown';
 import { UserDrawer } from '@/parcels/user/UserDrawer/UserDrawer';
 import { UserDropdown } from '@/parcels/user/UserDropdown/UserDropdown';
+import { UserNavbarTriggerContent } from '@/parcels/user/UserNavbarTriggerContent';
 import { MainNavigationDrawer } from '../MainNavigationDrawer/MainNavigationDrawer';
 import styles from './Navbar.module.css';
 
@@ -59,7 +59,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
             </Button>
 
             <ActionButton onClick={() => setUserDrawerActive(true)}>
-              <IconUser />
+              <UserNavbarTriggerContent />
             </ActionButton>
           </div>
         </div>

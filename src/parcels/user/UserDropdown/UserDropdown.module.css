@@ -3,35 +3,6 @@
     min-width: 16.75rem;
   }
 
-  .avatar {
-    aspect-ratio: 1;
-    border: 0.125rem solid var(--cgm-background-surface);
-    border-radius: 9999rem;
-    box-shadow:
-      var(--cgm-shadow-skeuomorphic),
-      0 0 0 var(--cgm-border-width) var(--cgm-border-primary),
-      var(--cgm-shadow-xs);
-    display: flex;
-    height: 2.5rem;
-    margin: 0;
-    position: relative;
-
-    &::before {
-      border: var(--cgm-border-width) solid var(--cgm-border-highlight);
-      border-radius: inherit;
-      content: "";
-      inset: 0;
-      mask-image: linear-gradient(to top, black, transparent);
-      pointer-events: none;
-      position: absolute;
-    }
-
-    .image {
-      border-radius: inherit;
-      box-shadow: inset 0 0 0 var(--cgm-border-width) var(--cgm-border-primary);
-    }
-  }
-
   .content {
     background-color: var(--cgm-background-surface);
     border: var(--cgm-border-width) solid var(--cgm-border-secondary);
