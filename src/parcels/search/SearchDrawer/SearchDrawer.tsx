@@ -168,7 +168,9 @@ export const SearchDrawer = ({ onClose }: { onClose?: () => void }) => {
       </div>
 
       <Group gap="0.25rem" w="100%" wrap="nowrap">
-        <Button style={{ flex: 1 }}>Suche starten{isRandomModeActive && ' (randomisiert)'}</Button>
+        <Button disabled={!currentQuery.query} onClick={startSearch} style={{ flex: 1 }}>
+          Suche starten{isRandomModeActive && ' (randomisiert)'}
+        </Button>
         <ActionButton
           accent={isRandomModeActive ? 'beta' : 'neutral'}
           onClick={() => setRandomModeActive((r) => !r)}

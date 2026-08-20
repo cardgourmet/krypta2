@@ -21,6 +21,15 @@
     writing-mode: vertical-rl;
   }
 
+  .contextContainer {
+    align-items: center;
+    border-bottom: var(--cgm-border-width) solid var(--cgm-border-secondary);
+    display: flex;
+    flex-direction: column;
+    margin-inline: 0.5rem;
+    padding-block: 0.75rem;
+  }
+
   .logoContainer {
     background-image: linear-gradient(to top right, transparent, var(--cgm-background-surface));
     border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);

@@ -119,6 +119,7 @@ export const UserDropdown = () => {
             {user ? (
               <Menu.DropdownItem
                 icon={<IconLogout style={{ color: 'var(--cgm-color-negative)' }} />}
+                onClick={logout}
                 style={{ color: 'var(--cgm-color-negative)' }}
               >
                 Abmelden
