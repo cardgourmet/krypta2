@@ -2,16 +2,19 @@ import clsx from 'clsx';
 import { useId } from 'react';
 import { Typeset } from '../Typeset/Typeset';
 import styles from './Input.module.css';
-import type { InputProps } from './types';
+import type { InputIconProps, InputProps } from './types';
 
-export const Input = ({
+const Root = ({
   'aria-describedby': ariaDescribedBy,
   className,
+  containerClassName,
   error,
   hint,
   id: _id,
   label,
+  leadingSlot,
   style,
+  trailingSlot,
   ...props
 }: InputProps) => {
   const errorId = useId();
@@ -20,7 +23,7 @@ export const Input = ({
   const id = _id ?? randomId;
 
   return (
-    <div className={styles.base}>
+    <div className={clsx(styles.base, containerClassName)}>
       {label && (
         <Typeset asChild size="sm" weight={500}>
           <label htmlFor={id}>
@@ -35,6 +38,7 @@ export const Input = ({
       )}
 
       <div className={clsx(styles.box, className)} style={style}>
+        {leadingSlot}
         <input
           aria-describedby={[!!error && errorId, !!hint && hintId, ariaDescribedBy].filter(Boolean).join(' ')}
           aria-invalid={!!error}
@@ -42,6 +46,7 @@ export const Input = ({
           id={id}
           {...props}
         />
+        {trailingSlot}
       </div>
 
       {error && (
@@ -58,3 +63,18 @@ export const Input = ({
     </div>
   );
 };
+
+export const InputIcon = ({ className, children, ...props }: InputIconProps) => {
+  return (
+    <div className={clsx(styles.iconContainer, className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+InputIcon.displayName = 'Input.Icon';
+
+export const Input = Object.assign(Root, {
+  displayName: 'Input',
+  Icon: InputIcon,
+});

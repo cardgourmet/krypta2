@@ -1,1 +1,1 @@
-export type Accent = 'brand' | 'complementary' | 'negative' | 'neutral';
+export type Accent = 'brand' | 'complementary' | 'beta' | 'negative' | 'neutral';

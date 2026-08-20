@@ -4,8 +4,8 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { type ReactElement, type Ref, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { Button } from '@/parcels/generic/Button/Button';
-import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
+import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import { CONTEXT_LIST_NAV, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
@@ -60,19 +60,24 @@ export default function SearchRecent({
 
   return (
     <div className={styles.recent}>
-      <Group gap={'0.25rem'}>
-        {icon}
-        <GourmetText
-          cgmff={'ui'}
-          style={{ textTransform: 'uppercase' }}
-          fw={500}
-          fz={'0.8rem'}
-          m={0}
-          c={'var(--gourmet-blue-1)'}
-        >
+      <Group align="center" justify="space-between">
+        <Kicker leadingIcon={icon} style={{ color: 'var(--cgm-color-complementary)' }}>
           {t('recent')}
-        </GourmetText>
+        </Kicker>
+
+        {/* <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">
+          <Link to={forwardLink} search={{ ...historyParamDefaults, tcg: tcg }} onClick={close}>
+            {t('toHistory')}
+          </Link>
+        </Button> */}
+
+        <Hyperlink asChild size="sm" trailingIcon={<IconArrowRight />}>
+          <Link to={forwardLink} search={{ ...historyParamDefaults, tcg: tcg }} onClick={close}>
+            {t('toHistory')}
+          </Link>
+        </Hyperlink>
       </Group>
+
       <ul>
         {reversedRecentQueries.map((query, index) => (
           <li key={index}>
@@ -108,13 +113,6 @@ export default function SearchRecent({
           </li>
         ))}
       </ul>
-      <div className={styles.moreRecents}>
-        <Button accent="brand" asChild size="sm" trailingIcon={<IconArrowRight />} variant="tertiary">
-          <Link to={forwardLink} search={{ ...historyParamDefaults, tcg: tcg }} onClick={close}>
-            {t('toHistory')}
-          </Link>
-        </Button>
-      </div>
     </div>
   );
 }

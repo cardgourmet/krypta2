@@ -1,4 +1,4 @@
-import type { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode, Ref } from 'react';
 import type { modalRegistry } from '@/modals.consts';
 import type { Extend, StructureWithChildren } from '../composition/extend';
 
@@ -49,6 +49,7 @@ export type ModalProps<T = unknown> = {
   onClose?: () => void;
   onReject?: (reason?: unknown) => void;
   onResolve?: (value: T) => void;
+  ref?: Ref<HTMLDivElement | null>;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   undismissable?: boolean;
   visible: boolean;

@@ -63,6 +63,8 @@ export function SearchCompletion({
     };
   }, [handleKeydown]);
 
+  if (suggestions.length <= 1) return null;
+
   return (
     <div className={styles.main}>
       {suggestions.length > 1 && (

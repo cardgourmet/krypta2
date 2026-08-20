@@ -1,0 +1,48 @@
+@layer views {
+  .message {
+    background-color: color-mix(in oklab, var(--cgm-background-surface), var(--cgm-color-complementary) 12%);
+    border-radius: 1rem;
+    margin-inline: -0.5rem;
+    padding: 0.5rem;
+    padding-right: 1rem;
+  }
+
+  .tips {
+    list-style: none;
+
+    &,
+    & > li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .tips > li {
+    counter-increment: tip 1;
+    display: flex;
+    position: relative;
+
+    &::before {
+      content: counter(tip);
+      font-family: var(--cgm-title-font-family);
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1;
+      mask-image: linear-gradient(to right, #000, transparent);
+      position: absolute;
+      -webkit-text-fill-color: light-dark(rgb(from var(--cgm-color-complementary) r g b / 0.75), transparent);
+      -webkit-text-stroke-color: light-dark(transparent, var(--cgm-color-complementary));
+      -webkit-text-stroke-width: 1px;
+    }
+
+    & + & {
+      margin-top: 1rem;
+    }
+
+    & > span {
+      margin-block: 0.5rem;
+      margin-left: 2rem;
+      position: relative;
+    }
+  }
+}

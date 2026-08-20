@@ -15,9 +15,11 @@
     --cgm-border-offset: -0.0625rem;
     --cgm-border-primary: #0000002e;
     --cgm-border-secondary: light-dark(#0000002e, #ffffff2e);
+    --cgm-border-tertiary: light-dark(#dcdfe4, #2c333a);
     --cgm-border-width: 0.0625rem;
     --cgm-color-brand: light-dark(oklch(54.19% 0.2065 259.4), oklch(69.57% 0.1612 257.18));
     --cgm-color-complementary: light-dark(oklch(66.13% 0.1759 47.82), oklch(73.45% 0.1547 52.94));
+    --cgm-color-beta: light-dark(oklch(49.14% 0.1541 287.02), oklch(78.15% 0.1047 291.21));
     --cgm-color-negative: light-dark(oklch(49.99% 0.1663 28.93), oklch(64% 0.199 28.932));
     --cgm-color-neutral: light-dark(#44546f, #b6c2cf);
     --cgm-foreground-primary: light-dark(#2c3e5d, #ffffff);
@@ -50,12 +52,34 @@
     --cgm-accent: var(--cgm-color-complementary);
   }
 
+  [data-cgm-accent="beta"] {
+    --cgm-accent: var(--cgm-color-beta);
+  }
+
   [data-cgm-accent="negative"] {
     --cgm-accent: var(--cgm-color-negative);
   }
 
   [data-cgm-accent="neutral"] {
     --cgm-accent: var(--cgm-color-neutral);
+  }
+}
+
+@layer components {
+  a:not([class]) {
+    color: inherit;
+    text-decoration: underline 1px solid var(--cgm-color-complementary);
+    text-underline-offset: 3px;
+    transition:
+      color 0.1s,
+      text-decoration-color 0.1s;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--cgm-color-complementary);
+        text-decoration-color: color-mix(in oklab, currentColor, var(--cgm-background-hover) 12%);
+      }
+    }
   }
 }
 

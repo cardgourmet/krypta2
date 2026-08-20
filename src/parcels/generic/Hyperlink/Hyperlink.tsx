@@ -4,6 +4,7 @@ import styles from './Hyperlink.module.css';
 import type { HyperlinkProps } from './types';
 
 export const Hyperlink = ({
+  accent = 'brand',
   asChild,
   children,
   className,
@@ -18,6 +19,7 @@ export const Hyperlink = ({
   return (
     <Component
       className={clsx(styles.base, className, initialUnderline && styles.initialUnderline)}
+      data-cgm-accent={accent}
       data-cgm-size={size}
       {...props}
     >

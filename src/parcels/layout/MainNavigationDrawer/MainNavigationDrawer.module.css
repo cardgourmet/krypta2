@@ -1,0 +1,13 @@
+@layer structures {
+  .absoluteCloseButton {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+
+  .navItems {
+    align-self: stretch;
+    display: grid;
+    gap: 0.125rem;
+  }
+}

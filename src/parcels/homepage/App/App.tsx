@@ -6,9 +6,7 @@ import Navbar from '@/parcels/homepage/Navbar/Navbar.tsx';
 import Sidebar from '@/parcels/homepage/Sidebar/Sidebar.tsx';
 import { WorkMenu } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenu.tsx';
 import { useIsOnOverview } from '@/parcels/overview/cards/CardOverview/useIsOnOverview.ts';
-import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useOverviewWorkMenuStore, useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore.ts';
-import TcgProvider from '@/parcels/tcg/TcgProvider.tsx';
 import styles from './App.module.css';
 
 function App() {
@@ -28,26 +26,24 @@ function App() {
   const isWorkActive = workQuerySettings !== undefined;
 
   return (
-    <TcgProvider>
-      <SearchHistoryProvider>
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <Navbar setSidebarOpen={setSidebarOpen} />
-        <NavigationProgress />
+    <>
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Navbar setSidebarOpen={setSidebarOpen} />
+      <NavigationProgress />
 
-        <div>
-          {!isOnOverview && isWorkActive && <WorkMenu />}
+      <div>
+        {!isOnOverview && isWorkActive && <WorkMenu />}
 
-          <div className={styles.mainContent}>
-            <div className={styles.content} data-work={workMenuOpen}>
-              <Outlet />
-            </div>
-          </div>
-          <div className={styles.footer}>
-            <Footer />
+        <div className={styles.mainContent}>
+          <div className={styles.content} data-work={workMenuOpen}>
+            <Outlet />
           </div>
         </div>
-      </SearchHistoryProvider>
-    </TcgProvider>
+        <div className={styles.footer}>
+          <Footer />
+        </div>
+      </div>
+    </>
   );
 }
 

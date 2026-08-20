@@ -1,4 +1,5 @@
-import { IconBook2, IconClockHour8 } from '@tabler/icons-react';
+import { Stack } from '@mantine/core';
+import { IconBook2, IconHistory } from '@tabler/icons-react';
 import { type RefObject, useEffect, useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { CONTEXT_LIST_NAV, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
@@ -135,14 +136,16 @@ export function SearchRecentSuggestions({
     };
   }, [maxEntries, recentQueries.length, recentSavedSearches.length, selectionIndex]);
 
+  if (!recentSavedSearches.length && !recentQueries.length) return null;
+
   return (
-    <>
+    <Stack gap="1.5rem">
       {recentSavedSearches.length > 0 && (
         <SearchRecent
           submenuRef={registerRef}
           recentQueries={recentSavedSearches}
           tPrefix={'saved'}
-          icon={<IconBook2 size={16} color={'var(--gourmet-blue-1)'} />}
+          icon={<IconBook2 />}
           maxPerPage={maxEntries.saved}
           tcg={tcg}
           close={() => {
@@ -158,7 +161,7 @@ export function SearchRecentSuggestions({
           submenuRef={registerRef}
           recentQueries={recentQueries}
           tPrefix={'history'}
-          icon={<IconClockHour8 size={16} color={'var(--gourmet-blue-1)'} />}
+          icon={<IconHistory />}
           maxPerPage={maxEntries.history}
           tcg={tcg}
           close={() => {
@@ -169,6 +172,6 @@ export function SearchRecentSuggestions({
           forwardLink={'/me/history'}
         />
       )}
-    </>
+    </Stack>
   );
 }

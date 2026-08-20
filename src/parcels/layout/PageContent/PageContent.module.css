@@ -1,0 +1,19 @@
+@layer structures {
+  .base {
+    --cgm-page-content-width: 80rem;
+    isolation: isolate;
+
+    &.isFullWidth {
+      --cgm-page-content-width: 100%;
+    }
+  }
+
+  .maxWidthContainer {
+    margin-inline: auto;
+    width: min(100%, var(--cgm-page-content-width));
+  }
+
+  .paddingContainer {
+    padding: 1rem;
+  }
+}

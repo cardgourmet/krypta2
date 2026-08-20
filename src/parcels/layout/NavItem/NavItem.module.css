@@ -1,0 +1,50 @@
+@layer components {
+  .base {
+    --navitem-font-size: 1rem;
+    --navitem-icon-size: 1.25rem;
+
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--cgm-foreground-primary);
+    cursor: pointer;
+    display: flex;
+    font-weight: 500;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    text-decoration: none;
+    user-select: none;
+
+    @media (hover: hover) {
+      &:not([disabled]):hover {
+        background-color: color-mix(in oklch, var(--cgm-color-neutral), transparent 80%);
+      }
+    }
+
+    &:focus-visible,
+    &[aria-expanded="true"] {
+      outline: var(--cgm-outline-width) solid var(--cgm-color-brand);
+      outline-offset: var(--cgm-outline-width);
+    }
+  }
+
+  .flip {
+    transform: scaleY(-1);
+  }
+
+  .iconContainer {
+    color: var(--cgm-foreground-secondary);
+    display: flex;
+    font-size: var(--navitem-icon-size);
+
+    & svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
+
+  .nestedContent {
+    padding-left: 1.75rem;
+  }
+}
