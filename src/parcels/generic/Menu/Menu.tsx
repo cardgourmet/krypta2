@@ -34,7 +34,7 @@ export const MenuDropdownItem = ({ asChild, children, icon, ...props }: MenuDrop
 
 MenuDropdownItem.displayName = 'Menu.DropdownItem';
 
-export const MenuDropdownRadioItem = ({ children, icon, value }: MenuDropdownRadioItemProps) => {
+export const MenuDropdownRadioItem = ({ children, value }: MenuDropdownRadioItemProps) => {
   return (
     <DropdownMenuRadioItem className={styles.item} value={value}>
       <div className={styles.decorator}>
