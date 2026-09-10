@@ -28,6 +28,7 @@ import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
 import { Input } from '@/parcels/generic/Input/Input';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { NewNewHereModal } from '@/parcels/homepage/Home/NewNewHereModal/NewNewHereModal';
+import { navbar } from '@/parcels/layout/Navbar/Navbar.events';
 import { modals } from '@/parcels/modals/modals.events';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon';
@@ -116,8 +117,8 @@ export const NewSearchbar = ({ large = false }: NewSearchbarProps) => {
             </DropdownMenu>
           }
           onChange={(event) => setQueryString(event.target.value)}
-          onClick={() => setActive(isDesktop)}
-          onFocus={() => setActive(isDesktop)}
+          onClick={() => (isDesktop ? setActive(true) : navbar.openSearchDrawer(false))}
+          onFocus={() => (isDesktop ? setActive(true) : navbar.openSearchDrawer(false))}
           placeholder="Search…"
           ref={inputRef}
           trailingSlot={

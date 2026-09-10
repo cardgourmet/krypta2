@@ -11,7 +11,7 @@ import {
 } from '@tabler/icons-react';
 import { Link, useLocation, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Badge } from '@/parcels/generic/Badge/Badge';
@@ -26,6 +26,7 @@ import { UserDrawer } from '@/parcels/user/UserDrawer/UserDrawer';
 import { UserDropdown } from '@/parcels/user/UserDropdown/UserDropdown';
 import { UserNavbarTriggerContent } from '@/parcels/user/UserNavbarTriggerContent';
 import { MainNavigationDrawer } from '../MainNavigationDrawer/MainNavigationDrawer';
+import { useNavbarEvents } from './Navbar.events';
 import styles from './Navbar.module.css';
 
 export const Navbar = ({ className }: Extend<Structure>) => {
@@ -36,6 +37,15 @@ export const Navbar = ({ className }: Extend<Structure>) => {
   const [isMainDrawerActive, setMainDrawerActive] = useState(false);
   const [isSearchDrawerActive, setSearchDrawerActive] = useState(false);
   const [isUserDrawerActive, setUserDrawerActive] = useState(false);
+
+  const returnFocusRef = useRef(true);
+
+  useNavbarEvents({
+    openSearchDrawer: (returnFocus = true) => {
+      returnFocusRef.current = returnFocus;
+      setSearchDrawerActive(true);
+    },
+  });
 
   useEffect(() =>
     router.subscribe('onBeforeNavigate', () => {
@@ -54,7 +64,12 @@ export const Navbar = ({ className }: Extend<Structure>) => {
               <IconMenu3 />
             </ActionButton>
 
-            <ActionButton onClick={() => setSearchDrawerActive(true)}>
+            <ActionButton
+              onClick={() => {
+                returnFocusRef.current = true;
+                setSearchDrawerActive(true);
+              }}
+            >
               <IconSearch />
             </ActionButton>
           </div>
@@ -138,6 +153,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
         onClose={() => setSearchDrawerActive(false)}
         opened={isSearchDrawerActive}
         position="left"
+        returnFocus={returnFocusRef.current}
         styles={{ content: { background: 'var(--cgm-background-surface)' } }}
         withCloseButton={false}
       >
