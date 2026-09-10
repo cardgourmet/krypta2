@@ -1,5 +1,5 @@
 import { ScrollArea, UnstyledButton } from '@mantine/core';
-import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
+import { useDebouncedValue, useFocusTrap, useMediaQuery, useMergedRef } from '@mantine/hooks';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +28,7 @@ import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
 import { Input } from '@/parcels/generic/Input/Input';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { NewNewHereModal } from '@/parcels/homepage/Home/NewNewHereModal/NewNewHereModal';
+import { navbar } from '@/parcels/layout/Navbar/Navbar.events';
 import { modals } from '@/parcels/modals/modals.events';
 import { getNameByTcg } from '@/parcels/tcg/getNameByTcg';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon';
@@ -40,8 +41,9 @@ import { useSearchQuery } from '../../useSearchQuery';
 import { SearchRecentSuggestions } from '../SearchRecent/SearchRecentSuggestions';
 import { useClickOutsideWithRegistry } from '../useClickOutsideWithRegistry';
 import styles from './NewSearchbar.module.css';
+import type { NewSearchbarProps } from './types';
 
-export const NewSearchbar = () => {
+export const NewSearchbar = ({ large = false }: NewSearchbarProps) => {
   const router = useRouter();
   const { tcg, setTcg } = useTcg();
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -67,6 +69,7 @@ export const NewSearchbar = () => {
 
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
+  const isDesktop = useMediaQuery('(width >= 48em)', false);
 
   router.subscribe('onLoad', () => {
     requestAnimationFrame(close);
@@ -74,9 +77,9 @@ export const NewSearchbar = () => {
 
   return (
     <>
-      <div aria-hidden className={clsx(styles.overlay, isActive && styles.isVisible)} />
+      <div aria-hidden className={clsx(styles.overlay, !large && isActive && styles.isVisible)} />
 
-      <div className={styles.base} ref={ref}>
+      <div className={styles.base} data-cgm-size={large ? 'large' : 'small'} ref={ref}>
         <Input
           className={styles.input}
           data-autofocus
@@ -86,7 +89,7 @@ export const NewSearchbar = () => {
                 <Button
                   className={styles.inputButton}
                   style={{
-                    marginLeft: '0.375rem',
+                    marginLeft: 'var(--cgm-searchbar-inline-padding)',
                   }}
                   title="Current TCG"
                   trailingIcon={<IconCaretDownFilled fontSize={12} />}
@@ -114,8 +117,8 @@ export const NewSearchbar = () => {
             </DropdownMenu>
           }
           onChange={(event) => setQueryString(event.target.value)}
-          onClick={() => setActive(true)}
-          onFocus={() => setActive(true)}
+          onClick={() => (isDesktop ? setActive(true) : navbar.openSearchDrawer(false))}
+          onFocus={() => (isDesktop ? setActive(true) : navbar.openSearchDrawer(false))}
           placeholder="Search…"
           ref={inputRef}
           trailingSlot={
@@ -145,7 +148,7 @@ export const NewSearchbar = () => {
                   size="sm"
                   style={{
                     aspectRatio: 1,
-                    marginRight: '0.375rem',
+                    marginRight: 'var(--cgm-searchbar-inline-padding)',
                     minWidth: 0,
                   }}
                   title="Send it!"
@@ -160,7 +163,7 @@ export const NewSearchbar = () => {
           value={currentQuery.query}
         />
 
-        <div className={clsx(styles.panel, styles.topAttached, isActive && styles.isVisible)}>
+        <div className={clsx(styles.panel, !large && styles.topAttached, isActive && styles.isVisible)}>
           <div className={styles.actions}>
             <Hyperlink
               accent={isRandomModeActive ? 'beta' : 'neutral'}

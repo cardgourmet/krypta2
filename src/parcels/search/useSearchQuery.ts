@@ -103,7 +103,7 @@ export function useSearchQuery(
 
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (triggerEnabled && event.key === 'Escape') {
         searchInputRef.current?.focus();
         close();
         return;
@@ -121,7 +121,7 @@ export function useSearchQuery(
       // Detach listener when component unmounts
       document.removeEventListener('keydown', handle);
     };
-  }, [suggestionIndex, startSearch, close]);
+  }, [suggestionIndex, startSearch, close, triggerEnabled]);
 
   return {
     currentQuery: currentQuery,
