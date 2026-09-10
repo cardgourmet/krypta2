@@ -1,16 +1,18 @@
-import { Center, Group, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
+import { Center, Group, ScrollArea, SimpleGrid, Stack, UnstyledButton } from '@mantine/core';
 import { useLocalStorage, useMediaQuery } from '@mantine/hooks';
-import { IconBowlChopsticks } from '@tabler/icons-react';
+import { IconNotebook, IconSoup } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { Trans, useTranslation } from 'react-i18next';
 import { BetaBanner } from '@/parcels/beta/BetaButton/BetaBanner.tsx';
 import { BetaButton } from '@/parcels/beta/BetaButton/BetaButton.tsx';
+import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { LatestPostsView } from '@/parcels/homepage/Home/LatestUpdatesView/LatestPostsView.tsx';
 import { NewHereBanner } from '@/parcels/homepage/Home/NewHereBanner/NewHereBanner.tsx';
 import { TcgStatisticsCarousel } from '@/parcels/homepage/Home/TcgStatisticsCarousel/TcgStatisticsCarousel.tsx';
-import Searchbar from '@/parcels/search/bar/Searchbar/Searchbar.tsx';
-import { FilterGlossary } from '@/parcels/search/glossary/FilterGlossary.tsx';
+import { modals } from '@/parcels/modals/modals.events';
+import { NewSearchbar } from '@/parcels/search/bar/NewSearchbar/NewSearchbar';
+import { NewFilterGlossaryModal } from '@/parcels/search/glossary/NewFilterGlossaryModal';
 import { useTcg } from '@/parcels/tcg/TcgProvider.tsx';
 
 export const CGM_NEW_HERE = 'cgm-new-here';
@@ -62,41 +64,28 @@ export function Home() {
         </Stack>
       </Center>
 
-      <Center style={{ marginTop: '1rem' }}>
-        <Stack gap={'0.25rem'} w={'min(100%, 42rem)'}>
-          <Stack w={'100%'}>
-            <Searchbar
-              styles={{
-                '--modal-layer': 'var(--overlay-layer)',
-                width: '100%',
-              }}
-              inputWrapperStyles={{
-                width: '100%',
-              }}
-              inputStyles={{
-                fontSize: '1.25rem',
-                height: '3rem',
-                width: '100%',
-              }}
-              modalStyles={{
-                '--shift-top': '4rem',
-              }}
-              heroSize
-              iconSize={22}
-              caretIconSize={16}
-            />
-          </Stack>
+      <Center mt="1rem">
+        <Stack gap="0.5rem" w="min(100%, 42rem)">
+          <NewSearchbar large />
 
-          <Group justify={'end'}>
-            <FilterGlossary size={'md'} />
-            <Link to={'/$tcg/kitchen'} params={{ tcg: tcg }} style={{ textDecoration: 'none' }}>
-              <Group gap={'0.25rem'}>
-                <IconBowlChopsticks size={18} color={'var(--gourmet-blue-1)'} />
-                <GourmetText c={'var(--gourmet-blue-1)'} cgmff={'ui'}>
-                  {t('searchBar.cuisine')}
-                </GourmetText>
-              </Group>
-            </Link>
+          <Group gap="0.5rem" justify="end">
+            <Hyperlink asChild leadingIcon={<IconNotebook />} size="sm">
+              <UnstyledButton
+                onClick={() =>
+                  modals.request('filter-glossary', {
+                    component: NewFilterGlossaryModal,
+                  })
+                }
+              >
+                Filter Glossary
+              </UnstyledButton>
+            </Hyperlink>
+
+            <Hyperlink asChild leadingIcon={<IconSoup />} size="sm">
+              <Link to="/$tcg/kitchen" params={{ tcg: tcg }}>
+                Search Kitchen
+              </Link>
+            </Hyperlink>
           </Group>
         </Stack>
       </Center>

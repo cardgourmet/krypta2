@@ -7,6 +7,8 @@
 
   .base {
     --cgm-searchbar-height: 2.5rem;
+    --cgm-searchbar-inline-padding: 0.375rem;
+
     position: relative;
     z-index: var(--modal-layer); /* TODO: Restructure */
   }
@@ -123,6 +125,20 @@
 
     &:not(&:has(.content > *)) {
       display: none !important;
+    }
+  }
+
+  .base[data-cgm-size="large"] {
+    --cgm-searchbar-height: 3rem;
+    --cgm-searchbar-inline-padding: 0.625rem;
+
+    .input {
+      height: var(--cgm-searchbar-height);
+      width: 100%;
+    }
+
+    .panel {
+      background-color: rgb(from var(--cgm-background-primary) r g b / 0.75);
     }
   }
 }

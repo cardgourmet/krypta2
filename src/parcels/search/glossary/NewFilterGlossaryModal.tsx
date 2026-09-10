@@ -27,9 +27,9 @@ import { useFilters } from '../filter/useFilters';
 import styles from './NewFilterGlossaryModal.module.css';
 
 export const NewFilterGlossaryModal = ({
-  innerProps: { ref },
+  innerProps: { ref } = {},
   ...props
-}: ExtendModalProps<{ ref: Ref<HTMLDivElement | null> }>) => {
+}: ExtendModalProps<{ ref?: Ref<HTMLDivElement | null> }>) => {
   const { tcg: outerTcg } = useTcg();
   const [tcg, setTcg] = useState(outerTcg);
   const rawFilters = useFilters(tcg);
