@@ -1,5 +1,5 @@
 import { ScrollArea, UnstyledButton } from '@mantine/core';
-import { useDebouncedValue, useFocusTrap, useMergedRef } from '@mantine/hooks';
+import { useDebouncedValue, useFocusTrap, useMediaQuery, useMergedRef } from '@mantine/hooks';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -68,6 +68,7 @@ export const NewSearchbar = ({ large = false }: NewSearchbarProps) => {
 
   const [debouncedQuery] = useDebouncedValue(currentQuery.query, 500);
   const isCaptainOfTheShip = currentQuery.isByUser ?? false;
+  const isDesktop = useMediaQuery('(width >= 48em)', false);
 
   router.subscribe('onLoad', () => {
     requestAnimationFrame(close);
@@ -115,8 +116,8 @@ export const NewSearchbar = ({ large = false }: NewSearchbarProps) => {
             </DropdownMenu>
           }
           onChange={(event) => setQueryString(event.target.value)}
-          onClick={() => setActive(true)}
-          onFocus={() => setActive(true)}
+          onClick={() => setActive(isDesktop)}
+          onFocus={() => setActive(isDesktop)}
           placeholder="Search…"
           ref={inputRef}
           trailingSlot={

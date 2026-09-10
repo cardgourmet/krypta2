@@ -9,7 +9,7 @@ import {
   IconMenu3,
   IconSearch,
 } from '@tabler/icons-react';
-import { Link, useRouter } from '@tanstack/react-router';
+import { Link, useLocation, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import type { Extend, Structure } from '@/parcels/composition/extend';
@@ -30,6 +30,8 @@ import styles from './Navbar.module.css';
 
 export const Navbar = ({ className }: Extend<Structure>) => {
   const router = useRouter();
+
+  const isHomepage = useLocation().pathname === '/';
 
   const [isMainDrawerActive, setMainDrawerActive] = useState(false);
   const [isSearchDrawerActive, setSearchDrawerActive] = useState(false);
@@ -112,7 +114,7 @@ export const Navbar = ({ className }: Extend<Structure>) => {
             </DropdownMenu>
           </div>
 
-          <NewSearchbar />
+          {isHomepage ? <div /> : <NewSearchbar />}
 
           <div className={styles.actionsContainer} style={{ justifyContent: 'flex-end' }}>
             <LanguageSelectorDropdown />
