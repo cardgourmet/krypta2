@@ -20,17 +20,31 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build and Push
+    - name: Build and Push (Dev)
       uses: docker/build-push-action@v2
       with:
         platforms: linux/amd64
         push: true
         file: Dockerfile
         build-args: |
-          VITE_API_BASE_URL=${{ vars.CARDGOURMET_API_URL }}
-          VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.OAUTH_GOOGLE_CLIENT_ID }}
-          VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.CARDGOURMET_BASIC_USERNAME }}
-          VITE_CARDGOURMET_BASIC_PASSWORD=${{ secrets.CARDGOURMET_BASIC_PASSWORD }}
+          VITE_API_BASE_URL=${{ vars.DEV_CARDGOURMET_API_URL }}
+          VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.DEV_OAUTH_GOOGLE_CLIENT_ID }}
+          VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.DEV_CARDGOURMET_BASIC_USERNAME }}
+          VITE_CARDGOURMET_BASIC_PASSWORD=${{ secrets.DEV_CARDGOURMET_BASIC_PASSWORD }}
+        tags: ghcr.io/cardgourmet/krypta2:${{ inputs.tag }}-dev,ghcr.io/cardgourmet/krypta2:latest-dev
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    - name: Build and Push (Prod)
+      uses: docker/build-push-action@v2
+      with:
+        platforms: linux/amd64
+        push: true
+        file: Dockerfile
+        build-args: |
+          VITE_API_BASE_URL=${{ vars.PROD_CARDGOURMET_API_URL }}
+          VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.PROD_OAUTH_GOOGLE_CLIENT_ID }}
+          VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.PROD_CARDGOURMET_BASIC_USERNAME }}
+          VITE_CARDGOURMET_BASIC_PASSWORD=${{ secrets.PROD_CARDGOURMET_BASIC_PASSWORD }}
         tags: ghcr.io/cardgourmet/krypta2:${{ inputs.tag }},ghcr.io/cardgourmet/krypta2:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
