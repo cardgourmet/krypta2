@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import type { GourmetTextProps } from '@/parcels/generic/mantine/GourmetTextProps.ts';
-import styles from '@/parcels/homepage/Home/Home.module.css';
+import styles from './BetaButton.module.css';
 
 export function BetaButton({ style, ...others }: GourmetTextProps) {
   const { t } = useTranslation('home', { keyPrefix: 'beta' });
@@ -34,9 +34,7 @@ export function BetaButton({ style, ...others }: GourmetTextProps) {
                 params={{
                   postId: 'start-of-our-open-beta',
                 }}
-                style={{
-                  color: 'var(--gourmet-neutral-8)',
-                }}
+                className={styles.link}
               >
                 blog post
               </Link>

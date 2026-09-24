@@ -17,6 +17,7 @@
     align-items: center;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    margin: 0 0.5rem 0 0.5rem;
 
     @media (width < 48em) {
       display: none;

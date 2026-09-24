@@ -37,6 +37,10 @@
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     row-gap: 0.5rem;
+
+    a {
+      text-decoration: underline 1px solid transparent !important;
+    }
   }
 
   .link {

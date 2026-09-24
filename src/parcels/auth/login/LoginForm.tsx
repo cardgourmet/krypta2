@@ -37,7 +37,7 @@ export function LoginForm() {
 
   return (
     <Group justify={'center'}>
-      <Stack gap={'xl'} mt={'6rem'} w={'28rem'}>
+      <Stack gap={'xl'} mt={'6rem'} w={'min(100%, 28rem)'}>
         <Stack gap={'0.25rem'}>
           <GourmetText fz={'h2'} cgmff={'title'} cgmc={'neutral-9'}>
             {t('loginTitle')}
