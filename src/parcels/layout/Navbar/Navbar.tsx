@@ -1,4 +1,4 @@
-import { Drawer } from '@mantine/core';
+import { Drawer, Group } from '@mantine/core';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import {
   IconBrandDiscord,
@@ -12,12 +12,14 @@ import {
 import { Link, useLocation, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { BetaModal } from '@/parcels/beta/BetaButton/BetaModal.tsx';
 import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Button } from '@/parcels/generic/Button/Button';
 import { Menu } from '@/parcels/generic/Menu/Menu';
 import { Logo } from '@/parcels/Logo';
+import { modals } from '@/parcels/modals/modals.events.ts';
 import { NewSearchbar } from '@/parcels/search/bar/NewSearchbar/NewSearchbar';
 import { SearchDrawer } from '@/parcels/search/SearchDrawer/SearchDrawer';
 import { LanguageSelectorDropdown } from '@/parcels/settings/LanguageSelectorDropdown/LanguageSelectorDropdown';
@@ -79,7 +81,15 @@ export const Navbar = ({ className }: Extend<Structure>) => {
           </Link>
 
           <div className={styles.actionsContainer}>
-            <Button style={{ marginRight: 'auto', paddingInline: '0.4375rem' }} variant="tertiary">
+            <Button
+              style={{ marginRight: 'auto', paddingInline: '0.4375rem' }}
+              variant="tertiary"
+              onClick={() => {
+                modals.request('beta', {
+                  component: BetaModal,
+                });
+              }}
+            >
               <Badge color="purple" style={{ textTransform: 'uppercase' }}>
                 Beta
               </Badge>
@@ -93,40 +103,65 @@ export const Navbar = ({ className }: Extend<Structure>) => {
 
         <div className={styles.desktopContent}>
           <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  accent="beta"
-                  size="sm"
-                  style={{ fontFamily: 'var(--cgm-title-font-family)', fontWeight: 600 }}
-                  trailingIcon={<IconCaretDownFilled />}
-                  variant="tertiary"
-                >
-                  Cardgourmet
-                </Button>
-              </DropdownMenuTrigger>
+            <Group gap={'1rem'} w={'100%'} wrap={'nowrap'}>
+              <Group className={styles.linkButton}>
+                <IconCat size={18} />
+                <Link to="/about">About Us</Link>
+              </Group>
+              <Group className={styles.linkButton}>
+                <IconGoGame size={18} />
+                <a href="https://games.cardgourmet.com">Games</a>
+              </Group>
+              <Group className={styles.linkButton}>
+                <IconBrandDiscord size={18} />
+                <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
+                  Discord
+                </a>
+              </Group>
+              <Group className={styles.linkButton}>
+                <IconBrandGithub size={18} />
+                <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
+                  GitHub
+                </a>
+              </Group>
+            </Group>
 
-              <DropdownMenuContent asChild align="start" sideOffset={-4}>
-                <Menu>
-                  <Menu.DropdownItem asChild icon={<IconCat />}>
-                    <Link to="/about">About Us</Link>
-                  </Menu.DropdownItem>
-                  <Menu.DropdownItem asChild icon={<IconGoGame />}>
-                    <a href="https://games.cardgourmet.com">Games</a>
-                  </Menu.DropdownItem>
-                  <Menu.DropdownItem asChild icon={<IconBrandDiscord />}>
-                    <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
-                      Discord
-                    </a>
-                  </Menu.DropdownItem>
-                  <Menu.DropdownItem asChild icon={<IconBrandGithub />}>
-                    <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
-                      GitHub
-                    </a>
-                  </Menu.DropdownItem>
-                </Menu>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {!isHomepage && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    accent="beta"
+                    size="sm"
+                    style={{ fontFamily: 'var(--cgm-title-font-family)', fontWeight: 600 }}
+                    trailingIcon={<IconCaretDownFilled />}
+                    variant="tertiary"
+                  >
+                    Cardgourmet
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent asChild align="start" sideOffset={-4}>
+                  <Menu>
+                    <Menu.DropdownItem asChild icon={<IconCat />}>
+                      <Link to="/about">About Us</Link>
+                    </Menu.DropdownItem>
+                    <Menu.DropdownItem asChild icon={<IconGoGame />}>
+                      <a href="https://games.cardgourmet.com">Games</a>
+                    </Menu.DropdownItem>
+                    <Menu.DropdownItem asChild icon={<IconBrandDiscord />}>
+                      <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
+                        Discord
+                      </a>
+                    </Menu.DropdownItem>
+                    <Menu.DropdownItem asChild icon={<IconBrandGithub />}>
+                      <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
+                        GitHub
+                      </a>
+                    </Menu.DropdownItem>
+                  </Menu>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
 
           {isHomepage ? <div /> : <NewSearchbar />}

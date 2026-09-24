@@ -22,7 +22,7 @@
   }
 
   .base {
-    animation: scaleIn 0.2s cubic-bezier(0.333, 1.467, 0.667, 1);
+    animation: scaleIn 0.1s cubic-bezier(0.333, 1.467, 0.667, 1);
     background-color: var(--cgm-background-surface);
     border: var(--cgm-border-width) solid var(--cgm-border-secondary);
     border-radius: 0.75rem;

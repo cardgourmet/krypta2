@@ -183,7 +183,7 @@ export function TcgPrintDetails() {
           }}
           mb={'1rem'}
         >
-          <Group justify={'space-between'} align={'end'} p={'0.5rem 0'} mih={'3.5rem'} wrap={'nowrap'}>
+          <Group justify={'space-between'} align={'end'} p={'0.5rem 0'} mih={'3.5rem'}>
             <GourmetText
               cgmc={'neutral-9'}
               cgmff={'title'}

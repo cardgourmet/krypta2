@@ -60,4 +60,31 @@
       outline-offset: var(--cgm-outline-width);
     }
   }
+
+  .linkButton {
+    flex-wrap: nowrap;
+    padding: 0.25rem 0.5rem;
+    min-height: 2.5rem;
+    border-radius: 0.5rem;
+    gap: 0.5rem;
+    transition: background-color 0.1s;
+    white-space: nowrap;
+
+    @media (hover: hover) {
+      &:hover {
+        cursor: pointer;
+        background-color: var(--gourmet-neutral-3);
+      }
+    }
+
+    a {
+      text-decoration: none;
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--gourmet-neutral-9);
+        }
+      }
+    }
+  }
 }

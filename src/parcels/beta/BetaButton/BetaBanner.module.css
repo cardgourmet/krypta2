@@ -9,6 +9,11 @@
   }
 }
 
+.link {
+  text-decoration: 1px solid underline var(--gourmet-neutral-1);
+  color: var(--gourmet-neutral-1);
+}
+
 .button {
   background-color: color-mix(in srgb, var(--gourmet-purple-1), white 20%);
   border-radius: 0 0 0.25rem 0.25rem;

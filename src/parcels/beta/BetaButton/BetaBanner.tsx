@@ -31,9 +31,7 @@ export function BetaBanner({ setShow }: { setShow: (show: boolean) => void }) {
                 params={{
                   postId: 'start-of-our-open-beta',
                 }}
-                style={{
-                  color: 'var(--gourmet-neutral-1)',
-                }}
+                className={styles.link}
               >
                 blog post
               </Link>
