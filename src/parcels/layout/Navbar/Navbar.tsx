@@ -1,4 +1,4 @@
-import { Drawer, Group } from '@mantine/core';
+import { Drawer } from '@mantine/core';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import {
   IconBrandDiscord,
@@ -103,30 +103,26 @@ export const Navbar = ({ className }: Extend<Structure>) => {
 
         <div className={styles.desktopContent}>
           <div>
-            <Group gap={'1rem'} w={'100%'} wrap={'nowrap'}>
-              <Group className={styles.linkButton}>
-                <IconCat size={18} />
-                <Link to="/about">About Us</Link>
-              </Group>
-              <Group className={styles.linkButton}>
-                <IconGoGame size={18} />
-                <a href="https://games.cardgourmet.com">Games</a>
-              </Group>
-              <Group className={styles.linkButton}>
-                <IconBrandDiscord size={18} />
-                <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
-                  Discord
-                </a>
-              </Group>
-              <Group className={styles.linkButton}>
-                <IconBrandGithub size={18} />
-                <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
-                  GitHub
-                </a>
-              </Group>
-            </Group>
-
-            {!isHomepage && (
+            {isHomepage ? (
+              <div className={styles.homepageLinks}>
+                <Button asChild leadingIcon={<IconCat />} size="sm" variant="tertiary">
+                  <Link to="/about">About Us</Link>
+                </Button>
+                <Button asChild leadingIcon={<IconGoGame />} size="sm" variant="tertiary">
+                  <a href="https://games.cardgourmet.com">Games</a>
+                </Button>
+                <Button asChild leadingIcon={<IconBrandDiscord />} size="sm" variant="tertiary">
+                  <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
+                    Discord
+                  </a>
+                </Button>
+                <Button asChild leadingIcon={<IconBrandGithub />} size="sm" variant="tertiary">
+                  <a href="https://github.com/cardgourmet" rel="noreferrer" target="_blank">
+                    GitHub
+                  </a>
+                </Button>
+              </div>
+            ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
