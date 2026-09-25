@@ -42,6 +42,16 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
         </figure>
       )}
 
+      {!logo && (
+        <figure
+          aria-hidden
+          className={styles.stage}
+          style={{ '--set-card-logo-src': `url('https://api.dicebear.com/10.x/shapes/svg?seed=${set.code}')` }}
+        >
+          <div className={styles.logoContainer} style={{ backdropFilter: 'blur(0px) saturate(0)' }} />
+        </figure>
+      )}
+
       <div className={styles.content}>
         <div className={styles.title}>
           <TcgSetIcon tcg={tcg} setCode={set.code ?? '?'} />

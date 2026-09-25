@@ -4,11 +4,13 @@ import type { Extend, Structure } from '@/parcels/composition/extend';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { WorkMenuButton } from '@/parcels/homepage/Sidebar/WorkMenu/WorkMenuButton';
 import { Logo } from '@/parcels/Logo';
+import { useIsOnOverview } from '@/parcels/overview/cards/CardOverview/useIsOnOverview';
 import { useOverviewWorkStore } from '@/parcels/selection/useOverviewWorkStore';
 import { TcgSidebarItem } from '@/parcels/tcg/TcgSidebarItem';
 import styles from './Sidebar.module.css';
 
 export const Sidebar = ({ className }: Extend<Structure>) => {
+  const isOnOverview = useIsOnOverview();
   const workMeta = useOverviewWorkStore((state) => state.data?.meta);
 
   return (
@@ -19,7 +21,7 @@ export const Sidebar = ({ className }: Extend<Structure>) => {
         </Link>
       </div>
 
-      {!!workMeta?.rawElements.length && (
+      {!isOnOverview && (workMeta?.rawElements.length ?? 0) > 0 && (
         <div className={styles.contextContainer}>
           <WorkMenuButton />
         </div>
