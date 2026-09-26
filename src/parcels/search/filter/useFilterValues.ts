@@ -9,11 +9,17 @@ export function useFilterValues(tcg: Tcg, keywords: string[], operator?: string)
   const findFilterValues = useFilterCacheStore((state) => state.findOrFetchValues);
 
   useEffect(() => {
+    const abort = new AbortController();
+
     setIsLoading(true);
-    findFilterValues(tcg, keywords, operator).then((res) => {
+    findFilterValues(tcg, keywords, operator, undefined, abort).then((res) => {
       setFilterValues(res.data);
       setIsLoading(false);
     });
+
+    return () => {
+      abort.abort();
+    };
   }, [findFilterValues, keywords, operator, tcg]);
 
   return { filterValues, isLoading };

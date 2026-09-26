@@ -45,6 +45,8 @@ export type FindOrFetchFn = (
   tcg: Tcg,
   keywords: string[],
   operator?: string,
+  currentValue?: string,
+  abort?: AbortController,
 ) => Promise<GourmetApiResponse<FilterValuesByKeyword>>;
 
 export async function generateCompletions(
@@ -54,6 +56,7 @@ export async function generateCompletions(
   max: number = 5,
   findOrFetchValues: FindOrFetchFn,
   acceptedSuggestion?: SearchSuggestion,
+  abort?: AbortController,
 ): Promise<SearchCompletionState> {
   if (currentQuery.length === 0) return { mode: 'filter', completions: [] }; // mode: filter
   if (currentQuery.trim().length === 0) return { mode: 'filter', completions: [] }; // mode: filter
@@ -85,6 +88,7 @@ export async function generateCompletions(
       value,
       max,
       findOrFetchValues,
+      abort,
     );
   }
 
@@ -130,6 +134,7 @@ async function generateFilterValueCompletions(
   currentValue: string,
   max: number,
   findOrFetchValues: FindOrFetchFn,
+  abort?: AbortController,
 ): Promise<SearchCompletionState> {
   if (!filter.providesValues) return { mode: 'invalid', completions: [] }; // e.g. numbers
   if (filter.properties.length === 0) return { mode: 'invalid', completions: [] };
@@ -142,7 +147,7 @@ async function generateFilterValueCompletions(
   }
 
   const keyword = filter.keywords[0];
-  const valuesRes = await findOrFetchValues(tcg, [keyword], operator);
+  const valuesRes = await findOrFetchValues(tcg, [keyword], operator, currentValue, abort);
   if (!valuesRes.data || valuesRes.error) {
     return { mode: 'invalid', completions: [] };
   }

@@ -15,7 +15,7 @@ export function useSearchCompletions(tcg: Tcg, query: string) {
 
   const findOrFetchValues = useFilterCacheStore((state) => state.findOrFetchValues);
   const wrapFindOrFetchValues = useCallback(
-    async (tcg: Tcg, keywords: string[], operator?: string) => {
+    async (tcg: Tcg, keywords: string[], operator?: string, currentValue?: string) => {
       if (operator) {
         const allowedProperties = keywords
           .map((k) => {
@@ -29,7 +29,7 @@ export function useSearchCompletions(tcg: Tcg, query: string) {
 
         if (!allowedOperators.includes(operator)) return { data: {} } as GourmetApiResponse<FilterValuesByKeyword>;
 
-        const values = await findOrFetchValues(tcg, keywords, operator);
+        const values = await findOrFetchValues(tcg, keywords, operator, currentValue);
         const allowedPropertyKeys = allowedProperties.flatMap((p) => p.providedValueTypes);
         const filteredData: FilterValuesByKeyword = {};
 
@@ -41,14 +41,16 @@ export function useSearchCompletions(tcg: Tcg, query: string) {
         return { data: filteredData, error: values.error };
       }
 
-      return await findOrFetchValues(tcg, keywords, operator);
+      return await findOrFetchValues(tcg, keywords, operator, currentValue);
     },
     [findOrFetchValues, filters],
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: _
   useEffect(() => {
-    generateCompletions(tcg, query, filters, 5, wrapFindOrFetchValues, acceptedSuggestion).then((state) => {
+    const abort = new AbortController();
+
+    generateCompletions(tcg, query, filters, 5, wrapFindOrFetchValues, acceptedSuggestion, abort).then((state) => {
       const suggestions = transformCompletions(query, state);
       setSuggestions([{ fullQuery: query }, ...suggestions]);
       setCurrentState(state);
@@ -59,6 +61,10 @@ export function useSearchCompletions(tcg: Tcg, query: string) {
         if (!filter) setAcceptedSuggestion(undefined);
       }
     });
+
+    return () => {
+      abort.abort();
+    };
   }, [tcg, query, findOrFetchValues, acceptedSuggestion]);
 
   const acceptSuggestion = useCallback(
