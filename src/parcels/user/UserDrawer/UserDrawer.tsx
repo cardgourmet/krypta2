@@ -11,7 +11,7 @@ import {
   IconStar,
   IconX,
 } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
@@ -31,6 +31,7 @@ const avatarStyle = new Style(definition);
 export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
   const { user, logout } = useAuth();
   const { tcg } = useTcg();
+  const router = useRouter();
 
   const avatarUrl = useMemo(() => {
     if (!user) return;
@@ -75,7 +76,13 @@ export const UserDrawer = ({ onClose }: { onClose?: () => void }) => {
           </div>
 
           <Button accent="brand" asChild leadingIcon={<IconLogin />} size="sm">
-            <Link onClick={() => onClose?.()} to="/login">
+            <Link
+              onClick={() => onClose?.()}
+              to="/login"
+              search={{
+                redirect: router.state.location.href,
+              }}
+            >
               Login
             </Link>
           </Button>

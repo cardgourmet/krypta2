@@ -2,7 +2,7 @@ import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/glyphs.json';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
@@ -20,6 +20,7 @@ const avatarStyle = new Style(definition);
 export const UserDropdown = () => {
   const { user, logout } = useAuth();
   const { tcg } = useTcg();
+  const router = useRouter();
 
   const avatarUrl = useMemo(() => {
     if (!user) return;
@@ -115,7 +116,13 @@ export const UserDropdown = () => {
               </Menu.DropdownItem>
             ) : (
               <Menu.DropdownItem asChild icon={<IconLogin style={{ color: 'var(--cgm-color-brand)' }} />}>
-                <Link style={{ color: 'var(--cgm-color-brand)' }} to="/login">
+                <Link
+                  style={{ color: 'var(--cgm-color-brand)' }}
+                  to="/login"
+                  search={{
+                    redirect: router.state.location.href,
+                  }}
+                >
                   Login
                 </Link>
               </Menu.DropdownItem>

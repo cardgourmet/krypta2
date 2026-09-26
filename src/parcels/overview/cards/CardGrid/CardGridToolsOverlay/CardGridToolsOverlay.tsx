@@ -30,6 +30,10 @@ export function CardGridToolsOverlay({
     return existsInLists.sort((a, b) => a.list.slug.localeCompare(b.list.slug));
   }, [existsInLists]);
 
+  if (!user) {
+    return <div />;
+  }
+
   return (
     <>
       <Overlay backgroundOpacity={0} style={{ pointerEvents: 'none' }} zIndex={0}>
