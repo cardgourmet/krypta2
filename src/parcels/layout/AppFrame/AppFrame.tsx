@@ -36,11 +36,13 @@ export const AppFrame = ({ children }: AppFrameProps) => {
 
       {!isOnOverview && isWorkActive && <WorkMenu />}
 
-      <aside className={clsx(styles.sidecarHost)}>
-        <div className={clsx(styles.sidecarContainer, sidecar.isActive && styles.isActive)}>
-          <CurrentSearchSidecar />
+      <div className={styles.sidecarArea}>
+        <div className={clsx(styles.sidecarHost)}>
+          <aside className={clsx(styles.sidecarContainer, sidecar.isActive && styles.isActive)}>
+            <CurrentSearchSidecar />
+          </aside>
         </div>
-      </aside>
+      </div>
 
       <main className={styles.content}>
         <div className={styles.transitionPageWrapper}>{children}</div>

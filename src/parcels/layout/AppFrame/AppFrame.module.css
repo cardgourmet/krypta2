@@ -6,7 +6,6 @@
     --cgm-frame-sidecar-width: 20rem;
 
     background-color: var(--cgm-background-primary);
-    box-shadow: 0 0 0 0.125rem dodgerblue;
     display: grid;
     grid-template-areas:
       "sidebar navbar   navbar"
@@ -94,6 +93,10 @@
     }
   }
 
+  .sidecarArea {
+    grid-area: sidecar;
+  }
+
   .sidecarContainer {
     background-color: var(--cgm-background-surface);
     border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);
@@ -117,8 +120,7 @@
   }
 
   .sidecarHost {
-    grid-area: sidecar;
-    margin-bottom: calc(-1 * var(--cgm-frame-content-border-radius));
+    margin-bottom: calc(1 * var(--cgm-frame-content-border-radius));
     margin-right: calc(-1 * var(--cgm-frame-content-border-radius));
     padding-right: var(--cgm-frame-content-border-radius);
     position: sticky;
