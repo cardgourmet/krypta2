@@ -21,11 +21,8 @@ export const CurrentSearchSidecar = () => {
   const { t } = useTranslation('cards', { keyPrefix: 'work' });
   const navigate = Route.useNavigate();
 
-  const setMenuOpened = useOverviewWorkMenuStore((state) => state.setMenuOpened);
-
   const setWorkMeta = useOverviewWorkStore((state) => state.setData);
   const workMeta = useOverviewWorkStore((state) => state.data?.meta);
-  const workMenuOpen = useOverviewWorkMenuStore((state) => state.menuOpened);
   const tcg = workMeta?.other.tcg;
   const page = workMeta?.page ?? 1;
   const maxPage = workMeta?.other?.maxPage ?? page;
