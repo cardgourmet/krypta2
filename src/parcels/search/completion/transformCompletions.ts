@@ -21,8 +21,14 @@ export function transformCompletions(currentQuery: string, state: SearchCompleti
   return completions.map((compl) => {
     if (state.mode === 'value' && state.userInput?.value !== undefined) {
       let completionValue = compl.value;
-      if (completionValue.includes(' ') && !completionValue.endsWith('"')) {
-        completionValue = `${completionValue}"`;
+      const rawValue = compl.value;
+
+      if (rawValue.includes('"')) {
+        completionValue = completionValue.replaceAll('"', '\\"');
+      }
+
+      if (completionValue.includes(' ')) {
+        completionValue = `"${completionValue}"`;
       }
 
       const newQuery = replaceLast(currentQuery, state.userInput?.value as string, completionValue);
