@@ -7,6 +7,7 @@ import {
 } from '@radix-ui/react-dropdown-menu';
 import { IconCaretDownFilled, IconCursorText, IconNotebook, IconPlusEqual, IconSearch } from '@tabler/icons-react';
 import { type Ref, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Button } from '@/parcels/generic/Button/Button';
@@ -30,6 +31,7 @@ export const NewFilterGlossaryModal = ({
   innerProps: { ref } = {},
   ...props
 }: ExtendModalProps<{ ref?: Ref<HTMLDivElement | null> }>) => {
+  const { t } = useTranslation('search');
   const { tcg: outerTcg } = useTcg();
   const [tcg, setTcg] = useState(outerTcg);
   const rawFilters = useFilters(tcg);
@@ -113,7 +115,7 @@ export const NewFilterGlossaryModal = ({
               </Input.Icon>
             }
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Suchen…"
+            placeholder={t('searchPlaceholder')}
             value={query}
           />
         </Group>
