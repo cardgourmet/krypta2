@@ -204,8 +204,8 @@ export const CurrentSearchSidecar = () => {
         </Group>
       )}
 
-      <ScrollArea.Autosize h="100%" mah="100%" mx="-1rem" my="-1rem">
-        <SimpleGrid cols={2} p="1rem" spacing="0.5rem">
+      <ScrollArea.Autosize h="100%" mah="100%" mx="-1rem" my="-0.125rem">
+        <SimpleGrid cols={2} px="1rem" py={2} spacing="0.5rem">
           {currentElements?.map((card, index) => {
             return (
               <CardItem
