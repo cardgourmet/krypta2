@@ -7,6 +7,7 @@ import {
   listUserIntegrations,
 } from '@/parcels/auth/api.ts';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { router } from '@/parcels/router/router.ts';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import { useLocalUserStore } from '@/parcels/state/LocalUserStore.tsx';
 
@@ -85,6 +86,13 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     [setSession, setUser, removeWasVerified, removeEmailWasChanged],
   );
   const logout = useCallback(() => {
+    const currentPath = router.state.location.pathname;
+
+    if (currentPath.startsWith('/me') || currentPath.startsWith('/@')) {
+      // noinspection JSIgnoredPromiseFromCall
+      router.navigate({ to: '/' });
+    }
+
     // noinspection JSIgnoredPromiseFromCall
     doLogout();
 

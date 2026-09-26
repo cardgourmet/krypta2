@@ -103,15 +103,15 @@ export function LoginForm() {
               <GourmetTextInput {...form.getInputProps('username')} />
             </Stack>
             <Stack gap={'0.375rem'}>
-              <Group justify={'space-between'}>
-                <GourmetText component="label" cgmff={'ui'} fw={500} htmlFor={displaynameInputId}>
-                  {t('password')}
-                </GourmetText>
+              <GourmetText component="label" cgmff={'ui'} fw={500} htmlFor={displaynameInputId}>
+                {t('password')}
+              </GourmetText>
+              <GourmetPasswordInput {...form.getInputProps('password')} w={'100%'} />
+              <Group justify={'end'}>
                 <Link to={'/forgot'} style={{ textDecoration: 'none' }}>
                   <GourmetText c={'var(--gourmet-blue-1)'}>{t('forgotPassword')}</GourmetText>
                 </Link>
               </Group>
-              <GourmetPasswordInput {...form.getInputProps('password')} w={'100%'} />
             </Stack>
 
             <Button type="submit">{t('loginButton')}</Button>
