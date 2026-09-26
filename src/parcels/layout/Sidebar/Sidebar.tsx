@@ -1,7 +1,7 @@
 import { IconZoomScan } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { clsx } from 'clsx';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Badge } from '@/parcels/generic/Badge/Badge';
@@ -16,6 +16,14 @@ export const Sidebar = ({ className }: Extend<Structure>) => {
   const isOnOverview = useIsOnOverview();
   const sidecar = use(SidecarContext);
   const workMeta = useOverviewWorkStore((state) => state.data?.meta);
+
+  useEffect(() => {
+    if (!sidecar.isActive || !isOnOverview || (workMeta?.rawElements.length ?? 0) > 0) {
+      return;
+    }
+
+    sidecar.setActive(false);
+  }, [isOnOverview, sidecar.isActive, sidecar.setActive, workMeta?.rawElements.length]);
 
   return (
     <nav className={clsx(styles.base, className)}>
