@@ -1,0 +1,19 @@
+@layer structures {
+  .base {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    gap: 1rem;
+    padding: 1rem;
+    width: var(--cgm-frame-sidecar-width);
+  }
+
+  .controls {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    width: 100%;
+  }
+}

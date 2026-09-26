@@ -9,6 +9,7 @@ import { AppFrame } from '@/parcels/layout/AppFrame/AppFrame';
 import { ModalContextProvider } from '@/parcels/modals/Modal.context';
 import { ErrorComponent } from '@/parcels/router/ErrorComponent.tsx';
 import SearchHistoryProvider from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider';
+import { SidecarContextProvider } from '@/parcels/sidecar/Sidecar.context';
 import TcgProvider from '@/parcels/tcg/TcgProvider';
 import { theme } from '../theme';
 
@@ -22,14 +23,16 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       <MantineProvider defaultColorScheme="auto" theme={theme}>
         <TcgProvider>
           <SearchHistoryProvider>
-            <ModalContextProvider modals={modalRegistry}>
-              <Notifications />
-              {/* <App /> */}
+            <SidecarContextProvider>
+              <ModalContextProvider modals={modalRegistry}>
+                <Notifications />
+                {/* <App /> */}
 
-              <AppFrame>
-                <Outlet />
-              </AppFrame>
-            </ModalContextProvider>
+                <AppFrame>
+                  <Outlet />
+                </AppFrame>
+              </ModalContextProvider>
+            </SidecarContextProvider>
 
             <TanStackDevtools
               config={{

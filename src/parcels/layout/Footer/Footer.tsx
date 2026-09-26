@@ -6,13 +6,15 @@ import {
   IconHeartFilled,
 } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
+import clsx from 'clsx';
+import type { Extend, Structure } from '@/parcels/composition/extend';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import styles from './Footer.module.css';
 
-export const Footer = () => {
+export const Footer = ({ className, ...props }: Extend<Structure>) => {
   return (
-    <footer className={styles.base}>
+    <footer className={clsx(styles.base, className)} {...props}>
       <div className={styles.copyrightNotices}>
         <Typeset size="sm" variant="tertiary">
           The literal and graphical information presented on this site about Magic: The Gathering, including card images
