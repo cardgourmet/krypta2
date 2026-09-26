@@ -14,7 +14,6 @@ export type TcgDetailParams = {
 export const loadTcgPrintAndSet = async (tcg: Tcg, params: TcgDetailParams, userId?: string) => {
   const res = await fetchTcgPrint(tcg, params.setCode, params.collectorNumber, userId);
   if (!res?.data) {
-    console.log('Could not fetch print', res);
     throw notFound();
   }
   const { card: cardWithPrints, listResources } = res.data;
@@ -37,7 +36,6 @@ export const loadTcgPrintAndSet = async (tcg: Tcg, params: TcgDetailParams, user
 
   const res2 = await fetchTcgSet(tcg, cardWithPrints.print.setId);
   if (!res2.data) {
-    console.log('Could not fetch set', res2);
     throw notFound();
   }
   const printSet = res2.data;

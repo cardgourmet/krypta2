@@ -54,17 +54,15 @@ function GoogleLoginButtonIntegration() {
         });
       });
     },
-    onError: (err) => {
+    onError: (_) => {
       setLoading(false);
 
       setError('oauth-error');
-      console.log('error during oauth flow', err);
     },
-    onNonOAuthError: (err) => {
+    onNonOAuthError: (_) => {
       setLoading(false);
 
       setError('unknown');
-      console.log('unexpected error', err);
     },
     scope: 'https://www.googleapis.com/auth/userinfo.email',
   });

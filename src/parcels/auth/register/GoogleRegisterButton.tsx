@@ -29,17 +29,15 @@ function GoogleRegisterButtonIntegration({ onSuccess }: { onSuccess: (data: OAut
         onSuccess({ accessToken: res.access_token, expiresAt: date.toISOString(), provider: 'google' });
       });
     },
-    onError: (err) => {
+    onError: (_) => {
       setLoading(false);
 
       setError('oauth-error');
-      console.log('error during oauth flow', err);
     },
-    onNonOAuthError: (err) => {
+    onNonOAuthError: (_) => {
       setLoading(false);
 
       setError('unknown');
-      console.log('unexpected error', err);
     },
     scope: 'https://www.googleapis.com/auth/userinfo.email',
   });

@@ -28,7 +28,6 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
   const search = Route.useSearch();
   const { user } = useAuth();
   const { list_resources_per_list } = useUserLimits(user);
-  console.log('user limits', user, user?.limits);
 
   const navigate = Route.useNavigate();
 
@@ -170,12 +169,10 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
         onLeave={() => {
           setDraggedOver(false);
         }}
-        onDrop={(data) => {
-          console.log(data);
+        onDrop={(_) => {
           setDraggedOver(false);
 
-          const id = extractScryfallInfo('mtg', data);
-          console.log('found scryfall id', id);
+          // const id = extractScryfallInfo('mtg', data);
         }}
       />
 

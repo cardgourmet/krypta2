@@ -19,7 +19,6 @@ export function useAnimateVisibility<T extends HTMLElement = HTMLElement>(
     //console.log({ el: ref.current, didBecomeHidden, didBecomeVisible, visible });
 
     if (didBecomeVisible && onEnter && ref.current) {
-      console.log('became visible');
       onEnter(ref.current);
     }
 

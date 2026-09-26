@@ -82,8 +82,6 @@ export function TcgPrintImageRenderer({
     return [(card.print as Exclude<TcgDataPrint, PcgDataPrint>).artist];
   }, [card.print, tcg]);
 
-  console.log('otherPrints', otherPrints);
-
   return (
     <Stack {...others}>
       <Stack gap={0}>

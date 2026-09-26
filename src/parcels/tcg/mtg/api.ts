@@ -360,9 +360,9 @@ export async function fetchMtgQueryExplain(query: string, abort?: AbortControlle
     if (!(error instanceof Error)) throw error;
 
     if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
+      //console.log('Just aborted the call, no biggies.');
     } else {
-      console.log(`Error: ${error}`);
+      //console.log(`Error: ${error}`);
     }
     return { query: query, error: error };
   }
@@ -394,9 +394,9 @@ export async function fetchMtgPrintById(
     if (!(error instanceof Error)) throw error;
 
     if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
+      //console.log('Just aborted the call, no biggies.');
     } else {
-      console.log(`Error: ${error}`);
+      //console.log(`Error: ${error}`);
     }
     return { error: error };
   }

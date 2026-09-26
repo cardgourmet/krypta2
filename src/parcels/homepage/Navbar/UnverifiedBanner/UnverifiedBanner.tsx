@@ -17,11 +17,8 @@ export function UnverifiedBanner({ user }: { user: DataAuthUser }) {
 
     resendConfirmationMail({ email: user.email }).then((r) => {
       if (r.error) {
-        console.log(r.error);
         return;
       }
-
-      console.log('Resended confirmation mail.');
     });
   }, [timer.isRunning, timer.restart, user.email]);
 

@@ -34,9 +34,7 @@ export function FlipImage({
               : (frontFace.thumbnailUrl ?? frontFace.backupImageUrl)
           }
           loading={'lazy'}
-          onError={(error) => {
-            console.log(`Could not load image because: ${error}`);
-
+          onError={(_) => {
             if (!frontFace.imageRef.current) return;
             frontFace.imageRef.current.src = frontFace.backupImageUrl;
           }}
@@ -51,9 +49,7 @@ export function FlipImage({
             ref={backFace.imageRef}
             alt={backFace.name}
             src={backFace.thumbnailUrl}
-            onError={(error) => {
-              console.log(`Could not load backface image because: ${error}`);
-
+            onError={(_) => {
               if (!backFace.imageRef.current) return;
               backFace.imageRef.current.src = backFace.backupImageUrl;
             }}

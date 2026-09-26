@@ -26,9 +26,9 @@ export function handleUncaughtError<T>(error: unknown): GourmetApiResponse<T> {
   if (!(error instanceof Error)) throw error;
 
   if (error.name === 'AbortError') {
-    console.log('Just aborted the call, no biggies.');
+    //console.log('Just aborted the call, no biggies.');
   } else {
-    console.log(`Error: ${error}`);
+    //console.log(`Error: ${error}`);
   }
   return { error: { error: error, key: 'unknown' } };
 }

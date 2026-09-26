@@ -85,9 +85,9 @@ export async function resendConfirmationMail(
     if (!(error instanceof Error)) throw error;
 
     if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
+      //console.log('Just aborted the call, no biggies.');
     } else {
-      console.log(`Error: ${error}`);
+      //console.log(`Error: ${error}`);
     }
     return { error: error };
   }
@@ -122,9 +122,9 @@ export async function confirmEmailAddress(
     if (!(error instanceof Error)) throw error;
 
     if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
+      //console.log('Just aborted the call, no biggies.');
     } else {
-      console.log(`Error: ${error}`);
+      //console.log(`Error: ${error}`);
     }
     return { error: error };
   }
@@ -181,9 +181,9 @@ export async function logout(abort?: AbortController): Promise<{ data?: number; 
     if (!(error instanceof Error)) throw error;
 
     if (error.name === 'AbortError') {
-      console.log('Just aborted the call, no biggies.');
+      //console.log('Just aborted the call, no biggies.');
     } else {
-      console.log(`Error: ${error}`);
+      //console.log(`Error: ${error}`);
     }
     return { error: error };
   }

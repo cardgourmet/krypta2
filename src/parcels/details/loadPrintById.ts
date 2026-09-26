@@ -13,7 +13,6 @@ export const loadPrintById = async (tcg: Tcg, printId: string) => {
         ? await fetchDlcPrintById(printId)
         : await fetchPcgPrintById(printId);
   if (!res.data) {
-    console.log('Could not fetch print', res);
     throw notFound();
   }
 

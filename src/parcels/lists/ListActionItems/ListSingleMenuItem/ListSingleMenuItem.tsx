@@ -88,7 +88,6 @@ export function ListSingleMenuItem({
         onClick={() => {
           if (!user?.id) return;
           if (action === 'add' && !checkListLimits(listWithResources, listActionCount)) {
-            console.log('attemtping to remove 1.5', resourceIds);
             return;
           }
 

@@ -89,8 +89,6 @@ export function WorkMenu({ mobile, onSwitch }: { mobile?: boolean; onSwitch?: ()
     if (resetScrollIndex === undefined) return;
     if (currentElements.length === 0) return;
 
-    console.log('inside resetScroll');
-
     // also check if we again have our current detail card
     const currentInd = currentElements.findIndex((el) => el.element.card.print.id === currentPrintDetailsId);
     if (currentInd !== -1) {
