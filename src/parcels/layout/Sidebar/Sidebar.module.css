@@ -27,7 +27,12 @@
     display: flex;
     flex-direction: column;
     margin-inline: 0.5rem;
+    margin-top: auto;
     padding-block: 0.75rem;
+
+    & + .brandContainer {
+      margin-top: 0.75rem;
+    }
   }
 
   .logoContainer {
@@ -59,6 +64,10 @@
     }
   }
 
+  .sidecarButton {
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
   .tcgsContainer {
     align-items: center;
     display: flex;
@@ -66,5 +75,17 @@
     gap: 0.75rem;
     padding-block: 0.5rem;
     width: 100%;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in oklch, var(--cgm-accent) 38%, transparent);
+    }
+    50% {
+      box-shadow: 0 0 0 0.5rem transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 1rem transparent;
+    }
   }
 }

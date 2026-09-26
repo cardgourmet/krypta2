@@ -3,20 +3,33 @@
     --cgm-frame-content-border-radius: 1.5rem;
     --cgm-frame-navbar-height: 3.5rem;
     --cgm-frame-sidebar-width: 0;
+    --cgm-frame-sidecar-width: 20rem;
 
+    background-color: var(--cgm-background-primary);
     box-shadow: 0 0 0 0.125rem dodgerblue;
     display: grid;
     grid-template-areas:
-      "sidebar navbar"
-      "sidebar content"
-      "sidebar footer";
-    grid-template-columns: var(--cgm-frame-sidebar-width) 1fr;
+      "sidebar navbar   navbar"
+      "sidebar sidecar  content"
+      "sidebar footer   footer";
+    grid-template-columns: var(--cgm-frame-sidebar-width) 0 1fr;
     grid-template-rows: var(--cgm-frame-navbar-height) 1fr auto;
     isolation: isolate;
     min-height: 100dvh;
+    transition: grid-template-columns 0.2s;
 
     @media (width >= 48em) {
       --cgm-frame-sidebar-width: 3.5rem;
+
+      &.sidecarInline {
+        grid-template-columns: var(--cgm-frame-sidebar-width) var(--cgm-frame-sidecar-width) 1fr;
+      }
+    }
+
+    @media (width >= 125.5em) {
+      &.sidecarInline:has(.sidecarContainer.isActive) > .content {
+        padding-right: calc(1rem + var(--cgm-frame-sidecar-width));
+      }
     }
   }
 
@@ -29,6 +42,7 @@
     grid-area: content;
     margin-bottom: calc(-1 * var(--cgm-frame-content-border-radius));
     position: relative;
+    transition: padding-right 0.2s;
 
     .transitionPageWrapper {
       display: contents;
@@ -77,6 +91,41 @@
 
     @media (width < 48em) {
       visibility: hidden;
+    }
+  }
+
+  .sidecarContainer {
+    background-color: var(--cgm-background-surface);
+    border-bottom: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+    border-bottom-left-radius: var(--cgm-frame-content-border-radius);
+    border-left: var(--cgm-border-width) solid var(--cgm-border-tertiary);
+    box-shadow: var(--cgm-shadow-xs);
+    color: var(--cgm-foreground-primary);
+    display: flex;
+    height: calc(100dvh - var(--cgm-frame-navbar-height) - 1 * var(--cgm-frame-content-border-radius));
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      visibility 0.2s;
+    visibility: hidden;
+
+    &.isActive {
+      opacity: 1;
+      transition-behavior: allow-discrete;
+      visibility: visible;
+    }
+  }
+
+  .sidecarHost {
+    grid-area: sidecar;
+    margin-bottom: calc(-1 * var(--cgm-frame-content-border-radius));
+    margin-right: calc(-1 * var(--cgm-frame-content-border-radius));
+    padding-right: var(--cgm-frame-content-border-radius);
+    position: sticky;
+    top: var(--cgm-frame-navbar-height);
+
+    @media (width < 48em) {
+      display: none;
     }
   }
 }
