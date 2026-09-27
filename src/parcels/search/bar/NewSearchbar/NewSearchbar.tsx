@@ -22,6 +22,7 @@ import {
 import { Link, useRouter } from '@tanstack/react-router';
 import { clsx } from 'clsx';
 import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Button } from '@/parcels/generic/Button/Button';
 import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
@@ -44,6 +45,7 @@ import styles from './NewSearchbar.module.css';
 import type { NewSearchbarProps } from './types';
 
 export const NewSearchbar = ({ large = false }: NewSearchbarProps) => {
+  const { t } = useTranslation('search');
   const router = useRouter();
   const { tcg, setTcg } = useTcg();
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -119,7 +121,7 @@ export const NewSearchbar = ({ large = false }: NewSearchbarProps) => {
           onChange={(event) => setQueryString(event.target.value)}
           onClick={() => (isDesktop ? setActive(true) : navbar.openSearchDrawer(false))}
           onFocus={() => (isDesktop ? setActive(true) : navbar.openSearchDrawer(false))}
-          placeholder="Search…"
+          placeholder={t('searchPlaceholder')}
           ref={inputRef}
           trailingSlot={
             currentQuery.query && (

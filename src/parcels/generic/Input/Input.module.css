@@ -33,6 +33,7 @@
     align-self: stretch;
     aspect-ratio: 1;
     display: grid;
+    flex-shrink: 0;
     font-size: 1rem;
     margin-right: -0.375rem;
     place-items: center;
