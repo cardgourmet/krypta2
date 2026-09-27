@@ -33,7 +33,11 @@
     "card": {
       "prints_one": "{{count}} Print",
       "prints_other": "{{count}} Prints",
-      "noImage": "Kein Bild verfügbar."
+      "noImage": "Kein Bild verfügbar.",
+      "prints": "Prints",
+      "released": "Veröffentlicht",
+      "releases": "Wird veröffentlicht",
+      "notReleased": "Kommt bald"
     }
   }
 }

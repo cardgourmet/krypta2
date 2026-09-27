@@ -1,6 +1,11 @@
+import { Avatar, Style } from '@dicebear/core';
+import definition from '@dicebear/styles/shapes.json';
+import { Group, Stack } from '@mantine/core';
 import { IconCalendarWeekFilled, IconCardsFilled } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import clsx from 'clsx';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
@@ -14,10 +19,11 @@ import styles from './SetCard.module.css';
 import type { SetCardProps } from './types';
 
 export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
+  const { t } = useTranslation('sets', { keyPrefix: 'overview' });
   const translation = set.translations.en; // TODO;
 
   const logo = translation?.imageUrls?.logo;
-  const releaseDate = new Date(
+  const rawReleaseDate = new Date(
     (() => {
       switch (tcg) {
         case 'dlc':
@@ -28,14 +34,34 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
           return (set as PcgDataSet).releaseStartDate ?? '';
       }
     })(),
-  ).toLocaleDateString([], {
+  );
+  const releaseDate = rawReleaseDate.toLocaleDateString([], {
     dateStyle: 'medium',
   });
+  const alreadyReleased = rawReleaseDate.getTime() <= Date.now();
+
+  const imageFallback = useMemo(() => {
+    if (logo) return;
+
+    const style = new Style(definition);
+    const avatar = new Avatar(style, {
+      seed: set.code ?? undefined,
+    });
+
+    return avatar.toString();
+  }, [set.code, logo]);
 
   return (
     <article className={clsx(styles.base, className)} {...props}>
       {logo && (
-        <figure aria-hidden className={styles.stage} style={{ '--set-card-logo-src': `url('${logo}')` }}>
+        <figure
+          aria-hidden
+          className={styles.stage}
+          style={{
+            '--set-card-logo-src': `url('${logo}')`,
+            filter: !alreadyReleased ? 'grayscale(1) blur(3px)' : 'none',
+          }}
+        >
           <div className={styles.logoContainer}>
             <img alt="" className={styles.logo} src={logo} />
           </div>
@@ -46,7 +72,10 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
         <figure
           aria-hidden
           className={styles.stage}
-          style={{ '--set-card-logo-src': `url('https://api.dicebear.com/10.x/shapes/svg?seed=${set.code}')` }}
+          style={{
+            '--set-card-logo-src': `url('data:image/svg+xml,${encodeURIComponent(imageFallback ?? '')}')`,
+            filter: !alreadyReleased ? 'grayscale(1) blur(3px)' : 'none',
+          }}
         >
           <div className={styles.logoContainer} style={{ backdropFilter: 'blur(0px) saturate(0)' }} />
         </figure>
@@ -76,27 +105,55 @@ export const SetCard = ({ className, set, tcg, ...props }: SetCardProps) => {
         </Typeset>
 
         <div className={styles.metadata}>
-          <div>
-            <Kicker leadingIcon={<IconCardsFilled />} size="sm">
-              Prints
-            </Kicker>
-            <Typeset>{set.printsAvailable}</Typeset>
-          </div>
-          <div>
-            <Kicker leadingIcon={<IconCalendarWeekFilled />} size="sm">
-              Released
-            </Kicker>
-            <Typeset>{releaseDate}</Typeset>
-          </div>
+          {alreadyReleased && (
+            <>
+              <div>
+                <Kicker leadingIcon={<IconCardsFilled />} size="sm">
+                  {t('card.prints')}
+                </Kicker>
+                <Typeset>{set.printsAvailable}</Typeset>
+              </div>
+              <div>
+                <Kicker leadingIcon={<IconCalendarWeekFilled />} size="sm">
+                  {t('card.released')}
+                </Kicker>
+                <Typeset>{releaseDate}</Typeset>
+              </div>
+            </>
+          )}
+          {!alreadyReleased && (
+            <>
+              <div>
+                <Kicker leadingIcon={<IconCalendarWeekFilled />} size="sm">
+                  {t('card.releases')}
+                </Kicker>
+                <Typeset>{releaseDate}</Typeset>
+              </div>
+              <Group w={'100%'} justify={'end'}>
+                <Stack justify={'end'} h={'100%'}>
+                  <Typeset
+                    block
+                    size="sm"
+                    style={{ fontFamily: 'var(--cgm-content-font-family)', color: 'var(--gourmet-orange-1)' }}
+                    weight={400}
+                  >
+                    {t('card.notReleasedYet')}
+                  </Typeset>
+                </Stack>
+              </Group>
+            </>
+          )}
         </div>
       </div>
 
-      <Link
-        className={styles.link}
-        params={{ tcg: tcg, setCode: set.code ?? '?' }}
-        to={'/$tcg/sets/$setCode'}
-        search={{ ...tcgSetParamsDefaults }}
-      />
+      {alreadyReleased && (
+        <Link
+          className={styles.link}
+          params={{ tcg: tcg, setCode: set.code ?? '?' }}
+          to={'/$tcg/sets/$setCode'}
+          search={{ ...tcgSetParamsDefaults }}
+        />
+      )}
     </article>
   );
 };
