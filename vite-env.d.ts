@@ -1,6 +1,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 
 interface ImportMetaEnv {
+  readonly VITE_APP_VERSION: string;
   readonly VITE_API_BASE_URL: string;
   readonly VITE_OAUTH_GOOGLE_CLIENT_ID: string;
   readonly VITE_CARDGOURMET_BASIC_USERNAME: string;

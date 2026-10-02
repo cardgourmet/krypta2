@@ -27,6 +27,7 @@ jobs:
         push: true
         file: Dockerfile
         build-args: |
+          APP_VERSION=${{ inputs.tag }}
           VITE_API_BASE_URL=${{ vars.DEV_CARDGOURMET_API_URL }}
           VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.DEV_OAUTH_GOOGLE_CLIENT_ID }}
           VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.DEV_CARDGOURMET_BASIC_USERNAME }}
@@ -41,6 +42,7 @@ jobs:
         push: true
         file: Dockerfile
         build-args: |
+          APP_VERSION=${{ inputs.tag }}
           VITE_API_BASE_URL=${{ vars.PROD_CARDGOURMET_API_URL }}
           VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.PROD_OAUTH_GOOGLE_CLIENT_ID }}
           VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.PROD_CARDGOURMET_BASIC_USERNAME }}

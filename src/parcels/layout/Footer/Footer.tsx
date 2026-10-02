@@ -12,6 +12,8 @@ import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Typeset } from '@/parcels/generic/Typeset/Typeset';
 import styles from './Footer.module.css';
 
+const APP_VERSION = import.meta.env.VITE_APP_VERSION ? `v${import.meta.env.VITE_APP_VERSION}` : 'latest';
+
 export const Footer = ({ className, ...props }: Extend<Structure>) => {
   return (
     <footer className={clsx(styles.base, className)} {...props}>
@@ -52,6 +54,7 @@ export const Footer = ({ className, ...props }: Extend<Structure>) => {
               width="1em"
             />{' '}
             by real humans.
+            <span style={{ color: 'var(--gourmet-neutral-6)' }}> {APP_VERSION}</span>
           </Typeset>
         </div>
 
