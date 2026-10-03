@@ -11,7 +11,7 @@ export const Route = createFileRoute('/playground/')({
 
 function RouteComponent() {
   return (
-    <PageContent headerSlot={<PageHeader />}>
+    <PageContent headerSlot={<PageHeader pageTitle="Playground" />}>
       <div style={{ marginBottom: '0.5rem' }}>
         <Button leadingIcon={<IconSortDescending />} size="sm" variant="tertiary">
           Name

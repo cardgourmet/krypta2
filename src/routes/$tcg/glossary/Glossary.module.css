@@ -1,0 +1,28 @@
+@layer views {
+  .accordionItem {
+    --item-filled-color: var(--cgm-background-primary);
+  }
+
+  .details {
+    .keywords {
+      margin-top: 0.5rem;
+    }
+  }
+
+  .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+  }
+
+  .searchContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  .title {
+    font-family: var(--cgm-title-font-family);
+  }
+}
