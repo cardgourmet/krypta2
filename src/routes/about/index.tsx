@@ -27,7 +27,7 @@ function RouteComponent() {
       },
       {
         name: 'Tobias',
-        imageUrl: 'https://assets.cardgourmet.com/avatars/OTdjM.png',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/NjZiZ.png',
       },
     ];
   }, []);
