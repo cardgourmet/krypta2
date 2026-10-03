@@ -9,6 +9,7 @@
     font-family: var(--cgm-content-font-family), sans-serif;
     margin-bottom: 1.5rem;
     text-wrap: stable;
+    color: var(--gourmet-neutral-9);
   }
 
   h1,
