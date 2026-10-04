@@ -26,6 +26,7 @@ import { Route as MeHistoryIndexRouteImport } from './routes/me/history/index'
 import { Route as AtChar123userChar125ListsIndexRouteImport } from './routes/@{$user}/lists/index'
 import { Route as TcgSetsIndexRouteImport } from './routes/$tcg/sets/index'
 import { Route as TcgKitchenIndexRouteImport } from './routes/$tcg/kitchen/index'
+import { Route as TcgGlossaryIndexRouteImport } from './routes/$tcg/glossary/index'
 import { Route as TcgCardsIndexRouteImport } from './routes/$tcg/cards/index'
 import { Route as AuthEmailTokenRouteImport } from './routes/auth/email/$token'
 import { Route as AuthConfirmTokenRouteImport } from './routes/auth/confirm/$token'
@@ -120,6 +121,11 @@ const TcgKitchenIndexRoute = TcgKitchenIndexRouteImport.update({
   path: '/$tcg/kitchen/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TcgGlossaryIndexRoute = TcgGlossaryIndexRouteImport.update({
+  id: '/$tcg/glossary/',
+  path: '/$tcg/glossary/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TcgCardsIndexRoute = TcgCardsIndexRouteImport.update({
   id: '/$tcg/cards/',
   path: '/$tcg/cards/',
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/$tcg/glossary/': typeof TcgGlossaryIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
   '/@{$user}/lists/': typeof AtChar123userChar125ListsIndexRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/$tcg/cards': typeof TcgCardsIndexRoute
+  '/$tcg/glossary': typeof TcgGlossaryIndexRoute
   '/$tcg/kitchen': typeof TcgKitchenIndexRoute
   '/$tcg/sets': typeof TcgSetsIndexRoute
   '/@{$user}/lists': typeof AtChar123userChar125ListsIndexRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/auth/confirm/$token': typeof AuthConfirmTokenRoute
   '/auth/email/$token': typeof AuthEmailTokenRoute
   '/$tcg/cards/': typeof TcgCardsIndexRoute
+  '/$tcg/glossary/': typeof TcgGlossaryIndexRoute
   '/$tcg/kitchen/': typeof TcgKitchenIndexRoute
   '/$tcg/sets/': typeof TcgSetsIndexRoute
   '/@{$user}/lists/': typeof AtChar123userChar125ListsIndexRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/$tcg/cards/'
+    | '/$tcg/glossary/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
     | '/@{$user}/lists/'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/$tcg/cards'
+    | '/$tcg/glossary'
     | '/$tcg/kitchen'
     | '/$tcg/sets'
     | '/@{$user}/lists'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/auth/confirm/$token'
     | '/auth/email/$token'
     | '/$tcg/cards/'
+    | '/$tcg/glossary/'
     | '/$tcg/kitchen/'
     | '/$tcg/sets/'
     | '/@{$user}/lists/'
@@ -335,6 +347,7 @@ export interface RootRouteChildren {
   AuthConfirmTokenRoute: typeof AuthConfirmTokenRoute
   AuthEmailTokenRoute: typeof AuthEmailTokenRoute
   TcgCardsIndexRoute: typeof TcgCardsIndexRoute
+  TcgGlossaryIndexRoute: typeof TcgGlossaryIndexRoute
   TcgKitchenIndexRoute: typeof TcgKitchenIndexRoute
   TcgSetsIndexRoute: typeof TcgSetsIndexRoute
   AtChar123userChar125ListsIndexRoute: typeof AtChar123userChar125ListsIndexRoute
@@ -466,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TcgKitchenIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$tcg/glossary/': {
+      id: '/$tcg/glossary/'
+      path: '/$tcg/glossary'
+      fullPath: '/$tcg/glossary/'
+      preLoaderRoute: typeof TcgGlossaryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$tcg/cards/': {
       id: '/$tcg/cards/'
       path: '/$tcg/cards'
@@ -535,6 +555,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthConfirmTokenRoute: AuthConfirmTokenRoute,
   AuthEmailTokenRoute: AuthEmailTokenRoute,
   TcgCardsIndexRoute: TcgCardsIndexRoute,
+  TcgGlossaryIndexRoute: TcgGlossaryIndexRoute,
   TcgKitchenIndexRoute: TcgKitchenIndexRoute,
   TcgSetsIndexRoute: TcgSetsIndexRoute,
   AtChar123userChar125ListsIndexRoute: AtChar123userChar125ListsIndexRoute,

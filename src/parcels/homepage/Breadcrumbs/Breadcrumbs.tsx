@@ -1,6 +1,7 @@
 import { Group, Stack } from '@mantine/core';
 import { IconChefHat, IconSlash } from '@tabler/icons-react';
 import { Link, useLocation, useNavigate } from '@tanstack/react-router';
+import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
@@ -8,13 +9,14 @@ import { type Tcg, useTcgByLocation } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './Breadcrumbs.module.css';
 
 export type BreadcrumbProps = {
+  className?: string;
   subpage: string;
   subpageHref?: string;
   moreSubpages?: { label: string; href?: string }[];
   withoutTitle?: boolean;
 };
 
-export default function Breadcrumbs({ subpage, subpageHref, moreSubpages, withoutTitle }: BreadcrumbProps) {
+export default function Breadcrumbs({ className, subpage, subpageHref, moreSubpages, withoutTitle }: BreadcrumbProps) {
   const { t } = useTranslation('home');
   const tcg = useTcgByLocation();
   const subpages = [...(moreSubpages ?? [])];
@@ -29,7 +31,7 @@ export default function Breadcrumbs({ subpage, subpageHref, moreSubpages, withou
   const isSubresource = location.href.split('/').length > 3;
 
   return (
-    <Stack gap={'0'}>
+    <Stack className={clsx(className)} gap={'0'}>
       <Group className={styles.breadcrumb} gap={'0'}>
         <Link to="/">
           <Group>

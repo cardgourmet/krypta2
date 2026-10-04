@@ -5,7 +5,15 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
-import { IconCaretDownFilled, IconCursorText, IconNotebook, IconPlusEqual, IconSearch } from '@tabler/icons-react';
+import {
+  IconCaretDownFilled,
+  IconCursorText,
+  IconLink,
+  IconNotebook,
+  IconPlusEqual,
+  IconSearch,
+} from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import { type Ref, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter';
@@ -152,8 +160,18 @@ export const NewFilterGlossaryModal = ({
           <ScrollArea.Autosize className={styles.detailsContainer}>
             <div className={styles.details}>
               <Group align="center" gap="1rem" justify="space-between">
-                <Typeset block className={styles.title} weight={600}>
-                  {selectedFilter.title}
+                <Typeset asChild block className={styles.title} weight={600}>
+                  <Link
+                    to="/$tcg/glossary"
+                    params={{ tcg }}
+                    search={{ filter: selectedFilter.id }}
+                    onClick={() => props?.onClose?.()}
+                  >
+                    <Group gap="xs">
+                      {selectedFilter.title}
+                      <IconLink aria-hidden size={16} style={{ color: 'var(--cgm-foreground-tertiary)' }} />
+                    </Group>
+                  </Link>
                 </Typeset>
 
                 {(selectedFilter.inverted || selectedFilter.strict) && (
