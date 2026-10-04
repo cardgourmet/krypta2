@@ -6,7 +6,7 @@ import LoreSVG from '@/parcels/tcg/dlc/icons/other/lore.svg?react';
 import StrengthSVG from '@/parcels/tcg/dlc/icons/other/strength.svg?react';
 import WillpowerSVG from '@/parcels/tcg/dlc/icons/other/willpower.svg?react';
 
-type DlcOtherSymbol = 'cost' | 'exert' | 'ink' | 'lore' | 'strength' | 'willpower';
+export type DlcOtherSymbol = 'cost' | 'exert' | 'ink' | 'lore' | 'strength' | 'willpower' | 'E' | 'I' | 'L';
 
 export function DlcOtherSymbolSVG({
   symbol,
@@ -15,13 +15,20 @@ export function DlcOtherSymbolSVG({
 }: React.ComponentPropsWithoutRef<'svg'> & { symbol: DlcOtherSymbol; size: number }) {
   switch (symbol) {
     case 'cost':
+    case 'I':
       return <CostSVG width={size} height={size} {...others} />;
+
     case 'exert':
+    case 'E':
       return <ExertSVG width={size} height={size} {...others} />;
+
     case 'ink':
       return <InkSVG width={size} height={size} {...others} />;
+
     case 'lore':
+    case 'L':
       return <LoreSVG width={size} height={size} {...others} />;
+
     case 'strength':
       return <StrengthSVG width={size} height={size} {...others} />;
     case 'willpower':

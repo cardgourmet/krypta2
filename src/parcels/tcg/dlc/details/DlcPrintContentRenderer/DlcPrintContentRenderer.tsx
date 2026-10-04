@@ -1,4 +1,5 @@
 import { Divider, Group, Stack, Text } from '@mantine/core';
+import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import { usePrintDetailsContext } from '@/parcels/details/TcgPrintDetails/TcgPrintDetailsContext.tsx';
 import { Badge } from '@/parcels/generic/Badge/Badge';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
@@ -32,6 +33,7 @@ export function DlcPrintContentRenderer({ card, print }: { card: DlcDataCard; pr
         : undefined,
     },
   ];
+  const classifications = card.classifications.filter((value) => value.toLowerCase() !== card.type.toLowerCase());
 
   return (
     <Stack w={'28rem'} align={'start'} gap={'lg'}>
@@ -66,8 +68,8 @@ export function DlcPrintContentRenderer({ card, print }: { card: DlcDataCard; pr
             </Group>
           )}
           <Text ff={'var(--cgm-content-font-family)'}>
-            {renderType(card.type, lang ?? 'en')} —{' '}
-            {card.classifications.map((c) => renderClassification(c, lang ?? 'en')).join(' ')}
+            {renderType(card.type, lang ?? 'en')} {classifications.length > 0 && '— '}
+            {classifications.map((c) => renderClassification(c, lang ?? 'en')).join(' ')}
           </Text>
         </Group>
       </Stack>
@@ -75,13 +77,24 @@ export function DlcPrintContentRenderer({ card, print }: { card: DlcDataCard; pr
       {trans.abilities.length > 0 && (
         <Stack gap="md" style={{ fontFamily: 'var(--cgm-content-font-family)' }}>
           {trans.abilities.map((ability, i) => {
+            const keyword = ability.keyword;
+            const keywordModifier = ability.keywordModifier;
+
+            const keywordWithModifier =
+              keyword && keywordModifier ? `${keyword} ${keywordModifier}` : keyword ? keyword : '';
+
             return (
               <div key={i}>
                 {ability.keyword ? (
-                  <Typeset block>{renderRichDlcText(ability.descriptionWithReminders ?? '', ability.keyword)}</Typeset>
+                  <Typeset block>
+                    {renderRichDlcText(
+                      `${keywordWithModifier} ${ability.descriptionWithReminders ?? ''}`,
+                      ability.keyword,
+                    )}
+                  </Typeset>
                 ) : (
                   <Group gap="0.25rem">
-                    <Badge>{ability.name}</Badge>
+                    {ability.name && <Badge>{ability.name}</Badge>}
                     <Typeset block>{renderRichDlcText(ability.descriptionWithReminders ?? '')}</Typeset>
                   </Group>
                 )}
@@ -132,9 +145,9 @@ export function DlcPrintContentRenderer({ card, print }: { card: DlcDataCard; pr
 }
 
 function renderType(type: string, _: string) {
-  return dlcTransType[type] ?? type;
+  return dlcTransType[type] ?? capitalizeFirstLetter(type);
 }
 
 function renderClassification(classi: string, _: string) {
-  return dlcTransClassifications[classi] ?? classi;
+  return dlcTransClassifications[classi] ?? capitalizeFirstLetter(classi);
 }
