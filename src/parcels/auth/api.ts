@@ -37,7 +37,7 @@ export async function registerUsingBasicAuth(
       body: {
         email: data.email,
         username: data.username,
-        displayname: data.displayname,
+        displayName: data.displayname,
         password: data.password,
         language: data.preferredGlobalLanguage,
       },
