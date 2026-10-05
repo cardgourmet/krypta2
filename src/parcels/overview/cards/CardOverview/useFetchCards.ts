@@ -78,7 +78,8 @@ export function useFetchCards({
               query: `set="${set.code}" (${querySettings.subquery})`,
             };
 
-            fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller, user?.id)?.then((res) => {
+            const userId = user?.state === 'verified' ? user?.id : undefined;
+            fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller, userId)?.then((res) => {
               if (!res?.data) return;
 
               const maskPrintIds = res.data.items.map((item) => item.card.print.id);
@@ -116,11 +117,13 @@ export function useFetchCards({
           query: `set="${set.code}"`,
         };
 
-        fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller, user?.id)?.then((res) => {
+        const userId = user?.state === 'verified' ? user?.id : undefined;
+        fetchTcgSetSummary(tcg, set.id, setQuerySettings, controller, userId)?.then((res) => {
           if (res !== null) onSetCardsCallback(res);
         });
       } else {
-        fetchTcgCards(tcg, querySettings, controller, user?.id)?.then((res) => {
+        const userId = user?.state === 'verified' ? user?.id : undefined;
+        fetchTcgCards(tcg, querySettings, controller, userId)?.then((res) => {
           if (res !== null) onCardsCallback(res);
         });
       }
@@ -133,7 +136,7 @@ export function useFetchCards({
       onCardsCallback,
       onSetCardsCallback,
       prevQuerySettings,
-      user?.id,
+      user,
       setManualQuery,
       navigateCards,
       cards,

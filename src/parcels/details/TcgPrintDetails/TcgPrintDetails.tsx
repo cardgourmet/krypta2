@@ -202,9 +202,9 @@ export function TcgPrintDetails() {
             <Group p={'0 1rem'} gap={'0.5rem'} wrap={'nowrap'}>
               <Group gap={'0.15rem'} wrap={'nowrap'}>
                 <ShareMenu />
-                {user && <ReportMenu />}
+                {user?.state === 'verified' && <ReportMenu />}
               </Group>
-              {user && <ListButtons />}
+              {user?.state === 'verified' && <ListButtons />}
             </Group>
           </Group>
           <Divider w={'100%'} color={'var(--gourmet-neutral-3)'} />

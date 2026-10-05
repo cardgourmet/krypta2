@@ -44,10 +44,10 @@ export function SearchRecentSuggestions({
   }, [savedSearches]);
   useActiveLists(CONTEXT_LIST_NAV, listResources);
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id || user?.state !== 'verified') return;
 
     refetchSavedSearches(user.id, tcg);
-  }, [user?.id, tcg, refetchSavedSearches]);
+  }, [user?.id, user?.state, tcg, refetchSavedSearches]);
   const recentSavedSearches: HistoryEntry[] = useMemo(() => {
     return (
       savedSearches[tcg]?.map((s) => ({

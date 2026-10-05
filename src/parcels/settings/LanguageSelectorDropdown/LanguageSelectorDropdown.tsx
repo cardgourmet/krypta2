@@ -27,7 +27,7 @@ export const LanguageSelectorDropdown = () => {
     i18n.changeLanguage(language);
     setLanguage(language);
 
-    if (!user) return;
+    if (user?.state !== 'verified') return;
 
     const res = await updateUserSettings({
       ...user.settings,
@@ -43,6 +43,8 @@ export const LanguageSelectorDropdown = () => {
 
   const handleSyncChanged = async (syncEnabled: boolean) => {
     setLoading(true);
+
+    if (user?.state !== 'verified') return;
 
     const res = await updateUserSettings({
       ...user?.settings,

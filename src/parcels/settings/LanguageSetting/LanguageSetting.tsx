@@ -88,6 +88,9 @@ export function LanguageSetting({
 
               setEdit(false);
               setLoading(true);
+
+              if (user?.state !== 'verified') return;
+
               startTransition(async () => {
                 const res = await updateUserSettings({
                   ...user?.settings,

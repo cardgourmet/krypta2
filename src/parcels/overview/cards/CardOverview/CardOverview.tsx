@@ -206,7 +206,9 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
             randomized={isRandomized}
             color={cardsMask ? 'yellow' : 'blue'}
           />
-          {!cardsMask && user && searchDetails?.explain?.statisticsId && <QueryMenu details={searchDetails} />}
+          {!cardsMask && user?.state === 'verified' && searchDetails?.explain?.statisticsId && (
+            <QueryMenu details={searchDetails} />
+          )}
         </Stack>
         <QueryIgnoredDisplay queryDetails={activeSearchDetails} />
 

@@ -17,7 +17,7 @@ export function ForwardedToDetailsBanner() {
 
   return (
     <>
-      {showBanner && wasForwarded && user?.settings?.search?.forwardToDetailPage && (
+      {showBanner && wasForwarded && user?.state === 'verified' && user?.settings?.search?.forwardToDetailPage && (
         <Stack
           w={'100%'}
           p={'1rem 1rem'}

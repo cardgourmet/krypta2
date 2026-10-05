@@ -80,7 +80,7 @@ export function LanguageSelector() {
                       setLocalLanguage(l);
                       setLanguage(l as 'en' | 'de');
 
-                      if (!user) return;
+                      if (user?.state !== 'verified') return;
 
                       requestAnimationFrameTransition(async () => {
                         const res = await updateUserSettings({
@@ -140,6 +140,8 @@ export function LanguageSelector() {
 
                   setLoading(true);
                   setSyncChecked(checked);
+
+                  if (user?.state !== 'verified') return;
 
                   requestAnimationFrameTransition(async () => {
                     const res = await updateUserSettings({

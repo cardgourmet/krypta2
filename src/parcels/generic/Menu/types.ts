@@ -7,6 +7,7 @@ export type MenuDropdownItemProps = Composable<
   'div',
   {
     icon?: ReactNode;
+    disabled?: boolean;
   }
 >;
 

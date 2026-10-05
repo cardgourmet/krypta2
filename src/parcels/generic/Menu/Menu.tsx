@@ -18,11 +18,11 @@ const Root = ({ children, className, fullTriggerWidth = false, ...props }: MenuP
   );
 };
 
-export const MenuDropdownItem = ({ asChild, children, icon, ...props }: MenuDropdownItemProps) => {
+export const MenuDropdownItem = ({ asChild, children, icon, disabled, ...props }: MenuDropdownItemProps) => {
   const Component = asChild ? Slot : 'div';
 
   return (
-    <DropdownMenuItem asChild className={styles.item}>
+    <DropdownMenuItem asChild className={styles.item} disabled={disabled}>
       <Component {...props}>
         <div className={styles.decorator}>{icon && <div className={styles.iconContainer}>{icon}</div>}</div>
 

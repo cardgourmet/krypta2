@@ -24,6 +24,8 @@ export function ForwardDetailsSetting() {
             setLoading(true);
             setChecked(event.currentTarget.checked);
 
+            if (user?.state !== 'verified') return;
+
             startTransition(async () => {
               const res = await updateUserSettings({
                 ...user?.settings,

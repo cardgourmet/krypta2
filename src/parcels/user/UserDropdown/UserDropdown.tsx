@@ -1,9 +1,19 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/glyphs.json';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { IconBook2, IconHistory, IconList, IconLogin, IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
+import {
+  IconBook2,
+  IconExclamationMark,
+  IconHistory,
+  IconList,
+  IconLogin,
+  IconLogout,
+  IconSettings,
+  IconStar,
+} from '@tabler/icons-react';
 import { Link, useRouter } from '@tanstack/react-router';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton';
 import { Menu } from '@/parcels/generic/Menu/Menu';
@@ -18,6 +28,7 @@ import styles from './UserDropdown.module.css';
 const avatarStyle = new Style(definition);
 
 export const UserDropdown = () => {
+  const { t } = useTranslation('nav', { keyPrefix: 'user' });
   const { user, logout } = useAuth();
   const { tcg } = useTcg();
   const router = useRouter();
@@ -29,11 +40,27 @@ export const UserDropdown = () => {
     const avatar = new Avatar(avatarStyle, { seed: user.id });
     return avatar.toDataUri();
   }, [user]);
+  const isNotVerified = user?.state !== 'verified';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <ActionButton style={{ paddingInline: '0' }}>
+          {/* TODO: ugly, should probably also be interactable */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '-2px',
+              right: '-2px',
+              zIndex: 2,
+              backgroundColor: 'var(--gourmet-orange-1)',
+              borderRadius: '4px',
+              height: '20px',
+            }}
+          >
+            <IconExclamationMark style={{ color: 'var(--gourmet-neutral-0)' }} />
+          </div>
+
           <UserNavbarTriggerContent />
         </ActionButton>
       </DropdownMenuTrigger>
@@ -56,28 +83,47 @@ export const UserDropdown = () => {
                   </div>
                 </div>
 
+                {isNotVerified && (
+                  <div style={{ padding: '0.5rem 1rem' }}>
+                    <Typeset block size="sm" style={{ color: 'var(--gourmet-orange-1)' }}>
+                      {t('notVerified')}
+                    </Typeset>
+                  </div>
+                )}
+
                 <Menu.DropdownItem asChild icon={<IconHistory />}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
                     Search History
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconBook2 />}>
-                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches">
+                <Menu.DropdownItem asChild icon={<IconBook2 />} disabled={isNotVerified}>
+                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" disabled={isNotVerified}>
                     Saved Searches
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconStar />}>
-                  <Link params={{ user: user.username, listId: 'favorites' }} to="/@{$user}/lists/$listId">
+                <Menu.DropdownItem asChild icon={<IconStar />} disabled={isNotVerified}>
+                  <Link
+                    params={{ user: user.username, listId: 'favorites' }}
+                    to="/@{$user}/lists/$listId"
+                    disabled={isNotVerified}
+                  >
                     Favorites
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconList />}>
-                  <Link params={{ user: user.username }} search={{ ...paramDefaults, tcg }} to="/@{$user}/lists">
+                <Menu.DropdownItem asChild icon={<IconList />} disabled={isNotVerified}>
+                  <Link
+                    params={{ user: user.username }}
+                    search={{ ...paramDefaults, tcg }}
+                    to="/@{$user}/lists"
+                    disabled={isNotVerified}
+                  >
                     Lists
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconSettings />}>
-                  <Link to="/me/settings">Settings</Link>
+                <Menu.DropdownItem asChild icon={<IconSettings />} disabled={isNotVerified}>
+                  <Link to="/me/settings" disabled={isNotVerified}>
+                    Settings
+                  </Link>
                 </Menu.DropdownItem>
               </>
             ) : (

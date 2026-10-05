@@ -14,7 +14,8 @@ export const Route = createFileRoute('/$tcg/sets/$setCode/$collectorNumber/{-$an
     const allowed = ['mtg', 'dlc', 'pcg'];
     if (!allowed.includes(params.tcg)) throw notFound({ data: { tcg: params.tcg } });
 
-    return loadTcgPrintAndSet(params.tcg as Tcg, params, context.auth.user?.id);
+    const userId = context.auth.user?.state === 'verified' ? context.auth.user?.id : undefined;
+    return loadTcgPrintAndSet(params.tcg as Tcg, params, userId);
   },
 });
 

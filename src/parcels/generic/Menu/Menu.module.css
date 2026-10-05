@@ -79,6 +79,18 @@
     &[data-highlighted] {
       background-color: color-mix(in oklch, var(--cgm-color-neutral), transparent 80%);
     }
+
+    &[data-disabled] {
+      color: var(--gourmet-neutral-6);
+
+      svg {
+        color: var(--gourmet-neutral-5);
+      }
+
+      &:hover {
+        cursor: auto;
+      }
+    }
   }
 
   .separator {
