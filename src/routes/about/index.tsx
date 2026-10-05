@@ -51,11 +51,11 @@ function RouteComponent() {
       },
       {
         name: 'Thomas',
-        imageUrl: '',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_thomas.png',
       },
       {
         name: 'Paul',
-        imageUrl: '',
+        imageUrl: 'https://assets.cardgourmet.com/avatars/helpers_paul.png',
       },
       {
         name: 'Emma',
