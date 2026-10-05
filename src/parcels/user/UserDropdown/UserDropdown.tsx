@@ -47,19 +47,21 @@ export const UserDropdown = () => {
       <DropdownMenuTrigger asChild>
         <ActionButton style={{ paddingInline: '0' }}>
           {/* TODO: ugly, should probably also be interactable */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '-2px',
-              right: '-2px',
-              zIndex: 2,
-              backgroundColor: 'var(--gourmet-orange-1)',
-              borderRadius: '4px',
-              height: '20px',
-            }}
-          >
-            <IconExclamationMark style={{ color: 'var(--gourmet-neutral-0)' }} />
-          </div>
+          {isNotVerified && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '-2px',
+                right: '-2px',
+                zIndex: 2,
+                backgroundColor: 'var(--gourmet-orange-1)',
+                borderRadius: '4px',
+                height: '20px',
+              }}
+            >
+              <IconExclamationMark style={{ color: 'var(--gourmet-neutral-0)' }} />
+            </div>
+          )}
 
           <UserNavbarTriggerContent />
         </ActionButton>

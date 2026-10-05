@@ -23,8 +23,10 @@
     }
 
     .image {
+      aspect-ratio: 1;
       border-radius: inherit;
       box-shadow: inset 0 0 0 var(--cgm-border-width) var(--cgm-border-primary);
+      object-fit: cover;
     }
   }
 }

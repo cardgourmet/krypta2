@@ -4,6 +4,7 @@ import { IconAlertHexagon, IconAlertHexagonFilled } from '@tabler/icons-react';
 import { useCallback } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { type DataAuthUser, resendConfirmationMail } from '@/parcels/auth/api.ts';
+import { Banner } from '@/parcels/layout/Banner/Banner';
 import styles from './UnverifiedBanner.module.css';
 
 export function UnverifiedBanner({ user }: { user: DataAuthUser }) {
@@ -55,7 +56,7 @@ export function UnverifiedBanner({ user }: { user: DataAuthUser }) {
         </Modal>
       )}
 
-      <Group gap={'0.5rem'} classNames={{ root: styles.banner }} p={'0.5rem'} wrap={'nowrap'}>
+      <Banner className={styles.banner}>
         <UnstyledButton
           style={{ overflow: 'hidden', cursor: 'default' }}
           onClick={() => {
@@ -74,7 +75,7 @@ export function UnverifiedBanner({ user }: { user: DataAuthUser }) {
           <Text style={{ textWrap: 'nowrap' }}>Link erneut senden</Text>
         </UnstyledButton>
         {!smallScreen && timer.isRunning && <Text c={'var(--gourmet-orange-2)'}>(In {timer.seconds} Sekunden)</Text>}
-      </Group>
+      </Banner>
     </>
   );
 }
