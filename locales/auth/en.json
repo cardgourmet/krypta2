@@ -6,7 +6,10 @@
     "emailOrName": "Email-Address or Username",
     "password": "Password",
     "forgotPassword": "Forgot password?",
-    "loginButton": "Login"
+    "loginButton": "Login",
+    "errors": {
+      "invalid_credentials": "The username/email or password are incorrect."
+    }
   },
   "register": {
     "errors": {

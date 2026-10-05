@@ -50,7 +50,7 @@ export const useFilterCacheStore = create<FilterCacheStore>((set, get) => ({
 
     // filters that might have more than 2048 values and that definitely need
     // current value for filtering
-    const dynamicFilterKeywords = ['set', 's', 'e', 'edition', 'expansion', 'name', 'n'];
+    const dynamicFilterKeywords = ['set', 's', 'e', 'edition', 'expansion', 'name', 'n', 'list'];
     let isDynamic = false;
 
     const foundValuesByKeyword: FilterValuesByKeyword = {};

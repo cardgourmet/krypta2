@@ -57,7 +57,7 @@ export function LoginForm() {
 
         {loginError && (
           <Blockquote color={'var(--gourmet-red-01)'} className={styles.errorField} p={'1rem'}>
-            {loginError}
+            {t(`errors.${loginError}`)}
           </Blockquote>
         )}
 
