@@ -3,12 +3,16 @@ import type { TcgSearchDisplaySettings, TcgSearchParams, TcgSearchQuerySettings 
 
 export function useTcgSearchSettings(search: TcgSearchParams) {
   const searchQuerySettings = useMemo(() => {
+    const uniqueByFromQuery = search.query?.match(/unique:(\w*?)(\s|$)/)?.[1];
+    const sortByFromQuery = search.query?.match(/order:(\w*?)(\s|$)/)?.[1];
+    const sortDirectionFromQuery = search.query?.match(/direction:(\w*?)(\s|$)/)?.[1];
+
     return {
       page: search.page,
       query: search.query,
-      sortBy: search.sortBy,
-      sortDirection: search.sortDirection,
-      uniqueBy: search.uniqueBy,
+      sortBy: sortByFromQuery || search.sortBy,
+      sortDirection: sortDirectionFromQuery || search.sortDirection,
+      uniqueBy: uniqueByFromQuery || search.uniqueBy,
       random: search.random,
       manual: search.manual,
       subquery: search.subquery,
