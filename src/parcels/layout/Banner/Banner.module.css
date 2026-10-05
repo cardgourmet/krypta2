@@ -1,0 +1,15 @@
+@layer components {
+  .base {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    grid-area: banner;
+    height: 2.5rem;
+    justify-content: space-between;
+    padding: 0.5rem;
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+}

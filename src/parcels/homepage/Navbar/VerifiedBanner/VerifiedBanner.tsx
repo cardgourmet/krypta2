@@ -1,6 +1,7 @@
 import { Group, Modal, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconChecks, IconX } from '@tabler/icons-react';
+import { Banner } from '@/parcels/layout/Banner/Banner';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import styles from './VerifiedBanner.module.css';
 
@@ -30,7 +31,7 @@ export function VerifiedBanner() {
         </Modal>
       )}
 
-      <Group classNames={{ root: styles.banner }} p={'0.5rem'} justify={'space-between'} wrap={'nowrap'}>
+      <Banner className={styles.banner}>
         <UnstyledButton
           style={{ overflow: 'hidden', cursor: 'default' }}
           onClick={() => {
@@ -47,7 +48,7 @@ export function VerifiedBanner() {
         <UnstyledButton classNames={{ root: styles.closeButton }} onClick={removeVerified}>
           <IconX size={18} />
         </UnstyledButton>
-      </Group>
+      </Banner>
     </>
   );
 }
