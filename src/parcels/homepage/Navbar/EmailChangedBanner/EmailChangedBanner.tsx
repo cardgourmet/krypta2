@@ -1,6 +1,7 @@
 import { Group, Modal, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconChecks, IconX } from '@tabler/icons-react';
+import { Banner } from '@/parcels/layout/Banner/Banner';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
 import styles from './EmailChangedBanner.module.css';
 
@@ -28,7 +29,7 @@ export function EmailChangedBanner() {
         </Modal>
       )}
 
-      <Group classNames={{ root: styles.banner }} p={'0.5rem'} justify={'space-between'} wrap={'nowrap'}>
+      <Banner className={styles.banner}>
         <UnstyledButton
           style={{ overflow: 'hidden', cursor: 'default' }}
           onClick={() => {
@@ -45,7 +46,7 @@ export function EmailChangedBanner() {
         <UnstyledButton classNames={{ root: styles.closeButton }} onClick={removeEmailWasChanged}>
           <IconX size={18} />
         </UnstyledButton>
-      </Group>
+      </Banner>
     </>
   );
 }

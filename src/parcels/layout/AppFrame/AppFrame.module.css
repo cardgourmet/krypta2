@@ -8,14 +8,23 @@
     background-color: var(--cgm-background-primary);
     display: grid;
     grid-template-areas:
+      "banner  banner   banner"
       "sidebar navbar   navbar"
       "sidebar sidecar  content"
       "sidebar footer   footer";
     grid-template-columns: var(--cgm-frame-sidebar-width) 0 1fr;
-    grid-template-rows: var(--cgm-frame-navbar-height) 1fr auto;
+    grid-template-rows: 0 var(--cgm-frame-navbar-height) 1fr auto;
     isolation: isolate;
     min-height: 100dvh;
     transition: grid-template-columns 0.2s;
+
+    &:has(> [data-cgm-banner]) {
+      grid-template-rows: auto var(--cgm-frame-navbar-height) 1fr auto;
+
+      & > [data-cgm-banner] {
+        grid-area: banner;
+      }
+    }
 
     @media (width >= 48em) {
       --cgm-frame-sidebar-width: 3.5rem;

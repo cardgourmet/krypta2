@@ -70,6 +70,15 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
   });
   const prevOverviewSettings = usePrevious(overviewSettings);
 
+  useEffect(() => {
+    setOverviewSettings((prev) => ({
+      ...prev!,
+      uniqueBy: querySettings.uniqueBy,
+      sortBy: querySettings.sortBy,
+      sortDirection: querySettings.sortDirection,
+    }));
+  }, [querySettings.uniqueBy, querySettings.sortBy, querySettings.sortDirection]);
+
   const { addResources, removeResources, setResources } = useActiveLists(CONTEXT_LIST_MAIN);
 
   const clearSelection = useOverviewWorkStore((state) => state.clearSelection);
@@ -100,10 +109,15 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
 
     const pageChanged = prevOverviewSettings.page !== overviewSettings.page;
 
+    let query = overviewSettings.query
+        .replace(/unique:(\w*?)(\s|$)/g, '')
+        .replace(/order:(\w*?)(\s|$)/g, '')
+        .replace(/direction:(\w*?)(\s|$)/g, '');
+
     if (set !== undefined) {
       navigate({
         to: '/$tcg/sets/$setCode',
-        search: () => ({ ...overviewSettings }),
+        search: () => ({ ...overviewSettings, query }),
         params: {
           tcg: tcg,
           setCode: set.code!,
@@ -113,7 +127,7 @@ export function CardOverview({ set, routeSearch }: { set?: TcgDataSet; routeSear
     } else {
       navigate({
         to: '/$tcg/cards',
-        search: () => ({ ...overviewSettings }),
+        search: () => ({ ...overviewSettings, query }),
         params: {
           tcg: tcg,
         },
