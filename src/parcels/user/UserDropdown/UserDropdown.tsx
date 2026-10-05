@@ -40,14 +40,14 @@ export const UserDropdown = () => {
     const avatar = new Avatar(avatarStyle, { seed: user.id });
     return avatar.toDataUri();
   }, [user]);
-  const isNotVerified = user?.state !== 'verified';
+  const isUnverified = user?.state === 'unverified';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <ActionButton style={{ paddingInline: '0' }}>
           {/* TODO: ugly, should probably also be interactable */}
-          {isNotVerified && (
+          {isUnverified && (
             <div
               style={{
                 position: 'absolute',
@@ -85,7 +85,7 @@ export const UserDropdown = () => {
                   </div>
                 </div>
 
-                {isNotVerified && (
+                {isUnverified && (
                   <div style={{ padding: '0.5rem 1rem' }}>
                     <Typeset block size="sm" style={{ color: 'var(--gourmet-orange-1)' }}>
                       {t('notVerified')}
@@ -98,32 +98,32 @@ export const UserDropdown = () => {
                     Search History
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconBook2 />} disabled={isNotVerified}>
-                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" disabled={isNotVerified}>
+                <Menu.DropdownItem asChild icon={<IconBook2 />} disabled={isUnverified}>
+                  <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" disabled={isUnverified}>
                     Saved Searches
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconStar />} disabled={isNotVerified}>
+                <Menu.DropdownItem asChild icon={<IconStar />} disabled={isUnverified}>
                   <Link
                     params={{ user: user.username, listId: 'favorites' }}
                     to="/@{$user}/lists/$listId"
-                    disabled={isNotVerified}
+                    disabled={isUnverified}
                   >
                     Favorites
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconList />} disabled={isNotVerified}>
+                <Menu.DropdownItem asChild icon={<IconList />} disabled={isUnverified}>
                   <Link
                     params={{ user: user.username }}
                     search={{ ...paramDefaults, tcg }}
                     to="/@{$user}/lists"
-                    disabled={isNotVerified}
+                    disabled={isUnverified}
                   >
                     Lists
                   </Link>
                 </Menu.DropdownItem>
-                <Menu.DropdownItem asChild icon={<IconSettings />} disabled={isNotVerified}>
-                  <Link to="/me/settings" disabled={isNotVerified}>
+                <Menu.DropdownItem asChild icon={<IconSettings />} disabled={isUnverified}>
+                  <Link to="/me/settings" disabled={isUnverified}>
                     Settings
                   </Link>
                 </Menu.DropdownItem>
