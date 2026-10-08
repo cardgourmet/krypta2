@@ -24,3 +24,11 @@
   border-radius: 0.25rem;
   padding: 0.05rem 0.25rem;
 }
+
+.glossaryContent {
+  background-color: var(--gourmet-neutral-1);
+}
+
+.glossaryHeader {
+  background-color: var(--gourmet-neutral-1);
+}

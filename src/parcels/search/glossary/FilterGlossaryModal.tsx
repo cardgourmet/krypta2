@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from '@/parcels/capitalizeFirstLetter.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { TextDropdown } from '@/parcels/generic/TextDropdown/TextDropdown.tsx';
-import cssStyles from '@/parcels/search/bar/Searchbar/Searchbar.module.css';
 import { SimpleSearchbar } from '@/parcels/search/bar/SimpleSearchbar/SimpleSearchbar.tsx';
 import { useFilters } from '@/parcels/search/filter/useFilters.ts';
 import styles from '@/parcels/search/glossary/FilterGlossary.module.css';
@@ -91,8 +90,8 @@ export function FilterGlossaryModal({
       size={'auto'}
       closeOnClickOutside={false}
       classNames={{
-        content: cssStyles.glossaryContent,
-        header: cssStyles.glossaryHeader,
+        content: styles.glossaryContent,
+        header: styles.glossaryHeader,
       }}
       ref={ref}
     >

@@ -1,13 +1,13 @@
 import { Group, Modal, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { IconChecks, IconX } from '@tabler/icons-react';
-import { Banner } from '@/parcels/layout/Banner/Banner';
+import { Banner } from '@/parcels/layout/Banner/Banner.tsx';
 import { useLocalUserStateStore } from '@/parcels/state/LocalUserStateStore.tsx';
-import styles from './EmailChangedBanner.module.css';
+import styles from './VerifiedBanner.module.css';
 
-export function EmailChangedBanner() {
+export function VerifiedBanner() {
   const smallScreen = useMediaQuery('(max-width: 800px)');
-  const removeEmailWasChanged = useLocalUserStateStore((state) => state.removeEmailWasChanged);
+  const removeVerified = useLocalUserStateStore((state) => state.removeVerified);
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -20,12 +20,14 @@ export function EmailChangedBanner() {
             <Group>
               <IconChecks size={18} color={'var(--gourmet-green-1)'} />
               <Text ff={'var(--cgm-title-font-family)'} fw={'bold'}>
-                Email Has Changed
+                Account verifiziert
               </Text>
             </Group>
           }
         >
-          <Text ff={'var(--cgm-content-font-family)'}>Your email has been changed, please login again.</Text>
+          <Text ff={'var(--cgm-content-font-family)'}>
+            Dein Account wurde verifiziert, du kannst dich jetzt normal einloggen.
+          </Text>
         </Modal>
       )}
 
@@ -39,11 +41,11 @@ export function EmailChangedBanner() {
           <Group gap={'0.5rem'} wrap={'nowrap'} style={{ overflow: 'hidden' }}>
             <IconChecks />
             <Text style={{ overflow: 'hidden', textWrap: 'nowrap', textOverflow: 'ellipsis' }}>
-              Your email has been changed, please login again.
+              Dein Account wurde verifiziert, du kannst dich jetzt normal einloggen.
             </Text>
           </Group>
         </UnstyledButton>
-        <UnstyledButton classNames={{ root: styles.closeButton }} onClick={removeEmailWasChanged}>
+        <UnstyledButton classNames={{ root: styles.closeButton }} onClick={removeVerified}>
           <IconX size={18} />
         </UnstyledButton>
       </Banner>

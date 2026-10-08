@@ -4,7 +4,7 @@ import { IconAlertHexagon, IconAlertHexagonFilled } from '@tabler/icons-react';
 import { useCallback } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { type DataAuthUser, resendConfirmationMail } from '@/parcels/auth/api.ts';
-import { Banner } from '@/parcels/layout/Banner/Banner';
+import { Banner } from '@/parcels/layout/Banner/Banner.tsx';
 import styles from './UnverifiedBanner.module.css';
 
 export function UnverifiedBanner({ user }: { user: DataAuthUser }) {

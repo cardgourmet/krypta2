@@ -39,7 +39,14 @@
     row-gap: 0.5rem;
 
     a {
-      text-decoration: underline 1px solid transparent !important;
+      text-decoration: underline 1px solid var(--gourmet-neutral-5) !important;
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--cgm-color-complementary);
+          text-decoration-color: var(--cgm-color-complementary) !important;
+        }
+      }
     }
   }
 

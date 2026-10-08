@@ -11,7 +11,6 @@ function RouteComponent() {
       <title>{`Imprint – Cardgourmet`}</title>
 
       <h1>Impressum</h1>
-      <h2>Angaben gemäß §5 TMG</h2>
 
       <address>
         <p>
