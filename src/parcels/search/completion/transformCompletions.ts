@@ -56,7 +56,21 @@ export function transformCompletions(currentQuery: string, state: SearchCompleti
   });
 }
 
-const replaceLast = (str: string, match: string, replacement: string) => {
+/*const replaceLast = (str: string, match: string, replacement: string) => {
   const last = str.lastIndexOf(match);
   return last !== -1 ? `${str.slice(0, last)}${replacement}${str.slice(last + match.length)}` : str;
+};*/
+
+const replaceLast = (str: string, match: string, replacement: string) => {
+  const last = str.lastIndexOf(match);
+  if (last === -1) return str;
+
+  const quoteIndex = last - 1;
+  const startsInsideQuote = str[quoteIndex] === '"';
+  const quoteFollowsOperator = quoteIndex > 0 && [':', '='].includes(str[quoteIndex - 1]);
+  const replacementIsQuoted = replacement.startsWith('"');
+
+  const start = startsInsideQuote && quoteFollowsOperator && replacementIsQuoted ? quoteIndex : last;
+
+  return `${str.slice(0, start)}${replacement}${str.slice(last + match.length)}`;
 };
