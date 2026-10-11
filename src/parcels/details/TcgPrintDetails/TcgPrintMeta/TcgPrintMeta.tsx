@@ -322,6 +322,8 @@ function getPrintLanguages(tcg: Tcg, print: TcgDataPrint): string[] {
     return [...new Set(allLangs)];*/
   }
   const elsePrint = print as Exclude<TcgDataPrint, MtgDataPrint>;
+  if (!elsePrint.translations) return [];
+
   return [...new Set(Object.keys(elsePrint.translations))];
 }
 

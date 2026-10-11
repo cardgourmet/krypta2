@@ -193,7 +193,10 @@ export function TcgPrintDetails() {
               style={{
                 overflow: 'hidden',
                 textOverflow: 'clip',
-                textWrap: 'nowrap',
+                textWrap: 'wrap',
+                whiteSpace: 'normal',
+                overflowWrap: 'anywhere',
+                wordBreak: 'normal',
               }}
             >
               {title?.label}
