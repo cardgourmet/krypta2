@@ -1,13 +1,11 @@
 export function slugify(t: string): string {
-  return slugify2(t);
-
-  /*return t
+  return t
     .toLowerCase()
     .replaceAll(' ', '-')
-    .replaceAll(/[^a-zA-Z0-9-_]+/g, '');*/
+    .replaceAll(/[^a-zA-Z0-9-_]+/g, '');
 }
 
-export function slugify2(value: string, replacement = '-') {
+export function slugifyList(value: string, replacement = '-') {
   return (
     value
       .normalize('NFD')
