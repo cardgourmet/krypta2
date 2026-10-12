@@ -30,7 +30,7 @@ export function shouldBeTransformed(tcg: Tcg, card: TcgDataCard): boolean {
   if (tcg !== 'mtg') return false;
   card = card as MtgDataCard;
 
-  if (!card.print.faces[0].propertyTags?.includes('double_faced_card')) return false;
+  if (card.print.faces && !card.print.faces[0]?.propertyTags?.includes('double_faced_card')) return false;
 
   const oneSideLayouts = ['split', 'aftermath', 'adventure'];
   if (oneSideLayouts.includes(card.layout)) return false;
