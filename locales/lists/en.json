@@ -10,7 +10,8 @@
     "createNew": "Create new",
     "copyPrint": "Copy print link",
     "nothingAdd": "Nothing to add",
-    "nothingRemove": "Nothing to remove"
+    "nothingRemove": "Nothing to remove",
+    "favoriteTitle": "Favorites"
   },
   "overview": {
     "header": {

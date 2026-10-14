@@ -71,6 +71,8 @@ export function ListSingleMenuItem({
   }, [listActionCount, listWithResources, action, checkListAddExceeded]);
   const isDisabled = disabled || !!exceedsLimit || listActionCount === 0;
 
+  const listTitle = list.systemListType === 'favorites' ? t('favoriteTitle') : list.name;
+
   return (
     <Tooltip
       label={
@@ -163,7 +165,7 @@ export function ListSingleMenuItem({
           {!icon && (
             <Group justify={'space-between'} w={'100%'} wrap={'nowrap'}>
               <Group gap={'0.25rem'} wrap={'nowrap'}>
-                <Tooltip label={list.name} openDelay={500}>
+                <Tooltip label={listTitle} openDelay={500}>
                   <GourmetText
                     cgmff={'ui'}
                     maw={'10rem'}
@@ -172,7 +174,7 @@ export function ListSingleMenuItem({
                       overflow: 'hidden',
                     }}
                   >
-                    {list.name}
+                    {listTitle}
                   </GourmetText>
                 </Tooltip>
                 {list.color && <IconLabelFilled size={18} color={list.color ?? 'var(--gourmet-neutral-9'} />}

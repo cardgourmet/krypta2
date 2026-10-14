@@ -8,10 +8,12 @@ export function SimpleSearchbar({
   onChange,
   value,
   color,
+  liveUpdate,
 }: {
   onChange?: (query: string) => void;
   value?: string;
   color?: string;
+  liveUpdate?: boolean;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.settings' });
 
@@ -25,9 +27,17 @@ export function SimpleSearchbar({
       <TextInput
         className={styles.searchBarInput}
         placeholder={t('searchbarPlaceholder')}
-        onChange={(event) => setSearchQuery(event.currentTarget.value)}
+        onChange={(event) => {
+          setSearchQuery(event.currentTarget.value);
+
+          if (liveUpdate) {
+            if (onChange) onChange(event.currentTarget.value);
+          }
+        }}
         value={searchQuery}
         onKeyDown={(event) => {
+          event.stopPropagation();
+
           if (event.key === 'Enter') {
             if (onChange) onChange(searchQuery);
           }

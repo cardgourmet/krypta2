@@ -1,4 +1,4 @@
-import { Group, Menu, Tooltip } from '@mantine/core';
+import { Group, Menu, ScrollArea, Space, Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
 import { type ReactElement, type Ref, use, useMemo, useState } from 'react';
@@ -15,6 +15,7 @@ import { ListCreateNotification } from '@/parcels/notification/list/ListCreateNo
 import { ResourcesAddNotification } from '@/parcels/notification/list/ResourcesAddNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import { sendNotification } from '@/parcels/notification/sendNotification.ts';
+import { SimpleSearchbar } from '@/parcels/search/bar/SimpleSearchbar/SimpleSearchbar.tsx';
 import styles from '@/parcels/selection/ListDetailsSelectionDisplay/ListDetailsSelectionButton.module.css';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 
@@ -42,7 +43,6 @@ export function ListMultipleMenu({
   action,
   activeListContext,
   listContext,
-  withSystem,
   target,
   onSuccess,
   dropdownProps,
@@ -53,38 +53,18 @@ export function ListMultipleMenu({
   const { requestModal } = use(ModalContext);
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
-  const { activeLists, addResources, addLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
+  const { addResources, addLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
   const actionableResourceIds = useMemo(() => {
     return actionableResources.map((res) => res.id);
   }, [actionableResources]);
 
-  const targetTcgs = useMemo(() => {
-    return [...new Set(actionableResources.map((res) => res.game as Tcg))];
-  }, [actionableResources]);
-  const targetLists = useMemo(() => {
-    const lists = activeLists.filter((l) => {
-      // if we view the current list, exclude it
-      if (l.list.id === listContext) return false;
-
-      // filter by tcg
-      if ((l.list.allowedTcgs?.length ?? 0) === 0) return true;
-      return targetTcgs.every((t) => l.list.allowedTcgs?.includes(t));
-    });
-
-    const filteredLists = lists.filter((l) => {
-      if (withSystem) return true;
-      return l.list.systemListType === undefined;
-    });
-    filteredLists.sort((a, b) => {
-      const timeA = new Date(a.list.updatedAt).getTime();
-      const timeB = new Date(b.list.updatedAt).getTime();
-
-      return (timeA - timeB) * -1;
-    });
-
-    return filteredLists;
-  }, [activeLists, targetTcgs, withSystem, listContext]);
-
+  const { targetLists } = useListActionItemsTargetLists({
+    listContext,
+    activeListContext,
+    action,
+    actionableResources,
+    target,
+  });
   const { user } = useAuth();
   const { checkListCreateExceeded, checkListAddExceeded, generateExceededTooltip } = useCheckUserLimits();
   const checkCreateLimitExceeded = useMemo(() => {
@@ -101,96 +81,180 @@ export function ListMultipleMenu({
   const toggle = () => setSubmenuOpened((prev) => !prev);
   const mustTarget = typeof target === 'function' ? target({ opened: submenuOpened, toggle, close, open }) : target;
 
+  const [menuSearchString, setMenuSearchString] = useState('');
+  const searchFilteredLists = useMemo(() => {
+    if (!targetLists || targetLists.length === 0) return [];
+    return targetLists.filter((l) => {
+      return l.list.name.toLowerCase().includes(menuSearchString.toLowerCase());
+    });
+  }, [menuSearchString, targetLists]);
+
   return (
-    <Menu
-      opened={submenuOpened}
-      onChange={setSubmenuOpened}
-      trigger={'click-hover'}
-      position={smallestScreen ? 'top' : 'right-start'}
-      openDelay={120}
-      closeDelay={150}
-      withinPortal={false}
-      classNames={{ dropdown: styles.menuDropdown }}
-    >
-      <Menu.Target>{mustTarget}</Menu.Target>
+    <>
+      {targetLists.length > 0 && (
+        <Menu
+          opened={submenuOpened}
+          onChange={setSubmenuOpened}
+          trigger={'click-hover'}
+          position={smallestScreen ? 'top' : 'right-start'}
+          openDelay={120}
+          closeDelay={150}
+          withinPortal={false}
+          classNames={{ dropdown: styles.menuDropdown }}
+        >
+          <Menu.Target>{mustTarget}</Menu.Target>
 
-      <Menu.Dropdown
-        ref={dropdownProps?.ref}
-        style={{
-          width: 'max-content',
-          minWidth: 200,
-          maxWidth: 320,
-        }}
-      >
-        {targetLists.map((list) => {
-          return (
-            <ListSingleMenuItem
-              actionableResources={actionableResources}
-              key={list.list.id}
-              listWithResources={list}
-              action={action}
-              onSuccess={onSuccess}
-              listContext={{
-                key: activeListContext ?? CONTEXT_LIST_MAIN,
-                sync: activeListContext !== undefined && activeListContext !== CONTEXT_LIST_MAIN,
+          <Menu.Dropdown
+            ref={dropdownProps?.ref}
+            style={{
+              width: 'max-content',
+              minWidth: 200,
+              maxWidth: 320,
+            }}
+          >
+            <SimpleSearchbar
+              value={''}
+              onChange={(q) => {
+                console.log('onChange! hallo bitte');
+
+                setMenuSearchString(q);
               }}
+              color={'var(--gourmet-green-1)'}
+              liveUpdate
             />
-          );
-        })}
 
-        {action === 'add' && (
-          <>
-            {activeLists.length > 0 && <Menu.Divider />}
+            <Space h={'0.25rem'} />
 
-            <Tooltip
-              label={generateExceededTooltip(checkCreateLimitExceeded ?? undefined)}
-              disabled={!checkCreateLimitExceeded}
-              color={'var(--gourmet-red-01)'}
-              withArrow
+            <ScrollArea
+              h={260}
+              offsetScrollbars
+              scrollbarSize={4}
+              onWheel={(event) => {
+                event.stopPropagation();
+              }}
             >
-              <Menu.Item
-                disabled={!!checkCreateLimitExceeded}
-                onClick={async () => {
-                  if (checkCreateLimitExceeded) {
-                    return;
-                  }
+              {searchFilteredLists.length === 0 && <GourmetText cgmc={'neutral-4'}>No list found</GourmetText>}
+              {searchFilteredLists.map((list) => {
+                return (
+                  <ListSingleMenuItem
+                    actionableResources={actionableResources}
+                    key={list.list.id}
+                    listWithResources={list}
+                    action={action}
+                    onSuccess={onSuccess}
+                    listContext={{
+                      key: activeListContext ?? CONTEXT_LIST_MAIN,
+                      sync: activeListContext !== undefined && activeListContext !== CONTEXT_LIST_MAIN,
+                    }}
+                  />
+                );
+              })}
+            </ScrollArea>
 
-                  try {
-                    const createdList = await requestModal<UserList>('createList', { async: true });
-                    if (!createdList) return;
+            {action === 'add' && (
+              <>
+                {targetLists.length > 0 && <Menu.Divider />}
 
-                    const res = await addResourcesToList(user!.id, createdList.id, actionableResources);
-                    if (res.error) {
-                      addLists([{ list: createdList, size: 0 }]);
+                <Tooltip
+                  label={generateExceededTooltip(checkCreateLimitExceeded ?? undefined)}
+                  disabled={!checkCreateLimitExceeded}
+                  color={'var(--gourmet-red-01)'}
+                  withArrow
+                >
+                  <Menu.Item
+                    disabled={!!checkCreateLimitExceeded}
+                    onClick={async () => {
+                      if (checkCreateLimitExceeded) {
+                        return;
+                      }
 
-                      sendErrorNotification(res.error);
-                      return;
-                    }
-                    if (!res.data) return;
+                      try {
+                        const createdList = await requestModal<UserList>('createList', { async: true });
+                        if (!createdList) return;
 
-                    sendNotification('success', <ListCreateNotification list={createdList} />);
-                    sendNotification(
-                      'success',
-                      <ResourcesAddNotification
-                        list={createdList}
-                        resourceIds={actionableResourceIds}
-                        language={'en'}
-                      />,
-                    );
-                    addLists([{ list: createdList, size: res.data?.length ?? 0 }]);
-                    addResources(res.data);
-                  } catch {}
-                }}
-              >
-                <Group gap={'0.5rem'}>
-                  <IconPlus size={18} />
-                  <GourmetText cgmff={'ui'}>{t('createNew')}</GourmetText>
-                </Group>
-              </Menu.Item>
-            </Tooltip>
-          </>
-        )}
-      </Menu.Dropdown>
-    </Menu>
+                        const res = await addResourcesToList(user!.id, createdList.id, actionableResources);
+                        if (res.error) {
+                          addLists([{ list: createdList, size: 0 }]);
+
+                          sendErrorNotification(res.error);
+                          return;
+                        }
+                        if (!res.data) return;
+
+                        sendNotification('success', <ListCreateNotification list={createdList} />);
+                        sendNotification(
+                          'success',
+                          <ResourcesAddNotification
+                            list={createdList}
+                            resourceIds={actionableResourceIds}
+                            language={'en'}
+                          />,
+                        );
+                        addLists([{ list: createdList, size: res.data?.length ?? 0 }]);
+                        addResources(res.data);
+                      } catch {}
+                    }}
+                  >
+                    <Group gap={'0.5rem'}>
+                      <IconPlus size={18} />
+                      <GourmetText cgmff={'ui'}>{t('createNew')}</GourmetText>
+                    </Group>
+                  </Menu.Item>
+                </Tooltip>
+              </>
+            )}
+          </Menu.Dropdown>
+        </Menu>
+      )}
+    </>
   );
+}
+
+function useListActionItemsTargetLists({
+  listContext,
+  activeListContext,
+  action,
+  actionableResources,
+}: ListMultipleMenuProps) {
+  const { activeLists } = useActiveLists(activeListContext ?? CONTEXT_LIST_MAIN);
+
+  const actionableResourceIds = useMemo(() => {
+    return actionableResources.map((res) => res.id);
+  }, [actionableResources]);
+  const targetTcgs = useMemo(() => {
+    return [...new Set(actionableResources.map((res) => res.game as Tcg))];
+  }, [actionableResources]);
+
+  const targetLists = useMemo(() => {
+    let filteredLists = activeLists.filter((l) => {
+      // if we view the current list, exclude it
+      if (l.list.id === listContext) return false;
+
+      // filter by tcg
+      if ((l.list.allowedTcgs?.length ?? 0) === 0) return true;
+      return targetTcgs.every((t) => l.list.allowedTcgs?.includes(t));
+    });
+
+    if (action === 'remove') {
+      filteredLists = filteredLists.filter((l) => {
+        const resourceIds = actionableResourceIds;
+        const listResourceIds = new Set(
+          Object.values(l.resources ?? {}).flatMap((res) => res.map((r) => r.listResource.resourceId)),
+        );
+
+        return resourceIds.filter((id) => listResourceIds.has(id)).length > 0;
+      });
+    }
+
+    filteredLists.sort((a, b) => {
+      const timeA = new Date(a.list.updatedAt).getTime();
+      const timeB = new Date(b.list.updatedAt).getTime();
+
+      return (timeA - timeB) * -1;
+    });
+
+    return filteredLists;
+  }, [activeLists, targetTcgs, listContext, action, actionableResourceIds]);
+
+  return { targetLists };
 }

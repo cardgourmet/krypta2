@@ -8,7 +8,8 @@
     "removeFromList": "Entfernen von ...",
     "removeFromThisList": "Entfernen",
     "createNew": "Neue Erstellen",
-    "copyPrint": "Link kopieren"
+    "copyPrint": "Link kopieren",
+    "favoriteTitle": "Favoriten"
   },
   "overview": {
     "header": {
@@ -76,7 +77,7 @@
       "resources": "Ressourcen",
       "system": {
         "favorites": "Favoriten",
-        "favoritesDesc": "All deine Lieblinge, die du vielleicht in deinem Profil präsentieren kannst"
+        "favoritesDesc": "All deine Lieblinge"
       }
     },
     "form": {
