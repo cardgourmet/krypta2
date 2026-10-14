@@ -44,5 +44,15 @@
       "title": "Meldung gesendet",
       "description": "Danke für deine Meldung! Es könnte sein, dass es Zeit braucht, bis wir dem nachgehen können."
     }
+  },
+  "saved": {
+    "added": {
+      "title": "Suche gespeichert",
+      "text": "Wir haben die Suchanfrage zu deinen gespeicherten Suchen hinzugefügt."
+    },
+    "removed": {
+      "title": "Suche gelöscht",
+      "text": " Wir haben die Suche von deinen gespeicherten Suchen entfernt."
+    }
   }
 }

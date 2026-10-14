@@ -139,8 +139,8 @@ export function QueryListButtons({
   return (
     <Group className={styles.quickActionGroup} gap={'0.15rem'} wrap={'nowrap'}>
       <Tooltip
-        label={favoritesDisabled ? generateExceededTooltip(checkCreateLimitExceeded) : ''}
-        disabled={!favoritesDisabled}
+        label={favoritesDisabled ? generateExceededTooltip(checkCreateLimitExceeded) : undefined}
+        disabled={!favoritesDisabled || isListLoading}
         color={'var(--gourmet-red-01)'}
         withArrow
       >

@@ -45,5 +45,15 @@
       "title": "Report Sent",
       "description": "Thank you for the report! It might take time until we get to handle it."
     }
+  },
+  "saved": {
+    "added": {
+      "title": "Added To Saved Searches",
+      "text": "We've added the query to your saved searches."
+    },
+    "removed": {
+      "title": "Removed From Saved Searches",
+      "text": "We've removed the query from your saved searches."
+    }
   }
 }

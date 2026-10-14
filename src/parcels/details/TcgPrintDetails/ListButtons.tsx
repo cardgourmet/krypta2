@@ -123,11 +123,13 @@ export function ListButtons() {
     return (favoriteList && !checkListLimits(favoriteList, 1)) || isListLoading;
   }, [favoriteList, checkListLimits, isListLoading]);
 
+  console.log(favoritesDisabled, isListLoading, favoriteList && !checkListLimits(favoriteList, 1));
+
   return (
     <Group className={styles.quickActionGroup} gap={'0.15rem'} wrap={'nowrap'}>
       <Tooltip
-        label={favoritesDisabled ? generateExceededTooltip(checkCreateLimitExceeded) : ''}
-        disabled={!favoritesDisabled}
+        label={generateExceededTooltip(checkCreateLimitExceeded)}
+        disabled={!favoritesDisabled || isListLoading}
         color={'var(--gourmet-red-01)'}
         withArrow
       >

@@ -8,7 +8,10 @@ import { Hyperlink } from '@/parcels/generic/Hyperlink/Hyperlink';
 import { Kicker } from '@/parcels/generic/Kicker/Kicker';
 import { CONTEXT_LIST_NAV, useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
+import { AddSavedSearchNotification } from '@/parcels/notification/saved/AddSavedSearchNotification.tsx';
+import { RemoveSavedSearchNotification } from '@/parcels/notification/saved/RemoveSavedSearchNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -151,6 +154,8 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
               // adjust local storage and remove all with that queryId
               removeSavedSearch(tcg, query.saved!);
               history.markQueries(query.rawQuery as string, undefined);
+
+              sendNotification('error', <RemoveSavedSearchNotification />);
             });
             return;
           }
@@ -165,6 +170,8 @@ function RecentItemTools(props: { query: HistoryEntry; submenuRef: Ref<HTMLDivEl
             // adjust local storage and add all with that queryId
             addSavedSearch(tcg, data[0]);
             history.markQueries(query.rawQuery as string, data[0].savedSearch.id);
+
+            sendNotification('success', <AddSavedSearchNotification />);
           });
         }}
         className={styles.actionIcon}

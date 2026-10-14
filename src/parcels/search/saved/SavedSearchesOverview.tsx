@@ -11,7 +11,9 @@ import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
 import type { UserListResource } from '@/parcels/lists/types.ts';
+import { RemoveSavedSearchNotification } from '@/parcels/notification/saved/RemoveSavedSearchNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import Pagination from '@/parcels/overview/cards/Pagination/Pagination.tsx';
 import { deleteSavedSearches, fetchSavedSearches } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -245,6 +247,8 @@ function useTableData({
                         // adjust local storage
                         onSearchUnsaved(search.queryId);
                         localHistory.markQueries(search.rawQuery as string, undefined);
+
+                        sendNotification('error', <RemoveSavedSearchNotification />);
                       });
                       return;
                     }

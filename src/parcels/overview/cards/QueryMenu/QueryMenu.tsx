@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import { AddSavedSearchNotification } from '@/parcels/notification/saved/AddSavedSearchNotification.tsx';
+import { RemoveSavedSearchNotification } from '@/parcels/notification/saved/RemoveSavedSearchNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { QueryListButtons } from '@/parcels/overview/cards/QueryMenu/QueryListButtons/QueryListButtons.tsx';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
@@ -56,6 +59,8 @@ export function QueryMenu({ details }: { details: UserSearchCardsDetails }) {
               // adjust local storage and remove all with that queryId
               removeSavedSearch(tcg, savedSearchId);
               history.markQueries(details.explain?.originalQuery as string, undefined);
+
+              sendNotification('error', <RemoveSavedSearchNotification />);
             });
             return;
           }
@@ -72,6 +77,8 @@ export function QueryMenu({ details }: { details: UserSearchCardsDetails }) {
             // adjust local storage and add all with that queryId
             addSavedSearch(tcg, data[0]);
             history.markQueries(details.explain!.originalQuery as string, data[0].savedSearch.id);
+
+            sendNotification('success', <AddSavedSearchNotification />);
           });
         }}
         className={styles.actionButton}

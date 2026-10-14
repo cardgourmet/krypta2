@@ -6,7 +6,10 @@ import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { ExistsInListsBadge } from '@/parcels/lists/ExistsInListsBadge/ExistsInListBadge.tsx';
 import { formatRelativeTimestamp } from '@/parcels/lists/ListsOverview/formatRelativeTimestamp.ts';
+import { AddSavedSearchNotification } from '@/parcels/notification/saved/AddSavedSearchNotification.tsx';
+import { RemoveSavedSearchNotification } from '@/parcels/notification/saved/RemoveSavedSearchNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { deleteSavedSearches, saveSearches } from '@/parcels/search/api.ts';
 import { useSearchHistory } from '@/parcels/search/bar/SearchHistoryProvider/useSearchHistory.ts';
 import styles from '@/parcels/search/history/SearchHistoryOverview/SearchHistoryOverview.module.css';
@@ -71,6 +74,8 @@ export function useTableData({
                         // adjust local storage
                         onSearchUnsaved(i.search.queryId);
                         localHistory.markQueries(i.search.rawQuery as string, undefined);
+
+                        sendNotification('error', <RemoveSavedSearchNotification />);
                       });
                       return;
                     }
@@ -85,6 +90,8 @@ export function useTableData({
                       // adjust local storage
                       onSearchSaved(i.search.queryId, data[0].savedSearch.id);
                       localHistory.markQueries(i.search.rawQuery as string, data[0].savedSearch.id);
+
+                      sendNotification('success', <AddSavedSearchNotification />);
                     });
                   }}
                   className={styles.actionIcon}
