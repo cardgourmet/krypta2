@@ -1,4 +1,4 @@
-import { Group, Menu, ScrollArea, Space, Tooltip } from '@mantine/core';
+import { Center, Group, Menu, ScrollArea, Space, Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
 import { type ReactElement, type Ref, use, useMemo, useState } from 'react';
@@ -108,15 +108,13 @@ export function ListMultipleMenu({
             ref={dropdownProps?.ref}
             style={{
               width: 'max-content',
-              minWidth: 200,
+              minWidth: 320,
               maxWidth: 320,
             }}
           >
             <SimpleSearchbar
               value={''}
               onChange={(q) => {
-                console.log('onChange! hallo bitte');
-
                 setMenuSearchString(q);
               }}
               color={'var(--gourmet-green-1)'}
@@ -133,7 +131,11 @@ export function ListMultipleMenu({
                 event.stopPropagation();
               }}
             >
-              {searchFilteredLists.length === 0 && <GourmetText cgmc={'neutral-4'}>No list found</GourmetText>}
+              {searchFilteredLists.length === 0 && (
+                <Center>
+                  <GourmetText cgmc={'neutral-4'}>No list found</GourmetText>
+                </Center>
+              )}
               {searchFilteredLists.map((list) => {
                 return (
                   <ListSingleMenuItem
