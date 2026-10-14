@@ -1,13 +1,13 @@
-import { Center, Group, UnstyledButton } from '@mantine/core';
+import { Center, Group, Tooltip, UnstyledButton } from '@mantine/core';
 import { IconList, IconStar, IconStarFilled } from '@tabler/icons-react';
-import { startTransition, useCallback, useEffect, useState } from 'react';
+import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { addResourcesToList, removeResourcesFromList } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import { MoreListActionsMenu } from '@/parcels/lists/MoreListActionsMenu/MoreListActionsMenu.tsx';
 import type { UserListWithResources } from '@/parcels/lists/types.ts';
-import { useCheckListLimits } from '@/parcels/lists/useInList.tsx';
+import { useCheckListLimits, useCheckUserLimits } from '@/parcels/lists/useInList.tsx';
 import { QueryAddNotification } from '@/parcels/notification/list/QueryAddNotification.tsx';
 import { QueryRemoveNotification } from '@/parcels/notification/list/QueryRemoveNotification.tsx';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
@@ -123,24 +123,54 @@ export function QueryListButtons({
 
   const [listMenuOpened, setListMenuOpened] = useState(false);
 
+  const { checkListAddExceeded, generateExceededTooltip } = useCheckUserLimits();
+  const checkCreateLimitExceeded = useMemo(() => {
+    if (!favoriteList) return undefined;
+
+    const checkAdd = checkListAddExceeded(favoriteList, 1);
+    if (checkAdd) return checkAdd;
+
+    return undefined;
+  }, [checkListAddExceeded, favoriteList]);
+  const favoritesDisabled = useMemo(() => {
+    return (favoriteList && !checkListLimits(favoriteList, 1)) || isListLoading;
+  }, [favoriteList, checkListLimits, isListLoading]);
+
   return (
     <Group className={styles.quickActionGroup} gap={'0.15rem'} wrap={'nowrap'}>
-      <UnstyledButton
-        disabled={(favoriteList && !checkListLimits(favoriteList, 1)) || isListLoading}
-        className={styles.quickActionButton}
-        onClick={() => {
-          if (isFavorite) {
-            removeFromFavorites();
-            return;
-          }
-          addToFavorites();
-        }}
+      <Tooltip
+        label={favoritesDisabled ? generateExceededTooltip(checkCreateLimitExceeded) : ''}
+        disabled={!favoritesDisabled}
+        color={'var(--gourmet-red-01)'}
+        withArrow
       >
-        <Center>
-          {isFavorite && <IconStarFilled size={iconSize} color={'var(--gourmet-neutral-8)'} />}
-          {!isFavorite && <IconStar size={iconSize} color={'var(--gourmet-neutral-8)'} />}
-        </Center>
-      </UnstyledButton>
+        <UnstyledButton
+          disabled={favoritesDisabled}
+          className={styles.quickActionButton}
+          onClick={() => {
+            if (isFavorite) {
+              removeFromFavorites();
+              return;
+            }
+            addToFavorites();
+          }}
+        >
+          <Center>
+            {isFavorite && (
+              <IconStarFilled
+                size={iconSize}
+                color={favoritesDisabled ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-8)'}
+              />
+            )}
+            {!isFavorite && (
+              <IconStar
+                size={iconSize}
+                color={favoritesDisabled ? 'var(--gourmet-neutral-5)' : 'var(--gourmet-neutral-8)'}
+              />
+            )}
+          </Center>
+        </UnstyledButton>
+      </Tooltip>
 
       <MoreListActionsMenu
         type={'user_search'}

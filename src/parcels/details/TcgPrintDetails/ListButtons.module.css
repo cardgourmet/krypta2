@@ -6,9 +6,13 @@
 .quickActionButton {
   padding: 0.4rem 0.45rem;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: var(--gourmet-neutral-2);
     border-radius: 0.25rem;
+  }
+
+  &:disabled:hover {
+    cursor: not-allowed;
   }
 }
 

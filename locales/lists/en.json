@@ -79,7 +79,7 @@
       "resources": "Resources",
       "system": {
         "favorites": "Favorites",
-        "favoritesDesc": "All of your favorite things, possibly showing them off in your profile."
+        "favoritesDesc": "All of your favorite things."
       }
     },
     "form": {

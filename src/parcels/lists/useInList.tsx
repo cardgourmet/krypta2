@@ -25,14 +25,10 @@ export type LimitUsage = {
   usage: number;
 };
 
-export function useCheckUserLimits() {
+export function useGenerateExceededLimit() {
   const { t } = useTranslation('lists', { keyPrefix: 'limits' });
 
-  const { user } = useAuth();
-  const { lists } = useUserLists();
-  const limits = useUserLimits(user);
-
-  const generateExceededTooltip = useCallback(
+  return useCallback(
     (limitUsage?: LimitUsage) => {
       if (!limitUsage) return '';
 
@@ -48,6 +44,14 @@ export function useCheckUserLimits() {
     },
     [t],
   );
+}
+
+export function useCheckUserLimits() {
+  const { user } = useAuth();
+  const { lists } = useUserLists();
+  const limits = useUserLimits(user);
+
+  const generateExceededTooltip = useGenerateExceededLimit();
 
   const checkListCreateExceeded = useCallback(
     (amount: number) => {
