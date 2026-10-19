@@ -17,6 +17,7 @@ import { sendErrorNotification } from '@/parcels/notification/sendErrorNotificat
 import { useUserLanguage } from '@/parcels/state/useUserLanguage';
 
 export const LanguageSelectorDropdown = () => {
+  const { t } = useTranslation('nav', { keyPrefix: 'language' });
   const { user, updateUser } = useAuth();
   const { i18n } = useTranslation();
   const [language, setLanguage] = useUserLanguage();
@@ -74,8 +75,8 @@ export const LanguageSelectorDropdown = () => {
             onValueChange={async (value) => await handleLanguageSelected(value as 'de' | 'en')}
             value={language}
           >
-            <Menu.DropdownRadioItem value="en">English</Menu.DropdownRadioItem>
-            <Menu.DropdownRadioItem value="de">Deutsch</Menu.DropdownRadioItem>
+            <Menu.DropdownRadioItem value="en">{t('en')}</Menu.DropdownRadioItem>
+            <Menu.DropdownRadioItem value="de">{t('de')}</Menu.DropdownRadioItem>
           </DropdownMenuRadioGroup>
 
           {user && (
@@ -95,7 +96,7 @@ export const LanguageSelectorDropdown = () => {
                   await handleSyncChanged(!user.settings.preferredLanguages?.syncLanguages);
                 }}
               >
-                Sync with TCGs
+                {t('syncWithTcgs')}
               </Menu.DropdownItem>
               <Typeset
                 block
@@ -103,7 +104,7 @@ export const LanguageSelectorDropdown = () => {
                 style={{ hyphens: 'auto', maxWidth: '30ch', padding: '0 0.5rem' }}
                 variant="secondary"
               >
-                If enabled, we use your selected language as the preferred print language when searching cards.
+                {t('syncExplanation')}
               </Typeset>
             </>
           )}

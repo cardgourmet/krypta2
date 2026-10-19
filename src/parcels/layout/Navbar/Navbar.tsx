@@ -109,7 +109,9 @@ export const Navbar = ({ className }: Extend<Structure>) => {
                   <Link to="/about">About Us</Link>
                 </Button>
                 <Button asChild leadingIcon={<IconGoGame />} size="sm" variant="tertiary">
-                  <a href="https://games.cardgourmet.com">Games</a>
+                  <a href="https://games.cardgourmet.com" rel="noreferrer" target="_blank">
+                    Games
+                  </a>
                 </Button>
                 <Button asChild leadingIcon={<IconBrandDiscord />} size="sm" variant="tertiary">
                   <a href="https://discord.gg/5KQ6fh3nus" rel="noreferrer" target="_blank">
