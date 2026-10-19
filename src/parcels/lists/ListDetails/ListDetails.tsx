@@ -181,11 +181,11 @@ export function ListDetails({ owner, list, publicView }: { owner: DataUser; list
         list={localListWithResources}
         title={title?.label ?? ''}
         onUpdate={(newList) => {
-          if (localListWithResources.list.name !== newList.name) {
+          if (localListWithResources.list.slug !== newList.slug) {
             navigate({
               to: '/@{$user}/lists/$listId',
               params: {
-                listId: newList.name,
+                listId: newList.slug,
               },
               replace: true,
             });

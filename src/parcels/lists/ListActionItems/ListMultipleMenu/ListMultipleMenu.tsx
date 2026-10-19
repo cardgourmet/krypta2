@@ -94,7 +94,13 @@ export function ListMultipleMenu({
       {targetLists.length > 0 && (
         <Menu
           opened={submenuOpened}
-          onChange={setSubmenuOpened}
+          onChange={(opened) => {
+            setSubmenuOpened(opened);
+
+            if (opened) {
+              setMenuSearchString('');
+            }
+          }}
           trigger={'click-hover'}
           position={smallestScreen ? 'top' : 'right-start'}
           openDelay={120}
