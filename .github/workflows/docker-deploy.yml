@@ -1,6 +1,9 @@
 name: Docker Build & Push
 
 on:
+  push:
+    branches:
+    - develop
   workflow_call:
     inputs:
       tag:
@@ -11,6 +14,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ inputs.tag || github.sha }}
     steps:
     - uses: actions/checkout@v4
     - uses: docker/setup-buildx-action@v2
@@ -27,26 +32,27 @@ jobs:
         push: true
         file: Dockerfile
         build-args: |
-          APP_VERSION=${{ inputs.tag }}
+          APP_VERSION=${{ env.IMAGE_TAG }}
           VITE_API_BASE_URL=${{ vars.DEV_CARDGOURMET_API_URL }}
           VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.DEV_OAUTH_GOOGLE_CLIENT_ID }}
           VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.DEV_CARDGOURMET_BASIC_USERNAME }}
           VITE_CARDGOURMET_BASIC_PASSWORD=${{ secrets.DEV_CARDGOURMET_BASIC_PASSWORD }}
-        tags: ghcr.io/cardgourmet/krypta2:${{ inputs.tag }}-dev,ghcr.io/cardgourmet/krypta2:latest-dev
+        tags: ghcr.io/cardgourmet/krypta2:${{ env.IMAGE_TAG }},ghcr.io/cardgourmet/krypta2:latest-dev
         cache-from: type=gha
         cache-to: type=gha,mode=max
     - name: Build and Push (Prod)
+      if: github.event_name == 'workflow_call'
       uses: docker/build-push-action@v2
       with:
         platforms: linux/amd64
         push: true
         file: Dockerfile
         build-args: |
-          APP_VERSION=${{ inputs.tag }}
+          APP_VERSION=${{ env.IMAGE_TAG }}
           VITE_API_BASE_URL=${{ vars.PROD_CARDGOURMET_API_URL }}
           VITE_OAUTH_GOOGLE_CLIENT_ID=${{ vars.PROD_OAUTH_GOOGLE_CLIENT_ID }}
           VITE_CARDGOURMET_BASIC_USERNAME=${{ secrets.PROD_CARDGOURMET_BASIC_USERNAME }}
           VITE_CARDGOURMET_BASIC_PASSWORD=${{ secrets.PROD_CARDGOURMET_BASIC_PASSWORD }}
-        tags: ghcr.io/cardgourmet/krypta2:${{ inputs.tag }},ghcr.io/cardgourmet/krypta2:latest
+        tags: ghcr.io/cardgourmet/krypta2:${{ env.IMAGE_TAG }},ghcr.io/cardgourmet/krypta2:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
