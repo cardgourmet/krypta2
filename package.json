@@ -13,13 +13,13 @@
     "check": "biome check"
   },
   "dependencies": {
-    "@dicebear/core": "^10.0.2",
-    "@dicebear/styles": "^10.1.0",
+    "@dicebear/core": "^10.7.0",
+    "@dicebear/styles": "^10.6.0",
     "@floating-ui/react": "^0.27.19",
     "@gsap/react": "^2.1.2",
-    "@mantine/core": "8.3.11",
+    "@mantine/core": "8.3.18",
     "@mantine/form": "^8.3.18",
-    "@mantine/hooks": "8.3.11",
+    "@mantine/hooks": "8.3.18",
     "@mantine/notifications": "^8.3.18",
     "@mantine/nprogress": "^8.3.18",
     "@radix-ui/react-dialog": "^1.1.15",

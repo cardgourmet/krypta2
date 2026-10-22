@@ -72,7 +72,7 @@ export function VisibilityBadge({
   visibility,
   withoutText,
 }: {
-  visibility: 'private' | 'public' | undefined;
+  visibility: 'private' | 'public' | 'unlisted' | undefined;
   withoutText?: boolean;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.card' });

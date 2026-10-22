@@ -1687,6 +1687,66 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/mtg': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Explain MTG Card Search
+     * @description Explains the given search query in a human-readable format, providing additional query details.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
+          includeCount?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/mtg/cards/search/{id}': {
     parameters: {
       query?: never;
@@ -3030,6 +3090,66 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/dlc': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Explain DLC Card Search
+     * @description Explains the given search query in a human-readable format, providing additional query details.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
+          includeCount?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ExplainSearchQueryResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/dlc/cards/search/{id}': {
     parameters: {
       query?: never;
@@ -4111,6 +4231,66 @@ export interface paths {
           };
           content: {
             'application/json': components['schemas']['ErrorApiResponse'];
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/pcg': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Explain PCG Card Search
+     * @description Explains the given search query in a human-readable format, providing additional query details.
+     */
+    get: {
+      parameters: {
+        query?: {
+          /** @description The distinct mode to apply to the search query. Defaults to `unique:cards`. Overrides custom distinct modes provided in the query. */
+          mode?: string;
+          /** @description The query to search the cards by. */
+          query?: string;
+          /** @description The language to search cards in by default. Defaults to the preferred tcg language, then `en`. */
+          lang?: string;
+          /** @description The language to display the explanation in. Defaults to the preferred user language, then `en`. */
+          displayLanguage?: string;
+          /** @description The flags to apply to the search query (e.g. `include:extras`, `lang:any`, `prefer:newest`, ...). Comma separated. Overrides custom flags provided in the query. */
+          flags?: string;
+          /** @description The filters to allow in the search query. Comma separated. Ignores all other filters if provided. Defaults to all filters. */
+          allowedFilters?: string;
+          /** @description The filters to forbid in the search query. Comma separated. Defaults to no filters. Must not be combined with `allowedFilters`. */
+          forbiddenFilters?: string;
+          /** @description The value types to allow in the search query. Comma separated. Defaults to all value types. Possible values are `string`, `number`, `regex` and `filter` (for filter comparisons). */
+          allowedValueTypes?: string;
+          /** @description Whether to include the total estimated count of items matching the query. Defaults to `true`. */
+          includeCount?: string;
+          /** @description The validation rules to perform before executing the query. Returns a bad request if any rule fails. Comma-separated. Available rules are: `no_ignored_values`, `no_custom_distinct_mode`, `no_custom_flags`, `no_custom_sorting`, `not_empty`. */
+          validationRules?: string;
+        };
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            'application/json': components['schemas']['DataApiResponse-ExplainSearchQueryResponse'];
           };
         };
       };
@@ -7235,7 +7415,8 @@ export interface components {
       | 'ph'
       | 'ru'
       | 'sa'
-      | 'qy';
+      | 'qy'
+      | 'dw';
     /** @enum {string} */
     PcgLanguage:
       | 'en'
@@ -7919,6 +8100,7 @@ export interface components {
     };
     SearchQueryExecutorSearchQueryFilter: {
       inverted: boolean;
+      isDynamic: boolean;
       keywords: string[];
       properties: components['schemas']['SearchQueryExecutorSearchQueryProperty'][];
       providesValues: boolean;
@@ -7942,13 +8124,14 @@ export interface components {
     SearchQueryExecutorFilterValue: {
       aliases?: string[] | null;
       displayValue: string;
-      language?: string | null;
+      languages: string[];
       resolvesTo?: string | null;
       resolvesToOperator?: components['schemas']['SearchQueryOperator'] | null;
       type: string;
       value: string;
     };
     SearchQueryExecutorFilterValues: {
+      isDynamic: boolean;
       /** Format: int32 */
       matches: number;
       /** Format: int32 */
@@ -9014,7 +9197,7 @@ export interface components {
     /** @enum {string} */
     UserSystemListType: 'favorites';
     /** @enum {string} */
-    UserListVisibility: 'private' | 'public';
+    UserListVisibility: 'private' | 'public' | 'unlisted';
     UserList: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
       color?: string | null;
@@ -9026,6 +9209,7 @@ export interface components {
       name: string;
       slug: string;
       systemListType?: components['schemas']['UserSystemListType'] | null;
+      thumbnailData?: components['schemas']['JsonObject'] | null;
       /** Format: date-time */
       updatedAt: string;
       /** Format: uuid */
@@ -9086,11 +9270,24 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
+    /** @enum {string} */
+    UserListThumbnailCropType: 'rect';
+    UserListThumbnailCrop: {
+      p1?: string | null;
+      p2?: string | null;
+      type: components['schemas']['UserListThumbnailCropType'];
+    };
+    UserListThumbnail: {
+      crop?: components['schemas']['UserListThumbnailCrop'] | null;
+      imageId?: string | null;
+      url?: string | null;
+    };
     CreateUserListRequest: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
       color?: string | null;
       description?: string | null;
       name: string;
+      thumbnail?: components['schemas']['UserListThumbnail'] | null;
       visibility?: components['schemas']['UserListVisibility'] | null;
     };
     UserListUpdate: {
@@ -9101,6 +9298,7 @@ export interface components {
       id: string;
       name?: string | null;
       resetAllowedTcg?: boolean | null;
+      thumbnail?: components['schemas']['UserListThumbnail'] | null;
       visibility?: components['schemas']['UserListVisibility'] | null;
     };
     UpdateUserListsRequest: {

@@ -56,7 +56,7 @@ export async function fetchListsPreview(
           listIds: listIds ? listIds.join(',') : undefined,
           createSystem: 'true',
           withSize: 'true',
-          withResources: 'true',
+          withResources: amount === 0 ? 'false' : 'true',
           resourcesPerType: amount ?? 5,
           pageSize: 1_000,
         },

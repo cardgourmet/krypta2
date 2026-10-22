@@ -63,7 +63,7 @@ export default function ListsOverview() {
 
     setIsPreviewsLoading(true);
     startTransition(() => {
-      fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 6).then((res) => {
+      fetchListsPreview(user.id, undefined, search.tcg === 'all' ? undefined : (search.tcg as Tcg), 0).then((res) => {
         setIsPreviewsLoading(false);
 
         if (res.error) {
