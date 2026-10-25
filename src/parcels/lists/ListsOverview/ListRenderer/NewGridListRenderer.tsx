@@ -1,7 +1,8 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/waves.json';
-import { Group, Progress, Stack } from '@mantine/core';
-import { IconDotsVertical, IconLabelFilled } from '@tabler/icons-react';
+import { Group, Progress, Stack, Tooltip } from '@mantine/core';
+import { IconDotsVertical, IconLabelFilled, IconStar } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
@@ -48,6 +49,8 @@ export function NewGridListRenderer({
   const { user } = useAuth();
   const { list_resources_per_list } = useUserLimits(user);
 
+  const listName = list.systemListType !== undefined ? t('card.system.favorites') : list.name;
+
   const progress = ((size ?? 0) / list_resources_per_list) * 100;
   const progressColor = useMemo(() => {
     if (progress >= 90) {
@@ -71,46 +74,79 @@ export function NewGridListRenderer({
           <VisibilityBadge visibility={list.visibility} withoutText />
         </div>
 
-        {thumbnail && (
-          <figure
-            aria-hidden
-            className={styles.thumbnailFigure}
-            style={{
-              '--thumbnail-fade-color': list.color ? `${list.color}` : 'var(--cgm-background-surface)',
-            }}
-          >
-            <img alt="" className={styles.thumbnailImage} src={`${thumbnail}`} />
-          </figure>
-        )}
-        {!thumbnail && (
-          <figure
-            aria-hidden
-            className={styles.thumbnailFigure}
-            style={{
-              '--thumbnail-fade-color': list.color ? `${list.color}` : 'var(--cgm-background-surface)',
-            }}
-          >
-            <img
-              alt=""
-              className={styles.thumbnailImage}
-              src={`data:image/svg+xml,${encodeURIComponent(thumbnailFallback ?? '')}`}
-            />
-          </figure>
-        )}
+        <Link
+          to={'/@{$user}/lists/$listId'}
+          params={{ user: user!.username, listId: list.slug }}
+          className={styles.link}
+          preload={false}
+          style={{ flexShrink: 1 }}
+        >
+          {thumbnail && (
+            <figure
+              aria-hidden
+              className={styles.thumbnailFigure}
+              style={{
+                '--thumbnail-fade-color': list.color ? `${list.color}` : 'var(--cgm-background-surface)',
+              }}
+            >
+              <img alt="" className={styles.thumbnailImage} src={`${thumbnail}`} />
+            </figure>
+          )}
+          {!thumbnail && (
+            <figure
+              aria-hidden
+              className={styles.thumbnailFigure}
+              style={{
+                '--thumbnail-fade-color': list.color ? `${list.color}` : 'var(--cgm-background-surface)',
+              }}
+            >
+              <img
+                alt=""
+                className={styles.thumbnailImage}
+                src={`data:image/svg+xml,${encodeURIComponent(thumbnailFallback ?? '')}`}
+              />
+            </figure>
+          )}
+        </Link>
       </div>
 
       <div className={styles.content}>
         <Stack gap={'0.5rem'} w={'100%'}>
-          <Group justify={'space-between'} w={'100%'}>
-            <Group gap={'0.5rem'}>
-              <GourmetText cgmff={'content'} fz={'1.25rem'} c={'var(--cgm-foreground-primary)'}>
-                {list.name}
-              </GourmetText>
+          <Group justify={'space-between'} w={'100%'} wrap={'nowrap'}>
+            <Group gap={'0.5rem'} wrap={'nowrap'} style={{ minWidth: 0, flex: 1 }}>
+              {list.systemListType === 'favorites' && <IconStar size={22} color={'var(--gourmet-neutral-9'} />}
+
+              <Tooltip label={listName} openDelay={500}>
+                <Link
+                  to={'/@{$user}/lists/$listId'}
+                  params={{ user: user!.username, listId: list.slug }}
+                  className={styles.link}
+                  preload={false}
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <GourmetText
+                    cgmff={'content'}
+                    fz={'1.25rem'}
+                    c={'var(--cgm-foreground-primary)'}
+                    style={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      minWidth: '0',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {listName}
+                  </GourmetText>
+                </Link>
+              </Tooltip>
 
               <IconLabelFilled size={22} color={list.color ?? 'var(--gourmet-neutral-9'} style={{ flexShrink: 0 }} />
             </Group>
 
             <ActionButton size={'sm'}>
+              {/* TODO: open menu for "edit", "delete", "copy share link" */}
               <IconDotsVertical />
             </ActionButton>
           </Group>
@@ -118,7 +154,8 @@ export function NewGridListRenderer({
             <GourmetText
               fz={'0.95rem'}
               style={{
-                textWrap: 'wrap',
+                minHeight: '3.5rem',
+                overflow: 'scroll',
               }}
               cgmc={'neutral-9'}
               mr={'2rem'}
@@ -135,7 +172,7 @@ export function NewGridListRenderer({
               cgmc={'neutral-4'}
               mr={'2rem'}
             >
-              {'No description set'}
+              {t('card.noDescription')}
             </GourmetText>
           )}
 
@@ -175,6 +212,7 @@ export function NewGridListRenderer({
               style={{
                 position: 'relative',
                 width: '100%',
+                flexWrap: 'nowrap',
               }}
             >
               <Progress size={6} value={progress} color={progressColor} />
@@ -190,11 +228,12 @@ export function NewGridListRenderer({
                   borderRadius: '0.5rem',
                 }}
                 gap={'0.25rem'}
+                wrap={'nowrap'}
               >
                 <GourmetText fz={'0.95rem'} cgmc={'neutral-9'} fw={'bold'}>
                   {`${size ?? 0}`}
                 </GourmetText>
-                <GourmetText fz={'0.95rem'} cgmc={'neutral-7'}>
+                <GourmetText fz={'0.95rem'} cgmc={'neutral-7'} style={{ whiteSpace: 'nowrap' }}>
                   {`/ ${list_resources_per_list}`}
                 </GourmetText>
               </Group>
