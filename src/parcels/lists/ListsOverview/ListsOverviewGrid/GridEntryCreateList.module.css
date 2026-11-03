@@ -1,0 +1,21 @@
+.base {
+  display: flex;
+  width: 100%;
+  height: 10rem;
+
+  background-color: var(--cgm-background-surface);
+  border: var(--cgm-border-width) dashed var(--cgm-border-secondary);
+  border-radius: 0.75rem;
+
+  &:hover {
+    background-color: var(--cgm-background-primary);
+    cursor: pointer;
+  }
+}
+
+.plus {
+  width: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

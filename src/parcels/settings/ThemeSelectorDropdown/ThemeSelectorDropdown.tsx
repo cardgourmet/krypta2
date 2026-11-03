@@ -19,7 +19,7 @@ export const ThemeSelectorDropdown = () => {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <ActionButton>{icons[colorScheme]}</ActionButton>
       </DropdownMenuTrigger>

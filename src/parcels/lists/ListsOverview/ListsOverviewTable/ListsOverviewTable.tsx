@@ -18,12 +18,10 @@ export function ListsOverviewTable({
   isLoading,
   userLists,
   onUpdate,
-  onDelete,
 }: {
   isLoading: boolean;
   userLists: UserListWithResources[];
   onUpdate?: (list: UserList) => void;
-  onDelete?: (id: string) => void;
 }) {
   const { i18n } = useTranslation();
   const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
@@ -111,7 +109,6 @@ export function ListsOverviewTable({
             data={row.data}
             tableData={tableData}
             onCreate={onUpdate}
-            onDelete={onDelete}
           />
         );
       }}
@@ -123,7 +120,6 @@ export function ListsOverviewTable({
             data={row.data}
             tableData={tableData}
             onCreate={onUpdate}
-            onDelete={onDelete}
           />
         );
       }}
@@ -136,13 +132,11 @@ function HorTableRow({
   data,
   tableData,
   onCreate,
-  onDelete,
 }: {
   entry: UserListWithResources;
   data: Record<string, ReactElement>;
   tableData: GourmetTableData<UserListWithResources>;
   onCreate?: (list: UserList) => void;
-  onDelete?: (id: string) => void;
 }) {
   return (
     <tr key={entry.list.id} data-selected={false} style={{ padding: '0 1rem' }}>
@@ -154,7 +148,7 @@ function HorTableRow({
         <Group wrap={'nowrap'} gap={'0.25rem'} justify={'end'} p={'0 0.25rem 0 0'}>
           <Group gap={'0.25rem'}>
             <EditListButton list={entry.list} onSuccess={onCreate} />
-            <DeleteListButton list={entry.list} onSuccess={onDelete} />
+            <DeleteListButton list={entry} />
           </Group>
         </Group>
       </td>
@@ -167,13 +161,11 @@ function VerTableRow({
   data,
   tableData,
   onCreate,
-  onDelete,
 }: {
   entry: UserListWithResources;
   data: Record<string, ReactElement>;
   tableData: GourmetTableData<UserListWithResources>;
   onCreate?: (list: UserList) => void;
-  onDelete?: (id: string) => void;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview.table.cols' });
 
@@ -193,7 +185,7 @@ function VerTableRow({
           <Group wrap={'nowrap'} gap={'0.25rem'} justify={'space-between'} p={'0 0.25rem 0 0'}>
             <Group gap={'0.25rem'}>
               <EditListButton list={entry.list} onSuccess={onCreate} />
-              <DeleteListButton list={entry.list} onSuccess={onDelete} />
+              <DeleteListButton list={entry} />
             </Group>
           </Group>
         </td>

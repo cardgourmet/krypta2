@@ -13,7 +13,10 @@ import type { ListPropertiesFormValues } from '../../forms/ListPropertiesForm/ty
 import { useListPropertiesForm } from '../../forms/ListPropertiesForm/useListPropertiesForm';
 import type { UserList } from '../../types';
 
-export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalProps<{ list: UserList }>) => {
+export const EditListModal = ({
+  innerProps: { list, onlyName },
+  ...props
+}: ExtendModalProps<{ list: UserList; onlyName?: boolean }>) => {
   const { t } = useTranslation('lists', { keyPrefix: 'modal' });
 
   const auth = useAuth();
@@ -47,17 +50,22 @@ export const EditListModal = ({ innerProps: { list }, ...props }: ExtendModalPro
     <Modal {...props}>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))} style={{ display: 'contents' }}>
         <Modal.Content>
-          <FeaturedIcon size="md" variant="secondary">
-            <IconPencil />
-          </FeaturedIcon>
+          {!onlyName && (
+            <>
+              <FeaturedIcon size="md" variant="secondary">
+                <IconPencil />
+              </FeaturedIcon>
 
-          <Modal.Title>{t('editList')}</Modal.Title>
+              <Modal.Title>{t('editList')}</Modal.Title>
+            </>
+          )}
 
           <ListPropertiesFormFields
             advancedDefaultExpanded
             form={form}
             style={{ marginTop: '1.25rem' }}
             isSystem={list.systemListType === 'favorites'}
+            onlyName={onlyName}
           />
         </Modal.Content>
         <Modal.Footer>

@@ -1,16 +1,34 @@
 import { Avatar, Style } from '@dicebear/core';
 import definition from '@dicebear/styles/waves.json';
-import { Group, Progress, Stack, Tooltip } from '@mantine/core';
-import { IconDotsVertical, IconLabelFilled, IconStar } from '@tabler/icons-react';
+import { Group, type MantineColor, Progress, Stack, Tooltip } from '@mantine/core';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import {
+  IconCopy,
+  IconDotsVertical,
+  IconEyeX,
+  IconLabelFilled,
+  IconLock,
+  IconPencil,
+  IconStar,
+  IconTrash,
+  IconWorld,
+} from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { use, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { ActionButton } from '@/parcels/generic/ActionButton/ActionButton.tsx';
+import { Menu } from '@/parcels/generic/Menu/Menu.tsx';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
+import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
+import { updateList } from '@/parcels/lists/api.ts';
 import { VisibilityBadge } from '@/parcels/lists/ListsOverview/ListRenderer/ListElementHeader/ListElementHeader.tsx';
 import type { UserList, UserListThumbnail, UserListWithResources } from '@/parcels/lists/types.ts';
 import { useUserLimits } from '@/parcels/lists/useInList.tsx';
+import { ModalContext } from '@/parcels/modals/Modal.context.tsx';
+import { ListUpdateNotification } from '@/parcels/notification/list/ListUpdateNotification.tsx';
+import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
+import { sendNotification } from '@/parcels/notification/sendNotification.ts';
 import { TcgIcon } from '@/parcels/tcg/TcgIcon.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation.ts';
 import styles from './NewGridListRenderer.module.css';
@@ -24,8 +42,12 @@ export function NewGridListRenderer({
   onDelete?: (id: string) => void;
 }) {
   const { t } = useTranslation('lists', { keyPrefix: 'overview' });
+  const { requestModal } = use(ModalContext);
+  const { updateLists, removeLists } = useActiveLists();
 
   const thumbnail = useMemo(() => {
+    // TODO: depending on crop, make it different here
+
     const data = listWithResources.list.thumbnailData;
     if (!data) return;
 
@@ -60,6 +82,37 @@ export function NewGridListRenderer({
     }
     return 'var(--gourmet-green-1)';
   }, [progress]);
+
+  const [tooltipOpened, setTooltipOpened] = useState(false);
+  const [tooltipLabel, setTooltipLabel] = useState<string>('');
+  const [tooltipColor, setTooltipColor] = useState<MantineColor>('gray');
+
+  const updateVisibility = (visibility: UserList['visibility']) => {
+    if (!user) return;
+
+    const updated = {
+      ...list,
+      visibility: visibility,
+    } as UserList;
+
+    updateList(user.id, updated).then(({ data, error }) => {
+      if (error) {
+        sendErrorNotification(error);
+        return;
+      }
+      const returnList = data?.[list.id];
+      if (!returnList) return;
+
+      sendNotification('success', <ListUpdateNotification list={returnList} />);
+
+      updateLists([
+        {
+          ...listWithResources,
+          list: updated,
+        },
+      ]);
+    });
+  };
 
   return (
     <article className={styles.listCard}>
@@ -145,10 +198,141 @@ export function NewGridListRenderer({
               <IconLabelFilled size={22} color={list.color ?? 'var(--gourmet-neutral-9'} style={{ flexShrink: 0 }} />
             </Group>
 
-            <ActionButton size={'sm'}>
-              {/* TODO: open menu for "edit", "delete", "copy share link" */}
-              <IconDotsVertical />
-            </ActionButton>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <Tooltip
+                  label={tooltipLabel}
+                  opened={tooltipOpened}
+                  color={tooltipColor}
+                  withArrow
+                  transitionProps={{ transition: 'fade-up', duration: 200 }}
+                >
+                  <ActionButton size={'sm'}>
+                    <IconDotsVertical />
+                  </ActionButton>
+                </Tooltip>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent asChild align="end" sideOffset={-4}>
+                <Menu className={styles.menuBase}>
+                  <Menu.DropdownItem
+                    icon={<IconPencil />}
+                    onClick={async () => {
+                      try {
+                        const updatedList = await requestModal<UserList>('editList', {
+                          async: true,
+                          innerProps: { list: list },
+                        });
+
+                        if (updatedList) {
+                          updateLists([{ list: updatedList }]);
+                        }
+                      } catch {}
+                    }}
+                  >
+                    {t('edit.menu.edit')}
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem
+                    onClick={async () => {
+                      try {
+                        const updatedList = await requestModal<UserList>('editList', {
+                          async: true,
+                          innerProps: { list: list, onlyName: true },
+                        });
+
+                        if (updatedList) {
+                          updateLists([{ list: updatedList }]);
+                        }
+                      } catch {}
+                    }}
+                  >
+                    {t('edit.menu.rename')}
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem
+                    icon={<IconWorld />}
+                    disabled={list.visibility === 'public'}
+                    onClick={() => {
+                      updateVisibility('public');
+                    }}
+                  >
+                    {t('edit.menu.makePublic')}
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem
+                    icon={<IconEyeX />}
+                    disabled={list.visibility === 'unlisted'}
+                    onClick={() => {
+                      updateVisibility('unlisted');
+                    }}
+                  >
+                    {t('edit.menu.makeUnlisted')}
+                  </Menu.DropdownItem>
+                  <Menu.DropdownItem
+                    icon={<IconLock />}
+                    disabled={list.visibility === 'private'}
+                    onClick={() => {
+                      updateVisibility('private');
+                    }}
+                  >
+                    {t('edit.menu.makePrivate')}
+                  </Menu.DropdownItem>
+                  <Menu.DropdownSeparator />
+                  <Menu.DropdownItem
+                    icon={<IconCopy />}
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(
+                          `${window.location.origin}/@${user!.username}/lists/${list.slug}`,
+                        );
+
+                        setTooltipLabel(t('copied'));
+                        setTooltipOpened(true);
+                        setTooltipColor('green');
+
+                        setTimeout(() => {
+                          setTooltipOpened(false);
+                        }, 3000);
+                      } catch (e) {
+                        console.error(e);
+                      }
+                    }}
+                  >
+                    {t('edit.menu.copyShare')}
+                  </Menu.DropdownItem>
+                  <Menu.DropdownSeparator />
+                  <Menu.DropdownItem
+                    icon={
+                      <IconTrash
+                        style={{
+                          color:
+                            list.systemListType === 'favorites'
+                              ? 'var(--gourmet-neutral-5)'
+                              : 'var(--cgm-color-negative)',
+                        }}
+                      />
+                    }
+                    onClick={async () => {
+                      try {
+                        const deletedList = await requestModal<UserList>('deleteList', {
+                          async: true,
+                          innerProps: { list: listWithResources },
+                        });
+
+                        if (deletedList) {
+                          removeLists([deletedList.id]);
+                        }
+                      } catch {}
+                    }}
+                    style={{
+                      color:
+                        list.systemListType === 'favorites' ? 'var(--gourmet-neutral-6)' : 'var(--cgm-color-negative)',
+                    }}
+                    disabled={list.systemListType === 'favorites'}
+                  >
+                    {t('edit.menu.delete')}
+                  </Menu.DropdownItem>
+                </Menu>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </Group>
           {list.description && (
             <GourmetText

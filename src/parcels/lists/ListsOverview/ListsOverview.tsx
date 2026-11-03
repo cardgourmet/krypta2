@@ -4,7 +4,6 @@ import { IconSettings, IconX } from '@tabler/icons-react';
 import { startTransition, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
-import { USER_LIMIT_LIST_RESOURCES_TOTAL, USER_LIMIT_LISTS } from '@/parcels/auth/api.ts';
 import { GourmetText } from '@/parcels/generic/mantine/GourmetText.tsx';
 import { useBreadcrumbs } from '@/parcels/homepage/Breadcrumbs/useBreadcrumbs.tsx';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
@@ -35,7 +34,7 @@ export default function ListsOverview() {
   const search = Route.useSearch();
   const { tcg } = search;
 
-  const { addLists, updateLists, removeLists } = useActiveLists();
+  const { addLists, updateLists } = useActiveLists();
 
   const { lists: localUserLists } = useUserLists();
   const processedLocalUserLists: UserListWithResources[] = useMemo(() => {
@@ -109,6 +108,9 @@ export default function ListsOverview() {
   const smallScreen = useMediaQuery('(max-width: 800px)');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  /*const listLimitUsage = localUserLists.length;
+  const listLimitMax = (user?.limits[USER_LIMIT_LISTS] ?? 0) + 1;*/
+
   return (
     <div>
       <Drawer
@@ -177,19 +179,19 @@ export default function ListsOverview() {
       )}
 
       <Stack mt={'xl'} mb={'2.5rem'}>
-        {user && localUserLists?.length > 0 && (
+        {/*{user && localUserLists?.length > 0 && (
           <Stack gap={'0.25rem'}>
             <GourmetText cgmff={'ui'}>
               {t('summary.youHave', {
-                listsCount: localUserLists.length,
-                listsMax: (user.limits[USER_LIMIT_LISTS] ?? 0) + 1,
+                listsCount: listLimitUsage,
+                listsMax: listLimitMax,
                 resCount: localUserLists.map((l) => l.size ?? 0).reduce((partialSum, a) => partialSum + a, 0),
                 resMax: user.limits[USER_LIMIT_LIST_RESOURCES_TOTAL] ?? 0,
               })}
             </GourmetText>
             <GourmetText cgmff={'ui'}>{t('summary.needMore')}</GourmetText>
           </Stack>
-        )}
+        )}*/}
 
         {search.display === 'grid' && (
           <ListsOverviewGrid
@@ -197,6 +199,11 @@ export default function ListsOverview() {
             isPreviewsLoading={isPreviewsLoading}
             listsWithoutResources={processedLocalUserLists}
             listsWithResources={userListsWithResources}
+            onCreate={(list) => {
+              const newList = { list: list, resources: {}, size: 0 };
+              addLists([newList]);
+              setScrollToListId(list.id);
+            }}
           />
         )}
         {search.display === 'table' && (
@@ -205,9 +212,6 @@ export default function ListsOverview() {
             userLists={userListsWithResources}
             onUpdate={(list) => {
               updateLists([{ list: list }]);
-            }}
-            onDelete={(id) => {
-              removeLists([id]);
             }}
           />
         )}

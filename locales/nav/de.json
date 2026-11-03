@@ -15,7 +15,8 @@
   "user": {
     "user": "Benutzer",
     "notVerified": "Du bist noch nicht verifiziert.\nDamit bist du immernoch ein Gast.",
-    "notLoggedIn": "Du bist nicht eingeloggt.",
+    "notLoggedIn1": "Du benutzt Cardgourmet als Gast",
+    "notLoggedIn2": "Log dich ein, um all unsere Features zu nutzen.",
     "notLoggedInShort": "Nicht eingeloggt",
     "moreFeatures": "Um mehr Funktionen nutzen zu können, musst du dich anmelden.",
     "history": "Suchverlauf",

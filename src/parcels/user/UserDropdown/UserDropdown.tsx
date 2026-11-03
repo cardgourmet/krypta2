@@ -43,7 +43,7 @@ export const UserDropdown = () => {
   const isUnverified = user?.state === 'unverified';
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <ActionButton style={{ paddingInline: '0' }}>
           {/* TODO: ugly, should probably also be interactable */}
@@ -95,12 +95,12 @@ export const UserDropdown = () => {
 
                 <Menu.DropdownItem asChild icon={<IconHistory />}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
-                    Search History
+                    {t('history')}
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconBook2 />} disabled={isUnverified}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/saved-searches" disabled={isUnverified}>
-                    Saved Searches
+                    {t('savedSearches')}
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconStar />} disabled={isUnverified}>
@@ -109,7 +109,7 @@ export const UserDropdown = () => {
                     to="/@{$user}/lists/$listId"
                     disabled={isUnverified}
                   >
-                    Favorites
+                    {t('favorites')}
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconList />} disabled={isUnverified}>
@@ -119,12 +119,12 @@ export const UserDropdown = () => {
                     to="/@{$user}/lists"
                     disabled={isUnverified}
                   >
-                    Lists
+                    {t('lists')}
                   </Link>
                 </Menu.DropdownItem>
                 <Menu.DropdownItem asChild icon={<IconSettings />} disabled={isUnverified}>
                   <Link to="/me/settings" disabled={isUnverified}>
-                    Settings
+                    {t('settings')}
                   </Link>
                 </Menu.DropdownItem>
               </>
@@ -137,16 +137,16 @@ export const UserDropdown = () => {
                     style={{ fontFamily: 'var(--cgm-title-font-family)', marginBottom: '0.25rem' }}
                     weight={600}
                   >
-                    You're using Cardgourmet anonymously
+                    {t('notLoggedIn1')}
                   </Typeset>
                   <Typeset block size="sm" variant="secondary">
-                    Log in to start using our personalized features.
+                    {t('notLoggedIn2')}
                   </Typeset>
                 </div>
 
                 <Menu.DropdownItem asChild icon={<IconHistory />}>
                   <Link search={{ ...historyParamDefaults, tcg }} to="/me/history">
-                    Search History
+                    {t('history')}
                   </Link>
                 </Menu.DropdownItem>
               </>
@@ -160,7 +160,7 @@ export const UserDropdown = () => {
                 onClick={logout}
                 style={{ color: 'var(--cgm-color-negative)' }}
               >
-                Logout
+                {t('logout')}
               </Menu.DropdownItem>
             ) : (
               <Menu.DropdownItem asChild icon={<IconLogin style={{ color: 'var(--cgm-color-brand)' }} />}>
@@ -171,7 +171,7 @@ export const UserDropdown = () => {
                     redirect: router.state.location.href,
                   }}
                 >
-                  Login
+                  {t('login')}
                 </Link>
               </Menu.DropdownItem>
             )}

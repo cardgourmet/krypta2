@@ -1,5 +1,5 @@
 import { Group, Stack, Tooltip } from '@mantine/core';
-import { IconLabelFilled, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
+import { IconEyeX, IconLabelFilled, IconLock, IconStar, IconWorld } from '@tabler/icons-react';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
@@ -84,6 +84,7 @@ export function VisibilityBadge({
           <IconLock size={18} color={'var(--gourmet-neutral-7'} />
         )}
         {visibility === 'public' && <IconWorld size={18} color={'var(--gourmet-neutral-7'} />}
+        {visibility === 'unlisted' && <IconEyeX size={18} color={'var(--gourmet-neutral-7'} />}
 
         {!withoutText && (
           <GourmetText fz={'0.9rem'} c={'var(--gourmet-neutral-7'}>

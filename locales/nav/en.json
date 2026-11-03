@@ -15,7 +15,8 @@
   "user": {
     "user": "User",
     "notVerified": "You are not verified.\nYou are still a guest.",
-    "notLoggedIn": "You are not logged in.",
+    "notLoggedIn1": "You're using Cardgourmet anonymously",
+    "notLoggedIn2": "Log in to start using our personalized features.",
     "notLoggedInShort": "Not logged in",
     "moreFeatures": "To use more features please log in.",
     "history": "Search History",

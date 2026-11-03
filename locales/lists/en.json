@@ -64,7 +64,16 @@
       "title": "Edit List",
       "cancel": "Cancel",
       "update": "Update",
-      "system": "This is a system list and can't be edited"
+      "system": "This is a system list and can't be edited",
+      "menu": {
+        "copyShare": "Copy Share Link",
+        "edit": "Edit...",
+        "rename": "Rename...",
+        "makePublic": "Make Public",
+        "makePrivate": "Make Private",
+        "makeUnlisted": "Make Unlisted",
+        "delete": "Delete"
+      }
     },
     "card": {
       "allowed": "Allowed",
@@ -111,7 +120,9 @@
       },
       "reExecute": "Re-execute query",
       "moreOptions": "More options"
-    }
+    },
+    "limitUsageExceeded": "You can't create new lists, since you have hit your limit with {{usage}}/{{max}} lists. Need more? Contact us.",
+    "copied": "Link copied"
   },
   "details": {
     "header": {
@@ -162,8 +173,8 @@
   },
   "modal": {
     "editList": "Edit List",
-    "cancel": "Abbrechen",
-    "save": "Speichern",
+    "cancel": "Cancel",
+    "save": "Save",
     "fields": {
       "name": {
         "label": "Name",
@@ -178,7 +189,9 @@
         "private": "Private",
         "privateDesc": "Only you can see this list.",
         "public": "Public",
-        "publicDesc": "Everyone can see this list."
+        "publicDesc": "Everyone can see this list.",
+        "unlisted": "Unlisted",
+        "unlistedDesc": "Only people with the link can see this list."
       },
       "tcgs": {
         "desc": "You can restrict which TCGs you can add cards from.",
@@ -187,7 +200,11 @@
       "color": {
         "label": "Color"
       }
-    }
+    },
+    "deleteList": "Delete List",
+    "deleteListNonEmpty": "This will delete the list <1>{{name}}</1> along with its <3>{{size}}</3> resource(s).",
+    "deleteListEmpty": "This will delete the list <1>name</1>. It's empty though.",
+    "submitDelete": "Delete"
   },
   "limits": {
     "listLimitUsage": "List limit {{amount}}/{{max}}",

@@ -8,6 +8,7 @@ export type ListPropertiesFormFieldsProps = Extend<
     advancedDefaultExpanded?: boolean;
     form: UseFormReturnType<ListPropertiesFormValues>;
     isSystem?: boolean;
+    onlyName?: boolean;
   }
 >;
 
@@ -16,5 +17,5 @@ export type ListPropertiesFormValues = {
   color: 'default' | (string & {});
   description: string;
   name: string;
-  visibility: 'private' | 'public';
+  visibility: 'private' | 'public' | 'unlisted';
 };

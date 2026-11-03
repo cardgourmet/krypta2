@@ -62,7 +62,7 @@ export const LanguageSelectorDropdown = () => {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <ActionButton>
           <IconLanguage />

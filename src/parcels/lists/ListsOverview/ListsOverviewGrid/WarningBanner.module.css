@@ -1,0 +1,6 @@
+.base {
+  background-color: color-mix(in srgb, var(--gourmet-red-01), white 25%);
+  border: calc(2 * var(--cgm-border-width)) solid var(--gourmet-red-01);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}

@@ -61,7 +61,16 @@
       "title": "Liste bearbeiten",
       "cancel": "Abbrechen",
       "update": "Änderungen anwenden",
-      "system": "Systemlisten können nicht bearbeitet werden."
+      "system": "Systemlisten können nicht bearbeitet werden.",
+      "menu": {
+        "copyShare": "Link kopieren",
+        "edit": "Bearbeiten...",
+        "rename": "Umbenennen...",
+        "makePublic": "Auf öffentlich setzen",
+        "makePrivate": "Auf privat setzen",
+        "makeUnlisted": "Auf ungelistet setzen",
+        "delete": "Löschen"
+      }
     },
     "card": {
       "allowed": "Erlaubt",
@@ -108,7 +117,9 @@
       },
       "reExecute": "Erneut ausführen",
       "moreOptions": "Mehr Optionen"
-    }
+    },
+    "limitUsageExceeded": "Du kannst nicht mehr Listen erstellen, weil du dein Limit von {{usage}}/{{max}} erreicht hast. Brauchst du mehr? Schreib uns.",
+    "copied": "Link kopiert"
   },
   "details": {
     "header": {
@@ -175,7 +186,9 @@
         "private": "Privat",
         "privateDesc": "Die Liste ist nur für dich sichtbar.",
         "public": "Öffentlich",
-        "publicDesc": "Die Liste ist sichtbar für alle."
+        "publicDesc": "Die Liste ist sichtbar für alle.",
+        "unlisted": "Ungelistet",
+        "unlistedDesc": "Die Liste ist für sichtbar für alle mit dem Link."
       },
       "tcgs": {
         "desc": "Du kannst beschränken, aus welchen Spielen dieser Liste Karten hinzugefügt werden dürfen.",
@@ -184,7 +197,11 @@
       "color": {
         "label": "Farbe"
       }
-    }
+    },
+    "deleteList": "Liste löschen",
+    "submitDelete": "Löschen",
+    "deleteListNonEmpty": "Diese Aktion löscht die Liste {{name}} zusammen mit {{size}} Ressourcen.",
+    "deleteListEmpty": "Diese Aktion löscht die Liste {{name}}. Sie ist leer."
   },
   "limits": {
     "listLimitUsage": "Listen Limit {{amount}}/{{max}}",
