@@ -1,7 +1,7 @@
 import { useLocation } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
-export type Tcg = 'dlc' | 'pcg' | 'mtg';
+export type Tcg = 'dlc' | 'pcg' | 'mtg' | 'ygo' | 'one' | 'fab';
 
 export function useTcgByLocation(): Tcg | undefined {
   const location = useLocation();

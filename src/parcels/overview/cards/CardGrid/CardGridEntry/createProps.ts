@@ -9,10 +9,13 @@ export type CardProperties = {
   name?: string;
   thumbnailUrl?: string;
   backfaceThumbnailUrl?: string;
+  cropUrl?: string;
   backupImageUrl: string;
 
   setCode?: string;
   collectorNumber?: string;
+
+  printTranslationId?: string; // main one, so "en"
 };
 
 // const backupImageUrl = 'https://f.2by.es/mox_cigarettes';
@@ -31,9 +34,12 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
       name: dlcCard.card.name,
       thumbnailUrl: dlcCard.card.print.translations?.[preferredLanguage]?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
+      cropUrl: dlcCard.card.print.translations?.[preferredLanguage]?.imageUrls?.artCrop ?? '',
       backupImageUrl: backupImageUrl,
       setCode: dlcCard.card.print.setCode,
       collectorNumber: dlcCard.card.print.collectorNumber,
+      printTranslationId:
+        dlcCard.card.print.translations?.[preferredLanguage]?.id ?? dlcCard.card.print.translations?.en?.id,
     };
   } else if (tcg === 'pcg') {
     const pcgCard = card as PcgSearchDataCard;
@@ -43,9 +49,12 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
       name: pcgCard.card.name,
       thumbnailUrl: pcgCard.card.print.translations?.[preferredLanguage]?.imageUrls?.thumbnail ?? '',
       backfaceThumbnailUrl: undefined,
+      cropUrl: pcgCard.card.print.translations?.[preferredLanguage]?.imageUrls?.artCrop ?? '',
       backupImageUrl: backupImageUrl,
       setCode: pcgCard.card.print.setCode ?? undefined,
       collectorNumber: pcgCard.card.print.collectorNumber,
+      printTranslationId:
+        pcgCard.card.print.translations?.[preferredLanguage]?.id ?? pcgCard.card.print.translations?.en?.id,
     };
   } else if (tcg === 'mtg') {
     const frontIndex = preferredIndex;
@@ -62,9 +71,11 @@ export const createProps = (tcg: Tcg, card: TcgSearchDataCard) => {
       name: mtgCard.card.name,
       thumbnailUrl: frontFace?.imageUrls?.thumbnail ?? frontFace?.imageUrls?.full ?? '',
       backfaceThumbnailUrl: backFace?.imageUrls?.thumbnail ?? backFace?.imageUrls?.full ?? undefined,
+      cropUrl: frontFace?.imageUrls?.thumbnail ?? frontFace?.imageUrls?.artCrop ?? '',
       backupImageUrl: backupImageUrl,
       setCode: mtgCard.card.print.setCode,
       collectorNumber: mtgCard.card.print.collectorNumber,
+      printTranslationId: frontFace.id,
     };
   }
   return {} as CardProperties;

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useAuth } from '@/parcels/auth/AuthContext.ts';
 import { USER_LIMIT_LISTS } from '@/parcels/auth/api.ts';
 import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
-import { NewGridListRenderer } from '@/parcels/lists/ListsOverview/ListRenderer/NewGridListRenderer.tsx';
+import { GridListRenderer } from '@/parcels/lists/ListsOverview/ListRenderer/GridListRenderer.tsx';
 import { GridEntryCreateList } from '@/parcels/lists/ListsOverview/ListsOverviewGrid/GridEntryCreateList.tsx';
 import { WarningBanner } from '@/parcels/lists/ListsOverview/ListsOverviewGrid/WarningBanner.tsx';
 import type { UserList, UserListWithResources } from '@/parcels/lists/types.ts';
@@ -34,7 +34,7 @@ export function ListsOverviewGrid({
       const withResources = listsWithResources.find((l) => l.list.id === list.list.id);
 
       return (
-        <NewGridListRenderer
+        <GridListRenderer
           key={list.list.id}
           listWithResources={withResources ?? list}
           isLoading={isLoading || isPreviewsLoading}

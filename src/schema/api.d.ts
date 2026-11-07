@@ -9326,15 +9326,26 @@ export interface components {
     };
     /** @enum {string} */
     UserListThumbnailCropType: 'rect';
+    /** @enum {string} */
+    UserListThumbnailUpdatePrintTargetTarget: 'full' | 'crop';
     UserListThumbnailCrop: {
       p1?: string | null;
       p2?: string | null;
       type: components['schemas']['UserListThumbnailCropType'];
     };
-    UserListThumbnailUpdate: {
-      crop?: components['schemas']['UserListThumbnailCrop'] | null;
+    UserListThumbnailUpdateImageTarget: {
       /** Format: uuid */
       imageId: string;
+    };
+    UserListThumbnailUpdatePrintTarget: {
+      /** Format: uuid */
+      printTranslationId: string;
+      target: components['schemas']['UserListThumbnailUpdatePrintTargetTarget'];
+    };
+    UserListThumbnailUpdate: {
+      crop?: components['schemas']['UserListThumbnailCrop'] | null;
+      imageTarget?: components['schemas']['UserListThumbnailUpdateImageTarget'] | null;
+      printTarget?: components['schemas']['UserListThumbnailUpdatePrintTarget'] | null;
     };
     UserListUpdate: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;

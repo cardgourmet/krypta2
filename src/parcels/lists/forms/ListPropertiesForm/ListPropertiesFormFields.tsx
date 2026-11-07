@@ -18,8 +18,8 @@ export const ListPropertiesFormFields = ({
   ...props
 }: ListPropertiesFormFieldsProps) => {
   const { t } = useTranslation('lists', { keyPrefix: 'modal' });
-  const [color, setColor] = useState(form.values.color);
 
+  const [color, setColor] = useState(form.values.color);
   form.watch('color', ({ value }) => setColor(value));
 
   return (
@@ -109,6 +109,8 @@ export const ListPropertiesFormFields = ({
                       <ColorSelect key={form.key('color')} {...form.getInputProps('color')} />
                     </Group>
                   </Stack>
+
+                  <Stack></Stack>
                 </Stack>
               </Expander>
             </>
