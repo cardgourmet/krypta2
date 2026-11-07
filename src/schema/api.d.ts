@@ -5457,7 +5457,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-SimplePage-UserListWithResources'];
+            'application/json': components['schemas']['DataApiResponse-SimplePage-ApiUserListWithResources'];
           };
         };
       };
@@ -5489,7 +5489,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-Map-String-UserList'];
+            'application/json': components['schemas']['DataApiResponse-Map-String-ApiUserList'];
           };
         };
       };
@@ -5521,7 +5521,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-UserList'];
+            'application/json': components['schemas']['DataApiResponse-ApiUserList'];
           };
         };
       };
@@ -5594,7 +5594,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            'application/json': components['schemas']['DataApiResponse-UserList'];
+            'application/json': components['schemas']['DataApiResponse-ApiUserList'];
           };
         };
       };
@@ -7435,7 +7435,8 @@ export interface components {
       | 'cmn'
       | 'yue'
       | 'th'
-      | 'id';
+      | 'id'
+      | 'no';
     /** @enum {string} */
     YgoLanguage:
       | 'en'
@@ -8417,7 +8418,17 @@ export interface components {
       statusCode: number;
     };
     /** @enum {string} */
-    DlcRarity: 'common' | 'uncommon' | 'rare' | 'super_rare' | 'legendary' | 'enchanted' | 'promo';
+    DlcRarity:
+      | 'common'
+      | 'uncommon'
+      | 'rare'
+      | 'super_rare'
+      | 'legendary'
+      | 'enchanted'
+      | 'promo'
+      | 'epic'
+      | 'iconic'
+      | 'supply';
     /** @enum {string} */
     DlcInkType: 'none' | 'amber' | 'amethyst' | 'emerald' | 'ruby' | 'sapphire' | 'steel';
     /** @enum {string} */
@@ -9197,8 +9208,43 @@ export interface components {
     /** @enum {string} */
     UserSystemListType: 'favorites';
     /** @enum {string} */
+    ImageSubject: 'card' | 'set' | 'asset';
+    /** @enum {string} */
     UserListVisibility: 'private' | 'public' | 'unlisted';
-    UserList: {
+    Image: {
+      /** Format: date-time */
+      createdAt: string;
+      deletedAt?: string | null;
+      fileName: string;
+      game?: components['schemas']['GameType'] | null;
+      /** Format: uuid */
+      id: string;
+      metadata?: Record<string, never> | null;
+      originUrl?: string | null;
+      path: string;
+      processedAt?: string | null;
+      startedProcessingAt?: string | null;
+      subject: components['schemas']['ImageSubject'];
+      type: string;
+      uploadedAt?: string | null;
+    };
+    UserListThumbnail: {
+      /** Format: date-time */
+      createdAt: string;
+      cropData?: components['schemas']['JsonObject'] | null;
+      fullImage?: components['schemas']['Image'] | null;
+      imageId?: string | null;
+      /** Format: uuid */
+      listId: string;
+      thumbnailId?: string | null;
+      thumbnailImage?: components['schemas']['Image'] | null;
+    };
+    ApiUserListThumbnail: {
+      croppedUrl?: string | null;
+      data: components['schemas']['UserListThumbnail'];
+      fullUrl?: string | null;
+    };
+    ApiUserList: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
       color?: string | null;
       /** Format: date-time */
@@ -9209,7 +9255,7 @@ export interface components {
       name: string;
       slug: string;
       systemListType?: components['schemas']['UserSystemListType'] | null;
-      thumbnailData?: components['schemas']['JsonObject'] | null;
+      thumbnail?: components['schemas']['ApiUserListThumbnail'] | null;
       /** Format: date-time */
       updatedAt: string;
       /** Format: uuid */
@@ -9221,30 +9267,30 @@ export interface components {
       otherListResources?: components['schemas']['UserListResource'][] | null;
       resourceData: components['schemas']['JsonObject'];
     };
-    UserListWithResources: {
-      list: components['schemas']['UserList'];
+    ApiUserListWithResources: {
+      list: components['schemas']['ApiUserList'];
       resources?: null | {
         [key: string]: components['schemas']['ResolvedUserListResource'][];
       };
       size?: number | null;
     };
-    'SimplePage-UserListWithResources': {
+    'SimplePage-ApiUserListWithResources': {
       /** Format: int32 */
       currentPage: number;
       hasNextPage: boolean;
-      items: components['schemas']['UserListWithResources'][];
+      items: components['schemas']['ApiUserListWithResources'][];
       /** Format: int32 */
       lastPage: number;
       /** Format: int32 */
       nextPage: number;
     };
-    'DataApiResponse-SimplePage-UserListWithResources': {
-      data: components['schemas']['SimplePage-UserListWithResources'];
+    'DataApiResponse-SimplePage-ApiUserListWithResources': {
+      data: components['schemas']['SimplePage-ApiUserListWithResources'];
       /** Format: int32 */
       statusCode: number;
     };
-    'DataApiResponse-UserList': {
-      data: components['schemas']['UserList'];
+    'DataApiResponse-ApiUserList': {
+      data: components['schemas']['ApiUserList'];
       /** Format: int32 */
       statusCode: number;
     };
@@ -9270,18 +9316,6 @@ export interface components {
       /** Format: int32 */
       statusCode: number;
     };
-    /** @enum {string} */
-    UserListThumbnailCropType: 'rect';
-    UserListThumbnailCrop: {
-      p1?: string | null;
-      p2?: string | null;
-      type: components['schemas']['UserListThumbnailCropType'];
-    };
-    UserListThumbnail: {
-      crop?: components['schemas']['UserListThumbnailCrop'] | null;
-      imageId?: string | null;
-      url?: string | null;
-    };
     CreateUserListRequest: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
       color?: string | null;
@@ -9289,6 +9323,18 @@ export interface components {
       name: string;
       thumbnail?: components['schemas']['UserListThumbnail'] | null;
       visibility?: components['schemas']['UserListVisibility'] | null;
+    };
+    /** @enum {string} */
+    UserListThumbnailCropType: 'rect';
+    UserListThumbnailCrop: {
+      p1?: string | null;
+      p2?: string | null;
+      type: components['schemas']['UserListThumbnailCropType'];
+    };
+    UserListThumbnailUpdate: {
+      crop?: components['schemas']['UserListThumbnailCrop'] | null;
+      /** Format: uuid */
+      imageId: string;
     };
     UserListUpdate: {
       allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
@@ -9298,15 +9344,15 @@ export interface components {
       id: string;
       name?: string | null;
       resetAllowedTcg?: boolean | null;
-      thumbnail?: components['schemas']['UserListThumbnail'] | null;
+      thumbnail?: components['schemas']['UserListThumbnailUpdate'] | null;
       visibility?: components['schemas']['UserListVisibility'] | null;
     };
     UpdateUserListsRequest: {
       listUpdates: components['schemas']['UserListUpdate'][];
     };
-    'DataApiResponse-Map-String-UserList': {
+    'DataApiResponse-Map-String-ApiUserList': {
       data: {
-        [key: string]: components['schemas']['UserList'];
+        [key: string]: components['schemas']['ApiUserList'];
       };
       /** Format: int32 */
       statusCode: number;
@@ -9339,6 +9385,29 @@ export interface components {
     DuplicateUserListRequest: {
       newName: string;
       withResources?: boolean | null;
+    };
+    UserList: {
+      allowedTcgs?: ('mtg' | 'ygo' | 'pcg' | 'dlc' | 'one' | 'fab')[] | null;
+      color?: string | null;
+      /** Format: date-time */
+      createdAt: string;
+      description: string;
+      /** Format: uuid */
+      id: string;
+      name: string;
+      slug: string;
+      systemListType?: components['schemas']['UserSystemListType'] | null;
+      thumbnail?: components['schemas']['UserListThumbnail'] | null;
+      /** Format: date-time */
+      updatedAt: string;
+      /** Format: uuid */
+      userId: string;
+      visibility?: components['schemas']['UserListVisibility'];
+    };
+    'DataApiResponse-UserList': {
+      data: components['schemas']['UserList'];
+      /** Format: int32 */
+      statusCode: number;
     };
     GetListedResourcesRequest: {
       game: components['schemas']['GameType'];

@@ -1,5 +1,12 @@
 import { type GourmetApiResponse, handleApiCall } from '@/parcels/api/handleApiCall.tsx';
-import type { ResolvedUserListResource, UserList, UserListResource, UserListResponse } from '@/parcels/lists/types.ts';
+import type {
+  ResolvedUserListResource,
+  UserList,
+  UserListResource,
+  UserListResponse,
+  UserListThumbnailUpdate,
+  UserListUpdate,
+} from '@/parcels/lists/types.ts';
 import type { HistoryEntry } from '@/parcels/search/bar/SearchHistoryProvider/SearchHistoryProvider.tsx';
 import type { ExplainSearchQuery, UserResolvedSavedSearch, UserSavedSearch } from '@/parcels/search/types.ts'; // /v1/users/{id}/lists
 import type { TcgDataCard } from '@/parcels/tcg/types.ts';
@@ -116,8 +123,20 @@ export async function createList(
 export async function updateList(
   userId: string,
   list: Partial<UserList> & { name: string },
+  thumbnail?: UserListThumbnailUpdate,
   abort?: AbortController,
 ): Promise<GourmetApiResponse<Record<string, UserList>>> {
+  const listUpdate = {
+    id: list.id as string,
+    name: list.name,
+    description: list.description,
+    allowedTcgs: list.allowedTcgs,
+    resetAllowedTcg: (list.allowedTcgs?.length ?? 0) === 0,
+    visibility: list.visibility,
+    color: list.color,
+    thumbnail: thumbnail,
+  } as UserListUpdate;
+
   return handleApiCall(async () => {
     return await umoriClient.PUT(`/v1/users/{id}/lists`, {
       params: {
@@ -126,17 +145,7 @@ export async function updateList(
         },
       },
       body: {
-        listUpdates: [
-          {
-            id: list.id as string,
-            name: list.name,
-            description: list.description,
-            allowedTcgs: list.allowedTcgs,
-            resetAllowedTcg: (list.allowedTcgs?.length ?? 0) === 0,
-            visibility: list.visibility,
-            color: list.color,
-          },
-        ],
+        listUpdates: [listUpdate],
       },
       signal: abort?.signal,
     });

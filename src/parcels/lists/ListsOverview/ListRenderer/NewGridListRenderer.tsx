@@ -47,12 +47,12 @@ export function NewGridListRenderer({
 
   // TODO: apply crop to thumbnail
   const thumbnailData = useMemo(() => {
-    const data = listWithResources.list.thumbnailData;
+    const data = listWithResources.list.thumbnail;
     if (!data) return undefined;
 
     return data as UserListThumbnail;
-  }, [listWithResources.list.thumbnailData]);
-  const thumbnail = thumbnailData?.url ?? undefined;
+  }, [listWithResources.list.thumbnail]);
+  const thumbnail = thumbnailData?.croppedUrl ?? undefined;
   /*const thumbnailCropStyle = useMemo(() => {
     return getThumbnailCropStyle(thumbnailData?.crop);
   }, [thumbnailData?.crop]);*/
@@ -70,6 +70,7 @@ export function NewGridListRenderer({
   }, [listWithResources.list.id, thumbnail, listWithResources.list.color]);
 
   const { list, size } = listWithResources;
+
   const { user } = useAuth();
   const { list_resources_per_list } = useUserLimits(user);
 
@@ -115,6 +116,8 @@ export function NewGridListRenderer({
       ]);
     });
   };
+
+  // TODO: edit thumbnail modal
 
   return (
     <article className={styles.listCard}>
