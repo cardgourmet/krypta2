@@ -10,10 +10,12 @@ import { useActiveLists } from '@/parcels/lists/ActiveListsState.tsx';
 import { fetchListsPreview } from '@/parcels/lists/api.ts';
 import { useUserLists } from '@/parcels/lists/ListsContextProvider.tsx';
 import CreateListButton from '@/parcels/lists/ListsOverview/CreateListButton/CreateListButton.tsx';
+import { getThumbnailCropStyle } from '@/parcels/lists/ListsOverview/crop.ts';
 import { ListOverviewSettings } from '@/parcels/lists/ListsOverview/DesktopListOverviewSettings/ListOverviewSettings.tsx';
+import styles from '@/parcels/lists/ListsOverview/ListRenderer/NewGridListRenderer.module.css';
 import { ListsOverviewGrid } from '@/parcels/lists/ListsOverview/ListsOverviewGrid/ListsOverviewGrid.tsx';
 import { ListsOverviewTable } from '@/parcels/lists/ListsOverview/ListsOverviewTable/ListsOverviewTable.tsx';
-import type { UserListWithResources } from '@/parcels/lists/types.ts';
+import type { UserListThumbnail, UserListWithResources } from '@/parcels/lists/types.ts';
 import { sendErrorNotification } from '@/parcels/notification/sendErrorNotification.tsx';
 import type { Tcg } from '@/parcels/tcg/useTcgByLocation';
 import { Route } from '@/routes/@{$user}/lists';
@@ -111,6 +113,20 @@ export default function ListsOverview() {
   /*const listLimitUsage = localUserLists.length;
   const listLimitMax = (user?.limits[USER_LIMIT_LISTS] ?? 0) + 1;*/
 
+  const thumbnailData = {
+    url: 'https://cards.cardgourmet.com/mtg/0/6/06b67805-98b3-3ac5-aa4b-157f9e75e7c0',
+    crop: {
+      p1: '0.1,0.1',
+      p2: '0.9,0.9',
+      type: 'rect',
+    },
+    imageId: '21f60dd6-8f58-493d-aa0b-92cebaac8037',
+  } as UserListThumbnail;
+  const thumbnail = thumbnailData?.url ?? undefined;
+  const thumbnailCropStyle = useMemo(() => {
+    return getThumbnailCropStyle(thumbnailData?.crop);
+  }, [thumbnailData?.crop]);
+
   return (
     <div>
       <Drawer
@@ -179,6 +195,15 @@ export default function ListsOverview() {
       )}
 
       <Stack mt={'xl'} mb={'2.5rem'}>
+        <Stack>
+          <div className={styles.thumbnailCropFrame}>
+            <img alt="" className={styles.thumbnailImageTest} src={`${thumbnail}`} />
+          </div>
+          <div className={styles.thumbnailCropFrame}>
+            <img alt="" className={styles.thumbnailImageTest} src={`${thumbnail}`} style={thumbnailCropStyle} />
+          </div>
+        </Stack>
+
         {/*{user && localUserLists?.length > 0 && (
           <Stack gap={'0.25rem'}>
             <GourmetText cgmff={'ui'}>

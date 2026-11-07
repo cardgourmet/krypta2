@@ -45,15 +45,17 @@ export function NewGridListRenderer({
   const { requestModal } = use(ModalContext);
   const { updateLists, removeLists } = useActiveLists();
 
-  const thumbnail = useMemo(() => {
-    // TODO: depending on crop, make it different here
-
+  // TODO: apply crop to thumbnail
+  const thumbnailData = useMemo(() => {
     const data = listWithResources.list.thumbnailData;
-    if (!data) return;
+    if (!data) return undefined;
 
-    const thumbnailData = data as UserListThumbnail;
-    return thumbnailData.url ?? undefined;
+    return data as UserListThumbnail;
   }, [listWithResources.list.thumbnailData]);
+  const thumbnail = thumbnailData?.url ?? undefined;
+  /*const thumbnailCropStyle = useMemo(() => {
+    return getThumbnailCropStyle(thumbnailData?.crop);
+  }, [thumbnailData?.crop]);*/
 
   const thumbnailFallback = useMemo(() => {
     if (thumbnail) return;
